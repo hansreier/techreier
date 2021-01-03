@@ -9,7 +9,7 @@
 	<packaging>war</packaging>
 
 	<parent>
-		<!-- application should inherit from spring-boot-starter-parent -->
+		<!-- application should inherit from edrops-boot-starter-parent -->
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.4.1</version>
@@ -37,7 +37,7 @@
 
 	<dependencies>
 		<!-- starter poms -->
-		<!-- include spring-core, spring-web, spring-thymeleaf, embedded Tomcat server -->
+		<!-- include edrops-core, edrops-web, edrops-thymeleaf, embedded Tomcat server -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -57,7 +57,16 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
- 
+		<!-- Spring security-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 </project>
