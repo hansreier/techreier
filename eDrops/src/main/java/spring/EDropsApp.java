@@ -12,14 +12,14 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  *
  */
 @SpringBootApplication
-public class SimpleWebThymeleafApp extends SpringBootServletInitializer {
+public class EDropsApp extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(SimpleWebThymeleafApp.class);
+		return application.sources(EDropsApp.class);
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(SimpleWebThymeleafApp.class, args);
+		SpringApplication.run(EDropsApp.class, args);
 	}
 }

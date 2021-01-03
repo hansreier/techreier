@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //@RestController is for web services.
 @Controller
 @RequestMapping("/")
-public class SimpleWebThymeleafController {
+public class EDropsController {
 
 	// inject via application.properties
 	@Value("${welcome.message}")

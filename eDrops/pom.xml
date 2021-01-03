@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sigmondsmart</groupId>
-	<artifactId>notes</artifactId>
+	<artifactId>eDrops</artifactId>
 	<version>1.0</version>
-	<name>Reiers notes</name>
+	<name>eDrops</name>
 	<description>Thymeleaf/Spring Boot test project aimed at writing notes</description>
 	<packaging>war</packaging>
 
@@ -24,7 +24,7 @@
 	<!-- Spring Boot Plugin for creating Jar/War files -->
 	<build>
 		<!-- Version numbers in war file creates undeploy problem  using Tomcat admin console -->
-    	<finalName>thyme</finalName>
+    	<finalName>eDrops</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
