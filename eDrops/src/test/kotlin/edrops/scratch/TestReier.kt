@@ -1,4 +1,4 @@
-package reier.me.harsig
+package edrops.scratch
 
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
@@ -12,5 +12,6 @@ class TestReier {
     fun testDummy() {
         println ("Reier")
         log.info("Reier was here")
+        log.debug("Test av logg level")
     }
 }

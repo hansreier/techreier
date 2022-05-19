@@ -13,7 +13,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/*").permitAll()
                 .anyRequest().authenticated();
     }
 }
