@@ -1,4 +1,4 @@
-package edrops.config;
+package com.sigmondsmart.edrops.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

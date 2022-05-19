@@ -1,4 +1,4 @@
-package edrops.scratch
+package com.sigmondsmart.edrops
 
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
