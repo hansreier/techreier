@@ -24,9 +24,26 @@
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<kotlin.code.style>official</kotlin.code.style>
 		<kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget>
-		<junit.version>5.8.2</junit.version>
+		<junit.version>4.12</junit.version>
+		<junit-jupiter.version>5.8.2</junit-jupiter.version>
+		<!--junit.version>5.4.1</junit.version-->
 		<assertJ.version>3.16.1</assertJ.version>
+		<hibernate.version>6.1.0.Final</hibernate.version>
+		<h2.version>2.1.212</h2.version>
 	</properties>
+
+	<!--repositories>
+		<repository>
+			<id>my-repo1</id>
+			<name>your custom repo</name>
+			<url>http://jarsm2.dyndns.dk</url>
+		</repository>
+		<repository>
+			<id>my-repo2</id>
+			<name>your custom repo</name>
+			<url>http://jarsm2.dyndns.dk</url>
+		</repository>
+	</repositories-->
 	
 	<!-- Spring Boot Plugin for creating Jar/War files -->
 	<build>
@@ -44,6 +61,19 @@
 				<groupId>org.jetbrains.kotlin</groupId>
 				<artifactId>kotlin-maven-plugin</artifactId>
 				<version>${kotlin.version}</version>
+				<configuration>
+					<compilerPlugins>
+						<plugin>jpa</plugin>
+					</compilerPlugins>
+					<jvmTarget>${java.version}</jvmTarget>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.jetbrains.kotlin</groupId>
+						<artifactId>kotlin-maven-noarg</artifactId>
+						<version>${kotlin.version}</version>
+					</dependency>
+				</dependencies>
 				<executions>
 					<execution>
 						<id>compile</id>
@@ -132,6 +162,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		<!--dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency-->
 		<!-- hot swapping, disable cache for template, enable live reload -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -156,15 +190,21 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>${junit.version}</version>
+			<version>${junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>${junit.version}</version>
+			<version>${junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<!--dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency-->
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
@@ -175,6 +215,24 @@
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-stdlib</artifactId>
 			<version>${kotlin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<!--Uses JUnit4-->
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-testing</artifactId>
+			<version>${hibernate.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2.version}</version>
+			<!--scope>test</scope-->
 		</dependency>
 	</dependencies>
 
