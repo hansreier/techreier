@@ -19,7 +19,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>11</java.version>
-		<kotlin.version>1.5.10</kotlin.version>
+		<kotlin.version>1.7.20</kotlin.version>
 		<maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<kotlin.code.style>official</kotlin.code.style>
@@ -28,7 +28,9 @@
 		<junit-jupiter.version>5.8.2</junit-jupiter.version>
 		<!--junit.version>5.4.1</junit.version-->
 		<assertJ.version>3.16.1</assertJ.version>
-		<hibernate.version>6.1.0.Final</hibernate.version>
+		<!-- requires Spring Boot 3, not yet out-->
+		<!--hibernate.version>6.1.0.Final</hibernate.version-->
+		<hibernate.version>5.6.12.Final</hibernate.version>
 		<h2.version>2.1.212</h2.version>
 	</properties>
 
@@ -50,12 +52,6 @@
 		<!-- Version numbers in war file creates undeploy problem  using Tomcat admin console -->
     	<finalName>eDrops</finalName>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<!--why had to include version for Intellij to spot it the first time?-->
-				<!--version>2.4.1</version-->
-			</plugin>
 
 			<plugin>
 				<groupId>org.jetbrains.kotlin</groupId>
@@ -105,6 +101,13 @@
 			</plugin>
 
 			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!--why had to include version for Intellij to spot it the first time?-->
+				<version>2.4.1</version>
+			</plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>${maven-failsafe-plugin.version}</version>
@@ -144,6 +147,26 @@
 								<source>${project.basedir}/src/main/java</source>
 							</sources>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>testCompile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
@@ -217,13 +240,15 @@
 			<version>${kotlin.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate.orm</groupId>
+			<!--groupId>org.hibernate.orm</groupId-->
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
 		<!--Uses JUnit4-->
 		<dependency>
-			<groupId>org.hibernate.orm</groupId>
+			<!--groupId>org.hibernate.orm</groupId-->
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-testing</artifactId>
 			<version>${hibernate.version}</version>
 			<scope>test</scope>
