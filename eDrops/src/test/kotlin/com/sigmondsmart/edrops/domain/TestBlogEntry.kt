@@ -11,9 +11,8 @@ import java.io.IOException
 import java.time.LocalDateTime
 import java.util.*
 
-// TODO Why not possible, pom problem
-//https://www.baeldung.com/kotlin/jpa
-//Note must use JUNIT 4 due to inheritance from BaseCoreFunctionalTestCase (Hibernate 5).
+// https://www.baeldung.com/kotlin/jpa
+// Note must use JUNIT 4 due to inheritance from BaseCoreFunctionalTestCase (Hibernate 5).
 // Hibernate 6 connot be used in Spring yet (wait for Spring 3.0).
 class TestBlogEntry : BaseCoreFunctionalTestCase() {
 
@@ -40,6 +39,7 @@ class TestBlogEntry : BaseCoreFunctionalTestCase() {
             val blogEntry = BlogEntry(
                 LocalDateTime.now(), null, "Dette er Reiers første blog"
             )
+            log.info("testing Hibernate persistence 1")
             session.persist(blogEntry)
             val blogEntryFound = session.find(BlogEntry::class.java, blogEntry.id)
             session.refresh(blogEntryFound)
@@ -53,16 +53,11 @@ class TestBlogEntry : BaseCoreFunctionalTestCase() {
         doInHibernate({ sessionFactory() }) { session ->
             val blogEntry = BlogEntry(
                 LocalDateTime.now(), null,"Dette er Reiers første blog")
+            log.info("testing Hibernate persistence 2")
             session.persist(blogEntry)
             val blogEntryFound = session.find(BlogEntry::class.java, blogEntry.id)
             session.refresh(blogEntryFound)
             assertTrue(blogEntry.text == blogEntryFound.text)
         }
-
-
     }
-
-    //private fun sessionFactory() {
-    //    TODO("Not yet implemented")
-    //}
 }

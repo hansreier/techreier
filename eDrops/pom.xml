@@ -9,10 +9,9 @@
 	<packaging>war</packaging>
 
 	<parent>
-		<!-- application should inherit from edrops-boot-starter-parent -->
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.7</version>
+		<version>2.7.1</version>
 	</parent>
 
 	<properties>
@@ -25,9 +24,9 @@
 		<kotlin.code.style>official</kotlin.code.style>
 		<kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget>
 		<junit.version>4.12</junit.version>
-		<junit-jupiter.version>5.8.2</junit-jupiter.version>
+		<junit-jupiter.version>5.9.1</junit-jupiter.version>
 		<!--junit.version>5.4.1</junit.version-->
-		<assertJ.version>3.16.1</assertJ.version>
+		<assertJ.version>3.23.1</assertJ.version>
 		<!-- requires Spring Boot 3, not yet out-->
 		<!--hibernate.version>6.1.0.Final</hibernate.version-->
 		<hibernate.version>5.6.12.Final</hibernate.version>
@@ -122,13 +121,15 @@
 				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
 					<includes>
-						<include>**/*Documentation.java</include>
-						<include>**/*Test.java</include>
+						<include>**/*.java</include>
+						<include>**/*.kt</include>
 					</includes>
 					<trimStackTrace>false</trimStackTrace>
 					<excludes>
 						<exclude>**/IT*.java</exclude>
 						<exclude>**/*IT.java</exclude>
+						<exclude>**/IT*.kt</exclude>
+						<exclude>**/*IT.kt</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -222,12 +223,12 @@
 			<version>${junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<!--dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>${junit-jupiter.version}</version>
 			<scope>test</scope>
-		</dependency-->
+		</dependency>
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
