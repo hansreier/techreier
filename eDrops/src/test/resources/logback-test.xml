@@ -12,7 +12,10 @@
     <logger name="org.springframework" level="DEBUG" />
     <logger name="org.springframework.test" level="INFO" />
     <logger name="com.sigmondsmart.edrops" level="DEBUG" />
-
+    <logger name="org.hibernate" level="INFO" />
+    <logger name="org.hibernate.type.descriptor" level="TRACE" />
+    <logger name="org.hibernate.sql" level="DEBUG" />
+    <logger name="org.hibernate" level="INFO" />
 
     <root level="info">
         <appender-ref ref="STDOUT" />
