@@ -59,13 +59,21 @@
 				<configuration>
 					<compilerPlugins>
 						<plugin>jpa</plugin>
+						<plugin>spring</plugin>
 					</compilerPlugins>
 					<jvmTarget>${java.version}</jvmTarget>
 				</configuration>
 				<dependencies>
+					<!-- for hibernate -->
 					<dependency>
 						<groupId>org.jetbrains.kotlin</groupId>
 						<artifactId>kotlin-maven-noarg</artifactId>
+						<version>${kotlin.version}</version>
+					</dependency>
+					<!-- allow subclossing (e.g. for Spring @configuration) -->
+					<dependency>
+						<groupId>org.jetbrains.kotlin</groupId>
+						<artifactId>kotlin-maven-allopen</artifactId>
 						<version>${kotlin.version}</version>
 					</dependency>
 				</dependencies>
