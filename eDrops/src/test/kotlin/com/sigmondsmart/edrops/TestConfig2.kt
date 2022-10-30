@@ -1,4 +1,5 @@
 package com.sigmondsmart.edrops
+
 import com.sigmondsmart.edrops.config.ReadConfig2
 import com.sigmondsmart.edrops.config.log
 import org.junit.jupiter.api.Test
