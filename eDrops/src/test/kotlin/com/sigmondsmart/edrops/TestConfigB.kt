@@ -1,5 +1,6 @@
 package com.sigmondsmart.edrops
-import com.sigmondsmart.edrops.config.ReadConfig2
+
+import com.sigmondsmart.edrops.config.AppConfigNew
 import com.sigmondsmart.edrops.config.log
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -9,13 +10,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest
-class TestConfig2 {
+class TestConfigB {
 
     @Autowired
-    private lateinit var readConfig2: ReadConfig2
+    private lateinit var appConfig: AppConfigNew
 
     @Test
     fun testAppName() {
-        log.info("App name: ${readConfig2.getConfig()}")
+        log.info("App name: ${appConfig.config()}")
     }
 }
