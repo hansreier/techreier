@@ -11,6 +11,7 @@ import java.time.LocalDateTime
 // Note must use JUNIT 4 due to inheritance from BaseCoreFunctionalTestCase (Hibernate 5).
 // Config file must be called hibernate.cfg
 // Hibernate 6 connot be used in Spring yet (wait for Spring 3.0).
+// The code in the base class is too complex, should be avoided
 // Actually want to get rid of the code, due to these weaknesses.
 class TestBlogEntry : BaseCoreFunctionalTestCase() {
     override fun getAnnotatedClasses(): Array<Class<*>> {
