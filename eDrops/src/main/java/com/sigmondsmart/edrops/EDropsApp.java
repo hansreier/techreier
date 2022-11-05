@@ -8,22 +8,19 @@ import org.springframework.context.annotation.Profile;
 
 /**
  * Point to class with the @SpringBootApplication annotation and app arguments
- * 
  * main starts Servlet 3 style Java config API that replaces web.xml
  * TODO Kept for reference, remove
- * Works fine, but why problems when moving this to Kotlin?
 **/
-
-/*
 @SpringBootApplication
-public class EDropsApp2 extends SpringBootServletInitializer {
+@Profile("notFoundProfile")
+public class EDropsApp extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(EDropsApp2.class);
+		return application.sources(EDropsApp.class);
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(EDropsApp2.class, args);
+		SpringApplication.run(EDropsApp.class, args);
 	}
-} */
+}

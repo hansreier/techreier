@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TestController {
 
 	// inject via application.properties
-	@Value("${welcome.message} goodby")
-	private String message = "Hello World goodby";
+	@Value("${welcome.message} farwell")
+	private String message = "Hello World goodby cruel world";
 
 	@RequestMapping({ "/end", "/goodby" })
 	public String welcome(Model model) {
