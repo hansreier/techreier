@@ -14,7 +14,7 @@ class BlogEntry(
     val changed: LocalDateTime?,
 
     @Column
-    val text: String,
+    var text: String,
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
