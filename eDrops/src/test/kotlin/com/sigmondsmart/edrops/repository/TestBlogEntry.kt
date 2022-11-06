@@ -12,7 +12,9 @@ import java.time.LocalDateTime
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
-class TestBlogEntry(@Autowired val repo: BlogEntryRepository) {
+class TestBlogEntry() {
+
+    @Autowired lateinit var repo: BlogEntryRepository
 
     @Test
     fun `basic entity checks`() {
