@@ -18,6 +18,6 @@ class BlogEntry(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int?=null
+    val id: Long?=null
 
 )
