@@ -1,6 +1,6 @@
 package com.sigmondsmart.edrops;
 
-import edrops.domain.Dta;
+import com.sigmondsmart.edrops.domain.Dta;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

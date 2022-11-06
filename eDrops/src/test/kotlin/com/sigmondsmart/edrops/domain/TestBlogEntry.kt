@@ -1,6 +1,5 @@
 package com.sigmondsmart.edrops.domain
 
-import edrops.domain.BlogEntry
 import org.hibernate.testing.junit4.BaseCoreFunctionalTestCase
 import org.hibernate.testing.transaction.TransactionUtil.doInHibernate
 import org.junit.Assert.assertTrue

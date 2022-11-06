@@ -1,4 +1,4 @@
-package edrops.domain
+package com.sigmondsmart.edrops.domain
 
 import java.time.LocalDateTime
 import javax.persistence.*
