@@ -20,7 +20,6 @@ class TestBlogEntry(@Autowired val repo: BlogEntryRepository) {
         val blogEntrySet = hashSetOf(p)
         repo.save(p)
         assertThat(repo.findAll()).hasSize(1)
-
         repo.findByText("MyBLog").forEach{
             log.info("tekst: ${it.text}")
         }

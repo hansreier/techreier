@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.1</version>
+		<version>2.7.5</version>
 	</parent>
 
 	<properties>
@@ -23,13 +23,14 @@
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<kotlin.code.style>official</kotlin.code.style>
 		<kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget>
-		<junit.version>4.12</junit.version>
+		<!--junit.version>4.12</junit.version-->
+		<junit.version>4.13.2</junit.version>
 		<junit-jupiter.version>5.9.1</junit-jupiter.version>
 		<!--junit.version>5.4.1</junit.version-->
 		<assertJ.version>3.22.0</assertJ.version>
 		<!-- requires Spring Boot 3, not yet out-->
-		<!--hibernate.version>6.1.0.Final</hibernate.version-->
-		<hibernate.version>5.6.12.Final</hibernate.version>
+		<!--hibernate.version>6.1.5.Final</hibernate.version-->
+		<hibernate.version>5.6.14.Final</hibernate.version>
 		<h2.version>2.1.212</h2.version>
 	</properties>
 
