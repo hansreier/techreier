@@ -11,13 +11,14 @@ class BlogEntry(
     val created: LocalDateTime,
 
     @Column
-    val changed: LocalDateTime?,
+    var changed: LocalDateTime?,
 
     @Column
     var text: String,
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long?=null
-
-)
+    val id: Long?=null,
+) {
+    override fun toString() = "id: $id created: $created changed: $changed text: $text"
+}

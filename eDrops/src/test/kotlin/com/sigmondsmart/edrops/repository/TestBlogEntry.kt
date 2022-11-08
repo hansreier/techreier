@@ -1,5 +1,6 @@
 package com.sigmondsmart.edrops.repository
 
+import com.sigmondsmart.edrops.config.log
 import com.sigmondsmart.edrops.domain.BlogEntry
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.domain.Sort
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 private const val FIRST_ENTRY = "My first blog"
@@ -41,6 +43,23 @@ class TestBlogEntry() {
         saved.id?.let { repo.deleteById(it) }
         assertThat(repo.count()).isEqualTo(1)
     }
+
+    @Test
+    fun `transactional test` () {
+        log.info("reiers starting transactional test")
+        val blogEntry = BlogEntry(LocalDateTime.now(), null,FIRST_ENTRY)
+        repo.save(blogEntry)
+        changeText(blogEntry)
+        log.info("reiers after new text $blogEntry")
+        blogEntry.changed = LocalDateTime.now()
+        log.info("reiers after setting changed time")
+
+    }
+    @Transactional
+    fun changeText (blogEntry: BlogEntry) {
+        blogEntry.text = SECOND_ENTRY
+    }
 }
+
 
 
