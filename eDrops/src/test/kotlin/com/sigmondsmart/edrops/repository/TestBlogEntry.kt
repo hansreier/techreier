@@ -8,8 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.domain.Sort
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 private const val FIRST_ENTRY = "My first blog"
@@ -30,34 +30,32 @@ class TestBlogEntry() {
         blogEntry.text = MODIFIED_ENTRY
         repo.save(blogEntry)
         repo.save(blogEntry2)
-        val readBlogEntry = repo.findById(2)
-        assertThat(readBlogEntry.isPresent).isTrue()
-        assertThat(readBlogEntry.get().id).isEqualTo(2)
+        val readBlogEntry = repo.findByIdOrNull(2)
+        assertThat(readBlogEntry?.id).isEqualTo(2)
         val blog = repo.findAll(Sort.by(Sort.Direction.ASC,"id"))
         assertThat(blog).hasSize(2)
-        assertThat(blog.get(0).text).isEqualTo(MODIFIED_ENTRY)
-        assertThat(blog.get(1).text).isEqualTo(SECOND_ENTRY)
+        assertThat(blog[0].text).isEqualTo(MODIFIED_ENTRY)
+        assertThat(blog[1].text).isEqualTo(SECOND_ENTRY)
         val foundBlogs = repo.findByText(MODIFIED_ENTRY)
         assertThat(foundBlogs).hasSize(1)
         assertThat(foundBlogs.first().text).isEqualTo(MODIFIED_ENTRY)
         saved.id?.let { repo.deleteById(it) }
         assertThat(repo.count()).isEqualTo(1)
     }
-
     @Test
-    fun `transactional test` () {
+    fun `change contents check` () {
         log.info("reiers starting transactional test")
         val blogEntry = BlogEntry(LocalDateTime.now(), null,FIRST_ENTRY)
         repo.save(blogEntry)
-        changeText(blogEntry)
-        log.info("reiers after new text $blogEntry")
-        blogEntry.changed = LocalDateTime.now()
-        log.info("reiers after setting changed time")
-
-    }
-    @Transactional
-    fun changeText (blogEntry: BlogEntry) {
+        val newTime = LocalDateTime.now()
         blogEntry.text = SECOND_ENTRY
+        blogEntry.changed = newTime
+        assertThat(blogEntry.text).isEqualTo(SECOND_ENTRY)
+        assertThat(blogEntry.changed).isEqualTo(newTime)
+        val blog = repo.findAll(Sort.by(Sort.Direction.ASC,"id"))
+        assertThat(blog).hasSize(1)
+        assertThat(blog[0].text).isEqualTo(SECOND_ENTRY)
+        log.info("blog entry: ${blog[0]}")
     }
 }
 
