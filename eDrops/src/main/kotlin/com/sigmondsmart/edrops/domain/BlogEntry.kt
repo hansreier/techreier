@@ -16,6 +16,10 @@ class BlogEntry(
     @Column
     var text: String,
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(nullable = false)
+    var blogOwner: BlogOwner,
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?=null,

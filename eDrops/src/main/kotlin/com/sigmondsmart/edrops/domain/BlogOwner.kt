@@ -33,12 +33,6 @@ class BlogOwner(
     @Column
     var location: String,
 
-    @Column
-    var county: String,
-
-    @Column
-    var country: String,
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,

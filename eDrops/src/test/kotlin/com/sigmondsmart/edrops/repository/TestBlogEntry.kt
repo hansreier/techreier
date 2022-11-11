@@ -2,6 +2,7 @@ package com.sigmondsmart.edrops.repository
 
 import com.sigmondsmart.edrops.config.log
 import com.sigmondsmart.edrops.domain.BlogEntry
+import com.sigmondsmart.edrops.domain.BlogOwner
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -20,12 +21,21 @@ private const val MODIFIED_ENTRY = "Modified blog"
 @DataJpaTest
 class TestBlogEntry() {
 
-    @Autowired lateinit var repo: BlogEntryRepository
+    @Autowired
+    lateinit var repo: BlogEntryRepository
+
+    @Autowired
+    lateinit var ownerRepo: BlogOwnerRepository
 
     @Test
     fun `basic CRUD checks`() {
-        val blogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(),FIRST_ENTRY)
-        val blogEntry2 = BlogEntry(LocalDateTime.now(), LocalDateTime.now(),SECOND_ENTRY)
+
+        val blogOwner = BlogOwner(LocalDateTime.now(), null,
+            "Hans Reier","Sigmond", "reier.sigmond@gmail.com",
+            "+4791668863","Sløttvegen 17","2390","Moelv")
+        val blogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(),FIRST_ENTRY, blogOwner)
+        val blogEntry2 = BlogEntry(LocalDateTime.now(), LocalDateTime.now(),SECOND_ENTRY, blogOwner)
+        ownerRepo.save(blogOwner)
         val saved = repo.save(blogEntry)
         blogEntry.text = MODIFIED_ENTRY
         repo.save(blogEntry)
@@ -45,7 +55,12 @@ class TestBlogEntry() {
     @Test
     fun `change contents check` () {
         log.info("reiers starting transactional test")
-        val blogEntry = BlogEntry(LocalDateTime.now(), null,FIRST_ENTRY)
+
+        val blogOwner = BlogOwner(LocalDateTime.now(), null,
+            "Hans Reier","Sigmond", "reier.sigmond@gmail.com",
+            "+4791668863","Sløttvegen 17","2390","Moelv")
+        val blogEntry = BlogEntry(LocalDateTime.now(), null,FIRST_ENTRY, blogOwner)
+        ownerRepo.save(blogOwner)
         repo.save(blogEntry)
         val newTime = LocalDateTime.now()
         blogEntry.text = SECOND_ENTRY
