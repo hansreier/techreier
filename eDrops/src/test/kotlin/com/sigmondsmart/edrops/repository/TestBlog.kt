@@ -3,17 +3,17 @@ package com.sigmondsmart.edrops.repository
 import com.sigmondsmart.edrops.config.log
 import com.sigmondsmart.edrops.domain.BlogEntry
 import com.sigmondsmart.edrops.domain.BlogOwner
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.LocalDateTime
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
-@Disabled
+@DirtiesContext
 class TestBlog() {
 
     @Autowired

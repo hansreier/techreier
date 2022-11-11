@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.LocalDateTime
 
@@ -19,6 +20,7 @@ private const val MODIFIED_ENTRY = "Modified blog"
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
+@DirtiesContext
 class TestBlogEntry() {
 
     @Autowired
@@ -29,7 +31,7 @@ class TestBlogEntry() {
 
     @Test
     fun `basic CRUD checks`() {
-
+        log.info("Reier basic crud test")
         val blogOwner = BlogOwner(LocalDateTime.now(), null,
             "Hans Reier","Sigmond", "reier.sigmond@gmail.com",
             "+4791668863","Sløttvegen 17","2390","Moelv")
