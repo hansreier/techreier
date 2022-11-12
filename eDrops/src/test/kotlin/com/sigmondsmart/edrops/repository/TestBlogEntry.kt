@@ -29,7 +29,6 @@ class TestBlogEntry {
         val blogData = BlogData()
         with(blogData) {
             ownerRepo.save(blogOwner)
-            val saved = entryRepo.save(blogEntry)
             blogEntry.text = MODIFIED_ENTRY
             val readBlogEntry = entryRepo.findByIdOrNull(2)
             assertThat(readBlogEntry?.id).isEqualTo(2)
@@ -40,10 +39,8 @@ class TestBlogEntry {
             val foundBlogs = entryRepo.findByText(MODIFIED_ENTRY)
             assertThat(foundBlogs).hasSize(1)
             assertThat(foundBlogs.first().text).isEqualTo(MODIFIED_ENTRY)
-            saved.id?.let {
-                entryRepo.deleteById(it) }
-            entryRepo.flush()
-            assertThat(entryRepo.count()).isEqualTo(2)
+            blogOwner.blogEntries?.removeLast()
+            assertThat(entryRepo.count()).isEqualTo(1)
         }
     }
 

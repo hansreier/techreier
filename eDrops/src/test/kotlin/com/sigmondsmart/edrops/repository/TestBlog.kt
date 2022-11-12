@@ -29,10 +29,6 @@ class TestBlog {
             ownerRepo.save(blogOwner)
             entryRepo.save(blogEntry)
             entryRepo.save(blogEntry2)
-        //    val blogEntryList = mutableListOf<BlogEntry>()
-        //    blogOwner.blogEntries  = blogEntryList
-        //    blogOwner.blogEntries?.add(blogEntry)
-         //   blogOwner.blogEntries?.add(blogEntry2)
             log.info("blogEntry: $blogEntry")
             ownerRepo.delete(blogOwner)
             log.info("Reier Deleted")
@@ -40,6 +36,7 @@ class TestBlog {
             assertThat(blogEntryDeleted).isNull()
             log.info("completed")
             ownerRepo.flush()
+            blogOwner.blogEntries?.clear() // or else inconsistens if more processing
         }
     }
 }
