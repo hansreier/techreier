@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.transaction.annotation.Transactional
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
@@ -22,7 +21,8 @@ class TestBlog {
     @Test
     @DirtiesContext
     fun `owner with blog entry check`() {
-        with(BlogData()) {
+        val blogData = BlogData()
+        with(blogData) {
             log.info("reiers starting transactional test")
             ownerRepo.save(blogOwner)
             entryRepo.save(blogEntry)

@@ -27,7 +27,8 @@ class TestBlogEntry {
     @DirtiesContext
     fun `basic CRUD checks`() {
         log.info("Reier basic crud test")
-        with(BlogData()) {
+        val blogData = BlogData()
+        with(blogData) {
             ownerRepo.save(blogOwner)
             val saved = repo.save(blogEntry)
             blogEntry.text = MODIFIED_ENTRY
@@ -50,7 +51,8 @@ class TestBlogEntry {
     @Test
     @DirtiesContext
     fun `change contents check`() {
-        with(BlogData()) {
+        val blogData = BlogData()
+        with(blogData) {
             log.info("reiers starting transactional test")
             ownerRepo.save(blogOwner)
             repo.save(blogEntry)
