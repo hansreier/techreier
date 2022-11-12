@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @ExtendWith(SpringExtension::class)
@@ -56,6 +55,7 @@ class TestBlogEntry {
             log.info("reiers starting transactional test")
             ownerRepo.save(blogOwner)
             repo.save(blogEntry)
+            log.info("blogEntry: $blogEntry")
             val newTime = LocalDateTime.now()
             blogEntry.text = SECOND_ENTRY
             blogEntry.changed = newTime

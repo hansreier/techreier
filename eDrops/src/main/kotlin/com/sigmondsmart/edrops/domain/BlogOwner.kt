@@ -38,8 +38,9 @@ class BlogOwner(
     val id: Long? = null,
 
     @Column(nullable = true)
-    @OneToMany(cascade = [CascadeType.ALL])
-    val blogEntries: List<BlogEntry>? = null
+  //  @OneToMany(mappedBy = "blogOwner", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
+    var blogEntries: MutableList<BlogEntry>? = null
 
 ) {
     override fun toString() = "id: $id created: $created changed: $changed name: $firstName $lastName"
