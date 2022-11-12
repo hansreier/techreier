@@ -1,7 +1,6 @@
 package com.sigmondsmart.edrops.repository
 
 import com.sigmondsmart.edrops.config.log
-import com.sigmondsmart.edrops.domain.BlogEntry
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -30,10 +29,10 @@ class TestBlog {
             ownerRepo.save(blogOwner)
             entryRepo.save(blogEntry)
             entryRepo.save(blogEntry2)
-            val blogEntryList = mutableListOf<BlogEntry>()
-            blogOwner.blogEntries  = blogEntryList
-            blogOwner.blogEntries?.add(blogEntry)
-            blogOwner.blogEntries?.add(blogEntry2)
+        //    val blogEntryList = mutableListOf<BlogEntry>()
+        //    blogOwner.blogEntries  = blogEntryList
+        //    blogOwner.blogEntries?.add(blogEntry)
+         //   blogOwner.blogEntries?.add(blogEntry2)
             log.info("blogEntry: $blogEntry")
             ownerRepo.delete(blogOwner)
             log.info("Reier Deleted")

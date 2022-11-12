@@ -16,4 +16,11 @@ class BlogData {
     )
     val blogEntry: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), FIRST_ENTRY, blogOwner)
     val blogEntry2: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), SECOND_ENTRY, blogOwner)
+
+    init {
+        val blogEntryList = mutableListOf<BlogEntry>()
+        blogOwner.blogEntries  = blogEntryList
+        blogOwner.blogEntries?.add(blogEntry)
+        blogOwner.blogEntries?.add(blogEntry2)
+    }
 }

@@ -17,7 +17,7 @@ import java.time.LocalDateTime
 class TestBlogEntry {
 
     @Autowired
-    lateinit var repo: BlogEntryRepository
+    lateinit var entryRepo: BlogEntryRepository
 
     @Autowired
     lateinit var ownerRepo: BlogOwnerRepository
@@ -29,21 +29,21 @@ class TestBlogEntry {
         val blogData = BlogData()
         with(blogData) {
             ownerRepo.save(blogOwner)
-            val saved = repo.save(blogEntry)
+            val saved = entryRepo.save(blogEntry)
             blogEntry.text = MODIFIED_ENTRY
-            repo.save(blogEntry)
-            repo.save(blogEntry2)
-            val readBlogEntry = repo.findByIdOrNull(2)
+            val readBlogEntry = entryRepo.findByIdOrNull(2)
             assertThat(readBlogEntry?.id).isEqualTo(2)
-            val blog = repo.findAll(Sort.by(Sort.Direction.ASC, "id"))
+            val blog = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
             assertThat(blog).hasSize(2)
             assertThat(blog[0].text).isEqualTo(MODIFIED_ENTRY)
             assertThat(blog[1].text).isEqualTo(SECOND_ENTRY)
-            val foundBlogs = repo.findByText(MODIFIED_ENTRY)
+            val foundBlogs = entryRepo.findByText(MODIFIED_ENTRY)
             assertThat(foundBlogs).hasSize(1)
             assertThat(foundBlogs.first().text).isEqualTo(MODIFIED_ENTRY)
-            saved.id?.let { repo.deleteById(it) }
-            assertThat(repo.count()).isEqualTo(1)
+            saved.id?.let {
+                entryRepo.deleteById(it) }
+            entryRepo.flush()
+            assertThat(entryRepo.count()).isEqualTo(2)
         }
     }
 
@@ -54,15 +54,14 @@ class TestBlogEntry {
         with(blogData) {
             log.info("reiers starting transactional test")
             ownerRepo.save(blogOwner)
-            repo.save(blogEntry)
             log.info("blogEntry: $blogEntry")
             val newTime = LocalDateTime.now()
             blogEntry.text = SECOND_ENTRY
             blogEntry.changed = newTime
             assertThat(blogEntry.text).isEqualTo(SECOND_ENTRY)
             assertThat(blogEntry.changed).isEqualTo(newTime)
-            val blog = repo.findAll(Sort.by(Sort.Direction.ASC, "id"))
-            assertThat(blog).hasSize(1)
+            val blog = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
+            assertThat(blog).hasSize(2)
             assertThat(blog[0].text).isEqualTo(SECOND_ENTRY)
             log.info("blog entry: ${blog[0]}")
         }
