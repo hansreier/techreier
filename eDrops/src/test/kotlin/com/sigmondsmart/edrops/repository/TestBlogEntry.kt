@@ -1,6 +1,6 @@
 package com.sigmondsmart.edrops.repository
 
-import com.sigmondsmart.edrops.config.log
+import com.sigmondsmart.edrops.config.logger
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -25,7 +25,7 @@ class TestBlogEntry {
     @Test
     @DirtiesContext
     fun `basic CRUD checks`() {
-        log.info("Reier basic crud test")
+        logger.info("Reier basic crud test")
         val blogData = BlogData()
         with(blogData) {
             ownerRepo.save(blogOwner)
@@ -49,9 +49,9 @@ class TestBlogEntry {
     fun `change contents check`() {
         val blogData = BlogData()
         with(blogData) {
-            log.info("reiers starting transactional test")
+            logger.info("reiers starting transactional test")
             ownerRepo.save(blogOwner)
-            log.info("blogEntry: $blogEntry")
+            logger.info("blogEntry: $blogEntry")
             val newTime = LocalDateTime.now()
             blogEntry.text = SECOND_ENTRY
             blogEntry.changed = newTime
@@ -60,7 +60,7 @@ class TestBlogEntry {
             val blog = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
             assertThat(blog).hasSize(2)
             assertThat(blog[0].text).isEqualTo(SECOND_ENTRY)
-            log.info("blog entry: ${blog[0]}")
+            logger.info("blog entry: ${blog[0]}")
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.sigmondsmart.edrops.repository
 
-import com.sigmondsmart.edrops.config.log
+import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.BlogOwner
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -32,16 +32,16 @@ class TestBlog {
     fun `cascade delete test`() {
         val blogData = BlogData()
         with(blogData) {
-            log.info("starting transactional test")
+            logger.info("starting transactional test")
             ownerRepo.save(blogOwner)
             val blogEntrySaved = entryRepo.findByIdOrNull(blogEntry.id)
             assertThat(blogEntrySaved?.id).isEqualTo(blogEntry.id)
-            log.info("blogEntry: $blogEntry")
+            logger.info("blogEntry: $blogEntry")
             ownerRepo.delete(blogOwner)
-            log.info("Reier Deleted")
+            logger.info("Reier Deleted")
             val blogEntryDeleted = entryRepo.findByIdOrNull(blogEntry.id)
             assertThat(blogEntryDeleted).isNull()
-            log.info("completed")
+            logger.info("completed")
             ownerRepo.flush()
             blogOwner.blogEntries?.clear() // or else inconsistency if more processing
         }
@@ -52,15 +52,15 @@ class TestBlog {
     fun `read all with JPQL test`() {
         val blogData = BlogData()
         with(blogData) {
-            log.info("starting transactional test")
+            logger.info("starting transactional test")
             ownerRepo.save(blogOwner)
             entityManager.clear()
-            log.info("saved")
+            logger.info("saved")
             val owner = blogOwner.id?.let { populate(it) }
-            log.info("owner: $owner ${owner?.blogEntries?.size}")
+            logger.info("owner: $owner ${owner?.blogEntries?.size}")
             assertThat(owner?.blogEntries?.size).isEqualTo(2)
             val entries = blogOwner.blogEntries
-            log.info("my entries: $entries")
+            logger.info("my entries: $entries")
         }
     }
 
@@ -78,15 +78,15 @@ class TestBlog {
     fun `read all with findById test`() {
         val blogData = BlogData()
         with(blogData) {
-            log.info("starting read all test")
+            logger.info("starting read all test")
             ownerRepo.save(blogOwner)
             entityManager.clear()
-            log.info("saved")
+            logger.info("saved")
             val owner = ownerRepo.findByIdOrNull(blogOwner.id)
-            log.info("owner: $owner ${owner?.blogEntries?.size}")
+            logger.info("owner: $owner ${owner?.blogEntries?.size}")
             assertThat(owner?.blogEntries?.size).isEqualTo(2)
             val entries = blogOwner.blogEntries
-            log.info("my entries: $entries")
+            logger.info("my entries: $entries")
         }
     }
 }

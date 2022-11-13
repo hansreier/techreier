@@ -11,7 +11,7 @@ class AppConfigNew {
     private val appName: String? = null
 
     fun config(): String? {
-        log.info("Reier App name: ${appName}")
+        logger.info("Reier App name: ${appName}")
         return appName
     }
 

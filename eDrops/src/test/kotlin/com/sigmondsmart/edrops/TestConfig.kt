@@ -2,7 +2,7 @@ package com.sigmondsmart.edrops
 
 import com.sigmondsmart.edrops.config.AppConfig
 import com.sigmondsmart.edrops.config.ReadConfig
-import com.sigmondsmart.edrops.config.log
+import com.sigmondsmart.edrops.config.logger
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -26,11 +26,11 @@ class TestConfig {
 
     @Test
     fun testAppNameIndirect() {
-        log.info("App name: ${readConfig.getConfig()}")
+        logger.info("App name: ${readConfig.getConfig()}")
     }
 
     @Test
     fun testAppNameDirect() {
-        log.info("App name: ${appConfig.appname}")
+        logger.info("App name: ${appConfig.appname}")
     }
 }

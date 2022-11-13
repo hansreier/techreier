@@ -1,7 +1,7 @@
 package com.sigmondsmart.edrops
 
 import com.sigmondsmart.edrops.config.ReadConfig2
-import com.sigmondsmart.edrops.config.log
+import com.sigmondsmart.edrops.config.logger
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,6 +17,6 @@ class TestConfig2 {
 
     @Test
     fun testAppName() {
-        log.info("App name: ${readConfig2.getConfig()}")
+        logger.info("App name: ${readConfig2.getConfig()}")
     }
 }
