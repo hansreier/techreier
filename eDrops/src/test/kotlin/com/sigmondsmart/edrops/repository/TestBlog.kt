@@ -19,7 +19,7 @@ import javax.persistence.PersistenceContext
 class TestBlog {
 
     @PersistenceContext
-    private lateinit var em: EntityManager
+    private lateinit var entityManager: EntityManager
 
     @Autowired
     lateinit var entryRepo: BlogEntryRepository
@@ -34,8 +34,8 @@ class TestBlog {
         with(blogData) {
             log.info("starting transactional test")
             ownerRepo.save(blogOwner)
-            entryRepo.save(blogEntry)
-            entryRepo.save(blogEntry2)
+            val blogEntrySaved = entryRepo.findByIdOrNull(blogEntry.id)
+            assertThat(blogEntrySaved?.id).isEqualTo(blogEntry.id)
             log.info("blogEntry: $blogEntry")
             ownerRepo.delete(blogOwner)
             log.info("Reier Deleted")
@@ -54,7 +54,7 @@ class TestBlog {
         with(blogData) {
             log.info("starting transactional test")
             ownerRepo.save(blogOwner)
-            em.clear()
+            entityManager.clear()
             log.info("saved")
             val owner = blogOwner.id?.let { populate(it) }
             log.info("owner: $owner ${owner?.blogEntries?.size}")
@@ -68,7 +68,25 @@ class TestBlog {
     //Or user Kotlin JDSL?
     // find.. does not seem to populate children
     private fun populate(id: Long): BlogOwner {
-        val query = em.createQuery("SELECT DISTINCT o FROM BlogOwner o INNER JOIN FETCH o.blogEntries WHERE o.id = ?1 ")
+        val query = entityManager.createQuery("SELECT DISTINCT o FROM BlogOwner o INNER JOIN FETCH o.blogEntries WHERE o.id = ?1 ")
         return query.setParameter(1, id).singleResult as BlogOwner
+    }
+
+    @Test
+    @DirtiesContext
+    //Using JPQL more efficient, only one SQL statement
+    fun `read all with findById test`() {
+        val blogData = BlogData()
+        with(blogData) {
+            log.info("starting read all test")
+            ownerRepo.save(blogOwner)
+            entityManager.clear()
+            log.info("saved")
+            val owner = ownerRepo.findByIdOrNull(blogOwner.id)
+            log.info("owner: $owner ${owner?.blogEntries?.size}")
+            assertThat(owner?.blogEntries?.size).isEqualTo(2)
+            val entries = blogOwner.blogEntries
+            log.info("my entries: $entries")
+        }
     }
 }
