@@ -38,8 +38,8 @@ class BlogOwner(
     val id: Long? = null,
 
     @Column(nullable = true)
-  //  @OneToMany(mappedBy = "blogOwner", cascade = [CascadeType.ALL], orphanRemoval = true)
-    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "blogOwner", cascade = [CascadeType.ALL], orphanRemoval = true)
+  //   @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
     var blogEntries: MutableList<BlogEntry>? = null
 
 ) {
