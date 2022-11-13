@@ -14,7 +14,6 @@ class TestConfig2 {
 
     @Autowired
     private lateinit var readConfig2: ReadConfig2
-
     @Test
     fun testAppName() {
         logger.info("App name: ${readConfig2.getConfig()}")
