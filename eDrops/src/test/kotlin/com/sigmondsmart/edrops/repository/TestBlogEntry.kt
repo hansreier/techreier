@@ -1,6 +1,9 @@
 package com.sigmondsmart.edrops.repository
 
 import com.sigmondsmart.edrops.config.logger
+import com.sigmondsmart.edrops.domain.BlogData
+import com.sigmondsmart.edrops.domain.MODIFIED_ENTRY
+import com.sigmondsmart.edrops.domain.SECOND_ENTRY
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

@@ -1,6 +1,7 @@
 package com.sigmondsmart.edrops.repository
 
 import com.sigmondsmart.edrops.config.logger
+import com.sigmondsmart.edrops.domain.BlogData
 import com.sigmondsmart.edrops.domain.BlogOwner
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

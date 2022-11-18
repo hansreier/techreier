@@ -1,13 +1,12 @@
-package com.sigmondsmart.edrops.repository
+package com.sigmondsmart.edrops.domain
 
-import com.sigmondsmart.edrops.domain.BlogEntry
-import com.sigmondsmart.edrops.domain.BlogOwner
 import java.time.LocalDateTime
 
 const val FIRST_ENTRY = "My first blog"
 const val SECOND_ENTRY = "My next blog"
 const val MODIFIED_ENTRY = "Modified blog"
 
+// Initial populate table. Temporary. Move later back to test
 class BlogData {
     val blogOwner: BlogOwner = BlogOwner(
         LocalDateTime.now(), null,
