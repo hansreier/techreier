@@ -1,8 +1,8 @@
 package com.sigmondsmart.edrops.repository
 
 import com.sigmondsmart.edrops.config.logger
+import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.domain.BlogData
-import com.sigmondsmart.edrops.domain.BlogOwner
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -26,6 +26,9 @@ class TestBlog {
     lateinit var entryRepo: BlogEntryRepository
 
     @Autowired
+    lateinit var blogRepo: BlogRepository
+
+    @Autowired
     lateinit var ownerRepo: BlogOwnerRepository
 
     @Test
@@ -38,13 +41,13 @@ class TestBlog {
             val blogEntrySaved = entryRepo.findByIdOrNull(blogEntry.id)
             assertThat(blogEntrySaved?.id).isEqualTo(blogEntry.id)
             logger.info("blogEntry: $blogEntry")
-            ownerRepo.delete(blogOwner)
+            blogRepo.delete(blog)
             logger.info("Reier Deleted")
             val blogEntryDeleted = entryRepo.findByIdOrNull(blogEntry.id)
             assertThat(blogEntryDeleted).isNull()
             logger.info("completed")
-            ownerRepo.flush()
-            blogOwner.blogEntries?.clear() // or else inconsistency if more processing
+            blogRepo.flush()
+            blog.blogEntries?.clear() // or else inconsistency if more processing
         }
     }
 
@@ -57,10 +60,10 @@ class TestBlog {
             ownerRepo.save(blogOwner)
             entityManager.clear()
             logger.info("saved")
-            val owner = blogOwner.id?.let { populate(it) }
-            logger.info("owner: $owner ${owner?.blogEntries?.size}")
-            assertThat(owner?.blogEntries?.size).isEqualTo(2)
-            val entries = blogOwner.blogEntries
+            val blog = blog.id?.let { populate(it) }
+            logger.info("blog: $blog ${blog?.blogEntries?.size}")
+            assertThat(blog?.blogEntries?.size).isEqualTo(2)
+            val entries = blog?.blogEntries
             logger.info("my entries: $entries")
         }
     }
@@ -68,9 +71,9 @@ class TestBlog {
     //Using JPQL instead of typesafe JPA criteria queries (too much work for nothing)
     //Or user Kotlin JDSL?
     // find.. does not seem to populate children
-    private fun populate(id: Long): BlogOwner {
-        val query = entityManager.createQuery("SELECT DISTINCT o FROM BlogOwner o INNER JOIN FETCH o.blogEntries WHERE o.id = ?1 ")
-        return query.setParameter(1, id).singleResult as BlogOwner
+    private fun populate(id: Long): Blog {
+        val query = entityManager.createQuery("SELECT DISTINCT b FROM Blog b INNER JOIN FETCH b.blogEntries WHERE b.id = ?1 ")
+        return query.setParameter(1, id).singleResult as Blog
     }
 
     @Test
@@ -83,10 +86,10 @@ class TestBlog {
             ownerRepo.save(blogOwner)
             entityManager.clear()
             logger.info("saved")
-            val owner = ownerRepo.findByIdOrNull(blogOwner.id)
-            logger.info("owner: $owner ${owner?.blogEntries?.size}")
-            assertThat(owner?.blogEntries?.size).isEqualTo(2)
-            val entries = blogOwner.blogEntries
+            val blog = blogRepo.findByIdOrNull(blogOwner.id)
+            logger.info("blog: $blog ${blog?.blogEntries?.size}")
+            assertThat(blog?.blogEntries?.size).isEqualTo(2)
+            val entries = blog?.blogEntries
             logger.info("my entries: $entries")
         }
     }

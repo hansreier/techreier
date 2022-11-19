@@ -39,8 +39,7 @@ class BlogOwner(
 
     @Column(nullable = true)
     @OneToMany(mappedBy = "blogOwner", cascade = [CascadeType.ALL], orphanRemoval = true)
-  //   @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
-    var blogEntries: MutableList<BlogEntry>? = null
+    var blogs: MutableList<Blog>? = null
 
 ) {
     override fun toString() = "id: $id created: $created changed: $changed name: $firstName $lastName"

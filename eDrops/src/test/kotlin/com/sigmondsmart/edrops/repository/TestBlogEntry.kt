@@ -28,21 +28,21 @@ class TestBlogEntry {
     @Test
     @DirtiesContext
     fun `basic CRUD checks`() {
-        logger.info("Reier basic crud test")
+        logger.info("Basic crud test")
         val blogData = BlogData()
         with(blogData) {
             ownerRepo.save(blogOwner)
             blogEntry.text = MODIFIED_ENTRY
             val readBlogEntry = entryRepo.findByIdOrNull(2)
             assertThat(readBlogEntry?.id).isEqualTo(2)
-            val blog = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
-            assertThat(blog).hasSize(2)
-            assertThat(blog[0].text).isEqualTo(MODIFIED_ENTRY)
-            assertThat(blog[1].text).isEqualTo(SECOND_ENTRY)
+            val blogs = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
+            assertThat(blogs).hasSize(2)
+            assertThat(blogs[0].text).isEqualTo(MODIFIED_ENTRY)
+            assertThat(blogs[1].text).isEqualTo(SECOND_ENTRY)
             val foundBlogs = entryRepo.findByText(MODIFIED_ENTRY)
             assertThat(foundBlogs).hasSize(1)
             assertThat(foundBlogs.first().text).isEqualTo(MODIFIED_ENTRY)
-            blogOwner.blogEntries?.removeLast()
+            blog.blogEntries?.removeLast()
             assertThat(entryRepo.count()).isEqualTo(1)
         }
     }
@@ -54,7 +54,7 @@ class TestBlogEntry {
         with(blogData) {
             logger.info("reiers starting transactional test")
             ownerRepo.save(blogOwner)
-            logger.info("blogEntry: $blogEntry")
+            logger.info("blogOwner: $blogOwner")
             val newTime = LocalDateTime.now()
             blogEntry.text = SECOND_ENTRY
             blogEntry.changed = newTime

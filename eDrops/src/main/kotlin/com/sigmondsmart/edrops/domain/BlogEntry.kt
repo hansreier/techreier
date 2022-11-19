@@ -17,12 +17,12 @@ class BlogEntry(
     var text: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "blogEntries", nullable = false)
-    var blogOwner: BlogOwner,
+    @JoinColumn(name = "blogs", nullable = false)
+    var blog: Blog,
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?=null,
 ) {
-    override fun toString() = "id: $id blogOwner: $blogOwner created: $created changed: $changed text: $text"
+    override fun toString() = "id: $id blog: $blog created: $created changed: $changed text: $text"
 }

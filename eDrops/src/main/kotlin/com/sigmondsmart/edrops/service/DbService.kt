@@ -17,13 +17,15 @@ class DbService(private val ownerRepo: BlogOwnerRepository) {
     fun readBlog() {
         logger.info("Read blog")
     val blog = ownerRepo.findAll()
-        logger.info("$blog")
+        logger.info("blogOwner: $blog")
         blog.forEach {
-            it.blogEntries?.forEach {
-                logger.info("$it.text")
+            it.blogs?.forEach {
+                logger.info("Blogs $it")
+                it.blogEntries?.forEach {
+                    logger.info("BlogEntries $it")
+                }
             }
         }
     }
-
 
 }
