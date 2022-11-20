@@ -5,6 +5,8 @@ import java.time.LocalDateTime
 const val FIRST_ENTRY = "My first blog"
 const val SECOND_ENTRY = "My next blog"
 const val MODIFIED_ENTRY = "Modified blog"
+const val OWNER_TAG = "Environment"
+const val SUBJECT = "Environmental issues"
 
 // Initial populate table. Temporary. Move later back to test
 class BlogData {
@@ -14,7 +16,7 @@ class BlogData {
         "+4791668863", "Sløttvegen 17", "2390", "Moelv"
     )
     val blogEntries =  mutableListOf<BlogEntry>()
-    val blog: Blog = Blog(LocalDateTime.now(), blogEntries, blogOwner)
+    val blog: Blog = Blog(LocalDateTime.now(), OWNER_TAG, SUBJECT, blogEntries, blogOwner)
     val blogEntry: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), FIRST_ENTRY, blog)
     val blogEntry2: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), SECOND_ENTRY, blog)
 

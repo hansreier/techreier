@@ -10,6 +10,12 @@ class Blog(
     @Column(nullable = false)
     val created: LocalDateTime,
 
+    @Column
+    var ownerTag: String,
+
+    @Column
+    var subject: String,
+
     @Column(nullable = true)
     @OneToMany(mappedBy = "blog", cascade = [CascadeType.ALL], orphanRemoval = true)
     var blogEntries: MutableList<BlogEntry>? = null,
