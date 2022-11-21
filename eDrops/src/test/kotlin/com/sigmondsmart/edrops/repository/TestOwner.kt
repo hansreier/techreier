@@ -1,10 +1,11 @@
 package com.sigmondsmart.edrops.repository
 
 import com.sigmondsmart.edrops.config.logger
+import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.domain.BlogData
 import com.sigmondsmart.edrops.domain.BlogOwner
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
+import org.hibernate.annotations.QueryHints
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -56,7 +57,6 @@ class TestOwner {
 
     @Test
     @DirtiesContext
-    @Disabled
     fun `read all with JPQL test`() {
         val blogData = BlogData()
         with(blogData) {
@@ -64,9 +64,9 @@ class TestOwner {
             ownerRepo.save(blogOwner)
             entityManager.clear()
             logger.info("saved")
-            val myblogs = blog.id?.let { populate(it) }
-            logger.info("blog: $myblogs ${myblogs?.blogs?.size}")
-            assertThat(myblogs?.blogs?.size).isEqualTo(1)
+            val myblogs = populate(blogOwner)
+            logger.info("blog: $myblogs ${myblogs.blogs?.size}")
+            assertThat(myblogs.blogs?.size).isEqualTo(2)
             val entries = blog.blogEntries
             logger.info("my entries: $entries")
         }
@@ -75,19 +75,31 @@ class TestOwner {
     //Using JPQL instead of typesafe JPA criteria queries (too much work for nothing)
     //Or user Kotlin JDSL?
     // find.. does not seem to populate children
-    //TODO does not work
+    //But !! Does not generate one single SQL, this I what I wanted
     //https://stackoverflow.com/questions/30088649/how-to-use-multiple-join-fetch-in-one-jpql-query
     //https://vladmihalcea.com/hibernate-facts-multi-level-fetching/
     //https://stackoverflow.com/questions/6562673/onetomany-list-vs-set-difference
     //https://thorben-janssen.com/association-mappings-bag-list-set/
     //https://dzone.com/articles/why-set-is-better-than-list-in-manytomany
-    private fun populate(id: Long): BlogOwner {
-        val query = entityManager.createQuery("SELECT DISTINCT o,b FROM BlogOwner o, Blog b"
-                + " INNER JOIN FETCH o.blogs "
-                + " INNER JOIN FETCH b.blogEntries "
-                + " WHERE o.id = ?1 ")
-        query.setParameter(1, id)
-        return query.singleResult as BlogOwner
+    private fun populate(blogOwner: BlogOwner): BlogOwner {
+        logger.info("populate start")
+        val queryBlog = entityManager.createQuery(
+            "SELECT DISTINCT b FROM Blog b"
+                    + " INNER JOIN FETCH b.blogEntries"
+                    + " WHERE b.blogOwner = ?1 "
+        )
+        queryBlog.setParameter(1, blogOwner).setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+        val blogs = queryBlog.resultList
+
+        val queryBlog2 = entityManager.createQuery(
+            "SELECT DISTINCT b FROM Blog b"
+                    + " INNER JOIN FETCH b.blogOwner o"
+                    + " WHERE b in :blogs "
+        )
+        queryBlog2.setParameter("blogs", blogs).setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+        val blogOwnerReturned = (queryBlog2.singleResult as Blog).blogOwner
+        logger.info("populate end")
+        return blogOwnerReturned
     }
 
     @Test
@@ -101,7 +113,7 @@ class TestOwner {
             logger.info("saved")
             val owner = ownerRepo.findByIdOrNull(blogOwner.id)
             logger.info("owner: $owner $owner?.blogEntries?.size}")
-            assertThat(owner?.blogs?.size).isEqualTo(1)
+            assertThat(owner?.blogs?.size).isEqualTo(2)
             val blogs = owner?.blogs
             logger.info("my blogs: $blogs")
             blogs?.forEach {

@@ -16,7 +16,9 @@ class BlogData {
         "+4791668863", "Sløttvegen 17", "2390", "Moelv"
     )
     val blogEntries =  mutableListOf<BlogEntry>()
+    val blogEntries2 =  mutableListOf<BlogEntry>()
     val blog: Blog = Blog(LocalDateTime.now(), OWNER_TAG, SUBJECT, blogEntries, blogOwner)
+    val blog2: Blog = Blog(LocalDateTime.now(), OWNER_TAG, SUBJECT, blogEntries2, blogOwner)
     val blogEntry: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), FIRST_ENTRY, blog)
     val blogEntry2: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), SECOND_ENTRY, blog)
 
@@ -24,8 +26,8 @@ class BlogData {
         val blogList = mutableListOf<Blog>()
         blogOwner.blogs = blogList
         blogOwner.blogs?.add(blog)
-        val blogEntryList = mutableListOf<BlogEntry>()
-        blog.blogEntries  = blogEntryList
+        blogOwner.blogs?.add(blog2)
+        blog.blogEntries  = blogEntries
         blog.blogEntries?.add(blogEntry)
         blog.blogEntries?.add(blogEntry2)
     }
