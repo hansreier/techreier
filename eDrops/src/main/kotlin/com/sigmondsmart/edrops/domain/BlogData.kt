@@ -2,11 +2,15 @@ package com.sigmondsmart.edrops.domain
 
 import java.time.LocalDateTime
 
-const val FIRST_ENTRY = "My first blog"
-const val SECOND_ENTRY = "My next blog"
-const val MODIFIED_ENTRY = "Modified blog"
-const val OWNER_TAG = "Environment"
+const val TAG1 = "Sea"
+const val TAG2 = "Mountain"
+const val ENTRY1 = "My first blog"
+const val ENTRY2 = "My next blog"
+const val ENTRY3 = "Modified blog"
+const val BLOG_TAG = "Environment"
 const val SUBJECT = "Environmental issues"
+const val NO = "NO"
+const val V1:Long  = 1
 
 // Initial populate table. Temporary. Move later back to test
 class BlogData {
@@ -17,10 +21,10 @@ class BlogData {
     )
     val blogEntries =  mutableListOf<BlogEntry>()
     val blogEntries2 =  mutableListOf<BlogEntry>()
-    val blog: Blog = Blog(LocalDateTime.now(), OWNER_TAG, SUBJECT, blogEntries, blogOwner)
-    val blog2: Blog = Blog(LocalDateTime.now(), OWNER_TAG, SUBJECT, blogEntries2, blogOwner)
-    val blogEntry: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), FIRST_ENTRY, blog)
-    val blogEntry2: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), SECOND_ENTRY, blog)
+    val blog: Blog = Blog(LocalDateTime.now(), BLOG_TAG, NO, SUBJECT, blogEntries, blogOwner)
+    val blog2: Blog = Blog(LocalDateTime.now(), BLOG_TAG, NO, SUBJECT, blogEntries2, blogOwner)
+    val blogEntry: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG1, V1, ENTRY1, blog)
+    val blogEntry2: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG2, V1, ENTRY2, blog)
 
     init {
         val blogList = mutableListOf<Blog>()

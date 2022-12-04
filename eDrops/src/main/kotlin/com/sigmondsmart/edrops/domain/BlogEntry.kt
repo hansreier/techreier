@@ -14,7 +14,13 @@ class BlogEntry(
     var changed: LocalDateTime?,
 
     @Column
-    var text: String, //Should really be title and text, text moved to another entity
+    var tag: String,
+
+    @Column
+    var version: Long,
+
+    @Column
+    var text: String, //Should really be moved to another entity
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "blogs", nullable = false)

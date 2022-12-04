@@ -11,7 +11,10 @@ class Blog(
     val created: LocalDateTime,
 
     @Column
-    var ownerTag: String,
+    var tag: String,
+
+    @Column
+    var language: String,
 
     @Column
     var subject: String,
