@@ -3,6 +3,8 @@ package com.sigmondsmart.edrops.repository
 import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.domain.BlogData
+import com.sigmondsmart.edrops.domain.NO
+import com.sigmondsmart.edrops.domain.NORWEGIAN
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -71,6 +73,8 @@ class TestBlog {
             val blog = blog.id?.let { populate(it) }
             logger.info("blog: $blog ${blog?.blogEntries?.size}")
             assertThat(blog?.blogEntries?.size).isEqualTo(2)
+            assertThat(blog?.language?.language).isEqualTo(NORWEGIAN)
+            assertThat(blog?.language?.code).isEqualTo(NO)
             val entries = blog?.blogEntries
             logger.info("my entries: $entries")
         }
