@@ -28,7 +28,7 @@ class BlogEntry(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long?=null,
+    val id: Long?=null
 ) {
     override fun toString() = "id: $id blog: $blog created: $created changed: $changed text: $text"
 }

@@ -6,6 +6,7 @@ import com.sigmondsmart.edrops.domain.BlogData
 import com.sigmondsmart.edrops.domain.BlogOwner
 import org.assertj.core.api.Assertions.assertThat
 import org.hibernate.annotations.QueryHints
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,13 +34,22 @@ class TestOwner {
     @Autowired
     lateinit var ownerRepo: BlogOwnerRepository
 
+    @Autowired
+    lateinit var languageRepo: LanguageRepository
+
+    lateinit var blogData: BlogData
+    @BeforeEach
+    fun setup() {
+        blogData = BlogData()
+        languageRepo.save(blogData.norwegian)
+        ownerRepo.save(blogData.blogOwner)
+    }
+
     @Test
     @DirtiesContext
     fun `cascade delete test`() {
-        val blogData = BlogData()
         with(blogData) {
             logger.info("starting transactional test")
-            ownerRepo.save(blogOwner)
             val blogEntrySaved = entryRepo.findByIdOrNull(blogEntry.id)
             assertThat(blogEntrySaved?.id).isEqualTo(blogEntry.id)
             logger.info("blogEntry: $blogEntry")
@@ -58,10 +68,8 @@ class TestOwner {
     @Test
     @DirtiesContext
     fun `read all with JPQL test`() {
-        val blogData = BlogData()
         with(blogData) {
             logger.info("starting transactional test")
-            ownerRepo.save(blogOwner)
             entityManager.clear()
             logger.info("saved")
             val myblogs = populate(blogOwner)
@@ -105,10 +113,8 @@ class TestOwner {
     @Test
     @DirtiesContext
     fun `read all with findById test`() {
-        val blogData = BlogData()
         with(blogData) {
             logger.info("starting read all test")
-            ownerRepo.save(blogOwner)
             entityManager.clear()
             logger.info("saved")
             val owner = ownerRepo.findByIdOrNull(blogOwner.id)

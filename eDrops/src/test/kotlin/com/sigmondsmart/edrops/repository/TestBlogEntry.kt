@@ -5,6 +5,7 @@ import com.sigmondsmart.edrops.domain.BlogData
 import com.sigmondsmart.edrops.domain.ENTRY3
 import com.sigmondsmart.edrops.domain.ENTRY2
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,13 +26,22 @@ class TestBlogEntry {
     @Autowired
     lateinit var ownerRepo: BlogOwnerRepository
 
+    @Autowired
+    lateinit var languageRepo: LanguageRepository
+
+    lateinit var blogData: BlogData
+    @BeforeEach
+    fun setup() {
+        blogData = BlogData()
+        languageRepo.save(blogData.norwegian)
+        ownerRepo.save(blogData.blogOwner)
+    }
+
     @Test
     @DirtiesContext
     fun `basic CRUD checks`() {
         logger.info("Basic crud test")
-        val blogData = BlogData()
         with(blogData) {
-            ownerRepo.save(blogOwner)
             blogEntry.text = ENTRY3
             val readBlogEntry = entryRepo.findByIdOrNull(2)
             assertThat(readBlogEntry?.id).isEqualTo(2)
@@ -50,10 +60,7 @@ class TestBlogEntry {
     @Test
     @DirtiesContext
     fun `change contents check`() {
-        val blogData = BlogData()
         with(blogData) {
-            logger.info("reiers starting transactional test")
-            ownerRepo.save(blogOwner)
             logger.info("blogOwner: $blogOwner")
             val newTime = LocalDateTime.now()
             blogEntry.text = ENTRY2

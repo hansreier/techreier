@@ -13,8 +13,9 @@ class Blog(
     @Column
     var tag: String,
 
-    @Column
-    var language: String,
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "code", nullable = false)
+    var language: LanguageCode,
 
     @Column
     var subject: String,

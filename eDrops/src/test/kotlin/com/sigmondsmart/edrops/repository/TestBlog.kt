@@ -4,6 +4,7 @@ import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.domain.BlogData
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,13 +32,22 @@ class TestBlog {
     @Autowired
     lateinit var ownerRepo: BlogOwnerRepository
 
+    @Autowired
+    lateinit var languageRepo: LanguageRepository
+
+    lateinit var blogData: BlogData
+    @BeforeEach
+    fun setup() {
+        blogData = BlogData()
+        languageRepo.save(blogData.norwegian)
+        ownerRepo.save(blogData.blogOwner)
+    }
+
     @Test
     @DirtiesContext
     fun `cascade delete test`() {
-        val blogData = BlogData()
         with(blogData) {
             logger.info("starting transactional test")
-            ownerRepo.save(blogOwner)
             val blogEntrySaved = entryRepo.findByIdOrNull(blogEntry.id)
             assertThat(blogEntrySaved?.id).isEqualTo(blogEntry.id)
             logger.info("blogEntry: $blogEntry")
@@ -54,10 +64,8 @@ class TestBlog {
     @Test
     @DirtiesContext
     fun `read all with JPQL test`() {
-        val blogData = BlogData()
         with(blogData) {
             logger.info("starting transactional test")
-            ownerRepo.save(blogOwner)
             entityManager.clear()
             logger.info("saved")
             val blog = blog.id?.let { populate(it) }
@@ -80,10 +88,8 @@ class TestBlog {
     @DirtiesContext
     //Using JPQL more efficient, only one SQL statement
     fun `read all with findById test`() {
-        val blogData = BlogData()
         with(blogData) {
             logger.info("starting read all test")
-            ownerRepo.save(blogOwner)
             entityManager.clear()
             logger.info("saved")
             val blog = blogRepo.findByIdOrNull(blogOwner.id)

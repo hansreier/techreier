@@ -9,11 +9,11 @@ const val ENTRY2 = "My next blog"
 const val ENTRY3 = "Modified blog"
 const val BLOG_TAG = "Environment"
 const val SUBJECT = "Environmental issues"
-const val NO = "NO"
 const val V1:Long  = 1
 
 // Initial populate table. Temporary. Move later back to test
 class BlogData {
+    val norwegian: LanguageCode = LanguageCode("Norwegian","no")
     val blogOwner: BlogOwner = BlogOwner(
         LocalDateTime.now(), null,
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
@@ -21,8 +21,8 @@ class BlogData {
     )
     val blogEntries =  mutableListOf<BlogEntry>()
     val blogEntries2 =  mutableListOf<BlogEntry>()
-    val blog: Blog = Blog(LocalDateTime.now(), BLOG_TAG, NO, SUBJECT, blogEntries, blogOwner)
-    val blog2: Blog = Blog(LocalDateTime.now(), BLOG_TAG, NO, SUBJECT, blogEntries2, blogOwner)
+    val blog: Blog = Blog(LocalDateTime.now(), BLOG_TAG, norwegian, SUBJECT, blogEntries, blogOwner)
+    val blog2: Blog = Blog(LocalDateTime.now(), BLOG_TAG, norwegian, SUBJECT, blogEntries2, blogOwner)
     val blogEntry: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG1, V1, ENTRY1, blog)
     val blogEntry2: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG2, V1, ENTRY2, blog)
 
