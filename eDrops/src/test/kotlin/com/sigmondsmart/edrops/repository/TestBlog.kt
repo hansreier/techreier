@@ -90,7 +90,6 @@ class TestBlog {
 
     @Test
     @DirtiesContext
-    //Using JPQL more efficient, only one SQL statement
     fun `read all with findById test`() {
         with(blogData) {
             logger.info("starting read all test")
@@ -101,6 +100,19 @@ class TestBlog {
             assertThat(blog?.blogEntries?.size).isEqualTo(2)
             val entries = blog?.blogEntries
             logger.info("my entries: $entries")
+        }
+    }
+
+    @Test
+    @DirtiesContext
+    //Using JPQL more efficient, only one SQL statement
+    fun `read all with findById test2`() {
+        with(blogData) {
+            logger.info("starting read all test")
+            entityManager.clear()
+            logger.info("saved")
+            val blog = blogRepo.findAll()
+            logger.info("hei")
         }
     }
 }
