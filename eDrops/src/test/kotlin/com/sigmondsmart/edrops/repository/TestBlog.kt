@@ -11,12 +11,13 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.util.*
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
+import kotlin.collections.HashMap
 
 
 @ExtendWith(SpringExtension::class)
@@ -91,6 +92,8 @@ class TestBlog {
 
     @Test
     @DirtiesContext
+    //Works by generates more SQL statements
+    //Problem seems to be that JPA annotation does not apply to extension function
     fun `read all with findById test`() {
         with(blogData) {
             logger.info("starting read all test")
@@ -106,18 +109,55 @@ class TestBlog {
 
     @Test
     @DirtiesContext
-    //Using JPQL more efficient, only one SQL statement
-    //https://www.baeldung.com/spring-data-jpa-named-entity-graphs
-    fun `read all with findById test2`() {
+    //Works generates omly one SQL
+    fun `read all with findById2 test`() {
         with(blogData) {
             logger.info("starting read all test")
             entityManager.clear()
-        //    val entityGraph = entityManager.createEntityGraph(Blog::class.java)
-        //    entityGraph.addAttributeNodes("blogEntries")
-        //    entityGraph.addAttributeNodes("language")
+            logger.info("saved")
+            val blog = blogOwner.id?.let { blogRepo.findById(it) }?.orElse(null)
+            logger.info("blog: $blog ${blog?.blogEntries?.size}")
+            assertThat(blog?.blogEntries?.size).isEqualTo(2)
+            val entries = blog?.blogEntries
+            logger.info("my entries: $entries")
+        }
+    }
+
+    @Test
+    @DirtiesContext
+    //Using JPQL more efficient, only one SQL statement
+    //https://www.baeldung.com/spring-data-jpa-named-entity-graphs
+    fun `read all with findAll test`() {
+        with(blogData) {
+            logger.info("starting read all test")
+            entityManager.clear()
             logger.info("saved")
             val blog = blogRepo.findAll()
-            logger.info("hei")
+            logger.info("blog: $blog ${blog.size}")
+            blog.forEach {
+                val entries = it.blogEntries
+                logger.info("my entries: $entries")
+            }
+        }
+    }
+
+    @Test
+    @DirtiesContext
+    //https://www.baeldung.com/jpa-entity-graph
+    fun `read with entityManager find manual entityGraph`() {
+        with(blogData) {
+            logger.info("starting read all test")
+            entityManager.clear()
+            val entityGraph = entityManager.createEntityGraph(Blog::class.java)
+            entityGraph.addAttributeNodes("language")
+            entityGraph.addAttributeNodes("blogOwner")
+            entityGraph.addAttributeNodes("blogEntries")
+            val properties: MutableMap<String, Any> = HashMap()
+            properties["javax.persistence.fetchgraph"] = entityGraph
+            logger.info("saved")
+            val blog = entityManager.find(Blog::class.java, blog.id, properties)
+            assertThat(blog?.blogEntries?.size).isEqualTo(2)
+            logger.info("Blog language: ${blog.language.language} owner: ${blog.blogOwner.id} entries: ${blog.blogEntries}")
         }
     }
 }

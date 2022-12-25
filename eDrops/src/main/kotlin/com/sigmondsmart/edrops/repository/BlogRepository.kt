@@ -4,9 +4,15 @@ import com.sigmondsmart.edrops.domain.Blog
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
 interface BlogRepository : JpaRepository<Blog, Long> {
+ //add hoc entity graph https://www.baeldung.com/spring-data-jpa-named-entity-graphs
+ @EntityGraph(attributePaths = ["language", "blogOwner","blogEntries"])
+ override fun findAll(): MutableList<Blog>
 
-   // @EntityGraph(attributePaths = {"language"})
+ @EntityGraph(attributePaths = ["language", "blogOwner", "blogEntries"])
+ override fun findById(id: Long): Optional<Blog>
+
 }

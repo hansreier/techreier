@@ -6,7 +6,8 @@ const val TAG1 = "Sea"
 const val TAG2 = "Mountain"
 const val ENTRY1 = "My first blog"
 const val ENTRY2 = "My next blog"
-const val ENTRY3 = "Modified blog"
+const val ENTRY3 = "New blog"
+const val ENTRYMOD = "Modified blog"
 const val BLOG_TAG = "Environment"
 const val SUBJECT = "Environmental issues"
 const val V1:Long  = 1
@@ -27,6 +28,7 @@ class BlogData {
     private val blog2: Blog = Blog(LocalDateTime.now(), BLOG_TAG, norwegian, SUBJECT, blogEntries2, blogOwner)
     val blogEntry: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG1, V1, ENTRY1, blog)
     private val blogEntry2: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG2, V1, ENTRY2, blog)
+    private val blogEntry3: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG2, V1, ENTRY3, blog2)
 
     init {
         val blogList = mutableListOf<Blog>()
@@ -36,5 +38,7 @@ class BlogData {
         blog.blogEntries  = blogEntries
         blog.blogEntries?.add(blogEntry)
         blog.blogEntries?.add(blogEntry2)
+        blog2.blogEntries = blogEntries2
+        blog2.blogEntries?.add(blogEntry3)
     }
 }

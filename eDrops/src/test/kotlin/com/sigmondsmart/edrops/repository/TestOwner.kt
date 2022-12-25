@@ -72,11 +72,15 @@ class TestOwner {
             logger.info("starting transactional test")
             entityManager.clear()
             logger.info("saved")
-            val myblogs = populate(blogOwner)
-            logger.info("blog: $myblogs ${myblogs.blogs?.size}")
-            assertThat(myblogs.blogs?.size).isEqualTo(2)
-            val entries = blog.blogEntries
-            logger.info("my entries: $entries")
+            val blogs = populate(blogOwner)
+            logger.info("blog: $blogs ${blogs.size}")
+            assertThat(blogs.size).isEqualTo(2)
+            blogs.forEach {
+                logger.info("my blog: $it")
+                it.blogEntries?.forEach {
+                    logger.info("my blogentry: $it")
+                }
+            }
         }
     }
 
@@ -89,7 +93,7 @@ class TestOwner {
     //https://stackoverflow.com/questions/6562673/onetomany-list-vs-set-difference
     //https://thorben-janssen.com/association-mappings-bag-list-set/
     //https://dzone.com/articles/why-set-is-better-than-list-in-manytomany
-    private fun populate(blogOwner: BlogOwner): BlogOwner {
+    private fun populate(blogOwner: BlogOwner): List<Blog> {
         logger.info("populate start")
         val queryBlog = entityManager.createQuery(
             "SELECT DISTINCT b FROM Blog b"
@@ -105,9 +109,10 @@ class TestOwner {
                     + " WHERE b in :blogs "
         )
         queryBlog2.setParameter("blogs", blogs).setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
-        val blogOwnerReturned = (queryBlog2.singleResult as Blog).blogOwner
+        val result = queryBlog2.resultList
         logger.info("populate end")
-        return blogOwnerReturned
+        @Suppress("UNCHECKED_CAST")
+        return result as MutableList<Blog>
     }
 
     @Test

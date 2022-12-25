@@ -2,8 +2,8 @@ package com.sigmondsmart.edrops.repository
 
 import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.BlogData
-import com.sigmondsmart.edrops.domain.ENTRY3
 import com.sigmondsmart.edrops.domain.ENTRY2
+import com.sigmondsmart.edrops.domain.ENTRYMOD
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -42,18 +42,18 @@ class TestBlogEntry {
     fun `basic CRUD checks`() {
         logger.info("Basic crud test")
         with(blogData) {
-            blogEntry.text = ENTRY3
+            blogEntry.text = ENTRYMOD
             val readBlogEntry = entryRepo.findByIdOrNull(2)
             assertThat(readBlogEntry?.id).isEqualTo(2)
             val blogs = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
-            assertThat(blogs).hasSize(2)
-            assertThat(blogs[0].text).isEqualTo(ENTRY3)
+            assertThat(blogs).hasSize(3)
+            assertThat(blogs[0].text).isEqualTo(ENTRYMOD)
             assertThat(blogs[1].text).isEqualTo(ENTRY2)
-            val foundBlogs = entryRepo.findByText(ENTRY3)
+            val foundBlogs = entryRepo.findByText(ENTRYMOD)
             assertThat(foundBlogs).hasSize(1)
-            assertThat(foundBlogs.first().text).isEqualTo(ENTRY3)
+            assertThat(foundBlogs.first().text).isEqualTo(ENTRYMOD)
             blog.blogEntries?.removeLast()
-            assertThat(entryRepo.count()).isEqualTo(1)
+            assertThat(entryRepo.count()).isEqualTo(2)
         }
     }
 
@@ -68,7 +68,7 @@ class TestBlogEntry {
             assertThat(blogEntry.text).isEqualTo(ENTRY2)
             assertThat(blogEntry.changed).isEqualTo(newTime)
             val blog = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
-            assertThat(blog).hasSize(2)
+            assertThat(blog).hasSize(3)
             assertThat(blog[0].text).isEqualTo(ENTRY2)
             logger.info("blog entry: ${blog[0]}")
         }
