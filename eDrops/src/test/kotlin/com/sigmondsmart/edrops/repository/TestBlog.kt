@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -106,10 +107,14 @@ class TestBlog {
     @Test
     @DirtiesContext
     //Using JPQL more efficient, only one SQL statement
+    //https://www.baeldung.com/spring-data-jpa-named-entity-graphs
     fun `read all with findById test2`() {
         with(blogData) {
             logger.info("starting read all test")
             entityManager.clear()
+        //    val entityGraph = entityManager.createEntityGraph(Blog::class.java)
+        //    entityGraph.addAttributeNodes("blogEntries")
+        //    entityGraph.addAttributeNodes("language")
             logger.info("saved")
             val blog = blogRepo.findAll()
             logger.info("hei")
