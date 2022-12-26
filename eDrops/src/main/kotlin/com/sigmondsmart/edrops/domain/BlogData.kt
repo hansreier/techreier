@@ -31,7 +31,7 @@ class BlogData {
     private val blogEntry3: BlogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG2, V1, ENTRY3, blog2)
 
     init {
-        val blogList = mutableListOf<Blog>()
+        val blogList = mutableSetOf<Blog>()
         blogOwner.blogs = blogList
         blogOwner.blogs?.add(blog)
         blogOwner.blogs?.add(blog2)

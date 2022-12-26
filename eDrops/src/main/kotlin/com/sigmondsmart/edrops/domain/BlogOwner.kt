@@ -1,6 +1,7 @@
 package com.sigmondsmart.edrops.domain
 
 import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -39,8 +40,8 @@ class BlogOwner(
 
     @Column(nullable = true)
     @OneToMany(mappedBy = "blogOwner", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var blogs: MutableList<Blog>? = null
-
+    @OrderBy("id DESC")
+    var blogs: MutableSet<Blog>? = null
 ) {
     override fun toString() = "id: $id created: $created changed: $changed name: $firstName $lastName"
 }

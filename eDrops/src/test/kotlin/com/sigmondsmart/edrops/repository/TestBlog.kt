@@ -153,10 +153,10 @@ class TestBlog {
             entityGraph.addAttributeNodes("language")
             entityGraph.addAttributeNodes("blogOwner")
             entityGraph.addAttributeNodes("blogEntries")
-            val properties: MutableMap<String, Any> = HashMap()
-            properties["javax.persistence.fetchgraph"] = entityGraph
+            val hints: MutableMap<String, Any> = HashMap()
+            hints["javax.persistence.fetchgraph"] = entityGraph
             logger.info("saved")
-            val blog = entityManager.find(Blog::class.java, blog.id, properties)
+            val blog = entityManager.find(Blog::class.java, blog.id, hints)
             assertThat(blog?.blogEntries?.size).isEqualTo(2)
             logger.info("Blog language: ${blog.language.language} owner: ${blog.blogOwner.id} entries: ${blog.blogEntries}")
         }

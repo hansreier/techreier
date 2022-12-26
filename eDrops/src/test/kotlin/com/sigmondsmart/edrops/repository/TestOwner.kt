@@ -174,12 +174,12 @@ class TestOwner {
             entityGraph.addAttributeNodes("blogs")
             blogGraph.addAttributeNodes("language")
             blogGraph.addAttributeNodes("blogEntries")
-            val properties: MutableMap<String, Any> = HashMap()
-            properties["javax.persistence.fetchgraph"] = entityGraph
+            val hints: MutableMap<String, Any> = HashMap()
+            hints["javax.persistence.fetchgraph"] = entityGraph
             logger.info("saved")
-            val blogOwner = entityManager.find(BlogOwner::class.java, blog.id, properties)
-            logger.info("Blog language: ${blogOwner.blogs?.get(0)?.language} owner: ${blogOwner.id}" + "" +
-                    " entries: ${blogOwner.blogs?.get(0)?.blogEntries}")
+            val blogOwner = entityManager.find(BlogOwner::class.java, blog.id, hints)
+            logger.info("Blog language: ${blogOwner.blogs?.first()?.language} owner: ${blogOwner.id}" + "" +
+                    " entries: ${blogOwner.blogs?.first()?.blogEntries}")
         }
     }
 }
