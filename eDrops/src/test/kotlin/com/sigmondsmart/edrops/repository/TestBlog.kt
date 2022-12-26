@@ -92,8 +92,9 @@ class TestBlog {
 
     @Test
     @DirtiesContext
-    //Works by generates more SQL statements
+    //Works but generates more SQL statements
     //Problem seems to be that JPA annotation does not apply to extension function
+    //I did many attempts to get it to work.
     fun `read all with findById test`() {
         with(blogData) {
             logger.info("starting read all test")
@@ -109,7 +110,7 @@ class TestBlog {
 
     @Test
     @DirtiesContext
-    //Works generates omly one SQL
+    //Works, generates only one SQL
     fun `read all with findById2 test`() {
         with(blogData) {
             logger.info("starting read all test")

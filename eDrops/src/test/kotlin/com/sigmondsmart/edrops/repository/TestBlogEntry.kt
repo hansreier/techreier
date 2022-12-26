@@ -52,7 +52,7 @@ class TestBlogEntry {
             val foundBlogs = entryRepo.findByText(ENTRYMOD)
             assertThat(foundBlogs).hasSize(1)
             assertThat(foundBlogs.first().text).isEqualTo(ENTRYMOD)
-            blog.blogEntries?.removeLast()
+            blog.blogEntries?.remove(blogEntry)
             assertThat(entryRepo.count()).isEqualTo(2)
         }
     }

@@ -16,6 +16,10 @@ import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
+import javax.persistence.Subgraph
+
+
+
 
 
 @ExtendWith(SpringExtension::class)
@@ -133,6 +137,49 @@ class TestOwner {
                     logger.info("my blogentry: $it")
                 }
             }
+        }
+    }
+
+    @Test
+    @DirtiesContext
+    //Works, generates only one SQL
+    fun `read all with findById2 test`() {
+        with(blogData) {
+            logger.info("starting read all test")
+            entityManager.clear()
+            logger.info("saved")
+            val owner = blogOwner.id?.let { ownerRepo.findById(it) }?.orElse(null)
+            logger.info("owner: $owner $owner?.blogEntries?.size}")
+            assertThat(owner?.blogs?.size).isEqualTo(2)
+            val blogs = owner?.blogs
+            logger.info("my blogs: $blogs")
+            blogs?.forEach {
+                logger.info("my blog: $it")
+                it.blogEntries?.forEach {
+                    logger.info("my blogentry: $it")
+                }
+            }
+        }
+    }
+
+    @Test
+    @DirtiesContext
+    //https://www.baeldung.com/jpa-entity-graph
+    fun `read with entityManager find manual entityGraph`() {
+        with(blogData) {
+            logger.info("starting read all test")
+            entityManager.clear()
+            val entityGraph = entityManager.createEntityGraph(BlogOwner::class.java)
+            val blogGraph: Subgraph<Blog> = entityGraph.addSubgraph("blogs")
+            entityGraph.addAttributeNodes("blogs")
+            blogGraph.addAttributeNodes("language")
+            blogGraph.addAttributeNodes("blogEntries")
+            val properties: MutableMap<String, Any> = HashMap()
+            properties["javax.persistence.fetchgraph"] = entityGraph
+            logger.info("saved")
+            val blogOwner = entityManager.find(BlogOwner::class.java, blog.id, properties)
+            logger.info("Blog language: ${blogOwner.blogs?.get(0)?.language} owner: ${blogOwner.id}" + "" +
+                    " entries: ${blogOwner.blogs?.get(0)?.blogEntries}")
         }
     }
 }
