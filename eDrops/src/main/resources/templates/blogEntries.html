@@ -1,31 +1,21 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Spring Boot Thymeleaf eDrops test web page</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-<link rel="stylesheet" type="text/css"
-	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
-
-<link rel="stylesheet" th:href="@{/css/main.css}"
-	href="../../css/main.css" />
-
+	<title>Spring Boot Thymeleaf eDrops test web page</title>
+	<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /-->
+	<meta charset="UTF-8" />
+	<!--style>
+		body {background-color: powderblue;}
+		h1   {color: red;}
+	</style-->
+	<!--link th:href="@{/css/main.css}" rel="stylesheet" type="text/css"-->
+	<link rel="stylesheet" th:href="@{/css/styles2.css}" />
+	<!--link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/-->
+	<!--link rel="stylesheet" type="text/css" href="/static/css/styles2.css"-->
 </head>
 <body>
-
-	<nav class="navbar navbar-inverse">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Spring Boot</a>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-
+	<h1>My blogs</h1>
+	<h2>My blog entries</h2>
 	<div class="container">
 		<div th:each="blogEntry : ${blogEntries}">
 			<a th:text="${blogEntry.text}"></a>

@@ -14,9 +14,15 @@ spring:
     password: sa
   h2:
     console.enabled: true
+  # Required for development instant change
   thymeleaf:
     cache: false
     enabled: true
+  web:
+    resources:
+      static-locations: file:src/main/resources/static/
+      cache:
+        period: 0
 ---
 spring:
   config:

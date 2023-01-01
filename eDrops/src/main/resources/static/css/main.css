@@ -1,7 +1,10 @@
-h1{
-	color:#0000FF;
+h1 {
+	color:red;
+	font-family: sans-serif;
+	font-size: 5em;
+	text-transform: uppercase;
 }
 
-h2{
-	color:#FF0000;
+h2 {
+	color:blue;
 }
