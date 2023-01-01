@@ -12,7 +12,11 @@ spring:
 #   url: jdbc:h2:file:/data/mydb1
     username: sa
     password: sa
-  console.enabled: true
+  h2:
+    console.enabled: true
+  thymeleaf:
+    cache: false
+    enabled: true
 ---
 spring:
   config:

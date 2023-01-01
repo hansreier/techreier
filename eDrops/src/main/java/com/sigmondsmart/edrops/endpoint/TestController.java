@@ -1,4 +1,4 @@
-package endpoint;
+package com.sigmondsmart.edrops.endpoint;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //@RestController is for web services.
 @Controller
 @RequestMapping("/")
-public class EDropsController {
+public class TestController {
 
 	// inject via application.properties
-	@Value("${welcome.message}")
-	private String message = "Hello World";
+	@Value("${welcome.message} farwell")
+	private String message = "Hello World goodby cruel world";
 
-	@RequestMapping({ "/", "/greeting" })
+	@RequestMapping({ "/end", "/goodby" })
 	public String welcome(Model model) {
 		model.addAttribute("message", this.message);
+		model.addAttribute("messageJ","huffsann");
 		return "welcome";
 	}
 }
