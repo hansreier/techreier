@@ -55,13 +55,13 @@ class TestBlog {
             val blogEntrySaved = entryRepo.findByIdOrNull(blogEntry.id)
             assertThat(blogEntrySaved?.id).isEqualTo(blogEntry.id)
             logger.info("blogEntry: $blogEntry")
-            blogRepo.delete(blog)
+            blogRepo.delete(blog1)
             logger.info("Reier Deleted")
             val blogEntryDeleted = entryRepo.findByIdOrNull(blogEntry.id)
             assertThat(blogEntryDeleted).isNull()
             logger.info("completed")
             blogRepo.flush()
-            blog.blogEntries?.clear() // or else inconsistency if more processing
+            blog1.blogEntries?.clear() // or else inconsistency if more processing
         }
     }
 
@@ -72,7 +72,7 @@ class TestBlog {
             logger.info("starting transactional test")
             entityManager.clear()
             logger.info("saved")
-            val blog = blog.id?.let { populate(it) }
+            val blog = blog1.id?.let { populate(it) }
             logger.info("blog: $blog ${blog?.blogEntries?.size}")
             assertThat(blog?.blogEntries?.size).isEqualTo(2)
             assertThat(blog?.language?.language).isEqualTo(NORWEGIAN)
@@ -156,7 +156,7 @@ class TestBlog {
             val hints: MutableMap<String, Any> = HashMap()
             hints["javax.persistence.fetchgraph"] = entityGraph
             logger.info("saved")
-            val blog = entityManager.find(Blog::class.java, blog.id, hints)
+            val blog = entityManager.find(Blog::class.java, blog1.id, hints)
             assertThat(blog?.blogEntries?.size).isEqualTo(2)
             logger.info("Blog language: ${blog.language.language} owner: ${blog.blogOwner.id} entries: ${blog.blogEntries}")
         }

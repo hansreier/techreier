@@ -20,15 +20,19 @@ class BlogEntry(
     var version: Long,
 
     @Column
-    var text: String, //Should really be moved to another entity
+    var title: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "blogs", nullable = false)
     var blog: Blog,
 
+    @OneToOne(cascade = [CascadeType.ALL])
+    @PrimaryKeyJoinColumn
+    var blogText: BlogText?=null,
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?=null
 ) {
-    override fun toString() = "id: $id blog: $blog created: $created changed: $changed text: $text"
+    override fun toString() = "id: $id blog: $blog created: $created changed: $changed text: $title"
 }

@@ -188,6 +188,12 @@
 			</plugin>
 
 		</plugins>
+		<resources>
+			<resource>
+				<!-- For Intellij to detect this as standard web directory, TODO check OK after deploy -->
+				<directory>${basedir}/src/main/resources</directory>
+			</resource>
+		</resources>
 	</build>
 
 	<dependencies>

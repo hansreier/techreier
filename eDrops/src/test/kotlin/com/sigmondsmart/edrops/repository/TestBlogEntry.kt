@@ -42,17 +42,17 @@ class TestBlogEntry {
     fun `basic CRUD checks`() {
         logger.info("Basic crud test")
         with(blogData) {
-            blogEntry.text = ENTRYMOD
+            blogEntry.title = ENTRYMOD
             val readBlogEntry = entryRepo.findByIdOrNull(2)
             assertThat(readBlogEntry?.id).isEqualTo(2)
             val blogs = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
             assertThat(blogs).hasSize(3)
-            assertThat(blogs[0].text).isEqualTo(ENTRYMOD)
-            assertThat(blogs[1].text).isEqualTo(ENTRY2)
-            val foundBlogs = entryRepo.findByText(ENTRYMOD)
+            assertThat(blogs[0].title).isEqualTo(ENTRYMOD)
+            assertThat(blogs[1].title).isEqualTo(ENTRY2)
+            val foundBlogs = entryRepo.findByTitle(ENTRYMOD)
             assertThat(foundBlogs).hasSize(1)
-            assertThat(foundBlogs.first().text).isEqualTo(ENTRYMOD)
-            blog.blogEntries?.remove(blogEntry)
+            assertThat(foundBlogs.first().title).isEqualTo(ENTRYMOD)
+            blog1.blogEntries?.remove(blogEntry)
             assertThat(entryRepo.count()).isEqualTo(2)
         }
     }
@@ -63,13 +63,13 @@ class TestBlogEntry {
         with(blogData) {
             logger.info("blogOwner: $blogOwner")
             val newTime = LocalDateTime.now()
-            blogEntry.text = ENTRY2
+            blogEntry.title = ENTRY2
             blogEntry.changed = newTime
-            assertThat(blogEntry.text).isEqualTo(ENTRY2)
+            assertThat(blogEntry.title).isEqualTo(ENTRY2)
             assertThat(blogEntry.changed).isEqualTo(newTime)
             val blog = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
             assertThat(blog).hasSize(3)
-            assertThat(blog[0].text).isEqualTo(ENTRY2)
+            assertThat(blog[0].title).isEqualTo(ENTRY2)
             logger.info("blog entry: ${blog[0]}")
         }
     }

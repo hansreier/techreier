@@ -59,7 +59,7 @@ class TestOwner {
             logger.info("blogEntry: $blogEntry")
             ownerRepo.delete(blogOwner)
             logger.info("Reier Deleted")
-            val blogDeleted = blogRepo.findByIdOrNull(blog.id)
+            val blogDeleted = blogRepo.findByIdOrNull(blog1.id)
             assertThat(blogDeleted).isNull()
             val blogEntryDeleted = entryRepo.findByIdOrNull(blogEntry.id)
             assertThat(blogEntryDeleted).isNull()
@@ -177,7 +177,7 @@ class TestOwner {
             val hints: MutableMap<String, Any> = HashMap()
             hints["javax.persistence.fetchgraph"] = entityGraph
             logger.info("saved")
-            val blogOwner = entityManager.find(BlogOwner::class.java, blog.id, hints)
+            val blogOwner = entityManager.find(BlogOwner::class.java, blog1.id, hints)
             logger.info("Blog language: ${blogOwner.blogs?.first()?.language} owner: ${blogOwner.id}" + "" +
                     " entries: ${blogOwner.blogs?.first()?.blogEntries}")
         }

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface BlogEntryRepository : JpaRepository<BlogEntry, Long> {
   //  fun getBlogEntry(id: Long): BlogEntry?
-  fun findByText(text: String): Iterable<BlogEntry>
+  fun findByTitle(text: String): Iterable<BlogEntry>
 }
