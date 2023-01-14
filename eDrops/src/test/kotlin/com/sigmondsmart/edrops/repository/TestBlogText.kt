@@ -11,15 +11,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
 class TestBlogText {
-
-    @PersistenceContext
-    private lateinit var entityManager: EntityManager
 
     @Autowired
     lateinit var ownerRepo: BlogOwnerRepository
@@ -43,8 +38,9 @@ class TestBlogText {
     fun `basic CRUD checks`() {
         logger.info("Basic crud test")
         with(blogData) {
-            blogEntry.id?.let { entityManager.persist(BlogText(TEXT1, blogEntry, it)) }
-            entityManager.flush()
+            blogEntry.id?.let {
+                blogTextRepo.saveAndFlush(BlogText(TEXT1, blogEntry, it))
+            }
             val blogTextFound = blogTextRepo.findByIdOrNull(blogEntry.id)
             assertThat(blogTextFound).isNotNull
             assertThat(blogTextFound?.text).isEqualTo(TEXT1)

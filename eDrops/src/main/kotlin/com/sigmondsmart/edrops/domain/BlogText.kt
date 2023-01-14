@@ -11,7 +11,6 @@ class BlogText(
     //Note: Bidirectional relationship one to one creates trouble with eager fetching
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "id", nullable = false)
     var blogEntry: BlogEntry,
 
     @Id
