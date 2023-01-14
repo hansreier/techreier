@@ -23,12 +23,8 @@ class BlogEntry(
     var title: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "blogs", nullable = false)
+    @JoinColumn(name = "blogEntries", nullable = false)
     var blog: Blog,
-
-    @OneToOne(cascade = [CascadeType.ALL])
-    @PrimaryKeyJoinColumn
-    var blogText: BlogText?=null,
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

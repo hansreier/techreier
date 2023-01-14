@@ -27,6 +27,11 @@ const val TEXT2 = """
     Så ble det isglatt og iskaldt.
     """
 
+const val TEXT3 = """
+    Det er tydeligvis helt umulig med toveis relasjon for Hibernate på en til en relasjoner.
+    Jeg har gitt opp å gjøre noe med det etter mange forsøk.
+    """
+
 // Initial populate table. Temporary. Move later back to test
 class BlogData {
     val norwegian: LanguageCode = LanguageCode(NORWEGIAN, NO)
@@ -40,10 +45,11 @@ class BlogData {
     val blog1 = Blog(LocalDateTime.now(), BLOG_TAG, norwegian, SUBJECT, blogEntries, blogOwner)
     private val blog2 = Blog(LocalDateTime.now(), BLOG_TAG, norwegian, SUBJECT, blogEntries2, blogOwner)
     val blogEntry = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG1, V1, ENTRY1, blog1 )
-    private val blogText1 = blogEntry.id?.let { BlogText(TEXT1, blogEntry, it) }
+ //   val blogText1 = blogEntry.id?.let { BlogText(TEXT1, blogEntry, it) }
     private val blogEntry2  = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG2, V1, ENTRY2, blog1)
-    private val blogText2 = blogEntry.id?.let { BlogText(TEXT2, blogEntry2, it) }
+ //   val blogText2 = blogEntry.id?.let { BlogText(TEXT2, blogEntry2, it) }
     private val blogEntry3 = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG2, V1, ENTRY3, blog2)
+ //   val blogText3 = blogEntry.id?.let { BlogText(TEXT3, blogEntry2, it) }
 
     init {
         val blogList = mutableSetOf<Blog>()
@@ -55,7 +61,5 @@ class BlogData {
         blog1.blogEntries?.add(blogEntry2)
         blog2.blogEntries = blogEntries2
         blog2.blogEntries?.add(blogEntry3)
-        blogEntry.blogText = blogText1
-        blogEntry2.blogText = blogText2
     }
 }

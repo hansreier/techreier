@@ -8,14 +8,14 @@ class BlogText(
     @Column
     var text: String,
 
-    @OneToOne
+    //Note: Bidirectional relationship one to one creates trouble with eager fetching
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "blogEntry", nullable = false)
+    @JoinColumn(name = "id", nullable = false)
     var blogEntry: BlogEntry,
 
     @Id
-    @Column
-    val id: Long
+    val id: Long? = null
 ) {
     override fun toString() = "id: $id"
 }
