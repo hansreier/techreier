@@ -44,6 +44,14 @@ class TestBlogText {
             val blogTextFound = blogTextRepo.findByIdOrNull(blogEntry.id)
             assertThat(blogTextFound).isNotNull
             assertThat(blogTextFound?.text).isEqualTo(TEXT1)
+            blogTextFound?.text = TEXT2
+            blogTextRepo.flush()
+            val blogTexts = blogTextRepo.findAll()
+            assertThat(blogTexts).isNotNull
+            assertThat(blogTexts.size).isEqualTo(1)
+            assertThat(blogTexts[0]?.text).isEqualTo(TEXT2)
+            blogTextRepo.delete(blogTexts[0])
+            assertThat(blogTextRepo.count()).isEqualTo(0)
         }
     }
 }
