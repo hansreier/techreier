@@ -38,10 +38,10 @@ class TestBlogText {
     fun `basic CRUD checks`() {
         logger.info("Basic crud test")
         with(blogData) {
-            blogEntry.id?.let {
-                blogTextRepo.saveAndFlush(BlogText(TEXT1, blogEntry, it))
+            blogEntry1.id?.let {
+                blogTextRepo.saveAndFlush(BlogText(TEXT1, blogEntry1, it))
             }
-            val blogTextFound = blogTextRepo.findByIdOrNull(blogEntry.id)
+            val blogTextFound = blogTextRepo.findByIdOrNull(blogEntry1.id)
             assertThat(blogTextFound).isNotNull
             assertThat(blogTextFound?.text).isEqualTo(TEXT1)
             blogTextFound?.text = TEXT2

@@ -9,5 +9,15 @@ https://kotlination.com/kotlin-spring-jpa-postgresql-spring-boot-example/
 https://medium.com/swlh/defining-jpa-hibernate-entities-in-kotlin-1ff8ee470805
 
 Thymeleaf is used for server side rendering HTML pages. For simplicity 
-client side frameworks is not used to create Web GUI in this application. 
+client side frameworks is not used to create Web GUI in this application.
+## Development
+Make sure that Facets are set correctly in project settings in Intellij
+- JPA
+- Kotlin
+- Spring - and set up application context
+- Web
+Or else thymeleaf syntax checking will not work properly
+
+https://www.baeldung.com/dates-in-thymeleaf
+
 

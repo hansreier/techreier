@@ -17,10 +17,18 @@
 	<h1>My blogs</h1>
 	<h2>My blog entries</h2>
 	<div class="container">
-		<div th:each="blogEntry : ${blogEntries}">
-			<a th:text="${blogEntry.text}"></a>
-		</div>
+		<table id="blogentries">
+			<tr>
+				<th>blogg tittel</th>
+				<th>opprettet</th>
+				<th>endret</th>
+			</tr>
+			<tr th:each="blogEntry : ${blogEntries}">
+				<td th:text="${blogEntry.title}"></td>
+				<td th:text="${#temporals.format(blogEntry.created,'dd-MM-yyy HH:mm')}"></td>
+				<td th:text="${#temporals.format(blogEntry.changed,'dd-MM-yyy HH:mm')}"></td>
+			</tr>
+		</table>
 	</div>
-
 </body>
 </html>

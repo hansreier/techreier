@@ -54,14 +54,14 @@ class TestOwner {
     fun `cascade delete test`() {
         with(blogData) {
             logger.info("starting transactional test")
-            val blogEntrySaved = entryRepo.findByIdOrNull(blogEntry.id)
-            assertThat(blogEntrySaved?.id).isEqualTo(blogEntry.id)
-            logger.info("blogEntry: $blogEntry")
+            val blogEntrySaved = entryRepo.findByIdOrNull(blogEntry1.id)
+            assertThat(blogEntrySaved?.id).isEqualTo(blogEntry1.id)
+            logger.info("blogEntry: $blogEntry1")
             ownerRepo.delete(blogOwner)
             logger.info("Reier Deleted")
             val blogDeleted = blogRepo.findByIdOrNull(blog1.id)
             assertThat(blogDeleted).isNull()
-            val blogEntryDeleted = entryRepo.findByIdOrNull(blogEntry.id)
+            val blogEntryDeleted = entryRepo.findByIdOrNull(blogEntry1.id)
             assertThat(blogEntryDeleted).isNull()
             logger.info("completed")
             ownerRepo.flush()

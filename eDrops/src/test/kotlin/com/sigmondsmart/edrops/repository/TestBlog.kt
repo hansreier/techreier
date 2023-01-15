@@ -1,10 +1,7 @@
 package com.sigmondsmart.edrops.repository
 
 import com.sigmondsmart.edrops.config.logger
-import com.sigmondsmart.edrops.domain.Blog
-import com.sigmondsmart.edrops.domain.BlogData
-import com.sigmondsmart.edrops.domain.NO
-import com.sigmondsmart.edrops.domain.NORWEGIAN
+import com.sigmondsmart.edrops.domain.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -52,12 +49,12 @@ class TestBlog {
     fun `cascade delete test`() {
         with(blogData) {
             logger.info("starting transactional test")
-            val blogEntrySaved = entryRepo.findByIdOrNull(blogEntry.id)
-            assertThat(blogEntrySaved?.id).isEqualTo(blogEntry.id)
-            logger.info("blogEntry: $blogEntry")
+            val blogEntrySaved = entryRepo.findByIdOrNull(blogEntry1.id)
+            assertThat(blogEntrySaved?.id).isEqualTo(blogEntry1.id)
+            logger.info("blogEntry: $blogEntry1")
             blogRepo.delete(blog1)
             logger.info("Reier Deleted")
-            val blogEntryDeleted = entryRepo.findByIdOrNull(blogEntry.id)
+            val blogEntryDeleted = entryRepo.findByIdOrNull(blogEntry1.id)
             assertThat(blogEntryDeleted).isNull()
             logger.info("completed")
             blogRepo.flush()
@@ -74,7 +71,7 @@ class TestBlog {
             logger.info("saved")
             val blog = blog1.id?.let { populate(it) }
             logger.info("blog: $blog ${blog?.blogEntries?.size}")
-            assertThat(blog?.blogEntries?.size).isEqualTo(2)
+            assertThat(blog?.blogEntries?.size).isEqualTo(NO_ENTRIES)
             assertThat(blog?.language?.language).isEqualTo(NORWEGIAN)
             assertThat(blog?.language?.code).isEqualTo(NO)
             val entries = blog?.blogEntries
@@ -102,7 +99,7 @@ class TestBlog {
             logger.info("saved")
             val blog = blogRepo.findByIdOrNull(blogOwner.id)
             logger.info("blog: $blog ${blog?.blogEntries?.size}")
-            assertThat(blog?.blogEntries?.size).isEqualTo(2)
+            assertThat(blog?.blogEntries?.size).isEqualTo(NO_ENTRIES)
             val entries = blog?.blogEntries
             logger.info("my entries: $entries")
         }
@@ -118,7 +115,7 @@ class TestBlog {
             logger.info("saved")
             val blog = blogOwner.id?.let { blogRepo.findById(it) }?.orElse(null)
             logger.info("blog: $blog ${blog?.blogEntries?.size}")
-            assertThat(blog?.blogEntries?.size).isEqualTo(2)
+            assertThat(blog?.blogEntries?.size).isEqualTo(NO_ENTRIES)
             val entries = blog?.blogEntries
             logger.info("my entries: $entries")
         }
@@ -157,7 +154,7 @@ class TestBlog {
             hints["javax.persistence.fetchgraph"] = entityGraph
             logger.info("saved")
             val blog = entityManager.find(Blog::class.java, blog1.id, hints)
-            assertThat(blog?.blogEntries?.size).isEqualTo(2)
+            assertThat(blog?.blogEntries?.size).isEqualTo(NO_ENTRIES)
             logger.info("Blog language: ${blog.language.language} owner: ${blog.blogOwner.id} entries: ${blog.blogEntries}")
         }
     }
