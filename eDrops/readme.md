@@ -10,6 +10,7 @@ https://medium.com/swlh/defining-jpa-hibernate-entities-in-kotlin-1ff8ee470805
 
 Thymeleaf is used for server side rendering HTML pages. For simplicity 
 client side frameworks is not used to create Web GUI in this application.
+
 ## Development
 Make sure that Facets are set correctly in project settings in Intellij
 - JPA
@@ -18,6 +19,17 @@ Make sure that Facets are set correctly in project settings in Intellij
 - Web
 Or else thymeleaf syntax checking will not work properly
 
+For development include Spring boot devtools and set
+thymeleaf.cache: false
+thymeleaf.enabled: true
+in config.
+
+This enables quick rebuild in Intellij with minimal rebuilding.
+User the Build Project button in Intellij. The browser preview in Intellij 
+does not show Thymeleaf tags, so not very useful. So you have to start the 
+server.
+
 https://www.baeldung.com/dates-in-thymeleaf
+
 
 

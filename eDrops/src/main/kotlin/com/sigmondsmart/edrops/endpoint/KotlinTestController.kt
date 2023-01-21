@@ -36,7 +36,7 @@ class KotlinTestController(private val dbService: DbService)
 
     @RequestMapping("/read")
     fun read(model: Model): String {
-        dbService.readBlog()
+        dbService.readFirstBlog(1)
         return "welcome"
     }
 }

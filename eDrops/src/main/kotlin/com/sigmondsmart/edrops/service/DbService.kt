@@ -1,8 +1,10 @@
 package com.sigmondsmart.edrops.service
 
 import com.sigmondsmart.edrops.config.logger
+import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.domain.BlogData
 import com.sigmondsmart.edrops.repository.BlogOwnerRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -14,18 +16,11 @@ class DbService(private val ownerRepo: BlogOwnerRepository) {
         logger.info("saved")
     }
 
-    fun readBlog() {
+    fun readFirstBlog(blogOwnerId: Long): Blog? {
         logger.info("Read blog")
-    val blog = ownerRepo.findAll()
-        logger.info("blogOwner: $blog")
-        blog.forEach {
-            it.blogs?.forEach {
-                logger.info("Blogs $it")
-                it.blogEntries?.forEach {
-                    logger.info("BlogEntries $it")
-                }
-            }
-        }
+    val blogOwner = ownerRepo.findByIdOrNull(blogOwnerId)
+    val firstBlog =  blogOwner?.blogs?.last()
+        logger.info("blogOwner: $blogOwner")
+        return firstBlog
     }
-
 }
