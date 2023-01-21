@@ -10,13 +10,14 @@
     </appender>
 
     <logger name="org.springframework" level="WARN" />
-    <logger name="org.springframework.test" level="INFO" />
-    <logger name="com.sigmondsmart.edrops" level="DEBUG" />
-    <logger name="org.hibernate" level="WARN" />
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />
-    <logger name="org.hibernate.SQL" level="DEBUG" />
+    <!--logger name="org.springframework.test" level="INFO" /-->
+    <!--logger name="com.sigmondsmart.edrops" level="DEBUG" /-->
+    <!--logger name="org.hibernate" level="INFO" /-->
+    <logger name="org.hibernate.testing.cache" level="ERROR" />
+    <!--logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" /-->
+    <!--logger name="org.hibernate.SQL" level="DEBUG" /-->
 
-    <root level="info">
+    <root level="WARN">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
