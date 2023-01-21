@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:data-th="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Spring Boot Thymeleaf eDrops test web page</title>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/styles2.css}" />
+</head>
+<body>
+	<h1>My blogs</h1>
+	<h2>My blog entries</h2>
+	<div class="container">
+		<div data-th:each="blogEntry : ${blogEntries}">
+			<a data-th:text="${blogEntry.title}"></a>
+			<a data-th:text="${#temporals.format(blogEntry.changed,'dd-MM-yyy HH:mm')}"></a>
+		</div>
+	</div>
+</body>
+</html>
