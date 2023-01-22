@@ -20,7 +20,7 @@ Make sure that Facets are set correctly in project settings in Intellij
 Or else thymeleaf syntax checking will not work properly
 
 For development include Spring boot devtools and set
-thymeleaf.cache: false
+thymeleaf.cache: false           
 thymeleaf.enabled: true
 in config.
 
@@ -28,6 +28,14 @@ This enables quick rebuild in Intellij with minimal rebuilding.
 User the Build Project button in Intellij. The browser preview in Intellij 
 does not show Thymeleaf tags, so not very useful. So you have to start the 
 server.
+
+Add the Chrome LiveReload plugin.
+
+Note: Still have to press the Intellij Build button, but no browser refresh is required.
+
+
+
+
 
 https://www.baeldung.com/dates-in-thymeleaf
 
