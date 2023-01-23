@@ -165,6 +165,8 @@ class TestOwner {
     @Test
     @DirtiesContext
     //https://www.baeldung.com/jpa-entity-graph
+    //Correct result only if blogs is defined as a set and not as a list in blogOwner
+    //Problem is that hibernate generate left outer joins.
     fun `read with entityManager find manual entityGraph`() {
         with(blogData) {
             logger.info("starting read all test")
