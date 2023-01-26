@@ -5,8 +5,7 @@ import com.sigmondsmart.edrops.service.DbService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 
 @Controller
 @RequestMapping("/")
@@ -26,6 +25,12 @@ class BlogEntriesController(private val dbService: DbService)
         model.addAttribute("blogEntries", fetchBlogEntries())
         log.info("Fetch Reiers blog entries with text")
         return "blogTexts"
+    }
+
+    @PostMapping("/blogtexts")
+    fun getBlog(blog: String): String {
+        log.info("valgt: $blog")
+        return "redirect:/"
     }
 
     private fun fetchBlogEntries(): MutableList<BlogEntry>? {
