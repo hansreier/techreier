@@ -6,6 +6,7 @@ import com.sigmondsmart.edrops.service.DbService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 
@@ -33,6 +34,12 @@ class EDropsStartController(private val dbService: DbService)
     fun checkEventForm(model: Model): String? {
         logger.info("Reier was here stupid")
         //model.getAttribute()
+        return "redirect:/"
+    }
+
+    @PostMapping("/blogs")
+    fun getBlog(blog: String): String {
+        logger.info("valgt: $blog")
         return "redirect:/"
     }
 

@@ -11,7 +11,7 @@
     <link rel="stylesheet" th:href="@{/css/styles2.css}"/>
 </head>
 <body>
-
+<p id="start"></p>
 <div class="navbar">
     <a class="active" href="#home">Home</a>
     <a href="#news">News</a>
@@ -22,19 +22,22 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <a href="#">Link 1</a>
-            <a href="#">Link 2</a>
-            <a href="#">Link 3</a>
-            <form th:action="@{/blogtexts}" th:method="post">
-                <select class="form-control" id="dropDownList" name="blog">
-                    <option th:each="blog : ${blogs}" th:value="${blog.subject}" th:text="${blog.subject}"></option>
-                </select>
-
-                <input type="hidden"/>
-                <button type="submit">Not in time</button>
+            <a href="#start">Link 1</a>
+            <a href="#start">Link 2</a>
+            <a href="#start">Link 3</a>
+            <a href="#start">Link 4</a>
+            <a href="#start">Link 5</a>
+            <form th:action="@{/blogs}" th:method="post">
+                <ul>
+                    <li th:each="blog: ${blogs}">
+                        <!--button name="blog" type="submit" th:value="${blog.subject}" th:text="${blog.subject}"></button-->
+                        <input name="blog" type="submit" th:value="${blog.subject}">
+                     </li>
+                 </ul>
             </form>
+
             <span th:each="blog : ${blogs}">
-                <a href="#" th:text="${blog.subject}"></a>
+                <a href="/" th:text="${blog.subject}"></a>
             </span>
         </div>
     </div>
