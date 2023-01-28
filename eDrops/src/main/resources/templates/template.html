@@ -18,7 +18,7 @@
     <a href="#contact">Contact</a>
     <a href="#about">About</a>
     <div class="dropdown">
-        <button class="dropbtn">Blogs
+        <button class="dropdown-btn">Blogs
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
@@ -31,7 +31,7 @@
                 <ul>
                     <li th:each="blog: ${blogs}">
                         <!--button name="blog" type="submit" th:value="${blog.subject}" th:text="${blog.subject}"></button-->
-                        <input name="blog" type="submit" th:value="${blog.subject}">
+                        <input class="dropdown-button" name="blog" type="submit" th:value="${blog.subject}">
                      </li>
                  </ul>
             </form>
