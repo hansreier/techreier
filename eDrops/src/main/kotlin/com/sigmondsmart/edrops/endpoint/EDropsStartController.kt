@@ -18,7 +18,7 @@ class EDropsStartController(private val dbService: DbService)
     @Value("\${welcome.message} from Kotlin")
     private val message = "Hello World"
 
-    @RequestMapping("/kotlin2", "/")
+    @RequestMapping( "/")
     fun welcome(model: Model): String {
         model.addAttribute("message", message)
         model.addAttribute("message1", "from Kotlin")
@@ -46,6 +46,5 @@ class EDropsStartController(private val dbService: DbService)
     private fun fetchBlogs(): MutableSet<Blog>? {
         val blogs = dbService.readOwner(1)?.blogs
         return blogs
-      //  return dbService.readOwner(1)?.blogs
     }
 }
