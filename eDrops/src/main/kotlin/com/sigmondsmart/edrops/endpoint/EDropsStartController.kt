@@ -37,7 +37,8 @@ class EDropsStartController(private val dbService: DbService)
         //model.getAttribute()
         return "redirect:/"
     }
-
+    // Overføre attributter mellom ulike views.
+    // https://www.thymeleaf.org/doc/articles/springmvcaccessdata.html
     @PostMapping("/blogs")
     fun getBlog(blog: String): String {
         logger.info("valgt: $blog")
