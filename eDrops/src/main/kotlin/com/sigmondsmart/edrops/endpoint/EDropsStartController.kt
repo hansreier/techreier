@@ -20,6 +20,7 @@ class EDropsStartController(private val dbService: DbService)
 
     @RequestMapping( "/")
     fun welcome(model: Model): String {
+        logger.info("welcome")
         model.addAttribute("message", message)
         model.addAttribute("message1", "from Kotlin")
         model.addAttribute("blogs", fetchBlogs())

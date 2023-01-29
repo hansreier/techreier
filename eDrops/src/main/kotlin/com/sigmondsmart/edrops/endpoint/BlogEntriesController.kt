@@ -29,4 +29,8 @@ class BlogEntriesController(private val dbService: DbService)
     private fun fetchBlogEntries(): MutableList<BlogEntry>? {
         return dbService.readFirstBlog(1)?.blogEntries
     }
+
+    private fun fetchBlogEntriesAndText(): MutableList<BlogEntry>? {
+        return dbService.readFirstBlog(1)?.blogEntries
+    }
 }

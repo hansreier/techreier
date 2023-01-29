@@ -28,8 +28,8 @@
             <form th:action="@{/blogs}" th:method="post">
                 <ul>
                     <li th:each="blog: ${blogs}">
-                        <!--button name="blog" type="submit" th:value="${blog.subject}" th:text="${blog.subject}"></button-->
-                        <input class="dropdown-button" name="blog" type="submit" th:value="${blog.subject}">
+                        <button class=dropdown-button name="blog" type="submit" th:value="${blog.id}" th:text="${blog.subject}"></button>
+                        <!--input class="dropdown-button" name="blog" type="submit" th:value="${blog.subject}"-->
                      </li>
                  </ul>
             </form>

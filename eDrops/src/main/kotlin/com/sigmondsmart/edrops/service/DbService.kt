@@ -5,11 +5,12 @@ import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.domain.BlogData
 import com.sigmondsmart.edrops.domain.BlogOwner
 import com.sigmondsmart.edrops.repository.BlogOwnerRepository
+import com.sigmondsmart.edrops.repository.BlogRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
-class DbService(private val ownerRepo: BlogOwnerRepository) {
+class DbService(private val ownerRepo: BlogOwnerRepository, private val blogRepo: BlogRepository) {
 
     fun createBlog() {
         logger.info("Create blog")
@@ -26,7 +27,12 @@ class DbService(private val ownerRepo: BlogOwnerRepository) {
     }
 
     fun readOwner(blogOwnerId: Long): BlogOwner? {
-        logger.info("Read blog")
+        logger.info("Read blog owner")
         return ownerRepo.findByIdOrNull(blogOwnerId)
+    }
+
+    fun readBlog(blogId: Long) : Blog? {
+        logger.info("Read blog")
+        return blogRepo.findByIdOrNull(blogId)
     }
 }
