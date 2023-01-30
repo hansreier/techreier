@@ -9,6 +9,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping("/")
@@ -20,7 +21,8 @@ class EDropsStartController(private val dbService: DbService)
 
     @RequestMapping( "/")
     fun welcome(model: Model): String {
-        logger.info("welcome")
+       val id = model.getAttribute("blogid")
+        logger.info("welcome: $id")
         model.addAttribute("message", message)
         model.addAttribute("message1", "from Kotlin")
         model.addAttribute("blogs", fetchBlogs())
@@ -39,9 +41,11 @@ class EDropsStartController(private val dbService: DbService)
     }
     // Overføre attributter mellom ulike views.
     // https://www.thymeleaf.org/doc/articles/springmvcaccessdata.html
+    // https://www.baeldung.com/spring-web-flash-attributes
     @PostMapping("/blogs")
-    fun getBlog(blog: String): String {
+    fun getBlog(redirectAttributes: RedirectAttributes, blog: String): String {
         logger.info("valgt: $blog")
+        redirectAttributes.addFlashAttribute("blogid", blog)
         return "redirect:/"
     }
 
