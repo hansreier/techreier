@@ -47,8 +47,8 @@ class TestOwner {
         blogData = BlogData()
         languageRepo.save(blogData.norwegian)
         ownerRepo.save(blogData.blogOwner)
-        blogRepo.save(blogData.blog1)
-        blogRepo.save(blogData.blog2)
+        //blogRepo.save(blogData.blog1)
+        //blogRepo.save(blogData.blog2)
     }
 
     @Test

@@ -8,15 +8,13 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class Init(languageRepo: LanguageRepository,
-           ownerRepo: BlogOwnerRepository, blogRepo: BlogRepository
+           ownerRepo: BlogOwnerRepository
 ) {
     init {
         logger.info("Reier was here mama")
         val blogData = BlogData()
         languageRepo.save(blogData.norwegian)
         ownerRepo.save(blogData.blogOwner)
-        blogRepo.save(blogData.blog1)
-        blogRepo.save(blogData.blog2)
         logger.info("Initialized with data")
     }
 }

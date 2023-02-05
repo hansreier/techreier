@@ -32,8 +32,6 @@ public class TestProblem {
     @Autowired
     private BlogOwnerRepository ownerRepo;
 
-    @Autowired
-    private BlogRepository blogRepo;
 
     @Autowired
     private LanguageRepository languageRepo;
@@ -45,8 +43,6 @@ public class TestProblem {
         BlogData data = new BlogData();
         languageRepo.save(new LanguageCode("Norwegian","no"));
         ownerRepo.save(data.getBlogOwner());
-        blogRepo.save(data.getBlog1());
-        blogRepo.save(data.getBlog2());
         entityManager.clear();
         List<BlogEntry> blogEntries = data.getBlogEntries();
         Query queryBlog = entityManager.createQuery(

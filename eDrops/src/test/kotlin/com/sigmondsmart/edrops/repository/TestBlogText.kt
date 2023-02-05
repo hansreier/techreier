@@ -23,9 +23,6 @@ class TestBlogText {
     lateinit var languageRepo: LanguageRepository
 
     @Autowired
-    lateinit var blogRepo: BlogRepository
-
-    @Autowired
     lateinit var blogTextRepo: BlogTextRepository
 
     lateinit var blogData: BlogData
@@ -34,8 +31,6 @@ class TestBlogText {
         blogData = BlogData()
         languageRepo.save(blogData.norwegian)
         ownerRepo.save(blogData.blogOwner)
-        blogRepo.save(blogData.blog1)
-        blogRepo.save(blogData.blog2)
     }
 
     @Test
