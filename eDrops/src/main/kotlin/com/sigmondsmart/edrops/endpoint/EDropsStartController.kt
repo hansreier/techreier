@@ -42,7 +42,7 @@ class EDropsStartController(private val dbService: DbService)
     // Overføre attributter mellom ulike views.
     // https://www.thymeleaf.org/doc/articles/springmvcaccessdata.html
     // https://www.baeldung.com/spring-web-flash-attributes
-    @PostMapping("/blogs")
+    @PostMapping("/blogs2")
     fun getBlog(redirectAttributes: RedirectAttributes, blog: String): String {
         logger.info("valgt: $blog")
         redirectAttributes.addFlashAttribute("blogid", blog)

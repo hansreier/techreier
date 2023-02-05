@@ -12,7 +12,9 @@ interface BlogRepository : JpaRepository<Blog, Long> {
  @EntityGraph(attributePaths = ["language", "blogOwner","blogEntries"])
  override fun findAll(): MutableList<Blog>
 
- @EntityGraph(attributePaths = ["language", "blogOwner", "blogEntries"])
+// @EntityGraph(attributePaths = ["language", "blogOwner", "blogEntries"])
+ //@EntityGraph(attributePaths = ["language",  "blogEntries"])
+ @EntityGraph(attributePaths = ["blogOwner", "language","blogEntries"])
  override fun findById(id: Long): Optional<Blog>
 
 }

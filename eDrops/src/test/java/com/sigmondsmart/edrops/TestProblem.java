@@ -4,6 +4,7 @@ import com.sigmondsmart.edrops.domain.BlogData;
 import com.sigmondsmart.edrops.domain.BlogEntry;
 import com.sigmondsmart.edrops.domain.LanguageCode;
 import com.sigmondsmart.edrops.repository.BlogOwnerRepository;
+import com.sigmondsmart.edrops.repository.BlogRepository;
 import com.sigmondsmart.edrops.repository.LanguageRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +33,9 @@ public class TestProblem {
     private BlogOwnerRepository ownerRepo;
 
     @Autowired
+    private BlogRepository blogRepo;
+
+    @Autowired
     private LanguageRepository languageRepo;
 
     @Test
@@ -41,6 +45,8 @@ public class TestProblem {
         BlogData data = new BlogData();
         languageRepo.save(new LanguageCode("Norwegian","no"));
         ownerRepo.save(data.getBlogOwner());
+        blogRepo.save(data.getBlog1());
+        blogRepo.save(data.getBlog2());
         entityManager.clear();
         List<BlogEntry> blogEntries = data.getBlogEntries();
         Query queryBlog = entityManager.createQuery(

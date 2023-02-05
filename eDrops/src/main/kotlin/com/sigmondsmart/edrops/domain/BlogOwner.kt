@@ -39,7 +39,8 @@ class BlogOwner(
     val id: Long? = null,
 
     @Column(nullable = true)
-    @OneToMany(mappedBy = "blogOwner", cascade = [CascadeType.ALL], orphanRemoval = true)
+  //  @OneToMany(mappedBy = "blogOwner", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "blogOwner", cascade = [CascadeType.REMOVE], orphanRemoval = true)
     @OrderBy("id DESC")
     var blogs: MutableSet<Blog>? = null
 ) {

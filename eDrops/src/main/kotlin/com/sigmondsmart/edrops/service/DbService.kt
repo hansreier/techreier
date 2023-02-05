@@ -8,8 +8,10 @@ import com.sigmondsmart.edrops.repository.BlogOwnerRepository
 import com.sigmondsmart.edrops.repository.BlogRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 class DbService(private val ownerRepo: BlogOwnerRepository, private val blogRepo: BlogRepository) {
 
     fun createBlog() {
@@ -19,20 +21,24 @@ class DbService(private val ownerRepo: BlogOwnerRepository, private val blogRepo
     }
 
     fun readFirstBlog(blogOwnerId: Long): Blog? {
-        logger.info("Read blog")
-    val blogOwner = ownerRepo.findByIdOrNull(blogOwnerId)
-    val firstBlog =  blogOwner?.blogs?.last()
+        logger.info("Read first blog")
+        val blogOwner = ownerRepo.findByIdOrNull(blogOwnerId)
+        val firstBlog = blogOwner?.blogs?.last()
         logger.info("blogOwner: $blogOwner")
         return firstBlog
     }
 
     fun readOwner(blogOwnerId: Long): BlogOwner? {
         logger.info("Read blog owner")
-        return ownerRepo.findByIdOrNull(blogOwnerId)
+      //  return ownerRepo.findByIdOrNull(blogOwnerId)
+        return ownerRepo.findById(blogOwnerId).orElse(null)
     }
 
-    fun readBlog(blogId: Long) : Blog? {
+    fun readBlog(blogId: Long): Blog? {
         logger.info("Read blog")
-        return blogRepo.findByIdOrNull(blogId)
+        // Does not fetch JPA annotations
+        // val blog = blogRepo.findByIdOrNull(blogId)
+        val blog = blogRepo.findById(blogId).orElse(null)
+        return blog
     }
 }

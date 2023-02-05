@@ -25,6 +25,9 @@ class TestBlogEntry {
     lateinit var ownerRepo: BlogOwnerRepository
 
     @Autowired
+    lateinit var blogRepo: BlogRepository
+
+    @Autowired
     lateinit var languageRepo: LanguageRepository
 
     lateinit var blogData: BlogData
@@ -33,6 +36,8 @@ class TestBlogEntry {
         blogData = BlogData()
         languageRepo.save(blogData.norwegian)
         ownerRepo.save(blogData.blogOwner)
+        blogRepo.save(blogData.blog1)
+        blogRepo.save(blogData.blog2)
     }
 
     @Test

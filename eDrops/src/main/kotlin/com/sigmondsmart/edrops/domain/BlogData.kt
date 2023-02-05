@@ -47,7 +47,7 @@ class BlogData {
     val blogEntries =  mutableListOf<BlogEntry>()
     private val blogEntries2 =  mutableListOf<BlogEntry>()
     val blog1 = Blog(LocalDateTime.now(), BLOG_TAG, norwegian, SUBJECT1, blogEntries, blogOwner)
-    private val blog2 = Blog(LocalDateTime.now(), BLOG_TAG, norwegian, SUBJECT2, blogEntries2, blogOwner)
+    val blog2 = Blog(LocalDateTime.now(), BLOG_TAG, norwegian, SUBJECT2, blogEntries2, blogOwner)
     val blogEntry1 = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG1, V1, ENTRY1, blog1 )
     private val blogEntry2  = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG2, V1, ENTRY2, blog1)
     private val blogEntry3  = BlogEntry(LocalDateTime.now(), LocalDateTime.now(), TAG2, V1, ENTRY3, blog1)

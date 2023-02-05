@@ -2,16 +2,21 @@ package com.sigmondsmart.edrops.config
 
 import com.sigmondsmart.edrops.domain.BlogData
 import com.sigmondsmart.edrops.repository.BlogOwnerRepository
+import com.sigmondsmart.edrops.repository.BlogRepository
 import com.sigmondsmart.edrops.repository.LanguageRepository
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class Init(languageRepo: LanguageRepository, ownerRepo: BlogOwnerRepository) {
+class Init(languageRepo: LanguageRepository,
+           ownerRepo: BlogOwnerRepository, blogRepo: BlogRepository
+) {
     init {
         logger.info("Reier was here mama")
         val blogData = BlogData()
         languageRepo.save(blogData.norwegian)
         ownerRepo.save(blogData.blogOwner)
+        blogRepo.save(blogData.blog1)
+        blogRepo.save(blogData.blog2)
         logger.info("Initialized with data")
     }
 }

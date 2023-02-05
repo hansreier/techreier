@@ -15,7 +15,8 @@ interface BlogOwnerRepository : JpaRepository<BlogOwner, Long> {
    // More sophisticated approach with JOOQ, dislikes codegen really
    // https://thorben-janssen.com/hibernate-jooq-a-match-made-in-heaven/
    //  If more than one level downwards and MutableList is used, there will be duplicates. Bug?
-    @EntityGraph(attributePaths = ["blogs", "blogs.language", "blogs.blogEntries"])
-  //  @EntityGraph(attributePaths = ["blogs","blogs.language"])
+   // Fetches all, but not really required
+  //  @EntityGraph(attributePaths = ["blogs", "blogs.language", "blogs.blogEntries"])
+    @EntityGraph(attributePaths = ["blogs","blogs.language"])
     override fun findById(id: Long): Optional<BlogOwner>
 }

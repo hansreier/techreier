@@ -1,11 +1,13 @@
 package com.sigmondsmart.edrops.endpoint
 
 import com.sigmondsmart.edrops.config.logger
+import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.domain.BlogEntry
 import com.sigmondsmart.edrops.service.DbService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping("/")
@@ -14,19 +16,46 @@ class BlogEntriesController(private val dbService: DbService)
 
     @GetMapping("/blogs")
     fun allBlogEntries(model: Model): String {
-        model.addAttribute("blogEntries", fetchBlogEntries())
-        logger.info("Fetch Reiers blog entries")
+        val blogId = (model.getAttribute("blogid")  ?: 1L) as Long
+        logger.info("Fetch blog entries with blogid: $blogId")
+        model.addAttribute("blogs", fetchBlogs())
+        model.addAttribute("blogEntries", fetchBlogEntries(blogId))
+        logger.info("getting GUI with blogEntries")
         return "blogEntries"
     }
 
     @GetMapping("/blogtexts")
     fun allBlogTexts(model: Model): String {
-        model.addAttribute("blogEntries", fetchBlogEntries())
+        model.addAttribute("blogEntries", fetchFirstBlogEntries())
         logger.info("Fetch Reiers blog entries with text")
         return "blogTexts"
     }
 
-    private fun fetchBlogEntries(): MutableList<BlogEntry>? {
+    // Overføre attributter mellom ulike views.
+    // https://www.thymeleaf.org/doc/articles/springmvcaccessdata.html
+    // https://www.baeldung.com/spring-web-flash-attributes
+    @PostMapping("/blogs")
+    fun getBlog(redirectAttributes: RedirectAttributes, blog: Long): String {
+            logger.info("valgt: $blog")
+            redirectAttributes.addFlashAttribute("blogid", blog)
+            return "redirect:/blogs"
+    }
+
+    private fun fetchBlogs(): MutableSet<Blog>? {
+        logger.info("Fetch blogs by Owner")
+        val blogs = dbService.readOwner(1)?.blogs
+        logger.info("Blogs fetched")
+        return blogs
+    }
+
+    private fun fetchBlogEntries(blogId: Long): MutableList<BlogEntry>? {
+        logger.info("fetch blog entries")
+        val entries =  dbService.readBlog(blogId)?.blogEntries
+        logger.info("blog entries fetched")
+        return entries
+    }
+
+    private fun fetchFirstBlogEntries(): MutableList<BlogEntry>? {
         return dbService.readFirstBlog(1)?.blogEntries
     }
 
