@@ -39,17 +39,17 @@ class TestBlogText {
         logger.info("Basic crud test")
         with(blogData) {
             blogEntry1.id?.let {
-                blogTextRepo.saveAndFlush(BlogText(TEXT1, blogEntry1, it))
+                blogTextRepo.saveAndFlush(BlogText(SUMMARY1, blogEntry1, it))
             }
             val blogTextFound = blogTextRepo.findByIdOrNull(blogEntry1.id)
             assertThat(blogTextFound).isNotNull
-            assertThat(blogTextFound?.text).isEqualTo(TEXT1)
-            blogTextFound?.text = TEXT2
+            assertThat(blogTextFound?.text).isEqualTo(SUMMARY1)
+            blogTextFound?.text = SUMMARY2
             blogTextRepo.flush()
             val blogTexts = blogTextRepo.findAll()
             assertThat(blogTexts).isNotNull
             assertThat(blogTexts.size).isEqualTo(1)
-            assertThat(blogTexts[0]?.text).isEqualTo(TEXT2)
+            assertThat(blogTexts[0]?.text).isEqualTo(SUMMARY2)
             blogTextRepo.delete(blogTexts[0])
             assertThat(blogTextRepo.count()).isEqualTo(0)
         }

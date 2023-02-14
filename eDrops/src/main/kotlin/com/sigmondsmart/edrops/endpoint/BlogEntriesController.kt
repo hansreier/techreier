@@ -26,7 +26,10 @@ class BlogEntriesController(private val dbService: DbService)
 
     @GetMapping("/blogtexts")
     fun allBlogTexts(model: Model): String {
-        model.addAttribute("blogEntries", fetchFirstBlogEntries())
+        val blogId = (model.getAttribute("blogid")  ?: 1L) as Long
+        logger.info("Fetch blog entries with text and blogid: $blogId")
+        model.addAttribute("blogs", fetchBlogs())
+        model.addAttribute("blogEntries", fetchBlogEntries(blogId))
         logger.info("Fetch Reiers blog entries with text")
         return "blogTexts"
     }
