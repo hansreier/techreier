@@ -4,6 +4,10 @@ app:
 spring:
   main:
     banner-mode: off
+  messages:
+    basename: language/messages
+    fallback-to-system-locale: true
+    encoding: UTF-8
   jpa:
     generate-ddl: true
     database-platform: org.hibernate.dialect.H2Dialect
