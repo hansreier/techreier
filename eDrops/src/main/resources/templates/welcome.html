@@ -6,7 +6,7 @@
 <head>
 <title>Start welcome page</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<link rel="stylesheet" th:href="@{/css/styles2.css}" />
+	<link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
 <div layout:fragment="content">
@@ -14,7 +14,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<h1>Welcome to Our Site</h1>
+					<h1 th:text="#{greeting}"></h1>
+					<p>læring med låret i løksuppa</p>
 					<p>Lorem ipsum dolor sit amett, consectetur [....]</p>
 				</div>
 				<h1>Spring Boot Thymeleaf eDrops test web pagereno</h1>

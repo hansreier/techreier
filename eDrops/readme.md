@@ -33,11 +33,9 @@ Add the Chrome LiveReload plugin.
 
 Note: Still have to press the Intellij Build button, but no browser refresh is required.
 
-
-
-
-
 https://www.baeldung.com/dates-in-thymeleaf
+
+https://www.baeldung.com/spring-boot-internationalization
 
 
 
