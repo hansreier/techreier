@@ -37,5 +37,13 @@ https://www.baeldung.com/dates-in-thymeleaf
 
 https://www.baeldung.com/spring-boot-internationalization
 
+Language encoding:
+
+Set to UTF-8 in the entire project
+Default for property files in Intellij is ISO-8859-1, so must be changed  in 
+settings, editor, fil encodings. If not Norwegian characters øæå ØÆÅ are 
+dieplayed incorrectly. The problem seems to be there only in property files 
+and not in .html files.
+
 
 

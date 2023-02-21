@@ -1,6 +1,5 @@
 app:
   appname: edrops
-
 spring:
   main:
     banner-mode: off
@@ -27,6 +26,7 @@ spring:
     cache: false
     enabled: true
     encoding: UTF-8
+    mode: HTML5
   web:
     resources:
       static-locations: file:src/main/resources/static/
