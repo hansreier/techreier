@@ -53,14 +53,23 @@
     </div>
 
     <footer>
-         <p>eTorg &copy; Hans Reier Sigmond</p>
-         <div th:text="${#locale}"></div>
-         <span th:text="#{lang.change}"></span>:
-         <select id="locales">
-            <option value=""></option>
-            <option th:value="en" th:text="#{lang.eng}"></option>
-            <option th:value="no" th:text="#{lang.no}"></option>
-        </select>
+        <form th:action="@{/language}" th:object="${lang}" th:method="get">
+            <p>eTorg &copy; Hans Reier Sigmond</p>
+            <div th:text="${#locale}"></div>
+            <span th:text="#{lang.change}"></span>
+            <select  id="locales">
+                <option value=""></option>
+                <option th:value="en" th:text="#{lang.eng}"></option>
+                <option th:value="no" th:text="#{lang.no}"></option>
+            </select>
+
+            <select th:field="*{language}">
+                    <option th:each="language : ${languages}"
+                            th:value="${language.getOption()}"
+                            th:text="${language.getOptionName()}">Options</option>
+            </select>
+            <button type="submit">submit</button>
+        </form>
     </footer>
 
     <!-- Optional Section -->
