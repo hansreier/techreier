@@ -54,8 +54,6 @@
 <footer>
     <form th:action="@{/language}" th:method="post">
         <p>eTorg &copy; Hans Reier Sigmond</p>
-        <div th:text="${#locale}"></div>
-        <span th:text="#{lang.change}"></span>
         <select id="dropDownList" name="code">
             <option th:each="language : ${languages}"
                     th:value="${language.code}" th:text="#{${language.name}} +' '+ ${language.code}"
