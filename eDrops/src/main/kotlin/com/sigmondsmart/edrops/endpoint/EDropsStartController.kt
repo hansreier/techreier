@@ -24,13 +24,10 @@ class EDropsStartController(private val dbService: DbService)
     @RequestMapping( "/")
     fun welcome(model: Model): String {
         val id = model.getAttribute("blogid")
-        val langcode = model.getAttribute("langcode")
-        logger.info("welcome: $id language: $langcode")
         model.addAttribute("message", message)
         model.addAttribute("message1", "from Kotlin")
         model.addAttribute("blogs", fetchBlogs())
         model.addAttribute("languages",fetchLanguages())
-        model.addAttribute("selectedlanguage", Language())
         return "welcome"
     }
   //  https://www.thymeleaf.org/doc/articles/standardurlsyntax.htmlzzzzz
@@ -70,7 +67,7 @@ class EDropsStartController(private val dbService: DbService)
     private fun fetchLanguages(): MutableList<Language> {
         logger.info("Fetch languages (hard coded)")
         return mutableListOf(
-            Language("Norsk bokmål","nb-no"),
-            Language("Engelsk UK","en"))
+            Language("lang.no","nb-no"),
+            Language("lang.eng","en"))
     }
 }

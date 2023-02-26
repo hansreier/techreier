@@ -9,69 +9,64 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
-    <header>
-        <p>SigmondsMart</p>
-    </header>
+<header>
+    <p>SigmondsMart</p>
+</header>
 
-    <div class="navbar">
-        <a class="active" href="#home">Home</a>
-        <a href="#news">News</a>
-        <a href="#contact">Contact</a>
-        <a href="#about">About</a>
-        <div class="dropdown">
-            <button class="dropdown-btn">Blogs
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a href="#start">Link 1</a>
-                <a href="#start">Link 2</a>
-                <a href="#start">Link 3</a>
-                <a href="#start">Link 4</a>
-                <a href="#start">Link 5</a>
-                <form th:action="@{/blogs}" th:method="post">
-                    <ul>
-                        <li th:each="blog: ${blogs}">
-                            <button class=dropdown-button name="blog" type="submit" th:value="${blog.id}"
+<div class="navbar">
+    <a class="active" href="#home">Home</a>
+    <a href="#news">News</a>
+    <a href="#contact">Contact</a>
+    <a href="#about">About</a>
+    <div class="dropdown">
+        <button class="dropdown-btn">Blogs
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="#start">Link 1</a>
+            <a href="#start">Link 2</a>
+            <a href="#start">Link 3</a>
+            <a href="#start">Link 4</a>
+            <a href="#start">Link 5</a>
+            <form th:action="@{/blogs}" th:method="post">
+                <ul>
+                    <li th:each="blog: ${blogs}">
+                        <button class=dropdown-button name="blog" type="submit" th:value="${blog.id}"
                                 th:text="${blog.subject}"></button>
-                        </li>
-                    </ul>
-                </form>
+                    </li>
+                </ul>
+            </form>
             <!--
             <span th:each="blog : ${blogs}">
                 <a href="/" th:text="${blog.subject}"></a>
             </span-->
-            </div>
         </div>
     </div>
+</div>
 
-    <div id="work">
-        <!-- Content Section -->
-        <section layout:fragment="content">
-         <p>This is filled by the content template.</p>
-        </section>
-    </div>
-    <!-- https://o7planning.org/11659/thymeleaf-form-select-option-->
-    <footer>
-            <form th:action="@{/language}" th:object="${selectedlanguage}" th:method="post">
-            <p>eTorg &copy; Hans Reier Sigmond</p>
-            <div th:text="${#locale}"></div>
-            <span th:text="#{lang.change}"></span>
-            <select  id="locales">
-                <option value=""></option>
-                <option th:value="en" th:text="#{lang.eng}"></option>
-                <option th:value="no" th:text="#{lang.no}"></option>
-            </select>
+<div id="work">
+    <!-- Content Section -->
+    <section layout:fragment="content">
+        <p>This is filled by the content template.</p>
+    </section>
+</div>
+<!-- https://o7planning.org/11659/thymeleaf-form-select-option-->
+<footer>
+    <form th:action="@{/language}" th:method="post">
+        <p>eTorg &copy; Hans Reier Sigmond</p>
+        <div th:text="${#locale}"></div>
+        <span th:text="#{lang.change}"></span>
+        <select id="dropDownList" name="code">
+            <option th:each="language : ${languages}"
+                    th:value="${language.code}" th:text="#{${language.name}} +' '+ ${language.code}"
+                    th:selected="${language.code eq langcode}"></option>
+        </select>
+        <button th:name="changelanguage" type="submit" th:text="#{lang.change}"/>
+    </form>
+</footer>
 
-            <select id="dropDownList" th:field="*{code}">
-                <option th:each="language : ${languages}" th:selected="${lang}"
-                        th:value="${language.code}" th:text="${language.name}"></option>
-            </select>
-            <button th:name="changelanguage" type="submit" th:text="#{lang.change}"/>
-        </form>
-    </footer>
-
-    <!-- Optional Section -->
-    <th:block layout:fragment="optional"/>
+<!-- Optional Section -->
+<th:block layout:fragment="optional"/>
 
 </body>
 </html>
