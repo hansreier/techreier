@@ -20,6 +20,7 @@ class EDropsStartController(private val dbService: DbService)
     @Value("\${welcome.message} from Kotlin")
     private val message = "Hello World"
 
+    //Get language set from session or parameter?
     @RequestMapping( "/")
     fun welcome(model: Model): String {
         val id = model.getAttribute("blogid")
@@ -57,7 +58,7 @@ class EDropsStartController(private val dbService: DbService)
     fun getLanguage(redirectAttributes: RedirectAttributes,code: String?): String {
         logger.info("valgt språkkode: $code")
         redirectAttributes.addFlashAttribute("langcode", code)
-        return "redirect:/"
+        return "redirect:/?lang=$code"
     }
 
     private fun fetchBlogs(): MutableSet<Blog>? {
@@ -66,7 +67,7 @@ class EDropsStartController(private val dbService: DbService)
     }
 
     //Start with hard coding languages
-    private fun fetchLanguages(): MutableList<Language>? {
+    private fun fetchLanguages(): MutableList<Language> {
         logger.info("Fetch languages (hard coded)")
         return mutableListOf(
             Language("Norsk bokmål","nb-no"),
