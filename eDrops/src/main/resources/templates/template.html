@@ -33,7 +33,6 @@
                         <li th:each="blog: ${blogs}">
                             <button class=dropdown-button name="blog" type="submit" th:value="${blog.id}"
                                 th:text="${blog.subject}"></button>
-                            <!--input class="dropdown-button" name="blog" type="submit" th:value="${blog.subject}"-->
                         </li>
                     </ul>
                 </form>
@@ -51,9 +50,9 @@
          <p>This is filled by the content template.</p>
         </section>
     </div>
-
+    <!-- https://o7planning.org/11659/thymeleaf-form-select-option-->
     <footer>
-        <form th:action="@{/language}" th:object="${lang}" th:method="get">
+            <form th:action="@{/language}" th:object="${selectedlanguage}" th:method="post">
             <p>eTorg &copy; Hans Reier Sigmond</p>
             <div th:text="${#locale}"></div>
             <span th:text="#{lang.change}"></span>
@@ -63,12 +62,11 @@
                 <option th:value="no" th:text="#{lang.no}"></option>
             </select>
 
-            <select th:field="*{language}">
-                    <option th:each="language : ${languages}"
-                            th:value="${language.getOption()}"
-                            th:text="${language.getOptionName()}">Options</option>
+            <select id="dropDownList" th:field="*{code}">
+                <option th:each="language : ${languages}" th:selected="${lang}"
+                        th:value="${language.code}" th:text="${language.name}"></option>
             </select>
-            <button type="submit">submit</button>
+            <button th:name="changelanguage" type="submit" th:text="#{lang.change}"/>
         </form>
     </footer>
 

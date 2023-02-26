@@ -2,6 +2,7 @@ package com.sigmondsmart.edrops.endpoint
 
 import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.Blog
+import com.sigmondsmart.edrops.domain.Language
 import com.sigmondsmart.edrops.service.DbService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
@@ -21,14 +22,17 @@ class EDropsStartController(private val dbService: DbService)
 
     @RequestMapping( "/")
     fun welcome(model: Model): String {
-       val id = model.getAttribute("blogid")
-        logger.info("welcome: $id")
+        val id = model.getAttribute("blogid")
+        val langcode = model.getAttribute("langcode")
+        logger.info("welcome: $id language: $langcode")
         model.addAttribute("message", message)
         model.addAttribute("message1", "from Kotlin")
         model.addAttribute("blogs", fetchBlogs())
+        model.addAttribute("languages",fetchLanguages())
+        model.addAttribute("selectedlanguage", Language())
         return "welcome"
     }
-  //  https://www.thymeleaf.org/doc/articles/standardurlsyntax.html
+  //  https://www.thymeleaf.org/doc/articles/standardurlsyntax.htmlzzzzz
   //   https://stackoverflow.com/questions/26326559/thymeleaf-thhref-invoking-both-a-post-and-get
     // does not work
 
@@ -44,13 +48,28 @@ class EDropsStartController(private val dbService: DbService)
     // https://www.baeldung.com/spring-web-flash-attributes
     @PostMapping("/blogs2")
     fun getBlog(redirectAttributes: RedirectAttributes, blog: String): String {
-        logger.info("valgt: $blog")
+        logger.info("valgt blog: $blog")
         redirectAttributes.addFlashAttribute("blogid", blog)
+        return "redirect:/"
+    }
+
+    @PostMapping("/language")
+    fun getLanguage(redirectAttributes: RedirectAttributes,code: String?): String {
+        logger.info("valgt språkkode: $code")
+        redirectAttributes.addFlashAttribute("langcode", code)
         return "redirect:/"
     }
 
     private fun fetchBlogs(): MutableSet<Blog>? {
         val blogs = dbService.readOwner(1)?.blogs
         return blogs
+    }
+
+    //Start with hard coding languages
+    private fun fetchLanguages(): MutableList<Language>? {
+        logger.info("Fetch languages (hard coded)")
+        return mutableListOf(
+            Language("Norsk bokmål","nb-no"),
+            Language("Engelsk UK","en"))
     }
 }
