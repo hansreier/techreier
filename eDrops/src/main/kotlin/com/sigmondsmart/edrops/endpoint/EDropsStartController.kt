@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("/")
-class EDropsStartController(private val dbService: DbService)
+class EDropsStartController(private val dbService: DbService): BaseController()
 {
     // inject via application.properties
     @Value("\${welcome.message} from Kotlin")
@@ -52,22 +53,15 @@ class EDropsStartController(private val dbService: DbService)
     }
 
     @PostMapping("/language")
-    fun getLanguage(redirectAttributes: RedirectAttributes,code: String?): String {
+    fun getLanguage(request: HttpServletRequest, redirectAttributes: RedirectAttributes, code: String?): String {
         logger.info("valgt språkkode: $code")
         redirectAttributes.addFlashAttribute("langcode", code)
-        return "redirect:/?lang=$code"
+        logger.info("Path: ${request.servletPath} ${request.requestURL}");
+        return "redirect:?lang=$code"
     }
 
     private fun fetchBlogs(): MutableSet<Blog>? {
         val blogs = dbService.readOwner(1)?.blogs
         return blogs
-    }
-
-    //Start with hard coding languages
-    private fun fetchLanguages(): MutableList<Language> {
-        logger.info("Fetch languages (hard coded)")
-        return mutableListOf(
-            Language("lang.no","nb-no"),
-            Language("lang.eng","en"))
     }
 }

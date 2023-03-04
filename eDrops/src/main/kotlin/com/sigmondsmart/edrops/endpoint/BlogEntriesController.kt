@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping("/")
-class BlogEntriesController(private val dbService: DbService)
+class BlogEntriesController(private val dbService: DbService): BaseController()
 {
 
     @GetMapping("/blogs")
