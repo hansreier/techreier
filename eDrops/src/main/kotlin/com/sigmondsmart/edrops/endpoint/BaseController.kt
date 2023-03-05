@@ -6,8 +6,7 @@ import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import javax.servlet.http.HttpServletRequest
-abstract class BaseController(private var path: String) {
+abstract class BaseController(private val path: String) {
 
     //Start with hard coding languages
     protected fun fetchLanguages(): MutableList<Language> {
@@ -22,13 +21,14 @@ abstract class BaseController(private var path: String) {
         model.addAttribute("languages",fetchLanguages())
         val langcode = model.getAttribute("langcode") ?: LocaleContextHolder.getLocale().language
         model.addAttribute("langcode", langcode )
+        model.addAttribute("path", path)
     }
 
     @PostMapping("/language")
-    fun getLanguage(request: HttpServletRequest, redirectAttributes: RedirectAttributes, code: String?): String {
+    fun getLanguage(redirectAttributes: RedirectAttributes, code: String?): String {
         logger.info("valgt språkkode: $code")
         redirectAttributes.addFlashAttribute("langcode", code)
-        logger.info("Path: ${request.servletPath} ContextPath: $path  URI: ${request.requestURL}")
         return "redirect:$path?lang=$code"
+       // return "redirect:${request.servletPath.removeSuffix("/language")}?lang=$code"
     }
 }

@@ -22,7 +22,6 @@ class BlogEntriesController(private val dbService: DbService): BaseController(PA
         logger.info("Fetch blog entries with blogid: $blogId")
         model.addAttribute("blogs", fetchBlogs())
         model.addAttribute("blogEntries", fetchBlogEntries(blogId))
-        model.addAttribute("path",PATH)
         setCommonModelParameters(model)
         logger.info("getting GUI with blogEntries")
         return "blogEntries"

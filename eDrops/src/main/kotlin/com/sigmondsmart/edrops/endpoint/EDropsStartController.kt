@@ -27,7 +27,6 @@ class EDropsStartController(private val dbService: DbService): BaseController(PA
         model.addAttribute("message", message)
         model.addAttribute("message1", "from Kotlin")
         model.addAttribute("blogs", fetchBlogs())
-        model.addAttribute("path",PATH)
         setCommonModelParameters(model)
         return "welcome"
     }
