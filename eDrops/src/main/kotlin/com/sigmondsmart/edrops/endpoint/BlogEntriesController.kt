@@ -7,7 +7,6 @@ import com.sigmondsmart.edrops.service.DbService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 private const val PATH="/blogs"
@@ -17,14 +16,14 @@ private const val PATH="/blogs"
 class BlogEntriesController(private val dbService: DbService): BaseController(PATH)
 {
 
-    @GetMapping( "")
+    @GetMapping
     fun allBlogEntries(model: Model): String {
         val blogId = (model.getAttribute("blogid")  ?: 1L) as Long
         logger.info("Fetch blog entries with blogid: $blogId")
         model.addAttribute("blogs", fetchBlogs())
         model.addAttribute("blogEntries", fetchBlogEntries(blogId))
-        model.addAttribute("languages",fetchLanguages())
         model.addAttribute("path",PATH)
+        setCommonModelParameters(model)
         logger.info("getting GUI with blogEntries")
         return "blogEntries"
     }

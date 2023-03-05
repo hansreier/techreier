@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
-private const val PATH="/start"
+private const val PATH=""
 @Controller
 @RequestMapping(PATH)
 class EDropsStartController(private val dbService: DbService): BaseController(PATH)
@@ -22,14 +22,13 @@ class EDropsStartController(private val dbService: DbService): BaseController(PA
     private val message = "Hello World"
 
     //Get language set from session or parameter?
-    @GetMapping( "")
+    @GetMapping
     fun welcome(model: Model): String {
-        val id = model.getAttribute("blogid")
         model.addAttribute("message", message)
         model.addAttribute("message1", "from Kotlin")
         model.addAttribute("blogs", fetchBlogs())
-        model.addAttribute("languages",fetchLanguages())
         model.addAttribute("path",PATH)
+        setCommonModelParameters(model)
         return "welcome"
     }
   //  https://www.thymeleaf.org/doc/articles/standardurlsyntax.htmlzzzzz
