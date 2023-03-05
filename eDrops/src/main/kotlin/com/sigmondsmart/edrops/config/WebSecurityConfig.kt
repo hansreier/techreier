@@ -16,7 +16,7 @@ class WebSecurityConfig {
         http
             .httpBasic().disable()
             .authorizeRequests()
-            .antMatchers("/*","/css/*").permitAll()
+            .antMatchers("/**","/css/*").permitAll()
             .antMatchers("/h2-console/**").permitAll()
             .anyRequest().authenticated()
         http.csrf().disable().headers().frameOptions().disable() //needed to enable H2 console

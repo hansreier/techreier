@@ -28,7 +28,7 @@
             <a href="#start">Link 3</a>
             <a href="#start">Link 4</a>
             <a href="#start">Link 5</a>
-            <form th:action="@{/blogs}" th:method="post">
+            <form th:action="@{/blogs/bl}" th:method="post">
                 <ul>
                     <li th:each="blog: ${blogs}">
                         <button class=dropdown-button name="blog" type="submit" th:value="${blog.id}"
@@ -52,8 +52,8 @@
 </div>
 <!-- https://o7planning.org/11659/thymeleaf-form-select-option-->
 <footer>
-    <form th:action="@{/language}" th:method="post">
-        <p>eTorg &copy; Hans Reier Sigmond</p>
+    <form th:action="@{{path}/language(path=${path})}" th:method="post">
+        <p>eTorg &copy; Hans Reier Sigmond"/></p>
         <select id="dropDownList" name="code">
             <option th:each="language : ${languages}"
                     th:value="${language.code}" th:text="#{${language.name}} +' '+ ${language.code}"
