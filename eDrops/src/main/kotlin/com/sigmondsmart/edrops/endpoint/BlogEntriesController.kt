@@ -8,21 +8,22 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import javax.servlet.http.HttpServletRequest
 
 private const val PATH="/blogs"
 
 @Controller
 @RequestMapping(PATH)
-class BlogEntriesController(private val dbService: DbService): BaseController(PATH)
+class BlogEntriesController(private val dbService: DbService): BaseController()
 {
 
     @GetMapping
-    fun allBlogEntries(model: Model): String {
+    fun allBlogEntries(request: HttpServletRequest, model: Model): String {
         val blogId = (model.getAttribute("blogid")  ?: 1L) as Long
         logger.info("Fetch blog entries with blogid: $blogId")
         model.addAttribute("blogs", fetchBlogs())
         model.addAttribute("blogEntries", fetchBlogEntries(blogId))
-        setCommonModelParameters(model)
+        setCommonModelParameters(model, controllerPath(request.servletPath))
         logger.info("getting GUI with blogEntries")
         return "blogEntries"
     }
