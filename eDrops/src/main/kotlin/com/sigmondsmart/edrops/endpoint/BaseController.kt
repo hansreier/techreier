@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import javax.servlet.ServletContext
 import javax.servlet.http.HttpServletRequest
 
-
 abstract class BaseController(): ServletContextAware {
 
     private var servletContext: ServletContext? = null
@@ -31,7 +30,7 @@ abstract class BaseController(): ServletContextAware {
         model.addAttribute("languages",fetchLanguages())
         val langcode = model.getAttribute("langcode") ?: LocaleContextHolder.getLocale().language
         model.addAttribute("langcode", langcode )
-        model.addAttribute("path", controllerPath)
+        model.addAttribute ("path", if (controllerPath == "/") "" else controllerPath)
     }
 
     @PostMapping("/language")
@@ -43,7 +42,7 @@ abstract class BaseController(): ServletContextAware {
         return "redirect:${controllerPath(request.servletPath)}?lang=$code"
     }
 
-    protected fun controllerPath(currentPath: String): String {
+    private fun controllerPath(currentPath: String): String {
         return currentPath.replaceAfterLast("/", "").removeSuffix("/")
     }
 }

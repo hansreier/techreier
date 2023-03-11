@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import javax.servlet.http.HttpServletRequest
 
-private const val PATH="/blogs"
-
 @Controller
-@RequestMapping(PATH)
+@RequestMapping("/blogs")
 class BlogEntriesController(private val dbService: DbService): BaseController()
 {
 
@@ -23,7 +21,7 @@ class BlogEntriesController(private val dbService: DbService): BaseController()
         logger.info("Fetch blog entries with blogid: $blogId")
         model.addAttribute("blogs", fetchBlogs())
         model.addAttribute("blogEntries", fetchBlogEntries(blogId))
-        setCommonModelParameters(model, controllerPath(request.servletPath))
+        setCommonModelParameters(model, request.servletPath)
         logger.info("getting GUI with blogEntries")
         return "blogEntries"
     }
