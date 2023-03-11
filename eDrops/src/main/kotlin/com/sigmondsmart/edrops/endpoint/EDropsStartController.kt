@@ -28,6 +28,7 @@ class EDropsStartController(private val dbService: DbService): BaseController()
         model.addAttribute("message1", "from Kotlin")
         model.addAttribute("blogs", fetchBlogs())
         setCommonModelParameters(model, request.servletPath)
+      //  throw NullPointerException("hikk")
         return "welcome"
     }
   //  https://www.thymeleaf.org/doc/articles/standardurlsyntax.htmlzzzzz
