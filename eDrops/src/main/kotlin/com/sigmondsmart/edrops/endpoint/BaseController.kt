@@ -31,6 +31,7 @@ abstract class BaseController : ServletContextAware {
         val langcode = model.getAttribute("langcode") ?: LocaleContextHolder.getLocale().language
         model.addAttribute("langcode", langcode)
         model.addAttribute("path", if (controllerPath == "/") "" else controllerPath)
+      //  model.addAttribute("error","no Error")
     }
 
     @PostMapping("/language")

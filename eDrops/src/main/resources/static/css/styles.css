@@ -80,6 +80,10 @@ footer {
 	overflow: hidden;
 }
 
+.error {
+	color: red;
+}
+
 /* Style the links inside the navigation bar */
 .navbar a {
 	float: left;

@@ -3,6 +3,7 @@ app:
 server:
   error:
     include-stacktrace: always
+    include-exception: true
 spring:
   main:
     banner-mode: off

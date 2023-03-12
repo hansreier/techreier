@@ -61,6 +61,7 @@
                     th:selected="${language.code eq langcode}"></option>
         </select>
         <button th:name="changelanguage" type="submit" th:text="#{lang.change}"/>
+        <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
     </form>
 </footer>
 
