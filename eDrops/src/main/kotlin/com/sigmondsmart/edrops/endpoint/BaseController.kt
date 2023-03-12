@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import javax.servlet.ServletContext
 import javax.servlet.http.HttpServletRequest
 
-abstract class BaseController(): ServletContextAware {
+abstract class BaseController : ServletContextAware {
 
     private var servletContext: ServletContext? = null
     override fun setServletContext(servletContext: ServletContext) {
@@ -21,23 +21,22 @@ abstract class BaseController(): ServletContextAware {
     protected fun fetchLanguages(): MutableList<Language> {
         logger.info("Fetch languages (hard coded)")
         return mutableListOf(
-            Language("lang.no","nb-no"),
-            Language("lang.eng","en")
+            Language("lang.no", "nb-no"),
+            Language("lang.eng", "en")
         )
     }
 
     protected fun setCommonModelParameters(model: Model, controllerPath: String) {
-        model.addAttribute("languages",fetchLanguages())
+        model.addAttribute("languages", fetchLanguages())
         val langcode = model.getAttribute("langcode") ?: LocaleContextHolder.getLocale().language
-        model.addAttribute("langcode", langcode )
-        model.addAttribute ("path", if (controllerPath == "/") "" else controllerPath)
+        model.addAttribute("langcode", langcode)
+        model.addAttribute("path", if (controllerPath == "/") "" else controllerPath)
     }
 
     @PostMapping("/language")
     fun getLanguage(request: HttpServletRequest, redirectAttributes: RedirectAttributes, code: String?): String {
-        logger.info("valgt språkkode: $code")
+        logger.info("valgt språkkode: $code path: ${request.servletPath}")
         redirectAttributes.addFlashAttribute("langcode", code)
-        throw(NullPointerException("Gakk"))
         return "redirect:${controllerPath(request.servletPath)}?lang=$code"
     }
 

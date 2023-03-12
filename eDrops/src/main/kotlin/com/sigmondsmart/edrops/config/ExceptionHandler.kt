@@ -22,7 +22,7 @@ class GlobalDefaultExceptionHandler {
             ) != null
         ) throw e
         logger.info("Special handled error: ${request.servletPath}")
-        throw e
+     //   throw e
         // Otherwise setup and send the user to a default error-view.
     //    val mav = ModelAndView()
    //     mav.addObject("exception", e)

@@ -11,9 +11,6 @@ import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.context.ServletContextAware
-import org.springframework.web.context.request.WebRequest
-import javax.servlet.ServletContext
 import javax.servlet.http.HttpServletRequest
 
 
@@ -26,24 +23,20 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 class EDropsErrorController @Autowired private constructor(
     var errorAttributes: ErrorAttributes,
-) : ErrorController, AbstractErrorController(errorAttributes), ServletContextAware {
-
-    private var servletContext: ServletContext? = null
-    override fun setServletContext(servletContext: ServletContext) {
-        this.servletContext = servletContext
-    }
-
+) : ErrorController, AbstractErrorController(errorAttributes) {
     //   class EDropsErrorController: ErrorController {
     @RequestMapping("/error")
-    fun handleError(request: HttpServletRequest, req: WebRequest, model: Model): String {
+    fun handleError(request: HttpServletRequest, model: Model): String {
 
-        val opts = getErrorAttributes(request, ErrorAttributeOptions.defaults()
-            .including(ErrorAttributeOptions.Include.STACK_TRACE)) //Problems override Spring config
+        val opts = getErrorAttributes(
+            request, ErrorAttributeOptions.defaults()
+                .including(ErrorAttributeOptions.Include.STACK_TRACE)
+        ) //Problems override Spring config
         logger.info("Reier handles the error: $errorAttributes.")
         model.addAllAttributes(opts)
-            model.addAttribute("languages",fetchLanguages())
-            val langcode = model.getAttribute("langcode") ?: LocaleContextHolder.getLocale().language
-            model.addAttribute("langcode", langcode )
+        model.addAttribute("languages", fetchLanguages())
+        val langcode = model.getAttribute("langcode") ?: LocaleContextHolder.getLocale().language
+        model.addAttribute("langcode", langcode)
         logger.info("Attributes added")
         return "error"
     }
@@ -51,8 +44,8 @@ class EDropsErrorController @Autowired private constructor(
     protected fun fetchLanguages(): MutableList<Language> {
         logger.info("Fetch languages (hard coded)")
         return mutableListOf(
-            Language("lang.no","nb-no"),
-            Language("lang.eng","en")
+            Language("lang.no", "nb-no"),
+            Language("lang.eng", "en")
         )
     }
 }
