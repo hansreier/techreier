@@ -1,8 +1,12 @@
 app:
   appname: edrops
+server:
+  error:
+    include-stacktrace: always
 spring:
   main:
     banner-mode: off
+
   messages:
     basename: language/messages
     fallback-to-system-locale: true

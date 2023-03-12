@@ -37,7 +37,7 @@ abstract class BaseController(): ServletContextAware {
     fun getLanguage(request: HttpServletRequest, redirectAttributes: RedirectAttributes, code: String?): String {
         logger.info("valgt språkkode: $code")
         redirectAttributes.addFlashAttribute("langcode", code)
-       // throw(NullPointerException("Gakk"))
+        throw(NullPointerException("Gakk"))
         return "redirect:${controllerPath(request.servletPath)}?lang=$code"
     }
 

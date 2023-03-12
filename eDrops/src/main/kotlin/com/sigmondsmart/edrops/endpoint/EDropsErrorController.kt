@@ -1,20 +1,58 @@
 package com.sigmondsmart.edrops.endpoint
 
 import com.sigmondsmart.edrops.config.logger
+import com.sigmondsmart.edrops.domain.Language
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController
+import org.springframework.boot.web.error.ErrorAttributeOptions
+import org.springframework.boot.web.servlet.error.ErrorAttributes
 import org.springframework.boot.web.servlet.error.ErrorController
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.context.ServletContextAware
+import org.springframework.web.context.request.WebRequest
+import javax.servlet.ServletContext
 import javax.servlet.http.HttpServletRequest
 
-//Errors not picked up by error handler (404 Not Found)
-//Redirect to default website page
-//Alternative redirect to error page
-//TODO not solved: Recursive errors opening default website page
+
+//Errors not picked up by error handler (e.g. 404 Not Found)
+//Redirect to default website page can create recursion.
+//It is better to redirect to an error page
+//If disabled Springs default error handler is used to open error page
+//This handler initializes som variables picked up by error page.
+//@Profile("notFOundProfile")
 @Controller
-class EDropsErrorController: ErrorController {
+class EDropsErrorController @Autowired private constructor(
+    var errorAttributes: ErrorAttributes,
+) : ErrorController, AbstractErrorController(errorAttributes), ServletContextAware {
+
+    private var servletContext: ServletContext? = null
+    override fun setServletContext(servletContext: ServletContext) {
+        this.servletContext = servletContext
+    }
+
+    //   class EDropsErrorController: ErrorController {
     @RequestMapping("/error")
-    fun handleError(request: HttpServletRequest): String {
-        logger.info("Reier handles the error")
-        return "redirect:/"
+    fun handleError(request: HttpServletRequest, req: WebRequest, model: Model): String {
+
+        val opts = getErrorAttributes(request, ErrorAttributeOptions.defaults()
+            .including(ErrorAttributeOptions.Include.STACK_TRACE)) //Problems override Spring config
+        logger.info("Reier handles the error: $errorAttributes.")
+        model.addAllAttributes(opts)
+            model.addAttribute("languages",fetchLanguages())
+            val langcode = model.getAttribute("langcode") ?: LocaleContextHolder.getLocale().language
+            model.addAttribute("langcode", langcode )
+        logger.info("Attributes added")
+        return "error"
+    }
+
+    protected fun fetchLanguages(): MutableList<Language> {
+        logger.info("Fetch languages (hard coded)")
+        return mutableListOf(
+            Language("lang.no","nb-no"),
+            Language("lang.eng","en")
+        )
     }
 }

@@ -14,9 +14,7 @@ class GlobalDefaultExceptionHandler {
     @Throws(Exception::class)
     fun defaultErrorHandler(request: HttpServletRequest, e: Exception): String {
         // If the exception is annotated with @ResponseStatus rethrow it and let
-        // the framework handle it - like the OrderNotFoundException example
-        // at the start of this post.
-        // AnnotationUtils is a Spring Framework utility class.
+        // the framework handle it (ErrorController is invoked)
         logger.info("Error: ${e.message}")
         if (AnnotationUtils.findAnnotation(
                 e.javaClass,
@@ -24,6 +22,7 @@ class GlobalDefaultExceptionHandler {
             ) != null
         ) throw e
         logger.info("Special handled error: ${request.servletPath}")
+        throw e
         // Otherwise setup and send the user to a default error-view.
     //    val mav = ModelAndView()
    //     mav.addObject("exception", e)

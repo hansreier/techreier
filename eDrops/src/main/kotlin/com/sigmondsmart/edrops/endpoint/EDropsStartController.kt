@@ -24,10 +24,14 @@ class EDropsStartController(private val dbService: DbService): BaseController()
     //Get language set from session or parameter?
     @GetMapping
     fun welcome(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("message", message)
-        model.addAttribute("message1", "from Kotlin")
-        model.addAttribute("blogs", fetchBlogs())
-        setCommonModelParameters(model, request.servletPath)
+        try {
+            model.addAttribute("message", message)
+            model.addAttribute("message1", "from Kotlin")
+            model.addAttribute("blogs", fetchBlogs())
+            setCommonModelParameters(model, request.servletPath)
+        } catch (e: Exception) {
+            return "error" //Cannot even open start page
+        }
       //  throw NullPointerException("hikk")
         return "welcome"
     }
