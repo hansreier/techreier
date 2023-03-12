@@ -21,13 +21,8 @@ class GlobalDefaultExceptionHandler {
                 ResponseStatus::class.java
             ) != null
         ) throw e
+        if (e is InitException) throw e //error in initializing default page, rethrow to error page
         logger.info("Special handled error: ${request.servletPath}")
-     //   throw e
-        // Otherwise setup and send the user to a default error-view.
-    //    val mav = ModelAndView()
-   //     mav.addObject("exception", e)
-   //     mav.addObject("url", req.requestURL)
-   //     mav.viewName = DEFAULT_ERROR_VIEW
         return "redirect:" + request.servletPath
             .replaceAfterLast("/","").removeSuffix("/")
     }

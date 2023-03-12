@@ -1,5 +1,6 @@
 package com.sigmondsmart.edrops.endpoint
 
+import com.sigmondsmart.edrops.config.InitException
 import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.service.DbService
@@ -30,9 +31,8 @@ class EDropsStartController(private val dbService: DbService): BaseController()
             model.addAttribute("blogs", fetchBlogs())
             setCommonModelParameters(model, request.servletPath)
         } catch (e: Exception) {
-            return "error" //Cannot even open start page
+            throw(InitException("Cannot open default page", e)) //Rethrow so can be picked by error handler.
         }
-      //  throw NullPointerException("hikk")
         return "welcome"
     }
   //  https://www.thymeleaf.org/doc/articles/standardurlsyntax.htmlzzzzz

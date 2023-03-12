@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 
 //Errors not picked up by error handler (e.g. 404 Not Found)
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest
 //It is better to redirect to an error page
 //If disabled Springs default error handler is used to open error page
 //This handler initializes som variables picked up by error page.
+//TODO problematic with too complex error page, redesign.
 //@Profile("notFOundProfile")
 @Controller
 class EDropsErrorController @Autowired private constructor(
@@ -26,8 +28,8 @@ class EDropsErrorController @Autowired private constructor(
 ) : ErrorController, AbstractErrorController(errorAttributes) {
     //   class EDropsErrorController: ErrorController {
     @RequestMapping("/error")
-    fun handleError(request: HttpServletRequest, model: Model): String {
-
+    fun handleError(request: HttpServletRequest, response: HttpServletResponse, model: Model): String {
+        if (response.status == HttpServletResponse.SC_NOT_FOUND) return "redirect:/"
         val opts = getErrorAttributes(
             request, ErrorAttributeOptions.defaults()
                 .including(ErrorAttributeOptions.Include.STACK_TRACE)
