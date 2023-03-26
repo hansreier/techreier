@@ -31,13 +31,17 @@ abstract class BaseController : ServletContextAware {
         val langcode = model.getAttribute("langcode") ?: LocaleContextHolder.getLocale().language
         model.addAttribute("langcode", langcode)
         model.addAttribute("path", if (controllerPath == "/") "" else controllerPath)
-      //  model.addAttribute("error","no Error")
     }
 
     @PostMapping("/language")
-    fun getLanguage(request: HttpServletRequest, redirectAttributes: RedirectAttributes, code: String?): String {
-        logger.info("valgt språkkode: $code path: ${request.servletPath}")
+    fun getLanguage(model: Model, request: HttpServletRequest, redirectAttributes: RedirectAttributes, code: String?,
+                    blogid: Long?): String {
+        logger.info("valgt språkkode: $code path: ${request.servletPath} blogid: $blogid")
         redirectAttributes.addFlashAttribute("langcode", code)
+        //Or else id blogid used to populate menu will not be preserved
+        //Alternative to use hidden field is either cookie or store in session
+        //If more state is needed to use Spring session (and store session in db) is recommended.
+        redirectAttributes.addFlashAttribute("blogid", blogid)
         return "redirect:${controllerPath(request.servletPath)}?lang=$code"
     }
 
