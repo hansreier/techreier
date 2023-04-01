@@ -14,7 +14,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @DataJpaTest
 class TestBlogText : Base() {
 
-
     @Test
     @DirtiesContext
     fun `basic CRUD checks`() {
