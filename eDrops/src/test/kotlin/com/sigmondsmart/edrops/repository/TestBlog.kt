@@ -41,6 +41,7 @@ class TestBlog {
     fun setup() {
         blogData = BlogData()
         languageRepo.save(blogData.norwegian)
+        languageRepo.save(blogData.english)
         ownerRepo.save(blogData.blogOwner)
         // blogRepo.save(blogData.blog1)
         // blogRepo.save(blogData.blog2)
@@ -73,7 +74,7 @@ class TestBlog {
             logger.info("saved")
             val blog = blog1.id?.let { populate(it) }
             logger.info("blog: $blog ${blog?.blogEntries?.size}")
-            assertThat(blog?.blogEntries?.size).isEqualTo(NO_ENTRIES)
+            assertThat(blog?.blogEntries?.size).isEqualTo(blogEntries1.size)
             assertThat(blog?.language?.language).isEqualTo(NORWEGIAN)
             assertThat(blog?.language?.code).isEqualTo(NO)
             val entries = blog?.blogEntries
@@ -99,9 +100,9 @@ class TestBlog {
             logger.info("starting read all test")
             entityManager.clear()
             logger.info("saved")
-            val blog = blogRepo.findByIdOrNull(blogOwner.id)
+            val blog = blogRepo.findByIdOrNull(blog1.id)
             logger.info("blog: $blog ${blog?.blogEntries?.size}")
-            assertThat(blog?.blogEntries?.size).isEqualTo(NO_ENTRIES)
+            assertThat(blog?.blogEntries?.size).isEqualTo(blogEntries1.size)
             val entries = blog?.blogEntries
             logger.info("my entries: $entries")
         }
@@ -115,9 +116,9 @@ class TestBlog {
             logger.info("starting read all test")
             entityManager.clear()
             logger.info("saved")
-            val blog = blogOwner.id?.let { blogRepo.findById(it) }?.orElse(null)
+            val blog = blog1.id?.let { blogRepo.findById(it) }?.orElse(null)
             logger.info("blog: $blog ${blog?.blogEntries?.size}")
-            assertThat(blog?.blogEntries?.size).isEqualTo(NO_ENTRIES)
+            assertThat(blog?.blogEntries?.size).isEqualTo(blogEntries1.size)
             val entries = blog?.blogEntries
             logger.info("my entries: $entries")
         }
@@ -133,7 +134,8 @@ class TestBlog {
             entityManager.clear()
             logger.info("saved")
             val blog = blogRepo.findAll()
-            logger.info("blog: $blog ${blog.size}")
+            logger.info("blogs: $blog noOfBlogs: ${blog.size}")
+            assertThat(blog.size).isEqualTo(noOfBlogs)
             blog.forEach {
                 val entries = it.blogEntries
                 logger.info("my entries: $entries")
@@ -156,7 +158,7 @@ class TestBlog {
             hints["javax.persistence.fetchgraph"] = entityGraph
             logger.info("saved")
             val blog = entityManager.find(Blog::class.java, blog1.id, hints)
-            assertThat(blog?.blogEntries?.size).isEqualTo(NO_ENTRIES)
+            assertThat(blog?.blogEntries?.size).isEqualTo(blog1.blogEntries?.size)
             logger.info("Blog language: ${blog.language.language} owner: ${blog.blogOwner.id} entries: ${blog.blogEntries}")
         }
     }

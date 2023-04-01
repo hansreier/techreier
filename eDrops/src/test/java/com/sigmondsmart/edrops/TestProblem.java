@@ -4,7 +4,6 @@ import com.sigmondsmart.edrops.domain.BlogData;
 import com.sigmondsmart.edrops.domain.BlogEntry;
 import com.sigmondsmart.edrops.domain.LanguageCode;
 import com.sigmondsmart.edrops.repository.BlogOwnerRepository;
-import com.sigmondsmart.edrops.repository.BlogRepository;
 import com.sigmondsmart.edrops.repository.LanguageRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,9 +41,10 @@ public class TestProblem {
         logger.info("starting transactional test");
         BlogData data = new BlogData();
         languageRepo.save(new LanguageCode("Norwegian","no"));
+        languageRepo.save(new LanguageCode("English","en"));
         ownerRepo.save(data.getBlogOwner());
         entityManager.clear();
-        List<BlogEntry> blogEntries = data.getBlogEntries();
+        List<BlogEntry> blogEntries = data.getBlogEntries1();
         Query queryBlog = entityManager.createQuery(
                 "SELECT DISTINCT b FROM Blog b"
                         + " LEFT JOIN FETCH b.blogEntries t "

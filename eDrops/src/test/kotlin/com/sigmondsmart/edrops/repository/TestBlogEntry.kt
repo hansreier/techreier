@@ -32,6 +32,7 @@ class TestBlogEntry {
     fun setup() {
         blogData = BlogData()
         languageRepo.save(blogData.norwegian)
+        languageRepo.save(blogData.english)
         ownerRepo.save(blogData.blogOwner)
     }
 
@@ -44,14 +45,14 @@ class TestBlogEntry {
             val readBlogEntry = entryRepo.findByIdOrNull(2)
             assertThat(readBlogEntry?.id).isEqualTo(2)
             val blogs = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
-            assertThat(blogs).hasSize(NO_ENTRIES_TOTAL)
+            assertThat(blogs).hasSize(noOfBlogEntries)
             assertThat(blogs[0].title).isEqualTo(TITLE4MOD)
             assertThat(blogs[1].title).isEqualTo(TITLE2)
             val foundBlogs = entryRepo.findByTitle(TITLE4MOD)
             assertThat(foundBlogs).hasSize(1)
             assertThat(foundBlogs.first().title).isEqualTo(TITLE4MOD)
             blog1.blogEntries?.remove(blogEntry1)
-            assertThat(entryRepo.count()).isEqualTo(NO_ENTRIES.toLong())
+            assertThat(entryRepo.count()).isEqualTo(noOfBlogEntries - 1L)
         }
     }
 
@@ -66,7 +67,7 @@ class TestBlogEntry {
             assertThat(blogEntry1.title).isEqualTo(TITLE2)
             assertThat(blogEntry1.changed).isEqualTo(newTime)
             val blog = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
-            assertThat(blog).hasSize(NO_ENTRIES_TOTAL)
+            assertThat(blog).hasSize(noOfBlogEntries)
             assertThat(blog[0].title).isEqualTo(TITLE2)
             logger.info("blog entry: ${blog[0]}")
         }

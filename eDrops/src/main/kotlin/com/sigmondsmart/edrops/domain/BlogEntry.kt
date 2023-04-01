@@ -22,7 +22,7 @@ class BlogEntry(
     @Column
     var title: String,
 
-    @Column
+    @Column(length = 400)
     var summary: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

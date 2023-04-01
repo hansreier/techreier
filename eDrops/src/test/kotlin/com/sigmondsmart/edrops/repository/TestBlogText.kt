@@ -30,6 +30,7 @@ class TestBlogText {
     fun setup() {
         blogData = BlogData()
         languageRepo.save(blogData.norwegian)
+        languageRepo.save(blogData.english)
         ownerRepo.save(blogData.blogOwner)
     }
 

@@ -46,6 +46,7 @@ class TestOwner {
     fun setup() {
         blogData = BlogData()
         languageRepo.save(blogData.norwegian)
+        languageRepo.save(blogData.english)
         ownerRepo.save(blogData.blogOwner)
         //blogRepo.save(blogData.blog1)
         //blogRepo.save(blogData.blog2)
@@ -80,7 +81,7 @@ class TestOwner {
             logger.info("saved")
             val blogs = populate(blogOwner)
             logger.info("blog: $blogs ${blogs.size}")
-            assertThat(blogs.size).isEqualTo(2)
+            assertThat(blogs.size).isEqualTo(blogData.noOfBlogs)
             blogs.forEach {
                 logger.info("my blog: $it")
                 it.blogEntries?.forEach {
@@ -130,7 +131,7 @@ class TestOwner {
             logger.info("saved")
             val owner = ownerRepo.findByIdOrNull(blogOwner.id)
             logger.info("owner: $owner $owner?.blogEntries?.size}")
-            assertThat(owner?.blogs?.size).isEqualTo(2)
+            assertThat(owner?.blogs?.size).isEqualTo(blogData.noOfBlogs)
             val blogs = owner?.blogs
             logger.info("my blogs: $blogs")
             blogs?.forEach {
@@ -152,15 +153,18 @@ class TestOwner {
             logger.info("saved")
             val owner = blogOwner.id?.let { ownerRepo.findById(it) }?.orElse(null)
             logger.info("owner: $owner $owner?.blogEntries?.size}")
-            assertThat(owner?.blogs?.size).isEqualTo(2)
+            assertThat(owner?.blogs?.size).isEqualTo(noOfBlogs)
             val blogs = owner?.blogs
             logger.info("my blogs: $blogs")
+            var count = 0
             blogs?.forEach {
                 logger.info("my blog: $it")
                 it.blogEntries?.forEach {
                     logger.info("my blogentry: $it")
+                    count++
                 }
             }
+            assertThat(count).isEqualTo(noOfBlogEntries)
         }
     }
 
