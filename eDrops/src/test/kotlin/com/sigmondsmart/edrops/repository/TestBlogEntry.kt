@@ -31,8 +31,7 @@ class TestBlogEntry {
     @BeforeEach
     fun setup() {
         blogData = BlogData()
-        languageRepo.save(blogData.norwegian)
-        languageRepo.save(blogData.english)
+        languageRepo.saveAll(listOf(blogData.norwegian, blogData.english))
         ownerRepo.save(blogData.blogOwner)
     }
 

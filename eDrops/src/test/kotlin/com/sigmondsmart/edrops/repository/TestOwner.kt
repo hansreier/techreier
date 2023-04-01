@@ -131,7 +131,7 @@ class TestOwner {
             logger.info("saved")
             val owner = ownerRepo.findByIdOrNull(blogOwner.id)
             logger.info("owner: $owner $owner?.blogEntries?.size}")
-            assertThat(owner?.blogs?.size).isEqualTo(blogData.noOfBlogs)
+            assertThat(owner?.blogs?.size).isEqualTo(noOfBlogs)
             val blogs = owner?.blogs
             logger.info("my blogs: $blogs")
             blogs?.forEach {
