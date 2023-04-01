@@ -2,56 +2,20 @@ package com.sigmondsmart.edrops.repository
 
 import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.Blog
-import com.sigmondsmart.edrops.domain.BlogData
 import com.sigmondsmart.edrops.domain.BlogOwner
 import org.assertj.core.api.Assertions.assertThat
 import org.hibernate.annotations.QueryHints
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
 import javax.persistence.Subgraph
-
-
-
-
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
-class TestOwner {
-
-    @PersistenceContext
-    private lateinit var entityManager: EntityManager
-
-    @Autowired
-    lateinit var entryRepo: BlogEntryRepository
-
-    @Autowired
-    lateinit var blogRepo: BlogRepository
-
-    @Autowired
-    lateinit var ownerRepo: BlogOwnerRepository
-
-    @Autowired
-    lateinit var languageRepo: LanguageRepository
-
-    lateinit var blogData: BlogData
-    @BeforeEach
-    fun setup() {
-        blogData = BlogData()
-        languageRepo.save(blogData.norwegian)
-        languageRepo.save(blogData.english)
-        ownerRepo.save(blogData.blogOwner)
-        //blogRepo.save(blogData.blog1)
-        //blogRepo.save(blogData.blog2)
-    }
-
+class TestOwner : Base() {
     @Test
     @DirtiesContext
     fun `cascade delete test`() {
@@ -186,8 +150,10 @@ class TestOwner {
             hints["javax.persistence.fetchgraph"] = entityGraph
             logger.info("saved")
             val blogOwner = entityManager.find(BlogOwner::class.java, blog1.id, hints)
-            logger.info("Blog language: ${blogOwner.blogs?.first()?.language} owner: ${blogOwner.id}" + "" +
-                    " entries: ${blogOwner.blogs?.first()?.blogEntries}")
+            logger.info(
+                "Blog language: ${blogOwner.blogs?.first()?.language} owner: ${blogOwner.id}" + "" +
+                        " entries: ${blogOwner.blogs?.first()?.blogEntries}"
+            )
         }
     }
 }

@@ -3,10 +3,8 @@ package com.sigmondsmart.edrops.repository
 import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.*
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
@@ -16,24 +14,7 @@ import java.time.LocalDateTime
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
-class TestBlogEntry {
-
-    @Autowired
-    lateinit var entryRepo: BlogEntryRepository
-
-    @Autowired
-    lateinit var ownerRepo: BlogOwnerRepository
-
-    @Autowired
-    lateinit var languageRepo: LanguageRepository
-
-    lateinit var blogData: BlogData
-    @BeforeEach
-    fun setup() {
-        blogData = BlogData()
-        languageRepo.saveAll(listOf(blogData.norwegian, blogData.english))
-        ownerRepo.save(blogData.blogOwner)
-    }
+class TestBlogEntry: Base() {
 
     @Test
     @DirtiesContext

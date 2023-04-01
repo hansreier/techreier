@@ -3,49 +3,18 @@ package com.sigmondsmart.edrops.repository
 import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.*
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
-import kotlin.collections.HashMap
 
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
-class TestBlog {
-
-    @PersistenceContext
-    private lateinit var entityManager: EntityManager
-
-    @Autowired
-    lateinit var entryRepo: BlogEntryRepository
-
-    @Autowired
-    lateinit var blogRepo: BlogRepository
-
-    @Autowired
-    lateinit var ownerRepo: BlogOwnerRepository
-
-    @Autowired
-    lateinit var languageRepo: LanguageRepository
-
-    lateinit var blogData: BlogData
-    @BeforeEach
-    fun setup() {
-        blogData = BlogData()
-        languageRepo.save(blogData.norwegian)
-        languageRepo.save(blogData.english)
-        ownerRepo.save(blogData.blogOwner)
-        // blogRepo.save(blogData.blog1)
-        // blogRepo.save(blogData.blog2)
-    }
+class TestBlog : Base() {
 
     @Test
     @DirtiesContext
@@ -86,7 +55,8 @@ class TestBlog {
     //Or user Kotlin JDSL?
     // find.. does not seem to populate children
     private fun populate(id: Long): Blog {
-        val query = entityManager.createQuery("SELECT DISTINCT b FROM Blog b INNER JOIN FETCH b.blogEntries WHERE b.id = ?1 ")
+        val query =
+            entityManager.createQuery("SELECT DISTINCT b FROM Blog b INNER JOIN FETCH b.blogEntries WHERE b.id = ?1 ")
         return query.setParameter(1, id).singleResult as Blog
     }
 
