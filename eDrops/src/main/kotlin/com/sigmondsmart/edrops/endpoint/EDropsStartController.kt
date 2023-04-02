@@ -2,7 +2,6 @@ package com.sigmondsmart.edrops.endpoint
 
 import com.sigmondsmart.edrops.config.InitException
 import com.sigmondsmart.edrops.config.logger
-import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.service.DbService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping()
-class EDropsStartController(private val dbService: DbService): BaseController()
+class EDropsStartController(private val dbService: DbService): BaseController(dbService)
 {
     // inject via application.properties
     @Value("\${welcome.message} from Kotlin")
@@ -56,8 +55,10 @@ class EDropsStartController(private val dbService: DbService): BaseController()
         return "redirect:/"
     }
 
+    /*
     private fun fetchBlogs(): MutableSet<Blog>? {
-        val blogs = dbService.readOwner(1)?.blogs
+      //  val blogs = dbService.readOwner(1)?.blogs //Todo fetches all blogs regardless of language
+        val blogs = dbService.readBlogs(1, )
         return blogs
-    }
+    }*/
 }

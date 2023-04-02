@@ -1,7 +1,6 @@
 package com.sigmondsmart.edrops.endpoint
 
 import com.sigmondsmart.edrops.config.logger
-import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.domain.BlogEntry
 import com.sigmondsmart.edrops.service.DbService
 import org.springframework.stereotype.Controller
@@ -12,7 +11,7 @@ import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("/blogs")
-class BlogEntriesController(private val dbService: DbService): BaseController()
+class BlogEntriesController(private val dbService: DbService): BaseController(dbService)
 {
 
     @GetMapping
@@ -47,12 +46,13 @@ class BlogEntriesController(private val dbService: DbService): BaseController()
             return "redirect:/blogs"
     }
 
+    /*
     private fun fetchBlogs(): MutableSet<Blog>? {
         logger.info("Fetch blogs by Owner")
         val blogs = dbService.readOwner(1)?.blogs
         logger.info("Blogs fetched")
         return blogs
-    }
+    }*/
 
     private fun fetchBlogEntries(blogId: Long): MutableList<BlogEntry>? {
         logger.info("fetch blog entries")

@@ -32,5 +32,5 @@ class Blog(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?=null,
 ) {
-    override fun toString() = "id: $id blogOwner: $blogOwner created: $created"
+    override fun toString() = "id: $id subject: $subject language: ${language.language} blogOwner: $blogOwner created: $created"
 }

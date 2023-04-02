@@ -4,6 +4,7 @@ import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.domain.BlogData
 import com.sigmondsmart.edrops.domain.BlogOwner
+import com.sigmondsmart.edrops.domain.LanguageCode
 import com.sigmondsmart.edrops.repository.BlogOwnerRepository
 import com.sigmondsmart.edrops.repository.BlogRepository
 import org.springframework.data.repository.findByIdOrNull
@@ -40,5 +41,11 @@ class DbService(private val ownerRepo: BlogOwnerRepository, private val blogRepo
         // val blog = blogRepo.findByIdOrNull(blogId)
         val blog = blogRepo.findById(blogId).orElse(null)
         return blog
+    }
+
+    fun readBlogs(blogOwnerId: Long, languageCode: String): MutableSet<Blog>? {
+        logger.info("Read blog")
+        val blogs = blogRepo.findByLanguage(LanguageCode("", languageCode))
+        return blogs
     }
 }

@@ -1,6 +1,7 @@
 package com.sigmondsmart.edrops.repository
 
 import com.sigmondsmart.edrops.domain.Blog
+import com.sigmondsmart.edrops.domain.LanguageCode
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
@@ -14,5 +15,8 @@ interface BlogRepository : JpaRepository<Blog, Long> {
 
  @EntityGraph(attributePaths = ["blogOwner", "language","blogEntries"])
  override fun findById(id: Long): Optional<Blog>
+
+ @EntityGraph(attributePaths = ["blogOwner", "language","blogEntries"])
+ fun findByLanguage(language: LanguageCode): MutableSet<Blog>
 
 }

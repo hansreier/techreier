@@ -1,7 +1,9 @@
 package com.sigmondsmart.edrops.endpoint
 
 import com.sigmondsmart.edrops.config.logger
+import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.domain.Language
+import com.sigmondsmart.edrops.service.DbService
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PostMapping
@@ -10,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import javax.servlet.ServletContext
 import javax.servlet.http.HttpServletRequest
 
-abstract class BaseController : ServletContextAware {
+abstract class BaseController(private val dbService: DbService) : ServletContextAware {
 
     private var servletContext: ServletContext? = null
     override fun setServletContext(servletContext: ServletContext) {
@@ -43,6 +45,14 @@ abstract class BaseController : ServletContextAware {
         //If more state is needed to use Spring session (and store session in db) is recommended.
         redirectAttributes.addFlashAttribute("blogid", blogid)
         return "redirect:${controllerPath(request.servletPath)}?lang=$code"
+    }
+
+    protected fun fetchBlogs(): MutableSet<Blog>? {
+        logger.info("Fetch blogs by Owner")
+        val blogs = dbService.readOwner(1)?.blogs //Todo fetches all blogs regardless of language
+      //  val blogs = dbService.readBlogs(1, )
+        logger.info("Blogs fetched")
+        return blogs
     }
 
     private fun controllerPath(currentPath: String): String {

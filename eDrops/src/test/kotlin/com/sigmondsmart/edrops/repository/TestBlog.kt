@@ -132,4 +132,22 @@ class TestBlog : Base() {
             logger.info("Blog language: ${blog.language.language} owner: ${blog.blogOwner.id} entries: ${blog.blogEntries}")
         }
     }
+
+    @Test
+    @DirtiesContext
+    //Using JPQL more efficient, only one SQL statement
+    //https://www.baeldung.com/spring-data-jpa-named-entity-graphs
+    fun `read blogs with selected language`() {
+        with(blogData) {
+            logger.info("starting read all test")
+            entityManager.clear()
+            logger.info("saved")
+            val languageCode = LanguageCode("no","no")
+            val blogs = blogRepo.findByLanguage(languageCode)
+            logger.info(blogs.toString())
+            blogs.forEach {
+                logger.info("blog: $it")
+            }
+        }
+    }
 }
