@@ -27,7 +27,8 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         val langcode = selectedLangcode ?: defaultLangcode
         logger.debug("Language selected: $selectedLangcode default: $defaultLangcode used: $langcode")
         model.addAttribute("langcode", langcode)
-        logger.info("Reier servletPath: ${request.servletPath}")
+        //Get Url path to controller based on servletPath and send to template
+        //alternative can be to hard code path as constant in Controller.
         val controllerPath = request.servletPath
         val selectedPath =  if (controllerPath == "/") "" else controllerPath
         logger.debug("Path controllerpath: $controllerPath selected $selectedPath")
