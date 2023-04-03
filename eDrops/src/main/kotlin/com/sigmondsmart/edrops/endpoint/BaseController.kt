@@ -2,7 +2,7 @@ package com.sigmondsmart.edrops.endpoint
 
 import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.Blog
-import com.sigmondsmart.edrops.domain.Language
+import com.sigmondsmart.edrops.domain.LanguageCode
 import com.sigmondsmart.edrops.service.DbService
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.ui.Model
@@ -17,16 +17,6 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
     private var servletContext: ServletContext? = null
     override fun setServletContext(servletContext: ServletContext) {
         this.servletContext = servletContext
-    }
-
-    //Start with hard coding languages, used in language select
-    //TODO Fetch from DB
-    protected fun fetchLanguages(): MutableList<Language> {
-        logger.info("Fetch languages (hard coded)")
-        return mutableListOf(
-            Language("lang.no", "nb"),
-            Language("lang.eng", "en")
-        )
     }
 
     protected fun setCommonModelParameters(model: Model, request: HttpServletRequest) {
@@ -56,6 +46,10 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         redirectAttributes.addFlashAttribute("blogid", blogid)
         logger.debug("before redirect to get")
         return "redirect:${controllerPath(request.servletPath)}?lang=$code"
+    }
+
+    protected fun fetchLanguages(): MutableList<LanguageCode> {
+        return dbService.readLanguages()
     }
 
     protected fun fetchBlogs(langcode: String): MutableSet<Blog>? {

@@ -57,7 +57,7 @@
         <label th:text="#{lang.text}" for="dropDownList" >Language code:</label>
         <select id="dropDownList" name="code">
             <option th:each="language : ${languages}"
-                    th:value="${language.code}" th:text="#{${language.name}} +' '+ ${language.code}"
+                    th:value="${language.code}" th:text="#{${language.language}} +' '+ ${language.code}"
                     th:selected="${language.code eq langcode}"></option>
         </select>
         <button th:name="changelanguage" th:value="${blogid}" type="submit" th:text="#{lang.change}"/>

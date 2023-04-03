@@ -7,13 +7,17 @@ import com.sigmondsmart.edrops.domain.BlogOwner
 import com.sigmondsmart.edrops.domain.LanguageCode
 import com.sigmondsmart.edrops.repository.BlogOwnerRepository
 import com.sigmondsmart.edrops.repository.BlogRepository
+import com.sigmondsmart.edrops.repository.LanguageRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class DbService(private val ownerRepo: BlogOwnerRepository, private val blogRepo: BlogRepository) {
+class DbService(private val ownerRepo: BlogOwnerRepository,
+                private val blogRepo: BlogRepository,
+                private val languageRepo: LanguageRepository
+) {
 
     fun createBlog() {
         logger.info("Create blog")
@@ -47,5 +51,9 @@ class DbService(private val ownerRepo: BlogOwnerRepository, private val blogRepo
         logger.info("Read blogs with language: $languageCode")
         val blogs = blogRepo.findByLanguage(LanguageCode("", languageCode))
         return blogs
+    }
+
+    fun readLanguages(): MutableList<LanguageCode> {
+        return languageRepo.findAll()
     }
 }

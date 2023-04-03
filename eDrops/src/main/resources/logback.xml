@@ -14,7 +14,7 @@
     <logger name="com.sigmondsmart.edrops" level="DEBUG" />
     <logger name="org.hibernate" level="INFO" />
     <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="INFO"/>
-    <logger name="org.hibernate.SQL" level="INFO"/>
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
     <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
