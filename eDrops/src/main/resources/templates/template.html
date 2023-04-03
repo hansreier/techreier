@@ -52,7 +52,8 @@
 </div>
 <!-- https://o7planning.org/11659/thymeleaf-form-select-option-->
 <footer>
-    <form th:action="@{{path}/language(path=${path})}" th:method="post">
+    <!--form th:action="@{{path}/language(path=${path})}" th:method="post"-->
+    <form th:action="@{|${path}/language|}" th:method="post">
         <p>eTorg &copy; Hans Reier Sigmond</p>
         <label th:text="#{lang.text}" for="dropDownList" >Language code:</label>
         <select id="dropDownList" name="code">
