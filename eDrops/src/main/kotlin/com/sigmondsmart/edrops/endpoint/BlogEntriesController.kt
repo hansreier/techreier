@@ -18,8 +18,9 @@ class BlogEntriesController(private val dbService: DbService): BaseController(db
         logger.info("got blogid: ${model.getAttribute("blogid")}")
         val blogId = (model.getAttribute("blogid")  ?: 1L) as Long
         logger.info("allBlogEntries Fetch blog entries with blogid: $blogId")
+        val blog = dbService.readBlog(blogId)
         model.addAttribute("blogid", blogId)
-        model.addAttribute("blogEntries", fetchBlogEntries(blogId))
+        model.addAttribute("blog", blog)
         setCommonModelParameters(model, request)
         logger.info("getting GUI with blogEntries")
         return "blogEntries"
