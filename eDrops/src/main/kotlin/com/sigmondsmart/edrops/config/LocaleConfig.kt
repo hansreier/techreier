@@ -18,7 +18,7 @@ class LocaleConfig : WebMvcConfigurer {
     @Bean
     fun localeResolver(): LocaleResolver {
         val slr = SessionLocaleResolver()
-        slr.setDefaultLocale(Locale.forLanguageTag("nb-NO"))
+        slr.setDefaultLocale(Locale.forLanguageTag("nb"))
        // slr.setDefaultLocale(Locale.UK)
         return slr
     }

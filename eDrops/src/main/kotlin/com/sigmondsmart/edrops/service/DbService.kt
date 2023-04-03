@@ -31,7 +31,7 @@ class DbService(private val ownerRepo: BlogOwnerRepository, private val blogRepo
 
     fun readOwner(blogOwnerId: Long): BlogOwner? {
         logger.info("Read blog owner")
-      //  return ownerRepo.findByIdOrNull(blogOwnerId)
+        //  return ownerRepo.findByIdOrNull(blogOwnerId)
         return ownerRepo.findById(blogOwnerId).orElse(null)
     }
 
@@ -44,7 +44,7 @@ class DbService(private val ownerRepo: BlogOwnerRepository, private val blogRepo
     }
 
     fun readBlogs(blogOwnerId: Long, languageCode: String): MutableSet<Blog>? {
-        logger.info("Read blog")
+        logger.info("Read blogs with language: $languageCode")
         val blogs = blogRepo.findByLanguage(LanguageCode("", languageCode))
         return blogs
     }

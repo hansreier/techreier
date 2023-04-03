@@ -22,7 +22,7 @@ const val SUBJECT2 = "Energi saker"
 const val V1:Long  = 1
 const val NORWEGIAN = "Norwegian"
 const val ENGLISH = "English"
-const val NO = "no"
+const val NO = "nb"
 const val EN = "en"
 
 const val SUMMARY1 = """

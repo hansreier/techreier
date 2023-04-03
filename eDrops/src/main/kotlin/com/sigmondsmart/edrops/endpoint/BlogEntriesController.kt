@@ -13,46 +13,37 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("/blogs")
 class BlogEntriesController(private val dbService: DbService): BaseController(dbService)
 {
-
     @GetMapping
     fun allBlogEntries(request: HttpServletRequest, model: Model): String {
+        logger.info("got blogid: ${model.getAttribute("blogid")}")
         val blogId = (model.getAttribute("blogid")  ?: 1L) as Long
-        logger.info("Fetch blog entries with blogid: $blogId")
-        model.addAttribute("blogs", fetchBlogs())
+        logger.info("allBlogEntries Fetch blog entries with blogid: $blogId")
         model.addAttribute("blogid", blogId)
         model.addAttribute("blogEntries", fetchBlogEntries(blogId))
-        setCommonModelParameters(model, request.servletPath)
+        setCommonModelParameters(model, request)
         logger.info("getting GUI with blogEntries")
         return "blogEntries"
     }
 
     @GetMapping("/blogtexts")
-    fun allBlogTexts(model: Model): String {
+    fun allBlogTexts(request: HttpServletRequest, model: Model): String {
         val blogId = (model.getAttribute("blogid")  ?: 1L) as Long
-        logger.info("Fetch blog entries with text and blogid: $blogId")
-        model.addAttribute("blogs", fetchBlogs())
+        logger.info("blogtexts Fetch blog entries with text and blogid: $blogId")
         model.addAttribute("blogEntries", fetchBlogEntries(blogId))
+        setCommonModelParameters(model, request)
         logger.info("Fetch Reiers blog entries with text")
         return "blogTexts"
     }
 
-    // Overføre attributter mellom ulike views.
+    // Transfer attributes between views
     // https://www.thymeleaf.org/doc/articles/springmvcaccessdata.html
     // https://www.baeldung.com/spring-web-flash-attributes
     @PostMapping("/bl")
     fun getBlog(redirectAttributes: RedirectAttributes, blog: Long): String {
-            logger.info("valgt: $blog")
+            logger.info("getBlog valgt: $blog")
             redirectAttributes.addFlashAttribute("blogid", blog)
             return "redirect:/blogs"
     }
-
-    /*
-    private fun fetchBlogs(): MutableSet<Blog>? {
-        logger.info("Fetch blogs by Owner")
-        val blogs = dbService.readOwner(1)?.blogs
-        logger.info("Blogs fetched")
-        return blogs
-    }*/
 
     private fun fetchBlogEntries(blogId: Long): MutableList<BlogEntry>? {
         logger.info("fetch blog entries")

@@ -2,7 +2,6 @@ package com.sigmondsmart.edrops;
 
 import com.sigmondsmart.edrops.domain.BlogData;
 import com.sigmondsmart.edrops.domain.BlogEntry;
-import com.sigmondsmart.edrops.domain.LanguageCode;
 import com.sigmondsmart.edrops.repository.BlogOwnerRepository;
 import com.sigmondsmart.edrops.repository.LanguageRepository;
 import org.junit.jupiter.api.Test;
@@ -40,8 +39,8 @@ public class TestProblem {
     public void read() {
         logger.info("starting transactional test");
         BlogData data = new BlogData();
-        languageRepo.save(new LanguageCode("Norwegian","no"));
-        languageRepo.save(new LanguageCode("English","en"));
+        languageRepo.save(data.getNorwegian());
+        languageRepo.save(data.getEnglish());
         ownerRepo.save(data.getBlogOwner());
         entityManager.clear();
         List<BlogEntry> blogEntries = data.getBlogEntries1();
