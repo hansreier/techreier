@@ -15,9 +15,9 @@
     <div class="container">
         <table id="blogentries">
             <tr>
-                <th>blogg tittel</th>
-                <th>opprettet</th>
-                <th>endret</th>
+                <th th:text="#{title}"/>
+                <th th:text="#{created}"/>
+                <th th:text="#{changed}"/>
             </tr>
             <tr th:each="blogEntry : ${blogEntries}">
                 <td th:text="${blogEntry.title}"></td>
