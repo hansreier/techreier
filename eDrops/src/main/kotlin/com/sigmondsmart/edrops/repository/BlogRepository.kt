@@ -13,10 +13,13 @@ interface BlogRepository : JpaRepository<Blog, Long> {
  @EntityGraph(attributePaths = ["blogOwner", "language","blogEntries"])
  override fun findAll(): MutableList<Blog>
 
- @EntityGraph(attributePaths = ["blogOwner", "language","blogEntries"])
+ @EntityGraph(attributePaths = ["blogOwner", "language"])
  override fun findById(id: Long): Optional<Blog>
 
- @EntityGraph(attributePaths = ["blogOwner", "language","blogEntries"])
+ @EntityGraph(attributePaths = ["blogOwner", "language"])
  fun findByLanguage(language: LanguageCode): MutableSet<Blog>
+
+ @EntityGraph(attributePaths = ["blogOwner", "language"])
+ fun findFirstByLanguageAndTag(language: LanguageCode, tag: String):Blog?
 
 }

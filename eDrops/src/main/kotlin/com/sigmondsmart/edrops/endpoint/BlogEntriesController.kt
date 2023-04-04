@@ -17,8 +17,16 @@ class BlogEntriesController(private val dbService: DbService): BaseController(db
     fun allBlogEntries(request: HttpServletRequest, model: Model): String {
         logger.info("got blogid: ${model.getAttribute("blogid")}")
         val blogId = (model.getAttribute("blogid")  ?: 1L) as Long
-        logger.info("allBlogEntries Fetch blog entries with blogid: $blogId")
-        val blog = dbService.readBlog(blogId)
+        val langCode = (model.getAttribute("langcode")) as String?
+        logger.info("allBlogEntries Fetch blog entries with blogid: $blogId langcode: $langCode")
+
+        var blog = dbService.readBlog(blogId)
+        if (langCode != null && blog?.tag != null) {
+            if (blog.language.code != langCode) {
+                dbService.readBlog(langCode, blog.tag)?.let {blog = it}
+            }
+        }
+
         model.addAttribute("blogid", blogId)
         model.addAttribute("blog", blog)
         setCommonModelParameters(model, request)

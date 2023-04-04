@@ -142,12 +142,27 @@ class TestBlog : Base() {
             logger.info("saved")
             val languageCode = LanguageCode("dummy",NO)
             val blogs = blogRepo.findByLanguage(languageCode)
-            logger.info(blogs.toString())
             assertThat(blogs.size).isGreaterThan(0)
             blogs.forEach {
                 logger.info("blog: $it")
                 assertThat(it.language.code).isEqualTo(NO)
             }
+        }
+    }
+
+    @Test
+    @DirtiesContext
+    fun `read first blog found by language and tag`() {
+        with(blogData) {
+            logger.info("starting read all test")
+            entityManager.clear()
+            logger.info("saved")
+            val languageCode = LanguageCode("",NO)
+            val blog = blogRepo.findFirstByLanguageAndTag(languageCode, BLOG_TAG)
+            assertThat(blog).isNotNull
+            assertThat(blog?.language?.code).isEqualTo(NO)
+            assertThat(blog?.tag).isEqualTo(BLOG_TAG)
+            logger.info("Blog found: $blog")
         }
     }
 }

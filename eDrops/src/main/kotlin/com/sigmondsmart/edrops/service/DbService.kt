@@ -43,14 +43,16 @@ class DbService(private val ownerRepo: BlogOwnerRepository,
         logger.info("Read blog")
         // Does not fetch JPA annotations
         // val blog = blogRepo.findByIdOrNull(blogId)
-        val blog = blogRepo.findById(blogId).orElse(null)
-        return blog
+        return blogRepo.findById(blogId).orElse(null)
+    }
+
+    fun readBlog(languageCode: String, tag: String): Blog? {
+        return blogRepo.findFirstByLanguageAndTag(LanguageCode("", languageCode), tag)
     }
 
     fun readBlogs(blogOwnerId: Long, languageCode: String): MutableSet<Blog>? {
         logger.info("Read blogs with language: $languageCode")
-        val blogs = blogRepo.findByLanguage(LanguageCode("", languageCode))
-        return blogs
+        return blogRepo.findByLanguage(LanguageCode("", languageCode))
     }
 
     fun readLanguages(): MutableList<LanguageCode> {
