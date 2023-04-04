@@ -135,18 +135,18 @@ class TestBlog : Base() {
 
     @Test
     @DirtiesContext
-    //Using JPQL more efficient, only one SQL statement
-    //https://www.baeldung.com/spring-data-jpa-named-entity-graphs
-    fun `read blogs with selected language`() {
+    fun `read blogs find by language`() {
         with(blogData) {
             logger.info("starting read all test")
             entityManager.clear()
             logger.info("saved")
-            val languageCode = LanguageCode("no","no")
+            val languageCode = LanguageCode("dummy",NO)
             val blogs = blogRepo.findByLanguage(languageCode)
             logger.info(blogs.toString())
+            assertThat(blogs.size).isGreaterThan(0)
             blogs.forEach {
                 logger.info("blog: $it")
+                assertThat(it.language.code).isEqualTo(NO)
             }
         }
     }
