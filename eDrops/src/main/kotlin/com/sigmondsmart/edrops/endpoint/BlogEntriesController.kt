@@ -18,6 +18,7 @@ class BlogEntriesController(private val dbService: DbService): BaseController(db
         logger.info("got blogid: ${model.getAttribute("blogid")}")
         val blogId = (model.getAttribute("blogid")  ?: 1L) as Long
         val langCode = (model.getAttribute("langcode")) as String?
+        setCommonModelParameters(model, request)
         logger.info("allBlogEntries Fetch blog entries with blogid: $blogId langcode: $langCode")
 
         var blog = dbService.readBlog(blogId)
@@ -29,7 +30,6 @@ class BlogEntriesController(private val dbService: DbService): BaseController(db
 
         model.addAttribute("blogid", blogId)
         model.addAttribute("blog", blog)
-        setCommonModelParameters(model, request)
         logger.info("getting GUI with blogEntries")
         return "blogEntries"
     }
