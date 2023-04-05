@@ -20,7 +20,7 @@ class BlogEntriesController(private val dbService: DbService): BaseController(db
         val langCode = (model.getAttribute("langcode")) as String?
         setCommonModelParameters(model, request)
         logger.info("allBlogEntries Fetch blog entries with blogid: $blogId langcode: $langCode")
-
+        //changed language, use saved session state or do it this way with extra SQL call
         var blog = dbService.readBlog(blogId)
         if (langCode != null && blog?.tag != null) {
             if (blog.language.code != langCode) {
