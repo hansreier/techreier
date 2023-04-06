@@ -3,11 +3,11 @@ package com.sigmondsmart.edrops.endpoint
 import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.BlogEntry
 import com.sigmondsmart.edrops.service.DbService
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("/blogs")

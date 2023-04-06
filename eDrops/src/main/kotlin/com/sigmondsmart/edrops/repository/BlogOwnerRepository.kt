@@ -17,6 +17,6 @@ interface BlogOwnerRepository : JpaRepository<BlogOwner, Long> {
    //  If more than one level downwards and MutableList is used, there will be duplicates. Bug?
    // Fetches all, but not really required
 
-    @EntityGraph(attributePaths = ["blogs","blogs.language"])
+    @EntityGraph(attributePaths = ["blogs","blogs.language","blogs.blogEntries"])
     override fun findById(id: Long): Optional<BlogOwner>
 }

@@ -4,6 +4,7 @@ import com.sigmondsmart.edrops.domain.BlogData;
 import com.sigmondsmart.edrops.domain.BlogEntry;
 import com.sigmondsmart.edrops.repository.BlogOwnerRepository;
 import com.sigmondsmart.edrops.repository.LanguageRepository;
+import jakarta.persistence.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -13,9 +14,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)

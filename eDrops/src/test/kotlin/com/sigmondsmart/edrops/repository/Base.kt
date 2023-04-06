@@ -1,11 +1,9 @@
 package com.sigmondsmart.edrops.repository
 
 import com.sigmondsmart.edrops.domain.*
+import jakarta.persistence.*
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
-
 abstract class Base {
 
     @PersistenceContext

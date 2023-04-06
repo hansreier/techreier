@@ -1,6 +1,7 @@
+
 package com.sigmondsmart.edrops.domain
 
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity
 class LanguageCode(

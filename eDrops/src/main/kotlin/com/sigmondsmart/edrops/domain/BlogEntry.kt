@@ -1,7 +1,7 @@
 package com.sigmondsmart.edrops.domain
 
+import jakarta.persistence.*
 import java.time.LocalDateTime
-import javax.persistence.*
 
 //https://www.baeldung.com/kotlin/jpa
 @Entity

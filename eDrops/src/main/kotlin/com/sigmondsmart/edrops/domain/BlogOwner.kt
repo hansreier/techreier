@@ -1,8 +1,8 @@
 package com.sigmondsmart.edrops.domain
 
+import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.util.*
-import javax.persistence.*
 
 @Entity
 class BlogOwner(

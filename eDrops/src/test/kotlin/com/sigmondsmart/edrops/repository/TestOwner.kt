@@ -3,15 +3,14 @@ package com.sigmondsmart.edrops.repository
 import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.domain.BlogOwner
+import jakarta.persistence.Subgraph
 import org.assertj.core.api.Assertions.assertThat
-import org.hibernate.annotations.QueryHints
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import javax.persistence.Subgraph
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
@@ -56,7 +55,6 @@ class TestOwner : Base() {
     }
 
     //Using JPQL instead of typesafe JPA criteria queries (too much work for nothing)
-    //Or user Kotlin JDSL?
     // find.. does not seem to populate children
     //But !! Does not generate one single SQL, this I what I wanted
     //https://stackoverflow.com/questions/30088649/how-to-use-multiple-join-fetch-in-one-jpql-query
@@ -71,15 +69,16 @@ class TestOwner : Base() {
                     + " INNER JOIN FETCH b.blogEntries"
                     + " WHERE b.blogOwner = ?1 "
         )
-        queryBlog.setParameter(1, blogOwner).setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
-        val blogs = queryBlog.resultList
+        //setHint(QueryHints.PASS_DISTINCT_THROUGH, false) not required hibernate 6 (default)
+        queryBlog.setParameter(1, blogOwner)
+        val blogs  = queryBlog.resultList
 
         val queryBlog2 = entityManager.createQuery(
             "SELECT DISTINCT b FROM Blog b"
                     + " INNER JOIN FETCH b.blogOwner o"
                     + " WHERE b in :blogs "
         )
-        queryBlog2.setParameter("blogs", blogs).setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+        queryBlog2.setParameter("blogs", blogs)
         val result = queryBlog2.resultList
         logger.info("populate end")
         @Suppress("UNCHECKED_CAST")

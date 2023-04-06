@@ -4,13 +4,13 @@ import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.domain.Blog
 import com.sigmondsmart.edrops.domain.LanguageCode
 import com.sigmondsmart.edrops.service.DbService
+import jakarta.servlet.ServletContext
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.context.ServletContextAware
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import javax.servlet.ServletContext
-import javax.servlet.http.HttpServletRequest
 
 abstract class BaseController(private val dbService: DbService) : ServletContextAware {
 
@@ -33,7 +33,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
     }
 
     @PostMapping("/language")
-    fun getLanguage(model: Model, request: HttpServletRequest, redirectAttributes: RedirectAttributes, code: String?,
+    fun getLanguage(request: HttpServletRequest, redirectAttributes: RedirectAttributes, code: String?,
                     blogid: Long?): String {
         logger.debug("Language selected: $code path: ${request.servletPath} blogid: $blogid")
         redirectAttributes.addFlashAttribute("langcode", code)

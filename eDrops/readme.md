@@ -45,5 +45,8 @@ settings, editor, fil encodings. If not Norwegian characters øæå ØÆÅ are
 dieplayed incorrectly. The problem seems to be there only in property files 
 and not in .html files.
 
+Investigate and change.
+https://www.baeldung.com/spring-open-session-in-view
+
 
 

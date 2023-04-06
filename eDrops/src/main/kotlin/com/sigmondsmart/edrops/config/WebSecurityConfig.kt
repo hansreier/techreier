@@ -15,9 +15,9 @@ class WebSecurityConfig {
     fun filterChain(http: HttpSecurity): SecurityFilterChain? {
         http
             .httpBasic().disable()
-            .authorizeRequests()
-            .antMatchers("/**","/css/*").permitAll()
-            .antMatchers("/h2-console/**").permitAll()
+            .authorizeHttpRequests()
+            .requestMatchers("/**","/css/*").permitAll()
+            .requestMatchers("/h2-console/**").permitAll()
             .anyRequest().authenticated()
         http.csrf().disable().headers().frameOptions().disable() //needed to enable H2 console
         return http.build()
