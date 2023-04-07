@@ -6,6 +6,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -81,16 +83,45 @@ class TestBlog : Base() {
     @Test
     @DirtiesContext
     //Works, generates only one SQL
-    fun `read all with findById2 test`() {
+    fun `read all eagerly with findAllById test`() {
+        with(blogData) {
+            logger.info("starting read all test")
+            entityManager.clear()
+            logger.info("saved")
+            val blog = blog1.id?.let { blogRepo.findAllById(it) }?.orElse(null)
+            logger.info("blog: $blog ${blog?.blogEntries?.size}")
+            assertThat(blog?.blogEntries?.size).isEqualTo(blogEntries1.size)
+            val entries = blog?.blogEntries
+            logger.info("my entries: $entries")
+        }
+    }
+
+    @Test
+    @DirtiesContext
+    //Works, generates only one SQL
+    fun `read all eagerly with findAllById pageable test`() {
+        with(blogData) {
+            logger.info("starting read all test")
+            entityManager.clear()
+            logger.info("saved")
+            val blog = blog1.id?.let { blogRepo.findAllById(PageRequest.of(0,1,  Sort.Direction.ASC, "id"), it) }?.orElse(null)
+            logger.info("blog: $blog ${blog?.blogEntries?.size}")
+            assertThat(blog?.blogEntries?.size).isEqualTo(1)
+            val entries = blog?.blogEntries
+            logger.info("my entries: $entries")
+        }
+    }
+
+    @Test
+    @DirtiesContext
+    fun `read lazily with findById test`() {
         with(blogData) {
             logger.info("starting read all test")
             entityManager.clear()
             logger.info("saved")
             val blog = blog1.id?.let { blogRepo.findById(it) }?.orElse(null)
-            logger.info("blog: $blog ${blog?.blogEntries?.size}")
-            assertThat(blog?.blogEntries?.size).isEqualTo(blogEntries1.size)
-            val entries = blog?.blogEntries
-            logger.info("my entries: $entries")
+            assertThat(blog?.id).isEqualTo(blog1.id)
+            logger.info("blog: $blog")
         }
     }
 
@@ -158,11 +189,14 @@ class TestBlog : Base() {
             entityManager.clear()
             logger.info("saved")
             val languageCode = LanguageCode("",NO)
-            val blog = blogRepo.findFirstByLanguageAndTag(languageCode, BLOG_TAG)
+            val blog = blogRepo.findFirstBlogByLanguageAndTag(languageCode, BLOG_TAG)
+            blog?.blogEntries = blog?.blogEntries
             assertThat(blog).isNotNull
             assertThat(blog?.language?.code).isEqualTo(NO)
             assertThat(blog?.tag).isEqualTo(BLOG_TAG)
+            assertThat(blog?.blogEntries?.size).isEqualTo(3)
             logger.info("Blog found: $blog")
         }
     }
+
 }

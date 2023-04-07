@@ -8,16 +8,22 @@ import com.sigmondsmart.edrops.domain.LanguageCode
 import com.sigmondsmart.edrops.repository.BlogOwnerRepository
 import com.sigmondsmart.edrops.repository.BlogRepository
 import com.sigmondsmart.edrops.repository.LanguageRepository
+import jakarta.persistence.EntityManager
+import jakarta.persistence.PersistenceContext
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class DbService(private val ownerRepo: BlogOwnerRepository,
-                private val blogRepo: BlogRepository,
-                private val languageRepo: LanguageRepository
+class DbService(
+    private val ownerRepo: BlogOwnerRepository,
+    private val blogRepo: BlogRepository,
+    private val languageRepo: LanguageRepository
 ) {
+
+    @PersistenceContext
+    lateinit var entityManager: EntityManager
 
     fun createBlog() {
         logger.info("Create blog")
@@ -43,14 +49,28 @@ class DbService(private val ownerRepo: BlogOwnerRepository,
         logger.info("Read blog")
         // Does not fetch JPA annotations
         // val blog = blogRepo.findByIdOrNull(blogId)
-        return blogRepo.findById(blogId).orElse(null)
+        return blogRepo.findAllById(blogId).orElse(null)
     }
 
     fun readBlog(languageCode: String, tag: String): Blog? {
-        return blogRepo.findFirstByLanguageAndTag(LanguageCode("", languageCode), tag)
+        return blogRepo.findFirstBlogByLanguageAndTag(LanguageCode("", languageCode), tag)
     }
 
-    fun readBlogs(blogOwnerId: Long, languageCode: String): MutableSet<Blog>? {
+    fun readBlogWithSameLanguage(blogId: Long, langCode: String?): Blog? {
+        logger.info("Read blog with  same language")
+        val blog = blogRepo.findById(blogId).orElse(null)
+        if (langCode != null) {
+            logger.debug("The current blog is found with language.code ${blog.language.code}, should be: $langCode")
+            if (blog.language.code != langCode) {
+                val blogSwitched = blogRepo.findFirstBlogByLanguageAndTag(LanguageCode("", langCode), blog.tag)
+                blogSwitched?.blogEntries?.size
+                return blogSwitched ?: blogRepo.findAllById(blogId).orElse(null)
+            }
+        }
+        return blogRepo.findAllById(blogId).orElse(null)
+    }
+
+    fun readBlogs(blogOwnerId: Long, languageCode: String): MutableSet<Blog> {
         logger.info("Read blogs with language: $languageCode")
         return blogRepo.findByLanguage(LanguageCode("", languageCode))
     }

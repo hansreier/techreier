@@ -47,6 +47,7 @@ and not in .html files.
 
 Investigate and change.
 https://www.baeldung.com/spring-open-session-in-view
+https://vladmihalcea.com/the-open-session-in-view-anti-pattern/
 
 
 

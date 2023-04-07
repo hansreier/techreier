@@ -17,7 +17,7 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
 # Must be investigated. Should really be set to false.
-    open-in-view: true
+    open-in-view: false
     properties:
       hibernate.show_sql: false
   datasource:

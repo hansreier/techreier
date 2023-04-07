@@ -23,7 +23,7 @@ class GlobalDefaultExceptionHandler {
             ) != null
         ) throw e
         if (e is InitException) throw e //error in initializing default page, rethrow to error page
-        logger.info("Special handled error: ${request.servletPath}")
+        logger.info("Special handled error: ${request.servletPath}",e)
         redirectAttributes.addFlashAttribute("error", e.message) //type error message in GUI
         return "redirect:" + request.servletPath
             .replaceAfterLast("/","").removeSuffix("/")
