@@ -63,8 +63,8 @@ class DbService(
             logger.debug("The current blog is found with language.code ${blog.language.code}, should be: $langCode")
             if (blog.language.code != langCode) {
                 val blogSwitched = blogRepo.findFirstBlogByLanguageAndTag(LanguageCode("", langCode), blog.tag)
-                blogSwitched?.blogEntries?.size
-                return blogSwitched ?: blogRepo.findAllById(blogId).orElse(null)
+                val blogIdNew = blogSwitched?.id ?: blogId
+                return blogRepo.findAllById(blogIdNew).orElse(null)
             }
         }
         return blogRepo.findAllById(blogId).orElse(null)
