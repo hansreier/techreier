@@ -56,18 +56,19 @@ class DbService(
         return blogRepo.findFirstBlogByLanguageAndTag(LanguageCode("", languageCode), tag)
     }
 
+    //if language is changed, we try to fetch a blog with the new language and the same tag
     fun readBlogWithSameLanguage(blogId: Long, langCode: String?): Blog? {
         logger.info("Read blog with  same language")
-        val blog = blogRepo.findById(blogId).orElse(null)
+        var blogIdNew = blogId
         if (langCode != null) {
+            val blog = blogRepo.findById(blogId).orElse(null)
             logger.debug("The current blog is found with language.code ${blog.language.code}, should be: $langCode")
             if (blog.language.code != langCode) {
                 val blogSwitched = blogRepo.findFirstBlogByLanguageAndTag(LanguageCode("", langCode), blog.tag)
-                val blogIdNew = blogSwitched?.id ?: blogId
-                return blogRepo.findAllById(blogIdNew).orElse(null)
+                blogIdNew = blogSwitched?.id ?: blogId
             }
         }
-        return blogRepo.findAllById(blogId).orElse(null)
+        return blogRepo.findAllById(blogIdNew).orElse(null)
     }
 
     fun readBlogs(blogOwnerId: Long, languageCode: String): MutableSet<Blog> {
