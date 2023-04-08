@@ -64,8 +64,8 @@ the server based http rendering in Thymeleaf.  Every time the user requests or c
 the server.
 
 You loose control of when and how a database call is handled using Hibernate. It is a question if it is better 
-use a thin layer on top of plain SQL that supports CRUD and simple abstraction of SQL dialects / database types.
-Population of the required(view and or db) model objects must then be manually handled.
+use a thin layer on top of plain SQL that supports CRUD and simple abstraction of SQL dialects (H2, Oracle, MySQl..)
+Population of the required (view and or db) model objects must then be manually handled.
 E.g. use Kotlin Exposed or Spring Data JDBC instead. I have used a lot of time
 to verify that generated Hibernate SQL is correct and efficient. To configure Hibernate with Kotlin and Spring MVC 
 correctly required a lot of work.
