@@ -136,6 +136,7 @@ class TestOwner : Base() {
     //https://www.baeldung.com/jpa-entity-graph
     //Correct result only if blogs is defined as a set and not as a list in blogOwner
     //Problem is that hibernate generate left outer joins.
+    //Not anymore returning duplicates in hibernate 6, but 3 more SQL calls instead.
     fun `read with entityManager find manual entityGraph`() {
         with(blogData) {
             logger.info("starting read all test")
@@ -146,7 +147,7 @@ class TestOwner : Base() {
             blogGraph.addAttributeNodes("language")
             blogGraph.addAttributeNodes("blogEntries")
             val hints: MutableMap<String, Any> = HashMap()
-            hints["javax.persistence.fetchgraph"] = entityGraph
+            hints["javax.persistence.loadgraph"] = entityGraph //Fetchgraph or loadgraph (uses defaults)
             logger.info("saved")
             val blogOwner = entityManager.find(BlogOwner::class.java, blog1.id, hints)
             logger.info(
