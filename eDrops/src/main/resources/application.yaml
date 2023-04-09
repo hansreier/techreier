@@ -36,7 +36,7 @@ spring:
     mode: HTML
   web:
     resources:
-      static-locations: file:src/main/resources/static/
+ #     static-locations: file:src/main/resources/static/
       cache:
         period: 0
   devtools:
