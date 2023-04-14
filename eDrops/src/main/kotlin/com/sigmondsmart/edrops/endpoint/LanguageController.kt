@@ -1,15 +1,14 @@
 package com.sigmondsmart.edrops.endpoint
 
 import com.sigmondsmart.edrops.config.logger
-import com.sigmondsmart.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
-//@RequestMapping("/l")
-class LanguageController(private val dbService: DbService) : BaseController(dbService) {
+@RequestMapping
+class LanguageController {
 
     @PostMapping("/language")
     fun getLanguage(
