@@ -17,8 +17,9 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         this.servletContext = servletContext
     }
 
-    protected fun setCommonModelParameters(model: Model, request: HttpServletRequest) {
+    protected fun setCommonModelParameters(model: Model, request: HttpServletRequest): BlogParams {
         logger.debug("set common model parameters")
+        val blogId = (model.getAttribute("blogid")  ?: 1L) as Long
         model.addAttribute("languages", fetchLanguages())
         val defaultLangcode = LocaleContextHolder.getLocale().language
         val selectedLangcode = model.getAttribute("langcode") as String?
@@ -28,16 +29,21 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         // Get Url path based on servletPath and send to template (avoid double slash in template)
         model.addAttribute("path", request.servletPath.removeSuffix("/"))
         model.addAttribute("blogs", fetchBlogs(langcode))
+        model.addAttribute("blogid", blogId)
+        return BlogParams(blogId, langcode)
     }
 
-    protected fun fetchLanguages(): MutableList<LanguageCode> {
+    private fun fetchLanguages(): MutableList<LanguageCode> {
         return dbService.readLanguages()
     }
 
-    protected fun fetchBlogs(langcode: String): MutableSet<Blog>? {
+    private fun fetchBlogs(langcode: String): MutableSet<Blog> {
         logger.info("Fetch blogs by Owner")
         val blogs = dbService.readBlogs(1, langcode )
         logger.info("Blogs fetched")
         return blogs
+    }
+
+    data class BlogParams(val blogId: Long, val langCode: String) {
     }
 }
