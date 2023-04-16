@@ -9,9 +9,7 @@ https://kotlination.com/kotlin-spring-jpa-postgresql-spring-boot-example/
 https://medium.com/swlh/defining-jpa-hibernate-entities-in-kotlin-1ff8ee470805
 
 Thymeleaf is used for server side rendering HTML pages. For simplicity 
-client side frameworks is not used to create Web GUI in this application.
-
-## Deployment
+client side frameworks is not used to create Web GUI in this applica
 runs on http://localhost:8443 due to Spring security
 
 Generates .jar to deploy on Docker container
@@ -19,6 +17,9 @@ Can generate .war to deploy on Tomcat (change pom)
 
 To deploy to docker container:
 mvn spring-boot:build-image -DskipTests
+https://www.baeldung.com/dockerizing-spring-boot-application
+
+docker inspect edrops: TODO No IP adress configured.
 
 Does not require docker file.
 
