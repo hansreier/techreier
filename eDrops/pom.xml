@@ -48,7 +48,7 @@
 	<!-- Spring Boot Plugin for creating Jar/War files -->
 	<build>
 		<!-- Version numbers in war file creates undeploy problem  using Tomcat admin console -->
-    	<finalName>eDrops</finalName>
+    	<finalName>edrops</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -115,6 +115,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<configuration>
+							<mainClass>com.sigmondsmart.edrops.Main</mainClass>
+						</configuration>
+					</execution>
+				</executions>
 				<!--why had to include version for Intellij to spot it the first time?-->
 				<!--version>2.7.6</version-->
 				<!--version>3.0.0</version-->

@@ -10,7 +10,7 @@ class Init(languageRepo: LanguageRepository,
            ownerRepo: BlogOwnerRepository
 ) {
     init {
-        logger.info("Reier was here mama")
+        logger.info("Reier was here mama dust hei du dd")
         val blogData = BlogData()
         languageRepo.save(blogData.norwegian)
         languageRepo.save(blogData.english)

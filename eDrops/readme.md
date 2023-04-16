@@ -11,6 +11,17 @@ https://medium.com/swlh/defining-jpa-hibernate-entities-in-kotlin-1ff8ee470805
 Thymeleaf is used for server side rendering HTML pages. For simplicity 
 client side frameworks is not used to create Web GUI in this application.
 
+## Deployment
+runs on http://localhost:8443 due to Spring security
+
+Generates .jar to deploy on Docker container
+Can generate .war to deploy on Tomcat (change pom)
+
+To deploy to docker container:
+mvn spring-boot:build-image -DskipTests
+
+Does not require docker file.
+
 ## Development
 Make sure that Facets are set correctly in project settings in Intellij
 - JPA
