@@ -2,11 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sigmondsmart</groupId>
-	<artifactId>eDrops</artifactId>
+	<artifactId>edrops</artifactId>
 	<version>1.0</version>
-	<name>eDrops</name>
+	<name>edrops</name>
 	<description>Thymeleaf/Spring Boot test project aimed at writing notes</description>
-	<packaging>war</packaging>
+	<!--packaging>war</packaging-->
+	<packaging>jar</packaging>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
