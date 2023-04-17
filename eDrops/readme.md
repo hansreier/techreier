@@ -23,13 +23,7 @@ https://www.baeldung.com/dockerizing-spring-boot-application
 https://medium.com/@sybrenbolandit/jib-maven-plugin-89c447473d76
 
 jib-maven-plugin solved the problems at last
-I had forgot to include tomcat in image:
-
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-tomcat</artifactId>
-    <!--scope>provided</scope-->
-</dependency>
+I had forgot to include tomcat in image. I removed scope provided in spring-boot-starter-tomcat.
 
 And port must be set manually to 8080 to start the application.
 Perhaps this was the problem with the default Spring Boot deploy also.
