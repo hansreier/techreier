@@ -10,6 +10,7 @@ https://medium.com/swlh/defining-jpa-hibernate-entities-in-kotlin-1ff8ee470805
 
 Thymeleaf is used for server side rendering HTML pages. For simplicity 
 client side frameworks is not used to create Web GUI in this applica
+
 runs on http://localhost:8443 due to Spring security
 
 Generates .jar to deploy on Docker container
@@ -19,9 +20,25 @@ To deploy to docker container:
 mvn spring-boot:build-image -DskipTests
 https://www.baeldung.com/dockerizing-spring-boot-application
 
-docker inspect edrops: TODO No IP adress configured.
+https://medium.com/@sybrenbolandit/jib-maven-plugin-89c447473d76
 
-Does not require docker file.
+jib-maven-plugin solved the problems at last
+I had forgot to include tomcat in image:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-tomcat</artifactId>
+    <!--scope>provided</scope-->
+</dependency>
+
+And port must be set manually to 8080 to start the application.
+Perhaps this was the problem with the default Spring Boot deploy also.
+
+I have temporarily disabled Spring security, can add it again and test.
+- mvn compile jib:dockerBuild to deploy to local docker (not DockerHub)
+The jib-maven plugin was much faster to use than the spring-boot-maven-plugin
+- mvn spring-boot:build-image (maven-compile-plugin)
+But used a little more disk space. Both methods: No Dockerfile.
 
 ## Development
 Make sure that Facets are set correctly in project settings in Intellij

@@ -126,6 +126,34 @@
 				<!--version>2.7.6</version-->
 				<!--version>3.0.0</version-->
 			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.3.1</version>
+				<configuration>
+					<from>
+						<!--image>eclipse-temurin:17-jdk-focal</image-->
+						<image>eclipse-temurin:17-jdk-alpine</image>
+						<!--image>mcr.microsoft.com/openjdk/jdk:17-ubuntu</image-->
+					</from>
+					<to>
+						<image>${project.artifactId}</image>
+					</to>
+					<container>
+						<ports>
+							<port>8080</port>
+						</ports>
+					</container>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>dockerBuild</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -234,7 +262,7 @@
 		<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
+            <!--scope>provided</scope-->
         </dependency>
 		<!--dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -251,19 +279,20 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<!-- removed temporily for docker -->
 		<!-- Spring security-->
-		<dependency>
+		<!--dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

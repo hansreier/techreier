@@ -1,5 +1,7 @@
 package com.sigmondsmart.edrops.config
 
+/* Removed for Docker test
+
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -22,4 +24,4 @@ class WebSecurityConfig {
         http.csrf().disable().headers().frameOptions().disable() //needed to enable H2 console
         return http.build()
     }
-}
+} */
