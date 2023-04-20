@@ -24,7 +24,7 @@
         </button>
         <div class="dropdown-content">
             <a href="#start">Link 1</a>
-            <form th:action="@{/blogs/bl}" th:method="post">
+            <form th:action="@{/blogs}" th:method="post">
                 <ul>
                     <li th:each="blog: ${blogs}">
                         <button class=dropdown-button name="blog" type="submit" th:value="${blog.id}"
@@ -40,7 +40,7 @@
         </button>
         <div class="dropdown-content">
             <a href="#start">Link adm1</a>
-            <form th:action="@{/blogs/bladmin}" th:method="post">
+            <form th:action="@{/blogs/admin}" th:method="post">
                 <ul>
                     <li th:each="blog: ${blogs}">
                         <button class=dropdown-button name="blog" type="submit" th:value="${blog.id}"

@@ -12,16 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @RequestMapping("/blogs")
 class BlogEntriesController(private val dbService: DbService): BaseController(dbService)
 {
-    @GetMapping("/admin")
-    fun allBlogEntries(request: HttpServletRequest, model: Model): String {
-        val blogParams = setCommonModelParameters(model, request)
-        logger.info("allBlogEntries Fetch blog entries with: $blogParams")
-        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.langCode )
-        model.addAttribute("blog", blog)
-        logger.info("getting GUI with blogEntries")
-        return "blogEntries"
-    }
-
     @GetMapping
     fun allBlogTexts(request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request)
@@ -34,14 +24,24 @@ class BlogEntriesController(private val dbService: DbService): BaseController(db
     // Transfer attributes between views
     // https://www.thymeleaf.org/doc/articles/springmvcaccessdata.html
     // https://www.baeldung.com/spring-web-flash-attributes
-    @PostMapping("/bl")
+    @PostMapping
     fun getBlog(redirectAttributes: RedirectAttributes, blog: Long): String {
         logger.info("getBlog valgt: $blog")
         redirectAttributes.addFlashAttribute("blogid", blog)
         return "redirect:/blogs"
     }
 
-    @PostMapping("/bladmin")
+    @GetMapping("/admin")
+    fun allBlogEntries(request: HttpServletRequest, model: Model): String {
+        val blogParams = setCommonModelParameters(model, request)
+        logger.info("allBlogEntries Fetch blog entries with: $blogParams")
+        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.langCode )
+        model.addAttribute("blog", blog)
+        logger.info("getting GUI with blogEntries")
+        return "blogEntries"
+    }
+
+    @PostMapping("/admin")
     fun getBlogAdmin(redirectAttributes: RedirectAttributes, blog: Long): String {
         logger.info("BlogAdmin getBlog valgt: $blog")
         redirectAttributes.addFlashAttribute("blogid", blog)
