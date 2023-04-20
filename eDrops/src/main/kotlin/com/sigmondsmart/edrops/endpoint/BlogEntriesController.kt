@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @RequestMapping("/blogs")
 class BlogEntriesController(private val dbService: DbService): BaseController(dbService)
 {
-    @GetMapping
+    @GetMapping("/admin")
     fun allBlogEntries(request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request)
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
@@ -22,7 +22,7 @@ class BlogEntriesController(private val dbService: DbService): BaseController(db
         return "blogEntries"
     }
 
-    @GetMapping("/summary")
+    @GetMapping
     fun allBlogTexts(request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request)
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
@@ -39,5 +39,12 @@ class BlogEntriesController(private val dbService: DbService): BaseController(db
         logger.info("getBlog valgt: $blog")
         redirectAttributes.addFlashAttribute("blogid", blog)
         return "redirect:/blogs"
+    }
+
+    @PostMapping("/bladmin")
+    fun getBlogAdmin(redirectAttributes: RedirectAttributes, blog: Long): String {
+        logger.info("BlogAdmin getBlog valgt: $blog")
+        redirectAttributes.addFlashAttribute("blogid", blog)
+        return "redirect:/blogs/admin"
     }
 }

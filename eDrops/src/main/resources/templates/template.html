@@ -19,16 +19,28 @@
     <a href="#contact">Contact</a>
     <a href="#about">About</a>
     <div class="dropdown">
-        <button class="dropdown-btn">Blogs
+        <button class="dropdown-btn" th:text="#{blogs}">Blogs
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
             <a href="#start">Link 1</a>
-            <a href="#start">Link 2</a>
-            <a href="#start">Link 3</a>
-            <a href="#start">Link 4</a>
-            <a href="#start">Link 5</a>
             <form th:action="@{/blogs/bl}" th:method="post">
+                <ul>
+                    <li th:each="blog: ${blogs}">
+                        <button class=dropdown-button name="blog" type="submit" th:value="${blog.id}"
+                                th:text="${blog.subject}"></button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropdown-btn" th:text="#{blogsadmin}">Blog admin
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="#start">Link adm1</a>
+            <form th:action="@{/blogs/bladmin}" th:method="post">
                 <ul>
                     <li th:each="blog: ${blogs}">
                         <button class=dropdown-button name="blog" type="submit" th:value="${blog.id}"

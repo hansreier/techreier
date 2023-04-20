@@ -10,8 +10,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h1>My blogs</h1>
-    <h2>My blog entries</h2>
+    <h2 th:text="${blog.subject}"/>
     <div class="container">
         <div th:each="blogEntry : ${blog.blogEntries}" class="title">
             <h2>
