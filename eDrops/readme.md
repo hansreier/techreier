@@ -68,6 +68,8 @@ settings, editor, fil encodings. If not Norwegian characters øæå ØÆÅ are
 dieplayed incorrectly. The problem seems to be there only in property files 
 and not in .html files.
 
+h2 console: If present available at "root url"/h2-console
+
 ### Thymeleaf views, state and data fetching.
 
 The parameter spring.jpa.open-in-view is set to false.

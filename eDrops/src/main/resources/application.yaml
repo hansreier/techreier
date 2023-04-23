@@ -59,3 +59,22 @@ spring:
   h2:
     console.enabled: true
 
+---
+spring:
+  config:
+    activate:
+      on-profile: h2disk
+  jpa:
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    properties:
+      hibernate.show_sql: false
+  datasource:
+    url: jdbc:h2:file:C:/h2/edrops
+    username: sa
+    password: sa
+  h2:
+    console.enabled: true
+
+

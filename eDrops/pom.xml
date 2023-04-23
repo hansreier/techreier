@@ -131,6 +131,7 @@
 				<artifactId>jib-maven-plugin</artifactId>
 				<version>3.3.1</version>
 				<configuration>
+					<!--skip>true</skip-->
 					<from>
 						<!--image>eclipse-temurin:17-jdk-focal</image-->
 						<image>eclipse-temurin:17-jdk-alpine</image>
@@ -145,14 +146,15 @@
 						</ports>
 					</container>
 				</configuration>
-				<executions>
+				<!--enables always running Docker build, not always wanted -->
+				<!--executions>
 					<execution>
 						<phase>package</phase>
 						<goals>
 							<goal>dockerBuild</goal>
 						</goals>
 					</execution>
-				</executions>
+				</executions-->
 			</plugin>
 
 			<plugin>

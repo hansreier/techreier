@@ -14,8 +14,8 @@
     <!--logger name="com.sigmondsmart.edrops" level="DEBUG" /-->
     <!--logger name="org.hibernate" level="INFO" /-->
     <logger name="org.hibernate.testing.cache" level="ERROR" />
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />
-    <logger name="org.hibernate.SQL" level="DEBUG" />
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="INFO" />
+    <logger name="org.hibernate.SQL" level="INFO" />
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

@@ -6,15 +6,19 @@ import com.sigmondsmart.edrops.repository.LanguageRepository
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class Init(languageRepo: LanguageRepository,
-           ownerRepo: BlogOwnerRepository
+class Init(
+    languageRepo: LanguageRepository,
+    ownerRepo: BlogOwnerRepository
 ) {
     init {
-        logger.info("Reier was here mama dust hei du dd")
-        val blogData = BlogData()
-        languageRepo.save(blogData.norwegian)
-        languageRepo.save(blogData.english)
-        ownerRepo.save(blogData.blogOwner)
-        logger.info("Initialized with data")
+        if (ownerRepo.count() == 0L) {
+            val blogData = BlogData()
+            languageRepo.save(blogData.norwegian)
+            languageRepo.save(blogData.english)
+            ownerRepo.save(blogData.blogOwner)
+            logger.info("Initialized with data")
+        } else {
+            logger.info("Initial data was already there, skipping")
+        }
     }
 }
