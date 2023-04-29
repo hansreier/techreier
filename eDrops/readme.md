@@ -34,13 +34,21 @@ Port must be set manually to 8080 to start the application. I have temporarily d
 The jib-maven plugin is faster to use than the spring-boot-maven-plugin and more flexible. Recommended. Both method uses no dockerfile.
 - mvn spring-boot:build-image (maven-compile-plugin)
 
-Wincred is downloaded to store credentials when logging into dockerhub.
+Credential helper:
+
+Wincred is downloaded to store credentials  when logging into dockerhub.
 Check in Windows Credential Manager or Legitimasjonsbehandling.
 You have to change Windows path variable to point at it.
 It could be placed together with Docker installation or elsewhere.
+
+Personal access token:
+
+Can be used as an alternate to a credential helper. Not tested.
   
 https://docs.docker.com/engine/reference/commandline/login/
 https://github.com/docker/docker-credential-helpers/releases
+
+2 Factor Authentication can be set up on Dockerhub. Not done yet.
 
 to login to docker with user name and password:
 

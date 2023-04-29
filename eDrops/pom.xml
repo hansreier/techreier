@@ -134,13 +134,14 @@
 					<!--skip>true</skip-->
 					<from>
 						<!--image>eclipse-temurin:17-jdk-alpine</image-->
-						<image>eclipse-temurin:17-jre-alpine</image>
-						<!--image>liberica-openjdk-alpine:17</image-->
+						<!--image>eclipse-temurin:17-jre-alpine</image-->
+						<image>bellsoft/liberica-openjre-alpine-musl:17</image>
 						<credHelper>wincred</credHelper>
 						<!--image>mcr.microsoft.com/openjdk/jdk:17-ubuntu</image-->
 					</from>
 					<to>
 						<image>hansreier/${project.artifactId}</image>
+						<credHelper>wincred</credHelper>
 					</to>
 					<container>
 						<ports>
@@ -285,7 +286,7 @@
 		</dependency>
 		<!-- removed temporily for docker -->
 		<!-- Spring security-->
-		<!--dependency>
+		<!--dependency>f
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
