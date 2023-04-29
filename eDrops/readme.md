@@ -11,7 +11,10 @@ https://medium.com/swlh/defining-jpa-hibernate-entities-in-kotlin-1ff8ee470805
 Thymeleaf is used for server side rendering HTML pages. For simplicity 
 client side frameworks is not used to create Web GUI in this applica
 
-runs on http://localhost:8443 due to Spring security
+runs on http://localhost:8443 due to Spring security.  
+To run om 8080 you must remove Spring-security from pom, absolutely required.
+
+# Docker
 
 Generates .jar to deploy on Docker container
 Can generate .war to deploy on Tomcat (change pom)
@@ -22,17 +25,39 @@ https://www.baeldung.com/dockerizing-spring-boot-application
 
 https://medium.com/@sybrenbolandit/jib-maven-plugin-89c447473d76
 
-jib-maven-plugin solved the problems at last
-I had forgot to include tomcat in image. I removed scope provided in spring-boot-starter-tomcat.
+Remember to remove the scope provided in spring-boot-starter-tomcat.
 
-And port must be set manually to 8080 to start the application.
-Perhaps this was the problem with the default Spring Boot deploy also.
+Port must be set manually to 8080 to start the application. I have temporarily disabled Spring security, can add it again and test.
+- mvn jib:dockerBuild to deploy to local docker (not DockerHub)
+- mvn jib:build to deploy to dockerhub
 
-I have temporarily disabled Spring security, can add it again and test.
-- mvn compile jib:dockerBuild to deploy to local docker (not DockerHub)
-The jib-maven plugin was much faster to use than the spring-boot-maven-plugin
+The jib-maven plugin is faster to use than the spring-boot-maven-plugin and more flexible. Recommended. Both method uses no dockerfile.
 - mvn spring-boot:build-image (maven-compile-plugin)
-But used a little more disk space. Both methods: No Dockerfile.
+
+Wincred is downloaded to store credentials when logging into dockerhub.
+Check in Windows Credential Manager or Legitimasjonsbehandling.
+You have to change Windows path variable to point at it.
+It could be placed together with Docker installation or elsewhere.
+  
+https://docs.docker.com/engine/reference/commandline/login/
+https://github.com/docker/docker-credential-helpers/releases
+
+to login to docker with user name and password:
+
+docker login registry-1.docker.io
+First successful login stores password in Windows Credentials Manager.
+Check in Windows Credential Manager or "Legitimasjonsbehandling", that password is stored. 
+Check in file .docker\config.json. I first set it up manually to "credStore": "wincread", but contents is changed in process.
+
+```
+{
+    "auths": {
+        "https://index.docker.io/v1/": {},
+        "registry-1.docker.io": {}
+    },
+    "credsStore": "desktop"
+}
+```
 
 ## Development
 Make sure that Facets are set correctly in project settings in Intellij

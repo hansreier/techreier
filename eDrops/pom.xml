@@ -133,12 +133,14 @@
 				<configuration>
 					<!--skip>true</skip-->
 					<from>
-						<!--image>eclipse-temurin:17-jdk-focal</image-->
-						<image>eclipse-temurin:17-jdk-alpine</image>
+						<!--image>eclipse-temurin:17-jdk-alpine</image-->
+						<image>eclipse-temurin:17-jre-alpine</image>
+						<!--image>liberica-openjdk-alpine:17</image-->
+						<credHelper>wincred</credHelper>
 						<!--image>mcr.microsoft.com/openjdk/jdk:17-ubuntu</image-->
 					</from>
 					<to>
-						<image>${project.artifactId}</image>
+						<image>hansreier/${project.artifactId}</image>
 					</to>
 					<container>
 						<ports>
