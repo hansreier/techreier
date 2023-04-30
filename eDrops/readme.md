@@ -12,7 +12,7 @@ Thymeleaf is used for server side rendering HTML pages. For simplicity
 client side frameworks is not used to create Web GUI in this application.  
   
 runs on http://localhost:8443 due to Spring security.  
-To run om 8080 you must remove Spring-security from pom, absolutely required.
+To run on 8080 you must remove Spring-security from pom, absolutely required.
   
 ## Docker
 
@@ -180,12 +180,12 @@ Translates into better html.
 3. her
    
 
-| haha  | hoho |
-|-------|------|
-| oah   | alan |
-| mygod | huff |
 
-
+| haha  | hoha   | hwhw      | de       | dd |
+|-------|--------|-----------|----------|----|
+| oah   | alan   | podagra   | fanitull | ss |
+| mygod | huff   | r         | reier    | ss |
+| olav  | andres | pettersen | hipl     | ds |
 
 
 
