@@ -357,12 +357,12 @@
 			<version>${commonmark.version}</version>
 		</dependency>
 
-		<dependency>
+		<!--dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-testing</artifactId>
 			<version>${hibernate.version}</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
