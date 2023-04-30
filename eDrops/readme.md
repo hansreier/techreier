@@ -151,6 +151,41 @@ of error. Be aware to avoid recursive redirects due to unhandled errors.
 What I would recommend to store state is to use Spring JDBC session, because it is independent of deploy platform.
 To use cookies is another alternative.
 
+### Storing text
+
+https://dzone.com/articles/how-to-store-text-in-postgresql-tips-tricks-and-tr
+
+My documents will not exceed 1Gb limit, forget it.
+
+I will try MariaDB, PostGres is to large and not well suited for small web applications.
+
+Text editors to use:
+RTF based: Can include pictures.
+Sommernote  - Tutorial for Thymeleaf.. Try this
+TineMCE (not free for advanced features), also directly editing online using cloud version.
+Froala
+CKEditor 5?
+
+Using markdown instead:
+
+Like this readme file..
+
+https://www.roshanadhikary.com.np/2021/07/build-a-markdown-based-blog-with-spring-boot-part-5.html
+https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-markdown-editor
+https://medium.com/content-uneditable/a-standard-for-rich-text-data-4b3a507af552
+
+Translates into better html.
+
+1. hava
+2. dette
+3. 
+
+![] (image.png), but a little tricky.
+
+| haha | hoho|
+|------|------|
+|oah | alan|
+|mygod | huff |
 
 
 
