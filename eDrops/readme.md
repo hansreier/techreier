@@ -178,8 +178,7 @@ Translates into better html.
 1. hava
 2. dette
 3. her
-   
-
+  
 
 | haha  | hoha   | hwhw      | de       | dd |
 |-------|--------|-----------|----------|----|
@@ -187,6 +186,7 @@ Translates into better html.
 | mygod | huff   | r         | reier    | ss |
 | olav  | andres | pettersen | hipl     | ds |
 
+  
 
 
 
