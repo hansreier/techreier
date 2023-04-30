@@ -30,7 +30,8 @@
 		<!-- fetched automagically-->
 		<!--hibernate.version>6.2.0.Final</hibernate.version-->
 		<h2.version>2.1.214</h2.version>
-		<commonmark.version>0.17.0</commonmark.version>
+		<!--commonmark.version>0.17.0</commonmark.version-->
+		<commonmark.version>0.21.0</commonmark.version>
 	</properties>
 
 	<!--repositories>
@@ -340,8 +341,13 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		<dependency>
+		<!--dependency>
 			<groupId>com.atlassian.commonmark</groupId>
+			<artifactId>commonmark</artifactId>
+			<version>${commonmark.version}</version>
+		</dependency-->
+		<dependency>
+			<groupId>org.commonmark</groupId>
 			<artifactId>commonmark</artifactId>
 			<version>${commonmark.version}</version>
 		</dependency>

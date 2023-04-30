@@ -16,7 +16,8 @@
             <h2>
                 <a th:text="${blogEntry.title}"></a>
             </h2>
-            <a th:text="${blogEntry.summary}"></a><br><br>
+            <!-- TODO remove utext later. Note: Can cause HTML injection if we do not take care -->
+            <a th:utext="${blogEntry.summary}"></a><br><br>
             <a th:text="${#temporals.format(blogEntry.changed,'dd-MM-yyyy')}"></a>
         </div>
     </div>
