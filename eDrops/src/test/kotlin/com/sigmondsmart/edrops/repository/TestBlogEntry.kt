@@ -26,8 +26,9 @@ class TestBlogEntry: Base() {
             assertThat(readBlogEntry?.id).isEqualTo(2)
             val blogs = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
             assertThat(blogs).hasSize(noOfBlogEntries)
-            assertThat(blogs[0].title).isEqualTo(TITLE4MOD)
-            assertThat(blogs[1].title).isEqualTo(TITLE2)
+            assertThat(blogs[0].title).isEqualTo(TITLEIE)
+            assertThat(blogs[1].title).isEqualTo(TITLE4MOD)
+            assertThat(blogs[2].title).isEqualTo(TITLE2)
             val foundBlogs = entryRepo.findByTitle(TITLE4MOD)
             assertThat(foundBlogs).hasSize(1)
             assertThat(foundBlogs.first().title).isEqualTo(TITLE4MOD)
@@ -48,7 +49,7 @@ class TestBlogEntry: Base() {
             assertThat(blogEntry1.changed).isEqualTo(newTime)
             val blog = entryRepo.findAll(Sort.by(Sort.Direction.ASC, "id"))
             assertThat(blog).hasSize(noOfBlogEntries)
-            assertThat(blog[0].title).isEqualTo(TITLE2)
+            assertThat(blog[1].title).isEqualTo(TITLE2)
             logger.info("blog entry: ${blog[0]}")
         }
     }

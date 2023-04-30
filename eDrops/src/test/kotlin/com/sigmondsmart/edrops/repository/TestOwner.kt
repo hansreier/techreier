@@ -149,7 +149,7 @@ class TestOwner : Base() {
             val hints: MutableMap<String, Any> = HashMap()
             hints["javax.persistence.loadgraph"] = entityGraph //Fetchgraph or loadgraph (uses defaults)
             logger.info("saved")
-            val blogOwner = entityManager.find(BlogOwner::class.java, blog1.id, hints)
+            val blogOwner = entityManager.find(BlogOwner::class.java, blogOwner.id, hints)
             logger.info(
                 "Blog language: ${blogOwner.blogs?.first()?.language} owner: ${blogOwner.id}" + "" +
                         " entries: ${blogOwner.blogs?.first()?.blogEntries}"

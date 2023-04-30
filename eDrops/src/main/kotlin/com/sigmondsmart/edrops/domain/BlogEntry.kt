@@ -22,7 +22,8 @@ class BlogEntry(
     @Column
     var title: String,
 
-    @Column(length = 400)
+    // @Column(length = 400) TODO revert
+    @Column(length = 58000)
     var summary: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

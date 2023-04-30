@@ -1,12 +1,15 @@
 package com.sigmondsmart.edrops.domain
 
+import com.sigmondsmart.edrops.util.markdownToHtml
 import java.time.LocalDateTime
 
+const val TAGIE ="Me"
 const val TAG1 = "Sjø"
 const val TAG1E = "Sea"
 const val TAG2 = "Fjell"
 const val TAG2E = "Montain"
 
+const val TITLEIE ="About me"
 const val TITLE1 = "Om strøm"
 const val TITLE1E = "About electric power"
 const val TITLE2 = "Om været"
@@ -19,11 +22,15 @@ const val BLOG_TAG = "Environment"
 const val SUBJECT1 = "Miljø saker"
 const val SUBJECT1E = "Environmental issues"
 const val SUBJECT2 = "Energi saker"
+const val SUBJECTI = "Om meg"
+const val SUBJECTIE = "About me"
 const val V1:Long  = 1
 const val NORWEGIAN = "Norwegian"
 const val ENGLISH = "English"
 const val NO = "nb"
 const val EN = "en"
+
+val readme = markdownToHtml("readme.md")
 
 const val SUMMARY1 = """
     Regjeringen Støre nekter å regulere strømmarkedet.
@@ -73,13 +80,17 @@ class BlogData {
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv"
     )
+    val blogEntriesIe = mutableListOf<BlogEntry>()
     val blogEntries1 =  mutableListOf<BlogEntry>()
     val blogEntries1e =  mutableListOf<BlogEntry>()
-    private val blogEntries2 =  mutableListOf<BlogEntry>()
+    val blogEntries2 =  mutableListOf<BlogEntry>()
     val timestamp: LocalDateTime = LocalDateTime.now()
+    val blogIe = Blog(timestamp, BLOG_TAG, english, SUBJECTIE, blogEntriesIe, blogOwner)
     val blog1 = Blog(timestamp, BLOG_TAG, norwegian, SUBJECT1, blogEntries1, blogOwner)
     val blog1e = Blog(timestamp, BLOG_TAG, english, SUBJECT1E, blogEntries1e, blogOwner)
     val blog2 = Blog(timestamp, BLOG_TAG, norwegian, SUBJECT2, blogEntries2, blogOwner)
+
+    val blogEntryIe = BlogEntry(timestamp, timestamp, TAGIE, V1, TITLEIE, readme, blogIe ) //temporary for test
     val blogEntry1 = BlogEntry(timestamp, timestamp, TAG1, V1, TITLE1, SUMMARY1, blog1 )
     val blogEntry2  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE2, SUMMARY2, blog1)
     val blogEntry3  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE3, SUMMARY3,  blog1)
@@ -93,10 +104,14 @@ class BlogData {
     init {
         val blogList = mutableSetOf<Blog>()
         blogOwner.blogs = blogList
+        blogOwner.blogs?.add(blogIe)
         blogOwner.blogs?.add(blog1)
         blogOwner.blogs?.add(blog1e)
         blogOwner.blogs?.add(blog2)
         noOfBlogs =  blogList.size
+
+        blogIe.blogEntries = blogEntriesIe
+        blogIe.blogEntries?.add(blogEntryIe)
 
         blog1.blogEntries  = blogEntries1
         blog1.blogEntries?.add(blogEntry1)
