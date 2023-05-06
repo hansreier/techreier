@@ -21,12 +21,10 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <a href="#start">Link adm1</a>
-            <form th:action="@{/blogs/admin}" th:method="post">
+            <form th:action="@{/about}" th:method="post">
                 <ul>
-                    <li th:each="blog: ${blogs}">
-                        <button class=dropdown-button name="blog" type="submit" th:value="${blog.id}"
-                            th:text="${blog.subject}"></button>
+                    <li>
+                        <button class=dropdown-button name="readme" type="submit" th:text="#{readme}"></button>
                     </li>
                 </ul>
             </form>

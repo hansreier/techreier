@@ -1,8 +1,7 @@
 package com.sigmondsmart.edrops.controllers
 
 import com.sigmondsmart.edrops.config.logger
-import com.sigmondsmart.edrops.domain.Blog
-import com.sigmondsmart.edrops.domain.LanguageCode
+import com.sigmondsmart.edrops.domain.*
 import com.sigmondsmart.edrops.service.DbService
 import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
@@ -17,7 +16,9 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         this.servletContext = servletContext
     }
 
-    protected fun setCommonModelParameters(model: Model, request: HttpServletRequest): BlogParams {
+    // Selecting no DB removes menu items and contents stored in DB
+    // Should only be used if no DB is available
+    protected fun setCommonModelParameters(model: Model, request: HttpServletRequest, db: Boolean = true): BlogParams {
         logger.debug("set common model parameters")
         val blogId = (model.getAttribute("blogid")  ?: 1L) as Long
         model.addAttribute("languages", fetchLanguages())
@@ -28,13 +29,13 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         model.addAttribute("langcode", langcode)
         // Get Url path based on servletPath and send to template (avoid double slash in template)
         model.addAttribute("path", request.servletPath.removeSuffix("/"))
-        model.addAttribute("blogs", fetchBlogs(langcode))
+        if (db) model.addAttribute("blogs", fetchBlogs(langcode))
         model.addAttribute("blogid", blogId)
         return BlogParams(blogId, langcode)
     }
 
-    private fun fetchLanguages(): MutableList<LanguageCode> {
-        return dbService.readLanguages()
+    private fun fetchLanguages(db: Boolean = true): MutableList<LanguageCode> {
+        return if (db) { dbService.readLanguages() } else { LANGUAGES }
     }
 
     private fun fetchBlogs(langcode: String): MutableSet<Blog> {
