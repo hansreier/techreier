@@ -7,7 +7,6 @@ const val TAG1E = "Sea"
 const val TAG2 = "Fjell"
 const val TAG2E = "Montain"
 
-const val TITLEIE ="About me"
 const val TITLE1 = "Om strøm"
 const val TITLE1E = "About electric power"
 const val TITLE2 = "Om været"
