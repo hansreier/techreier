@@ -29,8 +29,8 @@ abstract class Base {
     @BeforeEach
     fun setup() {
         blogData = BlogData()
-        languageRepo.save(blogData.norwegian)
-        languageRepo.save(blogData.english)
+        languageRepo.save(Norwegian)
+        languageRepo.save(English)
         ownerRepo.save(blogData.blogOwner)
     }
 }

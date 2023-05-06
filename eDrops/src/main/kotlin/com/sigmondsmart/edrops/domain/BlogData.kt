@@ -25,7 +25,12 @@ const val ENGLISH = "English"
 const val NO = "nb"
 const val EN = "en"
 
-val LANGUAGES = listOf(LanguageCode(NORWEGIAN, NO), LanguageCode(ENGLISH, EN))
+@JvmField
+val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NO)
+@JvmField
+val English: LanguageCode = LanguageCode(ENGLISH, EN)
+
+val Languages = listOf(Norwegian, English)
 
 const val SUMMARY1 = """
     Regjeringen Støre nekter å regulere strømmarkedet.
@@ -68,8 +73,8 @@ const val SUMMARY4 = """
 
 // Initial populate table. Temporary. Move later back to test
 class BlogData {
-    val norwegian: LanguageCode = LanguageCode(NORWEGIAN, NO)
-    val english: LanguageCode = LanguageCode(ENGLISH, EN)
+//    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NO)
+//    val English: LanguageCode = LanguageCode(ENGLISH, EN)
     val blogOwner: BlogOwner = BlogOwner(
         LocalDateTime.now(), null,
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
@@ -79,9 +84,9 @@ class BlogData {
     val blogEntries1e =  mutableListOf<BlogEntry>()
     val blogEntries2 =  mutableListOf<BlogEntry>()
     val timestamp: LocalDateTime = LocalDateTime.now()
-    val blog1 = Blog(timestamp, BLOG_TAG, norwegian, SUBJECT1, blogEntries1, blogOwner)
-    val blog1e = Blog(timestamp, BLOG_TAG, english, SUBJECT1E, blogEntries1e, blogOwner)
-    val blog2 = Blog(timestamp, BLOG_TAG, norwegian, SUBJECT2, blogEntries2, blogOwner)
+    val blog1 = Blog(timestamp, BLOG_TAG, Norwegian, SUBJECT1, blogEntries1, blogOwner)
+    val blog1e = Blog(timestamp, BLOG_TAG, English, SUBJECT1E, blogEntries1e, blogOwner)
+    val blog2 = Blog(timestamp, BLOG_TAG, Norwegian, SUBJECT2, blogEntries2, blogOwner)
 
     val blogEntry1 = BlogEntry(timestamp, timestamp, TAG1, V1, TITLE1, SUMMARY1, blog1 )
     val blogEntry2  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE2, SUMMARY2, blog1)

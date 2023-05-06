@@ -23,13 +23,9 @@
         <div class="dropdown-content">
             <form th:action="@{/about}" th:method="post">
                 <ul>
-                    <!--li>
-                        <button class=dropdown-button name="readme" type="submit" th:text="#{readme}"></button>
-                        <button class=dropdown-button name="readme" type="submit" th:text="#{readme}"></button>
-                    </li-->
                     <li th:each="doc: ${docs}">
                         <button class=dropdown-button name="docname" type="submit" th:value="${doc.name}"
-                                th:text="${doc.subject}"></button>
+                                th:text="#{${doc.tag}}"></button>
                     </li>
                 </ul>
             </form>

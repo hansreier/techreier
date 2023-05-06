@@ -16,6 +16,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
+import static com.sigmondsmart.edrops.domain.BlogDataKt.English;
+import static com.sigmondsmart.edrops.domain.BlogDataKt.Norwegian;
+
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class TestProblem {
@@ -37,8 +40,8 @@ public class TestProblem {
     public void read() {
         logger.info("starting transactional test");
         BlogData data = new BlogData();
-        languageRepo.save(data.getNorwegian());
-        languageRepo.save(data.getEnglish());
+        languageRepo.save(Norwegian);
+        languageRepo.save(English);
         ownerRepo.save(data.getBlogOwner());
         entityManager.clear();
         List<BlogEntry> blogEntries = data.getBlogEntries1();

@@ -37,7 +37,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
     }
 
     private fun fetchLanguages(db: Boolean = true): MutableList<LanguageCode> {
-        return if (db) { dbService.readLanguages() } else { LANGUAGES.toMutableList() }
+        return if (db) { dbService.readLanguages() } else { Languages.toMutableList() }
     }
 
     private fun fetchBlogs(langcode: String): MutableSet<Blog> {
@@ -49,8 +49,8 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
 
     private fun fetchDocs(): List<Doc> {
         return listOf(
-            Doc("Goals","goals.md"),
-            Doc("Readme","readme.md"), )
+            Doc("goals","goals.md", Norwegian),
+            Doc("readme","readme.md", English) )
     }
 
     data class BlogParams(val blogId: Long, val langCode: String, val docname: String) {
