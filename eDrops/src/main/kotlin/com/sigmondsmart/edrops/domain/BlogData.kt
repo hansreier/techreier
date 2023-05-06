@@ -26,7 +26,7 @@ const val ENGLISH = "English"
 const val NO = "nb"
 const val EN = "en"
 
-val LANGUAGES = mutableListOf(LanguageCode(NORWEGIAN, NO), LanguageCode(ENGLISH, EN))
+val LANGUAGES = listOf(LanguageCode(NORWEGIAN, NO), LanguageCode(ENGLISH, EN))
 
 const val SUMMARY1 = """
     Regjeringen Støre nekter å regulere strømmarkedet.
