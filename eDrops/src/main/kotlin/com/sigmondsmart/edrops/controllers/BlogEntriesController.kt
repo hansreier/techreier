@@ -1,4 +1,4 @@
-package com.sigmondsmart.edrops.endpoint
+package com.sigmondsmart.edrops.controllers
 
 import com.sigmondsmart.edrops.config.logger
 import com.sigmondsmart.edrops.service.DbService

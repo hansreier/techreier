@@ -1,4 +1,4 @@
-package com.sigmondsmart.edrops.endpoint
+package com.sigmondsmart.edrops.controllers
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

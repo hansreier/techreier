@@ -1,4 +1,4 @@
-package com.sigmondsmart.edrops.endpoint
+package com.sigmondsmart.edrops.controllers
 
 import com.sigmondsmart.edrops.service.DbService
 import org.slf4j.LoggerFactory

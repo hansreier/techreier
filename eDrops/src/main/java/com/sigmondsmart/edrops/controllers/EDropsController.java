@@ -1,4 +1,4 @@
-package com.sigmondsmart.edrops.endpoint;
+package com.sigmondsmart.edrops.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //Note there is a difference between @Controller and @RestController
 //@Restcontroller does not work when referencing to thymeleaf templates
 //@RestController is for web services.
-
 @Controller
 @RequestMapping("/")
 public class EDropsController {
@@ -19,7 +18,6 @@ public class EDropsController {
 	// inject via application.properties
 	@Value("${welcome.message}")
 	private String message = "Hello World";
-
 	@GetMapping({ "/java", "/greeting" })
 	public String welcome(Model model) {
 		logger.info("Welcome to Java");
