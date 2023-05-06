@@ -21,6 +21,8 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
     protected fun setCommonModelParameters(model: Model, request: HttpServletRequest, db: Boolean = true): BlogParams {
         logger.debug("set common model parameters")
         val blogId = (model.getAttribute("blogid")  ?: 1L) as Long
+        val docname = (model.getAttribute("docname") ?: "readme.md" ) as String
+        model.addAttribute("docs",fetchDocs())
         model.addAttribute("languages", fetchLanguages())
         val defaultLangcode = LocaleContextHolder.getLocale().language
         val selectedLangcode = model.getAttribute("langcode") as String?
@@ -31,7 +33,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         model.addAttribute("path", request.servletPath.removeSuffix("/"))
         if (db) model.addAttribute("blogs", fetchBlogs(langcode))
         model.addAttribute("blogid", blogId)
-        return BlogParams(blogId, langcode)
+        return BlogParams(blogId, langcode, docname)
     }
 
     private fun fetchLanguages(db: Boolean = true): MutableList<LanguageCode> {
@@ -45,6 +47,12 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         return blogs
     }
 
-    data class BlogParams(val blogId: Long, val langCode: String) {
+    private fun fetchDocs(): List<Doc> {
+        return listOf(
+            Doc("Goals","goals.md"),
+            Doc("Readme","readme.md"), )
+    }
+
+    data class BlogParams(val blogId: Long, val langCode: String, val docname: String) {
     }
 }

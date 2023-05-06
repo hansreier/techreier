@@ -16,16 +16,16 @@ class AboutController(dbService: DbService): BaseController(dbService)
     @GetMapping
     fun content(request: HttpServletRequest, model: Model): String {
         logger.info("content")
-        val readme = markdownToHtml("readme.md")
-        setCommonModelParameters(model, request)
-        model.addAttribute("content", readme)
+        val blogParams = setCommonModelParameters(model, request)
+        val doc: String = markdownToHtml(blogParams.docname)
+        model.addAttribute("doc", doc)
         return "about"
     }
 
     @PostMapping
-    fun getEntry(redirectAttributes: RedirectAttributes): String {
-        logger.info("readme valgt")
-       // redirectAttributes.addFlashAttribute("blogid", blog)
+    fun getEntry(redirectAttributes: RedirectAttributes, docname: String): String {
+        logger.info("docname: $docname")
+        redirectAttributes.addFlashAttribute("docname", docname)
         return "redirect:/about"
     }
 }
