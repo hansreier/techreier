@@ -3,11 +3,10 @@ package com.sigmondsmart.edrops.domain
 object Docs {
 
     val doc = listOf(
-        Doc("goals", "goalsN.md", Norwegian),
-        Doc("readme", "readme.md", Norwegian),
-        Doc("readme", "readme.md", English),
-        Doc("goals", "goals.md", English),
-        Doc("not found", "notFound.md", English)
+        Doc("goals", "goalsN.md", Norwegian, "Mål"),
+        Doc("readme", "readme.md", Norwegian, "Om prosjektet"),
+        Doc("readme", "readme.md", English, "Read me"),
+        Doc("goals", "goals.md", English, "Goals"),
     )
 
     fun getDoc(blogId: Long): Doc {
