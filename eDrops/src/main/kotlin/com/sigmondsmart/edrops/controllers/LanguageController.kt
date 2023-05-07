@@ -19,7 +19,7 @@ class LanguageController {
         redirectAttributes.addFlashAttribute("langcode", code)
         //Or else id blogid used to populate menu will not be preserved
         //Alternative to use hidden field is either cookie or store in session
-        //If more state is needed to use Spring session (and store session in db) is recommended.
+        //If more state is needed, using Spring session (and store session in db) is recommended.
         redirectAttributes.addFlashAttribute("blogid", blogid)
         logger.debug("before redirect to get")
         return "redirect:$path?lang=$code"

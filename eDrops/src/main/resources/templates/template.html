@@ -24,7 +24,7 @@
             <form th:action="@{/about}" th:method="post">
                 <ul>
                     <li th:each="doc: ${docs}">
-                        <button class=dropdown-button name="docname" type="submit" th:value="${doc.name}"
+                        <button class=dropdown-button name="doc" type="submit" th:value="${doc.id}"
                                 th:text="#{${doc.tag}}"></button>
                     </li>
                 </ul>
