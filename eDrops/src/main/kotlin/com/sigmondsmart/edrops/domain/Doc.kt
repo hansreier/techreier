@@ -1,9 +1,13 @@
 package com.sigmondsmart.edrops.domain
 
 data class Doc(val tag: String, val name: String, val language: LanguageCode) {
-    var id: Long = Docs.count
+    private companion object {
+        var count = 0L
+    }
+
+    val id: Long = count
 
     init {
-        Docs.count++
+        count++
     }
 }

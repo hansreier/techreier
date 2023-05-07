@@ -1,7 +1,7 @@
 package com.sigmondsmart.edrops.domain
 
 object Docs {
-    var count = 0L
+
     val doc = listOf(
         Doc("goals", "goalsN.md", Norwegian),
         Doc("readme", "readme.md", Norwegian),
