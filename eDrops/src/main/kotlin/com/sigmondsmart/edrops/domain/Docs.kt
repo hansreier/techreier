@@ -4,9 +4,9 @@ object Docs {
 
     val doc = listOf(
         Doc("goals", "goalsN.md", Norwegian, "Mål"),
+        Doc("goals", "goals.md", English, "Goals"),
         Doc("readme", "readme.md", Norwegian, "Om prosjektet"),
         Doc("readme", "readme.md", English, "Read me"),
-        Doc("goals", "goals.md", English, "Goals"),
     )
 
     fun getDoc(blogId: Long): Doc {
