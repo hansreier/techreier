@@ -1,15 +1,17 @@
 package com.sigmondsmart.edrops.domain
 
 object Docs {
+    var count = 0L
     val doc = listOf(
-        Doc("goals", "goalsN.md", Norwegian, -1),
-        Doc("readme","readme.md", Norwegian, -2),
-        Doc("readme", "readme.md", English, -3),
-        Doc("goals", "goals.md", English, -4)
+        Doc("goals", "goalsN.md", Norwegian),
+        Doc("readme", "readme.md", Norwegian),
+        Doc("readme", "readme.md", English),
+        Doc("goals", "goals.md", English),
+        Doc("not found", "notFound.md", English)
     )
 
     fun getDoc(blogId: Long): Doc {
-        return doc[-blogId.toInt() -1]
+        return doc[blogId.toInt()]
     }
 
     fun getDocs(langCode: String): List<Doc> {
