@@ -1,4 +1,3 @@
-
 ### How to make a text based web site without coding HTML
 
 The goal is to make this as simple as possible where the user does it in an input
