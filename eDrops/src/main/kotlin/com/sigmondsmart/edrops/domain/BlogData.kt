@@ -22,11 +22,11 @@ const val SUBJECT2 = "Energi saker"
 const val V1:Long  = 1
 const val NORWEGIAN = "Norwegian"
 const val ENGLISH = "English"
-const val NO = "nb"
+const val NB = "nb"
 const val EN = "en"
 
 @JvmField
-val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NO)
+val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
 @JvmField
 val English: LanguageCode = LanguageCode(ENGLISH, EN)
 
@@ -73,7 +73,7 @@ const val SUMMARY4 = """
 
 // Initial populate table. Temporary. Move later back to test
 class BlogData {
-//    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NO)
+//    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
 //    val English: LanguageCode = LanguageCode(ENGLISH, EN)
     val blogOwner: BlogOwner = BlogOwner(
         LocalDateTime.now(), null,

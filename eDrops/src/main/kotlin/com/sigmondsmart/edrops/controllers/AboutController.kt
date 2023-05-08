@@ -1,7 +1,6 @@
 package com.sigmondsmart.edrops.controllers
 
 import com.sigmondsmart.edrops.config.logger
-import com.sigmondsmart.edrops.domain.Docs
 import com.sigmondsmart.edrops.service.DbService
 import com.sigmondsmart.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
@@ -18,7 +17,7 @@ class AboutController(dbService: DbService): BaseController(dbService)
     fun content(request: HttpServletRequest, model: Model): String {
         logger.info("content")
         val blogParams = setCommonModelParameters(model, request)
-        val doc: String = markdownToHtml(Docs.getDoc(blogParams.blogId).name)
+        val doc: String = markdownToHtml(blogParams)
         model.addAttribute("doc", doc)
         return "about"
     }

@@ -47,7 +47,7 @@ class TestBlog : Base() {
             logger.info("blog: $blog ${blog?.blogEntries?.size}")
             assertThat(blog?.blogEntries?.size).isEqualTo(blogEntries1.size)
             assertThat(blog?.language?.language).isEqualTo(NORWEGIAN)
-            assertThat(blog?.language?.code).isEqualTo(NO)
+            assertThat(blog?.language?.code).isEqualTo(NB)
             val entries = blog?.blogEntries
             logger.info("my entries: $entries")
         }
@@ -171,12 +171,12 @@ class TestBlog : Base() {
             logger.info("starting read all test")
             entityManager.clear()
             logger.info("saved")
-            val languageCode = LanguageCode("dummy",NO)
+            val languageCode = LanguageCode("dummy",NB)
             val blogs = blogRepo.findByLanguage(languageCode)
             assertThat(blogs.size).isGreaterThan(0)
             blogs.forEach {
                 logger.info("blog: $it")
-                assertThat(it.language.code).isEqualTo(NO)
+                assertThat(it.language.code).isEqualTo(NB)
             }
         }
     }
@@ -188,11 +188,11 @@ class TestBlog : Base() {
             logger.info("starting read all test")
             entityManager.clear()
             logger.info("saved")
-            val languageCode = LanguageCode("",NO)
+            val languageCode = LanguageCode("",NB)
             val blog = blogRepo.findFirstBlogByLanguageAndTag(languageCode, BLOG_TAG)
             blog?.blogEntries = blog?.blogEntries
             assertThat(blog).isNotNull
-            assertThat(blog?.language?.code).isEqualTo(NO)
+            assertThat(blog?.language?.code).isEqualTo(NB)
             assertThat(blog?.tag).isEqualTo(BLOG_TAG)
             assertThat(blog?.blogEntries?.size).isEqualTo(3)
             logger.info("Blog found: $blog")

@@ -1,12 +1,14 @@
 package com.sigmondsmart.edrops.domain
 
-object Docs {
+const val DEFAULT_MARKDOWN_DIR = "src/main/resources/markdown"
+const val MARKDOWN_EXT = ".md"
 
+object Docs {
     val doc = listOf(
-        Doc("goals", "goalsN.md", Norwegian, "Mål"),
-        Doc("goals", "goals.md", English, "Goals"),
-        Doc("readme", "readme.md", Norwegian, "Om prosjektet"),
-        Doc("readme", "readme.md", English, "Read me"),
+        Doc("goals",  Norwegian, "Mål"),
+        Doc("goals",  English, "Goals"),
+        Doc("readme", Norwegian, "Om prosjektet", false),
+        Doc("readme", English, "Read me", false)
     )
 
     fun getDoc(blogId: Long): Doc {
@@ -14,7 +16,7 @@ object Docs {
     }
 
     fun getDocs(langCode: String): List<Doc> {
-        return doc.filter { it.language.code == langCode }
+        return doc.filter { (it.language.code == langCode)  }
     }
 }
 

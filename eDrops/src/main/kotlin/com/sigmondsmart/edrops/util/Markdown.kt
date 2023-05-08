@@ -1,5 +1,9 @@
 package com.sigmondsmart.edrops.util
 
+import com.sigmondsmart.edrops.controllers.BaseController
+import com.sigmondsmart.edrops.domain.DEFAULT_MARKDOWN_DIR
+import com.sigmondsmart.edrops.domain.Docs
+import com.sigmondsmart.edrops.domain.MARKDOWN_EXT
 import org.commonmark.Extension
 import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.parser.Parser
@@ -31,4 +35,10 @@ fun markdownToHtml(file: String? = null, text: String? = null): String {
         logger.error("Not parsed: $file", e)
         return "$file not parsed"
     }
+}
+
+fun markdownToHtml(blogParams: BaseController.BlogParams): String {
+    val doc = Docs.getDoc(blogParams.blogId)
+    val lc = if (doc.ext) "_" + blogParams.langCode else ""
+    return markdownToHtml(DEFAULT_MARKDOWN_DIR + "/" + doc.tag + lc + MARKDOWN_EXT)
 }
