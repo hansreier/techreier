@@ -22,30 +22,15 @@ Unsecure
 
 class TestMarkdown {
     @Test
-    fun `from markdown in readme file to html`() {
-        val html = markdownToHtml("readme.md")
-        logger.debug(html)
-        assertThat(html).contains("<h2") //Find better test
-        assertThat(html).contains("</h2")
-    }
-
-    @Test
-    fun `from non existing markdown in readme to html`() {
-        val html = markdownToHtml("feil.md")
-        logger.debug(html)
-        assertThat(html).contains("not found")
-    }
-
-    @Test
     fun `from secure markdown to html`() {
-        val html = markdownToHtml(text = SECURE)
+        val html = markdownToHtml(SECURE)
         logger.info(html)
         assertThat(html).contains("<p>Secure</p>","<h2>")
     }
 
     @Test
     fun `from unsecure markdown to html`() {
-        val html = markdownToHtml(text = UNSECURE)
+        val html = markdownToHtml(UNSECURE)
         logger.info(html)
         assertThat(html).doesNotContain("<script>")
         assertThat(html).contains("<p>Unsecure</p>","<h2>")
