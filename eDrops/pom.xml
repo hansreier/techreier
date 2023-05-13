@@ -30,7 +30,7 @@
 		<!-- fetched automagically-->
 		<!--hibernate.version>6.2.0.Final</hibernate.version-->
 		<h2.version>2.1.214</h2.version>
-		<!--atlasssian.commonmark.version>0.17.0</atlasssian.commonmark.version-->
+		<atlassian.commonmark.version>0.17.0</atlassian.commonmark.version>
 		<commonmark.version>0.21.0</commonmark.version>
 		<!--esapi.version>2.5.2.0</esapi.version-->
 		<!--encoder.version>1.2.3</encoder.version-->
@@ -116,7 +116,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -247,7 +246,7 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-resource-one</id>
+						<id>copy-resource-markdown</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>copy-resources</goal>
@@ -259,6 +258,24 @@
 									<directory>./</directory>
 									<includes>
 										<include>*.md</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-resource-images</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/classes/static/images</outputDirectory>
+							<resources>
+								<resource>
+									<directory>./images/</directory>
+									<includes>
+										<include>*.jpg</include>
 									</includes>
 								</resource>
 							</resources>
@@ -377,19 +394,26 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		<!--dependency>
+		<!--Commonmark and extensions-->
+		<dependency>
 			<groupId>com.atlassian.commonmark</groupId>
 			<artifactId>commonmark</artifactId>
 			<version>${atlassian.commonmark.version}</version>
+		</dependency>
+		<!--Removed, use atlassian, image attribute processing bug-->
+		<!--dependency>
+			<groupId>org.commonmark</groupId>
+			<artifactId>commonmark</artifactId>
+			<version>${commonmark.version}</version>
 		</dependency-->
 		<dependency>
 			<groupId>org.commonmark</groupId>
-			<artifactId>commonmark</artifactId>
+			<artifactId>commonmark-ext-gfm-tables</artifactId>
 			<version>${commonmark.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.commonmark</groupId>
-			<artifactId>commonmark-ext-gfm-tables</artifactId>
+			<artifactId>commonmark-ext-autolink</artifactId>
 			<version>${commonmark.version}</version>
 		</dependency>
 		<dependency>
