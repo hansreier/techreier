@@ -153,6 +153,15 @@
 							<port>8080</port>
 						</ports>
 					</container>
+					<extraDirectories>
+						<paths>
+							<path>
+								<from>./</from>
+								<into>/app/resources/markdown</into>
+								<includes>*.md</includes>
+							</path>
+						</paths>
+					</extraDirectories>
 				</configuration>
 				<!--enables always running Docker build, not always wanted -->
 				<!--executions>
@@ -230,6 +239,30 @@
 						<goals>
 							<goal>testCompile</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resource-one</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/classes/markdown</outputDirectory>
+							<resources>
+								<resource>
+									<directory>./</directory>
+									<includes>
+										<include>*.md</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
