@@ -395,11 +395,11 @@
 			<version>${hibernate.version}</version>
 		</dependency>
 		<!--Commonmark and extensions-->
-		<dependency>
+		<!--dependency>
 			<groupId>com.atlassian.commonmark</groupId>
 			<artifactId>commonmark</artifactId>
 			<version>${atlassian.commonmark.version}</version>
-		</dependency>
+		</dependency-->
 		<!--Removed, use atlassian, image attribute processing bug-->
 		<!--dependency>
 			<groupId>org.commonmark</groupId>
