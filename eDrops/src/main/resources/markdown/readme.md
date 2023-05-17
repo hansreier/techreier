@@ -1,6 +1,8 @@
 ## Functionality
 This is a simple and limited Blog system.
 
+![PerSeter](/images/pas.jpg "Per Seter")
+
 ### How to enter blogs without coding HTML
 
 The goal is to make this as simple as possible where the user does it in an input
@@ -271,11 +273,8 @@ Translates into better html.
 | mygod | huff   | r         | reier    | ss |
 | olav  | andres | pettersen | hipl     | ds |
 
-## Hei
 
-![PerSeter](images/pas.jpg "Per Seter")
-
-
+## Slutt
 
 
 

@@ -15,7 +15,7 @@ import java.util.*
 
 private val logger = LoggerFactory.getLogger("markdownToHtml")
 
-fun markdownToHtml(markdown: String): String {
+fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
     // https://owasp.org/www-project-java-html-sanitizer/
     val policy =
         Sanitizers.BLOCKS.and(Sanitizers.FORMATTING).and(Sanitizers.LINKS)
@@ -25,11 +25,11 @@ fun markdownToHtml(markdown: String): String {
     val document = parser.parse(markdown)
     val renderer = HtmlRenderer.builder()
         .escapeHtml(false)
-        .attributeProviderFactory { ImageAttributeProvider() }
+       // .attributeProviderFactory { ImageAttributeProvider() } Does not work on all attributes, bug?
         .extensions(exts)
         .build()
     val html = renderer.render(document)
-    return policy.sanitize(html)
+    if (sanitizer) return policy.sanitize(html) else return html
 }
 
 //Must to it this way with classLoader and streams to be able to read files in Docker and locally
@@ -39,7 +39,8 @@ fun markdownToHtml(blogParams: BaseController.BlogParams): String {
     val classLoader = object {}.javaClass.classLoader
     val fileName = "markdown/" + doc.tag + lc + MARKDOWN_EXT
     val inputStream = classLoader.getResourceAsStream(fileName)
-    return markdownToHtml(inputStream?.bufferedReader().use { it?.readText() ?: "$fileName not found" })
+    return markdownToHtml(
+        inputStream?.bufferedReader().use { it?.readText() ?: "$fileName not found" }, false)
 }
 
 

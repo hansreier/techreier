@@ -23,6 +23,16 @@ h2 {
 	color: green;
 }
 
+.noborder + table, + th, + td {
+	border: none;
+	border-collapse: collapse;
+}
+
+table, th, td {
+	border: 5px solid black;
+	border-collapse: collapse;
+}
+
 header {
 	font-weight: bold;
 	font-size: 1.1em;
@@ -49,6 +59,11 @@ footer {
 	padding: 0.75em 20px;
 	border-style: solid;
 	border-width: 0 0 1px;
+}
+
+img {
+	max-width: 90%;
+	height: auto;
 }
 
 #blogentries {
