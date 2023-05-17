@@ -37,7 +37,7 @@ fun markdownToHtml(blogParams: BaseController.BlogParams): String {
     val doc = Docs.getDoc(blogParams.blogId)
     val lc = if (doc.ext) "_" + blogParams.langCode else ""
     val classLoader = object {}.javaClass.classLoader
-    val fileName = "markdown/" + doc.tag + lc + MARKDOWN_EXT
+    val fileName = "static/markdown/" + doc.tag + lc + MARKDOWN_EXT
     val inputStream = classLoader.getResourceAsStream(fileName)
     return markdownToHtml(
         inputStream?.bufferedReader().use { it?.readText() ?: "$fileName not found" }, false)
