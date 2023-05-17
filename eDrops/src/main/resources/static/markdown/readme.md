@@ -2,9 +2,16 @@
 This is a simple and limited Blog system.
 
 Always use this way to include images to be able to view in intellij, locally and docker.
-Not sure actually why .. works 
+Not sure actually why .. works
 
-![PerSeter](../images/pas.jpg "Per Seter")
+![PerSeter](../images/pas.jpg "Per Seter")  
+
+| haha  | hoha   | hwhw      | de       | dd |
+|-------|--------|-----------|----------|----|
+| oah   | alan   | podagra   | fanitull | ss | 
+| mygod | huff   | r         | reier    | ss |
+| olav  | andres | pettersen | hipl     | ds |
+
 
 ### How to enter blogs without coding HTML
 
