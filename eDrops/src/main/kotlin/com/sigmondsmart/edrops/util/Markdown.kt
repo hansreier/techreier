@@ -40,7 +40,7 @@ fun markdownToHtml(blogParams: BaseController.BlogParams): String {
     val fileName = "static/markdown/" + doc.tag + lc + MARKDOWN_EXT
     val inputStream = classLoader.getResourceAsStream(fileName)
     return markdownToHtml(
-        inputStream?.bufferedReader().use { it?.readText() ?: "$fileName not found" }, false)
+        inputStream?.bufferedReader().use { it?.readText() ?: "$fileName not found" }, true)
 }
 
 

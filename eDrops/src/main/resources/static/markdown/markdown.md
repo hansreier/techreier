@@ -29,6 +29,14 @@ The RTF option is the best alternative, but needs an RTF editor and a more compl
 The generated embedded HTML also is not as clean as if markdown is used. Language resource files
 is used in this project, but only for short text.
 
+### Security
+
+Markdown does not prevent HTML injection, since it is possible to add plan HTML to markdown. To avoid security problems
+a sanitizer should be used to remove dangerous HTML. A problem with this is that it also limits the use of som useful 
+HTML tags included in the markdown. It is possible to configure a sanitizer, but it can be tricky. 
+The right adjustment of numbers used in the table example below, is e.g. removed by the sanitizer I use, 
+if I turn on sanitizing.
+
 ### Examples
 
 Example of embeded image in markdown.
