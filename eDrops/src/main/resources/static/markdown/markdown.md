@@ -37,10 +37,10 @@ Example of embeded image in markdown.
 
 Example of embedded table in markdown.
 
-| City   | No of citizens | County    | Commment            |
-|--------|----------------|-----------|---------------------|
-| Oslo   | 709 037        | Oslo      | Capital of Norway   | 
-| Bergen | 288133         | Vestland  | Second largest city | 
-| Moelv  | 4459           | Innlandet | My home village     | 
+| City   | No of citizens | County    | Commment                               |
+|--------|----------------|-----------|----------------------------------------|
+| Oslo   | 709 037        | Oslo      | Capital of Norway                      | 
+| Bergen | 288133         | Vestland  | Second largest city                    | 
+| Moelv  | 4459           | Innlandet | My home village, I love it and hate it | 
 
 Example of link: https://openai.com/blog/chatgpt

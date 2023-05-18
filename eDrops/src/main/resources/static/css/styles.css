@@ -24,14 +24,21 @@ h2 {
 	color: green;
 }
 
-.noborder + table, + th, + td {
-	border: none;
+table {
+	width: 90%;
+	table-layout: fixed;
 	border-collapse: collapse;
 }
-/* All tables in markdown will be assigned this default style */
-table, th, td {
+
+th {
+	background-color: lightgrey;
+}
+
+th, td {
+	width: auto;
+	text-align: left;
+	padding: 8px;
 	border: 1px solid black;
-	border-collapse: collapse;
 }
 
 td {
