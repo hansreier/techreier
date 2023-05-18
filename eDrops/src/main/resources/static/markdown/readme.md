@@ -4,14 +4,6 @@ This is a simple and limited Blog system.
 Always use this way to include images to be able to view in intellij, locally and docker.
 Not sure actually why .. works
 
-![PerSeter](../images/pas.jpg "Per Seter")  
-
-| haha  | hoha   | hwhw      | de       | dd |
-|-------|--------|-----------|----------|----|
-| oah   | alan   | podagra   | fanitull | ss | 
-| mygod | huff   | r         | reier    | ss |
-| olav  | andres | pettersen | hipl     | ds |
-
 
 ### How to enter blogs without coding HTML
 
@@ -270,18 +262,6 @@ Like this readme file..
 https://www.roshanadhikary.com.np/2021/07/build-a-markdown-based-blog-with-spring-boot-part-5.html  
 https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-markdown-editor  
 https://medium.com/content-uneditable/a-standard-for-rich-text-data-4b3a507af552  
-  
-Translates into better html.  
-
-1. hava
-2. dette
-3. her
-
-| haha  | hoha   | hwhw      | de       | dd |
-|-------|--------|-----------|----------|----|
-| oah   | alan   | podagra   | fanitull | ss |
-| mygod | huff   | r         | reier    | ss |
-| olav  | andres | pettersen | hipl     | ds |
 
 
 ## Slutt

@@ -14,7 +14,9 @@ object Docs {
         Doc("goals",  Norwegian, "Mål"),
         Doc("goals",  English, "Goals"),
         Doc("readme", Norwegian, "Les meg (engelsk)", false),
-        Doc("readme", English, null, false)
+        Doc("readme", English, null, false),
+        Doc("markdown", Norwegian, "Markdown (engelsk)", false),
+        Doc( "markdown", English, "Markdown", false)
     )
 
     fun getDoc(blogId: Long): Doc {
