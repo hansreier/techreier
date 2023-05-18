@@ -32,7 +32,7 @@ fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
     if (sanitizer) return policy.sanitize(html) else return html
 }
 
-//Must to it this way with classLoader and streams to be able to read files in Docker and locally
+//Must do it this way with classLoader and streams to be able to read files in Docker and locally
 fun markdownToHtml(blogParams: BaseController.BlogParams): String {
     val doc = Docs.getDoc(blogParams.blogId)
     val lc = if (doc.ext) "_" + blogParams.langCode else ""

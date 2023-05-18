@@ -1,6 +1,7 @@
 package com.sigmondsmart.edrops.controllers
 
 import com.sigmondsmart.edrops.config.logger
+import com.sigmondsmart.edrops.domain.Docs
 import com.sigmondsmart.edrops.service.DbService
 import com.sigmondsmart.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
@@ -11,14 +12,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping("/about")
-class AboutController(dbService: DbService): BaseController(dbService)
-{
+class AboutController(dbService: DbService) : BaseController(dbService) {
     @GetMapping
     fun content(request: HttpServletRequest, model: Model): String {
         logger.info("content")
         val blogParams = setCommonModelParameters(model, request)
-        val doc: String = markdownToHtml(blogParams)
-        model.addAttribute("doc", doc)
+        val docText: String = markdownToHtml(blogParams)
+        model.addAttribute("docText", docText)
+        model.addAttribute("doc", Docs.getDoc(blogParams.blogId))
         return "about"
     }
 

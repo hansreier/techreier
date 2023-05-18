@@ -27,9 +27,9 @@ h2 {
 	border: none;
 	border-collapse: collapse;
 }
-
+/* All tables in markdown will be assigned this default style */
 table, th, td {
-	border: 5px solid black;
+	border: 1px solid black;
 	border-collapse: collapse;
 }
 
@@ -128,7 +128,7 @@ img {
 }
 
 /* Add a red background color to navbar links on hover */
-.navbar a:hover, .dropdown:hover .dropbtn {
+.navbar a:hover, .dropdown:hover .dropdown-btn {
 	background-color: red;
 }
 

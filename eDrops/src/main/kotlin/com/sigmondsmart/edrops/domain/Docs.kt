@@ -1,14 +1,20 @@
 package com.sigmondsmart.edrops.domain
 
-const val DEFAULT_MARKDOWN_DIR = "src/main/resources/markdown"
 const val MARKDOWN_EXT = ".md"
 
+/**
+ * No database needed for rendering docs saved as markdown files.
+ * Documents read directly from disk (including definition for drop down menu)
+ * Tag is required for file name
+ * If no value of subject, tag is used to pick up text in resource
+ * Language is part of fil name if ext is set to true
+ */
 object Docs {
-    val doc = listOf(
+    private val doc = listOf(
         Doc("goals",  Norwegian, "Mål"),
         Doc("goals",  English, "Goals"),
-        Doc("readme", Norwegian, "Om prosjektet", false),
-        Doc("readme", English, "Read me", false)
+        Doc("readme", Norwegian, "Les meg (engelsk)", false),
+        Doc("readme", English, null, false)
     )
 
     fun getDoc(blogId: Long): Doc {
