@@ -8,6 +8,7 @@ import org.commonmark.ext.autolink.AutolinkExtension
 import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
+import org.owasp.html.HtmlPolicyBuilder
 import org.owasp.html.Sanitizers
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -16,10 +17,6 @@ import java.util.*
 private val logger = LoggerFactory.getLogger("markdownToHtml")
 
 fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
-    // https://owasp.org/www-project-java-html-sanitizer/
-    val policy =
-        Sanitizers.BLOCKS.and(Sanitizers.FORMATTING).and(Sanitizers.LINKS)
-            .and(Sanitizers.TABLES).and(Sanitizers.LINKS).and(Sanitizers.IMAGES)
     val exts: List<Extension> = Arrays.asList(TablesExtension.create(), AutolinkExtension.create())
     val parser: Parser = Parser.builder().extensions(exts).build()
     val document = parser.parse(markdown)
@@ -29,7 +26,21 @@ fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
         .extensions(exts)
         .build()
     val html = renderer.render(document)
-    if (sanitizer) return policy.sanitize(html) else return html
+    if (sanitizer) return sanitize(html) else return html
+}
+
+// https://owasp.org/www-project-java-html-sanitizer/
+fun sanitize(html: String): String {
+    val policyTags = HtmlPolicyBuilder()
+        .allowElements("p")
+        .allowAttributes("align").onElements("p")
+        .allowElements("img")
+        .allowAttributes("title").onElements("img")
+        .toFactory()
+    val policy =
+        Sanitizers.BLOCKS.and(Sanitizers.FORMATTING).and(Sanitizers.LINKS)
+            .and(Sanitizers.TABLES).and(Sanitizers.LINKS).and(Sanitizers.IMAGES).and(policyTags)
+    return policy.sanitize(html)
 }
 
 //Must do it this way with classLoader and streams to be able to read files in Docker and locally

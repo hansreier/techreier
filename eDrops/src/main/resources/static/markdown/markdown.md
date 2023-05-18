@@ -32,10 +32,11 @@ is used in this project, but only for short text.
 ### Security
 
 Markdown does not prevent HTML injection, since it is possible to add plan HTML to markdown. To avoid security problems
-a sanitizer should be used to remove dangerous HTML. A problem with this is that it also limits the use of som useful 
-HTML tags included in the markdown. It is possible to configure a sanitizer, but it can be tricky. 
-The right adjustment of numbers used in the table example below, is e.g. removed by the sanitizer I use, 
-if I turn on sanitizing.
+a sanitizer is used to remove dangerous HTML. A problem with this is that it also remove som useful 
+HTML tags that can be included in the markdown. The Owasp sanitizer is configurable, so I have allowed some html tags 
+and attributes that was denied in the default setup. The right adjustment of numbers used in the table example below, 
+is removed by the sanitizer, if I do not allow p tag and align attribute when configuring the sanitizer.
+The title attribute of img is also removed, if I do not tell the sanitizer to keep it.
 
 ### Examples
 
