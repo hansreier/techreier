@@ -6,7 +6,7 @@ body {
 	height: 100%;
 	width: 100%;
 	font-family: Arial, Helvetica, sans-serif;
-    overflow-x: hidden;
+    overflow-x: auto;
 	overflow-y: auto;
 }
 
@@ -25,8 +25,8 @@ h2 {
 }
 
 table {
-	width: 90%;
-	table-layout: fixed;
+	width: 100%;
+	table-layout: auto;
 	border-collapse: collapse;
 }
 
@@ -37,12 +37,11 @@ th {
 th, td {
 	width: auto;
 	text-align: left;
-	padding: 8px;
+	padding: 4px 2px;
 	border: 1px solid black;
-}
-
-td {
-	width: 90%
+	overflow: hidden;
+	word-wrap: break-word;
+	text-overflow:clip;
 }
 
 header {
@@ -74,7 +73,7 @@ footer {
 }
 
 img {
-	max-width: 90%;
+	max-width: 100%;
 	height: auto;
 }
 
@@ -84,8 +83,7 @@ img {
 }
 
 #blogentries th {
-	padding-top: 12px;
-	padding-bottom: 12px;
+	padding: 4px 0;
 	text-align: left;
 	background-color: #04AA6D;
 	color: white;
@@ -93,7 +91,8 @@ img {
 
 #blogentries td, #blogentries th {
 	border: 2px solid #ddd;
-	padding: 8px;
+	padding: 8px 4px;
+	margin: 0;
 }
 
 #blogentries tr:nth-child(even){background-color: #f2f2f2;}

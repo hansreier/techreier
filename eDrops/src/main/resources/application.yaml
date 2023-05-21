@@ -4,6 +4,9 @@ server:
   error:
     include-stacktrace: always
     include-exception: true
+  #only embedded Tomcat setting, ignored if war file is deployed to tomcat
+  port: 8080
+#  port: 8443
 spring:
   main:
     banner-mode: off

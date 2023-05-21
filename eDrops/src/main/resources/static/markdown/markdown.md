@@ -46,7 +46,7 @@ Example of embeded image in markdown.
 
 Example of embedded table in markdown.
 
-| City   | No of citizens              | County    | Commment                               |
+| City   | No of citizens              | County    | Comment                                |
 |--------|-----------------------------|-----------|----------------------------------------|
 | Oslo   | <p align="right">709037</p> | Oslo      | Capital of Norway                      | 
 | Bergen | <p align="right">288133</p> | Vestland  | Second largest city                    | 
