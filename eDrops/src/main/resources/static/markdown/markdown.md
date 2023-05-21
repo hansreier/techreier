@@ -1,11 +1,14 @@
 ## About usage of markdown
 
-Commonmark is used for markdown.  In addision support for tables and links
-is added with commonmark extension, and images can be used as well.  
+Commonmark is used for markdown.  In addision support for tables, links and image attributes
+is added with commonmark extension, and images can be used as well. 
+
 
 One disadvantage with markdown is the limited set of formatting options for 
 individual Html tags. It is possible to do some of it 
-with eiher smart css or including html in the markdown.
+with eiher smart css or including html in the markdown. 
+As a more customizable alternative flexmark could be used instead 
+of the commonmark reference library (not tested).
 My experience with these smart markdown tricks, is that it is difficult to obtain
 the desired layout effects without a lot of effort. The best is to accept the 
 limitations of markdown. One option is to add more markdown extensions or to use a
@@ -42,7 +45,7 @@ The title attribute of img is also removed, if I do not tell the sanitizer to ke
 
 Example of embeded image in markdown.
 
-![PerSeter](../images/pas.jpg "Per Seter")
+![PerSeter](../images/pas.jpg "Per Seter"){#image-id}
 
 Example of embedded table in markdown.
 

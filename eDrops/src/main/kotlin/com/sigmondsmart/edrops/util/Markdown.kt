@@ -6,6 +6,7 @@ import com.sigmondsmart.edrops.domain.MARKDOWN_EXT
 import org.commonmark.Extension
 import org.commonmark.ext.autolink.AutolinkExtension
 import org.commonmark.ext.gfm.tables.TablesExtension
+import org.commonmark.ext.image.attributes.ImageAttributesExtension
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
 import org.owasp.html.HtmlPolicyBuilder
@@ -17,7 +18,8 @@ import java.util.*
 private val logger = LoggerFactory.getLogger("markdownToHtml")
 
 fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
-    val exts: List<Extension> = Arrays.asList(TablesExtension.create(), AutolinkExtension.create())
+    val exts: List<Extension> = Arrays.asList(TablesExtension.create(), AutolinkExtension.create(),
+        ImageAttributesExtension.create())
     val parser: Parser = Parser.builder().extensions(exts).build()
     val document = parser.parse(markdown)
     val renderer = HtmlRenderer.builder()
