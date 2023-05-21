@@ -77,6 +77,20 @@ img {
 	height: auto;
 }
 
+img:hover::after {
+	content: attr(title);
+	position: absolute;
+	bottom: 100%; /* Position the tooltip above the image */
+	left: 0;
+	background-color: white;
+	color: black;
+	padding: 4px;
+	border-radius: 4px;
+	font-size: 20px;
+	white-space: nowrap;
+	opacity: 0.9;
+}
+
 #blogentries {
 	border-collapse: collapse;
 	width: 100%;
