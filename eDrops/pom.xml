@@ -31,6 +31,7 @@
 		<!--hibernate.version>6.2.0.Final</hibernate.version-->
 		<h2.version>2.1.214</h2.version>
 		<commonmark.version>0.21.0</commonmark.version>
+		<flexmark.version>0.64.6</flexmark.version>
 		<!--esapi.version>2.5.2.0</esapi.version-->
 		<!--encoder.version>1.2.3</encoder.version-->
 		<sanitizer.version>20220608.1</sanitizer.version>
@@ -420,6 +421,10 @@
 			<groupId>org.commonmark</groupId>
 			<artifactId>commonmark-ext-image-attributes</artifactId>
 			<version>${commonmark.version}</version>
+		</dependency><dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-all</artifactId>
+			<version>${flexmark.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>

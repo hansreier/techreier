@@ -18,6 +18,7 @@ import java.util.*
 private val logger = LoggerFactory.getLogger("markdownToHtml")
 
 fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
+    logger.info("markdown")
     val exts: List<Extension> = Arrays.asList(TablesExtension.create(), AutolinkExtension.create(),
         ImageAttributesExtension.create())
     val parser: Parser = Parser.builder().extensions(exts).build()
@@ -52,7 +53,7 @@ fun markdownToHtml(blogParams: BaseController.BlogParams): String {
     val classLoader = object {}.javaClass.classLoader
     val fileName = "static/markdown/" + doc.tag + lc + MARKDOWN_EXT
     val inputStream = classLoader.getResourceAsStream(fileName)
-    return markdownToHtml(
+    return markdownToHtml2(
         inputStream?.bufferedReader().use { it?.readText() ?: "$fileName not found" }, true)
 }
 
