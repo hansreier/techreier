@@ -1,8 +1,16 @@
 ## About usage of markdown
 
-Commonmark is used for markdown. In addision support for tables, links and image
-attributes
-is added with commonmark extension, and images can be used as well.
+Commonmark reference implementation was first used for markdown. What I 
+found is that is was not very configurable, even if some extensions could be 
+added (like Table and Image extension) in additon to just use the Commonmark 
+standard.
+To achive github flavoured markdown, like in github and in Intellij, I had to 
+use and configure Flexmark. Flexmark is much more configurable. Note that it 
+can be discussed how much deviation from the standard that is adviceable. As 
+a developer, github flavoured markdown can be considered as standard.
+
+In addision support for tables, links and image
+attributes is added with commonmark extension, and images can be used as well.
 
 One disadvantage with markdown is the limited set of formatting options for
 individual Html tags. It is possible to do some of it
@@ -66,29 +74,6 @@ Example of embedded table in markdown.
 |--------|---------------------------:|-----------|----------------------------------------|
 | Oslo   |                      709037 | Oslo      | Capital of Norway                      | 
 | Bergen |                      288133 | Vestland  | Second largest city                    | 
-| Moelv  |                        4459 | Innlandet | My home village, I love it and hate it | 
-
-haha
-
-| Left-aligned | Center-aligned | Right-aligned |
-| :---         |     :---:      |          ---: |
-| git status   | git status     | git status    |
-| git diff     | git diff       | git diff      |
-
-Hei hei
-
-| City   | No of citizens              | County    | Comment                                |
-|--------|-----------------------------|-----------|----------------------------------------|
-| Oslo   | <p align="right">709037</p> | Oslo      | Capital of Norway                      | 
-| Bergen | <p align="right">288133</p> | Vestland  | Second largest city                    | 
-| Moelv  | <p align="right">4459</p>   | Innlandet | My home village, I love it and hate it | 
-
-I had to use the paragraph tag and html to right adjust numbers in the cells.
-This demostrates the problem
-that markdown lacks ability to individually style by css class or id.
-
-```
-<p align="right">4459</p>
-```
+| Moelv  |                        4459 | Innlandet | My home village, I love it and hate it |
 
 Example of link: https://openai.com/blog/chatgpt
