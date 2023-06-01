@@ -38,9 +38,8 @@ fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
     if (sanitizer) return sanitize(html) else return html
 }
 
-// Flexmark implementation with Gitbub flovour
+// Flexmark implementation with Github flovour
 // https://github.com/vsch/flexmark-java/issues/92
-
 fun markdownToHtmlGitHub(markdown: String, sanitizer: Boolean): String {
     logger.info("markdown2")
     val options = MutableDataSet()
