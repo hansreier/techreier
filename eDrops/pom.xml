@@ -149,8 +149,8 @@
 					</to>
 					<container>
 						<ports>
-							<!--port>8080</port-->
-							<port>8443</port>
+							<port>8080</port>
+							<!--port>8443</port-->
 						</ports>
 					</container>
 					<!--extraDirectories>

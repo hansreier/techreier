@@ -150,7 +150,9 @@ Credential helper:
 Wincred is downloaded to store credentials  when logging into dockerhub.
 Check in Windows Credential Manager or Legitimasjonsbehandling.
 You have to change Windows path variable to point at it.
-It could be placed together with Docker installation or elsewhere.  
+It could be placed together with Docker installation or elsewhere.
+Use command line to login to Docker on Windows to set password for the
+first time. Refer to text below.
   
 Personal access token:  
   
@@ -167,7 +169,13 @@ docker login registry-1.docker.io
 First successful login stores password in Windows Credentials Manager.  
 Check in Windows Credential Manager or "Legitimasjonsbehandling", that password is stored.  
 Check in file .docker\config.json. I first set it up manually to "credStore": "wincread",
-but contents is changed in process.  
+but contents is changed in process.  This seems to be the best way to store
+credentias  in Wincread.   
+
+I tried to do it manually by opening  Credential Manager in Windows on a 
+company owned PC, but did not work.
+It is an entry there called Persistence. This should be set to Local computer. 
+This is impossible using Credential Manager directly.
   
 ```
 {
