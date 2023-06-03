@@ -172,7 +172,7 @@ Check in file .docker\config.json. I first set it up manually to "credStore": "w
 but contents is changed in process.  This seems to be the best way to store
 credentias  in Wincread.   
 
-I tried to do it manually by opening  Credential Manager in Windows on a 
+I tried to do it manually by opening Credential Manager in Windows on a 
 company owned PC, but did not work.
 It is an entry there called Persistence. This should be set to Local computer. 
 This is impossible using Credential Manager directly.
