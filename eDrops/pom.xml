@@ -21,6 +21,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>17</java.version>
 		<kotlin.version>1.8.20</kotlin.version>
+		<mariadb.version>3.1.4</mariadb.version>
 		<maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<kotlin.code.style>official</kotlin.code.style>
@@ -436,6 +437,11 @@
 			<artifactId>h2</artifactId>
 			<version>${h2.version}</version>
 			<!--scope>test</scope-->
+		</dependency>
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>${mariadb.version}</version>
 		</dependency>
 	</dependencies>
 
