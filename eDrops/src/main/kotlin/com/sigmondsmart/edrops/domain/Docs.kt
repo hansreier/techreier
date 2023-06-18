@@ -7,7 +7,7 @@ const val MARKDOWN_EXT = ".md"
  * Documents read directly from disk (including definition for drop down menu)
  * Tag is required for file name
  * If no value of subject, tag is used to pick up text in resource
- * Language is part of fil name if ext is set to true
+ * Language is part of file name if ext is set to true
  */
 object Docs {
     private val doc = listOf(
@@ -16,7 +16,9 @@ object Docs {
         Doc("readme", Norwegian, "Les meg (engelsk)", false),
         Doc("readme", English, null, false),
         Doc("markdown", Norwegian, "Markdown (engelsk)", false),
-        Doc( "markdown", English, "Markdown", false)
+        Doc( "markdown", English, "Markdown", false),
+        Doc("databases", Norwegian, "Databaser (engelsk)", false),
+        Doc("databases", English, "Databases", false)
     )
 
     fun getDoc(blogId: Long): Doc {
