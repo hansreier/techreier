@@ -29,7 +29,8 @@ today due to licencing and other issues. PostgreSQL could be another option, but
 is simpler and best suited for web applications. 
 
 Spring boot profiles:
-- mariadb
+- mariadb - connect locally using mariadb installed on development PC
+- mariadocker - connect from docker container in docker desktop to mariadb installed on develpment PC.
 
 I installed MariaDB locally on PC, and it was almost as easy to set up as H2.
 It was very easy to connect using the Database connect possibilities in Intellij.
@@ -44,3 +45,8 @@ Example of grant:
 ```
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, SHOW VIEW ON `edrops`.* TO `dbuser`@`localhost`
 ```
+To connect from container to db-service on the host:
+```
+ url: jdbc:mariadb://host.docker.internal:3307/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+```
+This only works using Docker Desktop. Docker Desktop cannot be run in Host mode, only in Brigde Mode (default).
