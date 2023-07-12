@@ -30,23 +30,34 @@ is simpler and best suited for web applications.
 
 Spring boot profiles:
 - mariadb - connect locally using mariadb installed on development PC
-- mariadocker - connect from docker container in docker desktop to mariadb installed on develpment PC.
+- mariadocker - connect locally using mariadb installed in docker container on development PC.
 
 I installed MariaDB locally on PC, and it was almost as easy to set up as H2.
 It was very easy to connect using the Database connect possibilities in Intellij.
 - Use ordinary Windows installer
-- Change port to 3307 to not conflict with Docker default setup
+- Make sure that no port conflicts exist on the PC. If so, change port from default 3306.
 - Define a new database schema:  edrops
 - Define a new database user: dbuser
 - Grant required permissions for dbuser.
 
-Never use the root user and password for connection, but define a separate user: dbuser.  
-Example of grant:
-```
-GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, SHOW VIEW ON `edrops`.* TO `dbuser`@`localhost`
-```
+As an alternative use MariaDb official image from Dockerhub. Create a container. Remember to enter port 
+and set MARIADB_ROOT_PASSWORD as environment variable when using Docker Desktop or docker command.
+
+Never use the root user and password for connection, but define a separate user: dbuser.
+I have used an environment variable DB_PASSWORD, to avoid checking in db user password to github.  
+
+Example of defining database schema, dbuser and granting priveleges is included in the dbinit.sql file.
+Note that if you connect to dockerized MariaDB with dbuser outside of MariaDB container, 
+you must allow for general external access when granting dbuser (or use IP address of local machine).
+To run statements in this script is all you need to start the application with MariaDb.
+Database tables if not existing are created automagically by Hibernate.
+
+Note: How this is done with two docker containers running, MariaDB Docker container and application Docker container, is 
+not yet tested.
+
 To connect from container to db-service on the host:
 ```
- url: jdbc:mariadb://host.docker.internal:3307/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+ url: jdbc:mariadb://host.docker.internal:3306/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
 ```
 This only works using Docker Desktop. Docker Desktop cannot be run in Host mode, only in Brigde Mode (default).
+Verify and eventuelly change port number!
