@@ -49,11 +49,11 @@ I have used an environment variable DB_PASSWORD, to avoid checking in db user pa
 Example of defining database schema, dbuser and granting priveleges is included in the dbinit.sql file.
 Note that if you connect to dockerized MariaDB with dbuser outside of MariaDB container, 
 you must allow for general external access when granting dbuser (or use IP address of local machine).
-To run statements in this script is all you need to start the application with MariaDb.
-Database tables if not existing are created automagically by Hibernate.
+To run statements in this script is all you need to start the application with a fresh MariaDb instance.
+Database tables if not existing are created automagically by Hibernate, and tables is populated with some initial data.
 
 Note: How this is done with two docker containers running, MariaDB Docker container and application Docker container, is 
-not yet tested.
+not yet tested !!
 
 To connect from container to db-service on the host:
 ```
