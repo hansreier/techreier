@@ -135,7 +135,7 @@ spring:
       hibernate.show_sql: false
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://charming_chatelet:3308/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mariadb://host.docker.internal:3308/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
     username: dbuser
     password: Password
 

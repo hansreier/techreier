@@ -154,6 +154,7 @@
 						</ports>
 						<jvmFlags>
 							<jvmFlag>-Dspring.profiles.active=mariadockerfromdocker</jvmFlag>
+							<!--jvmFlag>-Dspring.profiles.active=h2</jvmFlag-->
 						</jvmFlags>
 						<environment>
 							<DB_PASSWORD>PerSeter123</DB_PASSWORD>
