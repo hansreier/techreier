@@ -29,8 +29,11 @@ today due to licencing and other issues. PostgreSQL could be another option, but
 is simpler and best suited for web applications. 
 
 Spring boot profiles:
-- mariadb - connect locally using mariadb installed on development PC
-- mariadocker - connect locally using mariadb installed in docker container on development PC.
+- local-mariadb - connect locally using mariadb installed on development PC
+- local-mariadbd - connect locally to dockerized mariadb
+- docker-mariadb - connect from local docker image to local mariadb
+- docker-mariadbd - connect from local docker image to dockerized mariadb
+- global-mariadbd - connect globally to dockerized mariadb
 
 I installed MariaDB locally on PC, and it was almost as easy to set up as H2.
 It was very easy to connect using the Database connect possibilities in Intellij.
@@ -45,6 +48,14 @@ and set MARIADB_ROOT_PASSWORD as environment variable when using Docker Desktop 
 
 Never use the root user and password for connection, but define a separate user: dbuser.
 I have used an environment variable DB_PASSWORD, to avoid checking in db user password to github.  
+
+- Local connect to dockerized MariaDB: Docker desktop has a special host name host.docker.internal.
+  I recommend to use this when developing on local PC. 
+
+- External connect to dockerized MariaDB:
+  Change the configuration of the official Docker image. I have not yet manages to do that.
+- Docker network connect to dockerized MariaDB: Both containers must be defined on the same docker network.
+  Sorry but the same problems applied to this as with external connect.
 
 Example of defining database schema, dbuser and granting priveleges is included in the dbinit.sql file.
 Note that if you connect to dockerized MariaDB with dbuser outside of MariaDB container, 
