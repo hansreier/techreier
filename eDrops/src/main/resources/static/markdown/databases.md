@@ -30,10 +30,9 @@ is simpler and best suited for web applications.
 
 Spring boot profiles:
 - local-mariadb - connect locally using mariadb installed on development PC
-- local-mariadbd - connect locally to dockerized mariadb
+- mariadb-dockerized - connect dockerized mariadb (locally or from docker)
 - docker-mariadb - connect from local docker image to local mariadb
-- docker-mariadbd - connect from local docker image to dockerized mariadb
-- global-mariadbd - connect globally to dockerized mariadb
+- global-mariadb - connect globally to dockerized mariadb
 
 I installed MariaDB locally on PC, and it was almost as easy to set up as H2.
 It was very easy to connect using the Database connect possibilities in Intellij.
