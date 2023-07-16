@@ -10,9 +10,11 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class Init(
     languageRepo: LanguageRepository,
-    ownerRepo: BlogOwnerRepository
+    ownerRepo: BlogOwnerRepository,
+    appConfig: AppConfig
 ) {
     init {
+        logger.info("App name: ${appConfig.appname}")
         if (ownerRepo.count() == 0L) {
             val blogData = BlogData()
             languageRepo.save(Norwegian)

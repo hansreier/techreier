@@ -156,9 +156,9 @@
 							<jvmFlag>-Dspring.profiles.active=docker-mariadbd</jvmFlag>
 							<!--jvmFlag>-Dspring.profiles.active=h2</jvmFlag-->
 						</jvmFlags>
-						<environment>
-							<DB_PASSWORD>PerSeter123</DB_PASSWORD>
-						</environment>
+						<!--environment>
+							<DB_PASSWORD>Password</DB_PASSWORD>
+						</environment-->
 					</container>
 					<!--extraDirectories>
 						<paths>

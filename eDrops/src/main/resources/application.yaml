@@ -1,5 +1,5 @@
 app:
-  appname: edrops
+  appname: ${APP_NAME:edrops}
 server:
   error:
     include-stacktrace: always
@@ -30,7 +30,7 @@ spring:
   datasource:
     url: jdbc:mariadb://host.docker.internal:3308/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
     username: dbuser
-    password: ${DB_PASSWORD}
+    password: PerSeter33
     driverClassName: org.mariadb.jdbc.Driver
 #  driverClassName: org.h2.Driver
 #    url: jdbc:h2:mem:mydb2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
@@ -50,6 +50,7 @@ spring:
         period: 0
   devtools:
     livereload.enabled: true
+
 ---
 spring:
   config:
@@ -120,7 +121,7 @@ spring:
     driverClassName: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://192.168.2.107:3307/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: dbuser
-    password: Password
+    password: ${DB_PASSWORD}
 
 ---
 spring:
@@ -137,7 +138,7 @@ spring:
     driverClassName: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://host.docker.internal:3308/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
     username: dbuser
-    password: PerSeter33
+    password: ${DB_PASSWORD}
 ---
 spring:
   config:
@@ -153,7 +154,7 @@ spring:
     driverClassName: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://mdb:3308/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
     username: dbuser
-    password: PerSeter33
+    password: ${DB_PASSWORD}
 ---
 spring:
   config:

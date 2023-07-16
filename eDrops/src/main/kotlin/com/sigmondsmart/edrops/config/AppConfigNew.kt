@@ -3,7 +3,8 @@ package com.sigmondsmart.edrops.config
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
-//Just a test of @Value really, no need for @Configuration and define bean. TODO remove later
+// Just a test of @Value really, no need for @Configuration and define bean.
+// TODO remove later
 @Component
 class AppConfigNew {
 

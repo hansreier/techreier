@@ -46,7 +46,7 @@ It was very easy to connect using the Database connect possibilities in Intellij
 As an alternative use MariaDb official image from Dockerhub. Create a container. Remember to enter port 
 and set MARIADB_ROOT_PASSWORD as environment variable when using Docker Desktop or docker command.
 
-Never use the root user and password for connection, but define a separate user: dbuser.
+Never use the root user and password for connection, a separate user: dbuser is defined for the purpose.
 I have used an environment variable DB_PASSWORD, to avoid checking in db user password to github.  
 
 - Local connect to dockerized MariaDB: Docker desktop has a special host name host.docker.internal.

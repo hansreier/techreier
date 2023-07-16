@@ -3,7 +3,8 @@ package com.sigmondsmart.edrops.config
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-//Just an example of field based injection
+// TODO Remove later, only used in unit test
+// Just an example of field based injection
 @Component
 class ReadConfig2 {
 

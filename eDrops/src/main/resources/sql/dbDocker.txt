@@ -1,0 +1,72 @@
+Some useful docker commands:
+
+docker network ls - list of networks (bridge is default)
+docker container ls - list of containers
+docker ps -a
+docker inspect "container name"
+
+https://docs.docker.com/network/network-tutorial-standalone/#use-the-default-bridge-network
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+Create and run db and edrops container for local access (no network required):
+
+docker run -dit --name mdb -e MARIADB_ROOT_PASSWORD=RootPassword -p 3308:3306 mariadb
+docker run -dit --name edrops -e DB_PASSWORD=DBUserPassword -p 8080:8080 hansreier/edrops
+
+An alternative is to use Docker Destop GUI to start containers.
+Do remember to set environment variables and port on localhost.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Create and run db and edrops container for external access (network required, named reier in example):
+
+docker network create reier
+docker network inspect reier
+docker run -dit --name mdb --network reier -e MARIADB_ROOT_PASSWORD=RootPassword -p 3308:3306 mariadb
+docker run -dit --name mdb --network reier -e MARIADB_ROOT_PASSWORD=RootPassword -e MYSQL_ROOT_HOST=% -p 3308:3306 mariadb
+
+docker run -dit --name edrops --network reier -e DB_PASSWORD=DBUserPassword -p 8080:8080 hansreier/edrops
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+Problem when using external access to database (not solved):
+
+Error 115 is returned from socket operation (EINPROGRESS), which means that your client can't physically connect to the specified server and port.
+
+The MariaDB database server is not configured correctly, since it doesn't accept remote connections.
+Please login locally and check the following variables:
+
+https://hub.docker.com/_/mariadb The problem is descibed there.
+
+https://mariadb.com/kb/en/configuring-mariadb-for-remote-client-access/
+
+But is external access really required and recommended?
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Run commands on a container:
+
+docker exec -it mdb mariadb --user dbuser -pPerSeter33
+docker exec -it edrops ping mdb
+
+---------------------------------------------------------------------------------------------------------------------------
+
+To add mariadb client directly on image is recommended for testing av verification of db connection:
+
+apk update
+apk add mariadb-client
+
+Run mariadb client:
+
+mariadb -h mdb -P 3308 -u dbuser -pDBUserPassword
+
+---------------------------------------------------------------------------------------------------------------------------
+
+I cannot ping my containers:
+
+Docker Desktop can’t route traffic to Linux containers. However if you’re a Windows user, you can ping the Windows containers.
+The docker bridge network is not reachable from the host. However if you are a Windows user, it works with Windows containers.
+
+https://docs.docker.com/desktop/networking/
+Per-container IP addressing is not possible

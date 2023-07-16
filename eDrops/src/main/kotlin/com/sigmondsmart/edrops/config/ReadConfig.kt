@@ -2,7 +2,8 @@ package com.sigmondsmart.edrops.config
 
 import org.springframework.stereotype.Component
 
-///Just an example of constructor injection
+// TODO Remove later, only used in unit test
+// Just an example of constructor injection
 @Component
 class ReadConfig(private val config: AppConfig) {
 
