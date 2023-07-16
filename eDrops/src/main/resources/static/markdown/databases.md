@@ -48,13 +48,14 @@ and set MARIADB_ROOT_PASSWORD as environment variable when using Docker Desktop 
 Never use the root user and password for connection, a separate user: dbuser is defined for the purpose.
 I have used an environment variable DB_PASSWORD, to avoid checking in db user password to github.  
 
-- Local connect to dockerized MariaDB: Docker desktop has a special host name host.docker.internal.
-  I recommend to use this when developing on local PC. 
-
+- Local connect to dockerized MariaDB: Docker Desktop has a special host name host.docker.internal.
+  Note: localhost refers to localhost on the Docker image and not on your development PC.
+  I recommend to use host.docker.internal when docker containers is used locally with Docker Desktop.
 - External connect to dockerized MariaDB:
   Change the configuration of the official Docker image. I have not yet manages to do that.
 - Docker network connect to dockerized MariaDB: Both containers must be defined on the same docker network.
   Sorry but the same problems applied to this as with external connect.
+- Docker container connect to local MariaDB: Use IP-address directly or even better host.docker.internal.
 
 Example of defining database schema, dbuser and granting priveleges is included in the dbinit.sql file.
 Note that if you connect to dockerized MariaDB with dbuser outside of MariaDB container, 

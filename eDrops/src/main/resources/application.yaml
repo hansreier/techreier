@@ -119,7 +119,8 @@ spring:
       hibernate.show_sql: false
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://192.168.2.107:3307/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
+#   url: jdbc:mariadb://192.168.2.107:3307/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mariadb://host.docker.internal:3307/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: dbuser
     password: ${DB_PASSWORD}
 
