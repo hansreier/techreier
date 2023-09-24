@@ -13,7 +13,7 @@
     <p>techreier</p>
 </header>
 <div class="navbar">
-    <a class="active" href="#home">Home</a>
+    <a class="active" href="#home" th:text="#{home}"></a>
     <div class="dropdown">
         <button class="dropdown-btn" th:text="#{about}">Blogs
             <i class="fa fa-caret-down"></i>
@@ -78,7 +78,7 @@
     <!--form th:action="@{{path}/language(path=${path})}" th:method="post"-->
     <!--form th:action="@{|${path}/language|}" th:method="post"-->
     <form th:action="@{/language}" th:method="post">
-        <p>eTorg &copy; Hans Reier Sigmond</p>
+        <p>techreier &copy; Hans Reier Sigmond</p>
         <label th:text="#{lang.text}" for="dropDownList" >Language code:</label>
         <select id="dropDownList" name="code">
             <option th:each="language : ${languages}"
