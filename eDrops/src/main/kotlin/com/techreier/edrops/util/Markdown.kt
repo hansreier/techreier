@@ -23,6 +23,7 @@ import java.util.*
 private val logger = LoggerFactory.getLogger("markdownToHtml")
 
 // Commonmark implementation
+// TODO only used in test, change or remove
 fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
     logger.info("markdown")
     val exts: List<Extension> = Arrays.asList(TablesExtension.create(), AutolinkExtension.create(),
