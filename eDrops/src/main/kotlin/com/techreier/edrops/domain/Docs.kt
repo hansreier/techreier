@@ -15,6 +15,8 @@ object Docs {
         Doc("goals",  English, "Goals"),
         Doc("readme", Norwegian, "Les meg (engelsk)", false),
         Doc("readme", English, null, false),
+        Doc("tech", Norwegian, "Om teknologi (engelsk)",false),
+        Doc("tech", English, "Technology",false),
         Doc("markdown", Norwegian, "Markdown (engelsk)", false),
         Doc( "markdown", English, "Markdown", false),
         Doc("databases", Norwegian, "Databaser (engelsk)", false),
