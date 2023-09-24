@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.sigmondsmart</groupId>
+	<groupId>com.techreier</groupId>
 	<artifactId>edrops</artifactId>
 	<version>1.0</version>
 	<name>edrops</name>
@@ -122,7 +122,7 @@
 				<executions>
 					<execution>
 						<configuration>
-							<mainClass>com.sigmondsmart.edrops.Main</mainClass>
+							<mainClass>com.techreier.edrops.Main</mainClass>
 						</configuration>
 					</execution>
 				</executions>
@@ -153,9 +153,9 @@
 							<!--port>8443</port-->
 						</ports>
 						<jvmFlags>
-							<jvmFlag>-Dspring.profiles.active=docker-mariadb</jvmFlag>
+							<!--jvmFlag>-Dspring.profiles.active=docker-mariadb</jvmFlag-->
 							<!--jvmFlag>-Dspring.profiles.active=mariadb-dockerized</jvmFlag-->
-							<!--jvmFlag>-Dspring.profiles.active=h2</jvmFlag-->
+							<jvmFlag>-Dspring.profiles.active=h2</jvmFlag>
 						</jvmFlags>
 						<!--environment>
 							<DB_PASSWORD>Password</DB_PASSWORD>
