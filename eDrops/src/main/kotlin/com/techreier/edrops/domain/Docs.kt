@@ -1,6 +1,7 @@
 package com.techreier.edrops.domain
 
 const val MARKDOWN_EXT = ".md"
+const val HOME ="home"
 
 /**
  * No database needed for rendering docs saved as markdown files.

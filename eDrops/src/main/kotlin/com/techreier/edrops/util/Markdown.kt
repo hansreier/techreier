@@ -1,7 +1,6 @@
 package com.techreier.edrops.util
 
-import com.techreier.edrops.controllers.BaseController
-import com.techreier.edrops.domain.Docs
+import com.techreier.edrops.domain.Doc
 import com.techreier.edrops.domain.MARKDOWN_EXT
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
@@ -87,9 +86,8 @@ fun sanitize(html: String): String {
 }
 
 //Must do it this way with classLoader and streams to be able to read files in Docker and locally
-fun markdownToHtml(blogParams: BaseController.BlogParams): String {
-    val doc = Docs.getDoc(blogParams.blogId)
-    val lc = if (doc.ext) "_" + blogParams.langCode else ""
+fun markdownToHtml(doc: Doc): String {
+    val lc = if (doc.ext) "_" + doc.language.code else ""
     val classLoader = object {}.javaClass.classLoader
     val fileName = "static/markdown/" + doc.tag + lc + MARKDOWN_EXT
     val inputStream = classLoader.getResourceAsStream(fileName)

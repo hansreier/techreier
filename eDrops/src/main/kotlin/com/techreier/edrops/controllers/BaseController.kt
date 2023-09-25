@@ -25,7 +25,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         val defaultLangcode = LocaleContextHolder.getLocale().language
         val selectedLangcode = model.getAttribute("langcode") as String?
         val langcode = selectedLangcode ?: defaultLangcode
-        model.addAttribute("docs", Docs.getDocs(langcode))
+        model.addAttribute("docs", Docs.getDocs(langcode)) //TODO only needed for about menu
         logger.debug("Language selected: $selectedLangcode default: $defaultLangcode used: $langcode")
         model.addAttribute("langcode", langcode)
         // Get Url path based on servletPath and send to template (avoid double slash in template)

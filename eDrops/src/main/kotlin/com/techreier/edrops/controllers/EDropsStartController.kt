@@ -2,7 +2,9 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.InitException
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.Docs
+import com.techreier.edrops.domain.Doc
+import com.techreier.edrops.domain.HOME
+import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
@@ -29,15 +31,13 @@ class EDropsStartController(dbService: DbService) : BaseController(dbService) {
             logger.debug("welcome")
             model.addAttribute("message", message)
             model.addAttribute("message1", "from Kotlin")
-            //  model.addAttribute("blogs", fetchBlogs())
             val blogParams = setCommonModelParameters(model, request)
-            // TODO How does this work, NoValue and BlogId is set to 1.
-            // Have to change to direct point to where document is fetched or something
-            val docText: String = markdownToHtml(blogParams)
+            val doc =  Doc(HOME, LanguageCode("",blogParams.langCode))
+            val docText: String = markdownToHtml(doc)
             logger.debug("BlogId: ${blogParams.blogId}")
             logger.debug("Text: $docText")
             model.addAttribute("docText", docText)
-            model.addAttribute("doc", Docs.getDoc(blogParams.blogId))
+            model.addAttribute("doc", doc)
         } catch (e: Exception) {
             throw (InitException("Cannot open default page", e)) //Rethrow so can be picked by error handler.
         }

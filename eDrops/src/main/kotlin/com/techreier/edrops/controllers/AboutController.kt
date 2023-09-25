@@ -17,9 +17,10 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
     fun content(request: HttpServletRequest, model: Model): String {
         logger.info("content")
         val blogParams = setCommonModelParameters(model, request)
-        val docText: String = markdownToHtml(blogParams)
+        val doc =  Docs.getDoc(blogParams.blogId)
+        val docText: String = markdownToHtml(doc)
         model.addAttribute("docText", docText)
-        model.addAttribute("doc", Docs.getDoc(blogParams.blogId))
+        model.addAttribute("doc", doc)
         return "about"
     }
 
