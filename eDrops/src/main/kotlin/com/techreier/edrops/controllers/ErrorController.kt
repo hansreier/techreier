@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 //TODO Redesign error page, does not work properly
 //@Profile("notFOundProfile")
 @Controller
-class EDropsErrorController @Autowired private constructor(
+class ErrorController @Autowired private constructor(
     var errorAttributes: ErrorAttributes,
 ) : ErrorController, AbstractErrorController(errorAttributes) {
     @RequestMapping("/error")

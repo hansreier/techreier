@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping()
-class EDropsStartController(dbService: DbService) : BaseController(dbService) {
+class WelcomeController(dbService: DbService) : BaseController(dbService) {
 
     //Get language set from session or parameter?
     @GetMapping
