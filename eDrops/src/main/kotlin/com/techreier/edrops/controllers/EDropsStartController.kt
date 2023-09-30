@@ -8,7 +8,6 @@ import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,17 +19,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @Controller
 @RequestMapping()
 class EDropsStartController(dbService: DbService) : BaseController(dbService) {
-    // inject via application.properties
-    @Value("\${welcome.message} from Kotlin")
-    private val message = "Hello World"
 
     //Get language set from session or parameter?
     @GetMapping
     fun welcome(request: HttpServletRequest, model: Model): String {
         try {
             logger.debug("welcome")
-            model.addAttribute("message", message)
-            model.addAttribute("message1", "from Kotlin")
             val blogParams = setCommonModelParameters(model, request)
             val doc =  Doc(HOME, LanguageCode("",blogParams.langCode))
             val docText: String = markdownToHtml(doc)
@@ -51,7 +45,6 @@ class EDropsStartController(dbService: DbService) : BaseController(dbService) {
     @RequestMapping(value = ["/change"], method = [RequestMethod.GET])
     fun checkEventForm(model: Model): String? {
         logger.info("check event form")
-        //model.getAttribute()
         return "redirect:/"
     }
 

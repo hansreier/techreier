@@ -12,18 +12,11 @@
 <div layout:fragment="content">
     <h2 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.tag}}"/>
     <div class="container">
-        <a th:utext="${docText}"></a><br><br>
+        <a th:utext="${docText}"></a>
         <div class="row">
             <div class="col-md-12">
-                <h1 th:text="#{greeting}"></h1>
-                <p>læring med låret i løksuppa</p>
+                <h4 th:text="#{greeting}"></h4>
             </div>
-            <h1>Spring Boot Thymeleaf eDrops test web pagereno</h1>
-            <h2>
-                Reier3
-                <span th:text="${message1}"></span>
-                <span th:text="'Message: ' + ${message}"></span>
-            </h2>
         </div>
     </div>
 </div>
