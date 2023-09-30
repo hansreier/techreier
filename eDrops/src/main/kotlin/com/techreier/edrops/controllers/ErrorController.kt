@@ -1,6 +1,5 @@
 package com.techreier.edrops.controllers
 
-import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController
@@ -10,6 +9,7 @@ import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.context.request.WebRequest
 
 //Errors not picked up by error handler (e.g. 404 Not Found)
 //Redirect to default website page can create recursion.
@@ -17,20 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping
 //If disabled Springs default error handler is used to open error page
 //This handler initializes som variables picked up by error page.
 
-//TODO Redesign error page, does not work properly
-//@Profile("notFOundProfile")
+//TODO Redesign error page
 @Controller
 class ErrorController @Autowired private constructor(
     var errorAttributes: ErrorAttributes,
 ) : ErrorController, AbstractErrorController(errorAttributes) {
     @RequestMapping("/error")
-    fun handleError(request: HttpServletRequest, response: HttpServletResponse, model: Model): String {
-      //  if (response.status == HttpServletResponse.SC_NOT_FOUND) return "redirect:/"
-        val opts = getErrorAttributes(
+    fun handleError(request: WebRequest, response: HttpServletResponse, model: Model): String {
+        //  if (response.status == HttpServletResponse.SC_NOT_FOUND) return "redirect:/"
+        val opts = errorAttributes.getErrorAttributes(
             request, ErrorAttributeOptions.defaults()
                 .including(ErrorAttributeOptions.Include.STACK_TRACE)
             // .including(ErrorAttributeOptions.Include.EXCEPTION)
-        ) //Problems override Spring config
+        )
         model.addAllAttributes(opts)
         return "error"
     }
