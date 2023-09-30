@@ -9,7 +9,7 @@ use and configure Flexmark. Flexmark is much more configurable. Note that it
 can be discussed how much deviation from the standard that is adviceable. As 
 a developer, github flavoured markdown can be considered as standard.
 
-In addision support for tables, links and image
+In addition support for tables, links and image
 attributes is added with commonmark extension, and images can be used as well.
 
 One disadvantage with markdown is the limited set of formatting options for

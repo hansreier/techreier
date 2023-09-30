@@ -37,21 +37,27 @@ I have not done that yet. But I have made code that
 stores text in a database and later output texts using hibernate.
 This is tested by using H2 in unit tests.
 
-### How to make a text based web site without coding HTML
+### How to make a text based website without coding HTML
 
-The goal is to make this as simple as possible where the user does it in an input
+The goal is to make this as simple as possible where the user enters text in an input
 window.  An option is to use markdown like this readme.md file, since
 it is simpler than RTF and uses less space. Perhaps the system will support both
-formats. Editors (both outside of this project, or include in the code can be used).
+formats. Editors, both outside of this project or included in this project.  can be used.
 
 The first attempt is to use markdown written in Intellij or other editor, store it as a file
 together with project code and pick it up as a part of the Web GUI. No database is really needed.
-I still use a relational database for structuring the blogs and metadata, and to enable to 
-write and view the blogs in various languages.
+The advantage and disadvantage of this approach is that my written text is included directly in the codebase,
+and I have to redeploy to update. 
 
+TODO how to use internal link. If possible.
+[The details of using markdown to produce html is outlined here](#markdown)
 
+I use a relational database for structuring the blogs and metadata, and to enable to 
+write and view the blogs online in various languages in the future. 
+H2 is used for testing and for loading initial content from Kotlin into the database. 
+I plan to use MariaDB in production. I plan to make this a multiuser system with proper secure login. 
+I am not there yet.
 
-  
 
 
 
