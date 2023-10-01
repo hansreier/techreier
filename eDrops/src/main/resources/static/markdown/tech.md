@@ -51,10 +51,20 @@ and I have to redeploy to update.
 
 TODO how to use internal link. If possible.
 
+The below links works on github and partly in Intellij
+
 [Relative link to home in this directory](home_en.md)  
 [Absolute link to home](/eDrops/src/main/resources/static/markdown/home_en.md)  
 [Link to markdown](markdown.md)  
 [Link to markdown anchor](markdown.md#Alternatives-to-markdown)  
+
+The links cannot work direcly on webpage, because the markdown is included in HTML files with other names.
+Alternatives: 
+- Use http external link to top of page directly
+- User http external link to position in page given by id (use # in href)
+- Use Flexmark to interpret markdown links to correct HTMl
+
+
 
 I use a relational database for structuring the blogs and metadata, and to enable to 
 write and view the blogs online in various languages in the future. 

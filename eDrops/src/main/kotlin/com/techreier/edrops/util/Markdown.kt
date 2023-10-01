@@ -67,6 +67,8 @@ fun markdownToHtmlGitHub(markdown: String, sanitizer: Boolean): String {
     val parser = com.vladsch.flexmark.parser.Parser.builder(options).build()
     val renderer = com.vladsch.flexmark.html.HtmlRenderer.builder(options).build()
     val document: Node = parser.parse(markdown)
+    // TODO visit node and change internal links?
+    // https://github.com/vsch/flexmark-java/wiki/Usage, search for Node visitor.
     val html = renderer.render(document)
     if (sanitizer) return sanitize(html) else return html
 }
