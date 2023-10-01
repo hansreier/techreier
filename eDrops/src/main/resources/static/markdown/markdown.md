@@ -35,7 +35,7 @@ The markdown context is selected from a menu
 - Hard coded menu for the static markdown files
 - Storing metadata in a database and produce a menu from it.
 
-### Alternatives to markdown:
+### Alternatives to markdown
 
 - Plain HTMl (too much work and includes coding)
 - language resource file text (tried that, not ideal)

@@ -62,7 +62,8 @@ TODO how to use internal link. If possible.
 [Relative link to home in this directory](home_en.md)  
 [Absolute link to home](/eDrops/src/main/resources/static/markdown/home_en.md)
 
-[Link to markdown](markdown.md)  
+[Link to markdown](markdown.md)
+[Link to markdown](markdown.md#Alternatives_to_markdown)
 
 
 I use a relational database for structuring the blogs and metadata, and to enable to 
