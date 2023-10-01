@@ -49,8 +49,20 @@ together with project code and pick it up as a part of the Web GUI. No database 
 The advantage and disadvantage of this approach is that my written text is included directly in the codebase,
 and I have to redeploy to update. 
 
-TODO how to use internal link. If possible.
-[The details of using markdown to produce html is outlined here](#markdown)
+TODO how to use internal link. If possible.  
+[The details of using markdown to produce html is outlined here](#About-usage-of-markdown)  
+[The details of using markdown to produce html is outlined here](../About#about-usage-of-markdown)  
+
+[The details of using markdown to produce html is outlined here](#About_usage_of_markdown)  
+[The details of using markdown to produce html is outlined here](../About#about_usage_of_markdown)  
+ 
+[The details of using markdown to produce html is outlined here](about.md#about-usage-of-markdown)  
+[The details of using markdown to produce html is outlined here](about#about_usage_of_markdown)
+
+[Link to home](home_en.md)  
+[Link to home](/home_en.md)  
+[Link to home](../home_en.md)
+
 
 I use a relational database for structuring the blogs and metadata, and to enable to 
 write and view the blogs online in various languages in the future. 
