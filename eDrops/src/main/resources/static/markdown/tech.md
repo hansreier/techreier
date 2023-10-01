@@ -56,7 +56,10 @@ The below links works on github and partly in Intellij
 [Relative link to home in this directory](home_en.md)  
 [Absolute link to home](/eDrops/src/main/resources/static/markdown/home_en.md)  
 [Link to markdown](markdown.md)  
-[Link to markdown anchor](markdown.md#Alternatives-to-markdown)  
+[Link to markdown anchor](markdown.md#Alternatives-to-markdown)    
+[Link to About](about)  
+[Link to About with tag](about#Home-sweet-home)  
+[Link to About with parameter](about?tag=Home-sweet-home)  
 
 The links cannot work direcly on webpage, because the markdown is included in HTML files with other names.
 Alternatives: 

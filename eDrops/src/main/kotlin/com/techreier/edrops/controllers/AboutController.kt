@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class AboutController(dbService: DbService) : BaseController(dbService) {
     @GetMapping
     fun content(request: HttpServletRequest, model: Model): String {
-        logger.info("content")
+        logger.info("content: ${request.servletPath}")
         val blogParams = setCommonModelParameters(model, request)
         val doc =  Docs.getDoc(blogParams.blogId)
         val docText: String = markdownToHtml(doc)
