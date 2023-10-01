@@ -59,7 +59,7 @@ TODO how to use internal link. If possible.
 [The details of using markdown to produce html is outlined here](about.md#about-usage-of-markdown)  
 [The details of using markdown to produce html is outlined here](about#about_usage_of_markdown)
 
-[Relate link to home in this directory](home_en.md)  
+[Relative link to home in this directory](home_en.md)  
 [Absolute link to home](/eDrops/src/main/resources/static/markdown/home_en.md)
 
 [Link to markdown](markdown.md)  
