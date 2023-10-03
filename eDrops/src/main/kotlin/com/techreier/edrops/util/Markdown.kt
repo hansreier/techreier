@@ -2,10 +2,13 @@ package com.techreier.edrops.util
 
 import com.techreier.edrops.domain.Doc
 import com.techreier.edrops.domain.MARKDOWN_EXT
+import com.vladsch.flexmark.ast.Text
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.parser.ParserEmulationProfile
 import com.vladsch.flexmark.util.ast.Node
+import com.vladsch.flexmark.util.ast.NodeVisitor
+import com.vladsch.flexmark.util.ast.VisitHandler
 import com.vladsch.flexmark.util.data.MutableDataSet
 import org.commonmark.Extension
 import org.commonmark.ext.autolink.AutolinkExtension
@@ -20,6 +23,16 @@ import java.util.*
 
 
 private val logger = LoggerFactory.getLogger("markdownToHtml")
+
+var visitor: NodeVisitor = NodeVisitor(
+    VisitHandler(Text::class.java) { text: Text -> visit(text) }
+)
+
+fun visit(text: Text) {
+    logger.info("Node: $text")
+    visitor.visitChildren(text)
+}
+
 
 // Commonmark implementation
 // TODO only used in test, change or remove
@@ -67,8 +80,7 @@ fun markdownToHtmlGitHub(markdown: String, sanitizer: Boolean): String {
     val parser = com.vladsch.flexmark.parser.Parser.builder(options).build()
     val renderer = com.vladsch.flexmark.html.HtmlRenderer.builder(options).build()
     val document: Node = parser.parse(markdown)
-    // TODO visit node and change internal links?
-    // https://github.com/vsch/flexmark-java/wiki/Usage, search for Node visitor.
+    visitor.visit(document)
     val html = renderer.render(document)
     if (sanitizer) return sanitize(html) else return html
 }
