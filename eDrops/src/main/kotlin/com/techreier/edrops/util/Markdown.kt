@@ -2,7 +2,7 @@ package com.techreier.edrops.util
 
 import com.techreier.edrops.domain.Doc
 import com.techreier.edrops.domain.MARKDOWN_EXT
-import com.vladsch.flexmark.ast.Text
+import com.vladsch.flexmark.ast.Link
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.parser.ParserEmulationProfile
@@ -24,6 +24,7 @@ import java.util.*
 
 private val logger = LoggerFactory.getLogger("markdownToHtml")
 
+/*
 var visitor: NodeVisitor = NodeVisitor(
     VisitHandler(Text::class.java) { text: Text -> visit(text) }
 )
@@ -31,6 +32,16 @@ var visitor: NodeVisitor = NodeVisitor(
 fun visit(text: Text) {
     logger.info("Node: $text")
     visitor.visitChildren(text)
+} */
+
+var visitor: NodeVisitor = NodeVisitor(
+    VisitHandler(Link::class.java) { link: Link -> visit(link) }
+)
+
+fun visit(link: Link) {
+    if (link.url.contains(".md"))
+        logger.info("Link url: ${link.url}")
+    visitor.visitChildren(link)
 }
 
 
