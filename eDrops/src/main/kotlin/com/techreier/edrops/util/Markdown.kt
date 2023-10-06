@@ -1,7 +1,5 @@
 package com.techreier.edrops.util
 
-import com.techreier.edrops.domain.Doc
-import com.techreier.edrops.domain.MARKDOWN_EXT
 import com.vladsch.flexmark.ast.Link
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension

@@ -3,6 +3,7 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.*
 import com.techreier.edrops.service.DbService
+import com.techreier.edrops.util.Docs
 import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.i18n.LocaleContextHolder
@@ -20,7 +21,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
     // Should only be used if no DB is available
     protected fun setCommonModelParameters(model: Model, request: HttpServletRequest, db: Boolean = true): BlogParams {
         logger.debug("set common model parameters")
-        val blogId = (model.getAttribute("blogid") ?: 1L) as Long
+        val blogId = (model.getAttribute("blogid") ?: 0L) as Long
         model.addAttribute("languages", fetchLanguages())
         val defaultLangcode = LocaleContextHolder.getLocale().language
         val selectedLangcode = model.getAttribute("langcode") as String?

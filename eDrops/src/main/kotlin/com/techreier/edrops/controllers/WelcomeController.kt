@@ -2,8 +2,8 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.InitException
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.Doc
-import com.techreier.edrops.domain.HOME
+import com.techreier.edrops.util.Doc
+import com.techreier.edrops.util.HOME
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.markdownToHtml

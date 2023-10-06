@@ -1,4 +1,7 @@
-package com.techreier.edrops.domain
+package com.techreier.edrops.util
+
+import com.techreier.edrops.domain.English
+import com.techreier.edrops.domain.Norwegian
 
 const val MARKDOWN_EXT = ".md"
 const val HOME ="home"
@@ -27,6 +30,11 @@ object Docs {
     fun getDoc(blogId: Long): Doc {
         return doc[blogId.toInt()]
     }
+
+    fun getDocId(tag: String, langCode: String): Int {
+        return doc.indexOfFirst { (it.language.code == langCode) && (it.tag == tag) }
+    }
+
 
     fun getDocs(langCode: String): List<Doc> {
         return doc.filter { (it.language.code == langCode)  }
