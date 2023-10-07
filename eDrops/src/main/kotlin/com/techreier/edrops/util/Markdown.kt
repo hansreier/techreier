@@ -22,16 +22,6 @@ import java.util.*
 
 private val logger = LoggerFactory.getLogger("markdownToHtml")
 
-/*
-var visitor: NodeVisitor = NodeVisitor(
-    VisitHandler(Text::class.java) { text: Text -> visit(text) }
-)
-
-fun visit(text: Text) {
-    logger.info("Node: $text")
-    visitor.visitChildren(text)
-} */
-
 var visitor: NodeVisitor = NodeVisitor(
     VisitHandler(Link::class.java) { link: Link -> visit(link) }
 )

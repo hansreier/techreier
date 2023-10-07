@@ -29,8 +29,8 @@ object Docs {
         Doc("databases", English, "Databases", false)
     )
 
-    fun getDoc(docIndex: Long): Doc {
-        return doc[docIndex.toInt()]
+    fun getDoc(docIndex: Int): Doc {
+        return doc[docIndex]
     }
 
     // Find the first Doc index that matches language code and eventually nonnull tag

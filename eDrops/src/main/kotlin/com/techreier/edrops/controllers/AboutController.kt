@@ -17,12 +17,12 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
     @GetMapping(path= ["/about", "/about/{tag}"])
     fun content(@PathVariable(required = false) tag: String?, request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request)
-        val docIndex: Long = getDocIndex(tag, blogParams.langCode).toLong()
-        logger.debug("Tag: ${tag} BlogId: ${blogParams.blogId} DocIndex: $docIndex Language: ${blogParams.langCode} ")
-        val doc = Docs.getDoc(if (docIndex == 0L) blogParams.blogId else docIndex)
+        val docIndex = getDocIndex(tag, blogParams.langCode)
+        logger.debug("Tag: ${tag} DocIndex: $docIndex Language: ${blogParams.langCode} ")
+        val doc = Docs.getDoc(docIndex)
         val docText: String = markdownToHtml(doc)
-        model.addAttribute("docText", docText)
         model.addAttribute("doc", doc)
+        model.addAttribute("docText", docText)
         return "about"
     }
 
