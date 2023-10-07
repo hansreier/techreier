@@ -28,6 +28,6 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
 
     @PostMapping("/about")
     fun getEntry(redirectAttributes: RedirectAttributes, doc: String): String {
-        return "redirect:/about/" + doc
+        return "redirect:/about/$doc"
     }
 }
