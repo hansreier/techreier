@@ -16,7 +16,7 @@ const val HOME ="home"
  * Language is part of file name if ext is set to true
  */
 object Docs {
-    private val doc = listOf(
+   val doc = arrayOf(
         Doc("goals",  Norwegian, "Mål"),
         Doc("goals",  English, "Goals"),
         Doc("readme", Norwegian, "Les meg (engelsk)", false),
@@ -29,10 +29,6 @@ object Docs {
         Doc("databases", English, "Databases", false)
     )
 
-    fun getDoc(docIndex: Int): Doc {
-        return doc[docIndex]
-    }
-
     // Find the first Doc index that matches language code and eventually nonnull tag
     fun getDocIndex(tag: String?, languageCode: String): Int {
         return doc.indexOfFirst { (it.language.code == languageCode) && (tag == it.tag || tag == null) }
@@ -41,5 +37,6 @@ object Docs {
     fun getDocs(languageCode: String): List<Doc> {
         return doc.filter { (it.language.code == languageCode)  }
     }
+
 }
 

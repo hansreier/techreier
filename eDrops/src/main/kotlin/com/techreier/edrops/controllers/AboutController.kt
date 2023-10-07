@@ -2,7 +2,7 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
-import com.techreier.edrops.util.Docs
+import com.techreier.edrops.util.Docs.doc
 import com.techreier.edrops.util.Docs.getDocIndex
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
@@ -19,7 +19,7 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
         val blogParams = setCommonModelParameters(model, request)
         val docIndex = getDocIndex(tag, blogParams.langCode)
         logger.debug("Tag: ${tag} DocIndex: $docIndex Language: ${blogParams.langCode} ")
-        val doc = Docs.getDoc(docIndex)
+        val doc = doc[docIndex]
         val docText: String = markdownToHtml(doc)
         model.addAttribute("doc", doc)
         model.addAttribute("docText", docText)
