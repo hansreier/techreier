@@ -41,5 +41,9 @@ object Docs {
     fun getDocs(languageCode: String): List<Doc> {
         return doc.filter { (it.language.code == languageCode)  }
     }
+
+    fun getDocTag(docIndex: Long): String {
+        return doc[docIndex.toInt()].tag
+    }
 }
 

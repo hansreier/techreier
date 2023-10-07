@@ -4,6 +4,7 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.getDocIndex
+import com.techreier.edrops.util.Docs.getDocTag
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -12,9 +13,9 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
-@RequestMapping(path= ["/about", "/about/{tag}"])
+@RequestMapping
 class AboutController(dbService: DbService) : BaseController(dbService) {
-    @GetMapping
+    @GetMapping(path= ["/about", "/about/{tag}"])
     fun content(@PathVariable(required = false) tag: String?, request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request)
         val docIndex: Long = getDocIndex(tag, blogParams.langCode).toLong()
@@ -26,10 +27,9 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
         return "about"
     }
 
-    @PostMapping
+    @PostMapping("/about")
     fun getEntry(redirectAttributes: RedirectAttributes, doc: Long): String {
-        logger.info("docid: $doc")
-        redirectAttributes.addFlashAttribute("blogid", doc)
-        return "redirect:/about"
+        logger.info("docIndex: $doc")
+        return "redirect:/about/" + getDocTag(doc)
     }
 }
