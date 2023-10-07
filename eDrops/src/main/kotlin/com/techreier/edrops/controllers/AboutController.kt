@@ -4,7 +4,6 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.getDocIndex
-import com.techreier.edrops.util.Docs.getDocTag
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -28,8 +27,7 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
     }
 
     @PostMapping("/about")
-    fun getEntry(redirectAttributes: RedirectAttributes, doc: Long): String {
-        logger.info("docIndex: $doc")
-        return "redirect:/about/" + getDocTag(doc)
+    fun getEntry(redirectAttributes: RedirectAttributes, doc: String): String {
+        return "redirect:/about/" + doc
     }
 }
