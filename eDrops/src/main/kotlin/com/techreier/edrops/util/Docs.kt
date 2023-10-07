@@ -8,8 +8,10 @@ const val HOME ="home"
 
 /**
  * No database needed for rendering docs saved as markdown files.
- * Documents read directly from disk (including definition for drop down menu)
- * Tag is required for file name
+ * Documents read directly from disk.
+ * Documents are fetch from drop down menu
+ * TODO: Enable usage of multiple drop down menus
+ * The tag is the file name without extension
  * If no value of subject, tag is used to pick up text in resource
  * Language is part of file name if ext is set to true
  */
@@ -27,17 +29,17 @@ object Docs {
         Doc("databases", English, "Databases", false)
     )
 
-    fun getDoc(blogId: Long): Doc {
-        return doc[blogId.toInt()]
+    fun getDoc(docIndex: Long): Doc {
+        return doc[docIndex.toInt()]
     }
 
-    fun getDocId(tag: String, langCode: String): Int {
-        return doc.indexOfFirst { (it.language.code == langCode) && (it.tag == tag) }
+    // Find the first Doc index that matches language code and eventually nonnull tag
+    fun getDocIndex(tag: String?, languageCode: String): Int {
+        return doc.indexOfFirst { (it.language.code == languageCode) && (tag == it.tag || tag == null) }
     }
 
-
-    fun getDocs(langCode: String): List<Doc> {
-        return doc.filter { (it.language.code == langCode)  }
+    fun getDocs(languageCode: String): List<Doc> {
+        return doc.filter { (it.language.code == languageCode)  }
     }
 }
 
