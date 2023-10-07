@@ -30,7 +30,7 @@ object Docs {
     )
 
     // Find the first Doc index that matches language code and eventually nonnull tag
-    fun getDocIndex(tag: String?, languageCode: String): Int {
+    fun getDocIndex(languageCode: String, tag: String? = null): Int {
         return doc.indexOfFirst { (it.language.code == languageCode) && (tag == it.tag || tag == null) }
     }
 

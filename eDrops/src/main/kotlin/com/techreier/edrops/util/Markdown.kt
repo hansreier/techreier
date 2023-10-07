@@ -26,9 +26,12 @@ var visitor: NodeVisitor = NodeVisitor(
     VisitHandler(Link::class.java) { link: Link -> visit(link) }
 )
 
+// TODO visitor works, but how to replace URL with another?
+// https://github.com/vsch/flexmark-java/blob/master/flexmark-java-samples/src/com/vladsch/flexmark/java/samples/FormatterWithMods.java
 fun visit(link: Link) {
-    if (link.url.contains(".md"))
+    if (link.url.endsWith(".md"))
         logger.info("Link url: ${link.url}")
+    link.url.toString().replace(".md",".html")
     visitor.visitChildren(link)
 }
 

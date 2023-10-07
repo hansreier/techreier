@@ -14,16 +14,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @Controller
 @RequestMapping
 class AboutController(dbService: DbService) : BaseController(dbService) {
-    @GetMapping(path= ["/about", "/about/{tag}"])
-    fun content(@PathVariable(required = false) tag: String?, request: HttpServletRequest, model: Model): String {
+    @GetMapping("/about/{tag}")
+    fun content(@PathVariable tag: String?, request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request)
-        val docIndex = getDocIndex(tag, blogParams.langCode)
+        val docIndex = getDocIndex(blogParams.langCode, tag)
         logger.debug("Tag: ${tag} DocIndex: $docIndex Language: ${blogParams.langCode} ")
         val doc = doc[docIndex]
         val docText: String = markdownToHtml(doc)
         model.addAttribute("doc", doc)
         model.addAttribute("docText", docText)
         return "about"
+    }
+
+    @GetMapping("/about")
+    fun content2(request: HttpServletRequest, model: Model): String {
+        val blogParams = setCommonModelParameters(model, request)
+        val doc = doc[getDocIndex(blogParams.langCode)]
+        return "redirect:/about/${doc.tag}"
     }
 
     @PostMapping("/about")
