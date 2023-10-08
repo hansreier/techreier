@@ -57,15 +57,20 @@ class DbService(
     }
 
     //if language is changed, we try to fetch a blog with the new language and the same tag
+    //TODO, changing languge on URL, blogId is not picked up and the logic is wrong
+    // https://stackoverflow.com/questions/38803656/spring-thymeleaf-changing-locale-and-stay-on-the-current-page
+    // Hidden input field cannot be used directly to transfer blogId when just changing URL parameter
     fun readBlogWithSameLanguage(blogId: Long, langCode: String?): Blog? {
-        logger.info("Read blog with  same language")
+        logger.info("Read blog with same language: $langCode as blog with id $blogId")
         var blogIdNew = blogId
         if (langCode != null) {
-            val blog = blogRepo.findById(blogId).orElse(null)
-            logger.debug("The current blog is found with language.code ${blog.language.code}, should be: $langCode")
-            if (blog.language.code != langCode) {
-                val blogSwitched = blogRepo.findFirstBlogByLanguageAndTag(LanguageCode("", langCode), blog.tag)
-                blogIdNew = blogSwitched?.id ?: blogId
+            val blog = blogRepo.findById(blogId).orElse(null) //Finner current blog
+            if (blog != null ) {
+                logger.debug("The current blog is found with language.code ${blog.language.code}, should be: $langCode")
+                if (blog.language.code != langCode) {
+                    val blogSwitched = blogRepo.findFirstBlogByLanguageAndTag(LanguageCode("", langCode), blog.tag)
+                    blogIdNew = blogSwitched?.id ?: blogId
+                }
             }
         }
         return blogRepo.findAllById(blogIdNew).orElse(null)
@@ -73,7 +78,7 @@ class DbService(
 
     fun readBlogs(blogOwnerId: Long, languageCode: String): MutableSet<Blog> {
         logger.info("Read blogs with language: $languageCode")
-        return blogRepo.findByLanguage(LanguageCode("", languageCode))
+        return blogRepo.findByLanguage(LanguageCode("", languageCode)) //TODO something goes wrong here
     }
 
     fun readLanguages(): MutableList<LanguageCode> {

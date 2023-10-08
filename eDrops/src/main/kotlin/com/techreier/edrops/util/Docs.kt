@@ -31,11 +31,18 @@ object Docs {
 
     // Find the first Doc index that matches language code and eventually nonnull tag
     fun getDocIndex(languageCode: String, tag: String? = null): Int {
-        return doc.indexOfFirst { (it.language.code == languageCode) && (tag == it.tag || tag == null) }
+        val usedCode = usedLanguageCode(languageCode)
+        return doc.indexOfFirst { (it.language.code == usedCode) && (tag == it.tag || tag == null) }
     }
 
     fun getDocs(languageCode: String): List<Doc> {
-        return doc.filter { (it.language.code == languageCode)  }
+        val usedCode = usedLanguageCode(languageCode)
+        return doc.filter { (it.language.code == usedCode)  }
+    }
+
+    // Rule for returning language code used in this project from unknown codes.
+   fun usedLanguageCode(languageCode: String ): String {
+        return  if (languageCode in listOf("nn","no","nb")) "nb" else "en"
     }
 
 }

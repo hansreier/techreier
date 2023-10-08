@@ -13,8 +13,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class BlogEntriesController(private val dbService: DbService): BaseController(dbService)
 {
     @GetMapping
-    fun allBlogTexts(request: HttpServletRequest, model: Model): String {
-        val blogParams = setCommonModelParameters(model, request)
+    fun allBlogTexts(@RequestParam(required = false, name = "lang") langCode: String? ,
+                     request: HttpServletRequest, model: Model): String {
+        val blogParams = setCommonModelParameters(model, request, langCode)
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.langCode )
         model.addAttribute("blog", blog)
@@ -32,8 +33,9 @@ class BlogEntriesController(private val dbService: DbService): BaseController(db
     }
 
     @GetMapping("/admin")
-    fun allBlogEntries(request: HttpServletRequest, model: Model): String {
-        val blogParams = setCommonModelParameters(model, request)
+    fun allBlogEntries(@RequestParam(required = false, name = "lang") langCode: String? ,
+                       request: HttpServletRequest, model: Model): String {
+        val blogParams = setCommonModelParameters(model, request, langCode)
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.langCode )
         model.addAttribute("blog", blog)

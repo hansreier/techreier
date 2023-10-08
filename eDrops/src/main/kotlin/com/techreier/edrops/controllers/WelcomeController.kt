@@ -10,10 +10,7 @@ import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
@@ -22,10 +19,11 @@ class WelcomeController(dbService: DbService) : BaseController(dbService) {
 
     //Get language set from session or parameter?
     @GetMapping
-    fun welcome(request: HttpServletRequest, model: Model): String {
+    fun welcome(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
+                request: HttpServletRequest, model: Model): String {
         try {
             logger.debug("welcome")
-            val blogParams = setCommonModelParameters(model, request)
+            val blogParams = setCommonModelParameters(model, request, langCode)
             val doc =  Doc(HOME, LanguageCode("",blogParams.langCode))
             val docText: String = markdownToHtml(doc)
             logger.debug("BlogId: ${blogParams.blogId}")

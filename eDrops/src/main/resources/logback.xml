@@ -13,8 +13,8 @@
     <logger name="org.springframework.test" level="INFO" />
     <logger name="com.techreier.edrops" level="DEBUG" />
     <logger name="org.hibernate" level="INFO" />
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="INFO"/>
-    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.orm.jdbc.bind" level="INFO"/>
+    <logger name="org.hibernate.SQL" level="INFO"/>
     <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
