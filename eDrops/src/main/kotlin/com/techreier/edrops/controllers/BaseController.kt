@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.ui.Model
 import org.springframework.web.context.ServletContextAware
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 abstract class BaseController(private val dbService: DbService) : ServletContextAware {
 
@@ -41,6 +42,15 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         model.addAttribute("blogid", blogId)
      //   model.addAttribute("blogForm",BlogForm()) not required any more
         return BlogParams(blogId, langcode)
+    }
+
+    protected fun redirect(redirectAttributes: RedirectAttributes, result: String, subpath: String): String {
+        // Alternatives: Hidden input fields (process entire list and select by name) or server state, this is easier
+        val tag = result.substringBefore(" ","")
+        val blogId = result.substringAfter(" ","0").toLongOrNull()
+        logger.info("blog tag: $tag id: $blogId")
+        redirectAttributes.addFlashAttribute("blogid", blogId)
+        return "redirect:$subpath/$tag"
     }
 
     private fun fetchLanguages(db: Boolean = true): MutableList<LanguageCode> {
