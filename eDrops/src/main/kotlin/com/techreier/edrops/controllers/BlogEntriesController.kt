@@ -9,33 +9,34 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
-@RequestMapping("/blogs")
+@RequestMapping
 class BlogEntriesController(private val dbService: DbService): BaseController(dbService)
 {
-    @GetMapping
-    fun allBlogTexts(@RequestParam(required = false, name = "lang") langCode: String? ,
+
+    @GetMapping("/blogs/{tag}")
+    fun allBlogTexts(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String? ,
                      request: HttpServletRequest, model: Model): String {
-        val blogParams = setCommonModelParameters(model, request, langCode)
+        val blogParams = setCommonModelParameters(model, request, langCode, tag)
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.langCode )
         model.addAttribute("blog", blog)
         return "blogSummaries"
     }
 
-    // Transfer attributes between views
-    // https://www.thymeleaf.org/doc/articles/springmvcaccessdata.html
-    // https://www.baeldung.com/spring-web-flash-attributes
-    @PostMapping
-    fun getBlog(redirectAttributes: RedirectAttributes, blog: Long): String {
-        logger.info("getBlog valgt: $blog")
-        redirectAttributes.addFlashAttribute("blogid", blog)
-        return "redirect:/blogs"
+    @PostMapping("/blogs")
+    fun getBlog(redirectAttributes: RedirectAttributes, result: String): String {
+        //alternatives hidden input fields (process entire list and select by name) or server state, this is easier
+        val tag = result.substringBefore(" ","")
+        val blogId = result.substringAfter(" ","0").toLongOrNull()
+        logger.info("blog tag: $tag id: $blogId")
+        redirectAttributes.addFlashAttribute("blogid", blogId)
+        return "redirect:/blogs/$tag"
     }
 
-    @GetMapping("/admin")
-    fun allBlogEntries(@RequestParam(required = false, name = "lang") langCode: String? ,
+    @GetMapping("/admin/{tag}")
+    fun allBlogEntries(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String? ,
                        request: HttpServletRequest, model: Model): String {
-        val blogParams = setCommonModelParameters(model, request, langCode)
+        val blogParams = setCommonModelParameters(model, request, langCode, tag)
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.langCode )
         model.addAttribute("blog", blog)
@@ -44,9 +45,11 @@ class BlogEntriesController(private val dbService: DbService): BaseController(db
     }
 
     @PostMapping("/admin")
-    fun getBlogAdmin(redirectAttributes: RedirectAttributes, blog: Long): String {
-        logger.info("BlogAdmin getBlog valgt: $blog")
-        redirectAttributes.addFlashAttribute("blogid", blog)
-        return "redirect:/blogs/admin"
+    fun getBlogAdmin(redirectAttributes: RedirectAttributes, result: String): String {
+        val tag = result.substringBefore(" ","")
+        val blogId = result.substringAfter(" ","0").toLongOrNull()
+        logger.info("blog tag: $tag id: $blogId")
+        redirectAttributes.addFlashAttribute("blogid", blogId)
+        return "redirect:/admin/$tag"
     }
 }

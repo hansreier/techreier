@@ -15,7 +15,8 @@ const val TITLE3 = "Om Hibernate"
 const val TITLE3E ="About Hibernate"
 const val TITLE4 = "Energi blog"
 const val TITLE4MOD = "Modified blog"
-const val BLOG_TAG = "Environment"
+const val ENV_TAG = "env"
+const val ENERGY_TAG = "energy"
 const val SUBJECT1 = "Miljø saker"
 const val SUBJECT1E = "Environmental issues"
 const val SUBJECT2 = "Energi saker"
@@ -84,9 +85,9 @@ class BlogData {
     val blogEntries1e =  mutableListOf<BlogEntry>()
     val blogEntries2 =  mutableListOf<BlogEntry>()
     val timestamp: LocalDateTime = LocalDateTime.now()
-    val blog1 = Blog(timestamp, BLOG_TAG, Norwegian, SUBJECT1, blogEntries1, blogOwner)
-    val blog1e = Blog(timestamp, BLOG_TAG, English, SUBJECT1E, blogEntries1e, blogOwner)
-    val blog2 = Blog(timestamp, BLOG_TAG, Norwegian, SUBJECT2, blogEntries2, blogOwner)
+    val blog1 = Blog(timestamp, ENV_TAG, Norwegian, SUBJECT1, blogEntries1, blogOwner)
+    val blog1e = Blog(timestamp, ENV_TAG, English, SUBJECT1E, blogEntries1e, blogOwner)
+    val blog2 = Blog(timestamp, ENERGY_TAG, Norwegian, SUBJECT2, blogEntries2, blogOwner)
 
     val blogEntry1 = BlogEntry(timestamp, timestamp, TAG1, V1, TITLE1, SUMMARY1, blog1 )
     val blogEntry2  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE2, SUMMARY2, blog1)

@@ -35,10 +35,11 @@
         </button>
         <div class="dropdown-content">
             <a href="#start">Not implemented</a>
-            <form th:action="@{/blogs}" th:method="post">
+                <!--form th:action="@{/blogs}" th:object="${blogForm}" th:method="post"-->
+                <form th:action="@{/blogs}"  th:method="post">
                 <ul>
                     <li th:each="blog: ${blogs}">
-                        <button class=dropdown-button name="blog" type="submit" th:value="${blog.id}"
+                        <button class=dropdown-button type="submit" name="result" th:value="${blog.tag} +' '+ ${blog.id}"
                                 th:text="${blog.subject}"></button>
                     </li>
                 </ul>
@@ -51,10 +52,10 @@
         </button>
         <div class="dropdown-content">
             <a href="#start">Sorry, no edit permission</a>
-            <form th:action="@{/blogs/admin}" th:method="post">
+            <form th:action="@{/admin}" th:method="post">
                 <ul>
                     <li th:each="blog: ${blogs}">
-                        <button class=dropdown-button name="blog" type="submit" th:value="${blog.id}"
+                        <button class=dropdown-button name="result" type="submit" th:value="${blog.tag} +' '+ ${blog.id}"
                                 th:text="${blog.subject}"></button>
                     </li>
                 </ul>
@@ -85,7 +86,8 @@
                     th:value="${language.code}" th:text="#{${language.language}} +' '+ ${language.code}"
                     th:selected="${language.code eq langcode}"></option>
         </select>
-        <button th:name="changelanguage" th:value="${blogid}" type="submit" th:text="#{lang.change}"/>
+        <!--button th:name="changelanguage" th:value="${blogid}" type="submit" th:text="#{lang.change}"/-->
+        <button th:name="changelanguage" type="submit" th:text="#{lang.change}"/>
         <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
         <p class="error" th:text="${path}"></p>
         <input type="hidden" th:value="${blogid}" name="blogid"/>

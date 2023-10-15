@@ -29,6 +29,7 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
         return "about"
     }
 
+    // Redirect to page with tag in path
     @GetMapping("/about")
     fun content2(@RequestParam(required = false, name = "lang") language: String?,
                  request: HttpServletRequest, model: Model): String {

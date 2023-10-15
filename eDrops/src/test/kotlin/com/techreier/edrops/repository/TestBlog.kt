@@ -171,11 +171,11 @@ class TestBlog : Base() {
             entityManager.clear()
             logger.info("saved")
             val languageCode = LanguageCode("",NB)
-            val blog = blogRepo.findFirstBlogByLanguageAndTag(languageCode, BLOG_TAG)
+            val blog = blogRepo.findFirstBlogByLanguageAndTag(languageCode, ENV_TAG)
             blog?.blogEntries = blog?.blogEntries
             assertThat(blog).isNotNull
             assertThat(blog?.language?.code).isEqualTo(NB)
-            assertThat(blog?.tag).isEqualTo(BLOG_TAG)
+            assertThat(blog?.tag).isEqualTo(ENV_TAG)
             assertThat(blog?.blogEntries?.size).isEqualTo(3)
             logger.info("Blog found: $blog")
         }
