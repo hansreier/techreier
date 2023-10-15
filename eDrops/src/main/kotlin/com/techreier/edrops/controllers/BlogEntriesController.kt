@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @RequestMapping
 class BlogEntriesController(private val dbService: DbService): BaseController(dbService)
 {
-
     @GetMapping("/blogs/{tag}")
     fun allBlogTexts(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String? ,
                      request: HttpServletRequest, model: Model): String {
@@ -25,12 +24,7 @@ class BlogEntriesController(private val dbService: DbService): BaseController(db
 
     @PostMapping("/blogs")
     fun getBlog(redirectAttributes: RedirectAttributes, result: String): String {
-        //alternatives hidden input fields (process entire list and select by name) or server state, this is easier
-        val tag = result.substringBefore(" ","")
-        val blogId = result.substringAfter(" ","0").toLongOrNull()
-        logger.info("blog tag: $tag id: $blogId")
-        redirectAttributes.addFlashAttribute("blogid", blogId)
-        return "redirect:/blogs/$tag"
+        return redirect(redirectAttributes, result, "blogs")
     }
 
     @GetMapping("/admin/{tag}")
@@ -46,10 +40,14 @@ class BlogEntriesController(private val dbService: DbService): BaseController(db
 
     @PostMapping("/admin")
     fun getBlogAdmin(redirectAttributes: RedirectAttributes, result: String): String {
+        return redirect(redirectAttributes, result, "admin")
+    }
+    private fun redirect(redirectAttributes:RedirectAttributes, result: String, subpath: String): String {
+        // Alternatives: Hidden input fields (process entire list and select by name) or server state, this is easier
         val tag = result.substringBefore(" ","")
         val blogId = result.substringAfter(" ","0").toLongOrNull()
         logger.info("blog tag: $tag id: $blogId")
         redirectAttributes.addFlashAttribute("blogid", blogId)
-        return "redirect:/admin/$tag"
+        return "redirect:/$subpath/$tag"
     }
 }
