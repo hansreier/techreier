@@ -31,7 +31,7 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
 
     // Redirect to page with tag in path
     @GetMapping("/about")
-    fun content2(@RequestParam(required = false, name = "lang") language: String?,
+    fun redirect(@RequestParam(required = false, name = "lang") language: String?,
                  request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, language)
         val docIndex = getDocIndex(blogParams.langCode)
