@@ -19,7 +19,11 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
                 request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode)
         val docIndex = getDocIndex(blogParams.langCode, tag)
-        if (docIndex == -1) throw IllegalArgumentException("Cannot find document with language code: $langCode")
+        if (docIndex < 0) {
+            val redirectIndex = getDocIndex(blogParams.langCode)
+            val doc = doc[redirectIndex]
+            return "redirect:/about/${doc.tag}"
+        }
         logger.debug("Tag: ${tag} DocIndex: $docIndex Language: ${blogParams.langCode} ")
         val doc = doc[docIndex]
 
@@ -35,7 +39,6 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
                  request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, language)
         val docIndex = getDocIndex(blogParams.langCode)
-        if (docIndex == -1) throw IllegalArgumentException("Cannot find document with language code: $language")
         val doc = doc[docIndex]
         return "redirect:/about/${doc.tag}"
     }
