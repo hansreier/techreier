@@ -11,10 +11,12 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
+const val ABOUT="/about"
+
 @Controller
-@RequestMapping
+@RequestMapping(ABOUT)
 class AboutController(dbService: DbService) : BaseController(dbService) {
-    @GetMapping("/about/{tag}")
+    @GetMapping("/{tag}")
     fun content(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
                 request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode)
@@ -29,22 +31,22 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
         val docText: String = markdownToHtml(doc)
         model.addAttribute("doc", doc)
         model.addAttribute("docText", docText)
-        return "about"
+        return ABOUT
     }
 
     // Redirect to page with tag in path
-    @GetMapping("/about")
+    @GetMapping
     fun redirect(@RequestParam(required = false, name = "lang") language: String?,
                  request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, language)
         val docIndex = getDocIndex(blogParams.langCode)
         val doc = doc[docIndex]
-        return "redirect:/about/${doc.tag}"
+        return "redirect:$ABOUT/${doc.tag}"
     }
 
-    @PostMapping("/about")
+    @PostMapping
     fun getEntry(redirectAttributes: RedirectAttributes, doc: String): String {
         logger.debug("about redirect")
-        return "redirect:/about/$doc"
+        return "redirect:$ABOUT/$doc"
     }
 }
