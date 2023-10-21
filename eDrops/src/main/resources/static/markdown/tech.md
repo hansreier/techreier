@@ -53,7 +53,7 @@ TODO how to use internal link. If possible.
 
 The below links works on github and partly in Intellij
 
-[Relative link to home in this directory](home_en.md)  
+[Relative link to home in this directory](markdown.md)  
 [Absolute link to home](/eDrops/src/main/resources/static/markdown/home_en.md)  
 [Link to markdown](markdown.md)  
 [Link to markdown anchor](markdown.md#Alternatives-to-markdown)    

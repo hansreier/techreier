@@ -19,12 +19,11 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
                 request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode)
         val docIndex = getDocIndex(blogParams.langCode, tag)
-        if (docIndex < 0) {
+        if (docIndex < 0) { //tag is not found, redirect to default page with same language
             val redirectIndex = getDocIndex(blogParams.langCode)
             val doc = doc[redirectIndex]
             return "redirect:/about/${doc.tag}"
         }
-        logger.debug("Tag: ${tag} DocIndex: $docIndex Language: ${blogParams.langCode} ")
         val doc = doc[docIndex]
 
         val docText: String = markdownToHtml(doc)
