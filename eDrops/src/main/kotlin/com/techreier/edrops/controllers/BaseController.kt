@@ -1,7 +1,10 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.InitException
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.*
+import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.domain.LanguageCode
+import com.techreier.edrops.domain.Languages
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.usedLanguageCode
@@ -19,18 +22,21 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         this.servletContext = servletContext
     }
 
+    // We have to fetch both file based (.md) markdown and db based content to populate the dropdown menu
     // Selecting no DB removes menu items and contents stored in DB
     // Should only be used if no DB is available
     // TODO The option of no DB is not really used, and it is not tested either
-    protected fun setCommonModelParameters(model: Model, request: HttpServletRequest,
-                                           pathLangcode: String?, tag: String? = null, db: Boolean = true): BlogParams {
+    protected fun setCommonModelParameters(
+        model: Model, request: HttpServletRequest,
+        pathLangcode: String?, tag: String? = null, db: Boolean = true
+    ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("languages", fetchLanguages(db))
         val defaultLangcode = LocaleContextHolder.getLocale().language
         val selectedLangcode = model.getAttribute("langcode") as String?
         val langcode = usedLanguageCode(selectedLangcode ?: pathLangcode ?: defaultLangcode)
         val blogId = (model.getAttribute("blogid") ?: fetchBlogId(langcode, tag)) as Long
-        model.addAttribute("docs", Docs.getDocs(langcode)) //TODO only needed for about menu
+        model.addAttribute("docs", Docs.getDocs(langcode))
         logger.debug("Language path: $pathLangcode, selected: $selectedLangcode default: $defaultLangcode used: $langcode")
         model.addAttribute("langcode", langcode)
         // Get Url path based on servletPath and send to template (avoid double slash in template)
@@ -40,17 +46,26 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         }
 
         model.addAttribute("blogid", blogId)
-     //   model.addAttribute("blogForm",BlogForm()) not required any more
+        //   model.addAttribute("blogForm",BlogForm()) not required any more
         return BlogParams(blogId, langcode)
     }
 
     protected fun redirect(redirectAttributes: RedirectAttributes, result: String, subpath: String): String {
         // Alternatives: Hidden input fields (process entire list and select by name) or server state, this is easier
-        val tag = result.substringBefore(" ","")
-        val blogId = result.substringAfter(" ","0").toLongOrNull()
-        logger.info("blog tag: $tag id: $blogId")
+        val tag = result.substringBefore(" ", "")
+        val blogId = result.substringAfter(" ", "0").toLongOrNull()
+        logger.debug("blog tag: $tag id: $blogId")
         redirectAttributes.addFlashAttribute("blogid", blogId)
         return "redirect:$subpath/$tag"
+    }
+
+    protected fun fetchFirstBlog(langcode: String): Blog {
+        logger.debug("Fetch first blogId by langcode: $langcode")
+        val blog = dbService.readBlog(1L)
+        if (blog?.id == null) {
+            throw InitException("Cannot find default blog")
+        }
+        return dbService.readBlogWithSameLanguage(blog.id, usedLanguageCode(langcode)) ?: blog
     }
 
     private fun fetchLanguages(db: Boolean = true): MutableList<LanguageCode> {
@@ -64,16 +79,17 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
     }
 
     private fun fetchBlogs(langcode: String): MutableSet<Blog> {
-        logger.info("Fetch blogs by Owner langcode: $langcode")
+        logger.debug("Fetch blogs by Owner langcode: $langcode")
         val blogs = dbService.readBlogs(1, langcode)
-        logger.info("Blogs fetched")
+        logger.debug("Blogs fetched")
         return blogs
     }
 
-    private fun fetchBlogId(langcode: String, tag:  String?): Long {
-        logger.info("Fetch blogId by tag and langcode: $langcode")
-        val blogId = tag ?.let {dbService.readBlog(langcode, tag)?.id  } ?: 1L
+    private fun fetchBlogId(langcode: String, tag: String?): Long {
+        logger.debug("Fetch blogId by tag and langcode: $langcode")
+        val blogId = tag?.let { dbService.readBlog(langcode, tag)?.id } ?: -1L
         return blogId
     }
+
     data class BlogParams(val blogId: Long, val langCode: String)
 }
