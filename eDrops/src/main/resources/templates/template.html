@@ -22,7 +22,7 @@
             <form th:action="@{/about}" th:method="post">
                 <ul>
                     <li th:each="doc: ${docs}">
-                        <button class=dropdown-button name="doc" type="submit" th:value="${doc.tag}"
+                        <button class=dropdown-item name="doc" type="submit" th:value="${doc.tag}"
                                 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.tag}}"></button>
                     </li>
                 </ul>
@@ -39,7 +39,7 @@
                 <form th:action="@{/blogs}"  th:method="post">
                 <ul>
                     <li th:each="blog: ${blogs}">
-                        <button class=dropdown-button type="submit" name="result" th:value="${blog.tag} +' '+ ${blog.id}"
+                        <button class=dropdown-item type="submit" name="result" th:value="${blog.tag} +' '+ ${blog.id}"
                                 th:text="${blog.subject}"></button>
                     </li>
                 </ul>
@@ -55,7 +55,7 @@
             <form th:action="@{/admin}" th:method="post">
                 <ul>
                     <li th:each="blog: ${blogs}">
-                        <button class=dropdown-button name="result" type="submit" th:value="${blog.tag} +' '+ ${blog.id}"
+                        <button class=dropdown-item name="result" type="submit" th:value="${blog.tag} +' '+ ${blog.id}"
                                 th:text="${blog.subject}"></button>
                     </li>
                 </ul>
@@ -89,8 +89,7 @@
         <!--button th:name="changelanguage" th:value="${blogid}" type="submit" th:text="#{lang.change}"/-->
         <button th:name="changelanguage" type="submit" th:text="#{lang.change}"/>
         <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
-        <p class="error" th:text="${path}"></p>
-        <p class="error" th:text="${menu}"></p>
+        <!--p class="error" th:text="${path}"></p-->
         <input type="hidden" th:value="${blogid}" name="blogid"/>
         <input type="hidden" th:value="${path}" name="path"/>
     </form>

@@ -216,8 +216,8 @@ img:hover::after {
 	margin: 0;
 }
 
-/* Dropdown buttons instead of links for Post action */
-.dropdown-button {
+/* Dropdown buttons instead of links for dropdown items */
+.dropdown-item {
 	border: none;
 	float: none;
 	color: black;
@@ -233,7 +233,7 @@ img:hover::after {
 }
 
 /* Add a grey background color to dropdown buttons on hover */
-.dropdown-button:hover {
+.dropdown-item:hover {
 	background-color: #ddd;
 }
 
