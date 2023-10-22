@@ -32,7 +32,6 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
         val docText: String = markdownToHtml(doc)
         model.addAttribute("doc", doc)
         model.addAttribute("docText", docText)
-        model.addAttribute("about",true)
         return ABOUT
     }
 

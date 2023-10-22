@@ -13,10 +13,9 @@
     <p>techreier</p>
 </header>
 <div class="navbar">
-    <a class="active" href="/" th:text="#{home}"></a>
+    <a class="active" href="/" th:text="#{home}" th:style="${menu == ''} ? 'background-color: red'"></a>
     <div class="dropdown">
-        <!--button class="dropdown-btn" th:text="#{about}" th:style="'background-color: green'">Blogs-->
-        <button class="dropdown-btn" th:text="#{about}">Blogs
+        <button th:text="#{about}" th:class="${menu == 'about'} ? 'dropdown-selected' :'dropdown-btn'">
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
@@ -31,7 +30,7 @@
         </div>
     </div>
     <div class="dropdown">
-        <button class="dropdown-btn" th:text="#{blogs}">Blogs
+        <button th:text="#{blogs}" th:class="${menu == 'blogs'} ? 'dropdown-selected' :'dropdown-btn'">
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
@@ -48,7 +47,7 @@
         </div>
     </div>
     <div class="dropdown">
-        <button class="dropdown-btn" th:text="#{blogsadmin}">Blog admin
+        <button th:text="#{blogsadmin}" th:class="${menu == 'admin'} ? 'dropdown-selected' :'dropdown-btn'">
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
@@ -91,6 +90,7 @@
         <button th:name="changelanguage" type="submit" th:text="#{lang.change}"/>
         <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
         <p class="error" th:text="${path}"></p>
+        <p class="error" th:text="${menu}"></p>
         <input type="hidden" th:value="${blogid}" name="blogid"/>
         <input type="hidden" th:value="${path}" name="path"/>
     </form>

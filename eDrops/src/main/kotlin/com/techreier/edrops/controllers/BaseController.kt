@@ -39,8 +39,10 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         model.addAttribute("docs", Docs.getDocs(langcode))
         logger.debug("Language path: $pathLangcode, selected: $selectedLangcode default: $defaultLangcode used: $langcode")
         model.addAttribute("langcode", langcode)
-        // Get Url path based on servletPath and send to template (avoid double slash in template)
-        model.addAttribute("path", request.servletPath.removeSuffix("/"))
+        // Add path and menu attributes based on servletPath
+        val path = request.servletPath.removeSuffix("/")
+        model.addAttribute("path",path)
+        model.addAttribute("menu",path.removePrefix("/").substringBeforeLast("/"))
         if (db) {
             model.addAttribute("blogs", fetchBlogs(langcode))
         }

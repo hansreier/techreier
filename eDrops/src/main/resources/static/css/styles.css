@@ -151,11 +151,6 @@ img:hover::after {
 	overflow: hidden;
 }
 
-/* Add a red background color to navbar links on hover */
-.navbar a:hover, .dropdown:hover .dropdown-btn {
-	background-color: red;
-}
-
 /* Dropdown button */
 .dropdown .dropdown-btn {
 	font-size: 16px;
@@ -166,6 +161,23 @@ img:hover::after {
 	background-color: inherit;
 	font-family: inherit; /* Important for vertical align on mobile phones */
 	margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Selected dropdown */
+.dropdown-selected {
+	font-size: 16px;
+	border: none;
+	outline: none;
+	color: white;
+	padding: 14px 16px;
+	background-color: blue;
+	font-family: inherit;
+	margin: 0;
+}
+
+/* Add a red background color to navbar links on hover */
+.navbar a:hover, .dropdown:hover .dropdown-btn, .dropdown-selected:hover {
+	background-color: red;
 }
 
 /* Show the dropdown menu on hover */
@@ -224,5 +236,7 @@ img:hover::after {
 .dropdown-button:hover {
 	background-color: #ddd;
 }
+
+
 
 
