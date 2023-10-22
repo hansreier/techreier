@@ -25,11 +25,16 @@ class ErrorController @Autowired private constructor(
     @RequestMapping("/error")
     fun handleError(request: WebRequest, response: HttpServletResponse, model: Model): String {
         //  if (response.status == HttpServletResponse.SC_NOT_FOUND) return "redirect:/"
-        val opts = errorAttributes.getErrorAttributes(
-            request, ErrorAttributeOptions.defaults()
+
+        val eaOptions = ErrorAttributeOptions.defaults()
+    //    if (response.status != HttpServletResponse.SC_NOT_FOUND)
+        if (response.status != HttpServletResponse.SC_OK)
+            eaOptions
                 .including(ErrorAttributeOptions.Include.STACK_TRACE)
-            // .including(ErrorAttributeOptions.Include.EXCEPTION)
-        )
+                .including(ErrorAttributeOptions.Include.EXCEPTION)
+        eaOptions.including(ErrorAttributeOptions.Include.MESSAGE)
+
+        val opts = errorAttributes.getErrorAttributes(request, eaOptions)
         model.addAllAttributes(opts)
         return "error"
     }

@@ -5,10 +5,13 @@ import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs.doc
 import com.techreier.edrops.util.Docs.getDocIndex
 import com.techreier.edrops.util.markdownToHtml
+import com.vladsch.flexmark.html.renderer.LinkStatus.NOT_FOUND
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val ABOUT="about"
@@ -23,9 +26,10 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
         val blogParams = setCommonModelParameters(model, request, langCode)
         val docIndex = getDocIndex(blogParams.langCode, tag)
         if (docIndex < 0) { //tag is not found, redirect to default page with same language
-            val redirectIndex = getDocIndex(blogParams.langCode)
-            val doc = doc[redirectIndex]
-            return "redirect:$ABOUT_DIR/${doc.tag}"
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, "tag: $tag" )
+         //   val redirectIndex = getDocIndex(blogParams.langCode)
+         //   val doc = doc[redirectIndex]
+          //  return "redirect:$ABOUT_DIR/${doc.tag}"
         }
         val doc = doc[docIndex]
 

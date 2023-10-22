@@ -13,9 +13,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 th:text="#{greeting}"></h1>
+            <h1 th:text="techreier"></h1>
             <p>Reier error page</p>
-            <p>Should really never be seen</p>
         </div>
     </div>
 </div>
@@ -40,16 +39,20 @@
         <td>Message</td>
         <td th:text="${message}"/>
     </tr>
+    <th:block th:if="${exception != null}">
     <tr>
         <td>Exception</td>
         <td th:text="${exception}"/>
     </tr>
+    </th:block>
+    <th:block th:if="${trace != null}">
     <tr>
         <td>Trace</td>
         <td>
             <pre th:text="${trace}"/>
         </td>
     </tr>
+    </th:block>
 </table>
 </body>
 </html>
