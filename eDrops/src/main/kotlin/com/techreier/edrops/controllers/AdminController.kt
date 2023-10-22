@@ -8,10 +8,11 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
-const val ADMIN="/admin"
+const val ADMIN="admin"
+const val ADMIN_DIR= "/$ADMIN"
 
 @Controller
-@RequestMapping(ADMIN)
+@RequestMapping(ADMIN_DIR)
 class AdminController(private val dbService: DbService): BaseController(dbService)
 {
     @GetMapping("/{tag}")
@@ -19,7 +20,7 @@ class AdminController(private val dbService: DbService): BaseController(dbServic
                        request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode, tag)
         if (blogParams.blogId <0) { //tag is not found, redirect to default page with same language
-            return "redirect:$ADMIN/${fetchFirstBlog(blogParams.langCode).tag}"
+            return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.langCode).tag}"
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.langCode )
@@ -32,12 +33,12 @@ class AdminController(private val dbService: DbService): BaseController(dbServic
     fun redirect(@RequestParam(required = false, name = "lang") language: String?,
                  request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, language)
-        return "redirect:$ADMIN/${fetchFirstBlog(blogParams.langCode).tag}"
+        return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.langCode).tag}"
     }
 
     @PostMapping
     fun getBlogAdmin(redirectAttributes: RedirectAttributes, result: String): String {
-        return redirect(redirectAttributes, result, ADMIN)
+        return redirect(redirectAttributes, result, ADMIN_DIR)
     }
 
 }
