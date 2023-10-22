@@ -13,7 +13,7 @@
     <p>techreier</p>
 </header>
 <div class="navbar">
-    <a class="active" href="/" th:text="#{home}" th:style="${menu == ''} ? 'background-color: red'"></a>
+    <a class="active" href="/" th:text="#{home}"  th:class="${menu == ''} ? 'dropdown-selected' :'dropdown-btn'"></a>
     <div class="dropdown">
         <button th:text="#{about}" th:class="${menu == 'about'} ? 'dropdown-selected' :'dropdown-btn'">
             <i class="fa fa-caret-down"></i>
