@@ -1,5 +1,6 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.logger
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController
@@ -24,18 +25,24 @@ class ErrorController @Autowired private constructor(
 ) : ErrorController, AbstractErrorController(errorAttributes) {
     @RequestMapping("/error")
     fun handleError(request: WebRequest, response: HttpServletResponse, model: Model): String {
-        //  if (response.status == HttpServletResponse.SC_NOT_FOUND) return "redirect:/"
-
-        val eaOptions = ErrorAttributeOptions.defaults()
-    //    if (response.status != HttpServletResponse.SC_NOT_FOUND)
-        if (response.status != HttpServletResponse.SC_OK)
-            eaOptions
+        logger.info("Response status ${response.status}")
+        var options = ErrorAttributeOptions.defaults()
+        if (isServerError(response))
+            options = options
                 .including(ErrorAttributeOptions.Include.STACK_TRACE)
                 .including(ErrorAttributeOptions.Include.EXCEPTION)
-        eaOptions.including(ErrorAttributeOptions.Include.MESSAGE)
+        if (!notFound(response))
+            options = options.including(ErrorAttributeOptions.Include.MESSAGE)
 
-        val opts = errorAttributes.getErrorAttributes(request, eaOptions)
-        model.addAllAttributes(opts)
+        model.addAllAttributes(errorAttributes.getErrorAttributes(request, options))
         return "error"
+    }
+
+    private fun isServerError(response: HttpServletResponse): Boolean {
+        return (response.status>=500 && response.status <600)
+    }
+
+    private fun notFound(response: HttpServletResponse): Boolean {
+        return (response.status==404)
     }
 }

@@ -17,17 +17,19 @@ class GlobalDefaultExceptionHandler {
     fun defaultErrorHandler(request: HttpServletRequest, redirectAttributes: RedirectAttributes, e: Exception): String {
         // If the exception is annotated with @ResponseStatus rethrow it and let
         // the framework handle it (ErrorController is invoked)
-        logger.info("Error: ${e.message}")
+        logger.info("Error: ${e.message} Method: ${request.method}")
         if (AnnotationUtils.findAnnotation(
                 e.javaClass,
                 ResponseStatus::class.java
             ) != null
-        ) throw e
-        if (e is ResponseStatusException) throw e //rethrow to error page
-        if (e is InitException) throw e //error in initializing default page, rethrow to error page
-        logger.info("Special handled error: ${request.servletPath}",e)
+            || e is ResponseStatusException || request.method.equals("GET", true)
+        ) throw e //rethrow to error page
+        // recoverable errors to be viewed on the same page
+        // TODO what kind of errors should be viewed this way
+        // An unhandled error in a GET endpoint is not recoverable because GUI will not be viewed correctly.
+        logger.info("Recoverable error viewed on current page: ${request.servletPath}", e)
         redirectAttributes.addFlashAttribute("error", e.message) //type error message in GUI
         return "redirect:" + request.servletPath
-            .replaceAfterLast("/","").removeSuffix("/")
+            .replaceAfterLast("/", "").removeSuffix("/")
     }
 }

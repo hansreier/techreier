@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-md-12">
             <h1 th:text="techreier"></h1>
-            <p>Reier error page</p>
+            <p th:text="#{errortext}"></p>
         </div>
     </div>
 </div>
@@ -35,10 +35,12 @@
         <td>Status</td>
         <td th:text="${status}"/>
     </tr>
+    <th:block th:if="${message != null}">
     <tr>
         <td>Message</td>
         <td th:text="${message}"/>
     </tr>
+    </th:block>
     <th:block th:if="${exception != null}">
     <tr>
         <td>Exception</td>
