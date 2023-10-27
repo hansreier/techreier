@@ -3,6 +3,8 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -17,16 +19,20 @@ const val BLOG_DIR= "/$BLOG"
 @RequestMapping(BLOG_DIR)
 class BlogController(private val dbService: DbService): BaseController(dbService)
 {
+    @Autowired
+    lateinit var  messageSource: MessageSource
+
     @GetMapping("/{tag}")
     fun allBlogTexts(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String? ,
                      request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode, tag)
         if (blogParams.blogId <0) { //tag is not found, redirect to default page with same language
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, "tag: $tag language code: $langCode" )
+            val errMessage =  messageSource.getMessage("notfound", null, blogParams.locale)
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, "$errMessage: tag: $tag" )
           //  return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.langCode).tag}"
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
-        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.langCode )
+        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language )
         model.addAttribute("blog", blog)
         return "blogSummaries"
     }
@@ -35,7 +41,7 @@ class BlogController(private val dbService: DbService): BaseController(dbService
     fun redirect(@RequestParam(required = false, name = "lang") language: String?,
                  request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, language)
-        return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.langCode).tag}"
+        return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).tag}"
     }
     @PostMapping
     fun getBlog(redirectAttributes: RedirectAttributes, result: String): String {

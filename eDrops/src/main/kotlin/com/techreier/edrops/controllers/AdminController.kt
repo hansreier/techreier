@@ -26,7 +26,7 @@ class AdminController(private val dbService: DbService): BaseController(dbServic
         //    return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.langCode).tag}"
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
-        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.langCode )
+        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language )
         model.addAttribute("blog", blog)
         logger.info("getting GUI with blogEntries")
         return "blogEntries"
@@ -36,7 +36,7 @@ class AdminController(private val dbService: DbService): BaseController(dbServic
     fun redirect(@RequestParam(required = false, name = "lang") language: String?,
                  request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, language)
-        return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.langCode).tag}"
+        return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.locale.language).tag}"
     }
 
     @PostMapping

@@ -5,7 +5,6 @@ import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs.doc
 import com.techreier.edrops.util.Docs.getDocIndex
 import com.techreier.edrops.util.markdownToHtml
-import com.vladsch.flexmark.html.renderer.LinkStatus.NOT_FOUND
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
@@ -24,7 +23,7 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
     fun content(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
                 request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode)
-        val docIndex = getDocIndex(blogParams.langCode, tag)
+        val docIndex = getDocIndex(blogParams.locale.language, tag)
         if (docIndex < 0) { //tag is not found, redirect to default page with same language
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "tag: $tag" )
          //   val redirectIndex = getDocIndex(blogParams.langCode)
@@ -44,7 +43,7 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
     fun redirect(@RequestParam(required = false, name = "lang") language: String?,
                  request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, language)
-        val docIndex = getDocIndex(blogParams.langCode)
+        val docIndex = getDocIndex(blogParams.locale.language)
         val doc = doc[docIndex]
         return "redirect:$ABOUT_DIR/${doc.tag}"
     }

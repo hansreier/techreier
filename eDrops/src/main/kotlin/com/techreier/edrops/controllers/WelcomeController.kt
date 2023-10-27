@@ -28,7 +28,7 @@ class WelcomeController(dbService: DbService) : BaseController(dbService) {
     ): String {
         logger.debug(WELCOME)
         val blogParams = setCommonModelParameters(model, request, langCode)
-        val doc = Doc(HOME, LanguageCode("", blogParams.langCode))
+        val doc = Doc(HOME, LanguageCode("", blogParams.locale.language))
         val docText: String = markdownToHtml(doc)
         logger.debug("BlogId: ${blogParams.blogId}")
         logger.debug("Text: $docText")

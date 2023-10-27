@@ -14,6 +14,7 @@ import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.ui.Model
 import org.springframework.web.context.ServletContextAware
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import java.util.*
 
 abstract class BaseController(private val dbService: DbService) : ServletContextAware {
 
@@ -35,6 +36,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         val defaultLangcode = LocaleContextHolder.getLocale().language
         val selectedLangcode = model.getAttribute("langcode") as String?
         val langcode = usedLanguageCode(selectedLangcode ?: pathLangcode ?: defaultLangcode)
+        val locale = Locale(langcode)
         val blogId = (model.getAttribute("blogid") ?: fetchBlogId(langcode, tag)) as Long
         model.addAttribute("docs", Docs.getDocs(langcode))
         logger.debug("Language path: $pathLangcode, selected: $selectedLangcode default: $defaultLangcode used: $langcode")
@@ -49,7 +51,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
 
         model.addAttribute("blogid", blogId)
         //   model.addAttribute("blogForm",BlogForm()) not required any more
-        return BlogParams(blogId, langcode)
+        return BlogParams(blogId, locale)
     }
 
     protected fun redirect(redirectAttributes: RedirectAttributes, result: String, subpath: String): String {
@@ -93,5 +95,6 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         return blogId
     }
 
-    data class BlogParams(val blogId: Long, val langCode: String)
+  //  data class BlogParams(val blogId: Long, val langCode: String)
+    data class BlogParams(val blogId: Long, val locale: Locale)
 }
