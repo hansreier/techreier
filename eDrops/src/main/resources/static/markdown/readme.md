@@ -65,6 +65,12 @@ But I am not sure that I like the way Spring has implemented their Java API. Act
 is definitively better and cleaner than the proprietary JSF syntax for producing HTML.
 For a better responsive user experience and PWAs of cause a frontend framework like React is better.
 
+Using @EnableWebMvc is not adviced in a Spring Boot application, because configuration is completely changed and
+will ignore my Spring Boot config. Just use the Spring-Boot-Starter-Web annotation instead. There are some issues
+with Spring Boot 3 that is easier when using @EnableWebMvc, e.g. default error handling for Http 404 Not found.
+The advice is still not to use it, and I am not in this application. If @EnableWebMvc is added, I have to do a
+lot of configuration changes.
+
 The method of generating HTML in the backend is definitely easier for a back 
 end developer like me. For small projects it is flexible enough. Actually I could recommend it in
 projects for internal usage in big organizations.  Changes in HTML  and all code can be immediately viewed

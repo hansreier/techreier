@@ -32,7 +32,6 @@ class ErrorController @Autowired private constructor(
                 .including(ErrorAttributeOptions.Include.STACK_TRACE)
                 .including(ErrorAttributeOptions.Include.EXCEPTION)
         options = options.including(ErrorAttributeOptions.Include.MESSAGE)
-
         model.addAllAttributes(errorAttributes.getErrorAttributes(request, options))
         return "error"
     }

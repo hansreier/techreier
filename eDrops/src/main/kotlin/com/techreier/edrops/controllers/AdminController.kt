@@ -21,9 +21,8 @@ class AdminController(private val dbService: DbService): BaseController(dbServic
     fun allBlogEntries(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String? ,
                        request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode, tag)
-        if (blogParams.blogId <0) { //tag is not found, redirect to default page with same language
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, "tag: $tag language code: $langCode" )
-        //    return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.langCode).tag}"
+        if (blogParams.blogId <0) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, notFoundMsg(blogParams))
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language )

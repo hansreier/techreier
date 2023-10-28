@@ -24,11 +24,8 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
                 request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode)
         val docIndex = getDocIndex(blogParams.locale.language, tag)
-        if (docIndex < 0) { //tag is not found, redirect to default page with same language
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, "tag: $tag" )
-         //   val redirectIndex = getDocIndex(blogParams.langCode)
-         //   val doc = doc[redirectIndex]
-          //  return "redirect:$ABOUT_DIR/${doc.tag}"
+        if (docIndex < 0) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, notFoundMsg(blogParams))
         }
         val doc = doc[docIndex]
 

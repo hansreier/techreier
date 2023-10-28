@@ -3,8 +3,6 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -19,17 +17,12 @@ const val BLOG_DIR= "/$BLOG"
 @RequestMapping(BLOG_DIR)
 class BlogController(private val dbService: DbService): BaseController(dbService)
 {
-    @Autowired
-    lateinit var  messageSource: MessageSource
-
     @GetMapping("/{tag}")
     fun allBlogTexts(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String? ,
                      request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode, tag)
-        if (blogParams.blogId <0) { //tag is not found, redirect to default page with same language
-            val errMessage =  messageSource.getMessage("notfound", null, blogParams.locale)
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, "$errMessage: tag: $tag" )
-          //  return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.langCode).tag}"
+        if (blogParams.blogId <0) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, notFoundMsg(blogParams))
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language )

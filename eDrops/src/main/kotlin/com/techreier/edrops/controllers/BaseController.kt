@@ -10,6 +10,8 @@ import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.usedLanguageCode
 import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.ui.Model
 import org.springframework.web.context.ServletContextAware
@@ -17,6 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.util.*
 
 abstract class BaseController(private val dbService: DbService) : ServletContextAware {
+
+    @Autowired
+    lateinit var messageSource: MessageSource
 
     private var servletContext: ServletContext? = null
     override fun setServletContext(servletContext: ServletContext) {
@@ -43,8 +48,8 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         model.addAttribute("langcode", langcode)
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
-        model.addAttribute("path",path)
-        model.addAttribute("menu",path.removePrefix("/").substringBeforeLast("/"))
+        model.addAttribute("path", path)
+        model.addAttribute("menu", path.removePrefix("/").substringBeforeLast("/"))
         if (db) {
             model.addAttribute("blogs", fetchBlogs(langcode))
         }
@@ -94,6 +99,10 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         val blogId = tag?.let { dbService.readBlog(langcode, tag)?.id } ?: -1L
         return blogId
     }
+
+    protected fun notFoundMsg(blogParams: BlogParams): String {
+        return  messageSource.getMessage("notfound", null, blogParams.locale)
+}
 
   //  data class BlogParams(val blogId: Long, val langCode: String)
     data class BlogParams(val blogId: Long, val locale: Locale)
