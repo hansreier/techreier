@@ -22,7 +22,7 @@ class AdminController(private val dbService: DbService): BaseController(dbServic
                        request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode, tag)
         if (blogParams.blogId <0) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, notFoundMsg(blogParams))
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language )

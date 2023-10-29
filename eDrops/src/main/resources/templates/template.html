@@ -23,7 +23,7 @@
                 <ul>
                     <li th:each="doc: ${docs}">
                         <button class=dropdown-item name="doc" type="submit" th:value="${doc.tag}"
-                                th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.tag}}"></button>
+                                th:text="${doc.subject} ? ${doc.subject} : #{${doc.tag}}"></button>
                     </li>
                 </ul>
             </form>

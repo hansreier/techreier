@@ -25,7 +25,7 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
         val blogParams = setCommonModelParameters(model, request, langCode)
         val docIndex = getDocIndex(blogParams.locale.language, tag)
         if (docIndex < 0) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, notFoundMsg(blogParams))
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ABOUT)
         }
         val doc = doc[docIndex]
 

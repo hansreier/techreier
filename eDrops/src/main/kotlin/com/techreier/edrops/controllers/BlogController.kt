@@ -22,7 +22,7 @@ class BlogController(private val dbService: DbService): BaseController(dbService
                      request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode, tag)
         if (blogParams.blogId <0) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, notFoundMsg(blogParams))
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language )

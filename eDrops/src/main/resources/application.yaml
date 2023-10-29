@@ -12,12 +12,12 @@ spring:
     active: h2
   main:
     banner-mode: off
-  mvc:
+# mvc:
+#   static-locations used instead
 #   why cannot wildcard be used here.
-#   static-path-pattern: "/css/**"
 #   need to redefine default to pick up throw-exception...
-    static-path-pattern: /css/styles.css
-    throw-exception-if-no-handler-found: true
+#   static-path-pattern: "/css/**"
+#   throw-exception-if-no-handler-found: true
   messages:
     basename: language/messages
     fallback-to-system-locale: true
@@ -37,6 +37,7 @@ spring:
     username: dbuser
     password: PerSeter33
     driverClassName: org.mariadb.jdbc.Driver
+
 #  driverClassName: org.h2.Driver
 #    url: jdbc:h2:mem:mydb2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 #    username: sa
@@ -50,7 +51,7 @@ spring:
     mode: HTML
   web:
     resources:
-    #  static-locations: file:src/main/resources/static/
+      static-locations: file:src/main/resources/static/
       cache:
         period: 0
   devtools:

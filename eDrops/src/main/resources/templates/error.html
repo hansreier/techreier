@@ -24,10 +24,6 @@
 <br/>
 <table>
     <tr>
-        <td>Date</td>
-        <td th:text="${timestamp}"/>
-    </tr>
-    <tr>
         <td>Path</td>
         <td th:text="${path}"/>
     </tr>
@@ -39,19 +35,19 @@
         <td>Status</td>
         <td th:text="${status}"/>
     </tr>
-    <th:block th:if="${message != null}">
+    <th:block th:if="${message}">
     <tr>
         <td>Message</td>
         <td th:text="${message}"/>
     </tr>
     </th:block>
-    <th:block th:if="${exception != null}">
+    <th:block th:if="${exception}">
     <tr>
         <td>Exception</td>
         <td th:text="${exception}"/>
     </tr>
     </th:block>
-    <th:block th:if="${trace != null}">
+    <th:block th:if="${trace}">
     <tr>
         <td>Trace</td>
         <td>

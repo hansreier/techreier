@@ -7,24 +7,29 @@ import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorCon
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 import org.springframework.boot.web.servlet.error.ErrorController
+import org.springframework.context.MessageSource
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.context.request.WebRequest
+import java.util.*
 
-//Errors not picked up by error handler (e.g. 404 Not Found)
-//Redirect to default website page can create recursion.
-//It is better to redirect to an error page
-//If disabled Springs default error handler is used to open error page
-//This handler initializes som variables picked up by error page.
 
-//TODO Redesign error page
+// Default error page controller
+//TODO Improve error page
 @Controller
-class ErrorController @Autowired private constructor(
+class MyErrorController @Autowired private constructor(
     var errorAttributes: ErrorAttributes,
 ) : ErrorController, AbstractErrorController(errorAttributes) {
+
+    val NO_MESSAGE = "No message"
+    @Autowired
+    lateinit var messageSource: MessageSource
     @RequestMapping("/error")
     fun handleError(request: WebRequest, response: HttpServletResponse, model: Model): String {
+        val locale = LocaleContextHolder.getLocale() //attempt to make language dependent error messages
         logger.info("Response status ${response.status}")
         var options = ErrorAttributeOptions.defaults()
         if (isServerError(response))
@@ -32,15 +37,30 @@ class ErrorController @Autowired private constructor(
                 .including(ErrorAttributeOptions.Include.STACK_TRACE)
                 .including(ErrorAttributeOptions.Include.EXCEPTION)
         options = options.including(ErrorAttributeOptions.Include.MESSAGE)
-        model.addAllAttributes(errorAttributes.getErrorAttributes(request, options))
+        val errAttributes = errorAttributes.getErrorAttributes(request, options)
+        model.addAllAttributes(errAttributes)
+        if (notFound(response)) {
+            model["message"] = improveNotFoundMsg(errAttributes["message"] , locale )
+        }
         return "error"
     }
 
     private fun isServerError(response: HttpServletResponse): Boolean {
-        return (response.status>=500 && response.status <600)
+        return (response.status in 500..599)
     }
 
     private fun notFound(response: HttpServletResponse): Boolean {
         return (response.status==404)
+    }
+
+    // Get a better 404 Not Found message based on existing message and language, if possible
+    // If the existing message tag is a tag not recognized by current locale, just return "not found"
+    private fun improveNotFoundMsg(message: Any?, locale: Locale): Any {
+        var correctedMessage: String? = message as String
+        if ((correctedMessage.isNullOrBlank()) || correctedMessage.contains(NO_MESSAGE, true)) { //Spring boot hack
+            correctedMessage = messageSource.getMessage("path", null, NO_MESSAGE, locale)
+        }
+        val notFound =  messageSource.getMessage("notfound", null,"not found", locale)
+        return "$correctedMessage $notFound"
     }
 }
