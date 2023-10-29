@@ -29,6 +29,7 @@ class MyErrorController @Autowired private constructor(
     lateinit var messageSource: MessageSource
     @RequestMapping("/error")
     fun handleError(request: WebRequest, response: HttpServletResponse, model: Model): String {
+        logger.info("gladison")
         val locale = LocaleContextHolder.getLocale() //attempt to make language dependent error messages
         logger.info("Response status ${response.status}")
         var options = ErrorAttributeOptions.defaults()

@@ -9,33 +9,39 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import javax.validation.constraints.Pattern
 
-const val BLOG="blogs"
-const val BLOG_DIR= "/$BLOG"
+const val BLOG = "blogs"
+const val BLOG_DIR = "/$BLOG"
 
 @Controller
 @RequestMapping(BLOG_DIR)
-class BlogController(private val dbService: DbService): BaseController(dbService)
-{
+class BlogController(private val dbService: DbService) : BaseController(dbService) {
     @GetMapping("/{tag}")
-    fun allBlogTexts(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String? ,
-                     request: HttpServletRequest, model: Model): String {
+    fun allBlogTexts(
+        @PathVariable tag: String?,
+        @RequestParam(required = false, name = "lang") @Pattern(regexp = "^[a-z]{2}$") langCode: String?,
+        request: HttpServletRequest, model: Model
+    ): String {
         val blogParams = setCommonModelParameters(model, request, langCode, tag)
-        if (blogParams.blogId <0) {
+        if (blogParams.blogId < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
-        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language )
+        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
         model.addAttribute("blog", blog)
         return "blogSummaries"
     }
 
     @GetMapping
-    fun redirect(@RequestParam(required = false, name = "lang") language: String?,
-                 request: HttpServletRequest, model: Model): String {
+    fun redirect(
+        @RequestParam(required = false, name = "lang") language: String?,
+        request: HttpServletRequest, model: Model
+    ): String {
         val blogParams = setCommonModelParameters(model, request, language)
         return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).tag}"
     }
+
     @PostMapping
     fun getBlog(redirectAttributes: RedirectAttributes, result: String): String {
         return redirect(redirectAttributes, result, BLOG_DIR)
