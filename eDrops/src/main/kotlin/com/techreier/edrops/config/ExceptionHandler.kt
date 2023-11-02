@@ -1,7 +1,10 @@
 package com.techreier.edrops.config
 
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.core.annotation.AnnotationUtils
+import org.springframework.http.HttpStatus
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -14,9 +17,18 @@ class ExceptionHandler {
 
     @ExceptionHandler(value = [Exception::class])
     @Throws(Exception::class)
-        fun defaultErrorHandler(request: HttpServletRequest, redirectAttributes: RedirectAttributes, e: Exception): String {
+        fun defaultErrorHandler(request: HttpServletRequest, response: HttpServletResponse, redirectAttributes: RedirectAttributes,
+                                e: Exception, model: Model): String {
 
-        logger.info("Error class: ${e.javaClass} message: ${e.message} method: ${request.method}")
+        logger.info("Error class: ${e.javaClass} message: ${e.message} method: ${request.method} status: ${response.status}")
+        //Error caught by Spring framework
+        //IllegalArgumentException: Error attributes must be manually populated
+        // ConstraintViolationException: Error attributes are populated automatically
+        if (response.status == HttpStatus.OK.value()) {
+            model.addAttribute("error", e.message)
+            return "error"
+        }
+
         if (AnnotationUtils.findAnnotation( //Catches exceptions annotated with @Responsestatus, not used yet.
                 e.javaClass,
                 ResponseStatus::class.java

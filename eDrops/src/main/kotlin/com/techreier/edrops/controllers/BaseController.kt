@@ -39,7 +39,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         val locale = Locale(langcode)
         val blogId = (model.getAttribute("blogid") ?: fetchBlogId(langcode, tag)) as Long
         model.addAttribute("docs", Docs.getDocs(langcode))
-        logger.debug("Language path: $pathLangcode, selected: $selectedLangcode default: $defaultLangcode used: $langcode")
+        logger.debug("BlogId: $blogId Language path: $pathLangcode, selected: $selectedLangcode default: $defaultLangcode used: $langcode")
         model.addAttribute("langcode", langcode)
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
@@ -90,7 +90,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
     }
 
     private fun fetchBlogId(langcode: String, tag: String?): Long {
-        logger.debug("Fetch blogId by tag and langcode: $langcode")
+        logger.debug("Fetch blogId by tag: $tag and langcode: $langcode")
         val blogId = tag?.let { dbService.readBlog(langcode, tag)?.id } ?: -1L
         return blogId
     }

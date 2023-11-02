@@ -3,26 +3,29 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.validation.constraints.Size
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import javax.validation.constraints.Pattern
 
 const val BLOG = "blogs"
 const val BLOG_DIR = "/$BLOG"
 
 @Controller
 @RequestMapping(BLOG_DIR)
+@Validated
 class BlogController(private val dbService: DbService) : BaseController(dbService) {
     @GetMapping("/{tag}")
     fun allBlogTexts(
         @PathVariable tag: String?,
-        @RequestParam(required = false, name = "lang") @Pattern(regexp = "^[a-z]{2}$") langCode: String?,
+        @RequestParam(required = false, name = "lang")  @Size(min = 1, max=5, message = "invalidLanguageCode") langCode: String?,
         request: HttpServletRequest, model: Model
     ): String {
+        logger.info("blog language validation is passed")
         val blogParams = setCommonModelParameters(model, request, langCode, tag)
         if (blogParams.blogId < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
