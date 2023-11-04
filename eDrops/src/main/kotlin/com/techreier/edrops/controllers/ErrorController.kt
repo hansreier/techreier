@@ -20,7 +20,7 @@ import java.util.*
 // Default error page controller
 //TODO Improve error page
 @Controller
-class MyErrorController @Autowired private constructor(
+class ErrorController @Autowired private constructor(
     var errorAttributes: ErrorAttributes,
 ) : ErrorController, AbstractErrorController(errorAttributes) {
 

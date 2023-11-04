@@ -3,7 +3,6 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
-import jakarta.validation.constraints.Size
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -22,10 +21,9 @@ class BlogController(private val dbService: DbService) : BaseController(dbServic
     @GetMapping("/{tag}")
     fun allBlogTexts(
         @PathVariable tag: String?,
-        @RequestParam(required = false, name = "lang")  @Size(min = 1, max=5, message = "invalidLanguageCode") langCode: String?,
-        request: HttpServletRequest, model: Model
+        @RequestParam(required = false, name = "lang")  langCode: String?,
+    request: HttpServletRequest, model: Model
     ): String {
-        logger.info("blog language validation is passed")
         val blogParams = setCommonModelParameters(model, request, langCode, tag)
         if (blogParams.blogId < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
@@ -36,6 +34,7 @@ class BlogController(private val dbService: DbService) : BaseController(dbServic
         return "blogSummaries"
     }
 
+    // Redirect to first blog
     @GetMapping
     fun redirect(
         @RequestParam(required = false, name = "lang") language: String?,
@@ -45,6 +44,7 @@ class BlogController(private val dbService: DbService) : BaseController(dbServic
         return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).tag}"
     }
 
+    // Redirect to other blog from menu
     @PostMapping
     fun getBlog(redirectAttributes: RedirectAttributes, result: String): String {
         return redirect(redirectAttributes, result, BLOG_DIR)

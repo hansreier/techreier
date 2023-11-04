@@ -15,7 +15,7 @@ class LanguageController {
         request: HttpServletRequest, redirectAttributes: RedirectAttributes, code: String?,
         blogid: Long?, path: String
     ): String {
-        logger.debug("Language selected: $code path: ${request.servletPath} blogid: $blogid")
+        logger.debug("Language selected: $code path: $path blogid: $blogid")
         redirectAttributes.addFlashAttribute("langcode", code)
         //Or else id blogid used to populate menu will not be preserved
         //Alternative to use hidden field is either cookie or store in session
