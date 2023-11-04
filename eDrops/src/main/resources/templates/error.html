@@ -24,20 +24,20 @@
 <br/>
 <table>
     <tr>
-        <td>Path</td>
+        <td th:text="#{path}"></td>
         <td th:text="${path}"/>
     </tr>
     <tr>
-        <td>Error</td>
+        <td th:text="#{error}"></td>
         <td th:text="${error}"/>
     </tr>
     <tr>
-        <td>Status</td>
+        <td th:text="Status"></td>
         <td th:text="${status}"/>
     </tr>
     <th:block th:if="${message}">
     <tr>
-        <td>Message</td>
+        <td th:text="#{message}"></td>
         <td th:text="${message}"/>
     </tr>
     </th:block>
