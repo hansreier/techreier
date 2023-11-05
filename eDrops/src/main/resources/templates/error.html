@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-md-12">
             <h1 th:text="techreier"></h1>
-            <p th:text="#{errortext}"></p>
+            <p th:text="#{errorText}"></p>
         </div>
     </div>
 </div>
@@ -28,16 +28,16 @@
         <td th:text="${path}"/>
     </tr>
     <tr>
-        <td th:text="#{error}"></td>
+        <td th:text="#{httpStatus}"></td>
         <td th:text="${error}"/>
     </tr>
     <tr>
-        <td th:text="Status"></td>
+        <td th:text="#{httpStatusCode}"></td>
         <td th:text="${status}"/>
     </tr>
     <th:block th:if="${message}">
     <tr>
-        <td th:text="#{message}"></td>
+        <td th:text="#{errorMessage}"></td>
         <td th:text="${message}"/>
     </tr>
     </th:block>
