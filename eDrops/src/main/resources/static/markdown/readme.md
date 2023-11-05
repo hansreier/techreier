@@ -219,17 +219,20 @@ Note: Still have to press the Intellij Build button, but no browser refresh is r
 https://www.baeldung.com/dates-in-thymeleaf  
 https://www.baeldung.com/spring-boot-internationalization  
   
-Language encoding:  
+### Language encoding  
   
-Set to UTF-8 in the entire project.
+Set to UTF-8 in the entire project.  
+
 Default for property files in Intellij is ISO-8859-1, so must be changed  in
 settings, editor, fil encodings. If not Norwegian characters øæå ØÆÅ are 
-dieplayed incorrectly. The problem seems to be there only in property files 
-and not in .html files.  
+displayed incorrectly. The problem seems to be there only in property files 
+and not in .html files. Note that code repos like Bitbucket og Github expects UTF-8 
+when changing code directly in the repos. For old Java 8 this is a problem since
+it was the last version where property files is based on the ISO format.
   
 h2 console: If present available at "root url"/h2-console  
   
-### Thymeleaf views and data fetching.
+### Thymeleaf views and data fetching
   
 The parameter spring.jpa.open-in-view is set to false.
 This prevents views to directly fetch data from database
