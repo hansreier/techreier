@@ -4,6 +4,13 @@ server:
   error:
     include-stacktrace: always
     include-exception: true
+    path: /error
+  tomcat:
+    relaxed-path-chars: \,{,},|,^,`
+    relaxed-query-chars: \,{,},|,^,`
+    
+  error-pages:
+    path: /error
   #only embedded Tomcat setting, ignored if war file is deployed to tomcat
   port: 8080
 #  port: 8443
