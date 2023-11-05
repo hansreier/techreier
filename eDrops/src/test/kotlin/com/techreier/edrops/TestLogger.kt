@@ -12,8 +12,10 @@ class TestLogger {
     }
     @Test
     fun testLogger() {
-        println ("Reier")
-        logger.info("Reier was here")
-        logger.debug("Test av logg level")
+        println ("Console only")
+        logger.warn("Warn level")
+        logger.info("Info level")
+        logger.debug("Debug level")
+        logger.trace("Trace level")
     }
 }

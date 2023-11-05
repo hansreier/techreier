@@ -8,12 +8,22 @@ server:
   tomcat:
     relaxed-path-chars: \,{,},|,^,`
     relaxed-query-chars: \,{,},|,^,`
-    
   error-pages:
     path: /error
   #only embedded Tomcat setting, ignored if war file is deployed to tomcat
   port: 8080
 #  port: 8443
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.apache.coyote.http11: INFO
+    com.techreier.edrops: DEBUG
+    org.hibernate: INFO
+    org.hibernate.orm.jdbc.bind: INFO
+    org.hibernate.SQL: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
 spring:
   profiles:
     active: h2
