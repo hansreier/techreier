@@ -5,10 +5,12 @@ import jakarta.servlet.FilterConfig
 import jakarta.servlet.annotation.WebFilter
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.servlet.http.HttpServletResponseWrapper
+import org.springframework.context.annotation.Profile
 
 
 // TODO not needed yet, but kept for future use
 @WebFilter
+@Profile("NotUsedProfile")
 class RequestFilter : Filter {
     override fun init(filterConfig: FilterConfig?) {
         logger.info("Filter init")

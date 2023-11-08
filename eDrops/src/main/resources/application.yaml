@@ -16,9 +16,10 @@ server:
 logging:
   level:
     root: INFO
-    org.springframework: INFO
+    org.springframework: WARN
+    org.springframework.security: DEBUG
     org.apache.coyote.http11: INFO
-    com.techreier.edrops: DEBUG
+    com.techreier.edrops: INFO
     org.hibernate: INFO
     org.hibernate.orm.jdbc.bind: INFO
     org.hibernate.SQL: INFO
