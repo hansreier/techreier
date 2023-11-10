@@ -10,14 +10,14 @@ class Blog(
     @Column(nullable = false)
     val created: LocalDateTime,
 
-    @Column
+    @Column(nullable = false)
     var tag: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "code", nullable = false)
     var language: LanguageCode,
 
-    @Column
+    @Column(nullable = false)
     var subject: String,
 
     @Column(nullable = true)

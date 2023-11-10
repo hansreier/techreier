@@ -13,25 +13,25 @@ class BlogOwner(
     @Column
     var changed: LocalDateTime?,
 
-    @Column
+    @Column(nullable = false)
     var firstName: String,
 
-    @Column
+    @Column(nullable = false)
     var lastName: String,
 
-    @Column
+    @Column(nullable = false)
     var eMail: String,
 
-    @Column
+    @Column(nullable = false)
     var phones: String,
 
-    @Column
+    @Column(nullable = false)
     var address: String,
 
-    @Column
+    @Column(nullable = false)
     var zipCode: String,
 
-    @Column
+    @Column(nullable = false)
     var location: String,
 
     @Id

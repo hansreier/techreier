@@ -13,17 +13,17 @@ class BlogEntry(
     @Column
     var changed: LocalDateTime?,
 
-    @Column
+    @Column(nullable = false)
     var tag: String,
 
-    @Column
+    @Column(nullable = false)
     var version: Long,
 
-    @Column
+    @Column(nullable = false)
     var title: String,
 
     // @Column(length = 400) TODO revert
-    @Column(length = 58000)
+    @Column(length = 58000, nullable = false)
     var summary: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

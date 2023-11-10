@@ -6,7 +6,7 @@ import jakarta.persistence.*
 @Entity
 class LanguageCode(
 
-    @Column
+    @Column(nullable = false)
     var language: String,
 
     @Id

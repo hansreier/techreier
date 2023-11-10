@@ -6,7 +6,7 @@ import jakarta.persistence.*
 @Entity
 class BlogText(
 
-    @Column
+    @Column(nullable = false)
     var text: String,
 
     // Note: Bidirectional relationship one to one creates trouble with eager fetching
