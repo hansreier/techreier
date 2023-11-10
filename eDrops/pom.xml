@@ -28,7 +28,6 @@
 		<junit-jupiter.version>5.9.2</junit-jupiter.version>
 		<assertJ.version>3.22.0</assertJ.version>
 		<!-- fetched automagically-->
-		<!--hibernate.version>6.2.0.Final</hibernate.version-->
 		<h2.version>2.2.220</h2.version>
 		<commonmark.version>0.21.0</commonmark.version>
 		<flexmark.version>0.64.6</flexmark.version>
@@ -401,12 +400,6 @@
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-reflect</artifactId>
-		</dependency>
-		<dependency>
-			<!--groupId>org.hibernate.orm</groupId-->
-			<groupId>org.hibernate.orm</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate.version}</version>
 		</dependency>
 		<!--Commonmark and extensions-->
 		<!--Removed, use atlassian, image attribute processing bug-->
