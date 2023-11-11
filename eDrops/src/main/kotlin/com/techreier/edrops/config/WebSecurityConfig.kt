@@ -24,7 +24,7 @@ class WebSecurityConfig {
             logger.info("Inside security config")
             authorizeRequests {
                 authorize("/**", permitAll)
-                authorize("/css/*", permitAll)
+                //  authorize("/css/*", permitAll)
                 //  authorize("/h2-console/**", denyAll)
                 authorize( anyRequest, authenticated)
             }
