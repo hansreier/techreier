@@ -1,6 +1,6 @@
 ## Technological prototype
 
-This web site is really a technology prototype.  My expertise is focused on backend,
+This website is really a technology prototype.  My expertise is focused on backend,
 but I cannot maintain this website without some devops and frontend knowlegde. 
 
 I could have used an existing platform for publishing web content like WordPress,
@@ -47,34 +47,12 @@ formats. Editors, both outside of this project or included in this project.  can
 The first attempt is to use markdown written in Intellij or other editor, store it as a file
 together with project code and pick it up as a part of the Web GUI. No database is really needed.
 The advantage and disadvantage of this approach is that my written text is included directly in the codebase,
-and I have to redeploy to update. 
-
-TODO how to use internal link. If possible.
-
-The below links works on github and partly in Intellij
-
-[Relative link to home in this directory](markdown.md)  
-[Absolute link to home](/eDrops/src/main/resources/static/markdown/home_en.md)  
-[Link to markdown](markdown.md)  
-[Link to markdown anchor](markdown.md#Alternatives-to-markdown)    
-[Link to About](about)  
-[Link to About with tag](about#Home-sweet-home)  
-[Link to About with parameter](about?tag=Home-sweet-home)  
-
-The links cannot work direcly on webpage, because the markdown is included in HTML files with other names.
-Alternatives: 
-- Use http external link to top of page directly
-- User http external link to position in page given by id (use # in href)
-- Use Flexmark to interpret markdown links to correct HTMl
-
-
+and I have to redeploy to update.
 
 I use a relational database for structuring the blogs and metadata, and to enable to 
 write and view the blogs online in various languages in the future. 
 H2 is used for testing and for loading initial content from Kotlin into the database. 
 I plan to use MariaDB in production. I plan to make this a multiuser system with proper secure login. 
 I am not there yet.
-
-
 
 

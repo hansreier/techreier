@@ -8,12 +8,7 @@ import com.vladsch.flexmark.util.ast.Node
 import com.vladsch.flexmark.util.ast.NodeVisitor
 import com.vladsch.flexmark.util.ast.VisitHandler
 import com.vladsch.flexmark.util.data.MutableDataSet
-import org.commonmark.Extension
-import org.commonmark.ext.autolink.AutolinkExtension
-import org.commonmark.ext.gfm.tables.TablesExtension
-import org.commonmark.ext.image.attributes.ImageAttributesExtension
-import org.commonmark.parser.Parser
-import org.commonmark.renderer.html.HtmlRenderer
+import com.vladsch.flexmark.util.sequence.BasedSequence
 import org.owasp.html.HtmlPolicyBuilder
 import org.owasp.html.Sanitizers
 import org.slf4j.LoggerFactory
@@ -26,36 +21,20 @@ var visitor: NodeVisitor = NodeVisitor(
     VisitHandler(Link::class.java) { link: Link -> visit(link) }
 )
 
-// TODO visitor works, but how to replace URL with another?
+// Visitor pattern, replace url path in md files
 // https://github.com/vsch/flexmark-java/blob/master/flexmark-java-samples/src/com/vladsch/flexmark/java/samples/FormatterWithMods.java
 fun visit(link: Link) {
-    if (link.url.endsWith(".md"))
-        logger.info("Link url: ${link.url}")
-    link.url.toString().replace(".md",".html")
+    if (link.url.endsWith(".md")) {
+        val newLink = BasedSequence.of(link.url.toString().replace(".md", ""))
+        logger.debug("Visitor - Link path replaced: ${link.url} to: $newLink")
+        link.url = newLink
+    }
     visitor.visitChildren(link)
 }
 
-
-// Commonmark implementation
-// TODO only used in test, change or remove
-fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
-    logger.info("markdown")
-    val exts: List<Extension> = Arrays.asList(TablesExtension.create(), AutolinkExtension.create(),
-        ImageAttributesExtension.create())
-    val parser: Parser = Parser.builder().extensions(exts).build()
-    val document = parser.parse(markdown)
-    val renderer = HtmlRenderer.builder()
-        .escapeHtml(false)
-       // .attributeProviderFactory { ImageAttributeProvider() } Does not work on all attributes, bug?
-        .extensions(exts)
-        .build()
-    val html = renderer.render(document)
-    if (sanitizer) return sanitize(html) else return html
-}
-
-// Flexmark implementation with Github flovour
+// Flexmark implementation of commonmark standardwith Github flovour
 // https://github.com/vsch/flexmark-java/issues/92
-fun markdownToHtmlGitHub(markdown: String, sanitizer: Boolean): String {
+fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
     logger.info("markdown2")
     val options = MutableDataSet()
         .set(
@@ -107,7 +86,7 @@ fun markdownToHtml(doc: Doc): String {
     val classLoader = object {}.javaClass.classLoader
     val fileName = "static/markdown/" + doc.tag + lc + MARKDOWN_EXT
     val inputStream = classLoader.getResourceAsStream(fileName)
-    return markdownToHtmlGitHub(
+    return markdownToHtml(
         inputStream?.bufferedReader().use { it?.readText() ?: "$fileName not found" }, true)
 }
 

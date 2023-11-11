@@ -64,9 +64,18 @@ keep it.
 
 ### Examples
 
-Example of embeded image in markdown.
+Examples of links:
 
-![PerSeter](../images/pas.jpg "Per Seter"){#image-id}
+[Link to tech](tech.md)  
+[Link to tech anchor](tech.md#How-to-make-a-text-based-website-without-coding-HTML) NOT implemented yet.   
+[Link to default blog](../blogs)  
+[Link to energy blog](../blogs/energy)  
+[Link to external chatgpt](https://openai.com/blog/chatgpt)
+
+The tech links uses Flexmark to convert Markdown links to HTML links on the web page.
+This enables the link to work correctly in Github, Intellij and web page.
+The links to database blog content, only works on the produced web page.
+All link examples contain relative links, except the bottom link that is just a regular external link.
 
 Example of embedded table in markdown.
 
@@ -75,5 +84,9 @@ Example of embedded table in markdown.
 | Oslo   |                      709037 | Oslo      | Capital of Norway                      | 
 | Bergen |                      288133 | Vestland  | Second largest city                    | 
 | Moelv  |                        4459 | Innlandet | My home village, I love it and hate it |
+
+Example of embeded image in markdown.
+
+![PerSeter](../images/pas.jpg "Per Seter"){#image-id}
 
 Example of link: https://openai.com/blog/chatgpt
