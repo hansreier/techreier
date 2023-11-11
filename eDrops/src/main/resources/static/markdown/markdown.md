@@ -67,13 +67,17 @@ keep it.
 Examples of links:
 
 [Link to tech](tech.md)  
-[Link to tech anchor](tech.md#How-to-make-a-text-based-website-without-coding-HTML) NOT implemented yet.   
+[Link to internal Example headline](#example-headline)  
+[Link to tech how to headline](tech.md#how-to-make-a-text-based-website-without-coding-html)  
 [Link to default blog](../blogs)  
 [Link to energy blog](../blogs/energy)  
 [Link to external chatgpt](https://openai.com/blog/chatgpt)
 
 The tech links uses Flexmark to convert Markdown links to HTML links on the web page.
 This enables the link to work correctly in Github, Intellij and web page.
+It is possible to link to headlines with id's defined, as in HTML.
+Flexmark has to be configured to generate ids for headlines,
+and the Sanitizer must be configured not to remove them.
 The links to database blog content, only works on the produced web page.
 All link examples contain relative links, except the bottom link that is just a regular external link.
 
@@ -89,4 +93,6 @@ Example of embeded image in markdown.
 
 ![PerSeter](../images/pas.jpg "Per Seter"){#image-id}
 
-Example of link: https://openai.com/blog/chatgpt
+### Example headline 
+
+The contents should be visible by clicking on internal page link above

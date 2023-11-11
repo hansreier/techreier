@@ -1,8 +1,11 @@
 package com.techreier.edrops.util
 
 import com.vladsch.flexmark.ast.Link
+import com.vladsch.flexmark.ext.autolink.AutolinkExtension
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
+import com.vladsch.flexmark.ext.tables.TablesExtension
+import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.ParserEmulationProfile
 import com.vladsch.flexmark.util.ast.Node
 import com.vladsch.flexmark.util.ast.NodeVisitor
@@ -17,6 +20,8 @@ import java.util.*
 
 private val logger = LoggerFactory.getLogger("markdownToHtml")
 
+private val headers = arrayOf("h1","h2","h3","h4","h5","h6")
+
 var visitor: NodeVisitor = NodeVisitor(
     VisitHandler(Link::class.java) { link: Link -> visit(link) }
 )
@@ -29,37 +34,43 @@ fun visit(link: Link) {
         logger.debug("Visitor - Link path replaced: ${link.url} to: $newLink")
         link.url = newLink
     }
+    if (link.url.contains(".md#")) {
+        val newLink = BasedSequence.of(link.url.toString().replace(".md#", "#"))
+        logger.info("Visitor - Link path replaced: ${link.url} to: $newLink")
+        link.url = newLink
+    }
     visitor.visitChildren(link)
 }
 
 // Flexmark implementation of commonmark standardwith Github flovour
 // https://github.com/vsch/flexmark-java/issues/92
 fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
-    logger.info("markdown2")
+    logger.info("markdown to html")
     val options = MutableDataSet()
         .set(
             com.vladsch.flexmark.parser.Parser.EXTENSIONS,
             Arrays.asList<com.vladsch.flexmark.util.misc.Extension>(
-                com.vladsch.flexmark.ext.autolink.AutolinkExtension.create(),
-                com.vladsch.flexmark.ext.tables.TablesExtension.create(),
+                AutolinkExtension.create(),
+                TablesExtension.create(),
                 StrikethroughExtension.create(),
                 TaskListExtension.create()))
 
-    options.set(com.vladsch.flexmark.ext.tables.TablesExtension.COLUMN_SPANS, false)
-        .set(com.vladsch.flexmark.ext.tables.TablesExtension.MIN_HEADER_ROWS, 1)
-        .set(com.vladsch.flexmark.ext.tables.TablesExtension.MAX_HEADER_ROWS, 1)
-        .set(com.vladsch.flexmark.ext.tables.TablesExtension.APPEND_MISSING_COLUMNS, true)
-        .set(com.vladsch.flexmark.ext.tables.TablesExtension.DISCARD_EXTRA_COLUMNS, true)
-        .set(com.vladsch.flexmark.ext.tables.TablesExtension.WITH_CAPTION, false)
-        .set(com.vladsch.flexmark.ext.tables.TablesExtension.HEADER_SEPARATOR_COLUMN_MATCH, true)
+    options.set(TablesExtension.COLUMN_SPANS, false)
+        .set(TablesExtension.MIN_HEADER_ROWS, 1)
+        .set(TablesExtension.MAX_HEADER_ROWS, 1)
+        .set(TablesExtension.APPEND_MISSING_COLUMNS, true)
+        .set(TablesExtension.DISCARD_EXTRA_COLUMNS, true)
+        .set(TablesExtension.WITH_CAPTION, false)
+        .set(TablesExtension.HEADER_SEPARATOR_COLUMN_MATCH, true)
 
     options.setFrom(ParserEmulationProfile.GITHUB_DOC)
+    options.set(HtmlRenderer.RENDER_HEADER_ID, true)
 
     // uncomment to convert soft-breaks to hard breaks
-    //options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
+    // options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
 
     val parser = com.vladsch.flexmark.parser.Parser.builder(options).build()
-    val renderer = com.vladsch.flexmark.html.HtmlRenderer.builder(options).build()
+    val renderer = HtmlRenderer.builder(options).build()
     val document: Node = parser.parse(markdown)
     visitor.visit(document)
     val html = renderer.render(document)
@@ -73,6 +84,8 @@ fun sanitize(html: String): String {
         .allowAttributes("align").onElements("p")
         .allowElements("img")
         .allowAttributes("title").onElements("img")
+        .allowElements(*headers) //allow id on headers to support direct links to headlines on a page
+        .allowAttributes("id").onElements(*headers)
         .toFactory()
     val policy =
         Sanitizers.BLOCKS.and(Sanitizers.FORMATTING).and(Sanitizers.LINKS)

@@ -29,7 +29,6 @@
 		<assertJ.version>3.22.0</assertJ.version>
 		<!-- fetched automagically-->
 		<h2.version>2.2.220</h2.version>
-		<commonmark.version>0.21.0</commonmark.version>
 		<flexmark.version>0.64.6</flexmark.version>
 		<!--esapi.version>2.5.2.0</esapi.version-->
 		<!--encoder.version>1.2.3</encoder.version-->
