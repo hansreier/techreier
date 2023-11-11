@@ -5,6 +5,7 @@ server:
     include-stacktrace: always
     include-exception: true
     path: /error
+  #absolutely required to avoid tomcat picking up error before Spring error handling
   tomcat:
     relaxed-path-chars: \,{,},|,^,`
     relaxed-query-chars: \,{,},|,^,`
@@ -30,12 +31,9 @@ spring:
     active: h2
   main:
     banner-mode: off
-# mvc:
-#   static-locations used instead
-#   why cannot wildcard be used here.
-#   need to redefine default to pick up throw-exception...
-#   static-path-pattern: "/css/**"
-#   throw-exception-if-no-handler-found: true
+  mvc:
+    #Changing thiw implies implementing av HandlerExceptionResolver else 404 is returned.
+    throw-exception-if-no-handler-found: false
   messages:
     basename: language/messages
     fallback-to-system-locale: true
@@ -69,7 +67,6 @@ spring:
     mode: HTML
   web:
     resources:
-      static-locations: file:src/main/resources/static/
       cache:
         period: 0
   devtools:
