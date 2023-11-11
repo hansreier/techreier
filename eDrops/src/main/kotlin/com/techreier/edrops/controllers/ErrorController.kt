@@ -1,6 +1,7 @@
 package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.logger
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController
@@ -28,21 +29,25 @@ class ErrorController @Autowired private constructor(
     @Autowired
     lateinit var messageSource: MessageSource
     @RequestMapping("/error")
-    fun handleError(request: WebRequest, response: HttpServletResponse, model: Model): String {
-        logger.info("gladison")
+    fun handleError(req: HttpServletRequest,request: WebRequest, response: HttpServletResponse, model: Model): String {
+        logger.info("inside handleerror 4")
         val locale = LocaleContextHolder.getLocale() //attempt to make language dependent error messages
-        logger.info("Response status ${response.status}")
+        logger.info("Response method: ${req.method} uri: ${req.requestURI} status ${response.status}")
         var options = ErrorAttributeOptions.defaults()
-        if (isServerError(response))
+        if (isServerError(response)) {
+            logger.info("Is server error")
             options = options
                 .including(ErrorAttributeOptions.Include.STACK_TRACE)
                 .including(ErrorAttributeOptions.Include.EXCEPTION)
+        }
         options = options.including(ErrorAttributeOptions.Include.MESSAGE)
         val errAttributes = errorAttributes.getErrorAttributes(request, options)
         model.addAllAttributes(errAttributes)
         if (notFound(response)) {
-            model["message"] = improveNotFoundMsg(errAttributes["message"] , locale )
+            logger.info("Is not found")
+          //  model["message"] = improveNotFoundMsg(errAttributes["message"] , locale )
         }
+        logger.info("Returning to error page")
         return "error"
     }
 
