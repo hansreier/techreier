@@ -45,14 +45,25 @@ th, td {
 
 header {
 	font-weight: bold;
-	font-size: 1.1em;
+	font-size: 0.7em;
 	white-space:nowrap;
-	padding: 0.5em 20px;
+	padding: 1em 20px 0 20px;
 	margin: 0;
 	background-color: yellow;
 	border-style: solid;
 	border-width: 0 0 1px;
-	overflow: hidden;
+    overflow: hidden;
+	display: flex;
+	justify-content: space-between;
+}
+
+#techreier {
+	font-size:2em;
+}
+
+#language {
+	color: green;
+	font-size: 1.2em;
 }
 
 footer {

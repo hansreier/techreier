@@ -10,7 +10,21 @@
 </head>
 <body>
 <header>
-    <p>techreier</p>
+    <span id="techreier">Techreier</span>
+    <form id="language" th:action="@{/language}" th:method="post">
+        <label th:text="#{lang.text}" for="dropDownList" >Language code:</label>
+        <select id="dropDownList" name="code">
+            <option th:each="language : ${languages}"
+                    th:value="${language.code}" th:text="#{${language.language}} +' '+ ${language.code}"
+                    th:selected="${language.code eq langcode}"></option>
+        </select>
+        <!--button th:name="changelanguage" th:value="${blogid}" type="submit" th:text="#{lang.change}"/-->
+        <button th:name="changelanguage" type="submit" th:text="#{lang.change}"/>
+        <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
+        <!--p class="error" th:text="${path}"></p-->
+        <input type="hidden" th:value="${blogid}" name="blogid"/>
+        <input type="hidden" th:value="${path}" name="path"/>
+    </form>
 </header>
 <div class="navbar">
     <a class="active" href="/" th:text="#{home}"  th:class="${menu == ''} ? 'dropdown-selected' :'dropdown-btn'"></a>
@@ -76,23 +90,7 @@
 </div>
 <!-- https://o7planning.org/11659/thymeleaf-form-select-option-->
 <footer>
-    <!--form th:action="@{{path}/language(path=${path})}" th:method="post"-->
-    <!--form th:action="@{|${path}/language|}" th:method="post"-->
-    <form th:action="@{/language}" th:method="post">
-        <p>techreier &copy; Hans Reier Sigmond</p>
-        <label th:text="#{lang.text}" for="dropDownList" >Language code:</label>
-        <select id="dropDownList" name="code">
-            <option th:each="language : ${languages}"
-                    th:value="${language.code}" th:text="#{${language.language}} +' '+ ${language.code}"
-                    th:selected="${language.code eq langcode}"></option>
-        </select>
-        <!--button th:name="changelanguage" th:value="${blogid}" type="submit" th:text="#{lang.change}"/-->
-        <button th:name="changelanguage" type="submit" th:text="#{lang.change}"/>
-        <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
-        <!--p class="error" th:text="${path}"></p-->
-        <input type="hidden" th:value="${blogid}" name="blogid"/>
-        <input type="hidden" th:value="${path}" name="path"/>
-    </form>
+    <p>techreier &copy; Hans Reier Sigmond</p>
 </footer>
 
 <!-- Optional Section -->
