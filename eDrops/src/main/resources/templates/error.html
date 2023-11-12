@@ -36,7 +36,7 @@
         <td th:text="#{httpStatusCode}"></td>
         <td th:text="${status}"/>
     </tr>
-    <th:block th:if="${message}">
+    <th:block th:if="${message != null and message != ''}">
     <tr>
         <td th:text="#{errorMessage}"></td>
         <td th:text="${message}"/>
@@ -57,7 +57,6 @@
     </tr>
     </th:block>
 </table>
-</br>
 </div>
 </body>
 </html>

@@ -19,7 +19,7 @@ import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 import java.util.*
 
-private const val NO_MESSAGE = "No message"
+private const val NO_MESSAGE = "No message available"
 @Controller
 class ErrorController @Autowired private constructor(
     var errorAttributes: ErrorAttributes,
@@ -40,9 +40,7 @@ class ErrorController @Autowired private constructor(
         options = options.including(ErrorAttributeOptions.Include.MESSAGE)
         val errAttributes = errorAttributes.getErrorAttributes(request, options)
         model.addAllAttributes(errAttributes)
-        if (notFound(response)) {
-            model["message"] = improveNotFoundMsg(errAttributes["message"] , locale )
-        }
+        model["message"] = improveNoMsgAvail(errAttributes["message"] , locale, response.status )
         model["path"] = decodeURLEncodedPath(errAttributes["path"])
         return "error"
     }
@@ -51,20 +49,13 @@ class ErrorController @Autowired private constructor(
         return (response.status in 500..599)
     }
 
-    private fun notFound(response: HttpServletResponse): Boolean {
-        return (response.status==404)
-    }
-
-    // Get a better 404 Not Found message based on existing message and language, if possible
-    // If the existing message tag is a tag not recognized by current locale, just return "not found"
-    // TODO generalize this. NO MESSAGE FOUND applies to more status code. 400 BAD REQUEST at least
-    private fun improveNotFoundMsg(message: Any?, locale: Locale): Any {
+    //If Spring returns No Message Available, replace with suitable localized message dependend of status code
+    private fun improveNoMsgAvail(message: Any?, locale: Locale, httpStatusCode: Int): Any {
         var correctedMessage: String? = message as String
-        if ((correctedMessage.isNullOrBlank()) || correctedMessage.contains(NO_MESSAGE, true)) { //Spring boot hack
-            correctedMessage = messageSource.getMessage("path", null, NO_MESSAGE, locale)
+        if ((correctedMessage.isNullOrBlank()) || correctedMessage.contains(NO_MESSAGE, true)) {
+            correctedMessage = messageSource.getMessage(httpStatusCode.toString(), null, "", locale)
         }
-        val notFound =  messageSource.getMessage("notfound", null,"not found", locale)
-        return "$correctedMessage $notFound"
+        return "$correctedMessage"
     }
 
     private fun decodeURLEncodedPath(path: Any?): Any {
