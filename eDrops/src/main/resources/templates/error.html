@@ -5,27 +5,28 @@
       xmlns="http://www.w3.org/1999/xhtml">
 <!-- xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}"-->
 <head>
-    <title>Start welcome page</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SigmondsSmarts error page that never should appear</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
-<div class="container">
+<header>
+    <p>techreier</p>
+</header>
+<div id="work" class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 th:text="techreier"></h1>
             <p th:text="#{errorText}"></p>
         </div>
     </div>
-</div>
 <a href="/" th:text="#{home}" class="linkbutton"></a>
 <!--button th:name="home" type="submit" th:text="#{home}/-->
-<br/>
-<br/>
+<br/><br/>
 <table>
     <tr>
         <td th:text="#{path}"></td>
-        <td th:text="${path}"/>
+        <td th:text="${path}">
     </tr>
     <tr>
         <td th:text="#{httpStatus}"></td>
@@ -56,5 +57,7 @@
     </tr>
     </th:block>
 </table>
+</br>
+</div>
 </body>
 </html>

@@ -10,14 +10,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 // https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc
 @ControllerAdvice
 class ExceptionHandler {
-
     @ExceptionHandler(value = [Exception::class])
     @Throws(Exception::class)
     fun defaultErrorHandler(
         request: HttpServletRequest, redirectAttributes: RedirectAttributes,
         e: Exception, model: Model
     ): String {
-        logger.info("Error class: ${e.javaClass} message: ${e.message} method: ${request.method}")
+        logger.warn("Error class: ${e.javaClass} message: ${e.message} method: ${request.method}")
         if (e is IllegalArgumentException) { //error caught by Spring framework that cannot be rethrown
             model.addAttribute("path", request.servletPath)
             model.addAttribute("message", e.message)
