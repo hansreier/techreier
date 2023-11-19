@@ -29,17 +29,21 @@ var visitor: NodeVisitor = NodeVisitor(
 // Visitor pattern, replace url path in md files
 // https://github.com/vsch/flexmark-java/blob/master/flexmark-java-samples/src/com/vladsch/flexmark/java/samples/FormatterWithMods.java
 fun visit(link: Link) {
-    if (link.url.endsWith(".md")) {
-        val newLink = BasedSequence.of(link.url.toString().replace(".md", ""))
-        logger.debug("Visitor - Link path replaced: ${link.url} to: $newLink")
-        link.url = newLink
-    }
-    if (link.url.contains(".md#")) {
-        val newLink = BasedSequence.of(link.url.toString().replace(".md#", "#"))
-        logger.info("Visitor - Link path replaced: ${link.url} to: $newLink")
-        link.url = newLink
-    }
+    link.url = BasedSequence.of(replaceFileLinks(link.url.toString()))
     visitor.visitChildren(link)
+}
+
+private fun replaceFileLinks(origPath: String):String {
+    if (origPath.contains(".md")) {
+        val tag = origPath.substringAfterLast("#", "")
+        val path = origPath.substringBeforeLast("#")
+            .replace(".md", "")
+            .replaceAfterLast("_", "")
+            .replace("_", "")
+        val newPath =  if (tag.isEmpty()) path else "$path#$tag"
+        logger.info("Visitor - Link path replaced: $origPath to: $newPath")
+        return  newPath
+    } else return origPath
 }
 
 // Flexmark implementation of commonmark standardwith Github flovour
@@ -94,10 +98,10 @@ fun sanitize(html: String): String {
 }
 
 //Must do it this way with classLoader and streams to be able to read files in Docker and locally
-fun markdownToHtml(doc: Doc): String {
+fun markdownToHtml(doc: Doc, subDir: String=""): String {
     val lc = if (doc.ext) "_" + doc.language.code else ""
     val classLoader = object {}.javaClass.classLoader
-    val fileName = "static/markdown/" + doc.tag + lc + MARKDOWN_EXT
+    val fileName = "static/markdown/" + subDir + "/" + doc.tag + lc + MARKDOWN_EXT
     val inputStream = classLoader.getResourceAsStream(fileName)
     return markdownToHtml(
         inputStream?.bufferedReader().use { it?.readText() ?: "$fileName not found" }, true)

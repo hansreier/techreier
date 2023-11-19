@@ -19,6 +19,8 @@ object Docs {
    val doc = arrayOf(
         Doc("goals",  Norwegian, "Mål"),
         Doc("goals",  English, "Goals"),
+        Doc("reier", Norwegian,"Meg"),
+        Doc( "reier", English, "Me"),
         Doc("readme", Norwegian, "Les meg (engelsk)", false),
         Doc("readme", English, null, false),
         Doc("tech", Norwegian, "Om teknologi (engelsk)",false),

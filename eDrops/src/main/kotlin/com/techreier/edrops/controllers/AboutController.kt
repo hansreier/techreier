@@ -29,7 +29,7 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
         }
         val doc = doc[docIndex]
 
-        val docText: String = markdownToHtml(doc)
+        val docText: String = markdownToHtml(doc, ABOUT_DIR)
         model.addAttribute("doc", doc)
         model.addAttribute("docText", docText)
         return ABOUT

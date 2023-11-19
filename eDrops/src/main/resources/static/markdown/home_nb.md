@@ -4,20 +4,21 @@ Som nesten er ferdig...
 
 Med kjedelig design, men engasjende innhold. Antar jeg.
 
-( If not happening automagically.
-Use menu below to switch between Norwegian and English.
-Some articles are only written in one language. ) 
+( Hvis det ikke skjer automagisk.
+bruk menyknappen på toppen til høyre for å svitche mellom norsk og engelsk.
+Enkelte artikler er bare skrevet i ett språk.)
 
 Når du klikker på noe her, 
 så går du sannsynligvis uten at du vet det fram og tilbake til Nederland.
 Nei, bor ikke der men i Moelv, Innlandet, Norge.
 Det skal ikke være noe innlagt virus som du blir smittet med.  
 
-Teknologi er både vanskelig og enkelt.  
+Teknologi er både enkelt og vanskelig å samme tid.
+Denne nettsiden er ikke rakett vitenskap.
 
-Vi skal jo bare lage ett eller annet som skal brukes til noe nyttig.
+Vi mennesker skal jo bare lage ett eller annet som skal brukes til noe nyttig.
 Problemet er at vi skaper kaos som vi ikke blir kvitt samtidig.
-Naturen er kaos utviklet av seg selv over mange år.
+Naturen er kaos utviklet av seg selv over århundre.
 Teknologi prøver å ta snarveien og lage kaos raskere.
 Derfor blir den ikke tilpasset naturen.
 Derfor blir det ett problem.
@@ -33,16 +34,17 @@ Det finnes mange dårlige og noen litt bedre metoder å fikse dårlig teknologi 
 
 Bilen min slipper ånden ut av flasken, det er hovedproblemet  
 Jeg kan ikke leve uten bil, eller? katten min kan..  
+men den blir jo fraktet i bur i bilen min ned til dyrlegen av og til.
 Så bytter jeg til bil   
 som krever elektrisk strøm  
 som krever store batterier som forbruker strøm og andre ressurser  
-som globalt løses med kullkraftverk som slipper ut C02  
+som globalt løses med kullkraftverk som slipper ut C02  .
 
 
 I Norge er vi griseheldige som har mye nedbør og vannkraft
 Så vil vi likevel forbruke enda mer.
-Det såkalte løsningen er vindmøller påstår de,
-når det blåser passe mye vel og merke  
+Det såkalte grønne løsningen er vindmøller påstår de,
+når det blåser passe mye vel og merke.  
 
 Alternativt  
 Det finnes bedre teknologi  
@@ -54,16 +56,9 @@ Tilbake til naturen
 Så enkelt og så vanskelig  
 Et svart hull sluker uendelig med energi  
 Men vi klarer ikke utnytte det.   
+Kjernekraft er kaskje bedre.
 
 Hvis du har klart å komme helt til bunn av siden
-kan du jo besøke andre deler av nettstedet om tech og hvorfor 
+kan du jo besøke andre deler av nettstedet om tech og hvorfor vi bruker det.  
 
-- TechReier liker å surre med datasystemer.  
-- TechReier har en fokus på fornuftig bruk av teknologi.  
-- TechReier advarer mot feil bruk av teknologi.  
-- TechReier har redaktør ansvaret selv.
-- TechReier kan gjerne forklare hvordan ting er laget.  
-- TechReier referer til pålitelige kilder.  
-
-Derfor dette blogg inspirerte nettstedet.
-Ikke sponset av noe firma.
+[Om meg](about/reier_nb.md)

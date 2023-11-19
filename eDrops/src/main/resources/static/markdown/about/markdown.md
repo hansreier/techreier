@@ -91,7 +91,7 @@ Example of embedded table in markdown.
 
 Example of embeded image in markdown.
 
-![PerSeter](../images/pas.jpg "Per Seter"){#image-id}
+![PerSeter](../../images/pas.jpg "Per Seter"){#image-id}
 
 ### Example headline 
 
