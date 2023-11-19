@@ -59,4 +59,4 @@ Nuclear power perhaps better.
 If you have managed to reach this far at the bottom of the page
 you can visit other parts of this website about tech and why we use it.
 
-[Om meg](about/reier_en.md)
+[About me](about/reier_en.md)
