@@ -26,15 +26,13 @@ class WelcomeController(dbService: DbService) : BaseController(dbService) {
         @PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest, model: Model
     ): String {
-        logger.debug(WELCOME)
+        logger.info("GET $WELCOME")
         val blogParams = setCommonModelParameters(model, request, langCode)
         val doc = Doc(HOME, LanguageCode("", blogParams.locale.language))
         val docText: String = markdownToHtml(doc)
         logger.debug("BlogId: ${blogParams.blogId}")
-        logger.debug("Text: $docText")
         model.addAttribute("docText", docText)
         model.addAttribute("doc", doc)
-
         return WELCOME
     }
 }

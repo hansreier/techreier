@@ -15,6 +15,7 @@ class LanguageController {
         request: HttpServletRequest, redirectAttributes: RedirectAttributes, code: String?,
         blogid: Long?, path: String
     ): String {
+        logger.info("POST /language, and redirect")
         logger.debug("Language selected: $code path: $path blogid: $blogid")
         redirectAttributes.addFlashAttribute("langcode", code)
         //Or else id blogid used to populate menu will not be preserved

@@ -20,7 +20,7 @@ logging:
     org.springframework: WARN
     org.springframework.security: WARN
     org.apache.coyote.http11: INFO
-    com.techreier.edrops: INFO
+    com.techreier.edrops: DEBUG
     org.hibernate: INFO
     org.hibernate.orm.jdbc.bind: INFO
     org.hibernate.SQL: INFO

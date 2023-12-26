@@ -20,6 +20,7 @@ class AdminController(private val dbService: DbService): BaseController(dbServic
     @GetMapping("/{tag}")
     fun allBlogEntries(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String? ,
                        request: HttpServletRequest, model: Model): String {
+        logger.info("GET $ADMIN_DIR/$tag")
         val blogParams = setCommonModelParameters(model, request, langCode, tag)
         if (blogParams.blogId <0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
@@ -34,12 +35,14 @@ class AdminController(private val dbService: DbService): BaseController(dbServic
     @GetMapping
     fun redirect(@RequestParam(required = false, name = "lang") language: String?,
                  request: HttpServletRequest, model: Model): String {
+        logger.info("GET $ADMIN_DIR, and redirect")
         val blogParams = setCommonModelParameters(model, request, language)
         return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.locale.language).tag}"
     }
 
     @PostMapping
     fun getBlogAdmin(redirectAttributes: RedirectAttributes, result: String): String {
+        logger.info("POST $ADMIN_DIR, and redirect")
         return redirect(redirectAttributes, result, ADMIN_DIR)
     }
 
