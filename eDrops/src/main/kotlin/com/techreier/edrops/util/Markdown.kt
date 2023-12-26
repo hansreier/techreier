@@ -41,7 +41,7 @@ private fun replaceFileLinks(origPath: String):String {
             .replaceAfterLast("_", "")
             .replace("_", "")
         val newPath =  if (tag.isEmpty()) path else "$path#$tag"
-        logger.info("Visitor - Link path replaced: $origPath to: $newPath")
+        logger.debug("Visitor - Link path replaced: $origPath to: $newPath")
         return  newPath
     } else return origPath
 }
@@ -49,7 +49,7 @@ private fun replaceFileLinks(origPath: String):String {
 // Flexmark implementation of commonmark standardwith Github flovour
 // https://github.com/vsch/flexmark-java/issues/92
 fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
-    logger.info("markdown to html")
+    logger.debug("markdown to html")
     val options = MutableDataSet()
         .set(
             com.vladsch.flexmark.parser.Parser.EXTENSIONS,
