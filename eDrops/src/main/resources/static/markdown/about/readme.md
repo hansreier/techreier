@@ -298,6 +298,15 @@ https://www.roshanadhikary.com.np/2021/07/build-a-markdown-based-blog-with-sprin
 https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-markdown-editor  
 https://medium.com/content-uneditable/a-standard-for-rich-text-data-4b3a507af552
 
+## web stuff
+
+Files that need to be included, else WARN message can be displaid in log.
+
+favicon.ico file is created e.g. by 
+https://www.favicon.cc/
+
+robots.txt file for web crawlers is created
+
 ## Slutt
 
 

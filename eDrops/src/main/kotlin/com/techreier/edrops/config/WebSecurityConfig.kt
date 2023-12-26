@@ -26,6 +26,8 @@ class WebSecurityConfig {
                 authorize("/**", permitAll)
                 //  authorize("/css/*", permitAll)
                 //  authorize("/h2-console/**", denyAll)
+                //  authorize("/robots.txt", permitAll)
+                //  authorize("/images/favicon.ico, permitall)
                 authorize( anyRequest, authenticated)
             }
         }

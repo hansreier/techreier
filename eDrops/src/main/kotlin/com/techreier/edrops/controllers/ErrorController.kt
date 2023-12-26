@@ -41,8 +41,7 @@ class ErrorController @Autowired private constructor(
         val path = errAttributes["path"]
         val msg = errAttributes["message"]
 
-        logger.warn("Error Method: ${req.method} uri: ${req.requestURI} status: ${response.status} msg: $msg + path: $path")
-        path?.let { if ( it.equals("/robots.txt")) logger.warn("Web crawler not handled, no robots.txt file") }
+        logger.warn("Error Method: ${req.method} uri: ${req.requestURI} status: ${response.status} msg: $msg path: $path")
         model.addAllAttributes(errAttributes)
         model["message"] = improveNoMsgAvail(msg , locale, response.status )
         model["path"] = decodeURLEncodedPath(path)
