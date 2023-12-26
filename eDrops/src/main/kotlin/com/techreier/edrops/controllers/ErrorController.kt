@@ -30,7 +30,6 @@ class ErrorController @Autowired private constructor(
     @RequestMapping("/error")
     fun handleError(req: HttpServletRequest,request: WebRequest, response: HttpServletResponse, model: Model): String {
         val locale = LocaleContextHolder.getLocale() //attempt to make language dependent error messages
-        logger.warn("Response method: ${req.method} uri: ${req.requestURI} status ${response.status}")
         var options = ErrorAttributeOptions.defaults()
         if (isServerError(response)) {
             options = options
@@ -39,9 +38,14 @@ class ErrorController @Autowired private constructor(
         }
         options = options.including(ErrorAttributeOptions.Include.MESSAGE)
         val errAttributes = errorAttributes.getErrorAttributes(request, options)
+        val path = errAttributes["path"]
+        val msg = errAttributes["message"]
+
+        logger.warn("Error Method: ${req.method} uri: ${req.requestURI} status: ${response.status} msg: $msg + path: $path")
+        path?.let { if ( it.equals("/robots.txt")) logger.warn("Web crawler not handled, no robots.txt file") }
         model.addAllAttributes(errAttributes)
-        model["message"] = improveNoMsgAvail(errAttributes["message"] , locale, response.status )
-        model["path"] = decodeURLEncodedPath(errAttributes["path"])
+        model["message"] = improveNoMsgAvail(msg , locale, response.status )
+        model["path"] = decodeURLEncodedPath(path)
         return "error"
     }
 
