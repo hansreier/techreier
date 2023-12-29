@@ -32,12 +32,11 @@ Går ikke. Så er vi der igjen.
 
 Det finnes mange dårlige og noen litt bedre metoder å fikse dårlig teknologi på.  
 
-Bilen min slipper ånden ut av flasken, det er hovedproblemet  
+Bilen min slipper ånden ut av flasken, det er hovedproblemet.
 Jeg kan ikke leve uten bil, eller? katten min kan..  
 men den blir jo fraktet i bur i bilen min ned til dyrlegen av og til.
-Så bytter jeg til bil   
-som krever elektrisk strøm  
-som krever store batterier som forbruker strøm og andre ressurser  
+Så bytter jeg til bil som krever elektrisk strøm
+som krever store batterier som forbruker strøm og andre ressurser
 som globalt løses med kullkraftverk som slipper ut C02  .
 
 

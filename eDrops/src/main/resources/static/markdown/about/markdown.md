@@ -89,9 +89,9 @@ Example of embedded table in markdown.
 | Bergen |                      288133 | Vestland  | Second largest city                    | 
 | Moelv  |                        4459 | Innlandet | My home village, I love it and hate it |
 
-Example of embeded image in markdown.
+Example of embedded image in markdown.
 
-![PerSeter](../../images/pas.jpg "Per Seter"){#image-id}
+![PerSeter](../../images/pas.jpg "Per Seter")
 
 ### Example headline 
 
