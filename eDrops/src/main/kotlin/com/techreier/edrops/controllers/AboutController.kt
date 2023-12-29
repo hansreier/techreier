@@ -1,6 +1,5 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs.doc
 import com.techreier.edrops.util.Docs.getDocIndex
@@ -22,7 +21,6 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
     @GetMapping("/{tag}")
     fun content(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
                 request: HttpServletRequest, model: Model): String {
-        logger.info("GET $ABOUT_DIR/$tag")
         val blogParams = setCommonModelParameters(model, request, langCode)
         val docIndex = getDocIndex(blogParams.locale.language, tag)
         if (docIndex < 0) {
@@ -43,13 +41,11 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
         val blogParams = setCommonModelParameters(model, request, language)
         val docIndex = getDocIndex(blogParams.locale.language)
         val doc = doc[docIndex]
-        logger.info("GET $ABOUT_DIR, and redirect")
         return "redirect:$ABOUT_DIR/${doc.tag}"
     }
 
     @PostMapping
     fun getEntry(redirectAttributes: RedirectAttributes, doc: String): String {
-        logger.info("POST $ABOUT_DIR, and redirect")
         return "redirect:$ABOUT_DIR/$doc"
     }
 }
