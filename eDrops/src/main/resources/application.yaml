@@ -59,16 +59,13 @@ spring:
 #    username: sa
 #    password: sa
 
-# Required for development instant change
+# cache false and period 0 required for development instant change
   thymeleaf:
-    cache: false
+    cache: true
     enabled: true
     encoding: UTF-8
     mode: HTML
-  web:
-    resources:
-      cache:
-        period: 0
+  web.resources.cache.period: 3600
   devtools:
     livereload.enabled: true
 
@@ -88,6 +85,8 @@ spring:
     url: jdbc:h2:mem:mydb1;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password: sa
+  thymeleaf.cache: true
+  web.resources.cache.period: 3600
   h2:
     console.enabled: true
 
@@ -107,6 +106,8 @@ spring:
     url: jdbc:h2:file:C:/h2/edrops
     username: sa
     password: sa
+  thymeleaf.cache: true
+  web.resources.cache.period: 3600
   h2:
     console.enabled: true
 
@@ -144,7 +145,8 @@ spring:
     url: jdbc:mariadb://host.docker.internal:3307/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: dbuser
     password: ${DB_PASSWORD}
-
+  thymeleaf.cache: true
+  web.resources.cache.period: 3600
 ---
 spring:
   config:
@@ -161,6 +163,8 @@ spring:
     url: jdbc:mariadb://host.docker.internal:3308/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
     username: dbuser
     password: ${DB_PASSWORD}
+  thymeleaf.cache: true
+  web.resources.cache.period: 3600
 
 ---
 spring:
@@ -178,4 +182,6 @@ spring:
     url: jdbc:mariadb://mdb:3308/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
     username: dbuser
     password: ${DB_PASSWORD}
+  thymeleaf.cache: true
+  web.resources.cache.period: 3600
 
