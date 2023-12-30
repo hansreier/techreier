@@ -58,7 +58,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         // Alternatives: Hidden input fields (process entire list and select by name) or server state, this is easier
         val tag = result.substringBefore(" ", "")
         val blogId = result.substringAfter(" ", "0").toLongOrNull()
-        logger.info("#Redirect result: $result blog tag: $tag id: $blogId subpath: $subpath redirect to: redirect:$subpath/$tag") //TODO Reier Possible bug change to debug.
+        logger.debug("Redirect params: $result tag: $tag id: $blogId redirect:$subpath/$tag")
         redirectAttributes.addFlashAttribute("blogid", blogId)
         return "redirect:$subpath/$tag"
     }

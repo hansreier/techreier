@@ -30,6 +30,13 @@ class WebSecurityConfig {
                 //  authorize("/images/favicon.ico, permitall)
                 authorize( anyRequest, authenticated)
             }
+            sessionManagement {
+                invalidSessionUrl = "/"
+                sessionConcurrency {
+                    maximumSessions = 1
+                    expiredUrl = "/"
+                }
+            }
         }
         return http.build()
     }
