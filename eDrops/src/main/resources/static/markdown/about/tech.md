@@ -22,17 +22,17 @@ I have professionally been working with Java and Kotlin projects that includes A
 It adds technical complexity and complicates the building process.  
 
 Many projects really need the extra flexibility and control provided by frontend based html rendering.
-A progressiv web app is an example where this is an absolute requirement. I have seen many projects using Angular or React just because everybody does that.
+A progressive web app is an example where this is an absolute requirement. I have seen many projects using Angular or React just because everybody does that.
 It can certainly be overkill for simple company internal applications.
-I have previosly in projects used JSP or JSF for backend rendering.
+I have previously in projects used JSP or JSF for backend rendering.
 I think Thymeleaf is a more modern, simpler and better approach, in particular combined with
 Spring Boot and Spring MVC.
 
 What I originally intended was to make a blog based system, since producing text on my
 previous website was cumbersome. I have solved this by using markdown based text.
 Blog functionality will be added later, I am not there yet. 
-Text is simply prodused by editing a markdown file in Intellij.
-The intent is to used MariaDB and web GUI to enter markdown text.
+Text is simply produced by editing a markdown file in Intellij.
+The intent is to used MariaDB and web GUI to enter text as markdown.
 I have not done that yet. But I have made code that
 stores text in a database and later output texts using hibernate.
 This is tested by using H2 in unit tests.
@@ -42,7 +42,7 @@ This is tested by using H2 in unit tests.
 The goal is to make this as simple as possible where the user enters text in an input
 window.  An option is to use markdown like this readme.md file, since
 it is simpler than RTF and uses less space. Perhaps the system will support both
-formats. Editors, both outside of this project or included in this project.  can be used.
+formats. Editors, both outside of this project or included in this project can be used.
 
 The first attempt is to use markdown written in Intellij or other editor, store it as a file
 together with project code and pick it up as a part of the Web GUI. No database is really needed.

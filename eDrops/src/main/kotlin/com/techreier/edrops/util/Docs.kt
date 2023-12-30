@@ -28,7 +28,9 @@ object Docs {
         Doc("markdown", Norwegian, "Markdown (engelsk)", false),
         Doc( "markdown", English, "Markdown", false),
         Doc("databases", Norwegian, "Databaser (engelsk)", false),
-        Doc("databases", English, "Databases", false)
+        Doc("databases", English, "Databases", false),
+        Doc("hosting", Norwegian, "Mitt web hotell (engelsk)", false),
+        Doc("hosting", English, "My web host", false)
     )
 
     // Find the first Doc index that matches language code and eventually nonnull tag
