@@ -124,7 +124,7 @@ I really have to do this. Summary is a text containing HTML from an editor. Usin
 instead of text renders the included HTML as HTML and not text.
 
 ```
-<span th:utext="${blogEntry.summary}"></span><br><br>
+<div th:utext="${blogEntry.summary}"></div><br><br>
 ```
 
 What I will try to do to avoid Cross Site Scripting XSS, is to check the XML before injecting it into the web page.

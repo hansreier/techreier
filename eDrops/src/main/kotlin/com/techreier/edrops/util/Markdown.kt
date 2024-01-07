@@ -71,7 +71,7 @@ fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
     options.set(HtmlRenderer.RENDER_HEADER_ID, true)
 
     // uncomment to convert soft-breaks to hard breaks
-    // options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
+    // options.set(HtmlRenderer.SOFT_BREAK, "<br>\n");
 
     val parser = com.vladsch.flexmark.parser.Parser.builder(options).build()
     val renderer = HtmlRenderer.builder(options).build()

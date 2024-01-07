@@ -5,13 +5,13 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
 <head>
     <title>Blog entries</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <div layout:fragment="content">
     <h2 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.tag}}"/>
     <div class="container">
-        <span th:utext="${docText}"></span><br><br>
+        <div th:utext="${docText}"></div><br><br>
     </div>
 </div>
 
