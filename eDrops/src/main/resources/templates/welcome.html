@@ -12,7 +12,7 @@
 <div layout:fragment="content">
     <h2 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.tag}}"/>
     <div class="container">
-        <a th:utext="${docText}"></a>
+        <span th:utext="${docText}"></span>
         <div class="row">
             <div class="col-md-12">
                 <h4 th:text="#{greeting}"></h4>

@@ -5,14 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Hans Reier Sigmond" />
-    <meta name="description" content="TechReier is a blog system about programming, computers, environment and society" />
-    <meta name="keywords" content="Kotlin, Java, Backend, Spring Boot, Hibernate, JPA, programming, power, energy, environment, climate" />
-    <meta name="description" content="TechReier er et blogg system om programmering, datamaskiner, miljø og klima" />
-    <meta name="keywords" content="energi, klima, kraft, elektrisitet, programmering, miljø, klima" />
-    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Hans Reier Sigmond" >
+    <meta name="description" content="TechReier is a blog system about programming, computers, environment and society" >
+    <meta name="keywords" content="Kotlin, Java, Backend, Spring Boot, Hibernate, JPA, programming, power, energy, environment, climate" >
+    <meta name="description" content="TechReier er et blogg system om programmering, datamaskiner, miljø og klima" >
+    <meta name="keywords" content="energi, klima, kraft, elektrisitet, programmering, miljø, klima" >
+    <meta name="robots" content="index, follow" >
     <title>SigmondsSmarts blog</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="icon" type="image/ico" href="/favicon.ico">
 </head>
 <body>
@@ -26,8 +26,8 @@
                     th:selected="${language.code eq langcode}"></option>
         </select>
         <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
-        <input type="hidden" th:value="${blogid}" name="blogid"/>
-        <input type="hidden" th:value="${path}" name="path"/>
+        <input type="hidden" th:value="${blogid}" name="blogid">
+        <input type="hidden" th:value="${path}" name="path">
     </form>
 </header>
 <div class="navbar">
