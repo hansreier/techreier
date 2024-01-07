@@ -57,6 +57,6 @@ Men vi klarer ikke utnytte det.
 Kjernekraft er kaskje bedre.
 
 Hvis du har klart å komme helt til bunn av siden
-kan du jo besøke andre deler av nettstedet om tech og hvorfor vi bruker det.  
+kan du jo besøke andre deler av nettstedet om teknologi og hvorfor vi bruker det.  
 
 [Om meg](about/reier_nb.md)

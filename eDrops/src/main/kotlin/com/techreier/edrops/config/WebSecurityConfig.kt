@@ -37,6 +37,7 @@ class WebSecurityConfig {
                     expiredUrl = "/"
                 }
             }
+
         }
         return http.build()
     }

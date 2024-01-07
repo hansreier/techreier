@@ -5,6 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Hans Reier Sigmond" />
+    <meta name="description" content="TechReier is a blog system about programming, computers, environment and society" />
+    <meta name="keywords" content="Kotlin, Java, Backend, Spring Boot, Hibernate, JPA, programming, power, energy, environment, climate" />
+    <meta name="description" content="TechReier er et blogg system om programmering, datamaskiner, miljø og klima" />
+    <meta name="keywords" content="energi, klima, kraft, elektrisitet, programmering, miljø, klima" />
+    <meta name="robots" content="index, follow" />
     <title>SigmondsSmarts blog</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>
     <link rel="icon" type="image/ico" href="/favicon.ico">
@@ -13,14 +19,13 @@
 <header>
     <span id="techreier">Techreier</span>
     <form id="language" th:action="@{/language}" th:method="post">
-        <label th:text="#{lang.text}" for="dropDownList" >Language code:</label>
+        <label th:text="language" for="dropDownList" >Language code:</label>
         <select id="dropDownList" name="code" onchange="language.submit()">
             <option th:each="language : ${languages}"
                     th:value="${language.code}" th:text="#{${language.language}} +' '+ ${language.code}"
                     th:selected="${language.code eq langcode}"></option>
         </select>
         <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
-        <!--p class="error" th:text="${path}"></p-->
         <input type="hidden" th:value="${blogid}" name="blogid"/>
         <input type="hidden" th:value="${path}" name="path"/>
     </form>
@@ -48,7 +53,6 @@
         </button>
         <div class="dropdown-content">
             <a href="#start">Not implemented</a>
-                <!--form th:action="@{/blogs}" th:object="${blogForm}" th:method="post"-->
                 <form th:action="@{/blogs}"  th:method="post">
                 <ul>
                     <li th:each="blog: ${blogs}">
@@ -73,26 +77,18 @@
                     </li>
                 </ul>
             </form>
-            <!--
-            <span th:each="blog : ${blogs}">
-                <a href="/" th:text="${blog.subject}"></a>
-            </span-->
         </div>
     </div>
 </div>
 
 <div id="work">
-    <!-- Content Section -->
     <section layout:fragment="content">
         <p>This is filled by the content template.</p>
     </section>
 </div>
-<!-- https://o7planning.org/11659/thymeleaf-form-select-option-->
 <footer>
     <p>techreier &copy; Hans Reier Sigmond</p>
 </footer>
 
-<!-- Optional Section -->
-<th:block layout:fragment="optional"/>
 </body>
 </html>
