@@ -11,4 +11,7 @@ class LanguageCode(
 
     @Id
     val code: String
-)
+
+) {
+    override fun toString() = "language: $language code: $code"
+}

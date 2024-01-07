@@ -33,6 +33,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("languages", fetchLanguages(db))
+        logger.info("Reier: ${fetchLanguages(db)}")
         val defaultLangcode = LocaleContextHolder.getLocale().language
         val selectedLangcode = model.getAttribute("langcode") as String?
         val langcode = usedLanguageCode(selectedLangcode ?: pathLangcode ?: defaultLangcode)
