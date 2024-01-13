@@ -1,7 +1,7 @@
 package com.techreier.edrops.controllers
 
 import com.techreier.edrops.service.DbService
-import com.techreier.edrops.util.Docs.doc
+import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.getDocIndex
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
@@ -22,11 +22,11 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
     fun content(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
                 request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode)
-        val docIndex = getDocIndex(blogParams.locale.language, tag)
+        val docIndex = getDocIndex(about, blogParams.locale.language, tag)
         if (docIndex < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ABOUT)
         }
-        val doc = doc[docIndex]
+        val doc = about[docIndex]
 
         val docText: String = markdownToHtml(doc, ABOUT_DIR)
         model.addAttribute("doc", doc)
@@ -39,8 +39,8 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
     fun redirect(@RequestParam(required = false, name = "lang") language: String?,
                  request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, language)
-        val docIndex = getDocIndex(blogParams.locale.language)
-        val doc = doc[docIndex]
+        val docIndex = getDocIndex(about,blogParams.locale.language)
+        val doc = about[docIndex]
         return "redirect:$ABOUT_DIR/${doc.tag}"
     }
 

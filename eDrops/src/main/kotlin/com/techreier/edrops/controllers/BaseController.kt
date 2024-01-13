@@ -7,6 +7,8 @@ import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Languages
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
+import com.techreier.edrops.util.Docs.about
+import com.techreier.edrops.util.Docs.home
 import com.techreier.edrops.util.Docs.usedLanguageCode
 import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
@@ -38,7 +40,8 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         val langcode = usedLanguageCode(selectedLangcode ?: pathLangcode ?: defaultLangcode)
         val locale = Locale(langcode)
         val blogId = (model.getAttribute("blogid") ?: fetchBlogId(langcode, tag)) as Long
-        model.addAttribute("docs", Docs.getDocs(langcode))
+        model.addAttribute("homeDocs", Docs.getDocs(home, langcode))
+        model.addAttribute("aboutDocs", Docs.getDocs(about, langcode))
         logger.debug("BlogId: $blogId Language path: $pathLangcode, selected: $selectedLangcode default: $defaultLangcode used: $langcode")
         model.addAttribute("langcode", langcode)
         // Add path and menu attributes based on servletPath

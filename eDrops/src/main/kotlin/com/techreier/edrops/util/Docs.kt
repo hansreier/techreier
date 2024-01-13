@@ -4,7 +4,6 @@ import com.techreier.edrops.domain.English
 import com.techreier.edrops.domain.Norwegian
 
 const val MARKDOWN_EXT = ".md"
-const val HOME ="home"
 
 /**
  * No database needed for rendering docs saved as markdown files.
@@ -16,7 +15,14 @@ const val HOME ="home"
  * Language is part of file name if ext is set to true
  */
 object Docs {
-   val doc = arrayOf(
+    val home = arrayOf(
+        Doc("welcome",  Norwegian, "Velkommen"),
+        Doc("welcome",  English, "Welcome"),
+        Doc("test",  Norwegian, "Test"),
+        Doc("test",  English, "Test"),
+    )
+
+   val about = arrayOf(
         Doc("goals",  Norwegian, "Mål"),
         Doc("goals",  English, "Goals"),
         Doc("reier", Norwegian,"Meg"),
@@ -34,14 +40,14 @@ object Docs {
     )
 
     // Find the first Doc index that matches language code and eventually nonnull tag
-    fun getDocIndex(languageCode: String, tag: String? = null): Int {
+    fun getDocIndex(docs: Array<Doc>, languageCode: String, tag: String? = null): Int {
         val usedCode = usedLanguageCode(languageCode)
-        return doc.indexOfFirst { (it.language.code == usedCode) && (tag == it.tag || tag == null) }
+        return docs.indexOfFirst { (it.language.code == usedCode) && (tag == it.tag || tag == null) }
     }
 
-    fun getDocs(languageCode: String): List<Doc> {
+    fun getDocs(docs: Array<Doc>, languageCode: String): List<Doc> {
         val usedCode = usedLanguageCode(languageCode)
-        return doc.filter { (it.language.code == usedCode)  }
+        return docs.filter { (it.language.code == usedCode)  }
     }
 
     // Rule for returning language code used in this project from unknown codes.

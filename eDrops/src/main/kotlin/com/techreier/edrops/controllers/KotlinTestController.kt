@@ -22,7 +22,7 @@ class KotlinTestController(private val dbService: DbService)
         model.addAttribute("message", message)
         log.info("Hello word with message: $message")
         log.debug("Koko")
-        return "welcome"
+        return "home"
     }
 
     @RequestMapping("/create")
@@ -31,12 +31,12 @@ class KotlinTestController(private val dbService: DbService)
         log.info("Hello word with message: $message")
         log.debug("Koko")
         dbService.createBlog()
-        return "welcome"
+        return "home"
     }
 
     @RequestMapping("/read")
     fun read(model: Model): String {
         dbService.readFirstBlog(1)
-        return "welcome"
+        return "home"
     }
 }

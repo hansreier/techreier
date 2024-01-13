@@ -30,7 +30,21 @@
     </form>
 </header>
 <div class="navbar">
-    <a class="active" href="/" th:text="#{home}"  th:class="${menu == ''} ? 'dropdown-selected' :'dropdown-btn'"></a>
+    <div class="dropdown">
+        <button th:text="#{home}" onclick="location.href='/';" th:class="${menu == ''} ? 'dropdown-selected' : 'dropdown-btn'">
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <form th:action="@{/}" th:method="post">
+                <ul>
+                    <li th:each="doc: ${homeDocs}">
+                        <button class=dropdown-item name="doc" type="submit" th:value="${doc.tag}"
+                                th:text="${doc.subject} ? ${doc.subject} : #{${doc.tag}}"></button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
     <div class="dropdown">
         <button th:text="#{about}" th:class="${menu == 'about'} ? 'dropdown-selected' :'dropdown-btn'">
             <i class="fa fa-caret-down"></i>
@@ -38,7 +52,7 @@
         <div class="dropdown-content">
             <form th:action="@{/about}" th:method="post">
                 <ul>
-                    <li th:each="doc: ${docs}">
+                    <li th:each="doc: ${aboutDocs}">
                         <button class=dropdown-item name="doc" type="submit" th:value="${doc.tag}"
                                 th:text="${doc.subject} ? ${doc.subject} : #{${doc.tag}}"></button>
                     </li>
