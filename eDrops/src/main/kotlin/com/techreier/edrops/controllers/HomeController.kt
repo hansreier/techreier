@@ -56,11 +56,9 @@ class HomeController(dbService: DbService) : BaseController(dbService) {
                 request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode)
         val docIndex = Docs.getDocIndex(home, blogParams.locale.language, tag)
-        logger.info(" HOME before checking dockindex language: ${blogParams.locale.language} tag: $tag")
-        if (docIndex < 0) { //TODO something goes wrong
+        if (docIndex < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, HOME)
         }
-        logger.info("Reier after checking dockindex")
         val doc = home[docIndex]
 
         val docText: String = markdownToHtml(doc, HOME_DIR)
