@@ -37,14 +37,14 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         logger.debug("set common model parameters")
         model.addAttribute("languages", fetchLanguages(db))
         val defaultLangCode = LocaleContextHolder.getLocale().language
-        val selectedLangCode = model.getAttribute("langcode") as String?
+        val selectedLangCode = model.getAttribute("langCode") as String?
         val usedLangcode = usedLanguageCode(selectedLangCode ?: langCode ?: defaultLangCode)
         val locale = Locale(usedLangcode)
-        val blogId = (model.getAttribute("blogid") ?: fetchBlogId(usedLangcode, tag)) as Long
+        val blogId = (model.getAttribute("blogId") ?: fetchBlogId(usedLangcode, tag)) as Long
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
         logger.info("Menu: $menu BlogId: $blogId Language path: $langCode, selected: $selectedLangCode default: $defaultLangCode used: $usedLangcode")
-        model.addAttribute("langcode", usedLangcode)
+        model.addAttribute("langCode", usedLangcode)
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("path", path)
@@ -53,7 +53,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
             model.addAttribute("blogs", fetchBlogs(usedLangcode))
         }
 
-        model.addAttribute("blogid", blogId)
+        model.addAttribute("blogId", blogId)
         //   model.addAttribute("blogForm",BlogForm()) not required any more
         return BlogParams(blogId, locale)
     }
@@ -63,7 +63,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         val tag = result.substringBefore(" ", "")
         val blogId = result.substringAfter(" ", "0").toLongOrNull()
         logger.debug("Redirect params: $result tag: $tag id: $blogId redirect:$subpath/$tag")
-        redirectAttributes.addFlashAttribute("blogid", blogId)
+        redirectAttributes.addFlashAttribute("blogId", blogId)
         return "redirect:$subpath/$tag"
     }
 

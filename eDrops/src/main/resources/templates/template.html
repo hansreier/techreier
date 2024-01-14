@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:lang="${langcode}" xmlns:th="http://www.thymeleaf.org"
+<html th:lang="${langCode}" xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
@@ -22,10 +22,10 @@
         <select id="dropDownList" name="languageCode" onchange="language.submit()">
             <option th:each="language : ${languages}"
                     th:value="${language.code}" th:text="${language.language} + ' ' + ${language.code}"
-                    th:selected="${language.code eq langcode}"></option>
+                    th:selected="${language.code eq langCode}"></option>
         </select>
         <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
-        <input type="hidden" th:value="${blogid}" name="blogid">
+        <input type="hidden" th:value="${blogId}" name="blogid">
         <input type="hidden" th:value="${path}" name="path">
     </form>
 </header>
