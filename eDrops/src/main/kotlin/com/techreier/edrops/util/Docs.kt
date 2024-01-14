@@ -20,6 +20,8 @@ object Docs {
         Doc("welcome",  English, "Welcome"),
         Doc("test",  Norwegian, "Test"),
         Doc("test",  English, "Test"),
+        Doc("test2",  Norwegian, "Test2"),
+        Doc("test2",  English, "Test2"),
     )
 
    val about = arrayOf(

@@ -21,7 +21,7 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
     @GetMapping("/{tag}")
     fun content(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
                 request: HttpServletRequest, model: Model): String {
-        val blogParams = setCommonModelParameters(model, request, langCode)
+        val blogParams = setCommonModelParameters(ABOUT, model, request, langCode)
         val docIndex = getDocIndex(about, blogParams.locale.language, tag)
         if (docIndex < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ABOUT)
@@ -38,7 +38,7 @@ class AboutController(dbService: DbService) : BaseController(dbService) {
     @GetMapping
     fun redirect(@RequestParam(required = false, name = "lang") language: String?,
                  request: HttpServletRequest, model: Model): String {
-        val blogParams = setCommonModelParameters(model, request, language)
+        val blogParams = setCommonModelParameters(ABOUT, model, request, language)
         val docIndex = getDocIndex(about,blogParams.locale.language)
         val doc = about[docIndex]
         return "redirect:$ABOUT_DIR/${doc.tag}"

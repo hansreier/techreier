@@ -27,7 +27,7 @@ class HomeController(dbService: DbService) : BaseController(dbService) {
         @PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest, model: Model
     ): String {
-        val blogParams = setCommonModelParameters(model, request, langCode)
+        val blogParams = setCommonModelParameters(HOME, model, request, langCode)
         val doc = Doc(HOME, LanguageCode("", blogParams.locale.language))
         val docText: String = markdownToHtml(doc)
         logger.debug("BlogId: ${blogParams.blogId}")
@@ -54,7 +54,7 @@ class HomeController(dbService: DbService) : BaseController(dbService) {
     @GetMapping("/{tag}")
     fun content(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
                 request: HttpServletRequest, model: Model): String {
-        val blogParams = setCommonModelParameters(model, request, langCode)
+        val blogParams = setCommonModelParameters(HOME, model, request, langCode)
         val docIndex = Docs.getDocIndex(home, blogParams.locale.language, tag)
         if (docIndex < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, HOME)

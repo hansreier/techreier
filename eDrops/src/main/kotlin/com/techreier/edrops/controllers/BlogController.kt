@@ -24,7 +24,7 @@ class BlogController(private val dbService: DbService) : BaseController(dbServic
         @RequestParam(required = false, name = "lang")  langCode: String?,
     request: HttpServletRequest, model: Model
     ): String {
-        val blogParams = setCommonModelParameters(model, request, langCode, tag)
+        val blogParams = setCommonModelParameters(BLOG, model, request, langCode, tag)
         if (blogParams.blogId < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
         }
@@ -40,7 +40,7 @@ class BlogController(private val dbService: DbService) : BaseController(dbServic
         @RequestParam(required = false, name = "lang") language: String?,
         request: HttpServletRequest, model: Model
     ): String {
-        val blogParams = setCommonModelParameters(model, request, language)
+        val blogParams = setCommonModelParameters(BLOG, model, request, language)
         return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).tag}"
     }
 

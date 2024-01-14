@@ -29,7 +29,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
     // Selecting no DB removes menu items and contents stored in DB
     // Should only be used if no DB is available
     // TODO The option of no DB is not really used, and it is not tested either
-    protected fun setCommonModelParameters(
+    protected fun setCommonModelParameters(menu: String,
         model: Model, request: HttpServletRequest,
         pathLangcode: String?, tag: String? = null, db: Boolean = true
     ): BlogParams {
@@ -47,7 +47,7 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("path", path)
-        model.addAttribute("menu", path.removePrefix("/").substringBeforeLast("/"))
+        model.addAttribute("menu", menu)
         if (db) {
             model.addAttribute("blogs", fetchBlogs(langcode))
         }
