@@ -19,7 +19,7 @@
     <span id="techreier">Techreier</span>
     <form id="language" th:action="@{/language}" th:method="post">
         <label th:text="language" for="dropDownList" >Language code:</label>
-        <select id="dropDownList" name="code" onchange="language.submit()">
+        <select id="dropDownList" name="languageCode" onchange="language.submit()">
             <option th:each="language : ${languages}"
                     th:value="${language.code}" th:text="${language.language} + ' ' + ${language.code}"
                     th:selected="${language.code eq langcode}"></option>
