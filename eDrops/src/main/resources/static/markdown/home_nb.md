@@ -60,3 +60,5 @@ Hvis du har klart å komme helt til bunn av siden
 kan du jo besøke andre deler av nettstedet om teknologi og hvorfor vi bruker det.  
 
 [Om meg](about/reier_nb.md)
+
+**Kjørt med Docker, Kotlin og Spring Boot av Reier's virtuelle private tjener.**
