@@ -33,7 +33,22 @@ class HomeController(dbService: DbService) : BaseController(dbService) {
         logger.debug("BlogId: ${blogParams.blogId}")
         model.addAttribute("docText", docText)
         model.addAttribute("doc", doc)
+        logger.info("Reier before returning home")
         return HOME
+    }
+
+    // Rules for what is allowed for web crawlers
+    // Direct handling of robots.txt, instead of using the robots.txt file placed in static folder
+    // It creates unwanted error if handled by the tag endpoint.
+    @GetMapping("/robots.txt")
+    @ResponseBody
+    fun handleDefault(): String {
+        val rules = """
+            User-agent: *
+            Disallow: /admin/
+        """.trimIndent()
+        logger.debug("robots.txt handling rule:\n$rules")
+        return rules
     }
 
     @GetMapping("/{tag}")
@@ -41,9 +56,11 @@ class HomeController(dbService: DbService) : BaseController(dbService) {
                 request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(model, request, langCode)
         val docIndex = Docs.getDocIndex(home, blogParams.locale.language, tag)
-        if (docIndex < 0) {
+        logger.info(" HOME before checking dockindex language: ${blogParams.locale.language} tag: $tag")
+        if (docIndex < 0) { //TODO something goes wrong
             throw ResponseStatusException(HttpStatus.NOT_FOUND, HOME)
         }
+        logger.info("Reier after checking dockindex")
         val doc = home[docIndex]
 
         val docText: String = markdownToHtml(doc, HOME_DIR)
