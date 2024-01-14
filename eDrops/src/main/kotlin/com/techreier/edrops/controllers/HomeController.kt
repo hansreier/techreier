@@ -27,7 +27,6 @@ class HomeController(dbService: DbService) : BaseController(dbService) {
         @PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest, model: Model
     ): String {
-        logger.info("GET $HOME")
         val blogParams = setCommonModelParameters(model, request, langCode)
         val doc = Doc(HOME, LanguageCode("", blogParams.locale.language))
         val docText: String = markdownToHtml(doc)
