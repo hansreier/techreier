@@ -1,4 +1,4 @@
-## Om Norsk strømpolitikk og mitt strøm manifest
+## Norsk strømpolitikk
 
 Grunnen til at dette er blitt et utrolig viktig tema, er rett og slett at billig og stabil elektrisk strømforsynlig
 er en forutsetning for hele det Norske samfunnet, de siste hundre år, nå og i framtiden. Derfor fokuserer jeg på dette temaet,

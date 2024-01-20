@@ -1,6 +1,4 @@
-## STRØM MANIFEST
-
-Hovedpunkter:
+## STRØM MANIFEST HOVEDPUNKTER:
 
 * Elektrisk strøm er infrastruktur på lik linje med vann og kloakk og ikke spekulasjonsobjekt.
 * Det skal være norsk eierskap og kontroll på utbygging, produksjon og salg av elektrisk kraft. 
