@@ -66,7 +66,7 @@ keep it.
 
 Examples of links:  
 [Link to home](../home_en.md)  
-[Link to welcome](../welcome_en.md)  
+[Link to about electrical power](../strom.md)  
 [Link to tech](tech.md)  
 [Link to internal Bottom headline](#bottom-headline)  
 [Link to tech how to headline](tech.md#how-to-make-a-text-based-website-without-coding-html)  
