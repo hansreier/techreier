@@ -64,13 +64,15 @@ keep it.
 
 ### Examples
 
-Examples of links:
-
+Examples of links:  
+[Link to home](../home_en.md)  
+[Link to welcome](../welcome_en.md)  
 [Link to tech](tech.md)  
-[Link to internal Example headline](#example-headline)  
+[Link to internal Bottom headline](#bottom-headline)  
 [Link to tech how to headline](tech.md#how-to-make-a-text-based-website-without-coding-html)  
 [Link to default blog](../blogs)  
-[Link to energy blog](../blogs/energy)  
+[Link to environment blog](../blogs/env)  
+[Link to energy blog](../blogs/energy). Test of failure, no english energy blog.  With Norwegian set as language: OK.  
 [Link to external chatgpt](https://openai.com/blog/chatgpt)
 
 The tech links uses Flexmark to convert Markdown links to HTML links on the web page.
@@ -96,3 +98,12 @@ Example of embedded image in markdown.
 ### Example headline 
 
 The contents should be visible by clicking on internal page link above
+
+### Bottom headline
+
+Nothing interersting here at the bottom of page. Just som bullshit I am writing.
+I do not care if you actuelly read this.
+
+[Link to internal Examples headline](#examples)  
+
+

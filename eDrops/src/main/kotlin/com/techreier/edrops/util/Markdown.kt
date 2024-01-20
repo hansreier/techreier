@@ -40,6 +40,7 @@ private fun replaceFileLinks(origPath: String):String {
             .replace(".md", "")
             .replaceAfterLast("_", "")
             .replace("_", "")
+            .replace("/home","/") //home page no subpath
         val newPath =  if (tag.isEmpty()) path else "$path#$tag"
         logger.debug("Visitor - Link path replaced: $origPath to: $newPath")
         return  newPath
