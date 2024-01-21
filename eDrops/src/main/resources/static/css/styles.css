@@ -44,26 +44,44 @@ th, td {
 }
 
 header {
-	font-weight: bold;
+    font-weight: bold;
 	font-size: 0.7em;
 	white-space:nowrap;
-	padding: 1em 20px 0 20px;
+	padding: 1em 15px;
 	margin: 0;
 	background-color: yellow;
 	border-style: solid;
 	border-width: 0 0 1px;
     overflow: hidden;
-	display: flex;
+ 	display: flex;
+	align-items: center;
 	justify-content: space-between;
+	line-height: 2em;
+	height: 2em;
 }
 
 #techreier {
+	display: flex;
+	text-decoration: none;
+	transition: background-color 0.3s ease;
 	font-size:2em;
 }
 
+#homebutton {
+	display: flex;
+	text-decoration: none;
+	transition: background-color 0.3s ease;
+	font-size: 2.7em;
+	color: blue;
+	margin-right: 5px;
+	padding-bottom: 0.2em;
+}
+
 #language {
+	display: flex;
 	color: green;
-	font-size: 1.2em;
+	font-size: 1.4em;
+	margin-left: auto;
 }
 
 footer {

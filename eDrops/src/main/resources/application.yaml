@@ -66,8 +66,6 @@ spring:
     encoding: UTF-8
     mode: HTML
   web.resources.cache.period: 3600
-  devtools:
-    livereload.enabled: true
 
 ---
 spring:
@@ -85,7 +83,11 @@ spring:
     url: jdbc:h2:mem:mydb1;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password: sa
-  thymeleaf.cache: true
+  thymeleaf:
+    cache: false
+    mode: development
+  devtools:
+    livereload.enabled: true
   web.resources.cache.period: 3600
   h2:
     console.enabled: true

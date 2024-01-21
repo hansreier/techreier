@@ -16,7 +16,8 @@
 </head>
 <body>
 <header>
-    <span id="techreier">Techreier</span>
+    <a id="homebutton" th:text="'⌂'" href="/"/>
+    <a id="techreier" th:text="Techreier" href="/"/>
     <form id="language" th:action="@{/language}" th:method="post">
         <label th:text="language" for="dropDownList" >Language code:</label>
         <select id="dropDownList" name="languageCode" onchange="language.submit()">
@@ -31,7 +32,7 @@
 </header>
 <div class="navbar">
     <div class="dropdown">
-        <button th:text="#{home}" onclick="location.href='/';" th:class="${menu == 'home'} ? 'dropdown-selected' : 'dropdown-btn'">
+        <button th:text="#{vision}" th:class="${menu == 'home'} ? 'dropdown-selected' : 'dropdown-btn'">
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
