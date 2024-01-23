@@ -31,12 +31,11 @@ ul {
 
 ul ul {
 	list-style-type: "- ";
-    padding: 0.2em 1em 0.5em 0.2em;
+    padding: 0.2em 1em 0.5em 0.5em;
 }
 
 li {
 	padding-top: 0.2em;
-	text-align: justify;
 }
 
 table {
