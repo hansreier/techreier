@@ -16,7 +16,7 @@ const val LOGIN_DIR = LOGIN
 
 @Controller
 @RequestMapping(LOGIN_DIR)
-class LoginController(private val dbService: DbService): BaseController(dbService)
+class LoginController(dbService: DbService): BaseController(dbService)
 {
     @GetMapping
     fun login(@RequestParam(required = false, name = "lang")  language: String?,
