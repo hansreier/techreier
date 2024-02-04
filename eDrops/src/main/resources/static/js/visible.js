@@ -5,10 +5,10 @@ function visible() {
     const isPasswordVisible = passwordInput.type === "text";
 
     if (isPasswordVisible) {
-        passwordInput.type = "text";
+        passwordInput.type = "password";
         eyeIcon.textContent = "👁️";
     } else {
-        passwordInput.type = "password";
+        passwordInput.type = "text";
         eyeIcon.textContent = "🔒";
     }
 }
