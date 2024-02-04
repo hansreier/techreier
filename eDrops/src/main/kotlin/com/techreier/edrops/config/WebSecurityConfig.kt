@@ -30,6 +30,9 @@ class WebSecurityConfig {
                 //  authorize("/images/favicon.ico, permitall)
                 authorize( anyRequest, authenticated)
             }
+         //   formLogin {
+//
+       //     }
             sessionManagement {
                 invalidSessionUrl = "/"
                 sessionConcurrency {
