@@ -8,6 +8,7 @@ import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.home
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -20,7 +21,7 @@ const val HOME_DIR= ""
 
 @Controller
 @RequestMapping()
-class HomeController(dbService: DbService) : BaseController(dbService) {
+class HomeController(dbService: DbService, messageSource: MessageSource) : BaseController(dbService, messageSource) {
 
     @GetMapping
     fun home(

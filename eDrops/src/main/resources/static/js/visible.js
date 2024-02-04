@@ -12,3 +12,4 @@ function visible() {
         eyeIcon.textContent = "🔒";
     }
 }
+

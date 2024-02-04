@@ -14,11 +14,12 @@
     <div class="container">
         <form th:action="@{/login}" th:object="${user}" th:method="post">
             <label th:for="userid" th:text="#{userid}"></label>
-            <input type="text" id="userid" th:field="*{userid}" required>
+            <input type="text" id="userid" th:field="*{userid}">
+            <span th:if="${#fields.hasErrors('userid')}" th:errors="*{userid}"></span>
             <br><br>
             <label th:for="password" th:text="#{password}"></label>
             <div class="password-container">
-                <input type="password" id="password" name="password" th:field="*{password}" required>
+                <input type="password" id="password" name="password" th:field="*{password}">
                 <span id="togglePassword" onclick="visible()" style="cursor: pointer;">👁️</span>
             </div>
             <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>

@@ -5,6 +5,7 @@ import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.getDocIndex
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -17,7 +18,7 @@ const val ABOUT_DIR= "/$ABOUT"
 
 @Controller
 @RequestMapping(ABOUT_DIR)
-class AboutController(dbService: DbService) : BaseController(dbService) {
+class AboutController(dbService: DbService, messageSource: MessageSource) : BaseController(dbService, messageSource) {
     @GetMapping("/{tag}")
     fun content(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
                 request: HttpServletRequest, model: Model): String {

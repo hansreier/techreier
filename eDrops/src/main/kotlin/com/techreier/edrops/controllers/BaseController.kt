@@ -12,13 +12,16 @@ import com.techreier.edrops.util.Docs.home
 import com.techreier.edrops.util.Docs.usedLanguageCode
 import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.ui.Model
 import org.springframework.web.context.ServletContextAware
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.util.*
 
-abstract class BaseController(private val dbService: DbService) : ServletContextAware {
+abstract class BaseController(private val dbService: DbService,
+                              private val messageSource: MessageSource
+) : ServletContextAware {
 
     private var servletContext: ServletContext? = null
     override fun setServletContext(servletContext: ServletContext) {
@@ -74,6 +77,11 @@ abstract class BaseController(private val dbService: DbService) : ServletContext
             throw InitException("Cannot find default blog")
         }
         return dbService.readBlogWithSameLanguage(blog.id, usedLanguageCode(langCode)) ?: blog
+    }
+
+    protected fun msg(key: String): String {
+        val locale = LocaleContextHolder.getLocale()
+        return messageSource.getMessage(key, null, locale)
     }
 
     private fun fetchLanguages(db: Boolean = true): MutableList<LanguageCode> {

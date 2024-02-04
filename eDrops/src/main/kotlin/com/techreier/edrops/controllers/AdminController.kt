@@ -3,6 +3,7 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -15,7 +16,8 @@ const val ADMIN_DIR= "/$ADMIN"
 
 @Controller
 @RequestMapping(ADMIN_DIR)
-class AdminController(private val dbService: DbService): BaseController(dbService)
+class AdminController(private val dbService: DbService,
+                      messageSource: MessageSource): BaseController(dbService, messageSource)
 {
     @GetMapping("/{tag}")
     fun allBlogEntries(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String? ,

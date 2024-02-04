@@ -85,7 +85,6 @@ spring:
     password: sa
   thymeleaf:
     cache: false
-    mode: development
   devtools:
     livereload.enabled: true
   web.resources.cache.period: 3600

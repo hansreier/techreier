@@ -3,6 +3,7 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -17,7 +18,9 @@ const val BLOG_DIR = "/$BLOG"
 @Controller
 @RequestMapping(BLOG_DIR)
 @Validated
-class BlogController(private val dbService: DbService) : BaseController(dbService) {
+class BlogController(private val dbService: DbService,
+                     messageSource: MessageSource) :
+                     BaseController(dbService, messageSource) {
     @GetMapping("/{tag}")
     fun allBlogTexts(
         @PathVariable tag: String?,
