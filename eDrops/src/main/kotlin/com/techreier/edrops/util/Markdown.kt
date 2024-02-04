@@ -79,7 +79,11 @@ fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
     val document: Node = parser.parse(markdown)
     visitor.visit(document)
     val html = renderer.render(document)
-    if (sanitizer) return sanitize(html) else return html
+    return if (sanitizer) sanitize(html) else
+    {
+        logger.warn("Sanitizer turned off, use just for testing")
+        html
+    }
 }
 
 // https://owasp.org/www-project-java-html-sanitizer/

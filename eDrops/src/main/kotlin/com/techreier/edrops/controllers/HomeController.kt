@@ -33,7 +33,6 @@ class HomeController(dbService: DbService) : BaseController(dbService) {
         logger.debug("BlogId: ${blogParams.blogId}")
         model.addAttribute("docText", docText)
         model.addAttribute("doc", doc)
-        logger.info("Reier before returning home")
         return HOME
     }
 

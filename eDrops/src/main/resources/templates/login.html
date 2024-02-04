@@ -6,6 +6,7 @@
 <head>
     <title>Start welcome page</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <script th:src="@{/js/visible.js}"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -18,7 +19,7 @@
             <label th:for="password" th:text="#{password}"></label>
             <div class="password-container">
                 <input type="password" id="password" name="password" th:field="*{password}" required>
-                <span id="togglePassword" onclick="visible()" style="cursor: pointer;">👁️</span>
+                <span id="togglePassword" onclick="visible()" style="cursor: pointer;">🔒</span>
             </div>
             <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
             <br>
@@ -26,22 +27,5 @@
         </form>
     </div>
 </div>
-
-<script>
-    function visible() {
-        console.log("Visible function executed"); // Add this lin
-        var passwordInput = document.getElementById("password");
-        var eyeIcon = document.getElementById("togglePassword");
-
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            eyeIcon.textContent = "👁️";
-        } else {
-            passwordInput.type = "password";
-            eyeIcon.textContent = "🔒";
-        }
-    }
-
-</script>
 </body>
 </html>
