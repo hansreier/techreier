@@ -298,9 +298,8 @@ img:hover::after {
 	background-color: #ddd;
 }
 
-/* flexbox for long screen */
 #loginform {
-	max-width: 400px;
+	max-width: 95%;
 }
 
 .form-row {
