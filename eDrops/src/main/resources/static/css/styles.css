@@ -334,6 +334,13 @@ img:hover::after {
 	margin-bottom: 8px;
 }
 
+.error {
+	display: block;
+	margin-top: 5px;
+	color: red;
+	font-style: italic;
+}
+
 
 
 
