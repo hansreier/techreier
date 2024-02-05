@@ -6,6 +6,7 @@ body {
 	height: 100%;
 	width: 100%;
 	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1em;
     overflow-x: auto;
 	overflow-y: auto;
 }
@@ -296,6 +297,43 @@ img:hover::after {
 .dropdown-item:hover {
 	background-color: #ddd;
 }
+
+/* flexbox for long screen */
+#loginform {
+	max-width: 400px;
+}
+
+.form-row {
+	margin-bottom: 10px;
+}
+
+.form-row label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.form-row input {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+#password-container {
+	display: flex;
+	align-items: center;
+}
+
+#password-container label {
+	margin-right: 10px;
+	margin-bottom: 5px;
+}
+
+#password-container span {
+	margin-left: 0;
+	margin-bottom: 8px;
+}
+
 
 
 

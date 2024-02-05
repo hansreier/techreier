@@ -11,22 +11,24 @@
 <body>
 <div layout:fragment="content">
     <h2 th:text="login"/>
-    <div class="container">
-        <form th:action="@{/login}" th:object="${user}" th:method="post">
-            <label th:for="userid" th:text="#{userid}"></label>
-            <input type="text" id="userid" th:field="*{userid}">
-            <span th:if="${#fields.hasErrors('userid')}" th:errors="*{userid}"></span>
-            <br><br>
-            <label th:for="password" th:text="#{password}"></label>
-            <div class="password-container">
-                <input type="password" id="password" name="password" th:field="*{password}">
-                <span id="togglePassword" onclick="visible()" style="cursor: pointer;">👁️</span>
+    <form th:action="@{/login}" th:object="${user}" th:method="post">
+        <div class="container" id="loginform">
+            <div class="form-row">
+                <label th:for="userid" th:text="#{userid}"></label>
+                <input type="text" id="userid" th:field="*{userid}">
+                <span th:if="${#fields.hasErrors('userid')}" th:errors="*{userid}"></span>
             </div>
-            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-            <br>
-            <button type="submit">Login</button>
-        </form>
-    </div>
+            <div class="form-row">
+                <div id="password-container">
+                    <label th:for="password" th:text="#{password}"></label>
+                    <span id="togglePassword" onclick="visible()" style="cursor: pointer;">👁️</span>
+                </div>
+                <input type="password" id="password" name="password" th:field="*{password}">
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+            </div>
+        </div>
+        <button type="submit">Login</button>
+    </form>
 </div>
 </body>
 </html>
