@@ -86,20 +86,20 @@ final val blogOwner: BlogOwner = BlogOwner(
         "+4791668863", "Sløttvegen 17", "2390", "Moelv"
     )
     final val blogEntries1 =  mutableListOf<BlogEntry>()
-    final val blogEntries1e =  mutableListOf<BlogEntry>()
-    final val blogEntries2 =  mutableListOf<BlogEntry>()
-    final val timestamp: LocalDateTime = LocalDateTime.now()
+    private final val blogEntries1e =  mutableListOf<BlogEntry>()
+    private final val blogEntries2 =  mutableListOf<BlogEntry>()
+    private final val timestamp: LocalDateTime = LocalDateTime.now()
     final val blog1 = Blog(timestamp, ENV_TAG, Norwegian, SUBJECT1, blogEntries1, blogOwner)
-    final val blog1e = Blog(timestamp, ENV_TAG, English, SUBJECT1E, blogEntries1e, blogOwner)
-    final val blog2 = Blog(timestamp, ENERGY_TAG, Norwegian, SUBJECT2, blogEntries2, blogOwner)
+    private final val blog1e = Blog(timestamp, ENV_TAG, English, SUBJECT1E, blogEntries1e, blogOwner)
+    private final val blog2 = Blog(timestamp, ENERGY_TAG, Norwegian, SUBJECT2, blogEntries2, blogOwner)
 
     final val blogEntry1 = BlogEntry(timestamp, timestamp, TAG1, V1, TITLE1, SUMMARY1, blog1 )
-    final val blogEntry2  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE2, SUMMARY2, blog1)
-    final val blogEntry3  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE3, SUMMARY3,  blog1)
-    final val blogEntry1e = BlogEntry(timestamp, timestamp, TAG1E, V1, TITLE1E, SUMMARY1E, blog1e )
-    final val blogEntry2e  = BlogEntry(timestamp, timestamp, TAG2E, V1,  TITLE2E, SUMMARY2E, blog1e)
-    final val blogEntry3e  = BlogEntry(timestamp, timestamp, TAG2E, V1,  TITLE3E, SUMMARY3E,  blog1e)
-    final val blog2Entry3 = BlogEntry(timestamp, timestamp, TAG2, V1, TITLE4, SUMMARY4, blog2)
+    private final val blogEntry2  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE2, SUMMARY2, blog1)
+    private final val blogEntry3  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE3, SUMMARY3,  blog1)
+    private final val blogEntry1e = BlogEntry(timestamp, timestamp, TAG1E, V1, TITLE1E, SUMMARY1E, blog1e )
+    private final val blogEntry2e  = BlogEntry(timestamp, timestamp, TAG2E, V1,  TITLE2E, SUMMARY2E, blog1e)
+    private final val blogEntry3e  = BlogEntry(timestamp, timestamp, TAG2E, V1,  TITLE3E, SUMMARY3E,  blog1e)
+    private final val blog2Entry3 = BlogEntry(timestamp, timestamp, TAG2, V1, TITLE4, SUMMARY4, blog2)
     final val noOfBlogs: Int
     final val noOfBlogEntries: Int
 
