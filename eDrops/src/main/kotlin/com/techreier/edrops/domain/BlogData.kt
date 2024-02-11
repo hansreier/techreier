@@ -1,5 +1,7 @@
 package com.techreier.edrops.domain
 
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
 const val TAG1 = "Sjø"
@@ -73,32 +75,33 @@ const val SUMMARY4 = """
     """
 
 // Initial populate table. Temporary. Move later back to test
-class BlogData {
+@Component
+class BlogData(passwordEncoder: PasswordEncoder) {
 //    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
 //    val English: LanguageCode = LanguageCode(ENGLISH, EN)
-    val blogOwner: BlogOwner = BlogOwner(
+final val blogOwner: BlogOwner = BlogOwner(
         LocalDateTime.now(), null, "reier",
-    "Passord",
+    passwordEncoder.encode("Passord"),
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv"
     )
-    val blogEntries1 =  mutableListOf<BlogEntry>()
-    val blogEntries1e =  mutableListOf<BlogEntry>()
-    val blogEntries2 =  mutableListOf<BlogEntry>()
-    val timestamp: LocalDateTime = LocalDateTime.now()
-    val blog1 = Blog(timestamp, ENV_TAG, Norwegian, SUBJECT1, blogEntries1, blogOwner)
-    val blog1e = Blog(timestamp, ENV_TAG, English, SUBJECT1E, blogEntries1e, blogOwner)
-    val blog2 = Blog(timestamp, ENERGY_TAG, Norwegian, SUBJECT2, blogEntries2, blogOwner)
+    final val blogEntries1 =  mutableListOf<BlogEntry>()
+    final val blogEntries1e =  mutableListOf<BlogEntry>()
+    final val blogEntries2 =  mutableListOf<BlogEntry>()
+    final val timestamp: LocalDateTime = LocalDateTime.now()
+    final val blog1 = Blog(timestamp, ENV_TAG, Norwegian, SUBJECT1, blogEntries1, blogOwner)
+    final val blog1e = Blog(timestamp, ENV_TAG, English, SUBJECT1E, blogEntries1e, blogOwner)
+    final val blog2 = Blog(timestamp, ENERGY_TAG, Norwegian, SUBJECT2, blogEntries2, blogOwner)
 
-    val blogEntry1 = BlogEntry(timestamp, timestamp, TAG1, V1, TITLE1, SUMMARY1, blog1 )
-    val blogEntry2  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE2, SUMMARY2, blog1)
-    val blogEntry3  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE3, SUMMARY3,  blog1)
-    val blogEntry1e = BlogEntry(timestamp, timestamp, TAG1E, V1, TITLE1E, SUMMARY1E, blog1e )
-    val blogEntry2e  = BlogEntry(timestamp, timestamp, TAG2E, V1,  TITLE2E, SUMMARY2E, blog1e)
-    val blogEntry3e  = BlogEntry(timestamp, timestamp, TAG2E, V1,  TITLE3E, SUMMARY3E,  blog1e)
-    val blog2Entry3 = BlogEntry(timestamp, timestamp, TAG2, V1, TITLE4, SUMMARY4, blog2)
-    val noOfBlogs: Int
-    val noOfBlogEntries: Int
+    final val blogEntry1 = BlogEntry(timestamp, timestamp, TAG1, V1, TITLE1, SUMMARY1, blog1 )
+    final val blogEntry2  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE2, SUMMARY2, blog1)
+    final val blogEntry3  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE3, SUMMARY3,  blog1)
+    final val blogEntry1e = BlogEntry(timestamp, timestamp, TAG1E, V1, TITLE1E, SUMMARY1E, blog1e )
+    final val blogEntry2e  = BlogEntry(timestamp, timestamp, TAG2E, V1,  TITLE2E, SUMMARY2E, blog1e)
+    final val blogEntry3e  = BlogEntry(timestamp, timestamp, TAG2E, V1,  TITLE3E, SUMMARY3E,  blog1e)
+    final val blog2Entry3 = BlogEntry(timestamp, timestamp, TAG2, V1, TITLE4, SUMMARY4, blog2)
+    final val noOfBlogs: Int
+    final val noOfBlogEntries: Int
 
     init {
         val blogList = mutableSetOf<Blog>()

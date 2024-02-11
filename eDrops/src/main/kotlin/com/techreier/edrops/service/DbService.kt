@@ -11,6 +11,7 @@ import com.techreier.edrops.repository.LanguageRepository
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional
 class DbService(
     private val ownerRepo: BlogOwnerRepository,
     private val blogRepo: BlogRepository,
-    private val languageRepo: LanguageRepository
+    private val languageRepo: LanguageRepository,
+    private val passwordEncoder: PasswordEncoder
 ) {
 
     @PersistenceContext
@@ -27,7 +29,7 @@ class DbService(
 
     fun createBlog() {
         logger.info("Create blog")
-        ownerRepo.save(BlogData().blogOwner)
+        ownerRepo.save(BlogData(passwordEncoder).blogOwner)
         logger.info("saved")
     }
 
