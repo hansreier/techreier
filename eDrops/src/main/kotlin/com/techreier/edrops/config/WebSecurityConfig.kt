@@ -5,6 +5,11 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.invoke
+import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
@@ -23,16 +28,17 @@ class WebSecurityConfig {
         http {
             logger.info("Inside security config")
             authorizeRequests {
+                authorize("/admin/**", authenticated)
                 authorize("/**", permitAll)
                 //  authorize("/css/*", permitAll)
                 //  authorize("/h2-console/**", denyAll)
                 //  authorize("/robots.txt", permitAll)
                 //  authorize("/images/favicon.ico, permitall)
-                authorize( anyRequest, authenticated)
             }
-         //   formLogin {
-//
-       //     }
+            formLogin {
+                loginPage ="/login"
+                defaultSuccessUrl("/", true)
+            }
             sessionManagement {
                 invalidSessionUrl = "/"
                 sessionConcurrency {
@@ -44,4 +50,25 @@ class WebSecurityConfig {
         }
         return http.build()
     }
+
+    @Bean
+    fun userDetailService(): UserDetailsService {
+        val userDetailsService = InMemoryUserDetailsManager()
+        //TODO read from envionment variable instead
+        val user = User.withUsername("Reier") //Simple builder to define user
+            .password("HansReier")
+            .authorities("read","write")
+          //  .passwordEncoder()
+            .build()
+
+        userDetailsService.createUser(user)
+        return userDetailsService
+    }
+
+    @Bean
+    fun passwordEncoder(): PasswordEncoder {
+        return BCryptPasswordEncoder()
+    }
+
+
 }

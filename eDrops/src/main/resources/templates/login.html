@@ -14,9 +14,9 @@
     <form th:action="@{/login}" th:object="${user}" th:method="post">
         <div class="container" id="loginform">
             <div class="form-row">
-                <label th:for="userid" th:text="#{userid}"></label>
-                <input type="text" id="userid" th:field="*{userid}">
-                <span class="error" th:if="${#fields.hasErrors('userid')}" th:errors="*{userid}"></span>
+                <label th:for="username" th:text="#{username}"></label>
+                <input type="text" id="userid" th:field="*{username}">
+                <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
             </div>
             <div class="form-row">
                 <div id="password-container">

@@ -15,6 +15,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 const val LOGIN = "login"
 const val LOGIN_DIR = LOGIN
 
+// https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/form.html
+// https://www.baeldung.com/spring-security-extra-login-fields NOT THAT RELEVANT
+
 @Controller
 @RequestMapping(LOGIN_DIR)
 class LoginController(dbService: DbService, messageSource: MessageSource): BaseController(dbService, messageSource)
@@ -33,8 +36,8 @@ class LoginController(dbService: DbService, messageSource: MessageSource): BaseC
     fun verifyLogin(redirectAttributes: RedirectAttributes, @Valid @ModelAttribute("user")
         user: User, language: String?, bindingResult: BindingResult, request: HttpServletRequest, model: Model): String {
         logger.info("Handling login")
-        if (user.userid.isEmpty()) {
-            bindingResult.addError(FieldError("user", "userid", msg("emptyUserid")))
+        if (user.username.isEmpty()) {
+            bindingResult.addError(FieldError("user", "username", msg("emptyUsername")))
         }
         if (user.password.length < 8) {
             bindingResult.addError(FieldError("user", "password", msg("shortPassword")))
@@ -48,6 +51,6 @@ class LoginController(dbService: DbService, messageSource: MessageSource): BaseC
         return "redirect:/$HOME_DIR"
     }
 
-    data class User(var userid: String = "", var password: String = "")
+    data class User(var username: String = "", var password: String = "")
 
 }
