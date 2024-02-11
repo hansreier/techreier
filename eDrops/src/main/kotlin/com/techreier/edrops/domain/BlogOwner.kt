@@ -13,6 +13,12 @@ class BlogOwner(
     @Column
     var changed: LocalDateTime?,
 
+    @Column
+    var username: String,
+
+    @Column
+    var password: String,
+
     @Column(nullable = false)
     var firstName: String,
 

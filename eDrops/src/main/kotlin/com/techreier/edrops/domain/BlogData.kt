@@ -77,7 +77,7 @@ class BlogData {
 //    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
 //    val English: LanguageCode = LanguageCode(ENGLISH, EN)
     val blogOwner: BlogOwner = BlogOwner(
-        LocalDateTime.now(), null,
+        LocalDateTime.now(), null, "Reier", "Passord",
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv"
     )

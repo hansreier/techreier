@@ -19,4 +19,6 @@ interface BlogOwnerRepository : JpaRepository<BlogOwner, Long> {
 
     @EntityGraph(attributePaths = ["blogs","blogs.language","blogs.blogEntries"])
     override fun findById(id: Long): Optional<BlogOwner>
+
+    fun findBlogOwnerByUsername(user: String): BlogOwner?
 }

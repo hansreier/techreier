@@ -13,7 +13,8 @@ public class TestReachKotlin {
 
     @Test
     public void testReachKotlin() {
-        BlogOwner blogOwner = new BlogOwner(LocalDateTime.now(), null, "Reier", "Sigmond",
+        BlogOwner blogOwner = new BlogOwner(LocalDateTime.now(), null, "Reier","Passord",
+                "Reier", "Sigmond",
                 "reier.sigmond@gmail.com", "91668863", "Sløttvegen 17",
                 "2390", "Moelv", 1L, null);
         String address = blogOwner.getAddress();
