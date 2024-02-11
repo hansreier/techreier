@@ -16,7 +16,7 @@ class UserDetailsService(
 ) : UserDetailsService {
     // Obtain details about user by a user name. Use DB service or hardcoded
     override fun loadUserByUsername(user: String): UserDetails {
-        logger.info("Authorizing: $user")
+        logger.info("Find user in database: $user")
         val blogOwner = blogOwnerRepository.findBlogOwnerByUsername(user)
         if (blogOwner == null) {
             logger.warn("$user does not exist")
