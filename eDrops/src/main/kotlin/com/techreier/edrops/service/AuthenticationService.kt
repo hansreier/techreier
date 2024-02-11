@@ -30,6 +30,7 @@ class AuthenticationService(
     }
 
     private fun checkPassword(userDetails: UserDetails, rawPassword: String, encoder: PasswordEncoder): Authentication {
+        logger.info("checking password: ${userDetails.password}")
         if (encoder.matches(rawPassword, userDetails.password)) return UsernamePasswordAuthenticationToken(
             userDetails.username, userDetails.password, userDetails.authorities
         ) else {
