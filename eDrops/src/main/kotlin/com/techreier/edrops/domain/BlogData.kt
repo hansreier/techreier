@@ -86,7 +86,7 @@ class BlogData(passwordEncoder: PasswordEncoder, appConfig: AppConfig) {
     //    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
 //    val English: LanguageCode = LanguageCode(ENGLISH, EN)
     final val blogOwner: BlogOwner = BlogOwner(
-        LocalDateTime.now(), null, appConfig.user!!,
+        LocalDateTime.now(), null, appConfig.user,
         passwordEncoder.encode(appConfig.password),
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv"

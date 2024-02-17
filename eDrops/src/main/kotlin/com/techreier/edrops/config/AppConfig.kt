@@ -12,9 +12,9 @@ import org.springframework.validation.annotation.Validated
 @Validated //Checks if properties exist in combination with @NotNull and aborts if not
 class AppConfig {
     @NotNull(message = "Mangler navn på applikasjon") //Checks if properties exist
-    var appname: String? = null
+    lateinit var appname: String
     @NotNull(message = "Missing admin password")
-    var password: String? = null
+    lateinit var password: String
     @NotNull(message = "Missing admin user")
-    var user: String? = null
+    lateinit var user: String
 }
