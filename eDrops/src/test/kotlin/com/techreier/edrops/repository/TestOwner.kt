@@ -7,13 +7,16 @@ import jakarta.persistence.Subgraph
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.transaction.annotation.Transactional
 
 @ExtendWith(SpringExtension::class)
-@DataJpaTest
+//@DataJpaTest
+@SpringBootTest
+@Transactional
 class TestOwner : Base() {
     @Test
     @DirtiesContext

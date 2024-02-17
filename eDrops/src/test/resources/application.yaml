@@ -1,0 +1,16 @@
+app:
+  appname: ${APP_NAME:edrops}
+# SpringBoot tests uses this file, other tests uses logback-test
+logging:
+  level:
+    root: INFO
+    org.springframework: WARN
+    org.springframework.security: WARN
+    org.apache.coyote.http11: INFO
+    com.techreier.edrops: INFO
+    org.hibernate: INFO
+    org.hibernate.orm.jdbc.bind: INFO
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
