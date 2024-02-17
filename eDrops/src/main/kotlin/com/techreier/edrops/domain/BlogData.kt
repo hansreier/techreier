@@ -1,5 +1,7 @@
 package com.techreier.edrops.domain
 
+import com.techreier.edrops.config.AppConfig
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
@@ -14,7 +16,7 @@ const val TITLE1E = "About electric power"
 const val TITLE2 = "Om været"
 const val TITLE2E = "About weather"
 const val TITLE3 = "Om Hibernate"
-const val TITLE3E ="About Hibernate"
+const val TITLE3E = "About Hibernate"
 const val TITLE4 = "Energi blog"
 const val TITLE4MOD = "Modified blog"
 const val ENV_TAG = "env"
@@ -22,7 +24,7 @@ const val ENERGY_TAG = "energy"
 const val SUBJECT1 = "Miljø saker"
 const val SUBJECT1E = "Environmental issues"
 const val SUBJECT2 = "Energi saker"
-const val V1:Long  = 1
+const val V1: Long = 1
 const val NORWEGIAN = "Norwegian"
 const val ENGLISH = "English"
 const val NB = "nb"
@@ -30,6 +32,7 @@ const val EN = "en"
 
 @JvmField
 val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
+
 @JvmField
 val English: LanguageCode = LanguageCode(ENGLISH, EN)
 
@@ -76,29 +79,33 @@ const val SUMMARY4 = """
 
 // Initial populate table. Temporary. Move later back to test
 @Component
-class BlogData(passwordEncoder: PasswordEncoder) {
-//    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
+class BlogData(passwordEncoder: PasswordEncoder, appConfig: AppConfig) {
+
+   // @Value("\$adminPassword}")
+   // private val password: String = ""
+
+    //    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
 //    val English: LanguageCode = LanguageCode(ENGLISH, EN)
-final val blogOwner: BlogOwner = BlogOwner(
+    final val blogOwner: BlogOwner = BlogOwner(
         LocalDateTime.now(), null, "reier",
-    passwordEncoder.encode("Passord"),
+        passwordEncoder.encode(appConfig.password),
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv"
     )
-    final val blogEntries1 =  mutableListOf<BlogEntry>()
-    private final val blogEntries1e =  mutableListOf<BlogEntry>()
-    private final val blogEntries2 =  mutableListOf<BlogEntry>()
+    final val blogEntries1 = mutableListOf<BlogEntry>()
+    private final val blogEntries1e = mutableListOf<BlogEntry>()
+    private final val blogEntries2 = mutableListOf<BlogEntry>()
     private final val timestamp: LocalDateTime = LocalDateTime.now()
     final val blog1 = Blog(timestamp, ENV_TAG, Norwegian, SUBJECT1, blogEntries1, blogOwner)
     private final val blog1e = Blog(timestamp, ENV_TAG, English, SUBJECT1E, blogEntries1e, blogOwner)
     private final val blog2 = Blog(timestamp, ENERGY_TAG, Norwegian, SUBJECT2, blogEntries2, blogOwner)
 
-    final val blogEntry1 = BlogEntry(timestamp, timestamp, TAG1, V1, TITLE1, SUMMARY1, blog1 )
-    private final val blogEntry2  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE2, SUMMARY2, blog1)
-    private final val blogEntry3  = BlogEntry(timestamp, timestamp, TAG2, V1,  TITLE3, SUMMARY3,  blog1)
-    private final val blogEntry1e = BlogEntry(timestamp, timestamp, TAG1E, V1, TITLE1E, SUMMARY1E, blog1e )
-    private final val blogEntry2e  = BlogEntry(timestamp, timestamp, TAG2E, V1,  TITLE2E, SUMMARY2E, blog1e)
-    private final val blogEntry3e  = BlogEntry(timestamp, timestamp, TAG2E, V1,  TITLE3E, SUMMARY3E,  blog1e)
+    final val blogEntry1 = BlogEntry(timestamp, timestamp, TAG1, V1, TITLE1, SUMMARY1, blog1)
+    private final val blogEntry2 = BlogEntry(timestamp, timestamp, TAG2, V1, TITLE2, SUMMARY2, blog1)
+    private final val blogEntry3 = BlogEntry(timestamp, timestamp, TAG2, V1, TITLE3, SUMMARY3, blog1)
+    private final val blogEntry1e = BlogEntry(timestamp, timestamp, TAG1E, V1, TITLE1E, SUMMARY1E, blog1e)
+    private final val blogEntry2e = BlogEntry(timestamp, timestamp, TAG2E, V1, TITLE2E, SUMMARY2E, blog1e)
+    private final val blogEntry3e = BlogEntry(timestamp, timestamp, TAG2E, V1, TITLE3E, SUMMARY3E, blog1e)
     private final val blog2Entry3 = BlogEntry(timestamp, timestamp, TAG2, V1, TITLE4, SUMMARY4, blog2)
     final val noOfBlogs: Int
     final val noOfBlogEntries: Int
@@ -109,14 +116,14 @@ final val blogOwner: BlogOwner = BlogOwner(
         blogOwner.blogs?.add(blog1)
         blogOwner.blogs?.add(blog1e)
         blogOwner.blogs?.add(blog2)
-        noOfBlogs =  blogList.size
+        noOfBlogs = blogList.size
 
-        blog1.blogEntries  = blogEntries1
+        blog1.blogEntries = blogEntries1
         blog1.blogEntries?.add(blogEntry1)
         blog1.blogEntries?.add(blogEntry2)
         blog1.blogEntries?.add(blogEntry3)
 
-        blog1e.blogEntries  = blogEntries1e
+        blog1e.blogEntries = blogEntries1e
         blog1e.blogEntries?.add(blogEntry1e)
         blog1e.blogEntries?.add(blogEntry2e)
         blog1e.blogEntries?.add(blogEntry3e)
