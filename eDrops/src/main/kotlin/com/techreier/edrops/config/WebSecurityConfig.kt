@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableWebSecurity
-class WebSecurityConfig {
+class WebSecurityConfig(val appConfig: AppConfig) {
 
     // Spring security is totally changed
     // Code style is very Kotlin spesific, DSL (Domain Specific Language)
@@ -54,11 +54,9 @@ class WebSecurityConfig {
     @Bean
     fun userDetailService(): UserDetailsService {
         val userDetailsService = InMemoryUserDetailsManager()
-        //TODO read from envionment variable instead
-        val user = User.withUsername("Reier") //Simple builder to define user
-            .password("HansReier")
+        val user = User.withUsername(appConfig.user) //Simple builder to define user
+            .password(appConfig.password)
             .authorities("read","write")
-          //  .passwordEncoder()
             .build()
 
         userDetailsService.createUser(user)

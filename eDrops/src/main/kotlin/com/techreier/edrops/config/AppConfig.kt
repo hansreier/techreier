@@ -15,4 +15,6 @@ class AppConfig {
     var appname: String? = null
     @NotNull(message = "Missing admin password")
     var password: String? = null
+    @NotNull(message = "Missing admin user")
+    var user: String? = null
 }

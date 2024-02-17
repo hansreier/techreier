@@ -1,7 +1,6 @@
 package com.techreier.edrops.domain
 
 import com.techreier.edrops.config.AppConfig
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
@@ -87,7 +86,7 @@ class BlogData(passwordEncoder: PasswordEncoder, appConfig: AppConfig) {
     //    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
 //    val English: LanguageCode = LanguageCode(ENGLISH, EN)
     final val blogOwner: BlogOwner = BlogOwner(
-        LocalDateTime.now(), null, "reier",
+        LocalDateTime.now(), null, appConfig.user!!,
         passwordEncoder.encode(appConfig.password),
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv"

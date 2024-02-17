@@ -1,5 +1,6 @@
 app:
   appname: ${APP_NAME:edrops}
+  user: ${USER:Reier}
   password: ${PASSWORD:Passord}
 # SpringBoot tests uses this file, other tests uses logback-test
 logging:
