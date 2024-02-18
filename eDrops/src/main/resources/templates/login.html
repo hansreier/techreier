@@ -15,7 +15,7 @@
         <div class="container" id="loginform">
             <div class="form-row">
                 <label th:for="username" th:text="#{username}"></label>
-                <input type="text" id="userid" th:field="*{username}">
+                <input type="text" id="username" th:field="*{username}">
                 <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
             </div>
             <div class="form-row">
@@ -29,6 +29,8 @@
         </div>
         <button type="submit">Login</button>
     </form>
+    <!-- TODO must clear session to remove error message. Do not like it -->
+    <p th:if="${loginError != null}" class="error" th:text="#{${loginError}}"></p>
 </div>
 </body>
 </html>

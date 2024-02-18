@@ -34,7 +34,7 @@ class AuthenticationService(
         if (encoder.matches(rawPassword, userDetails.password)) return UsernamePasswordAuthenticationToken(
             userDetails.username, userDetails.password, userDetails.authorities
         ) else {
-            throw BadCredentialsException("Bad credentials")
+            throw BadCredentialsException("Bad credentials for user: ${userDetails.username}")
         }
     }
 }

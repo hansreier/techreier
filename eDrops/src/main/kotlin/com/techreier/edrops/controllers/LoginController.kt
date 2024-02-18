@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val LOGIN = "login"
-const val LOGIN_DIR = LOGIN
+const val LOGIN_DIR = "/$LOGIN"
 
 // https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/form.html
 // https://www.baeldung.com/spring-security-extra-login-fields NOT THAT RELEVANT
@@ -25,7 +25,10 @@ class LoginController(dbService: DbService, messageSource: MessageSource): BaseC
     @GetMapping
     fun login(@RequestParam(required = false, name = "lang")  language: String?,
                  request: HttpServletRequest, model: Model): String {
-        logger.info("Returning login page")
+         logger.info("Returning login page")
+         val loginError = request.session.getAttribute("loginError") as String?
+         request.session.setAttribute("loginError",null)
+         model.addAttribute("loginError", loginError)
          val user = User()
          model.addAttribute("user", user)
          setCommonModelParameters(LOGIN, model, request, language)

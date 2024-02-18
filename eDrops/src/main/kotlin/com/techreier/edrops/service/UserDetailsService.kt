@@ -18,10 +18,7 @@ class UserDetailsService(
     override fun loadUserByUsername(user: String): UserDetails {
         logger.info("Find user in database: $user")
         val blogOwner = blogOwnerRepository.findBlogOwnerByUsername(user)
-        if (blogOwner == null) {
-            logger.warn("$user does not exist")
-            throw UsernameNotFoundException("User not found with username: $user")
-        }
+            ?: throw UsernameNotFoundException("User not found with username: $user")
         return Owner(blogOwner)
     }
 }

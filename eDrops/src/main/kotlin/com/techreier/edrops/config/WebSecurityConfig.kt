@@ -1,5 +1,6 @@
 package com.techreier.edrops.config
 
+import com.techreier.edrops.controllers.LOGIN_DIR
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -42,6 +43,7 @@ class WebSecurityConfig(val appConfig: AppConfig) {
             formLogin {
                 loginPage ="/login"
                 defaultSuccessUrl("/", true)
+                failureUrl = "/login"
                 authenticationFailureHandler = authFailureHandler()
             }
 
@@ -75,7 +77,7 @@ class WebSecurityConfig(val appConfig: AppConfig) {
 
     @Bean
     fun authFailureHandler(): AuthenticationFailureHandler {
-        return AuthFailureHandler()
+        return AuthFailureHandler(LOGIN_DIR)
     }
 
 
