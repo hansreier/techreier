@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.AuthenticationFailureHandler
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +24,9 @@ class WebSecurityConfig(val appConfig: AppConfig) {
     //https://docs.spring.io/spring-security/reference/servlet/configuration/kotlin.html
     //https://codersee.com/spring-boot-3-spring-security-6-with-kotlin-jwt/
     //https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html
+    //AccessDeniedException is connected with Authorization
+    //AuthenticationException is connected with authorization (e.g. after login page)
+    //https://www.baeldung.com/spring-security-exceptions
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http {
@@ -38,7 +42,9 @@ class WebSecurityConfig(val appConfig: AppConfig) {
             formLogin {
                 loginPage ="/login"
                 defaultSuccessUrl("/", true)
+                authenticationFailureHandler = authFailureHandler()
             }
+
             sessionManagement {
                 invalidSessionUrl = "/"
                 sessionConcurrency {
@@ -46,7 +52,6 @@ class WebSecurityConfig(val appConfig: AppConfig) {
                     expiredUrl = "/"
                 }
             }
-
         }
         return http.build()
     }
@@ -66,6 +71,11 @@ class WebSecurityConfig(val appConfig: AppConfig) {
     @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
+    }
+
+    @Bean
+    fun authFailureHandler(): AuthenticationFailureHandler {
+        return AuthFailureHandler()
     }
 
 
