@@ -12,7 +12,7 @@ class AuthFailureHandler(private val forwardUrl: String) : ForwardAuthentication
         response: HttpServletResponse,
         exception: AuthenticationException
     ) {
-        logger.warn("Authentication error: ${exception.message}")
+        logger.warn("Authentication error: ${exception.message}") // TODO what about other error types?
         request.session.setAttribute("loginError", "loginError") //references language resource file
         response.sendRedirect(forwardUrl)
     }
