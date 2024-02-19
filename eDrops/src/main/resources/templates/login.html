@@ -2,6 +2,7 @@
 <html th:lang="${langCode}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
 <head>
     <title>Start welcome page</title>
@@ -27,9 +28,13 @@
                 <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
             </div>
         </div>
-        <button type="submit">Login</button>
+        <div sec:authorize="!isAuthenticated()">
+            <button type="submit">Login</button>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <p>Authenticated</p>
+        </div>
     </form>
-    <!-- TODO must clear session to remove error message. Do not like it -->
     <p th:if="${loginError != null}" class="error" th:text="#{${loginError}}"></p>
 </div>
 </body>
