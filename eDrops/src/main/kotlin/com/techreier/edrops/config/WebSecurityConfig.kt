@@ -46,6 +46,9 @@ class WebSecurityConfig(val appConfig: AppConfig) {
                 failureUrl = "/login"
                 authenticationFailureHandler = authFailureHandler()
             }
+            logout {
+                logoutSuccessUrl = "/login"
+            }
 
             sessionManagement {
                 invalidSessionUrl = "/"
