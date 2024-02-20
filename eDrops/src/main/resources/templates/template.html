@@ -85,11 +85,11 @@
         </button>
         <div class="dropdown-content">
             <div sec:authorize="!isAuthenticated()">
-                <a href="/login">Login</a>
+                <a href="/login" th:text="#{login}"></a>
             </div>
             <div sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" th:method="post">
-                    <button class=dropdown-item type="submit">Logout</button>
+                    <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                 </form>
                 <form th:action="@{/admin}" th:method="post">
                     <ul>

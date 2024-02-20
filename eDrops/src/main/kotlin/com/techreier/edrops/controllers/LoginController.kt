@@ -3,14 +3,10 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
-import jakarta.validation.Valid
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.validation.BindingResult
-import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val LOGIN = "login"
 const val LOGIN_DIR = "/$LOGIN"
@@ -35,6 +31,11 @@ class LoginController(dbService: DbService, messageSource: MessageSource): BaseC
         return LOGIN
     }
 
+
+/**
+ *  Not in use, Spring Security handles this
+ *  TODO: Kept for future use
+ *
     @PostMapping
     fun verifyLogin(redirectAttributes: RedirectAttributes, @Valid @ModelAttribute("user")
         user: User, language: String?, bindingResult: BindingResult, request: HttpServletRequest, model: Model): String {
@@ -53,6 +54,7 @@ class LoginController(dbService: DbService, messageSource: MessageSource): BaseC
         logger.info("no error")
         return "redirect:/$HOME_DIR"
     }
+    **/
 
     data class User(var username: String = "", var password: String = "")
 
