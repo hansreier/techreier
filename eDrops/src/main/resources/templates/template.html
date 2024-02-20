@@ -91,15 +91,15 @@
                 <form th:action="@{/logout}" th:method="post">
                     <button class=dropdown-item type="submit">Logout</button>
                 </form>
-            </div>
-            <form th:action="@{/admin}" th:method="post">
-                <ul>
-                    <li th:each="blog: ${blogs}">
-                        <button class=dropdown-item name="result" type="submit" th:value="${blog.tag} +' '+ ${blog.id}"
+                <form th:action="@{/admin}" th:method="post">
+                    <ul>
+                        <li th:each="blog: ${blogs}">
+                            <button class=dropdown-item name="result" type="submit" th:value="${blog.tag} +' '+ ${blog.id}"
                                 th:text="${blog.subject}"></button>
-                    </li>
-                </ul>
-            </form>
+                        </li>
+                    </ul>
+                </form>
+            </div>
         </div>
     </div>
 </div>
