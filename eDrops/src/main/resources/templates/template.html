@@ -68,8 +68,7 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <a href="#start">Not implemented</a>
-                <form th:action="@{/blogs}"  th:method="post">
+            <form th:action="@{/blogs}"  th:method="post">
                 <ul>
                     <li th:each="blog: ${blogs}">
                         <button class=dropdown-item type="submit" name="result" th:value="${blog.tag} +' '+ ${blog.id}"
