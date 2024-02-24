@@ -16,6 +16,8 @@ const val MARKDOWN_EXT = ".md"
  */
 object Docs {
     val home = arrayOf(
+        Doc("elpower",  Norwegian, "Elkraft i Norge", false),
+        Doc("elpower",  English, "Elpower in Norway (Norwegian) ", false),
         Doc("manifest",  Norwegian, "Strøm manifest", false),
         Doc("manifest",  English, "Electrical power manifest (Norwegian)", false),
     )
@@ -25,8 +27,8 @@ object Docs {
         Doc( "reier", English, "Me"),
         Doc("website",  Norwegian, "Nettsted"),
         Doc("website",  English, "Website"),
-        Doc("elpower",  Norwegian, "Strøm manifest", false),
-        Doc("elpower",  English, "Electrical power manifest (Norwegian) ", false),
+        Doc("energy",  Norwegian, "Energi", false),
+        Doc("energy",  English, "Energy (Norwegian) ", false),
         Doc("readme", Norwegian, "Prosjektet (engelsk)", false),
         Doc("readme", English, "Project", false),
         Doc("tech", Norwegian, "Teknologi (engelsk)",false),

@@ -1,13 +1,4 @@
-## Norsk strømpolitikk
-
-Grunnen til at dette er blitt et utrolig viktig tema, er rett og slett at billig og stabil elektrisk strømforsynlig
-er en forutsetning for hele det Norske samfunnet, de siste hundre år, nå og i framtiden. Derfor fokuserer jeg på dette temaet,
-og ikke en hel masse annet mindre viktige politiske saker. Dessverre har temaet i mange tidligere Stortingsvalg
-druknet i andre saker. Det går ikke lenger, med strøm(pris) krisa som fortsatt ikke er løst og full fokus på klimakrisa
-fra ledende politiske partier.
-
-Jeg prøver å få  folk til å bli bevisst på dette, slik at de selv kan velge om det er verdt å støtte partier som i praksis de
-siste 10 årene har ødelagt strømmarkedet og sørget for kjempedyr strøm i kjempekalde Norge. 
+## Om mitt strøm manifest
 
 Dette manifestet ble rett og slett skrevet fordi jeg er fly forbanna og oppgitt over nåværende energipolitikk.
 Det som er ille er at nåværende politiske retning ikke løser klimakrisa, forverrer naturkrisa, 
@@ -45,13 +36,18 @@ VIKTIGE KILDER OG INSPIRASJON
 - Se hva en rekke fageksperter sier om Norsk elforsyning (kommer tilbake til linker etc)
 
 Det er helt åpenbart at ledende politiske partier i Norge er fullstendig på kollisjonskurs med folk flest når det
-gjelder energipolikk knyttet til produksjon, distribusjon, salg og forbruk av elektrisk kraft. 
+gjelder energipolitikk knyttet til produksjon, distribusjon, salg og forbruk av elektrisk kraft. 
 Det er også stor skepsis til offentlig byråkrati, kraftselskaper og hele fornybarbransjen. 
 En god indikator er kursutviklingen til såkalte grønne fond som investerer i fornybar energi. Styr unna!
 Jeg setter krav til politikere at de i hverfall skjønner forskjellen på regulerbar og uregulerbar elkraft,
 og hvilke negative konsekvenser store mengder av ny uregularbar kraft vil ha på det Norske kraftnettet.
 
-Det bør disse partiene legge merke til og legge om kursen, før de reduseres til minipartier. 
+Det bør disse partiene legge merke til og legge om kursen, før de forhåpentligvis reduseres til minipartier. 
+Ja dette er en pågående prosess for Arbeiderpartiet hvis de ikke legger om kursen.   
+
+"Du kan lure hele folket en del av tida, og du kan lure en del av folket hele tida, men du kan ikke lure hele folket hele tida."
+Abraham Lincoln.
+
 Mye henger også sammen med hvilke tiltak man bør gjøre for å løse klimakrisa. 
 Å pøse på massivt med feil tiltak som vindmølleparker og elektrifisering av plattformer, 
 gjør at  folk mister tiltro til det grønne skiftet. 
