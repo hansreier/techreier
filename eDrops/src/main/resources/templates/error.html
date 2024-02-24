@@ -12,7 +12,10 @@
 </head>
 <body>
 <header>
-    <p>techreier</p>
+    <a id="homebutton" th:text="'⌂'" href="/"/>
+    <a id="techreier" th:text="Techreier" href="/"/>
+    <!-- included to keep general layout of top line -->
+    <form id="language"></form>
 </header>
 <div id="work" class="container">
     <div class="row">
@@ -21,7 +24,6 @@
         </div>
     </div>
 <a href="/" th:text="#{home}" class="linkbutton"></a>
-<!--button th:name="home" type="submit" th:text="#{home}/-->
 <br><br>
 <table>
     <tr>
