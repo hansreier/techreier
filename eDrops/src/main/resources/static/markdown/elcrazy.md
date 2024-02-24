@@ -65,7 +65,7 @@ OG KONSEKVENSENE AV FEILAKTIGE TILTAK FOR DET GRØNNE SKIFTET BARE FORTSETTER Å
 Så dessverre, jeg fikk delvis rett fra det jeg trodde den gangen. 
 
 Når kommer børskrakket? Selvfølgelig mye avhengig av internasjonale forhold. 
-Men det grønne skiftet er overalt. Økonomer har jo spådd litt bedring i økonomien i 2014.
+Men det grønne skiftet er overalt. Økonomer har jo spådd litt bedring i økonomien i 2024.
 Jeg tror dessverre ikke så mye på det av overnevte årsaker.
 
 ### Nei til dyr strøm, notat fra 2002
