@@ -2,7 +2,6 @@ package com.techreier.edrops.domain
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
-import java.util.*
 
 @Entity
 class BlogOwner(
