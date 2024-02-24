@@ -68,7 +68,7 @@ Når kommer børskrakket? Selvfølgelig mye avhengig av internasjonale forhold.
 Men det grønne skiftet er overalt. Økonomer har jo spådd litt bedring i økonomien i 2024.
 Jeg tror dessverre ikke så mye på det av overnevte årsaker.
 
-### Nei til dyr strøm, notat fra 2002
+### Nei til dyr strøm, notat fra 2022
 
 Jeg viser til energilovens formålsparagraf.  Loven skal sikre at produksjon, omforming, overføring, omsetning, 
 fordeling og bruk av energi foregår på en samfunnsmessig rasjonell måte, 
