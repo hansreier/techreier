@@ -55,7 +55,7 @@ External text editors like Intellij can be used, or a text editor to be included
 I have used server side HTML rendering (Thymeleaf). The reason for this it that for simple text oriented web pages,
 it is quicker to develop an easier to maintain, compared to using client based web technologies like React or Angular.
 This is at least valid for me, being basically a backend developer. Do not mix technologies, if you do not need to.
-One thing to note is that server side rendering with Thymeleaf results in very clean HTML with almost no Javascript added.
+One thing to note is that server side rendering with Thymeleaf results in very clean HTML 5 with almost no Javascript added.
 
 The first attempt is to use markdown written in Intellij or other editor, store it as a file included in the code,
 and pick it up as a part of the Web user interface. No database is really required. 
