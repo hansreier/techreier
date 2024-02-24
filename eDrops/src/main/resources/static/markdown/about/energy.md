@@ -67,6 +67,8 @@ Det går ikke lenger, med strøm(pris) krisa som fortsatt ikke er løst og full 
 fra ledende politiske partier.
 
 Jeg prøver å få  folk til å bli bevisst på dette, slik at de selv kan velge om det er verdt å støtte partier som i praksis de
-siste 10 årene har ødelagt strømmarkedet og sørget for kjempedyr strøm i kjempekalde Norge.
+siste 10 årene har ødelagt strømmarkedet og sørget for kjempedyr strøm i kjempekalde Norge.  
+
+Se også Synspunkt fanen: Elkraft i Norge og Strøm Manifest.
 
 
