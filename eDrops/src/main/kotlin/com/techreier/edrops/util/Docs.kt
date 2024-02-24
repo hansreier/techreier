@@ -23,8 +23,8 @@ object Docs {
    val about = arrayOf(
         Doc("reier", Norwegian,"Meg"),
         Doc( "reier", English, "Me"),
-        Doc("website",  Norwegian, "Mitt nettsted"),
-        Doc("website",  English, "My website"),
+        Doc("website",  Norwegian, "Nettsted"),
+        Doc("website",  English, "Website"),
         Doc("elpower",  Norwegian, "Strøm manifest", false),
         Doc("elpower",  English, "Electrical power manifest (Norwegian) ", false),
         Doc("readme", Norwegian, "Prosjektet (engelsk)", false),
