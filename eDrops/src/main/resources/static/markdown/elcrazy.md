@@ -13,8 +13,9 @@ Konsekvenser:
 - Nesten strømressurskrise høsten 2022 (reddet av vår herre)
 - Risikoen for ny strømressurskrise er absolutt tilstede
 - Vanvittig høye strømrpriser i 2022, og fortsatt er de for høye
+- Jojo priser på strøm for alltid
 - Innføring av en halvdårlig strømstøtteordning som bare kurerer symptomene, ikke problemet
-- Stort bidrad til inflasjon fra 2022 til i dag
+- Stort bidrag til inflasjon fra 2022 til i dag
 - Økte renter som indirekte effekt (som å pisse for å holde seg varm)
 
 Jeg hadde også en spådom om økonomiske nedgangstider og børskrakk.
