@@ -4,12 +4,10 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.MessageSource
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val BLOG = "blogs"
@@ -29,7 +27,11 @@ class BlogController(private val dbService: DbService,
     ): String {
         val blogParams = setCommonModelParameters(BLOG, model, request, langCode, tag)
         if (blogParams.blogId < 0) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
+            // If blog is not found, redirect to first blog, other alternatives in comment below
+            // throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
+            // return "redirect:/"
+            logger.warn("Blog $tag is not found in language: ${blogParams.locale.language}")
+            return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).tag}"
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
