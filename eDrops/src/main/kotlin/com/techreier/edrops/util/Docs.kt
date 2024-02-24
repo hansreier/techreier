@@ -16,20 +16,20 @@ const val MARKDOWN_EXT = ".md"
  */
 object Docs {
     val home = arrayOf(
-        Doc("elpower",  Norwegian, "Om mitt strøm manifest", false),
-        Doc("elpower",  English, "About my electrical power manifest (Norwegian) ", false),
         Doc("manifest",  Norwegian, "Strøm manifest", false),
         Doc("manifest",  English, "Electrical power manifest (Norwegian)", false),
     )
 
    val about = arrayOf(
-        Doc("goals",  Norwegian, "Mål"),
-        Doc("goals",  English, "Goals"),
         Doc("reier", Norwegian,"Meg"),
         Doc( "reier", English, "Me"),
-        Doc("readme", Norwegian, "Les meg (engelsk)", false),
-        Doc("readme", English, null, false),
-        Doc("tech", Norwegian, "Om teknologi (engelsk)",false),
+        Doc("website",  Norwegian, "Mitt nettsted"),
+        Doc("website",  English, "My website"),
+        Doc("elpower",  Norwegian, "Strøm manifest", false),
+        Doc("elpower",  English, "Electrical power manifest (Norwegian) ", false),
+        Doc("readme", Norwegian, "Prosjektet (engelsk)", false),
+        Doc("readme", English, "Project", false),
+        Doc("tech", Norwegian, "Teknologi (engelsk)",false),
         Doc("tech", English, "Technology",false),
         Doc("markdown", Norwegian, "Markdown (engelsk)", false),
         Doc( "markdown", English, "Markdown", false),
