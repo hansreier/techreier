@@ -14,6 +14,7 @@ Dette høres jo fint ut, men ingen av disse prosjektene vil la seg realisere som
 - Kraftbransjen og industrien selv vil skjønne at dette går ikke for Grenland
 - Går ikke uten å kutte utenlandskabler (dvs. kraftig begrense eksport)
 - Går ikke uten å bryte de fysiske lover for kraftproduksjon og distribusjon
+- Går ikke uten atomkraft (f.eks. SMR)
 
 Det jeg egentlig forventer, er at de ulmer så mye under overflaten at før eller siden vil lavaen finne
 veien ut, som på Island. Det er uungåelig. Og da smeller det og politikere må gå.
