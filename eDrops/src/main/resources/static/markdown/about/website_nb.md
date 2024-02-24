@@ -56,8 +56,10 @@ siden det er enklere enn RTF og tar mindre plass. Kanskje vil systemet støtte b
 Eksterne tekst-editorer som Intellij kan brukes, eller en tekst editor inkluderes i dette prosjektet (TODO).
 Jeg har brukt tjener side HTML generering (Thymeleaf). Grunnen til dette er at for enkle tekst orienterte web-sider,
 så er det raskere å utvikle og enklere å vedlikeholde, sammenliknet med å bruke klient baserte web teknologier som React
-og Angualar. Dette gjelder i alle fall for meg som i utgangspunktet er en backend-utvikler. Ikke bland ulike teknologier
+og Angular. Dette gjelder i alle fall for meg som i utgangspunktet er en backend-utvikler. Ikke bland ulike teknologier
 sammen, i hvertfall hvis det ikke er nødvendig.
+En ting å notere er at tjener side generering med Thymeleaf gir veldig ren HTML,
+og uten at det er påkrevet med veldig mye Javascript.
 
 Det første forsøket er å bruke markdown skrevet i Intellij eller en annen editor, lagre det som en fil smmmen
 med koden, og plukke det opp som en del av Web brukergrensesnittet. Ingen database er egentlig
