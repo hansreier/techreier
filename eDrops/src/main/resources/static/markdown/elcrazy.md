@@ -11,7 +11,7 @@ Det vil si, det finnes en annen mulighet med selvskading:
 Dette høres jo fint ut, men ingen av disse prosjektene vil la seg realisere som planlagt.
 Årsaker:  
 - Folkelig motstand mye verre enn Alta aksjonen i Finnmark kan ikke overses
-- Industrien selv vil skjønne at dette går ikke for Grenland
+- Kraftbransjen og industrien selv vil skjønne at dette går ikke for Grenland
 - Går ikke uten å kutte utenlandskabler (dvs. kraftig begrense eksport)
 - Går ikke uten å bryte de fysiske lover for kraftproduksjon og distribusjon
 
