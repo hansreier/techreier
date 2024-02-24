@@ -9,10 +9,11 @@ Det vil si, det finnes en annen mulighet med selvskading:
 - Fullskala Google datasenter i Porsgrunn
 
 Dette høres jo fint ut, men ingen av disse prosjektene vil la seg realisere som planlagt.
-- uten å overse folkelig motstand mye værre enn Alta aksjonen i Finnmark
-- industrien selv vil skjønne at dette går ikke for Grenland
-- uten å kutte utenlandskabler
-- uten å bryte de fysiske lover for kraftproduksjon og distribusjon
+Årsaker:  
+- Folkelig motstand mye verre enn Alta aksjonen i Finnmark kan ikke overses
+- Industrien selv vil skjønne at dette går ikke for Grenland
+- Går ikke uten å kutte utenlandskabler (dvs. kraftig begrense eksport)
+- Går ikke uten å bryte de fysiske lover for kraftproduksjon og distribusjon
 
 Det jeg egentlig forventer, er at de ulmer så mye under overflaten at før eller siden vil lavaen finne
 veien ut, som på Island. Det er uungåelig. Og da smeller det og politikere må gå.
