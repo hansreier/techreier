@@ -1,7 +1,21 @@
 ## Konsekvenser av vedvarende høye strømpriser og et strømmarked som ikke fungerer.
 
 Politikere i de største politiske partiene er dessverre blitt smittet av elgalskap.
-Jeg ser ingen annen kur en å kvitte seg med dem. Det vil si å stemme annerledes ved valg.
+Jeg ser ingen annen kur en å kvitte seg med dem. 
+Det vil si å stemme annerledes ved valg på den demokratiske måten.
+
+Det vil si, det finnes en annen mulighet med selvskading:
+- Elektrifisering av Melkøya
+- Fullskala Google datasenter i Porsgrunn
+
+Dette høres jo fint ut, men ingen av disse prosjektene vil la seg realisere som planlagt.
+- uten å overse folkelig motstand mye værre enn Alta aksjonen i Finnmark
+- industrien selv vil skjønne at dette går ikke for Grenland
+- uten å kutte utenlandskabler
+- uten å bryte de fysiske lover for kraftproduksjon og distribusjon
+
+Det jeg egentlig forventer, er at de ulmer så mye under overflaten at før eller siden vil lavaen finne
+veien ut, som på Island. Det er uungåelig. Og da smeller det og politikere må gå.
 
 Se vedlagt notat under som jeg forsøkte å sende oppover i det politiske systemet i januar 2022.  
 
