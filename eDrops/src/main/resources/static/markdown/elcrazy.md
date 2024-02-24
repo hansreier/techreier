@@ -1,9 +1,13 @@
 ## Konsekvenser av vedvarende høye strømpriser og et strømmarked som ikke fungerer.
 
+Politikere i de største politiske partiene er dessverre blitt smittet av elgalskap.
+Jeg ser ingen annen kur en å kvitte seg med dem. Det vil si å stemme annerledes ved valg.
+
 Se vedlagt notat under som jeg forsøkte å sende oppover i det politiske systemet i januar 2022.  
 
 Elgalskapen har egentlig bare fortsatt siden da... Det startet med energiloven i 1990,
 men har blitt forsterket mye de senere årene av EU energimarkedspakker og nye høykapasitets-kabler til utlandet.
+
 
 ## Og hva er status i 2024
 
