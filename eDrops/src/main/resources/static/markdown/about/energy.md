@@ -91,5 +91,8 @@ hva som er smart eller ikke, og vektlegger ikke den store skaden som ødelagt na
 Naturkrisen er i praksis like alvorlig som klimakrisen. Skulle jeg ha styrt et IT prosjekt etter
 denne visjonen, ville det garantert ha gått fullstendig galt.
 
-Se også
-[Elkraft i Norge](../elpower.md)  og [Strøm manifest](../manifest.md) og  [To år med elgalskap](../elcrazy.md)
+Se også  
+[Elkraft i Norge](../elpower.md)  
+[Strøm manifest](../manifest.md)  
+[Strøm(pris)krisen](../elprice.md)  
+[To år med elgalskap](../elcrazy.md)  
