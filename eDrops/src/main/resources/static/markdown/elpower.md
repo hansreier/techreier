@@ -9,7 +9,7 @@ Nå har vi ikke det lenger, men et EU tilpasset markedsbasert kraftsystem med kj
 uoverskuelig framtid! Det er i tillegg et potensiale for kraftunderskudd: Først og fremst på grunn av nye høykapasitets utenlandskabler, 
 men også pga. misforståtte såkalte grønne energislukende prosjekter for å løse klimakrisa.  
 
-Det startet med energiloven i 1990, og er blitt gradvis forverret spesielt de siste årene med tilslutning til EU energimarkedspakker.
+Det startet med energiloven i 1991, og er blitt gradvis forverret spesielt de siste årene med tilslutning til EU energimarkedspakker.
 
 Dette manifestet beskriver hovedretningen Norge bør gå for å løses strøm(pris) krisa, og samtidig bidra til å løs
 klimakrisa og hindre massivt tap av natur. Dette skiller seg markant både fra nåværerende

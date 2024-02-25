@@ -21,7 +21,7 @@ veien ut, som på Island. Det er uungåelig. Og da smeller det og politikere må
 
 Se vedlagt notat under som jeg forsøkte å sende oppover i det politiske systemet i januar 2022.  
 
-Elgalskapen har bare fortsatt siden da... Det startet med energiloven i 1990,
+Elgalskapen har bare fortsatt siden da... Det startet med energiloven i 1991,
 men har blitt forsterket mye de senere årene av EU energimarkedspakker og nye høykapasitets-kabler til utlandet.
 10.09.2022 kom North Sea Link startet opp av Erna Solberg. Nordlink kom året før 31.03.2021.
 
