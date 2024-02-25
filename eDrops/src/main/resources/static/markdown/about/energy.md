@@ -86,7 +86,7 @@ siste 10 årene har ødelagt strømmarkedet og sørget for kjempedyr strøm i kj
 Det som er realiteten er at vi trenger energiproduksjon fra mange ulike kilder for å få nok energi i
 framtiden i Norge, men gigantiske industrianlegg for uregulerbar fornybar kraft som vind- og sol bør unngås. 
 Energikommisjonen mantra, mer av alt, raskere blir helt feil. Dette betyr ukritisk utbygging av alt mulig med en gang,
-samtidig som ulike energisparetilbak blir underkommunisert. Visjonen innebærer ingen prioritering av
+samtidig som ulike energisparetiltak blir underkommunisert. Visjonen innebærer ingen prioritering av
 hva som er smart eller ikke, og vektlegger ikke den store skaden som ødelagt natur vil gjøre.
 Naturkrisen er i praksis like alvorlig som klimakrisen. Skulle jeg ha styrt et IT prosjekt etter
 denne visjonen, ville det garantert ha gått fullstendig galt.
