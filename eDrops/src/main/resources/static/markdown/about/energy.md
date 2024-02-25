@@ -16,7 +16,7 @@ Norge er et energiproduserende land.
 Det kan diskuteres hva som er fornybar energiproduksjon og hva som ikke er det.
 
 I tillegg er hele verden etter den industrielle revolusjon, helt avhengig av store mengder energi. Men hvordan skaffe
-denne energien, uten å hverken bruke ikke resirkulerbare ressurser og uten å slippe ut avfallstoffer (C02, NOx, ..).
+denne energien, uten å forbruke ikke resirkulerbare ressurser og slippe ut avfallstoffer (C02, NOx, ..).
 Et høyt energiforbruk er plutselig blitt et stort problem. Da er rett og slett ikke svaret enda mer energiproduksjon
 og enda mer energiforbruk. Dette er den største hovedfeilen som blir gjort globalt som en konsekvens av det grønne skiftet.
 Vi må forbruke mindre energi, ikke mer, fornybar energiproduksjon eller ikke.
@@ -25,7 +25,21 @@ I de fleste land prøver man nå desperat å erstatte fossil energiprodukson med
 vindturbinindustrianlegg er dessverre i stor skala blitt synomymt med fornybar energiproduksjon. Et enormt ressursforbruk
 skal til for å produsere disse anleggene, inkludert dårlige prosesser for resirkulering,  og massiv ødeleggelse av natur.
 
-I tillegg har vi en kraftbransje og fornybar bransje som bevisst eller ubevisst vil presse energiprisene opp, 
+En ting jeg har litt sans for er superlokal forankring. Dette betyr produksjon av energi først og fremst med 
+solcellepaneler på egen eiendom eller eventuelt vind. Dette siste er i praksis vanskeligere å gjennomføre
+og kun forsøkt på DNT hytte i fjellheimen. Noe som må noteres at den vindturbinen er mye mye mindre enn de digre
+beistene som kommer opp overalt i vindturbinindustrianleggene. Og kall det for all del vindturbinindustrianlegg og
+ikke vindmølleparker som hører snillere ut. Men med en gang man kopler seg til det nasjonale strømnettet oppstår
+problemene og byrårkratiet og skattlegging. Hvis vi ser på slik lokal produksjon i utviklingsland er det et poeng at
+der er jo klimaet helt annerledes og byråkrati og korrupsjon mye verre. Så det å ha lokal strømproduksjon for en landsby
+uten å kople seg til en nettleverandør vil være en stor fordel og en stor forenkling. 
+Som energilager brukes gamle bilbatterier. For Norge sin del håper jeg på
+en forenkling av hele prosessen som gjør det enklere med solceller på bygninger og salg av strømoverskudd til netteieren.
+Men selv dette kan krever investeringer i det lokale strømnettet som vi dra opp nettleia.
+Så jeg er ikke imot all elproduksjon med sol- eller vindkraft. Men det må begrenses, spesielt disse digra anleggene
+i uberørt natur.
+
+Vi har en kraftbransje og fornybar bransje som bevisst eller ubevisst vil presse energiprisene opp, 
 for å tjene mest mulig penger. Så lenge dette passer inn i det grønne skiftet og politikere tror på det så blir det slik.
 
 Sett fra Norske forhold så er billig og stabil elektrisk strømforsynlig 
@@ -68,6 +82,14 @@ fra ledende politiske partier.
 
 Jeg prøver å få  folk til å bli bevisst på dette, slik at de selv kan velge om det er verdt å støtte partier som i praksis de
 siste 10 årene har ødelagt strømmarkedet og sørget for kjempedyr strøm i kjempekalde Norge.  
+
+Det som er realiteten er at vi trenger energiproduksjon fra mange ulike kilder for å få nok energi i
+framtiden i Norge, men gigantiske industrianlegg for uregulerbar fornybar kraft som vind- og sol bør unngås. 
+Energikommisjonen mantra, mer av alt, raskere blir helt feil. Dette betyr ukritisk utbygging av alt mulig med en gang,
+samtidig som ulike energisparetilbak blir underkommunisert. Visjonen innebærer ingen prioritering av
+hva som er smart eller ikke, og vektlegger ikke den store skaden som ødelagt natur vil gjøre.
+Naturkrisen er i praksis like alvorlig som klimakrisen. Skulle jeg ha styrt et IT prosjekt etter
+denne visjonen, ville det garantert ha gått fullstendig galt.
 
 Se også
 [Elkraft i Norge](../elpower.md)  og [Strøm manifest](../manifest.md) og  [To år med elgalskap](../elcrazy.md)
