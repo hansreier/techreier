@@ -21,9 +21,9 @@ veien ut, som på Island. Det er uungåelig. Og da smeller det og politikere må
 
 Se vedlagt notat under som jeg forsøkte å sende oppover i det politiske systemet i januar 2022.  
 
-Elgalskapen har egentlig bare fortsatt siden da... Det startet med energiloven i 1990,
+Elgalskapen har bare fortsatt siden da... Det startet med energiloven i 1990,
 men har blitt forsterket mye de senere årene av EU energimarkedspakker og nye høykapasitets-kabler til utlandet.
-
+10.09.2022 kom North Sea Link startet opp av Erna Solberg. Nordlink kom året før 31.03.2021.
 
 ## Og hva er status i 2024
 
@@ -158,7 +158,7 @@ men det er i de siste årene blitt for mye av det fra Sør Norge spesielt.
 
 Det finnes et annet scenario med en dobbel prismodell, 
 der det norske forbruket baserer seg på en pris, og det som selges utenlands baserer seg på en pris. 
-an kan kalle de egoistisk, men husk at Norge er et kaldt land som krever mye bruk av energi til oppvarming om vinteren. 
+Vi kan kalle de egoistisk, men husk at Norge er et kaldt land som krever mye bruk av energi til oppvarming om vinteren. 
 Det hjelper heller ikke hvis utflagging av industri og jordbruks-produksjon blir resultatet av de høye strømprisene.
 
 Store deler av den norske befolkning (inkludert meg) tror faktisk ikke på det som blir sagt i media av politikere og representanter for strømbransjen.

@@ -69,6 +69,5 @@ fra ledende politiske partier.
 Jeg prøver å få  folk til å bli bevisst på dette, slik at de selv kan velge om det er verdt å støtte partier som i praksis de
 siste 10 årene har ødelagt strømmarkedet og sørget for kjempedyr strøm i kjempekalde Norge.  
 
-Se også Synspunkt fanen: Elkraft i Norge og Strøm Manifest.
-
-
+Se også
+[Elkraft i Norge](../elpower.md)  og [Strøm manifest](../manifest.md) og  [To år med elgalskap](../elcrazy.md)
