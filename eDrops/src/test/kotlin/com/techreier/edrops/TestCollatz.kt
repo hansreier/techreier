@@ -1,6 +1,5 @@
 package com.techreier.edrops
 
-import com.techreier.edrops.config.logger
 import org.junit.jupiter.api.Test
 
 const val MIN_SIZE = 1L
@@ -30,7 +29,7 @@ class TestCollatz {
               sequence.append(value)
           }
         } while ((value != 1L))
-            logger.info("$start X $iterations ${sequence}")
+            println("$start X $iterations ${sequence}")
         }
     }
 }
