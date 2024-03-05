@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 
 const val MIN_SIZE = 1L
 const val MAX_SIZE = 30L
+const val DISPLAY_SEQUENCE = true
 
 //Collatz Conjecture
 //Collatx formodning
@@ -12,7 +13,6 @@ class TestCollatz {
 
     @Test
     fun testCollatz() {
-         val displaySequence = true
         for (start in MIN_SIZE..MAX_SIZE) {
             val sequence = StringBuilder()
             var value = start
@@ -24,7 +24,7 @@ class TestCollatz {
                 } else {
                     value = value * 3 + 1
                 }
-          if (displaySequence) {
+          if (DISPLAY_SEQUENCE) {
               sequence.append('→')
               sequence.append(value)
           }
