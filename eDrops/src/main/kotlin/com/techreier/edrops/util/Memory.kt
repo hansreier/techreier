@@ -17,7 +17,8 @@ fun mem(): MB {
         memory.heapMemoryUsage.used / MByte,
         memory.heapMemoryUsage.committed / MByte,
         memory.heapMemoryUsage.max / MByte,
-        threads.threadCount
+        threads.threadCount,
+        Thread.currentThread().isVirtual
     )
     return mem
 }
@@ -27,7 +28,7 @@ fun logMem() {
 }
 
 data class MB(
-    val init: Long, val used: Long, val committed: Long, val max: Long, val threads: Int
+    val init: Long, val used: Long, val committed: Long, val max: Long, val threads: Int, val virtual: Boolean
 )
 
 
