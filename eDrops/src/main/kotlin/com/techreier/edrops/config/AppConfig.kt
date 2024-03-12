@@ -2,8 +2,10 @@ package com.techreier.edrops.config
 
 import jakarta.validation.constraints.NotNull
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.client.RestClient
 
 // This way of reading app properties is more flexible and easier than using @Value in Kotlin
 // Disadvantage: Have to inject this always
@@ -17,4 +19,9 @@ class AppConfig {
     lateinit var password: String
     @NotNull(message = "Missing admin user")
     lateinit var user: String
+
+    @Bean
+    fun restClient(): RestClient {
+       return RestClient.create()
+    }
 }

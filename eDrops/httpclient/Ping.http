@@ -1,0 +1,12 @@
+### Ping
+GET http://localhost:8080/api/ping
+Accept: application/json
+
+### wait for seconds
+GET http://localhost:8080/api/block/5/5
+Accept: application/json
+
+### wait for seconds
+GET http://localhost:8080/api/wait/3/5
+
+
