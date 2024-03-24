@@ -42,7 +42,7 @@ abstract class BaseController(private val dbService: DbService,
         val defaultLangCode = LocaleContextHolder.getLocale().language
         val selectedLangCode = model.getAttribute("langCode") as String?
         val usedLangcode = usedLanguageCode(selectedLangCode ?: langCode ?: defaultLangCode)
-        val locale = Locale(usedLangcode)
+        val locale = Locale.of(usedLangcode)
         val blogId = (model.getAttribute("blogId") ?: fetchBlogId(usedLangcode, tag)) as Long
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
