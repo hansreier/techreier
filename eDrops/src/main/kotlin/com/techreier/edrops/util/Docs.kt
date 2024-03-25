@@ -47,6 +47,11 @@ object Docs {
         Doc("hosting", English, "My web host", false)
     )
 
+    val collatz = arrayOf(
+        Doc("collatz", Norwegian,"Collatz") ,
+        Doc("collatz", English,"Collatz")
+    )
+
     // Find the first Doc index that matches language code and eventually nonnull tag
     fun getDocIndex(docs: Array<Doc>, languageCode: String, tag: String? = null): Int {
         val usedCode = usedLanguageCode(languageCode)

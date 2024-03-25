@@ -69,6 +69,7 @@
         </button>
         <div class="dropdown-content">
             <form th:action="@{/blogs}"  th:method="post">
+                <a href="/collatz" th:text="#{collatz}"></a>
                 <ul>
                     <li th:each="blog: ${blogs}">
                         <button class=dropdown-item type="submit" name="result" th:value="${blog.tag} +' '+ ${blog.id}"
