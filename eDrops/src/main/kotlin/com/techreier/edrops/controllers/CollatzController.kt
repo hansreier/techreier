@@ -1,6 +1,7 @@
 package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.service.CollatzResult
 import com.techreier.edrops.service.CollatzService
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
@@ -30,7 +31,45 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
         request: HttpServletRequest, model: Model
     ): String {
         logger.info("Collatz page")
-        model.addAttribute("collatz", Collatz())
+        val seedError = request.session.getAttribute("seedError") as String?
+        request.session.setAttribute("seedError", null)
+        model.addAttribute("seedError", seedError)
+        val collatz = model.getAttribute("collatz") ?: Collatz()
+        model.addAttribute("collatz", collatz)
+        prepare(model, request, langCode)
+        return COLLATZ
+    }
+
+    @PostMapping
+    fun calculate(
+        redirectAttributes: RedirectAttributes, @Valid @ModelAttribute("collatz")
+        collatz: Collatz, langCode: String?, bindingResult: BindingResult,
+        request: HttpServletRequest, model: Model
+    ): String {
+        logger.info("calculate collatz sequence")
+        val seedNo = collatz.seed.toLongOrNull()
+        var result: CollatzResult? = null
+        seedNo?.let {
+            if (it <= 0)
+                bindingResult.addError(FieldError("collatz", "seed", msg("zeroOrNegativeError")))
+            else
+                result = collatzService.collatz(it)
+        } ?: bindingResult.addError(FieldError("collatz", "seed", msg("noLongError")))
+
+        if (bindingResult.hasErrors()) {
+            logger.info("warn collatz seed input error")
+            prepare(model, request, langCode)
+            return COLLATZ_DIR
+        }
+
+        redirectAttributes.addFlashAttribute("collatz", collatz)
+        redirectAttributes.addFlashAttribute("iterations", result?.iterations)
+        redirectAttributes.addFlashAttribute("result", result?.result)
+        return "redirect:$COLLATZ_DIR"
+
+    }
+
+    private fun prepare(model: Model, request: HttpServletRequest, langCode: String?) {
         val blogParams = setCommonModelParameters(COLLATZ, model, request, langCode)
         val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.locale.language, COLLATZ)
         if (docIndex < 0) {
@@ -41,26 +80,10 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
         val docText: String = markdownToHtml(doc, COLLATZ)
         model.addAttribute("doc", doc)
         model.addAttribute("docText", docText)
-
-        return COLLATZ
     }
 
-    @PostMapping
-    fun calculate(
-        redirectAttributes: RedirectAttributes, @Valid @ModelAttribute("collatz")
-        collatz: Collatz, language: String?, bindingResult: BindingResult,
-        request: HttpServletRequest, model: Model
-    ): String {
-        logger.info("Handling login")
-        if (collatz.seed <= 0) {
-            bindingResult.addError(FieldError("collatz", "seed", msg("tooSmallSeed")))
-        }
-        val result = collatzService.collatz(collatz.seed)
-        redirectAttributes.addFlashAttribute("iterations", result.iterations)
-        redirectAttributes.addFlashAttribute("result", result.result)
-        return "redirect:$COLLATZ_DIR"
-    }
-
-    data class Collatz(var seed: Long = 1)
+    data class Collatz(
+        var seed: String = "1"
+    )
 
 }

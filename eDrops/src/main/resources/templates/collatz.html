@@ -18,12 +18,13 @@
             <div class="form-row">
                 <label th:for="seed" th:text="#{collatzSeed}"></label>
                 <input type="text" id="seed" th:field="*{seed}">
+                <span class="error" th:if="${#fields.hasErrors('seed')}" th:errors="*{seed}"></span>
             </div>
         </div>
         <div>
             <button type="submit" th:text="#{calculate}"></button>
         </div>
-        <p th:text="${iterations}"></p>
+        <p th:if="${iterations != null}" th:text="#{iterations} + ': ' + ${iterations}"></p>
         <p th:text="${result}"></p>
     </form>
 </div>

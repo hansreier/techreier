@@ -16,7 +16,7 @@ class CollatzService {
             } else {
                 value = value * 3 + 1
             }
-            sequence.append('→')
+            if (iterations > 1) sequence.append(" → ")
             sequence.append(value)
         } while ((value != 1L))
         return CollatzResult(iterations, sequence.toString())
