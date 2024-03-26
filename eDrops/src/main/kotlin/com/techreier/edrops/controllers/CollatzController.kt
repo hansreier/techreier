@@ -46,11 +46,11 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
         var result: CollatzResult? = null
         seedNo?.let {
             if (it <= 0) {
-                bindingResult.addFieldError("collatz","seed", collatz.seed,"zeroOrNegativeError")
+                bindingResult.addFieldError("collatz","seed", "zeroOrNegativeError", collatz.seed)
             }
             else
                 result = collatzService.collatz(it)
-        } ?: bindingResult.addFieldError("collatz","seed", collatz.seed,"noLongError")
+        } ?: bindingResult.addFieldError("collatz","seed", "noLongError", collatz.seed)
 
         if (bindingResult.hasErrors()) {
             logger.info("warn collatz seed input error: $collatz")

@@ -33,7 +33,7 @@ class LoginController(dbService: DbService, messageSource: MessageSource): BaseC
 
 
 /**
- *  Not in use, Spring Security handles this
+ *  Not in use, Spring Security handles this (disadvantage fields are blanked if wrong)
  *  TODO: Kept for future use
  *
     @PostMapping

@@ -81,8 +81,10 @@ abstract class BaseController(private val dbService: DbService,
         return dbService.readBlogWithSameLanguage(blog.id, usedLanguageCode(langCode)) ?: blog
     }
 
-    // Extension function to simplyfy implementation of adding field error
-    fun BindingResult.addFieldError(form: String, field: String, defaultFieldValue: String?, key: String) {
+    // Extension function to simplify implementation of adding field error
+    // Normally a default value should be added, but not required
+    // (The simplified FieldError constructor with 3 arguments did not allow for default value)
+    fun BindingResult.addFieldError(form: String, field: String, key: String, defaultFieldValue: String? = null) {
         addError(FieldError(form, field, defaultFieldValue,  true, null, null, msg(key)))
     }
 
