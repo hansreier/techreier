@@ -7,7 +7,6 @@ import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
-import jakarta.validation.Valid
 import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
@@ -31,10 +30,7 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
         request: HttpServletRequest, model: Model
     ): String {
         logger.info("Collatz page")
-        val seedError = request.session.getAttribute("seedError") as String?
-        request.session.setAttribute("seedError", null)
-        model.addAttribute("seedError", seedError)
-        val collatz = model.getAttribute("collatz") ?: Collatz()
+        val collatz = model.getAttribute("collatz") ?: Collatz("")
         model.addAttribute("collatz", collatz)
         prepare(model, request, langCode)
         return COLLATZ
@@ -42,7 +38,7 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
 
     @PostMapping
     fun calculate(
-        redirectAttributes: RedirectAttributes, @Valid @ModelAttribute("collatz")
+        redirectAttributes: RedirectAttributes,
         collatz: Collatz, langCode: String?, bindingResult: BindingResult,
         request: HttpServletRequest, model: Model
     ): String {
@@ -50,16 +46,17 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
         val seedNo = collatz.seed.toLongOrNull()
         var result: CollatzResult? = null
         seedNo?.let {
-            if (it <= 0)
+            if (it <= 0) {
                 bindingResult.addError(FieldError("collatz", "seed", msg("zeroOrNegativeError")))
+            }
             else
                 result = collatzService.collatz(it)
         } ?: bindingResult.addError(FieldError("collatz", "seed", msg("noLongError")))
 
         if (bindingResult.hasErrors()) {
-            logger.info("warn collatz seed input error")
+            logger.info("warn collatz seed input error: $collatz")
             prepare(model, request, langCode)
-            return COLLATZ_DIR
+            return COLLATZ
         }
 
         redirectAttributes.addFlashAttribute("collatz", collatz)
@@ -81,9 +78,7 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
         model.addAttribute("doc", doc)
         model.addAttribute("docText", docText)
     }
+    data class Collatz(var seed: String)
 
-    data class Collatz(
-        var seed: String = "1"
-    )
 
 }
