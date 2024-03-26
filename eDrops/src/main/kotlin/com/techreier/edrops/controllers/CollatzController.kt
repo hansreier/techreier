@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
-import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
@@ -30,7 +29,7 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
         request: HttpServletRequest, model: Model
     ): String {
         logger.info("Collatz page")
-        val collatz = model.getAttribute("collatz") ?: Collatz("")
+        val collatz = model.getAttribute("collatz") ?: Collatz()
         model.addAttribute("collatz", collatz)
         prepare(model, request, langCode)
         return COLLATZ
@@ -47,15 +46,16 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
         var result: CollatzResult? = null
         seedNo?.let {
             if (it <= 0) {
-                bindingResult.addError(FieldError("collatz", "seed", msg("zeroOrNegativeError")))
+                bindingResult.addFieldError("collatz","seed", collatz.seed,"zeroOrNegativeError")
             }
             else
                 result = collatzService.collatz(it)
-        } ?: bindingResult.addError(FieldError("collatz", "seed", msg("noLongError")))
+        } ?: bindingResult.addFieldError("collatz","seed", collatz.seed,"noLongError")
 
         if (bindingResult.hasErrors()) {
             logger.info("warn collatz seed input error: $collatz")
             prepare(model, request, langCode)
+            model.addAttribute("collatz", collatz)
             return COLLATZ
         }
 
@@ -78,7 +78,5 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
         model.addAttribute("doc", doc)
         model.addAttribute("docText", docText)
     }
-    data class Collatz(var seed: String)
-
-
+    data class Collatz(var seed: String = "1")
 }

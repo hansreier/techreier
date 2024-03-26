@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.ui.Model
+import org.springframework.validation.BindingResult
+import org.springframework.validation.FieldError
 import org.springframework.web.context.ServletContextAware
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.util.*
@@ -79,6 +81,12 @@ abstract class BaseController(private val dbService: DbService,
         return dbService.readBlogWithSameLanguage(blog.id, usedLanguageCode(langCode)) ?: blog
     }
 
+    // Extension function to simplyfy implementation of adding field error
+    fun BindingResult.addFieldError(form: String, field: String, defaultFieldValue: String?, key: String) {
+        addError(FieldError(form, field, defaultFieldValue,  true, null, null, msg(key)))
+    }
+
+    // Return language dependende message from any key
     protected fun msg(key: String): String {
         val locale = LocaleContextHolder.getLocale()
         return messageSource.getMessage(key, null, locale)
