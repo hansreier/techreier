@@ -7,6 +7,7 @@ class CollatzService {
     // Return number of iterations and the resulting collatz sequence
     fun collatz(seed: Long): CollatzResult {
         val sequence = StringBuilder()
+        sequence.append(seed)
         var value = seed
         var iterations = 0L
         do {
@@ -16,7 +17,7 @@ class CollatzService {
             } else {
                 value = value * 3 + 1
             }
-            if (iterations > 1) sequence.append(" → ")
+            sequence.append(" → ")
             sequence.append(value)
         } while ((value != 1L))
         return CollatzResult(iterations, sequence.toString())
