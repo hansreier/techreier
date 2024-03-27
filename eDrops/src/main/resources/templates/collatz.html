@@ -17,15 +17,18 @@
         <div class="container" id="collatzForm">
             <div class="form-row">
                 <label th:for="seed" th:text="#{collatzSeed}"></label>
-                <input type="text" id="seed" th:field="*{seed}">
+                <input type="text" id="seed" th:field="*{seed}" maxLength="18">
                 <span class="error" th:if="${#fields.hasErrors('seed')}" th:errors="*{seed}"></span>
             </div>
         </div>
         <div>
             <button type="submit" th:text="#{calculate}"></button>
         </div>
-        <p th:if="${iterations != null}" th:text="#{iterations} + ': ' + ${iterations}"></p>
-        <p th:text="${result}"></p>
+        <th:block th:if="${result}">
+            <p class="error" th:if="${result.error != null }" th:text="#{${result.error}}"></p>
+            <p th:text="#{iterations} + ': ' + ${result.iterations}"></p>
+            <p th:text="${result.sequence}"></p>
+        </th:block>
     </form>
 </div>
 </body>

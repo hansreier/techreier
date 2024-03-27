@@ -169,8 +169,8 @@ img:hover::after {
 #blogentries tr:hover {background-color: #ddd;}
 
 #seed {
-	width: 20em;
-	padding-right: 2em;
+	width: 11em;
+	margin-right: 4em;
 }
 
 /* Add a black background color to the top navigation */

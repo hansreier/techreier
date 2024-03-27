@@ -60,8 +60,7 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
         }
 
         redirectAttributes.addFlashAttribute("collatz", collatz)
-        redirectAttributes.addFlashAttribute("iterations", result?.iterations)
-        redirectAttributes.addFlashAttribute("result", result?.result)
+        redirectAttributes.addFlashAttribute("result", result)
         return "redirect:$COLLATZ_DIR"
 
     }
