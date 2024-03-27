@@ -37,7 +37,7 @@ class CollatzService {
             } else error = "error.sequenceTruncated"
             iterations++
         } while ((value != 1L))
-        logger.info("Seed: $seed Iterations: $iterations ${error?.let { "error: $it"}}")
+        logger.info("Seed: $seed Iterations: $iterations ${error?: ""}")
         return CollatzResult(iterations, sequence.toString(), error)
     }
 }
