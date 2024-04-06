@@ -27,7 +27,7 @@ Vi må ha stabil strømtilførsel, og i Norge er det først og fremst vannkraft
 som kan gi dette, i tillegg til atomkraft litt lenger fram i tid. Studer Jan Blomgrens video. 
 Mye av det kan overføres til Norske forhold. 
 Fokus til Fornybar Norge er vekst og økt energiforbruk og tvinge fram ny dyr økt uregulerbar kraftprodusjon.
-Denne tankegangen blir for meg feil og løser ingenting.
+Denne tankegangen blir for meg feil og løser ingenting. Dessverre har flere regjeringer på rad gått på limpinnen.
 
 Tilslutt anbefaler jeg å lese materiale og statistikk hos NVE. Det som står der er relativt nøytralt.
 
