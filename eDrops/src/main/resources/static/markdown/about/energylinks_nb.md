@@ -2,7 +2,7 @@
 
 Listen fokuserer mest på energi referanser relatert til elektrisk kraft i Norge og vil bli utvidet etterhvert. 
 
-| Link                                                                                                                                                                                           | Comment                                                      |
+| Lenke                                                                                                                                                                                          | Kommentar                                                    |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
 | [Europeisk energipolitikk suger](https://www.linkedin.com/pulse/european-energy-policy-kills-competitiveness-without-any-emblemsv%25C3%25A5g-ah39f/?trackingId=J%2B12DFDCTvCmNHZqb4bhxA%3D%3D) | Jan Emblemsvåg  (LinkedIn)                                   | 
 | [Energi og natur](https://energiognatur.no/energipolitikk-pa-naturens-premisser/)                                                                                                              | Tidskrift om energi og natur                                 |
