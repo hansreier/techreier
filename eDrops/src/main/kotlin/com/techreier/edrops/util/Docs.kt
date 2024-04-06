@@ -35,6 +35,8 @@ object Docs {
         Doc("website",  English, "Website"),
         Doc("energy",  Norwegian, "Energi", false),
         Doc("energy",  English, "Energy (Norwegian) ", false),
+        Doc("energylinks",  Norwegian, "Energi linker"),
+        Doc("energylinks",  English, "Energy links"),
         Doc("readme", Norwegian, "Prosjektet (engelsk)", false),
         Doc("readme", English, "Project", false),
         Doc("tech", Norwegian, "Teknologi (engelsk)",false),
