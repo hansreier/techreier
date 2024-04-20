@@ -14,7 +14,7 @@ Create and run db and edrops container for local access (no network required):
 docker run -dit --name mdb -e MARIADB_ROOT_PASSWORD=RootPassword -p 3308:3306 mariadb
 docker run -dit --name edrops -e DB_PASSWORD=DBUserPassword -p 8080:8080 hansreier/edrops
 
-An alternative is to use Docker Destop GUI to start containers.
+An alternative is to use Docker Desktop GUI to start containers.
 Do remember to set environment variables and port on localhost.
 
 ----------------------------------------------------------------------------------------------------------------------------

@@ -42,8 +42,19 @@ It was very easy to connect using the Database connect possibilities in Intellij
 - Define a new database user: dbuser
 - Grant required permissions for dbuser.
 
+```
+CREATE DATABASE edrops;
+CREATE USER dbuser IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON edrops.* TO 'dbuser'@'%' IDENTIFIED BY 'password';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, SHOW VIEW ON edrops.* TO dbuser IDENTIFIED BY 'password';
+```
+refer to script dbInit.sql. The bottom grant statement is better to use, gives more limited access.
+
 As an alternative use MariaDb official image from Dockerhub. Create a container. Remember to enter port 
 and set MARIADB_ROOT_PASSWORD as environment variable when using Docker Desktop or docker command.
+Sign in
+
+Note: The db port is changed to 3308 in config for local Docker.
 
 Never use the root user and password for connection, a separate user: dbuser is defined for the purpose.
 I have used an environment variable DB_PASSWORD, to avoid checking in db user password to github.  
@@ -68,7 +79,7 @@ not yet tested !!
 
 To connect from container to db-service on the host:
 ```
- url: jdbc:mariadb://host.docker.internal:3306/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+ url: jdbc:mariadb://host.docker.internal:3308/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
 ```
 This only works using Docker Desktop. Docker Desktop cannot be run in Host mode, only in Brigde Mode (default).
 Verify and eventuelly change port number!
