@@ -2,20 +2,29 @@
 
 Listen fokuserer mest på energi referanser relatert til elektrisk kraft i Norge og vil bli utvidet etterhvert. 
 
-| Lenke                                                                                       | Kommentar                                                    |
-|---------------------------------------------------------------------------------------------|--------------------------------------------------------------|
-| [Europeisk energipolitikk suger](https://www.linkedin.com/pulse/european-energy-policy-kills-competitiveness-without-any-emblemsv%25C3%25A5g-ah39f/?trackingId=J%2B12DFDCTvCmNHZqb4bhxA%3D%3D) | Jan Emblemsvåg  (LinkedIn)                                   | 
-| [El krisen Sverige](https://www.youtube.com/watch?v=0Oh_w5KrEVc)                            | Jan Blomgren (You Tube). Mye av dette gjelder for Norge også |
-| [Energi og natur](https://energiognatur.no/energipolitikk-pa-naturens-premisser/)           | Tidskrift om energi og natur                                 |
-| [Energi og klima](https://energiognatur.no/energipolitikk-pa-naturens-premisser/)           | Tidskrift om energi og klima                                 |
-| [Motvind](https://motvind.org/energi-2/)                                                    | Om vindturbiner og energipolitikk generelt                   |
-| [Fornybar Norge](https://www.fornybarnorge.no/)                                             | Fornybarnæringens talerør                                    |
-| [Naturvernforbundet](https://naturvernforbundet.no/laer-mer/vind-og-vannkraft/)             | Om vind og vannkraft                                         |
-| [NVE vindkraft](https://www.nve.no/energi/energisystem/vindkraft/)                          | Mye informasjon, relativt objektivt                          |
-| [NVE magasinstatistikk](https://www.nve.no/energi/analyser-og-statistikk/magasinstatistikk/) | Vannkraft , statistikk                                       |
+| Lenke                                                               | Kommentar                       |
+|---------------------------------------------------------------------|---------------------------------|
+| [Europeisk energipolitikk suger](https://www.linkedin.com/pulse/european-energy-policy-kills-competitiveness-without-any-emblemsv%25C3%25A5g-ah39f/?trackingId=J%2B12DFDCTvCmNHZqb4bhxA%3D%3D) | Jan Emblemsvåg  (LinkedIn)      | 
+| [El krisen Sverige](https://www.youtube.com/watch?v=0Oh_w5KrEVc)    | Jan Blomgren (You Tube). Mye av dette gjelder for Norge også |
+| [Energi og natur](https://energiognatur.no/energipolitikk-pa-naturens-premisser/) | Tidskrift om energi og natur.   |                                                             |
+| [Energi og klima](https://energiognatur.no/energipolitikk-pa-naturens-premisser/) | Tidskrift om energi og klima    |
+| [Energipolitisk.no](https://energipolitisk.no/kontakt)              | Svein Roar Brunbergs artikler & bok |
+| [Motvind](https://motvind.org/energi-2/)                            | Om vindturbiner og energipolitikk generelt |
+| [Fornybar Norge](https://www.fornybarnorge.no/)                     | Fornybarnæringens talerør       |
+| [Naturvernforbundet](https://naturvernforbundet.no/laer-mer/vind-og-vannkraft/) | Om vind og vannkraft            |
+| [Klimavenner for kjernekraft](https://klimavenner.no/billig-strom/ )| Organisasjonens nettsider |  
+| [NVE vindkraft](https://www.nve.no/energi/energisystem/vindkraft/)  | Mye informasjon, relativt objektivt |
+| [NVE magasinstatistikk](https://www.nve.no/energi/analyser-og-statistikk/magasinstatistikk/) | Vannkraft , statistikk          |
+| [NVE LCOE sammenlikning](https://www.nve.no/energi/analyser-og-statistikk/kostnader-for-kraftproduksjon/) | LCOE Offisielle tall|                                     |                                       | Vannkraft , statistikk                          | 
+| [LCOE](https://medium.com/@marhje/why-lcoe-is-not-a-good-metric-for-renewables-82e16c3f7c3b) | Hvorfor LCOE er villedende, av Martin Hjelmeland |
 
 Noe jeg vil anbefale er først å se artiklene til Jan Emblemsbåg, deretter Jan Blomgrens video.
-Energi og Natur er Motvind sitt tidskrift, men Energi og Klima er tilknyttet Norsk Klimastiftelse.  
+Energi og Natur er Motvind sitt tidskrift, men Energi og Klima er tilknyttet Norsk Klimastiftelse.
+Mye bakgrunnsmateriale kan finnes i Energipolitisk.no, inkludert bok.
+Det står også mye alternativt om lønnsomhet for vindkraft i Energi og Natur.
+Det offisielle kostnadsbildet ved sammenlikning mellom energikilder er oftest basert på LCOE.
+Dette er en høyst tvilsom sammenlikning. 
+Ulempene for miljø og natur for uregulerbare fossilfrie energikilder (vind og sol) er godt beskrevet av både naturvernforbundet og Motvind.
 
 VI KAN IKKE LØSE KLIMAPROBLEMET MED Å ØDELEGGE NATUR
 
