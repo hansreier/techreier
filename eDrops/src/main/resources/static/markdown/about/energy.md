@@ -93,6 +93,6 @@ denne visjonen, ville det garantert ha gått fullstendig galt.
 
 Se også  
 [Elkraft i Norge](../elpower.md)  
-[Strøm manifest](../manifest.md)  
+[Strøm manifest](../manifest_nb.md)  
 [Strøm(pris)krisen](../elprice.md)  
 [To år med elgalskap](../elcrazy.md)  

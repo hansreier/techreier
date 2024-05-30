@@ -18,8 +18,8 @@ object Docs {
     val home = arrayOf(
         Doc("elpower",  Norwegian, "Elkraft i Norge", false),
         Doc("elpower",  English, "Elpower in Norway (Norwegian) ", false),
-        Doc("manifest",  Norwegian, "Strøm manifest", false),
-        Doc("manifest",  English, "Electrical power manifest (Norwegian)", false),
+        Doc("manifest",  Norwegian, "Strøm manifest"),
+        Doc("manifest",  English, "Electrical power manifest"),
         Doc("elprice",  Norwegian, "Strøm(pris)krisen", false),
         Doc("elprice",  English, "Power(price) crisis (Norwegian)", false),
         Doc("elcrazy",  Norwegian, "To år med elgalskap", false),
