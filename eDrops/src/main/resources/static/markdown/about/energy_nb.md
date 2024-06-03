@@ -7,9 +7,11 @@ Norge er et energiproduserende land.
   - Kull (litt)
 - Fornybar energiproduksjon
   - Vannkraft
+  - Vindkraft
+  - Solkraft
   - Skogen / biomasse.
-  - Kjernekraft
   - Bølgekraft / tidevannskraft
+  - Termisk energi
   - Varmegjenvinning
   - Kjernekraft
 
@@ -92,7 +94,7 @@ Naturkrisen er i praksis like alvorlig som klimakrisen. Skulle jeg ha styrt et I
 denne visjonen, ville det garantert ha gått fullstendig galt.
 
 Se også  
-[Elkraft i Norge](../elpower.md)  
+[Elkraft i Norge](../elpower_nb.md)  
 [Strøm manifest](../manifest_nb.md)  
 [Strøm(pris)krisen](../elprice.md)  
 [To år med elgalskap](../elcrazy.md)  
