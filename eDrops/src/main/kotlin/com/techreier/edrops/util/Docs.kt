@@ -16,16 +16,16 @@ const val MARKDOWN_EXT = ".md"
  */
 object Docs {
     val home = arrayOf(
-        Doc("elpower",  Norwegian, "Elkraft i Norge", false),
-        Doc("elpower",  English, "Elpower in Norway (Norwegian) ", false),
+        Doc("elpower",  Norwegian, "Elkraft i Norge"),
+        Doc("elpower",  English, "Elpower in Norway"),
         Doc("manifest",  Norwegian, "Strøm manifest"),
         Doc("manifest",  English, "Electrical power manifest"),
         Doc("elprice",  Norwegian, "Strøm(pris)krisen", false),
         Doc("elprice",  English, "Power(price) crisis (Norwegian)", false),
         Doc("elcrazy",  Norwegian, "To år med elgalskap", false),
         Doc("elcrazy",  English, "Two years of elcraziness (Norwegian)", false),
-        Doc("ringsaker",  Norwegian, "Kraft og hytter i Ringsaker" , false),
-        Doc("ringsaker",     English, "Power and cabins in Ringsaker (Norwegian)", false)
+        Doc("ringsaker", Norwegian, "Kraft og hytter i Ringsaker" , false),
+        Doc("ringsaker", English, "Power and cabins in Ringsaker (Norwegian)", false)
     )
 
    val about = arrayOf(
@@ -33,8 +33,8 @@ object Docs {
         Doc( "reier", English, "Me"),
         Doc("website",  Norwegian, "Nettsted"),
         Doc("website",  English, "Website"),
-        Doc("energy",  Norwegian, "Energi", false),
-        Doc("energy",  English, "Energy (Norwegian) ", false),
+        Doc("energy",  Norwegian, "Energi"),
+        Doc("energy",  English, "Energy"),
         Doc("energylinks",  Norwegian, "Energi linker"),
         Doc("energylinks",  English, "Energy links"),
         Doc("readme", Norwegian, "Prosjektet (engelsk)", false),

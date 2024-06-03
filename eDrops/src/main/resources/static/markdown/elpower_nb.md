@@ -28,12 +28,12 @@ som har en rekke uheldige effekter for folk flest og næringslivet).
 
 VIKTIGE KILDER OG INSPIRASJON
 
-- Se på Facebook gruppa: Vi som krever billigere strøm med mer enn 600000 medlemmer.
+- Facebook gruppa: Vi som krever billigere strøm hadde mer enn 600000 medlemmer.
 - Se på Motvind Norge som kjemper mot vindturbiner og mye av nåværende energipolitikk.
 - Se på hva Naturvernforbundet mener om vindturbiner og foruroligende ødeleggelse av Norsk natur.
 - Se på hvordan energiforsyningen i Tyskland er ødelagt av massiv satsning på vindturbiner og solkraft.
 - Se på det felles Europeiske dysfunksjonelle Nordpool strømmarkedet som prissetter Norsk elkraft.
-- Se hva en rekke fageksperter sier om Norsk elforsyning (kommer tilbake til linker etc)
+- Se hva fageksperter sier om Norsk elforsyning (se linker på dette nettstedet)
 
 Det er helt åpenbart at ledende politiske partier i Norge er fullstendig på kollisjonskurs med folk flest når det
 gjelder energipolitikk knyttet til produksjon, distribusjon, salg og forbruk av elektrisk kraft. 
@@ -45,8 +45,8 @@ og hvilke negative konsekvenser store mengder av ny uregularbar kraft vil ha på
 Det bør disse partiene legge merke til og legge om kursen, før de forhåpentligvis reduseres til minipartier. 
 Ja dette er en pågående prosess for Arbeiderpartiet hvis de ikke legger om kursen.   
 
-"Du kan lure hele folket en del av tida, og du kan lure en del av folket hele tida, men du kan ikke lure hele folket hele tida."
-Abraham Lincoln.
+"Du kan lure hele folket en del av tida, og du kan lure en del av folket hele tida, men du kan ikke lure hele folket hele tida."  
+Abraham Lincoln.  
 
 Mye henger også sammen med hvilke tiltak man bør gjøre for å løse klimakrisa. 
 Å pøse på massivt med feil tiltak som vindmølleparker og elektrifisering av plattformer, 
