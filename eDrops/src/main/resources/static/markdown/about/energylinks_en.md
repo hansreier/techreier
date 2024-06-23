@@ -15,6 +15,7 @@ and consumption in Norway. Regrettably, very little is written in English, so I 
 Below is a short summary of NVEs forecast for electric power production and consumption 
 from the 2021 long term power marked analysis report (numbers in paranthesis) 
 and the newer 2023 rapport. All numbers are in TWh.
+I suspect that the change in the forecast to a certain extent is caused by political pressure.
 
 |             | 2023 (2021) | 2030       | 2035    | 2040      |
 |-------------|-------------|------------|---------|-----------|
