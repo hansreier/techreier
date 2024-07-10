@@ -146,9 +146,31 @@ omtrent 600 milliarder NOK fram til 2030 i følge Statnett, som garantert vil f�
 
 ### Verdiskapingen forsvinner ut av kommunene
 
+Myte? NEI, Sannhet? DELVIS
+
+Dette er det punktet som jeg har vanskeligst for å verifisere, for det krever en ganske grundig analyse.
+Hvis eiendomsprisene i tillegg synker i kommunen og folk ikke vil bo der pga. vindkraft alt for nære bebyggelse
+og verdifulle rekreasjonsområder, så forsterkes denne sannheten. Hvis annen næringsvirksomhet som turisme og reindrift
+drives vekk fra kommunen, så forsterkes også denne sannheten. Samtidig så gir Vindkraftverk noen lokale arbeidsplasser
+i driftsperioden.
+
+Et vindkraftverk bidrra med inntekter gjennom eiendomsskatt og produksjonsavgiften (innført i 2022) 
+Mye av inntektene ellers havner utenlands og til de største byene i praksis. 
+Se vedlagt link til 2024  rapport fra regjeringen.no
+https://www.regjeringen.no/no/dokumenter/kommunale-inntekter-fra-kraftsektoren/id3023435/
+Ser vi på en del kurver overstiger utbytte fra vannkraft, mange ganger disse inntektene for vindkraft i form av
+eiendomsskatt og produksjonsavgift. Topp 30 kommuner for kraftinntekter viser at det i disse er svært lite inntekter fra
+vindkraft, med unntak at for Sirdal. 
+Størsteparten av inntektene kommer fra eierandeler i vannkraftverk, det vil si konsesjonskraft.
+
+88% av Norsk Vannkraft er offentlig eid, mens tilsvarende tall for vindkraft er 22%. Omtrent 2/3 av vindkraften er eid
+av utenlandske selvskaper. De største norske eierne av vindkraft inkluderes Statkraft og Trønderenergi.
+
+
+
 ### Norge har nok kraft, om vi bare hadde latt være å selge strøm til utlandet
 
-Myte? NEI, Sannhet? JA
+Myte? NEI, Sannhet? DELVIS
 
 Per dags dato så er det ikke kraftunderskudd.
 Vi eksporterer mer enn vi importerer.
@@ -159,9 +181,19 @@ for mye eksport tidligere kombinert med lite nedbør over lang tid.
 Enhver som kan å regne skjønner at for mye krafteksport over tid kan resultere i kraftmangel i tørrår.
 
 Det er ingen som bestrider at vi må ha kabler mot utlandet, både for å forsikre oss mot tørrår og også for 
-å hjelpe naboland motsatt vei. Problemet er er at kapasiteten på de nye kablene er alt for stor i forhold
-til det reelle behovet, og at vi i realiteten referert til EØS / Acer og kraftavtaler har mistet mye av muligheten til
-å begrense eksport.
+bedre utnyttelse av fossilfrie energiressurser i Europa. 
+Problemet er er at kapasiteten på de nye kablene er for stor i forhold  til det reelle behovet,
+og at vi i realiteten referert til EØS / Acer og kraftavtaler har mistet mye av muligheten til å begrense eksport.  
+
+Dette vil dessverre gå mer og mer ut over norsk kraftkrevende industri.
+Denne industrien er i praksis sikret gode langsiktige kraftavtaler,
+men også her vil prisnivået måtte øke på grunn av generelt økt prisnivå for elektrisk kraft. 
+Husk også at det bare er en pott å ta av, 
+så ved for mye eksport kan det bli for lite stabil krafttilførsel for kraftkrevende industri.
+Det er er en reell fare for å skyve de verste virkningene over på forbrukere og SMB bedrifter,
+i form av enda dyrere priser og mulige strømutkoplinger. 
+Dette forårsaket av de nye høykapasitets utenlandskablene og økt vindkraft og solkraft andel.
+Se til erfaringer med strømutkoplinger i California.
 
 ### Vi greier oss fint med å oppgradere vannkraften
 
