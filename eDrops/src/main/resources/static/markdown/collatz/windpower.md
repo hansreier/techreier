@@ -41,33 +41,37 @@ Det vil ikke i praksis være mulig å bo rett utenfor planområdet.
 **Lavfrekvent lyd kan påvirke en del dyrearter enda mer enn mennesker.**
 irkninger-av-vindkraft-paa-land/stoey/
 
-Tallene antar 20TWHh produsert i 2024, kanskje noe i overkant, men ikke mye.
-Tall NVE / Energifakta Norge. Motvind Norge har gjort en beregning, egentlig basert på snitt av
-Trøndeske vindkraftverk (temarapport 1-2019), der berørt areal framkommer for 20TWh.
+Normalårsproduksjon i inngangen til 2023 for vindkraft var ca 16,9 TWh. 
+Dette er 11% av Norsk produksjonskaptasitet.
+Dette er tall fra NVE / Energifakta Norge. Motvind Norge har gjort en beregning, 
+basert på snitt av Trøndeske vindkraftverk (temarapport 1-2019), der berørt areal framkommer for 20TWh.
+Derfor bruker jeg 20TWh tallene fra temarapporten for å gjøre det enkelt, selv om det er litt høyt for 2024.
 Jeg har ingen grunn til å tro at tallene i rapporten er villendende.
 https://motvind.org/vindkraft-en-rapportserie-fra-motvind-norge/
 
-Normalårsproduksjon i inngangen til 2023 for vindkraft var ca 16,9 TWh.
-Dette er 11% av Norsk produksjonskaptasitet.
-Areal som fysisk er berørt av vindkraft er IKKE 20km2 som Fornybar Norge påstå
-Totalt fastland 384482 km2 landareal for Norge (inkludert øyer ved kysten og innsjøer),
-gir i 2024 at ca 1% av Norges landareal er påvirket av vindkraft.
-Siden de aller fleste kraftverkene ligger ved kysten og vi regner kystnært areal som 20% av fastlandsareal,
-så ser det MYE verre ut. Da er 5% av kystnært areal påvirket (regnemåten usikker her).
-Det er bare å se på et kart inntegnet vindkraftindustriområder, så ser vi at det ikke er helt feil.
-https://atlas.nve.no/Html5Viewer/index.html?viewer=nveatlas#
-Kartet kan til og med vise planområdene for vindkraft.
+Areal som fysisk er berørt av vindkraft er IKKE 20km2 som Fornybar Norge påsto.
+Totalt fastland er 384482 km2 landareal for Norge (inkludert øyer ved kysten og innsjøer),
+gir i 2024 at ca 1% av Norges landareal er påvirket av vindkraft  (nesten størrelsen av Vestfold fylke)
 
-Se også nasjonal ramme for vindkraft (PDF dokument)
+Se nasjonal ramme for vindkraft (også et PDF dokument)
 https://temakart.nve.no/link/?link=nasjonalramme
+Jeg må innrømme at dette likner på de såkalte akselerasjonsområdene, som er mye omtalt i EU's fornybardirektiv.
 
 ### Vindkraft bygges ut i verdifull natur
 
 Myte? NEI Sannhet? JA
 
-Riktignok blir de aller mest verdifulle områdene ikke bygget ut.
-men størsteparten av vindkraftindustrianlegg er i området med lite naturinngrep fra før. 
+Riktignok blir de aller mest verdifulle områdene, inkludert vernede områder ikke bygget ut.
+Størsteparten av vindkraftindustrianlegg er i området med lite naturinngrep fra før. 
 Det blir mindre og mindre igjen av slik natur i Norge. Kystnaturen er verst berørt. 
+
+Siden de aller fleste kraftverkene ligger ved kysten og vi regner kystnært areal som 20% av fastlandsareal,
+så ser det MYE verre ut. Da er 5% av kystnært areal påvirket (regnemåten usikker her).
+Det er bare å se på et kart inntegnet vindkraftindustriområder, så ser vi at det ikke er helt feil.
+https://atlas.nve.no/Html5Viewer/index.html?viewer=nveatlas#
+Kartet kan til og med vise planområdene for vindkraft.
+Se også nye planer for Finnmark, der NVE vurderer 11 kystnære områder som egnede.
+
 En god del av utbyggingene er så nære bebyggelse 
 at viktige terrengområder for rekreasjon og fysisk aktivitet i praksis mister mye av sin verdi.
  
@@ -189,7 +193,7 @@ grønne skiftet. Dette er et paradoks, dess mer ustabil uregulerbar vind og solk
 dess større risiko for nettutkoplinger. Dette betyr i praksis sannsynligvis økt C02 utslipp globalt, pga.
 mer transport og mer bruk at fossile kraftkilder i disse landene som overtar produksjonen.
 Mye av sammenlikningsgrunnlaget for kostnader for ulike kraftkilder er basert på LCOE, som er en ganske dårlig
-indikator for de reelle kostnadene. Dette gjær at vindkraft kommer mye bedre ut ved slike enkle sammenlikninger,
+indikator for de reelle kostnadene. Dette gjør at vindkraft kommer mye bedre ut ved slike enkle sammenlikninger,
 fordi resirkuleringskostnader og økte kostnader for sentralnettet ikke er regnet med.
 
 Ja, det er riktig, vi greier ikke dette på lengre sikt uten å prioritere hvordan vi skal bruke kraften.
@@ -281,12 +285,15 @@ folkelige protester 10 ganer verre en Alta aksjonen.
 
 ## KONKLUSJON
 
-Jeg skjønner ikke mye av begrunnelsen for de fleste punktene som Fornybar Norge kaller myter.
-***De absolutt viktigste punktene som går på naturødeleggelse og ustabil vindkraftproduksjon
-er definitivt IKKE myter.*** Det er sannheter. Andre av "mytene" kan diskuteres litt mer, men heller 
+Jeg skjønner ikke mye av begrunnelsen for de fleste punktene som Fornybar Norge kaller myter.  
+
+***De absolutt viktigste punktene som går på naturødeleggelse, ustabil vindkraftproduksjon
+og at vi må prioritere hva kraften brukes til er definitivt IKKE myter.***   
+  
+Det er sannheter. Andre av "mytene" kan vurderes litt mer, men heller 
 ikke på noen av de andre punktene kan jeg se at Fornybar Norge er i nærheten å ha helt rett.
 Der de har mest rett er at vi innen 2040 ikke greier oss bare med vannkraft.
-At vi ikke må prioritere hva vi skal bruke elkraften til er ren svada.
+Å ikke vurdere atomkraft i Norge i 2040 perspektiv er rett og slett dumt.
 
 ## TILLEGGSKOMMENTARER OM VINDKRAFT
 
@@ -306,9 +313,9 @@ store investeringer i stamnettet, referert blant annet til  effektbalansen.
 Dette gjør at vindkraft er ganske mye dyrere enn enkle LCOE beregninger tilsier.
  
 Vindkraft til havs bør brukes først og fremst for å få ned utslipp fra oljeplattformer.
-Bølgekraft som er for lite vurdert kan også brukes til det samme.
 Da bør kostnader belastes produsjonsselskapene.
 Denne krafta er rett og slett for dyr til å sendes til fastlandet.
+Bølgekraft som er for lite vurdert kan også brukes til det samme og har sammenliknbar kapasitetsfaktor.
 Når vi vet at alle Nordsjøland satser på havvind, så vil resultatet bli ekstreme
 jojopriser på denne krafta som vil gjøre den ulønnsom. Noe bedre kan satsing
 lenger nord være, men der må det tas hensyn til fiskefelter osv. 
