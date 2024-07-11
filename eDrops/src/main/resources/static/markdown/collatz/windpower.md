@@ -5,7 +5,7 @@ https://www.fornybarnorge.no/nyheter/2024/--myter-ma-knuses/
 
 Ikke noe har provosert meg så mye som disse påstandene om myter.
 Noen av dem er direkte usannne og kan lett tilbakevises på faglig grunnlag.
-Andre
+Andre er mer usikre og ikke like svart hvitt. Men å kalle det myte blir likevel feil.
 
 ### Vindkraft er en trussel mot norsk natur
 
@@ -155,7 +155,7 @@ og verdifulle rekreasjonsområder, så forsterkes denne sannheten. Hvis annen n�
 drives vekk fra kommunen, så forsterkes også denne sannheten. Samtidig så gir Vindkraftverk noen lokale arbeidsplasser
 i driftsperioden og flere i anleggsperioden.
 
-Et vindkraftverk bidrar med inntekter gjennom eiendomsskatt og produksjonsavgiften (innført i 2022).
+Et vindkraftverk bidrar med inntekter gjennom eiendomsskatt og produksjonsavgift (innført i 2022).
 En vindturbin på 5 MW vil gi kommunen omtrent 6-700 000 kr/år. 
 Et middels stort anlegg med 20 turbiner bidrar med omtrent 12-14 millioner kroner i året til vertskommunen.
 For de fleste kommuner er dette lite i forhold til andre inntekter.
@@ -198,7 +198,7 @@ Husk også at det bare er en pott å ta av,
 så ved for mye eksport kan det bli for lite stabil krafttilførsel for kraftkrevende industri.
 Det er er en reell fare for å skyve de verste virkningene over på forbrukere og SMB bedrifter,
 i form av enda dyrere priser og mulige strømutkoplinger. 
-Dette forårsaket av de nye høykapasitets utenlandskablene og økt vindkraft og solkraft andel.
+Dette forårsaket av de nye høykapasitets utenlandskablene, Nordpool markedet og økt vindkraft og solkraft andel.
 Se til erfaringer med strømutkoplinger i California.
 
 ### Vi greier oss fint med å oppgradere vannkraften
@@ -220,7 +220,7 @@ Spørsmålet er hva denne økningen er begrunnet i, om det er politisk press, pr
 En ting vet jeg, det er at målet (prognosen) bevisst eller ubevisst vil dra opp kraftforbruket og gjøre at
 det fokuseres ukritisk på mer kraftproduksjon på bekostning av fokus på energisparing og energigjenvinning.
 Det som taler for revidert prognose er at elektrifisering for å minske utslipp fra fossil energiproduksjon i industrien
-vil dra opp forbruket av elektrisk kraft. Energikommisjonens "Mer av alt raskere" er en farlig visjon, fordi
+vil dra opp forbruket av elektrisk kraft. Men energikommisjonens "Mer av alt raskere" er en farlig visjon, fordi
 den mangler prioriteringsfokus.
 
 Det er verdt å merke seg at forbruket av elektrisk kraft fra husholdninger og vanlige bedrifter utenom kraftintensiv industri
@@ -234,9 +234,13 @@ Sammenlikningsgrunnlaget for kostnader for ulike kraftkilder er ofte basert på 
 indikator for de reelle kostnadene. Dette gjør at vindkraft kommer mye bedre ut ved slike enkle sammenlikninger,
 fordi resirkuleringskostnader, naturkostnader og økte kostnader for sentralnettet ikke er regnet med.
 
-Ja, det er riktig, vi greier ikke i et lengre perspektiv uten å prioritere hvordan vi skal bruke kraften.
-Se også neste avsnitt om atomkraft.
+Andre former for fornybar energi som kan dekke økt kraftbehov er solenergi, bioenergi, 
+termisk energi, bølgekraft og tidevannskraft. Så har vi muligheten for kjernkraft i tillegg.
 
+Ja, det er riktig, vi greier ikke i et lengre perspektiv å dekke kraftbehovet bare med oppgradering av vannkraft.
+Men vi kan begrense problemet med å prioritere energibruk opp mot samfunnsnytte. 
+Vi kan også gjennomføre energispare- og energigjenvinnings-tiltak.
+Det er ikke gitt at økt energibehov trenger å dekkes av vindkraft.
 
 ### Norge bør heller satse på atomkraft.
 
