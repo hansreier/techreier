@@ -148,25 +148,31 @@ omtrent 600 milliarder NOK fram til 2030 i følge Statnett, som garantert vil f�
 
 Myte? NEI, Sannhet? DELVIS
 
-Dette er det punktet som jeg har vanskeligst for å verifisere, for det krever en ganske grundig analyse.
-Hvis eiendomsprisene i tillegg synker i kommunen og folk ikke vil bo der pga. vindkraft alt for nære bebyggelse
+Dette er det punktet som jeg har vanskeligst for å verifisere, for det krever en grundig analyse over tid.  
+
+Hvis eiendomsprisene synker i kommunen og folk ikke vil bo der pga. vindkraft alt for nære bebyggelse
 og verdifulle rekreasjonsområder, så forsterkes denne sannheten. Hvis annen næringsvirksomhet som turisme og reindrift
 drives vekk fra kommunen, så forsterkes også denne sannheten. Samtidig så gir Vindkraftverk noen lokale arbeidsplasser
-i driftsperioden.
+i driftsperioden og flere i anleggsperioden.
 
-Et vindkraftverk bidrra med inntekter gjennom eiendomsskatt og produksjonsavgiften (innført i 2022) 
-Mye av inntektene ellers havner utenlands og til de største byene i praksis. 
+Et vindkraftverk bidrar med inntekter gjennom eiendomsskatt og produksjonsavgiften (innført i 2022).
+En vindturbin på 5 MW vil gi kommunen omtrent 6-700 000 kr/år. 
+Et middels stort anlegg med 20 turbiner bidrar med omtrent 12-14 millioner kroner i året til vertskommunen.
+For de fleste kommuner er dette lite i forhold til andre inntekter.
+Mye av inntektene ellers havner utenlands og eller til de største byene i Norge praksis. 
 Se vedlagt link til 2024  rapport fra regjeringen.no
 https://www.regjeringen.no/no/dokumenter/kommunale-inntekter-fra-kraftsektoren/id3023435/
 Ser vi på en del kurver overstiger utbytte fra vannkraft, mange ganger disse inntektene for vindkraft i form av
 eiendomsskatt og produksjonsavgift. Topp 30 kommuner for kraftinntekter viser at det i disse er svært lite inntekter fra
-vindkraft, med unntak at for Sirdal. 
-Størsteparten av inntektene kommer fra eierandeler i vannkraftverk, det vil si konsesjonskraft.
+vindkraft, med unntak at for Sirdal.  Størsteparten av inntektene kommer fra eierandeler i vannkraftverk, det vil si konsesjonskraft.  
 
 88% av Norsk Vannkraft er offentlig eid, mens tilsvarende tall for vindkraft er 22%. Omtrent 2/3 av vindkraften er eid
-av utenlandske selvskaper. De største norske eierne av vindkraft inkluderes Statkraft og Trønderenergi.
+av utenlandske selvskaper. De største norske eierne av vindkraft inkluderer Statkraft og Trønderenergi.  
 
-
+Konklusjon: Vindkraftkommuner får inntekter fra eiendomsskatt og produksjonsavgift. Dette er relativt lite
+i forhold til potensielle inntekter som eierne av kraftselskapene får. Disse potensielle inntektene går i liten
+grad tilbake til kommunene. Er det verdt det i forhold til naturødeleggelsen og redusert livskvalitet og eiendomsverdi
+for en del av kommunens innbyggerne?  
 
 ### Norge har nok kraft, om vi bare hadde latt være å selge strøm til utlandet
 
