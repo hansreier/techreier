@@ -238,7 +238,7 @@ Andre former for fornybar energi som kan dekke økt kraftbehov er solenergi, bio
 termisk energi, bølgekraft og tidevannskraft. Så har vi muligheten for kjernkraft i tillegg.
 
 Ja, det er riktig, vi greier ikke i et lengre perspektiv å dekke kraftbehovet bare med oppgradering av vannkraft.
-Men vi kan begrense problemet med å prioritere energibruk opp mot samfunnsnytte. 
+Men vi kan løse utfordringen med å prioritere energibruk opp mot samfunnsnytte og begrense eksport. 
 Vi kan også gjennomføre energispare- og energigjenvinnings-tiltak.
 Det er ikke gitt at økt energibehov trenger å dekkes av vindkraft.
 
