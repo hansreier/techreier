@@ -1,7 +1,7 @@
 ## Sannheter eller myter om vindkraft?
 
-Punktene er hentet fra Fornybar Norge.
-https://www.fornybarnorge.no/nyheter/2024/--myter-ma-knuses/
+Punktene er hentet fra Fornybar Norge:
+[Myter i vindkraftdebatten](https://www.fornybarnorge.no/nyheter/2024/--myter-ma-knuses/).
 
 Ikke noe har provosert meg så mye som disse påstandene om myter.
 Noen av dem er direkte usannne og kan lett tilbakevises på faglig grunnlag.
@@ -29,17 +29,19 @@ Støysoner rundt et vindkraftindustrianlegg med mange store vindturbiner.
    
 Et kjøleskap summer normalt på ca. 40 dB og en bensingressklipper gir lyd i størrelsesorden 85-90 dB.
 Selvfølgelig påvirker lokal geografi og antall turbiner til en viss grad disse tallene.
-Lyden fra vindkraftverk er jo på hele tiden med varierende lydbilde når turbinen går, det må også tas hensyn til.
+Lyden fra vindkraftverk har hele tiden varierende lydbilde når turbinen går, det må også tas hensyn til.
 Skyggekast skapes når solen står lavt på himmelen og slår gjennom rotorene på vindturbinene og skaper pulserende skygger.
-Det kan være irriterende, men er det helseskadelig?
-Se NVE https://www.nve.no/energi/energisystem/vindkraft/kunnskapsgrunnlag-om-vr, men ca 4000km2.
-Da har jeg brukt 40 Db grensa.
-Hvis planarealet brukes i stedet, så ligger vindkraft noe over fritidsbebyggelse, referert til Fornybar Norge.
+Det kan være irriterende, men er det helseskadelig? 
+[Se NVE om påvirkninger fra vindkraft på land](https://www.nve.no/energi/energisystem/vindkraft/kunnskapsgrunnlag-om-virkninger-av-vindkraft-paa-land/)  
+
+Områder som er påvirket av vindkraft i Norge er ca 4000 km2. Da har jeg brukt 40 Db grensa.
+Hvis planarealet brukes i stedet, så ligger vindkraft noe over fritidsbebyggelse, referert til Fornybar Norge.  
 Planareal for vindkraft er referansen som offisielt blir brukt for alle vindkraftverk og såkalt direkte påvirket areal.
-**Dette er ikke en feil påstand, men det blir bare helt feil å bruke planarealet.** 
-Det vil ikke i praksis være mulig å bo rett utenfor planområdet.
-**Lavfrekvent lyd kan påvirke en del dyrearter enda mer enn mennesker.**
-irkninger-av-vindkraft-paa-land/stoey/
+Det vil ikke i praksis være mulig å bo rett utenfor planområdet.  
+
+*Lyd, inkludert lavfrekvent lyd kan påvirke en del dyrearter enda mer enn mennesker.*  
+
+**Det blir feil å bruke planarealet som påvirket areal.**
 
 Normalårsproduksjon i inngangen til 2023 for vindkraft var ca 16,9 TWh. 
 Dette er 11% av Norsk produksjonskaptasitet.
@@ -47,14 +49,13 @@ Dette er tall fra NVE / Energifakta Norge. Motvind Norge har gjort en beregning,
 basert på snitt av Trøndeske vindkraftverk (temarapport 1-2019), der berørt areal framkommer for 20TWh.
 Derfor bruker jeg 20TWh tallene fra temarapporten for å gjøre det enkelt, selv om det er litt høyt for 2024.
 Jeg har ingen grunn til å tro at tallene i rapporten er villendende.
-https://motvind.org/vindkraft-en-rapportserie-fra-motvind-norge/
+[Motvinds rapport finner du her](https://motvind.org/vindkraft-en-rapportserie-fra-motvind-norge/)
 
 Areal som fysisk er berørt av vindkraft er IKKE 20km2 som Fornybar Norge påsto.
 Totalt fastland er 384482 km2 landareal for Norge (inkludert øyer ved kysten og innsjøer),
 gir i 2024 at ca 1% av Norges landareal er påvirket av vindkraft  (nesten størrelsen av Vestfold fylke)
 
-Se nasjonal ramme for vindkraft (også et PDF dokument)
-https://temakart.nve.no/link/?link=nasjonalramme
+[Se nasjonal ramme for vindkraft.](https://temakart.nve.no/link/?link=nasjonalramme)
 Jeg må innrømme at dette likner på de såkalte akselerasjonsområdene, som er mye omtalt i EU's fornybardirektiv.
 
 ### Vindkraft bygges ut i verdifull natur
