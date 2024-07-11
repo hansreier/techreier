@@ -208,12 +208,12 @@ Myte? NEI (->2030), på kort sikt. JA (->2040). Sannhet? JA (->2030)) NEI (->204
 10-15 TWh kan skaffes ved opprusting og utvidelse av eksisterende vannkraftverk, uten vesentlig 
 nye naturinngrep (ref NTNU forskningsmiljø). NVE har et noe lavere anslag.
 referert til NVE. Vannkraft er regulerbar og har mye høyere kapasitetsfaktor enn vindkraft.
-Så gjør i alle fall dette først da, før man setter i gang med ineffektive vindkraftprosjekter.
+Så gjør i alle fall dette først, før vi setter i gang med ineffektive vindkraftprosjekter.
 Ikke la ugunstige skatteregler stoppe dette.
 
 Referert til NVEs prognoser for kraftforbruk, som skal øke fra 156 TWh i 2023 til 164 TWh
 i 2030. Denne økningen klarer man alene med vannkraft oppgraderinger. 
-Dette går ikke opp etter reviderte prognoser fra NVE i 2023, med at antatt kraftforbruk på 191 TWh i 2040.
+Dette går ikke etter reviderte prognoser fra NVE i 2023, med at antatt kraftforbruk på 191 TWh i 2040.
 Det er verdt å merke seg at tidligere prognoser fra 2021 var 174 TWh.
 Spørsmålet er hva denne økningen er begrunnet i, om det er politisk press, press fra fornybarbransjen eller om det er realiteter.
 
@@ -230,11 +230,11 @@ ja til og med ut av Europa på grunn av dårlige rammebetingelser forårsaket av
 grønne skiftet. Dette er et paradoks, dess mer ustabil uregulerbar vind og solkraft i nettet, dess høyere kostnader, 
 dess større risiko for nettutkoplinger. Dette betyr i praksis sannsynligvis økt C02 utslipp globalt, pga.
 mer transport og mer bruk at fossile kraftkilder i disse landene som overtar produksjonen.
-Mye av sammenlikningsgrunnlaget for kostnader for ulike kraftkilder er basert på LCOE, som er en ganske dårlig
+Sammenlikningsgrunnlaget for kostnader for ulike kraftkilder er ofte basert på LCOE, som er en ganske dårlig
 indikator for de reelle kostnadene. Dette gjør at vindkraft kommer mye bedre ut ved slike enkle sammenlikninger,
-fordi resirkuleringskostnader og økte kostnader for sentralnettet ikke er regnet med.
+fordi resirkuleringskostnader, naturkostnader og økte kostnader for sentralnettet ikke er regnet med.
 
-Ja, det er riktig, vi greier ikke dette på lengre sikt uten å prioritere hvordan vi skal bruke kraften.
+Ja, det er riktig, vi greier ikke i et lengre perspektiv uten å prioritere hvordan vi skal bruke kraften.
 Se også neste avsnitt om atomkraft.
 
 
@@ -283,16 +283,25 @@ Myte: NEI, Sannhet: JA
 
 Ja kjør på:(Det mest ufornuftige øverst)
 - Ukritisk bitcoin utvinning
-- Ukritisk AI og datasenter bruk til alt mulig, f.eks. ukristisk bilde og video manipulering.
+- Ukritisk AI, big data og datasenter bruk til alt mulig, f.eks. ukristisk bilde og video manipulering.
 - Tik Tok videoer på Hamar i stedet for industri på Raufoss.
 - Elektrifisering av alle oljeplattformer nå (da blir det fra land)
 - Elektrifisering av Melkøya
 - Google datasenter i Skien 5% av Norges nåværende energiforbruk.
 - Høy netto strømeksport i stor skala gjennom de nye høykapasitetskablene
+- Fornuftig bruk av AI, big data og datasenter til optimaliering av industriprosesser.
 - Elektrifisering av industriprosesser i stor skala.
 - 100% elektrifisering av transport sektoren.
 
 Dette går ikke samme hva politikerne vil, og det har NVE skjønt også.
+
+IKT sektoren kan bidra til både økt energibruk og mindre energibruk, 
+For meg som jobber i databransjen er det et paradoks.
+Potensialet for dramantisk økt energibruk om noen år er absolutt til stede,
+referert til verifiset tendens og prognoser.
+Riktig prioritering basert på energiforbruk i hele verdikjeder er viktig,
+og at energiforbruk ses opp mot samfunnsnytte.
+
 En annen sak er at det krever enorme investeringer og utbedringer i sentralnettet.
 Det er ikke gjort på 1-2-3.
 Hittil har prioriteringen gått litt vel mye etter først til mølla prinsipp.
