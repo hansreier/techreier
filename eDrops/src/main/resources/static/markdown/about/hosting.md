@@ -48,9 +48,8 @@ By automated processes initiated by GUI (initial setup, Hostingers HPanel and Cy
 
 A list of manual work I had to do on the server:
 - Defining two child name servers for DNS resolution of my domain. Cyberpanel can probably do it, but did not understand it.
-- Setting up a reverse proxy to point at the Docker container, else Cyberpanel landing page is viewed on reiertech.com
-- Some minor software updates.
-
+- Setting up a reverse proxy to point at the Docker container, else Cyberpanel landing page is viewed on techreier.com
+- Some minor software update
 The process that really should have been automated, but was not was reverse proxy.
 
 ### To set up a reverse proxy

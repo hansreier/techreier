@@ -24,7 +24,7 @@ The global warming and nature loss problems must be solved together, because the
 We solved the destruction of the ozon layer created by technology with technology, 
 but can we solve this even more complex problem by just using technology? I think not.
 I do not have the answer. You can not focus on climate change alone. This is the main mistake done
-by politicans, techocrats and technologists. A new green industry is created to solve global warming,
+by politicians, technocrats and technologists. A new green industry is created to solve global warming,
 but not without enormous resource usage and nature destruction. Refer to articles on this website
 discussing this. 
 
@@ -49,7 +49,7 @@ If you are interested in how the site was made, I have another entry explaining 
 
 ### How to make a text based website without coding HTML
 
-The goal is to do this as simple as possible. One option is to use mardown like in readme.md file,
+The goal is to do this as simple as possible. One option is to use markdown like in readme.md file,
 since this is simpler that RTF and uses less disk space. Perhaps the system in the future will support both formats.
 External text editors like Intellij can be used, or a text editor to be included in this project (TODO).
 I have used server side HTML rendering (Thymeleaf). The reason for this it that for simple text oriented web pages,
@@ -67,11 +67,11 @@ the blog in different languages.
 To make a website like this is not like rocket science, and is really not very difficult to make.
 In publishing this is called a content management system (CMS).  
 
-But way make my own web publishing system?   
+But why make my own web publishing system?   
 
-Because it is fun and I am in total control of the project.  
+Because it is fun, and I am in total control of the project.  
 
-The vision is to make this simple, so I can publich stuff quickly to internet.
+The vision is to make this simple, so I can publish stuff quickly to internet.
 
 
 
