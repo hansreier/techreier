@@ -57,7 +57,7 @@ Det kan være irriterende, men er det helseskadelig?
 [Se NVE om påvirkninger fra vindkraft på land](https://www.nve.no/energi/energisystem/vindkraft/kunnskapsgrunnlag-om-virkninger-av-vindkraft-paa-land/)  
 
 Områder som er påvirket av vindkraft i Norge er ca 4000 km2. Da har jeg brukt 40 Db grensa.
-Hvis planarealet brukes i stedet, så ligger vindkraft noe over fritidsbebyggelse, referert til Fornybar Norge.  
+Hvis planarealet brukes i stedet, så ligger vindkraft noe over fritidsbebyggelse, referert til Fornybar Norge. 
 Planareal for vindkraft er referansen som offisielt blir brukt for alle vindkraftverk og såkalt direkte påvirket areal.
 Det vil ikke i praksis være mulig å bo rett utenfor planområdet.  
 
