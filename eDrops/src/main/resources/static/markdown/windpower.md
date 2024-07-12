@@ -126,7 +126,7 @@ Dette punktet har forårsaket store diskusjoner.
 Tall som naturvernere kommer med opp mot vindkraftbransjens tall spriker voldsomt.
 Sannheten ligger sannsynligvis en plass midt i mellom.
 Men det er påvist store skader og avskallinger på mange vindturbiner.
-Noen steder har til om med hele rotorbladene fallt ned.
+Noen steder har til og med hele rotorbladene falt ned.
 Det er også en fare for utslipp av Mikroplast når turbinvingene må tas ned og enten 
 graves ned eller destrueres eller resikuleres (det siste i praksis omtrent umulig)
 
@@ -139,7 +139,7 @@ Annen relatert forurensning:
 
 De neste 25-30 årene blir 60.000 tonn turbinvinger modne for skraphaugen i Norge ifølge NVE,
 men resirkulering fungerer ikke per idag. 
-I tillegg er kan det bli oljelekkasjer (opp til 2 tonn olje per vindturbin).
+I tillegg kan det bli oljelekkasjer (opp til 2 tonn olje per vindturbin).
 Mye greier har også blitt funnet som rester fra anleggsvirksomhet.
 Forurensing (og C02 utslipp) generert under produksjon og transport av vindturbiner er heller ikke medregnet.
 
