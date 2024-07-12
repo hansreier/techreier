@@ -3,13 +3,35 @@
 Punktene er hentet fra Fornybar Norge:
 [Myter i vindkraftdebatten](https://www.fornybarnorge.no/nyheter/2024/--myter-ma-knuses/).
 
-Ikke noe har provosert meg så mye som disse påstandene om myter.
+*Ikke noe har provosert meg så mye som disse påstandene om myter.*
 Noen av dem er direkte usannne og kan lett tilbakevises på faglig grunnlag.
 Andre er mer usikre og ikke like svart hvitt. Men å kalle det myte blir likevel feil.
 
+Referer også til regjeringen.no: 
+[Spørsmål og svar om vindkraft på land.](https://www.regjeringen.no/no/tema/energi/landingssider/vindkraft-pa-land/sporsmal-og-svar----vindkraft-pa-land/id2770374/)
+
+Områder der regjeringen bommer: 
+
+- Det at vindkraft er ustabilt og lite effektivt med lav kapasitetsfaktor er ikke beskrevet.
+- De har brukt planarealet som påvirket areal. Dette er definitivt feil og alt for lite.
+- At vindkraftverk har store vedlikeholdskostnader er heller ikke beskrevet.
+- Ressursuttak i hele livsløpet for vindindustrianlegg (også utenfor Norge) er ikke beskrevet
+- At brukte turbinblader kan resirkuleres i det hele tatt per nå, stemmer ikke.
+- Det er ikke bare mikroplast forurensing.
+- At det må store investeringer i sentralnettet for å realisere vindkraft står heller ikke.
+- Mer vindkraft gir ikke nødvendigvis lavere strømpriser i snitt, spesielt når nettleia regnes med.
+- De nye høykapasitets kablene til utlandet, har vist seg i hovedsak å være eksportkabler
+
+Dette er noe bedre enn Fornybar Norge sin informasjon, men heller ikke her er alt faktabasert og viktige fakta til
+disfavør av vindkraft er utelatt. Det som skremmer meg mest her er at begrepet uregulerbar kraft overhode ikke er
+brukt om vindkraft, og at faglige beviste konsekvenser at dette ikke nevnt.  Jeg vet ikke om dette skyldes
+manglende kunnskaper blant regjeringen og rådgivere, eller om det er bevisst villedning. Like ille er det uansett.  
+
+**Jeg vil ha beslutninger som er basert på riktig faktagrunnlag, også fra Norges regjering**
+
 ### Vindkraft er en trussel mot norsk natur
 
-Myte? NEI Sannhet? JA
+*Myte? NEI Sannhet? JA.*
 
 I løpet av få år har vindkraften forbrukt like mye areal som hundre år med hyttebygging.
 Store områder som enten er uberørt av naturinngrep eller med lite naturinngrep fra før,
@@ -53,14 +75,15 @@ Jeg har ingen grunn til å tro at tallene i rapporten er villendende.
 
 Areal som fysisk er berørt av vindkraft er IKKE 20km2 som Fornybar Norge påsto.
 Totalt fastland er 384482 km2 landareal for Norge (inkludert øyer ved kysten og innsjøer),
-gir i 2024 at ca 1% av Norges landareal er påvirket av vindkraft  (nesten størrelsen av Vestfold fylke)
+gir i 2024 at ca 1% av Norges landareal er påvirket av vindkraft  (nesten størrelsen av Vestfold fylke).
+Regjeringen.no bruker planarealet i sin "folkeopplysning". Det er heller ikke korrekt.
 
 [Se nasjonal ramme for vindkraft.](https://temakart.nve.no/link/?link=nasjonalramme)
 Jeg må innrømme at dette likner på de såkalte akselerasjonsområdene, som er mye omtalt i EU's fornybardirektiv.
 
 ### Vindkraft bygges ut i verdifull natur
 
-Myte? NEI Sannhet? JA
+*Myte? NEI Sannhet? JA.*
 
 Riktignok blir de aller mest verdifulle områdene, inkludert vernede områder ikke bygget ut.
 Størsteparten av vindkraftindustrianlegg er i området med lite naturinngrep fra før. 
@@ -68,8 +91,8 @@ Det blir mindre og mindre igjen av slik natur i Norge. Kystnaturen er verst ber�
 
 Siden de aller fleste kraftverkene ligger ved kysten og vi regner kystnært areal som 20% av fastlandsareal,
 så ser det MYE verre ut. Da er 5% av kystnært areal påvirket (regnemåten usikker her).
-Det er bare å se på et kart inntegnet vindkraftindustriområder, så ser vi at det ikke er helt feil.
-https://atlas.nve.no/Html5Viewer/index.html?viewer=nveatlas#
+Det er bare å se på et [kart inntegnet vindkraftindustriområder fra NVE](https://atlas.nve.no/Html5Viewer/index.html?viewer=nveatlas#)
+, så ser vi at det ikke er helt feil.
 Kartet kan til og med vise planområdene for vindkraft.
 Se også nye planer for Finnmark, der NVE vurderer 11 kystnære områder som egnede.
 
@@ -83,7 +106,7 @@ at vi kan stille spørsmålstegn ved C02 regnskapet totalt sett for enkelte anle
 
 ### Vindkraft er en trussel mot biomangfold
 
-Myte? NEI Sannhet? I HVOR STOR GRAD MÅ VERIFISERES, EN FØRE VAR HOLDNING MANGLER
+*Myte? NEI Sannhet? I HVOR STOR GRAD MÅ VERIFISERES, En føre var holdking mangler.*
 
 Miljødirektoratet anslår at 40% av planarealet regnes som inngrepsfri natur.
 Det er også inngrep utenfor planarealet i form av veier, kraftlinjer etc.
@@ -97,7 +120,7 @@ Veianlegg teller også negativt.
 
 ### Vindkraft er en betydelig kilde til mikroplast
 
-Myte? NEI. Sannhet? JA, TIL EN VISS GRAD. MEN MÅ FORSKES MER PÅ DETTE.
+*Myte? NEI. Sannhet? JA, TIL EN VISS GRAD. Men må forskes mer på dette.*
 
 Dette punktet har forårsaket store diskusjoner.
 Tall som naturvernere kommer med opp mot vindkraftbransjens tall spriker voldsomt.
@@ -122,16 +145,18 @@ Forurensing (og C02 utslipp) generert under produksjon og transport av vindturbi
 
 ### Vindkraft er en ustabil kraft
 
-Myte? NEI. Sannhet: JA.
+*Myte? NEI. Sannhet: JA.*
 
 Hvordan Fornybar Norge greier å få dette til å bli en myte er helt uforklarlig.
 For her er det uomtvistelig bevist at:
 - Det blåser ikke hele tiden, selv om det blåser mer noen steder enn andre i snitt.
+- Kapasitetsfaktoren til vindkraftverk er 33% i snitt. 
+- Til havs kan det ventes en noe høyere faktor ca 50% fordi det blåser mer stabilt.
+- Til sammenlikning har vannkraft en kapasitetsfaktor på 95% eller mer. 
 
-https://www.faktisk.no/artikler/zw8ll/nei-vindturbiner-produserer-ikke-strom-bare-4-av-12-maneder-i-aret
-Kapasitetsfaktoren til vindkraftverk på land de siste årene er 33% i snitt.
-Til havs kan det ventes en noe høyere faktor ca 50% fordi det blåser mer stabilt.
-Til sammenlikning har vannkraft en kapasitetsfaktor på 95% eller mer.
+[Oversikt kapasitetsfaktor fra Faktisk.no.](https://www.faktisk.no/artikler/zw8ll/nei-vindturbiner-produserer-ikke-strom-bare-4-av-12-maneder-i-aret)
+Men her driver Faktisk.no med tulleretorikk og språklige tøyeøvelser, 
+på lik linje med Fornybar Norge etter min mening. Men tallene er riktige.
 
 Når det først blåser, blåser det gjerne over store områder. 
 Da er det potensiale for overprodusjon. Da kan vi til og med risikere
@@ -147,7 +172,7 @@ omtrent 600 milliarder NOK fram til 2030 i følge Statnett, som garantert vil f�
 
 ### Verdiskapingen forsvinner ut av kommunene
 
-Myte? NEI, Sannhet? DELVIS
+*Myte? NEI, Sannhet? DELVIS.*
 
 Dette er det punktet som jeg har vanskeligst for å verifisere, for det krever en grundig analyse over tid.  
 
@@ -161,8 +186,7 @@ En vindturbin på 5 MW vil gi kommunen omtrent 6-700 000 kr/år.
 Et middels stort anlegg med 20 turbiner bidrar med omtrent 12-14 millioner kroner i året til vertskommunen.
 For de fleste kommuner er dette lite i forhold til andre inntekter.
 Mye av inntektene ellers havner utenlands og eller til de største byene i Norge praksis. 
-Se vedlagt link til 2024  rapport fra regjeringen.no
-https://www.regjeringen.no/no/dokumenter/kommunale-inntekter-fra-kraftsektoren/id3023435/
+Se [2024  rapport fra regjeringen.no](https://www.regjeringen.no/no/dokumenter/kommunale-inntekter-fra-kraftsektoren/id3023435/)
 Ser vi på en del kurver overstiger utbytte fra vannkraft, mange ganger disse inntektene for vindkraft i form av
 eiendomsskatt og produksjonsavgift. Topp 30 kommuner for kraftinntekter viser at det i disse er svært lite inntekter fra
 vindkraft, med unntak at for Sirdal.  Størsteparten av inntektene kommer fra eierandeler i vannkraftverk, det vil si konsesjonskraft.  
@@ -177,7 +201,7 @@ for en del av kommunens innbyggerne?
 
 ### Norge har nok kraft, om vi bare hadde latt være å selge strøm til utlandet
 
-Myte? NEI, Sannhet? DELVIS
+*Myte? NEI, Sannhet? DELVIS.*
 
 Per dags dato så er det ikke kraftunderskudd.
 Vi eksporterer mer enn vi importerer.
@@ -204,7 +228,7 @@ Se til erfaringer med strømutkoplinger i California.
 
 ### Vi greier oss fint med å oppgradere vannkraften
 
-Myte? NEI (->2030), på kort sikt. JA (->2040). Sannhet? JA (->2030)) NEI (->2040)
+*Myte? NEI (->2030), på kort sikt. JA (->2040). Sannhet? JA (->2030)) NEI (->2040).*
 
 10-15 TWh kan skaffes ved opprusting og utvidelse av eksisterende vannkraftverk, uten vesentlig 
 nye naturinngrep (ref NTNU forskningsmiljø). NVE har et noe lavere anslag.
@@ -245,7 +269,12 @@ Det er ikke gitt at økt energibehov trenger å dekkes av vindkraft.
 
 ### Norge bør heller satse på atomkraft.
 
-Myte: NEI, Sannhet: SANNSYNLIGVIS
+*Myte: NEI, Sannhet: MÅ VURDERES GRUNDIG. Det er nødvendig globalt for å få ned C02 utslipp.
+
+Å kalle dette en myte som Fornybar Norge gjør er problematisk, fordi dette er ikke fakta basert.
+Det pågår en diskusjon i Norge nå nettopp om atomkraft og dette er bare med på å kneble debatten.
+Regjeringen Støre har satt i gang et utvalg for å belyse atomkraft, selv om det burde vært flere fageksperter
+i dette utvalget.
 
 Minner om den store fordelen med atomkraft, at den er stabil, tar liten plass 
 og til en viss grad er regulerbar. Dette er egenskaper som vindkraft ikke har.
@@ -257,8 +286,7 @@ Dette er egentlig et høna og egget problem. Starter man ikke å utrede
 og planlegge og teste blir det ikke bygd noen kjernekraftverk.
 Når så politikerne i lang tid, helt inntil nå bare har trenert alt. skjer ingenting.
 Det er egentlig en tragedie at kompetansen som fantes i Norge nå er mindre, pga.
-nedlagte forskningsreaktorer. Etter press har dagens sosialistiske regjering i 
-hvert fall startet med en utredning (men dessverre uten kjernekraft eksperter med i utvalget).
+nedlagte forskningsreaktorer. 
 
 Satsing på nye sikrere reaktor typer og spesielt muligheten med mindre SMR reaktorer,
 gjør at jeg har mer tro på at kjernekraft er lurt enn tidligere, også i Norge.
@@ -284,7 +312,7 @@ hvis det ikke var å regne som svært sikkert.
 
 ### Vi må prioritere hvordan vi skal bruke kraften
 
-Myte: NEI, Sannhet: JA
+Myte: NEI, Sannhet: JA.
 
 Ja kjør på:(Det mest ufornuftige øverst)
 - Ukritisk bitcoin utvinning
@@ -337,11 +365,10 @@ folkelige protester 10 ganer verre en Alta aksjonen.
 
 ## KONKLUSJON
 
-Jeg skjønner ikke mye av begrunnelsen for de fleste punktene som Fornybar Norge kaller myter.  
+Jeg skjønner ikke mye av begrunnelsen for de fleste punktene som Fornybar Norge kaller myter om vindkraft.  
+ 
+***Mye naturødeleggelse, ustabil kraftproduksjon og vi må prioritere kraftbruk er definitivt IKKE myter.***
 
-***De absolutt viktigste punktene som går på naturødeleggelse, ustabil vindkraftproduksjon
-og at vi må prioritere hva kraften brukes til er definitivt IKKE myter.***   
-  
 Det er sannheter. Andre av "mytene" kan vurderes litt mer, men heller 
 ikke på noen av de andre punktene kan jeg se at Fornybar Norge er i nærheten å ha helt rett.
 Der de har mest rett er at vi innen 2040 ikke greier oss bare med vannkraft.
