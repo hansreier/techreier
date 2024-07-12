@@ -43,11 +43,11 @@ og det er en del områder i innlandet også.
 Tar man båt rundt Norges kyst kan man snart ikke noen steder unngå å se vindkraftanlegg.
 Men det er ikke det visuelle som er det største problemet:
 
-Støysoner rundt et vindkraftindustrianlegg med mange store vindturbiner.
-1. 65-70 Db Vindturbin, 78 km2
-2. 55 Db (0.5 km), sikkerhet for iskast, sone med tilførselsveier, tilsvarer omtrent planarealet 760 km2
-3. 45 Db (1.5-2 km) såkalt akseptabel støyplage, 1950 km2
-4. 40 Db (3 km) nattestøygrense i nærheten) av boliger, 4100 km2.
+Støysoner rundt et vindkraftindustrianlegg med mange store vindturbiner:  
+1. 65-70 Db Vindturbin, 78 km2.    
+2. 55 Db (0.5 km), sikkerhet for iskast, sone med tilførselsveier, tilsvarer omtrent planarealet 760 km2.  
+3. 45 Db (1.5-2 km) såkalt akseptabel støyplage, 1950 km2.  
+4. 40 Db (3 km) nattestøygrense i nærheten) av boliger, 4100 km2.  
    
 Et kjøleskap summer normalt på ca. 40 dB og en bensingressklipper gir lyd i størrelsesorden 85-90 dB.
 Selvfølgelig påvirker lokal geografi og antall turbiner til en viss grad disse tallene.
