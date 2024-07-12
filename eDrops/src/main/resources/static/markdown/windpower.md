@@ -75,7 +75,7 @@ Jeg har ingen grunn til å tro at tallene i rapporten er villendende.
 
 Areal som fysisk er berørt av vindkraft er IKKE 20km2 som Fornybar Norge påsto.
 Totalt fastland er 384482 km2 landareal for Norge (inkludert øyer ved kysten og innsjøer),
-gir i 2024 at ca 1% av Norges landareal er påvirket av vindkraft  (nesten størrelsen av Vestfold fylke).
+gir i 2024 at ca 1% av Norges landareal er påvirket av vindkraft  (nesten størrelsen av gamle Vestfold fylke).
 Regjeringen.no bruker planarealet i sin "folkeopplysning". Det er heller ikke korrekt.
 
 [Se nasjonal ramme for vindkraft.](https://temakart.nve.no/link/?link=nasjonalramme)
