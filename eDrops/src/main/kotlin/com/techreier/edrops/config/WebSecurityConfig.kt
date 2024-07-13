@@ -38,7 +38,7 @@ class WebSecurityConfig(val appConfig: AppConfig) {
                 //  authorize("/css/*", permitAll)
                 //  authorize("/h2-console/**", denyAll)
                 //  authorize("/robots.txt", permitAll)
-                //  authorize("/images/favicon.ico, permitall)
+                //  authorize("/favicon.ico", permitAll)
             }
             formLogin {
                 loginPage ="/login"
