@@ -6,11 +6,9 @@ import com.techreier.edrops.util.Docs.getDocIndex
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.MessageSource
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val ABOUT="about"
@@ -24,9 +22,6 @@ class AboutController(dbService: DbService, messageSource: MessageSource) : Base
                 request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(ABOUT, model, request, langCode)
         val docIndex = getDocIndex(about, blogParams.locale.language, tag)
-        if (docIndex < 0) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, ABOUT)
-        }
         val doc = about[docIndex]
 
         val docText: String = markdownToHtml(doc, ABOUT_DIR)

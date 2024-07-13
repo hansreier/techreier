@@ -9,11 +9,9 @@ import com.techreier.edrops.util.Docs.home
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.MessageSource
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val HOME="home"
@@ -56,9 +54,6 @@ class HomeController(dbService: DbService, messageSource: MessageSource) : BaseC
                 request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(HOME, model, request, langCode)
         val docIndex = Docs.getDocIndex(home, blogParams.locale.language, tag)
-        if (docIndex < 0) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, HOME)
-        }
         val doc = home[docIndex]
 
         val docText: String = markdownToHtml(doc, HOME_DIR)

@@ -8,12 +8,10 @@ import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.MessageSource
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val COLLATZ = "collatz"
@@ -68,11 +66,7 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
     private fun prepare(model: Model, request: HttpServletRequest, langCode: String?) {
         val blogParams = setCommonModelParameters(COLLATZ, model, request, langCode)
         val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.locale.language, COLLATZ)
-        if (docIndex < 0) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, COLLATZ)
-        }
         val doc = Docs.collatz[docIndex]
-
         val docText: String = markdownToHtml(doc, COLLATZ)
         model.addAttribute("doc", doc)
         model.addAttribute("docText", docText)

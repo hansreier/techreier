@@ -2,8 +2,11 @@ package com.techreier.edrops.util
 
 import com.techreier.edrops.domain.English
 import com.techreier.edrops.domain.Norwegian
+import org.springframework.http.HttpStatus
+import org.springframework.web.server.ResponseStatusException
 
 const val MARKDOWN_EXT = ".md"
+const val ILLEGAL_PATH = "Illegal path"
 
 /**
  * No database needed for rendering docs saved as markdown files.
@@ -21,13 +24,9 @@ object Docs {
         Doc("manifest",  Norwegian, "Strøm manifest"),
         Doc("manifest",  English, "Electrical power manifest"),
         Doc("elprice",  Norwegian, "Strøm(pris)krisen", false),
-        Doc("elprice",  English, "Power(price) crisis (Norwegian)", false),
         Doc("elcrazy",  Norwegian, "To år med elgalskap", false),
-        Doc("elcrazy",  English, "Two years of elcraziness (Norwegian)", false),
         Doc("ringsaker", Norwegian, "Kraft og hytter i Ringsaker" , false),
-        Doc("ringsaker", English, "Power and cabins in Ringsaker (Norwegian)", false),
         Doc("windpower", Norwegian, "Myter om vindkraft", false),
-        Doc("windpower", English, "Wind power myths (Norwegian)", false)
     )
 
    val about = arrayOf(
@@ -39,13 +38,13 @@ object Docs {
         Doc("energy",  English, "Energy"),
         Doc("energylinks",  Norwegian, "Energi linker"),
         Doc("energylinks",  English, "Energy links"),
-        Doc("readme", Norwegian, "Prosjektet (engelsk)", false),
+        Doc("readme", Norwegian, "Prosjektet", false),
         Doc("readme", English, "Project", false),
-        Doc("tech", Norwegian, "Teknologi (engelsk)",false),
+        Doc("tech", Norwegian, "Teknologi",false),
         Doc("tech", English, "Technology",false),
-        Doc("markdown", Norwegian, "Markdown (engelsk)", false),
+        Doc("markdown", Norwegian, "Markdown", false),
         Doc( "markdown", English, "Markdown", false),
-        Doc("databases", Norwegian, "Databaser (engelsk)", false),
+        Doc("databases", Norwegian, "Databaser", false),
         Doc("databases", English, "Databases", false),
         Doc("hosting", Norwegian, "Mitt web hotell (engelsk)", false),
         Doc("hosting", English, "My web host", false)
@@ -59,7 +58,11 @@ object Docs {
     // Find the first Doc index that matches language code and eventually nonnull tag
     fun getDocIndex(docs: Array<Doc>, languageCode: String, tag: String? = null): Int {
         val usedCode = usedLanguageCode(languageCode)
-        return docs.indexOfFirst { (it.language.code == usedCode) && (tag == it.tag || tag == null) }
+        val docIndex =  docs.indexOfFirst { (it.language.code == usedCode) && (tag == it.tag || tag == null) }
+        if (docIndex < 0) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ILLEGAL_PATH)
+        }
+        return docIndex
     }
 
     fun getDocs(docs: Array<Doc>, languageCode: String): List<Doc> {
