@@ -24,7 +24,7 @@ class RequestFilter : Filter {
         try {
             logger.info("${req.method} ${req.servletPath} ${mem()}")
             chain.doFilter(request, response)
-            logger.debug("${req.method} ${req.servletPath} status: ${res.status}}")
+            logger.debug("${req.method} ${req.servletPath} status: ${res.status}")
         } catch (e: Exception) {
             logger.warn("${req.method} ${req.servletPath}, Error: ${e.message}")
             res.contentType = "text/plain"
