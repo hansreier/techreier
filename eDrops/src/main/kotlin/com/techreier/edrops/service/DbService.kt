@@ -1,10 +1,8 @@
 package com.techreier.edrops.service
 
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.Blog
-import com.techreier.edrops.domain.BlogData
-import com.techreier.edrops.domain.BlogOwner
-import com.techreier.edrops.domain.LanguageCode
+import com.techreier.edrops.domain.*
+import com.techreier.edrops.repository.BlogEntryRepository
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.LanguageRepository
@@ -19,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 class DbService(
     private val ownerRepo: BlogOwnerRepository,
     private val blogRepo: BlogRepository,
+    private val blogEntryRepo: BlogEntryRepository,
     private val languageRepo: LanguageRepository,
     private val blogData: BlogData
 ) {
@@ -58,7 +57,7 @@ class DbService(
     }
 
     //if language is changed, we try to fetch a blog with the new language and the same tag
-    //TODO, changing languge on URL, blogId is not picked up and the logic is wrong
+    // TODO, changing languge on URL, blogId is not picked up and the logic is wrong
     // https://stackoverflow.com/questions/38803656/spring-thymeleaf-changing-locale-and-stay-on-the-current-page
     // Hidden input field cannot be used directly to transfer blogId when just changing URL parameter
     fun readBlogWithSameLanguage(blogId: Long, langCode: String?): Blog? {
@@ -80,6 +79,11 @@ class DbService(
     fun readBlogs(blogOwnerId: Long, languageCode: String): MutableSet<Blog> {
         logger.info("Read blogs with language: $languageCode")
         return blogRepo.findByLanguage(LanguageCode("", languageCode)) //TODO something goes wrong here
+    }
+
+    //TODO Remove? Not needed
+    fun readBlogEntry(blogId: Long, tag: String): BlogEntry? {
+        return blogEntryRepo.findByBlogIdAndTag(blogId, tag)
     }
 
     fun readLanguages(): MutableList<LanguageCode> {

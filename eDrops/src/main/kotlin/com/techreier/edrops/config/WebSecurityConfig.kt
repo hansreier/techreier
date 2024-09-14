@@ -36,7 +36,7 @@ class WebSecurityConfig(val appConfig: AppConfig) {
                 authorize("/admin/**", authenticated)
                 authorize("/**", permitAll)
                 //  authorize("/css/*", permitAll)
-                //  authorize("/h2-console/**", denyAll)
+                // authorize("/h2-console/**", permitAll)
                 //  authorize("/robots.txt", permitAll)
                 //  authorize("/favicon.ico", permitAll)
             }
@@ -48,6 +48,12 @@ class WebSecurityConfig(val appConfig: AppConfig) {
             }
             logout {
                 logoutSuccessUrl = "/login"
+            }
+            csrf {
+                ignoringRequestMatchers("/h2-console/**")
+            }
+            headers {
+                frameOptions { sameOrigin = true } //Required for h2-console
             }
 
             sessionManagement {

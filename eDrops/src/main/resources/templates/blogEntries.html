@@ -24,6 +24,24 @@
             </tr>
         </table>
     </div>
+    <div th:if="${blogEntryForm != null}">
+        <form th:action="@{/xxxx}" th:object="${blogEntryForm}" th:method="post">
+            <div class="container" id="blogentryform">
+                <div class="form-row">
+                    <label th:for="tag" th:text="tag"></label>
+                    <input type="text" id="tag" th:field="*{tag}">
+                </div>
+                <div class="form-row">
+                    <label th:for="title" th:text="#{title}"></label>
+                    <input type="text" id="title" th:field="*{title}">
+                </div>
+                <div class="form-row">
+                    <label th:for="summary" th:text="#{summary}"></label>
+                    <textarea id="summary" th:field="*{summary}"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 </body>

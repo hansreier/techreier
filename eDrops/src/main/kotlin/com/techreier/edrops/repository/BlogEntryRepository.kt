@@ -8,4 +8,8 @@ import org.springframework.stereotype.Repository
 interface BlogEntryRepository : JpaRepository<BlogEntry, Long> {
   //  fun getBlogEntry(id: Long): BlogEntry?
   fun findByTitle(text: String): Iterable<BlogEntry>
+
+
+  // TODO Remove? Not needed
+  fun findByBlogIdAndTag(blogId: Long, tag: String): BlogEntry?
 }
