@@ -38,10 +38,12 @@ What characterizes maintainable computer systems?
   - Reactive programming can be replaced with Spring Boot Virtual Threads from Java v 21.
   - Calling blocking code is not recommended from reactive code.
 - Do not develop everything from scratch, frameworks like Spring Boot is desirable.
-- Beware that the data model is the most stable part of a system.
+- Beware that the database and data model is the most stable part of a system.
   - A lot of changes can be expensive.
   - A bad data model is expensive to fix, try to use time and do it right.
   - Select database type with care, it need not even be relational or can be combined with noSQL.
+  - I warn about stored procedures. Only use then if absolutely required for performance.
+  - Select database API with caution. Is an ORM like Hibernate / JPA really desired?
 - Avoid including too many languages in the same project / system.
 - In simple or internal web based systems, backend based HTML generation should be considered. 
   - It is not always the best idea to use frontend based code generation with e.g. React or Angular.
