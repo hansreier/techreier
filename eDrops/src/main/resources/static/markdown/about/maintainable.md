@@ -32,15 +32,17 @@ What characterizes maintainable computer systems?
 - A split of services into several systems / sub systems based on functionality
 - Sensible modularization within each system (not too many modules)
 - Cross-cutting concerns should be handled at one place, e.g. token checks in filter.
-- Use well known patterns
+- Use well known patterns.
+- Minimize state in a session.
 - Do not be too rigid about using either functional style or object-oriented style. Both has is uses.
+- Compact short code is not always the best (e.g. Regex). The concepts must be understood.
 - Reactive asynchronous programming can be complex in Java/Kotlin. 
   - Reactive programming can be replaced with Spring Boot Virtual Threads from Java v 21.
   - Calling blocking code is not recommended from reactive code.
 - Do not develop everything from scratch, frameworks like Spring Boot is desirable.
-- Beware that the database and data model is the most stable part of a system.
-  - A lot of changes can be expensive.
-  - A bad data model is expensive to fix, try to use time and do it right.
+- Beware that the database is the most stable part of a system.
+  - A lot of changes in the data model can be expensive.
+  - A bad data model is expensive to fix, try to be thorough and do it right.
   - Select database type with care, it need not even be relational or can be combined with noSQL.
   - I warn about stored procedures. Only use then if absolutely required for performance.
   - Select database API with caution. Is an ORM like Hibernate / JPA really desired?
@@ -72,7 +74,7 @@ What characterizes maintainable computer systems?
 - Use automated code checks to company development standards, including security checks.
     - But it can be too rigid if too much of this.
 - Use consistent error handling at the right level in the application, e.g. in controllers.
-- Throwing exceptions is for errors, not functional variants.
+- Throwing exceptions is for technical errors, not functional exceptions.
 - Implement a logging system, so errors is easily picked up by operations and developers.
 - Use explainable module names, variable names, class names and method names.
 - Documentation IS required, regardless of clean code.
