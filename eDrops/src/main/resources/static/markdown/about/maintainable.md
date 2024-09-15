@@ -15,6 +15,9 @@ What characterizes maintainable computer systems?
 - Select a technology stack that is well known for a lot of developers.
 - Check licencing and maintenance of development tools and libraries.
 - Split into maintainable code bases in centralized repo.
+- Focus on consistent interfaces between systems.
+  - Contract first is not always the best option, it can be too rigid.
+  - Collaboration between teams is super important.
 - Use Microservices, but sometimes it can be required with a common database.
 - A product focused agile team maintaining the system(s).
   - Continuous development and maintenance of the system(s).
@@ -90,15 +93,17 @@ What characterizes maintainable computer systems?
 
 The most difficult system to maintain:
 - The coders started without a well-defined architecture and methodology
+- If functional knowledge is too limited in the current agile team, it can be dangerous.
+- Too limited technical and functional documentation.
 - Be careful with too much code generation, adds complexity
-    - even worse, the team developed itself the code and GUI generation, e.g. from domain model or database.
-- A too generic system or library developed
-- GUI, api, service and database code mixed together in tight coupling.
+    - even worse, the team developed itself the code or GUI generation, e.g. from domain model or database.
+- A too generic system or library developed and maintained.
+- GUI, api, service, repository and database code mixed together in tight coupling.
 - Too much loosely related functionality in one large legacy system.
-- Ad hoc discontinuous development when the sponsor have got the money
+- Ad hoc discontinuous development when the sponsor has got the money.
 - To upgrade from very old framework versions can be costly but is required, also refer to security issues.
 - Too many languages involved for too few developers. 
-  - Watch out for one developer should know it all strategy. Backend, frontend, devops, iaC, cloud infrastructure
+  - Watch out for one developer should know it all strategy: Backend, frontend, devops, iaC, database, stored procedure, cloud infrastructure, ...
 
 And sorry, I have seen it all and even been on the project with the most difficult system to maintain.
 Sometimes a rewrite or partly rewrite of the whole system is required because the legacy system is unmanageable.
