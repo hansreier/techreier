@@ -21,7 +21,7 @@ We humans have to build something to be happy, but recycling is boring.
 Yes, technology used correctly can solve problems, but it can also make stuff worse.
 
 The global warming and nature loss problems must be solved together, because they are closely related.
-We solved the destruction of the ozon layer created by technology with technology, 
+We solved the destruction of the ozone layer created by technology with technology, 
 but can we solve this even more complex problem by just using technology? I think not.
 I do not have the answer. You can not focus on climate change alone. This is the main mistake done
 by politicians, technocrats and technologists. A new green industry is created to solve global warming,

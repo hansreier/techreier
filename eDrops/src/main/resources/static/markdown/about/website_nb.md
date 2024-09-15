@@ -4,7 +4,7 @@ Dette er Reier's personlige nettsted, teknologi- og samfunns-orientert.
 Jeg er en senior systemutvikler som bor på Moelv.  
 
 En del av dette nettstedet omhandler bruk av teknologi generelt i samfunnet.
-Den andre delen er relatert til programvar utvikling.
+Den andre delen er relatert til programvare utvikling.
 
 Vi kan ikke prate om bruk av en gitt teknologi uten å stille noen spørsmål:
 
@@ -19,12 +19,12 @@ Vi kan ikke prate om bruk av en gitt teknologi uten å stille noen spørsmål:
 
 Vi mennesker må bygge noe for å være lykkelige, men gjenbruk er kjedelig.
 "Huston vi har et problem" sa de, men hvordan fikse hele kloden når vi har rotet den til.
-Ja, teknologi brukt riktig kan løse problemer, men det kan også gjøre ting værre.
+Ja, teknologi brukt riktig kan løse problemer, men det kan også gjøre ting verre.
 
-Problemene med global oppvarming og natur-tap må løses sammen, fordi dette henger tett samme.
+Problemene med global oppvarming og natur-tap må løses sammen, fordi dette henger tett sammen.
 Vi forhindret ødelegggelse av osonlaget som var skapt av teknologi med teknologi,
 men kan vi løse dette enda mer komplekse problemet bare med teknologi? Jeg tror ikke det.
-Jeg har ikke svaret. Men vi kan ikke fokusere på klimaendringer isolert sett. Dette er hovedfeilen som
+Jeg har ikke svaret. Men vi kan ikke ensidig fokusere på klimaendringer. Dette er hovedfeilen som
 er gjort av politikere, teknokrater og teknologer. En ny grønn industri har blitt skapt for å løse global oppvarming,
 men ikke uten enormt ressursforbruk og ødelegges av natur. Jeg referer til innslag på dette nettstedet som
 omhandler dette.
@@ -33,10 +33,10 @@ omhandler dette.
 
 * Å publisere mine synspunkter om emner som engasjerer meg:
     * Relatert til informasjons- og kommunikasjons- teknologi
-    * Relatert til energi, miljø og klima.
+    * Relatert til energi, miljø og klima
     * Norsk og global politikk,
 * Å publisere teknologi relatert innhold:
-    * Programmerings teknikker
+    * Programmerings-teknikker
     * Backend: Kotlin / Spring Boot / Hibernate / MariaDB
     * Frontend: Thymeleaf / produsere HTML fra tekst
     * Devops: Å kjøre Docker containere på Hostinger VPS (Virtuell privat Linux tjener)
@@ -54,11 +54,11 @@ Hvis du er interessert i hvordan dette nettstedet er laget, så har jeg en annen
 Målet er å lage dette så enkelt som mulig. En opsjon er å bruke markdown som i en readme.md fil,
 siden det er enklere enn RTF og tar mindre plass. Kanskje vil systemet støtte begge formater.
 Eksterne tekst-editorer som Intellij kan brukes, eller en tekst editor inkluderes i dette prosjektet (TODO).
-Jeg har brukt tjener side HTML generering (Thymeleaf). Grunnen til dette er at for enkle tekst orienterte web-sider,
+Jeg har brukt tjenerside HTML generering (Thymeleaf). Grunnen til dette er at for enkle tekst orienterte web-sider,
 så er det raskere å utvikle og enklere å vedlikeholde, sammenliknet med å bruke klient baserte web teknologier som React
 og Angular. Dette gjelder i alle fall for meg som i utgangspunktet er en backend-utvikler. Ikke bland ulike teknologier
 sammen, i hvertfall hvis det ikke er nødvendig.
-En ting å notere er at tjener side generering med Thymeleaf gir veldig ren HTML 5,
+En ting å notere er at tjenerside generering med Thymeleaf gir veldig ren HTML 5,
 og uten at det er påkrevet med veldig mye Javascript.
 
 Det første forsøket er å bruke markdown skrevet i Intellij eller en annen editor, lagre det som en fil smmmen
