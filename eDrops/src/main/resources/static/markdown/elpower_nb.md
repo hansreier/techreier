@@ -2,9 +2,9 @@
 
 Dette manifestet ble rett og slett skrevet fordi jeg er fly forbanna og oppgitt over nåværende energipolitikk.
 Det som er ille er at nåværende politiske retning ikke løser klimakrisa, forverrer naturkrisa, 
-skaper unødvendig inflasjon, høyere rente, fattigdom og politikerforakt. 100 års møysommelige innsats av hele det Norske samfunnet
+skaper unødvendig inflasjon, høyere rente, fattigdom og politikerforakt. 100 års møysommelig innsats av hele det norske samfunnet
 for å bygge opp en industrinasjon basert på billig vannkraft, er i løpet av få år reversert og kastet bort.
-Vi hadde et system med stabil billig elektrisk kraft for det Norske samfunnet som fungerte godt i mange år.
+Vi hadde et system med stabil billig elektrisk kraft for det norske samfunnet som fungerte godt i mange år.
 Nå har vi ikke det lenger, men et EU tilpasset markedsbasert kraftsystem med kjempehøye jojo kraftpriser.  Nå og i 
 uoverskuelig framtid! Det er i tillegg et potensiale for kraftunderskudd: Først og fremst på grunn av nye høykapasitets utenlandskabler, 
 men også pga. misforståtte såkalte grønne energislukende prosjekter for å løse klimakrisa.  
@@ -30,17 +30,17 @@ VIKTIGE KILDER OG INSPIRASJON
 
 - Facebook gruppa: Vi som krever billigere strøm hadde mer enn 600000 medlemmer.
 - Se på Motvind Norge som kjemper mot vindturbiner og mye av nåværende energipolitikk.
-- Se på hva Naturvernforbundet mener om vindturbiner og foruroligende ødeleggelse av Norsk natur.
+- Se på hva Naturvernforbundet mener om vindturbiner og foruroligende ødeleggelse av norsk natur.
 - Se på hvordan energiforsyningen i Tyskland er ødelagt av massiv satsning på vindturbiner og solkraft.
-- Se på det felles Europeiske dysfunksjonelle Nordpool strømmarkedet som prissetter Norsk elkraft.
-- Se hva fageksperter sier om Norsk elforsyning (se linker på dette nettstedet)
+- Se på det felles Europeiske dysfunksjonelle Nordpool strømmarkedet som prissetter norsk elkraft.
+- Se hva fageksperter sier om norsk elforsyning (se linker på dette nettstedet)
 
 Det er helt åpenbart at ledende politiske partier i Norge er fullstendig på kollisjonskurs med folk flest når det
 gjelder energipolitikk knyttet til produksjon, distribusjon, salg og forbruk av elektrisk kraft. 
 Det er også stor skepsis til offentlig byråkrati, kraftselskaper og hele fornybarbransjen. 
 En god indikator er kursutviklingen til såkalte grønne fond som investerer i fornybar energi. Styr unna!
 Jeg setter krav til politikere at de i hverfall skjønner forskjellen på regulerbar og uregulerbar elkraft,
-og hvilke negative konsekvenser store mengder av ny uregularbar kraft vil ha på det Norske kraftnettet.
+og hvilke negative konsekvenser store mengder av ny uregularbar kraft vil ha på det norske kraftnettet.
 
 Det bør disse partiene legge merke til og legge om kursen, før de forhåpentligvis reduseres til minipartier. 
 Ja dette er en pågående prosess for Arbeiderpartiet hvis de ikke legger om kursen.   

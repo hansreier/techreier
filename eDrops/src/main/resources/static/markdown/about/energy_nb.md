@@ -44,8 +44,8 @@ i uberørt natur.
 Vi har en kraftbransje og fornybar bransje som bevisst eller ubevisst vil presse energiprisene opp, 
 for å tjene mest mulig penger. Så lenge dette passer inn i det grønne skiftet og politikere tror på det så blir det slik.
 
-Sett fra Norske forhold så er billig og stabil elektrisk strømforsynlig 
-en forutsetning for hele det Norske samfunnet, de siste hundre år, nå og i framtiden. 
+Sett fra norske forhold så er billig og stabil elektrisk strømforsynlig 
+en forutsetning for hele det norske samfunnet, de siste hundre år, nå og i framtiden. 
 Og hva skjer nå: Massiv bygging av industrianlegg for såkalt fornybar energi, som ikke engang er regulerbar.
 Resultatet er at kun 1/3 av potensialet i denne energiproduksjonen kan utnyttes. Det krever også store
 nettinvesteringer for å få denne energiproduksjonen til å virke sammen med vår eksisterende billige vannkraft.
@@ -75,7 +75,7 @@ også på grunn av elektrifisering av prosessindustri. Og i dette NRK programmet
 
 Nei det gjør ikke det. Dette går bare ikke. Det er en varslet katastrofe.
 Og den eneste måte det kan løse seg på i dette området er med kjernekraftverk.
-Men det vil ikke Norske ledende politikere ha. De stikker hodet i sanden som strutsen.
+Men det vil ikke norske ledende politikere ha. De stikker hodet i sanden som strutsen.
 
 Derfor fokuserer jeg på dette temaet,  og ikke en hel masse annet mindre viktige politiske saker. 
 Dessverre har emnet i mange tidligere Stortingsvalg  druknet i andre saker. 

@@ -66,7 +66,7 @@ Det vil ikke i praksis være mulig å bo rett utenfor planområdet.
 **Det blir feil å bruke planarealet som påvirket areal.**
 
 Normalårsproduksjon i inngangen til 2023 for vindkraft var ca 16,9 TWh. 
-Dette er 11% av Norsk produksjonskaptasitet.
+Dette er 11% av norsk produksjonskaptasitet.
 Dette er tall fra NVE / Energifakta Norge. Motvind Norge har gjort en beregning, 
 basert på snitt av Trøndeske vindkraftverk (temarapport 1-2019), der berørt areal framkommer for 20TWh.
 Derfor bruker jeg 20TWh tallene fra temarapporten for å gjøre det enkelt, selv om det er litt høyt for 2024.
@@ -191,7 +191,7 @@ Ser vi på en del kurver overstiger utbytte fra vannkraft, mange ganger disse in
 eiendomsskatt og produksjonsavgift. Topp 30 kommuner for kraftinntekter viser at det i disse er svært lite inntekter fra
 vindkraft, med unntak at for Sirdal.  Størsteparten av inntektene kommer fra eierandeler i vannkraftverk, det vil si konsesjonskraft.  
 
-88% av Norsk Vannkraft er offentlig eid, mens tilsvarende tall for vindkraft er 22%. Omtrent 2/3 av vindkraften er eid
+88% av norsk Vannkraft er offentlig eid, mens tilsvarende tall for vindkraft er 22%. Omtrent 2/3 av vindkraften er eid
 av utenlandske selvskaper. De største norske eierne av vindkraft inkluderer Statkraft og Trønderenergi.  
 
 Konklusjon: Vindkraftkommuner får inntekter fra eiendomsskatt og produksjonsavgift. Dette er relativt lite
@@ -398,7 +398,7 @@ Bølgekraft som er for lite vurdert kan også brukes til det samme og har sammen
 Når vi vet at alle Nordsjøland satser på havvind, så vil resultatet bli ekstreme
 jojopriser på denne krafta som vil gjøre den ulønnsom. Noe bedre kan satsing
 lenger nord være, men der må det tas hensyn til fiskefelter osv. 
-Ledende Norske politiske partier forstår dessverre ikke dette.
+Ledende norske politiske partier forstår dessverre ikke dette.
 Husholdninger og industri på fastlandet får regningen.
 
 

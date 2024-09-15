@@ -14,7 +14,7 @@ Nei, bor ikke der men i Moelv, Innlandet, Norge.
 Det skal ikke være noe innlagt virus som du blir smittet med.  
 
 Teknologi er både enkelt og vanskelig å samme tid.
-Denne nettsiden er ikke rakett vitenskap.
+Denne nettsiden er ikke rakett-vitenskap.
 
 Vi mennesker skal jo bare lage ett eller annet som skal brukes til noe nyttig.
 Problemet er at vi skaper kaos som vi ikke blir kvitt samtidig.
@@ -33,13 +33,13 @@ Går ikke. Så er vi der igjen.
 Det finnes mange dårlige og noen litt bedre metoder å fikse dårlig teknologi på.  
 
 Bilen min slipper ånden ut av flasken, det er hovedproblemet.
-Jeg kan ikke leve uten bil, eller? katten min kan..
+Jeg kan ikke leve uten bil, eller? Katten min kan..
 men den blir jo fraktet i bur i bilen min ned til dyrlegen av og til.
 Så bytter jeg til bil som krever elektrisk strøm
 som krever store batterier som forbruker strøm og andre ressurser
 som globalt løses med kullkraftverk som slipper ut C02.
 
-I Norge er vi griseheldige som har mye nedbør og vannkraft
+I Norge er vi griseheldige som har mye nedbør og vannkraft.
 Så vil vi likevel forbruke enda mer.
 Det såkalte grønne løsningen er vindmøller påstår de,
 når det blåser passe mye vel og merke.  

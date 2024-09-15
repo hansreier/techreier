@@ -66,9 +66,9 @@ med koden, og plukke det opp som en del av Web brukergrensesnittet. Ingen databa
 nødvendig. Men jeg bruker likevel en relasjonsdatabase for å strukturer bloggene og metadata, og
 for å muliggjøre å skrive og vise bloggene i ulike språk.
 
-### Ikke rakett forskning
+### Ikke rakett-forskning
 
-Det å lage et nettsted som dette er ikke rakettforskning, det er egentlig ikke veldig vanskelig.
+Det å lage et nettsted som dette er ikke rakett-forskning, det er egentlig ikke veldig vanskelig.
 Innenfor media kalles dette et CMS (Content management system).  
 
 Men hvorfor lage mitt eget web publiserings system?   

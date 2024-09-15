@@ -47,7 +47,7 @@ I andre Europeiske land er det kjernekraft og fossil kraft fra kull etc. som vir
 men som forurenser mer. Jeg går ikke inn i en debatt om kjernekraft i dette notatet,
 men mener vel egentlig at det ikke er nødvendig i Norge. NY KONKLUSJON: SANNSYNLIGIVIS NØDVENDIG.  
 
-Når det så kommer stadig mer uregulerbar kraft inn i det Norske kraftsystemet, 
+Når det så kommer stadig mer uregulerbar kraft inn i det norske kraftsystemet, 
 så fører dette dessverre til mye større variasjon i strømprisene og i snitt høyere strømpriser. 
 Og det er dette som regjeringen vil bygge ut langt mer av i de nærmeste årene. 
 Enda flere kraftanlegg som ikke virker når det er størst behov for det? 
@@ -56,7 +56,7 @@ Ikke spesielt smart spør du meg. Og dette er regjeringens løsning på strømkr
 Verdens land har nettopp blitt enige om en natur-avtale, 
 som skal hjelpe oss å løse naturkrisen og gi oss mer natur i stedet for mindre,
 sier klima- og miljøminister Espen Barth Eide. 
-Da må vi ikke bygge ned Norsk natur med vind- og solkraft-anlegg. 
+Da må vi ikke bygge ned norsk natur med vind- og solkraft-anlegg. 
 Naturkrisen i verden er like alvorlig som klimakrisen, også fordi urørt natur binder mest mulig C02.
 Det å tro at vi kan hjelpe EU med fossil-fri kraft i noen særlig grad via strømkablene med en slik utbygging, er helt feil.
 Det er uansett bare en liten del av Europas energibehov som vi kan dekke på denne måten (ca 1%).  
@@ -92,7 +92,7 @@ Det er noen områder som peker seg spesielt ut, der vi med god grunn bør være 
 - Det er gunstig og nødvendig å erstatte fossil energibruk i kraftkrevende industri med fossil-fri. Men det er mange måter å gjøre det på for å få ned utslipp, ikke bare direkte med elektrisk kraft. Det vi må ta tak i er å prioritere det som gir størst klimaeffekt globalt og flest mulig norske arbeidsplasser over tid. 
 - Ufornuftig utbygging og bruk av datasentre: Nytten må vurderes opp mot energibruken. Brukes datakraften til bitcoin utvinning er det fullstendig unødvendig. Energibruk i IT prosjekter som vegprising og overvåking for PST må vurderes. Min egen bransje er dessverre ikke uskyldig når det gjelder å øke energiforbruket. Men, vi skal selvsagt ha nye datasentre i Norge.
 
-Tiltak for isolert å oppfylle Norske klimakvoter, kan lett bli til et negativt C02 regnskap globalt.
+Tiltak for isolert å oppfylle norske klimakvoter, kan lett bli til et negativt C02 regnskap globalt.
 
 
 Det er gunstig for totalt C02 utslipp på kloden at det er vi som produserer varer som krever mye energi (olje- og gass eller elkraft), 
@@ -113,7 +113,7 @@ Problemene med kraftprisene vil vedvare lenge og like lenge som kraftprisen er h
 På sensommeren i Sør Norge var det en strømressurskrise som var forårsaket av lite nedbør og for høy strømeksport over tid.
 Da ble heldigvis eksporten begrenset noe av oppfordringer fra energiminister Terje Aasland. 
 Så kom nedbøren og vinden og vannmagasiner ble fylt opp og strømprisene ble lavere over store deler av Europa inkludert Norge. 
-Nå er situasjonen en helt annen med lite vind og mye kulde i Europa og dermed høye strømpriser i hele Europa inkludert Norge. Fyllingsgraden av Norske vannmagasiner er fortsatt så høy at ressursproblemene som man fryktet til vinteren og tidlig neste vår trolig ikke kommer. Men vi ser på nytt tendenser til for høy strømeksport via de 2 nye utenlandskablene som kan tappe vannmagasinene i overkant mye. Slik som det ble gjort på samme tid i fjor.
+Nå er situasjonen en helt annen med lite vind og mye kulde i Europa og dermed høye strømpriser i hele Europa inkludert Norge. Fyllingsgraden av norske vannmagasiner er fortsatt så høy at ressursproblemene som man fryktet til vinteren og tidlig neste vår trolig ikke kommer. Men vi ser på nytt tendenser til for høy strømeksport via de 2 nye utenlandskablene som kan tappe vannmagasinene i overkant mye. Slik som det ble gjort på samme tid i fjor.
 
 Strømprisene er nå nesten like høye som de ville ha vært med tommere vannmagasiner. 
 Det beviser at det er en enkelt faktor som er viktigere enn alt annet når det gjelder strømprisen:
@@ -131,7 +131,7 @@ Og hva kan gjøres ut over dette?
 - I følge meg, 600.000 i Facebook gruppen «Vi som krever billigere strøm», 
 Alternativ Energikommisjon og mange næringslivstopper (referert f.eks. til Spetalen) og andre:  
 
-**Vi bør frikople Norsk innenlands strømsalg fra Nordpool børsen.**
+**Vi bør frikople norsk innenlands strømsalg fra Nordpool børsen.**
 **Da vil eksport og import av strøm fortsatt gå via denne børsen, men ikke det som er rent innenlands strømsalg.** 
 **Det er jo et kunstig marked, der påslaget i prisen ikke har noe med produksjon- og distribusjonskostnader å gjøre.**    
 
@@ -151,7 +151,7 @@ Selv EU ved Leyen har innsett at markedet for elektrisk kraft ikke fungerer opti
 EU har også satt maksimal pris på gass ganske nylig, som også påvirker oss som gass eksportør. 
 Da kan vi sette maksimal pris på strøm. Det finnes også andre regulerende tiltak som kan være enda bedre enn maksimal pris.  
 
-Det er et demokratisk problem at et organ (RME) som ikke er styrt av Norske myndigheter er satt til å regulere kraftmarkedet i Norge.
+Det er et demokratisk problem at et organ (RME) som ikke er styrt av norske myndigheter er satt til å regulere kraftmarkedet i Norge.
 Det er også et demokratisk problem at Norge ukritisk godtar alle lover og forskrifter som EU kommer med via EØS. 
 Nåværende markedsregulering kan være i strid med Grunnloven og andre lover som Energiloven  (formålsparagrafen),Vannfallsrettighetsloven (formålsparagrafen) og pristiltaksloven (Urimelige priser og forretningsvilkår).
 
