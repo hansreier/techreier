@@ -43,6 +43,8 @@ i uberørt natur.
 
 Vi har en kraftbransje og fornybar bransje som bevisst eller ubevisst vil presse energiprisene opp, 
 for å tjene mest mulig penger. Så lenge dette passer inn i det grønne skiftet og politikere tror på det så blir det slik.
+Alle husholdninger og små bedrifter burde reise seg opp og protestere på dagens energipolitikk, som i praksis er en
+gigantisk pengeoverføring fra de små til de store og naturødeleggende i tillegg. Stem ikke Høyre eller Arbeiderpartiet.
 
 Sett fra norske forhold så er billig og stabil elektrisk strømforsynlig 
 en forutsetning for hele det norske samfunnet, de siste hundre år, nå og i framtiden. 

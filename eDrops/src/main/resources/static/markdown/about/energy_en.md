@@ -52,6 +52,8 @@ But it must be limited, especially those large facilities in untouched nature.
 We have a power industry and a renewable energy sector that, consciously or unconsciously,
 will push energy prices up to make as much money as possible. 
 As long as this fits into the green transition and politicians believe in it, this will continue.
+All households and small businesses should raise and protest on the current Norwegian energy policy,
+that in reality is a gigantic money transfer from the small to the big, and is also destructure to nature.
 
 From a Norwegian perspective, cheap and stable electrical power supply is a prerequisite for the entire Norwegian society,
 both historically and in the future. And what's happening now? 
