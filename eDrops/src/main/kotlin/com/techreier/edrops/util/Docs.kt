@@ -42,6 +42,8 @@ object Docs {
         Doc("readme", English, "Project", false),
         Doc("tech", Norwegian, "Teknologi",false),
         Doc("tech", English, "Technology",false),
+        Doc("maintainable", Norwegian, "Vedlikeholdbarhet",false),
+        Doc("maintainable", English, "Maintainability",false),
         Doc("markdown", Norwegian, "Markdown", false),
         Doc( "markdown", English, "Markdown", false),
         Doc("databases", Norwegian, "Databaser", false),
