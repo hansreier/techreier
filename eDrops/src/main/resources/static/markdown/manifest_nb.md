@@ -18,9 +18,9 @@
 * Ideen om Norge som Europas batteri er fullstendig urealistisk og må legges død.
 * EØS / Acer, kraftavtalene og energimarkeds-pakkene er dyre for industri og husholdninger.
 * Eksport via de nye utenlands kablene reguleres så vi ikke risikerer strøm ressurskrise igjen.
-* Vi trenger bare litt mer fossil-fri energi før 2040  (20%, Kilde NVE)
+* Vi trenger bare litt mer fossil-fri energi før 2040  (22%, Kilde NVE)
 * Energikommisjonens slagord, mer av alt raskere, er feil klima-medisin.
-* Storskala ny energiproduksjon og forbruk må vurderes grundig lokalt etter fastsatte kriterier 
+* Storskala ny energiproduksjon og forbruk må vurderes grundig lokalt etter fastsatte kriterier: 
     - Kost
     - Nytte
     - Utslipp
@@ -32,13 +32,13 @@
     - Oppgradering av vannkraftanlegg, sammen med flomsikring. 
     - Energi effektivisering og energi sparing generelt. Støttet av Enova. For alle. 
     - Solenergiproduksjon med utgangspunkt i lokale tiltak nære bygninger og industrianlegg.
-    - Kjernekraft-anlegg i Norge, start med prototyp / forskningsanlegg for SMR 
-    - Annen energiproduksjon (termisk, bioenergi, varmegjenvinning etc.)
+    - Kjernekraft-anlegg i Norge, start med prototyp / forskningsanlegg for SMR. 
+    - Annen energiproduksjon (termisk, bioenergi, varmegjenvinning etc.).
 * Skatter og avgifter bør innrettes til fordel for regulerbar kraftproduksjon, ikke uregulerbar.
 * Klimakrisa er her, men løses ikke ved å eskalere en naturkrise i tillegg:
-    - Fokus er på globalt C02 utslipp, løses best der potensialet for utslippsreduksjon er størst
-    - Skogen skal selvsagt med i norsk C02 regnskap
-    - Olje og gass virksomhet ned-skaleres 
+    - Fokus er på globalt C02 utslipp, løses best der potensialet for utslippsreduksjon er størst.
+    - Skogen skal selvsagt med i norsk C02 regnskap.
+    - Olje og gass virksomhet ned-skaleres. 
     - Vi vil alltid ha bruk for fossil energiproduksjon, også utgangspunkt for produkter.
 * Vindkraft (på land og til havs) er naturødeleggende, ressurssløsende og lite resirkuler-bart.
 * Solenergianlegg plassert i urørt natur er ikke så mye bedre enn vindenergi-anlegg.

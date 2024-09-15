@@ -28,7 +28,7 @@ Key points:
 * The idea of Norway as Europe's battery is completely unrealistic and should be abandoned.
 * The EEA/Energy Union, power agreements, and energy market packages are costly for industry and households.
 * Export via the new export electricity cables (Germany and Scotland) should be regulated so we do not risk an electricity resource crisis again.
-* We only need a little more fossil-free energy before 2040 (20%, Source NVE)
+* We only need a little more fossil-free energy before 2040 (22%, Source NVE)
 * The Norwegian government Energy Commission's slogan, more of everything faster, is the wrong climate medicine
 * Large-scale new energy production and consumption must be thoroughly evaluated locally based on established criteria:
     - Cost
@@ -42,13 +42,13 @@ Key points:
     - Upgrading hydropower plants, along with flood protection.
     - Energy efficiency and energy saving in general, supported by Enova, for everyone. 
     - Solar energy production based on local initiatives near buildings and industrial facilities.
-    - Nuclear power plants in Norway, starting with prototype/research facilities for SMR
-    - Other energy production (thermal, bioenergy, waste heat recovery, etc.)
+    - Nuclear power plants in Norway, starting with prototype/research facilities for SMR.
+    - Other energy production (thermal, bioenergy, waste heat recovery, etc.).
 * Taxes and fees in Norway be in favor of dispatchable power production, not unregulated.
 * The climate crisis is here, but it is not solved by escalating a nature crisis:
     - Focus is on global CO2 emissions, best addressed where the potential for emission reduction is greatest.
-    - The forest should of course be included in Norway's CO2 accounting
-    - Oil and gas activities should be scaled down 
+    - The forest should of course be included in Norway's CO2 accounting.
+    - Oil and gas activities should be scaled down. 
     - We will always need fossil energy production, also as a basis for products.
 * Wind power (on land and at sea) is environmentally destructive, resource-wasting, and poorly recyclable.
 * Solar energy plants placed in untouched nature are not much better than wind energy plants.
