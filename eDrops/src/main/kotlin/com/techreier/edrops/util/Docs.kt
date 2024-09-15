@@ -46,7 +46,7 @@ object Docs {
         Doc( "markdown", English, "Markdown", false),
         Doc("databases", Norwegian, "Databaser", false),
         Doc("databases", English, "Databases", false),
-        Doc("hosting", Norwegian, "Mitt web hotell (engelsk)", false),
+        Doc("hosting", Norwegian, "Mitt web hotell", false),
         Doc("hosting", English, "My web host", false)
     )
 

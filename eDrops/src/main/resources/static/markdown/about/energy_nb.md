@@ -57,7 +57,7 @@ høykapasitets eksportkabler har gjort oss avhengige av Europeiske kraftpriser s
 Siden Tyskland på forhånd har gjort  den samme tabben som vi er i ferd med å gjøre: 
 Massiv utbygging av vind og solkraft. Så må det gå galt. 
 For Tyskland  så er nedleggelse av kjernekraft også en del av regnestykket. 
-Og dette strømmarkedet og det finansielle strømmarkedet  oppå dette har  beredd grunnen for strømspekulater. 
+Og dette strømmarkedet og det finansielle strømmarkedet  oppå dette har  beredd grunnen for strømspekulanter. 
 Strøm er blitt et mer og mer velegnet spekulasjonsobjekt, siden prisene varierer mer og mer.
 Jeg referer til en episode i NRK serien Exit. Dessverre mer realistisk enn jeg liker.
 

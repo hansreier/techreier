@@ -122,7 +122,14 @@ Det er hva vi kan selge kraften for på Nordpool børsen.
 Dessverre er dette påvirket av Europeiske energipriser og gassprisen spesielt.
 
 Dagens strømstøtteordning fra regjeringen er et forsøk på å kurere symptomene på et strøm-marked ute av kontroll. 
-Den har reddet mange, men ordningen er skeiv og omfatter ikke alle som burde hatt mer normale strømpriser. Fastprisordningen som regjeringen kom opp med for bedrifter etter skatteendringer fungerer åpenbart ikke godt nok for flertallet av bedriftene.
+Den har reddet mange, men ordningen er skeiv og omfatter ikke alle som burde hatt mer normale strømpriser. 
+Fastprisordningen som regjeringen kom opp med for bedrifter etter skatteendringer fungerer åpenbart ikke godt nok for flertallet av bedriftene.
+Det er verdt å merke seg at en del store konsern med høyt strømforbruk får såkalt C02 kompensasjon.
+Disse har gjerne også PPA-kontrakter, som er en bilateral langtidsavtale som ingås direkte mellom bedrift
+og kraftprodusent for å siker en fast energipris. Kombinasjonen av C02 kompensasjon og PPA kontrakter for vindkraft gjør at
+en del store konsumenter i praksis skyver kostnader over på mindre bedrifter og husholdninger. Det er verdt å merke
+seg at disse konsumentene er avhengig av stabil kraft. Gjett hvem da som kan få problemene med ustabil vindkraft og
+jojo-priser i spot markedet.
 
 Og hva kan gjøres ut over dette?
 
