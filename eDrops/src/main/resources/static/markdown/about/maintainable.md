@@ -96,7 +96,7 @@ The most difficult system to maintain:
 - If functional or technical knowledge is too limited in the current agile team, it can be dangerous.
 - Too limited technical and functional documentation.
 - Be careful with too much code generation, adds complexity
-    - even worse, the team developed itself the code or GUI generation, e.g. from domain model or database.
+  - even worse, the team developed itself the code or GUI generation, e.g. from domain model or database.
 - A too generic system or library developed and maintained.
 - GUI, api, service, repository and database code mixed together in tight coupling.
 - Too much loosely related functionality in one large legacy system.
