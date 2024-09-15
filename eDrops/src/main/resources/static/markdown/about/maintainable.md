@@ -4,9 +4,8 @@ This is just quick notes, to be expanded.
 
 I have as a software engineer for 40 years, developed all kinds of systems implemented in various languages:
 
-Fortran, Visual Basic, C / C ++ / Pascal (several variants) / Java / Kotlin / JavaScript (not my favorite).
-Including templating language: HTML, JSP, JSF, Thymeleaf, Terraform, XML / XML-schemas, JSON
-And scripting languages (various).   
+Fortran, Visual Basic, C / C ++ / Pascal (several variants) / Java / Kotlin / SQL / JavaScript (not my favorite).
+Including templating languages: HTML, JSP, JSF, Thymeleaf, Terraform, XML / XML-schemas, JSON, UML and scripting languages (various).   
 
 Sorry I do not remember the details of all of them, when not used them for a while.
 Too much tech mixed together does not make a maintainable system.
