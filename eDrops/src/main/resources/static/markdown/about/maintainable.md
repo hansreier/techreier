@@ -93,7 +93,7 @@ What characterizes maintainable computer systems?
 
 The most difficult system to maintain:
 - The coders started without a well-defined architecture and methodology
-- If functional knowledge is too limited in the current agile team, it can be dangerous.
+- If functional or technical knowledge is too limited in the current agile team, it can be dangerous.
 - Too limited technical and functional documentation.
 - Be careful with too much code generation, adds complexity
     - even worse, the team developed itself the code or GUI generation, e.g. from domain model or database.
