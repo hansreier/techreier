@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.4</version>
+		<version>3.3.4</version>
 	</parent>
 
 	<properties>
@@ -21,19 +21,19 @@
 		<java.version>21</java.version>
 		<kotlin.version>1.9.23</kotlin.version>
 		<coroutines.version>1.8.0</coroutines.version>
-		<mariadb.version>3.1.4</mariadb.version>
-		<maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
-		<maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+		<mariadb.version>3.4.1</mariadb.version>
+		<maven-failsafe-plugin.version>3.5.0</maven-failsafe-plugin.version>
+		<maven-surefire-plugin.version>3.5.0</maven-surefire-plugin.version>
 		<kotlin.code.style>official</kotlin.code.style>
-		<kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
-		<junit-jupiter.version>5.9.2</junit-jupiter.version>
-		<assertJ.version>3.22.0</assertJ.version>
+		<kotlin.compiler.jvmTarget>21</kotlin.compiler.jvmTarget>
+		<junit-jupiter.version>5.11.1</junit-jupiter.version>
+		<assertJ.version>3.26.3</assertJ.version>
 		<!-- fetched automagically-->
-		<h2.version>2.2.220</h2.version>
-		<flexmark.version>0.64.6</flexmark.version>
+		<h2.version>2.3.232</h2.version>
+		<flexmark.version>0.64.8</flexmark.version>
 		<!--esapi.version>2.5.2.0</esapi.version-->
 		<!--encoder.version>1.2.3</encoder.version-->
-		<sanitizer.version>20220608.1</sanitizer.version>
+		<sanitizer.version>20240325.1</sanitizer.version>
 	</properties>
 
 	<!--repositories>
