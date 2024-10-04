@@ -13,7 +13,7 @@ import org.springframework.web.client.RestClient
 // This code works using coroutines. Virtual threads have made the code obsolete
 @RestController
 @RequestMapping("/api")
-@Profile("NotFoundProfile")
+@Profile("h2")
 class CoroutinesController(val restClient: RestClient) {
 
     @GetMapping("/blockcr/{seconds}/{count}")

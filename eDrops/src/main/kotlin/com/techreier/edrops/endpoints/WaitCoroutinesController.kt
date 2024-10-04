@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api")
-@Profile("NotFoundProfile")
+@Profile("h2")
 class WaitCoroutinesController {
 
     @GetMapping("/waitcr/{seconds}/{number}")

@@ -1,6 +1,7 @@
 package com.techreier.edrops.endpoints
 
 import com.techreier.edrops.config.logger
+import org.springframework.context.annotation.Profile
 import org.springframework.scheduling.annotation.Async
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,6 +14,7 @@ import java.util.concurrent.CompletableFuture
 // This code is dependent of using virtual threads in Spring
 @RestController
 @RequestMapping("/api")
+@Profile("h2")
 class VirtualThreadsController(val restClient: RestClient) {
 
     @GetMapping("/blockvt/{seconds}/{count}")

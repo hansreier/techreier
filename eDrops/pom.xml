@@ -151,7 +151,7 @@
 						<jvmFlags>
 							<!--jvmFlag>-Dspring.profiles.active=docker-mariadb</jvmFlag-->
 							<!--jvmFlag>-Dspring.profiles.active=mariadb-dockerized</jvmFlag-->
-							<jvmFlag>-Dspring.profiles.active=h2</jvmFlag>
+							<jvmFlag>-Dspring.profiles.active=h2prod</jvmFlag>
 						</jvmFlags>
 						<!--environment>
 							<DB_PASSWORD>Password</DB_PASSWORD>
