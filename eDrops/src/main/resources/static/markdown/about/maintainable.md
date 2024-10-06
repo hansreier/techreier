@@ -85,7 +85,7 @@ What characterizes maintainable computer systems?
     - The source of the code is often unknown when using AI.
     - Obviously do not feed AI with business secrets, unless you are 100% certain it will not be used.
     - Follow company guidelines when using AI.
-    - Using AI will get you up and running on unknown tech more quickly.
+    - Using AI will get you up and running on unfamiliar tech more quickly.
 - Use consistent error handling at the right level in the application, e.g. in controllers.
 - Throwing exceptions is for technical errors, not functional exceptions.
 - Implement a logging system, so errors is easily picked up by operations and developers.
