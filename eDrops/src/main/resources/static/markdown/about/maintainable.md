@@ -76,6 +76,14 @@ What characterizes maintainable computer systems?
   - Extensive use of GUI tests and test tools is not always desired.
 - Use automated code checks to company development standards, including security checks.
     - But it can be too rigid if too much of this.
+- Be careful with AI assisted development.
+    - I have mixed experience with GitHub Copilot, quite often my intentions is not what Copilot expects.
+    - ChatGpt4 is better for explaining concepts and writing code examples.
+    - The devil is in the details, this is where AI generated code often fails.
+    - Proper testing and QA is always required when using AI generated code.
+    - The source of the code is often unknown when using AI.
+    - Obvously do not feed AI with business secrets.
+    - Using AI will get you up and running on unknown tech more quickly.
 - Use consistent error handling at the right level in the application, e.g. in controllers.
 - Throwing exceptions is for technical errors, not functional exceptions.
 - Implement a logging system, so errors is easily picked up by operations and developers.

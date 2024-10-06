@@ -106,7 +106,7 @@ at vi kan stille spørsmålstegn ved C02 regnskapet totalt sett for enkelte anle
 
 ### Vindkraft er en trussel mot biomangfold
 
-*Myte? NEI Sannhet? I HVOR STOR GRAD MÅ VERIFISERES, En føre var holdking mangler.*
+*Myte? NEI Sannhet? I HVOR STOR GRAD MÅ VERIFISERES, En føre var holdning mangler.*
 
 Miljødirektoratet anslår at 40% av planarealet regnes som inngrepsfri natur.
 Det er også inngrep utenfor planarealet i form av veier, kraftlinjer etc.
