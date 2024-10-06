@@ -15,16 +15,20 @@ What characterizes maintainable computer systems?
 - Select a technology stack that is well known for a lot of developers.
 - Check licencing and maintenance of development tools and libraries.
 - Split into maintainable code bases in centralized repo.
+- I prefer Microservices, but sometimes it can be required with a common database.
 - Focus on consistent interfaces between systems.
   - Contract first is not always the best option, it can be too rigid.
   - Collaboration between teams is super important.
-- Use Microservices, but sometimes it can be required with a common database.
-- A product focused agile team maintaining the system(s).
-  - Continuous development and maintenance of the system(s).
 - A well planned and documented layered architecture:  Applies to both frontend and backend.
 - A well planned deployment platform, cloud or other, to be selected by actual need and economics.
 - A well planned deployment strategy.
-- I suggest using containers.
+- Start with a proof of concept of the selected technology.
+  - Make a runnable and testable prototype through all layers of the application.
+  - Be aware that mocks and service virtualization can hide integration surprises.
+  - Do no wait too long before integrating major parts of a system or connected systems
+- Use cross-functional product focused agile team(s) dedicated to maintain the system(s).
+  - Continuous development and maintenance of the system(s).
+- I suggest using containers and e.g. Docker
   - latest version of operating system.
   - latest versions of computer language.
   - latest version of libraries.
@@ -59,10 +63,11 @@ What characterizes maintainable computer systems?
   - Even if a new major library version requires code rewrite, the best is just to do it ASAP. Later it gets worse.
   - If a library is not maintained anymore, sooner or later you have to replace it.
 - The system should be testable, manually and automated.
-  - To plan for some manual or ad hoc tests is not necessarily wrong.
   - Plan for testing at the start of the lifetime of the system.
   - Think of what to test, relate  to the test pyramid.
+  - To do some manual or ad hoc testing is not necessarily wrong.
   - Types of automated testing: unit tests, integration tests, system integration tests, performance tests, security tests.
+  - Performance test critical parts of the system, at least manually.
   - Ideally testing should be done integrated with the code repo and in the same language.
   - Select test tools with care. The automated tests there must be maintained.
   - The tests increase quality and prevents errors, but binds the code and slows down initial development.
