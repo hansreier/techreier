@@ -111,9 +111,9 @@ spring:
     username: sa
     password: sa
   thymeleaf:
-    cache: false
+    cache: true
   devtools:
-    livereload.enabled: true
+    livereload.enabled: false
   web.resources.cache.period: 3600
   h2:
     console.enabled: true
