@@ -1,7 +1,9 @@
 # techreier
 Welcome to Reiers new webpages.
 
-[goals of this project](eDrops/src/main/resources/static/markdown/goals_en.md)  
-[details](eDrops/src/main/resources/static/markdown/readme.md)  
-[markdown related](eDrops/src/main/resources/static/markdown/markdown.md)  
-[database related](eDrops/src/main/resources/static/markdown/databases.md)      
+[About me](eDrops/src/main/resources/static/markdown/about/reier_en.md)  
+[About this website](eDrops/src/main/resources/static/markdown/about/website_en.md)  
+[About this project](eDrops/src/main/resources/static/markdown/about/readme_en.md)  
+[About technology](eDrops/src/main/resources/static/markdown/about/tech.md)  
+[Markdown related](eDrops/src/main/resources/static/markdown/about/markdown.md)  
+[Database related](eDrops/src/main/resources/static/markdown/about/databases.md)      
