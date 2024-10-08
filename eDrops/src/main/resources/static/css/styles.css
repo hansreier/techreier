@@ -120,6 +120,11 @@ img {
 	height: auto;
 }
 
+img[alt="Reier"] {
+	max-width: 300px;
+	height: auto;
+}
+
 img:hover::after {
 	content: attr(title);
 	position: absolute;
@@ -167,6 +172,24 @@ img:hover::after {
 #blogentries tr:nth-child(odd){background-color: yellow;}
 
 #blogentries tr:hover {background-color: #ddd;}
+
+#blogentryform {
+	color: green;
+	width: 100%;
+}
+
+#inputfields {
+	display: grid;
+	grid-template-columns: 1fr;
+	flex-direction: column;
+	width: 100%;
+	gap: 10px;
+	color: red;
+}
+
+.input-row {
+	display: contents;
+}
 
 #seed {
 	width: 11em;
