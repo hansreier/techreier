@@ -13,7 +13,7 @@ My name is Reier. It is an old Norwegian name.
 
 This is the reason for this blog inspired website. Not sponsored by any company.
 
-I am a senior software engineer living at Moelv, Innlandet, Norway med kvinnelig samboer.
+I am a senior software engineer living in Moelv, Innlandet, Norway with female partner.
 I enjoy nature, with walks, running, cross country skiing and orienteering.
 We have a large garden, with a lawn, berry bushes, some fruit trees and a view of Mjøsa.
 
