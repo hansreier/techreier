@@ -2,7 +2,7 @@
 
 Throughout a long career in the IT industry, I have worked both in-house and as a consultant. 
 I have also witnessed the development since I started working in Telenor's IT department in Lillehammer in 1989.
-I have seen and worked in many different office environments, and I can observe what is most effective. 
+I have seen and worked in many different office environments, and I can say something about what is most effective. 
 Remark that this note is my subjective experience of the alternatives.  
 
 From 1989, we spent many years working in cell offices with glass walls and curtains. 

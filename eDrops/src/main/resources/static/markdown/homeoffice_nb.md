@@ -2,7 +2,7 @@
 
 I løpet av en lang karriere i IT bransjen har jeg jobbet både inhouse og som konsulent. 
 Jeg har også sett utviklingen siden jeg startet å jobbe i Telenors IT avdeling på Lillehammer i 1989. 
-Jeg har  sett og jobbet i veldig mange ulike kontor miljøer, og kan se noe som hva som er mest effektivt. 
+Jeg har  sett og jobbet i veldig mange ulike kontor miljøer, og kan si noe om hva som er mest effektivt. 
 Men det er min subjektive opplevelse av alternativene.  
 
 Fra 1989 satt vi i mange år og jobbet i cellekontorer med glassvegger og gardiner. 
