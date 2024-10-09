@@ -28,6 +28,8 @@ object Docs {
         Doc("ringsaker", Norwegian, "Kraft og hytter i Ringsaker" , false),
         Doc("windpower", Norwegian, "Myter om vindkraft", false),
         Doc("ai2084", Norwegian, "AI paranoia", false),
+        Doc("homeoffice", Norwegian, "Om hjemmekontor"),
+        Doc("homeoffice", English, "About home office"),
     )
 
    val about = arrayOf(
