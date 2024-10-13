@@ -35,6 +35,8 @@ object Docs {
    val about = arrayOf(
         Doc("reier", Norwegian,"Meg"),
         Doc( "reier", English, "Me"),
+        Doc("links",  Norwegian, "Mine linker"),
+        Doc("links",  English, "My links"),
         Doc("website",  Norwegian, "Nettsted"),
         Doc("website",  English, "Website"),
         Doc("energy",  Norwegian, "Energi"),
