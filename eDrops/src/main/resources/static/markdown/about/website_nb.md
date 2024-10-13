@@ -53,7 +53,8 @@ Hvis du er interessert i hvordan dette nettstedet er laget, så har jeg en annen
 
 Målet er å lage dette så enkelt som mulig. En opsjon er å bruke markdown som i en readme.md fil,
 siden det er enklere enn RTF og tar mindre plass. Kanskje vil systemet støtte begge formater.
-Eksterne tekst-editorer som Intellij kan brukes, eller en tekst editor inkluderes i dette prosjektet (TODO).
+Eksterne tekst-editorer som Intellij kan brukes, eller en tekst editor som inkluderes i dette prosjektet (TODO).
+Jeg vurderer å brukt HTMX for å kunne oppdaterere deler av en web side for tekst editering.
 Jeg har brukt tjenerside HTML generering (Thymeleaf). Grunnen til dette er at for enkle tekst orienterte web-sider,
 så er det raskere å utvikle og enklere å vedlikeholde, sammenliknet med å bruke klient baserte web teknologier som React
 og Angular. Dette gjelder i alle fall for meg som i utgangspunktet er en backend-utvikler. Ikke bland ulike teknologier

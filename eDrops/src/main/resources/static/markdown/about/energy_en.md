@@ -5,7 +5,7 @@ Norway is an energy producing country.
   - Oil
   - Gas
   - Coal (not much)
-- Renewabble energy production
+- Renewable energy production
   - Water power
   - Wind power
   - Solar power
@@ -37,12 +37,12 @@ much smaller than the giant beasts that are popping up everywhere in wind turbin
 And by all means, call them wind turbine industrial facilities and not wind farms or parks, which sounds gentler. 
 As soon as you connect to the national power grid, the problems, bureaucracy, and taxation arise.  
 
-If we look at such local production in developing countries, it's worth noting that the climate is entirely different, 
+If we look at local production in developing countries, it's worth noting that the climate is entirely different, 
 and the bureaucracy and corruption are much worse. 
 Therefore, having local electricity production for a village without connecting to a grid provider
 would be a significant advantage and a great simplification. 
 Old car batteries are used for energy storage. 
-Regarding  Norway, I hope for a simplification of the entire process, 
+Regarding Norway, I hope for a simplification of the entire process, 
 making it easier to install solar panels on buildings and sell excess electricity to the grid owner. 
 However, even this may require investments in the local power grid, which can drive up grid fees.
 
@@ -61,7 +61,7 @@ Massive construction of industrial facilities for so-called renewable energy, wh
 The result is that only 1/3 of the potential of this energy production can be utilized.
 It also requires significant grid investments to integrate this energy production with our existing cheap hydroelectric power.
 
-Then energy prices will rise sharply. Even worse is that through the dysfunctional quasi-market for electricity Nordpool
+Then energy prices will rise significantly. Even worse is that through the dysfunctional quasi-market for electricity Nordpool
 and new high-capacity export cables, we have become dependent on European power prices, which have been significantly
 increased in the preceding years. Since Germany has already made the same mistake as we are about to make: 
 Massive expansion of wind and solar power. So it's bound to go wrong. For Germany, the closure of nuclear power is part of the equation. 
@@ -92,7 +92,7 @@ And the only way it can be resolved in this area is with nuclear power plants.
 But Norwegian leading politicians don't want that. They bury their heads in the sand like ostriches.
 
 Therefore, I focus on this topic, and not a bunch of other less important political issues. 
-Unfortunately, the subject has been drowned by other matters in many previous parliamentary elections in Norway. 
+Unfortunately, the subject has been overshadowed by other matters in many previous parliamentary elections in Norway. 
 It cannot continue like this, with the electricity (price) crisis still unresolved and the leading political parties
 fully focused on the climate crisis.  
 

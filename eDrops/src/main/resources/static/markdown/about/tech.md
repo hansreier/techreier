@@ -21,8 +21,9 @@ It is simpler, quicker and I do not need to use tools like node and npm to produ
 I have professionally been working with Java and Kotlin projects that includes Angular or React.
 It adds technical complexity and complicates the building process.  
 
-Many projects really need the extra flexibility and control provided by frontend based html rendering.
-A progressive web app is an example where this is an absolute requirement. I have seen many projects using Angular or React just because everybody does that.
+Many projects really need the extra flexibility and control provided by frontend based HTML rendering.
+A progressive web app is an example where this is an absolute requirement. 
+I have seen many projects using Angular or React just because everybody does that.
 It can certainly be overkill for simple company internal applications.
 I have previously in projects used JSP or JSF for backend rendering.
 I think Thymeleaf is a more modern, simpler and better approach, in particular combined with

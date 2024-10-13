@@ -43,15 +43,16 @@ discussing this.
 
 ### Technology prototype
 
-This website is really a technology prototype. If you find som strange text or menu items pointing
+This website is really a technology prototype. If you find some strange text or menu items pointing
 to nowhere, it just is not completed yet. Functionality will be added when I feel like it.
-If you are interested in how the site was made, I have another entry explaining it (only in English)
+If you are interested in how the site was made, I have another entry explaining it.
 
 ### How to make a text based website without coding HTML
 
-The goal is to do this as simple as possible. One option is to use markdown like in readme.md file,
-since this is simpler that RTF and uses less disk space. Perhaps the system in the future will support both formats.
+The goal is to do this as simple as possible. One option is to use markdown like in a readme.md file,
+since this is simpler that RTF and uses less disk space. Perhaps this system in the future will support both formats.
 External text editors like Intellij can be used, or a text editor to be included in this project (TODO).
+I consider using HTMX to be able to update a part of the web page for text editing.
 I have used server side HTML rendering (Thymeleaf). The reason for this it that for simple text oriented web pages,
 it is quicker to develop an easier to maintain, compared to using client based web technologies like React or Angular.
 This is at least valid for me, being basically a backend developer. Do not mix technologies, if you do not need to.

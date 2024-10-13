@@ -69,7 +69,7 @@ After googling including the CyberPanel community, the simplest solution was to 
 Then I could use the SSL issued by CyberPanel to protect my website. And it worked nearly as expected, but with some
 manual configuration both on the VPS and in CyberPanel. The remaining problem was that http still was not blocked for
 internet access. You can set up a firewall in CyberPanel. For an unknown reason, I could not block http port 8080 that
-I used when starting the Dokcer container. But I managed to block it with another firewall set up at VPS level with the
+I used when starting the Docker container. But I managed to block it with another firewall set up at VPS level with the
 HPanel. The reverse proxy point at the http and port set up when starting the Docker container.
 Reverse proxy also required two child name servers to be set up, according to Hostinger guides.
 Refer to next section.
@@ -86,7 +86,7 @@ issuing SSL certificates and automatic renewal.
 
 ### DNS resolution
 
-This is the process of mapping a fixed IP adress to a domain name. The process is time-consuming.
+This is the process of mapping a fixed IP address to a domain name. The process is time-consuming.
 Every time you change DNS records, you have to repeat the process. I have done this twice.
 The last time at Christmas it used more than 48 hours to populate my changes all over the world 
 and letting every server know that techreier.com is associated with IP adress at Hostinger.
@@ -104,10 +104,10 @@ I will not redo this unless I have to reset the entire VPS.
 
 ### Final words
 
-Http, SSH and Docker setup I had done in August. So I could reach my web site unsecured from Internet.
+Http, SSH and Docker setup I had done in August 2023. So I could reach my website unsecured from Internet.
 I used a lot of hours during Christmas 2023 to set everything up correctly including domain resolution and SSL.
 It was not that easy, but was helped with guides, AI assistance, Cyberpanel forum and customer service.
-It is noted that the technical knowlegde of my selected VPS solution including Docker was not very deep at customer service.
+It is noted that the technical knowledge of my selected VPS solution including Docker was not very deep at customer service.
 I guess that they are more used to serving shared web hosting. But they answered quickly and politely.
 
 The process was actually not more time-consuming compared with what I did 15 years ago, with Tomcat installed directly
@@ -126,6 +126,6 @@ Cloud payment models look a bit complex and unpredictable to me.
 Overall I am satisfied with the solution well suited for a small private project.
 Using e.g. Azure I risk to pay 5 times more than the current cost, when the trial period expires.
 And it is not only an estimate, I have checked with other developers on similar projects.
-What I have not done yet is installing MariaDb on the VPS.
+What I have not done yet is installing MariaDb on the VPS.  
 
 Preliminary solution uses H2.

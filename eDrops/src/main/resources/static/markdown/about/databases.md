@@ -1,6 +1,6 @@
 ## Databases, connections and Spring profiles
 
-This project needs a database connection to start and uses Spring Boot standard configuration with profiles to
+This project needs a database connection to run and uses Spring Boot standard configuration with profiles to
 set up database connections.
 
 Some parts of this webapp does not require a database. In the current setup a database connection at startup is
@@ -68,14 +68,11 @@ I have used an environment variable DB_PASSWORD, to avoid checking in db user pa
   Sorry but the same problems applied to this as with external connect.
 - Docker container connect to local MariaDB: Use IP-address directly or even better host.docker.internal.
 
-Example of defining database schema, dbuser and granting priveleges is included in the dbinit.sql file.
+Example of defining database schema, dbuser and granting privileges is included in the dbinit.sql file.
 Note that if you connect to dockerized MariaDB with dbuser outside of MariaDB container, 
 you must allow for general external access when granting dbuser (or use IP address of local machine).
 To run statements in this script is all you need to start the application with a fresh MariaDb instance.
 Database tables if not existing are created automagically by Hibernate, and tables is populated with some initial data.
-
-Note: How this is done with two docker containers running, MariaDB Docker container and application Docker container, is 
-not yet tested !!
 
 To connect from container to db-service on the host:
 ```
