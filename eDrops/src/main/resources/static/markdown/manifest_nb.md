@@ -18,7 +18,7 @@
 * Ideen om Norge som Europas batteri er fullstendig urealistisk og må legges død.
 * EØS / Acer, kraftavtalene og energimarkeds-pakkene er dyre for industri og husholdninger.
 * Eksport via de nye utenlands kablene reguleres så vi ikke risikerer strøm ressurskrise igjen.
-* Vi trenger bare litt mer fossil-fri energi før 2040  (22%, Kilde NVE)
+* Vi trenger litt mer fossil-fri energi før 2040  (22% - 36%, Kilde NVE [energilinker](about/energylinks_nb.md) )
 * Energikommisjonens slagord, mer av alt raskere, er feil klima-medisin.
 * Storskala ny energiproduksjon og forbruk må vurderes grundig lokalt etter fastsatte kriterier: 
     - Kost

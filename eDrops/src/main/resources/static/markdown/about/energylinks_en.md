@@ -23,7 +23,8 @@ I suspect that the change in the forecast to a certain extent is caused by polit
 | Consumption | 139 (138)   | 163 (159)  | 176     | 191 (174) |
 | Balance     | 17  (20)    | 1   (7)    | 4       | 12  (12)  |
 
-Increased power production mainly is caused by an increase in non-regulable fossil-free power (wind and sun) production, but also hydropower. 
+Increased power production mainly is caused by an increase in non-dispatchable fossil-free power
+(wind and sun) production, but also hydropower. 
 Increased consumption mainly is caused by so-called green debatable renewable projects, 
 data centers, transport, and other power-intensive industries. 
 Nuclear power is not considered at all for 2040 in Norway, a mistake in my view.

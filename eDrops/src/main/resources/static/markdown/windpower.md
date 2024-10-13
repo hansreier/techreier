@@ -165,7 +165,7 @@ Da blir prisen svært høy. Og det har vi jo sett i praksis. Det er derfor strø
 Denne ustabiliteten kombinert med høyere vedlikeholdskostnader enn forventet har ført til dårlig
 lønnsomhet for flere vindkraftverk. Det er nok å neven Odal i Norge og flere vindkraftverk i Nord Sverige.
 
-Vindkraft krever blansekraft som i praksis i Norge er vannkraft. Dess mer vindkraft, dess mer balansekraft kreves. 
+Vindkraft krever balansekraft som i praksis i Norge er vannkraft. Dess mer vindkraft, dess mer balansekraft kreves. 
 Det er verdt å navne at dette også er svært kostbart fordi det krever investeringer i sentralnettet
 omtrent 600 milliarder NOK fram til 2030 i følge Statnett, som garantert vil føre til økninger i nettleia framover.
 
