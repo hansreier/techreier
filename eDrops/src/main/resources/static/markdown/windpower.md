@@ -361,7 +361,7 @@ Noe bedre er det for Finnmark og Melkøya, men natur og reindrift kan vi bare gl
 over store områder. Regjeringen snakker også om at det skal satses på annen
 ny kraftkrevende industri i Finnmark. Glem det hvis vindkraft er det eneste svaret.
 Lurer på hvor lang tid det går før det går opp for dem at de har
-folkelige protester 10 ganer verre en Alta aksjonen.
+folkelige protester 10 ganger verre en Alta aksjonen.
 
 ## KONKLUSJON
 
