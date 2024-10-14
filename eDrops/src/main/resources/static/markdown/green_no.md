@@ -120,9 +120,59 @@ Det er ikke mulig med "grønn" systemutvikling uten å ha et reflektert syn på 
 Dess større prosjekt, dess mer relevant er det å faktisk måle eller estimere totalt energiforbruk for en verdikjede.
 Det alle utviklere kan gjøre er å se gjennom kodetipsene og legge til egen enkel smart praksis.
 
+Generell effektivisering av grensesnitt:
+
+| Metode        | Energi effektivitet | Bruksområder                                                                    | 
+|---------------|--------------------:|---------------------------------------------------------------------------------|
+| Synkron REST  |     Moderat til lav | Lite datamengde, enkel request-response                                         | 
+| Asyncron REST |                 Høy | Stor datamengde, samtidig request håndtering ikke blokkerende                   | 
+| Kafka         |      Høy (med sidee | Stor datamangde, skalerbart, hendelsesdrevet arkitektur, infrastruktur overhead | 
+
+Virtual Threads gjør synkron REST mer effektiv.
+
+
 Slik setter man Virtual Threads i Spring Boot i yaml fil:
 ```
 spring.threads.virtual.enabled: true
 ```
+Bruk ByteArray for I/O Operasjoner i stedet for å jobbe med tekststrenger.
+```
+fun readFile(file: File): ByteArray {
+    return file.inputStream().use { it.readBytes() }
+}
+
+```
+Bruk effektive Collection operasjoner og lambda uttrykk
+```
+// Inefficient: Creates multiple temporary lists
+val result = list.map { it * 2 }.filter { it > 10 }
+
+// Efficient: Using sequence to avoid unnecessary temporary collections
+val efficientResult = list.asSequence().map { it * 2 }.filter { it > 10 }.toList()
+
+```
+
+Effektive løkker:
+```
+fun processList(items: List<Int>) {
+    items.forEach {
+        if (it == 5) return@forEach // Skips to the next iteration
+        println(it)
+    }
+}
+
+```
+
+- Gjenbruk objekter i stedet for å rekreere dem.
+- Bruk inline for små funksjoner.
+- Velg datastruktur med omhu etter bruksområde. Bruk Hashmap for raske oppslag, hvis rekkefølge er viktig LinkedHashMap
+- Mye å spare på riktig SQL og indeksering av tabeller
+- Vurder relasjonsdatabase opp mot NO-SQL alternativer.
+- For store spørringer / rapporter, ikke bruk JPA / ORM.
+- For JPA/ORM er det et helt eget tema for å optimalisere.
+
+
+
+
 
 
