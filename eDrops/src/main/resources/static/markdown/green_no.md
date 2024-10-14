@@ -205,7 +205,7 @@ fun processList(items: List<Int>) {
 - Gjenbruk objekter i stedet for å rekreere dem.
 - Bruk inline for små funksjoner.
 - Velg datastruktur med omhu etter bruksområde. Bruk Hashmap for raske oppslag, hvis rekkefølge er viktig LinkedHashMap
-- Mye å spare på riktig SQL og indeksering av tabeller
+- Mye å spare på riktig SQL, konsistent datamodell og indeksering av tabeller
 - Vurder relasjonsdatabase opp mot NO-SQL alternativer.
 - For store spørringer / rapporter, ikke bruk JPA / ORM.
 - Søk i tekstbeskrivelser krever helt egne metoder og datatyper i databaser, hvis dette er et krav, eventuelt elasticSearch.
