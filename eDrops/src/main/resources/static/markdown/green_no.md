@@ -72,6 +72,45 @@ Den andre metoden er å estimere energiforbruket basert på målt CPU og forbruk
 gjøre dette. Jeg har prøvd lokalt med Spring Boot og en embedded tjener, med å logge dette og summere opp.
 Spesielt måling av CPU er så ustabilt at det anbefales ikke.
 
+Eksempel på bruk av MXBean i Java:
+
+```
+fun mem(): MB {
+    val memory: MemoryMXBean = ManagementFactory.getMemoryMXBean()
+    val threads: ThreadMXBean = ManagementFactory.getThreadMXBean()
+    // val cpu: OperatingSystemMXBean= ManagementFactory.getOperatingSystemMXBean()
+    val mem = MB(
+        memory.heapMemoryUsage.init,
+        memory.heapMemoryUsage.used,
+        memory.heapMemoryUsage.committed,
+        memory.heapMemoryUsage.max,
+        // cpu.systemCpuLoad * 100 //Percentage
+        threads.threadCount,
+        Thread.currentThread().isVirtual
+    )
+    return mem
+}
+```
+Parametrene kan brukes  f.eks. ved logging av REST kall i et filter.  
+
+Jeg anbefaler å droppe CPU egentlig, for ga ikke meg noe. I så fall må beregne et gjennomsnitt.
+Det viktige her er å sjekke at minnebruken ikke blir for høy, og at den faktisk går ned igjen etterhvert etter
+mye minnebruk. Det samme gjelder antall tråder. Om Virtual Threads er i bruk vises også her.
+Hvis antall tråder bare vokser er det en feilprogrammering, det fikk jeg erfare en gang i hvertfall.
+Jeg prøvde også i Openshift / Kubernetes å rett og slett avbryte REST kallet før minnet gikk i taket for en Container,
+og returnere en feilmelding til klienten at lasten var for stor. I dette tilfellet var det snakk om en stor 
+engangs last. Erfaringen derfra var at dette heller ikke var noen vits i. Det var bedre å la Openshift vanlig
+kontainerhåndtering fikse det, dvs. drepe containeren og ta opp en ny.
+
+Vi optimaliserte tildelt minne og CPU i deployment konfigurasjon.
+Det var noe gammel kode for filoverføring som var ekstremt ineffektivt.
+Da måtte minnet skrus opp dessverre alt for mye.
+Løsningen var rett og slett å skrive om hele koden for filoverføring og problemet var vekk.
+I detalj implementasjon har det også noe med hvor store biter av bitstrømmen som leses av gangen.
+Her går det f.eks. an å bruke reaktiv kode. Gikk helt fint med filstørrelser intil 2Gb.
+Dette er omtrent grensen for hva JVM tåler. Men her kan man jo spørre seg om dette
+i virkeligheten var design-feil. Hvorfor skal så store datamengder overføres i en klump?
+
 Energiforbruk [kWh] = ((Pc * Cc + Pm + Pg* Cg) * Pue)/ 1000
 
 Pc = % av CPU brukt
@@ -128,7 +167,7 @@ Generell effektivisering av grensesnitt:
 | Asyncron REST |                 Høy | Stor datamengde, samtidig request håndtering ikke blokkerende                   | 
 | Kafka         |      Høy (med sidee | Stor datamangde, skalerbart, hendelsesdrevet arkitektur, infrastruktur overhead | 
 
-Virtual Threads gjør synkron REST mer effektiv.
+Virtual Threads gjør synkron REST mer effektiv, spesielt ved stor last (mange kall fra ulike klienter)
 
 
 Slik setter man Virtual Threads i Spring Boot i yaml fil:
@@ -169,6 +208,7 @@ fun processList(items: List<Int>) {
 - Mye å spare på riktig SQL og indeksering av tabeller
 - Vurder relasjonsdatabase opp mot NO-SQL alternativer.
 - For store spørringer / rapporter, ikke bruk JPA / ORM.
+- Søk i tekstbeskrivelser krever helt egne metoder, hvis dette er et krav.
 - For JPA/ORM er det et helt eget tema for å optimalisere.
 
 
