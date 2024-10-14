@@ -209,7 +209,7 @@ fun processList(items: List<Int>) {
 - Vurder relasjonsdatabase opp mot NO-SQL alternativer.
 - For store spørringer / rapporter, ikke bruk JPA / ORM.
 - Søk i tekstbeskrivelser krever helt egne metoder, hvis dette er et krav.
-- For JPA/ORM er det et helt eget tema for å optimalisere.
+- For JPA/ORM er det et helt eget tema for å optimalisere lesing og skriving av relaterte objekter i databasen.
 
 
 
