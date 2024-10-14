@@ -19,14 +19,18 @@ const val ILLEGAL_PATH = "Illegal path"
  */
 object Docs {
     val home = arrayOf(
+        Doc("energy",  Norwegian, "Energi i Norge"),
+        Doc("energy",  English, "Energy in Norway"),
         Doc("elpower",  Norwegian, "Elkraft i Norge"),
-        Doc("elpower",  English, "Elpower in Norway"),
+        Doc("elpower",  English, "Electrical power in Norway"),
         Doc("manifest",  Norwegian, "Strøm manifest"),
         Doc("manifest",  English, "Electrical power manifest"),
         Doc("elprice",  Norwegian, "Strøm(pris)krisen", false),
         Doc("elcrazy",  Norwegian, "To år med elgalskap", false),
         Doc("ringsaker", Norwegian, "Kraft og hytter i Ringsaker" , false),
         Doc("windpower", Norwegian, "Myter om vindkraft", false),
+        Doc("energylinks",  Norwegian, "Energi linker"),
+        Doc("energylinks",  English, "Energy links"),
         Doc("ai2084", Norwegian, "AI paranoia", false),
         Doc("homeoffice", Norwegian, "Om hjemmekontor"),
         Doc("homeoffice", English, "About home office"),
@@ -39,10 +43,6 @@ object Docs {
         Doc("links",  English, "My links"),
         Doc("website",  Norwegian, "Nettsted"),
         Doc("website",  English, "Website"),
-        Doc("energy",  Norwegian, "Energi"),
-        Doc("energy",  English, "Energy"),
-        Doc("energylinks",  Norwegian, "Energi linker"),
-        Doc("energylinks",  English, "Energy links"),
         Doc("readme", Norwegian, "Prosjektet", false),
         Doc("readme", English, "Project", false),
         Doc("tech", Norwegian, "Teknologi",false),
@@ -55,7 +55,7 @@ object Docs {
         Doc("databases", English, "Databases", false),
         Doc("hosting", Norwegian, "Mitt web hotell", false),
         Doc("hosting", English, "My web host", false)
-    )
+   )
 
     val collatz = arrayOf(
         Doc("collatz", Norwegian,"Collatz") ,

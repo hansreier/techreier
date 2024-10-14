@@ -96,7 +96,7 @@ Naturkrisen er i praksis like alvorlig som klimakrisen. Skulle jeg ha styrt et I
 denne visjonen, ville det garantert ha gått fullstendig galt.
 
 Se også  
-[Elkraft i Norge](../elpower_nb.md)  
-[Strøm manifest](../manifest_nb.md)  
-[Strøm(pris)krisen](../elprice.md)  
-[To år med elgalskap](../elcrazy.md)  
+[Elkraft i Norge](elpower_nb.md)  
+[Strøm manifest](manifest_nb.md)  
+[Strøm(pris)krisen](elprice.md)  
+[To år med elgalskap](elcrazy.md)  

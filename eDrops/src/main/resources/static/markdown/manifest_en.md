@@ -28,7 +28,7 @@ Key points:
 * The idea of Norway as Europe's battery is completely unrealistic and should be abandoned.
 * The EEA/Energy Union, power agreements, and energy market packages are costly for industry and households.
 * Export via the new export electricity cables (Germany and Scotland) should be regulated so we do not risk an electricity resource crisis again.
-* We need a little more fossil-free energy before 2040 (22% - 36% , Source NVE [energy links](about/energylinks_en.md) )
+* We need a little more fossil-free energy before 2040 (22% - 36% , Source NVE [energy links](energylinks_en.md) )
 * The Norwegian government Energy Commission's slogan, more of everything faster, is the wrong climate medicine
 * Large-scale new energy production and consumption must be thoroughly evaluated locally based on established criteria:
     - Cost

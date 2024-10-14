@@ -113,6 +113,6 @@ If I were to manage an IT project according to this vision, it would definitely 
 
 Refer to
  
-[Electrical power in Norway](../elpower_en.md)  
-[Power manifest](../manifest_en.md)
+[Electrical power in Norway](elpower_en.md)  
+[Power manifest](manifest_en.md)
 
