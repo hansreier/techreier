@@ -58,12 +58,12 @@ som regel testmiljøer som likner på produksjonsmiljø, som forbruker energi de
 Datalagring forbruker energi. 
 Dette er veldig avhengig av type datalagring, RAM, fillagring, database, semi permanent, permanent, arkiv, .. ).
 
-* Totalt energiforbruk er summen av energiforbruket for hvert enkelt ledd i verdikjeden *
+*Totalt energiforbruk er summen av energiforbruket for hvert enkelt ledd i verdikjeden*  
 
 enten energiforbruket skyldes digitale eller manuelle verktøy.  
 
 Det må også regnes med at produksjonsleddet blir utført mange ganger.
-Det er energiforbruk knyttet til det fysiske miljøet i tillegg (kontoret, fabrikken, datasentret, internettet).
+Det er energiforbruk knyttet til det fysiske miljøet i tillegg (kontoret, fabrikken, datasentret, internettet).  
 
 Dette kan for eksempel bety at et høyt energiforbruk pga AI trening og svar fra en AI tjeneste, likevel kan spare
 energi totalt fordi man da klarer å optimalisere en industriprosess eller et kraftnett. Dette høres jo selvsagt ut.
@@ -76,37 +76,37 @@ Vi er uansett avhengig av skyleverandørens verktøykasse her.
 
 Den andre metoden er å estimere energiforbruket basert på målt CPU og forbrukt minne. I Java finnes det APIer for å 
 gjøre dette. Jeg har prøvd lokalt med Spring Boot og en embedded tjener, med å logge dette og summere opp.
-Spesielt måling av CPU er så ustabilt at det anbefales ikke. Se kodeeksempel lenger ned.
+Spesielt måling av CPU er så ustabilt at det anbefales ikke. Se kodeeksempel lenger ned.  
 
 Energiforbruk [kWh] = ((Σ(%c * Ec) + ΣEm) * PUE)
 
-%c = % av CPU brukt (kan f.eks. være CPU, GPU eller TPU)
-Ec = kWh forbrukt av all CPU
-Em =  kWh forbrukt av minne 
+%c = % av CPU brukt (kan f.eks. være CPU, GPU eller TPU)  
+Ec = kWh forbrukt av all CPU  
+Em =  kWh forbrukt av minne  
 
-PUE = Power Usage Effectiveness = Total energi brukt av datasentret / Energi brukt av IT-utstyr.
-PUE = 1, all energi går til IT-utstyr, neppe oppnåelig.
-PUE > 1.0. Dess høyere tall, desd mindre effektivt.
+PUE = Power Usage Effectiveness = Total energi brukt av datasentret / Energi brukt av IT-utstyr.  
+PUE = 1, all energi går til IT-utstyr, neppe oppnåelig.  
+PUE > 1.0. Dess høyere tall, desd mindre effektivt.  
 
 Et alternativet er sky baserte verktøy fra skyleverandører som  Azure, Google og Amazon for det samme. 
 Når Azure bare tilbyr et resultat som viser C02 utslipp, så har de bommet etter min mening. 
 Det er ikke denne omregningen som er det mest interessante. Men det er ikke å komme  unna at energi-
-målinger er et komplekst fagområde uansett.
+målinger er et komplekst fagområde uansett.  
 
 En annen indirekte svært unøyaktig metode er rett og slett å se på kostnadene for å utvikle, teste og drifte datasystemet.
 Vi kan være ganske sikre på at skyleverandøren ikke vil tilby oss en løsning med et kostnadsnivå som ikke dekker
-egne energikostnader.
+egne energikostnader.  
 
 ## Konklusjon
 
 Det er ikke mulig med "grønn" systemutvikling uten å ha et reflektert syn på hele verdikjeder, som også inkluderer IKT.
 Dess større prosjekt, dess mer relevant er det å faktisk måle eller estimere totalt energiforbruk for en verdikjede.
-Det alle utviklere kan gjøre i det minste er å se gjennom kodetipsene under og legge til egen smart praksis.
+Det alle utviklere kan gjøre i det minste er å se gjennom kodetipsene under og legge til egen smart praksis.  
 
 ## Generelle tips for energieffektiv utvikling
 
 - Se på hele arkitekturen samlet, inkludert flere systemer og grensesnitt.
-- Identifiser energikriske deler av koden og optimaliser eller skriv på nytt.
+- Identifiser energikritiske (med dårlig ytelse) deler av koden og optimaliser eller skriv på nytt.
 - Optimaliser bruk av kontainere (max minne, max CPU, opp og nedskalering)
 - Energivurder AI bruk
 - Effektive algoritmer har lavere energiforbruk.
@@ -121,7 +121,7 @@ Det alle utviklere kan gjøre i det minste er å se gjennom kodetipsene under og
 
 Det som er fint med dette, er at dette (som regel) er fullt i overenstemmelse med vanlige prinsipper for god og 
 clean kode. Så det er dobbelt vinn: Enklere vedlikehold og lavere energiforbruk.
-Valg av driftsplattform / skytjenester påvirker også dette, men gjøres jo som regel i forkant.
+Valg av driftsplattform / skytjenester påvirker også dette, men gjøres jo som regel i forkant.  
 
 ### Et lite eksempel på optimalisering av overføring for store datamengder.
 
@@ -130,57 +130,57 @@ Vi optimaliserte tildelt minne og CPU i deployment konfigurasjon av pod'er.
 Det var gammel kode for filoverføring som var ekstremt ineffektivt.
 Vi oppdaget problemene etter at hele systemet var flyttet over i skya.
 Da måtte minnet skrus opp alt for mye dessverre. Uten dette fikk brukere i distriktet med dårlig nett problemer.
-Løsningen var å skrive om kritiske deler av koden basert på nye APIer for filoverføring tilpasset nye Spring versjon.
+Løsningen var å skrive om kritiske deler av koden basert på nye APIer for filoverføring tilpasset nye Spring versjon.  
 
 Hvordan finne kritiske deler av koden? Det aller enkleste verktøyet er rett og slett vanlig logging med
 f.eks. logback. Se eksempel på bruk av MxBean lenger ned på siden. 
 Så kan logge nivået  settes til debug eller trace senere når ikke relevant lenger. 
 En vanlig stoppe klokke kan også brukes ved en GUI operasjon (eller bruk et GUI testverkøy).
 Hvis responsen tar mer enn 2-3  sekunder fra GUI, så er det ikke bra. 
-Profil-verktøy for Java / JVM kan også brukes for dette, men det er dyrere.
+Profil-verktøy for Java / JVM kan også brukes for dette, men det er dyrere.  
 
 I et senere prosjekt, testet jeg ut ny bedre kode for filoverføring av store datamengder.
 Reaktiv kode i Java ble testet ut som fikset de med filstørrelser inntil 2GB, den gamle koden hos gammel kunde
 taklet ikke noe særlig mer enn 20Mb.  Parametre som hvor store biter av bitstrømmen som leses av gangen settes for optimalisering.
 Dette er omtrent grensen for hva JVM tåler. 
-Nye versioner av Spring Boot og REST grensnitt takler ganske store datamengder uansett, viste det seg.
+Nye versioner av Spring Boot og REST grensnitt takler ganske store datamengder uansett, viste det seg.  
 
 Et annet krav var mellomlagring i database. Etter å ha sjekket ut både et vanlig database API og et reaktiv API og 
 også lagring i BLOB type objekter, så kom vil til at en vanlig relasjonsdatabase ikke var egnet. Da ble det
-lagret i et nøkkel/verdi lager i skya i stedet. Mye bedre ytelse viste det seg.
+lagret i et nøkkel/verdi lager i skya i stedet. Mye bedre ytelse viste det seg.  
 
-Men var dette 2GB kravet en spesifikasjons feil egentlig?  Hvorfor skal Så store datamengder overføres i en klump?
-Her kan vi stille spørsmålstegn med hele arkitekturen som inkluderte flere systemer.
+Men var dette 2GB kravet en spesifikasjons-feil egentlig?  Hvorfor skal Så store datamengder overføres i en klump?
+Her kan vi stille spørsmålstegn med hele arkitekturen som inkluderte flere systemer.  
 
 ### Energieffektive miljøer med kontainer teknologi
 
 Å bruke Kubernetes basert teknologi kan anbefales (men fikk i praksis mye hjelp av plattform team og overbygg)
 Jeg jobbet også med en mer nettverksnær tjeneste i Azure (Azure App services), 
-men denne var ikke nødvendigvis enklere  å sette opp med Ci/Cd og virtuelle nett (VNet).
+men denne var ikke nødvendigvis enklere  å sette opp med Ci/Cd og virtuelle nett (VNet).  
 
-Optimaliser kontainere ved å minimere max minne, max CPU og parametre for opp og nedskalering av antall kontainere.
+Optimaliser kontainere ved å minimere max minne, max CPU og parametre for opp og nedskalering av antall kontainere.  
 
 Jeg prøvde i Openshift (Kubernetes) rett og slett å avbryte REST kallet før minnet gikk i taket for en pod,
 og returnere en feilmelding til klienten om at lasten var for stor. I dette tilfellet var det snakk om en stor
 engangs last. Erfaringen derfra var at dette heller ikke var noen vits i. Det var bedre å la Kubernetes vanlig
-kontainerhåndtering fikse det, dvs. drepe containeren automatisk og ta opp en ny.
+kontainerhåndtering fikse det, dvs. drepe containeren automatisk og ta opp en ny.  
 
-Ofte kan visuelle verktøy som Grafana være en stor hjelp her.
+Ofte kan visuelle verktøy som Grafana være en stor hjelp her.  
 
 ### AI eller ikke AI
 
-For en del typer anvendelser så kan fuzzy tekstsøk være vel så bra som et søk i en AI modell.
+For en del typer anvendelser så kan fuzzy tekstsøk være vel så bra som et søk i en AI modell med "Prompt engineering".
 Da brukes f.eks. "Elastic Search" eller fuzzy søk i objekter i databaser beregnet for større tekstmengder
 (Både Oracle og PostgreSQL har dette).
 Det er ikke alltid like gunstig heller med en naturlig språk modell for presentasjon av et resultat.
 Det passer best for mennesker og ikke for videre maskinell behandling.
-Det må vurderes i hvert enkelt tilfelle. AI trening og bruk regnes generelt som det mest energikrevende.
+Det må vurderes i hvert enkelt tilfelle. AI trening og bruk regnes generelt som det mest energikrevende.  
 
-Men det er viktig å se på hele verdikjeden når AI vurderes.
+Men det er viktig å se på hele verdikjeden når AI vurderes.  
 
 ### Valg av grensesnitt for effektiv prosessering
 
-Det finnes ikke noe fasit svar. Det kommer an på anvendelsen.
+Det finnes ikke noe fasit svar. Det kommer an på anvendelsen.  
 
 | Metode        |  Energi effektivitet | Bruksområder                                                | Programmeringsmodell |
 |---------------|---------------------:|-------------------------------------------------------------|----------------------|
@@ -191,7 +191,7 @@ Det finnes ikke noe fasit svar. Det kommer an på anvendelsen.
 Virtuelle tråder gjør synkron REST mer effektiv, spesielt ved stor last (mange kall fra ulike klienter).
 Det finnes ikke noe fasitsvar her. For systemer som får inn mange meldinger,
 og med store krav til ytelse og pålitelighet kan Kafka være fordelaktig.
-Det må sies at jeg har enda ikke prøvd Kafka i praksis. Disse andre har jeg testet ut.
+Det må sies at jeg har enda ikke prøvd Kafka i praksis. Disse andre har jeg testet ut.  
 
 
 ### Konkrete kodetips
@@ -222,25 +222,40 @@ Bruk ByteArray for I/O Operasjoner i stedet for å jobbe med tekststrenger.
 fun readFile(file: File): ByteArray {
     return file.inputStream().use { it.readBytes() }
 }
-
 ```
 
 #### Effektive Collection operasjoner og lambda uttrykk
-```
-// Inefficient: Creates multiple temporary lists
-val result = list.map { it * 2 }.filter { it > 10 }
 
-// Efficient: Using sequence to avoid unnecessary temporary collections
-val efficientResult = list.asSequence().map { it * 2 }.filter { it > 10 }.toList()
+Minst effektivt alternativ:
 ```
+val selectedCertifications = certifications.filter { s -> analyzeInactive || !s.disabled }.toMutableSet()
+
+```
+Det går også an å la være å filtere hvis ikke nødvendig. Eksempel:
+```
+  val selectedCertifications = if (analyzeInactive) 
+    certifications 
+else 
+    certifications.filterNot { s -> s.disabled }.toMutableSet()
+```
+
+Enda mer effektivt med sequences:
+```
+val selectedCertifications = if (analyzeInactive) {
+    certifications
+} else {
+    certifications.asSequence()
+        .filterNot { it.disabled }
+        .toMutableSet() // Evaluates lazily
+}
+```
+
 For hvert trinn med en collection type skapes det nye midlertidig collections.
 Dess flere kjedede slike operasjoner med Collections, dess mindre effektivt.
-Det kan også være en ide i stedet for filter
-
-Hvert element i en sequence eksekveres gjennom hele kjeden, 
-skjer helt i det siste trinnet hvis mulig.
-
-Det går også an å droppe fil
+Hvert element i en sequence eksekveres gjennom hele kjeden,
+beregning skjer helt i det siste trinnet hvis mulig. 
+Dette er en fordel for store datasett, ikke helt slik for små.
+Men trenger vi virkelig en Mutable Collection her. Det er et annet spørsmål.  
 
 #### Effektive løkker i Kotlin
 
@@ -252,7 +267,6 @@ fun processList(items: List<Int>) {
         println(it)
     }
 }
-
 ```
 
 Den mest effektive varianten uansett er en tradisjonell for loop:
@@ -263,13 +277,12 @@ fun processList(items: List<Int>) {
             println(i)
     }
 }
-
 ```
 
 Her er det noe med ekstra lambda abstraksjonslag og funksjonell kode som er litt mindre effektivt. 
 Hvis det betyr noe i praksis da. Jeg minner om at lambdaer blir oversatt til slike strukturer uansett.
 Det er jo en trend å gå mot funksjonell programmering, som i mange tilfeller gir mer konsis kode.
-Akkurat her synes jeg heller ikke det. Men det er nok ikke dette jeg ville ha fokusert på for å energioptimalisere.
+Akkurat her synes jeg heller ikke det. Men det er nok ikke dette jeg ville ha fokusert på for å energioptimalisere.  
 
 #### Bruk av MXBean i Kotlin (Java)
 ```
@@ -310,17 +323,17 @@ Resultat:
 ```  
 
 Utviklingen observeres på denne måten,om det er vekst i minneforbruk eller antall tråder.
-Tilsvarende kan gjøres for kritiske deler av koden generelt.
+Tilsvarende kan gjøres for kritiske deler av koden generelt.  
 
-Jeg anbefaler å droppe CPU målinger egentlig i koden over, for ga ikke meg noe. I så fall må beregne et gjennomsnitt.
-Det viktige er å sjekke at minnebruken ikke blir for høy, og at den faktisk går ned igjen etterhvert etter
+Jeg anbefaler å droppe CPU målinger i koden over, for ga ikke meg noe. I så fall må beregne et gjennomsnitt
+over litt tid. Det viktige er å sjekke at minnebruken ikke blir for høy, og at den faktisk går ned igjen etterhvert etter
 mye minnebruk. Det samme gjelder antall tråder. Om virtuelle tråder er i bruk vises også her.
 Hvis antall tråder bare vokser er det feil programmering, det fikk jeg erfare en gang i hvertfall.  
 
 ### Bruk av Docker Stats kommandoen og egen kontainer for å måle energiforbruk
 
 I stedet for den JVM baserte MxBean metoden beskrevet over, så bør  Docker Stats kommandoen brukes for containere.
-Denne gir mer stabile målinger.
+Denne gir mer stabile målinger.  
 ```
 docker stats
 ```
