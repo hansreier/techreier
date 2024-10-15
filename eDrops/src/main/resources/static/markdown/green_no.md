@@ -7,7 +7,10 @@ Det grå skiftet innebærer ganske mye kynisme, fordi kontrollen blir overført 
 tjener på grå tankegang. 
 
 I sosiale medier bobler det over med oppgitthet over det grønne skiftet.
-Hva kan du og jeg gjøre da? Økonomien for mange folk og småbedrifter er blitt dårligere. Det begrenser handlingsrommet.
+Hva kan du og jeg gjøre da? Økonomien for mange folk og småbedrifter er blitt dårligere. Det begrenser handlingsrommet.  
+
+## Råd til utviklere og IT arkitekter
+
 Hva kan vi gjøre som helt vanlige utviklere?
 
 Det er ett stikkord her som er helt vesentlig:
@@ -19,7 +22,7 @@ mye avhengig av hvor skitten produksjonen av elektrisk strøm er. Selv om strøm
 100% fra vannkraft, så fortrenger dette energibruk brukt til andre formål og dermed indirekte C02 utslipp.
 Så jeg vil ikke snakke om redusert C02 utslipp som Microsoft gjør i sin kalkulator, men redusert energiforbruk.
 
-DIGITAL TRANSFORMASJON
+### Energiforbruk ved digital transformasjon
 
 En veldig forenklet generell verdikjede:
 
@@ -57,25 +60,182 @@ Dette er veldig avhengig av type datalagring, RAM, fillagring, database, semi pe
 
 * Totalt energiforbruk er summen av energiforbruket for hvert enkelt ledd i verdikjeden *
 
-enten energiforbruket skyldes digitale eller manuelle verktøy. 
+enten energiforbruket skyldes digitale eller manuelle verktøy.  
+
 Det må også regnes med at produksjonsleddet blir utført mange ganger.
 Det er energiforbruk knyttet til det fysiske miljøet i tillegg (kontoret, fabrikken, datasentret, internettet).
 
 Dette kan for eksempel bety at et høyt energiforbruk pga AI trening og svar fra en AI tjeneste, likevel kan spare
 energi totalt fordi man da klarer å optimalisere en industriprosess eller et kraftnett. Dette høres jo selvsagt ut.
-Men det er et poeng at verktøy for å faktisk regne på dette ikke er så veldig tilgjengelige.
+Men det er et poeng at verktøy for å faktisk regne på dette ikke er så veldig tilgjengelige.  
 
 For å finne energiforbruket, så må det være målbart. Det mest nøyaktige for datasystemer er å måle forbruket direkte 
 med utstyr på tjenere. I skya så er ikke dette så enkelt som det høres ut, fordi virtuell maskiner og containere kjører
 en eller flere tjenere. Da kan jo flere helt uavhengig systemer være installert på den samme tjeneren.
-Vi er uansett avhengig av skyleverandørens verktøykasse her.
+Vi er uansett avhengig av skyleverandørens verktøykasse her.  
 
 Den andre metoden er å estimere energiforbruket basert på målt CPU og forbrukt minne. I Java finnes det APIer for å 
 gjøre dette. Jeg har prøvd lokalt med Spring Boot og en embedded tjener, med å logge dette og summere opp.
-Spesielt måling av CPU er så ustabilt at det anbefales ikke.
+Spesielt måling av CPU er så ustabilt at det anbefales ikke. Se kodeeksempel lenger ned.
 
-Eksempel på bruk av MXBean i Kotlin (Java):
+Energiforbruk [kWh] = ((Σ(%c * Ec) + ΣEm) * PUE)
 
+%c = % av CPU brukt (kan f.eks. være CPU, GPU eller TPU)
+Ec = kWh forbrukt av all CPU
+Em =  kWh forbrukt av minne 
+
+PUE = Power Usage Effectiveness = Total energi brukt av datasentret / Energi brukt av IT-utstyr.
+PUE = 1, all energi går til IT-utstyr, neppe oppnåelig.
+PUE > 1.0. Dess høyere tall, desd mindre effektivt.
+
+Et alternativet er sky baserte verktøy fra skyleverandører som  Azure, Google og Amazon for det samme. 
+Når Azure bare tilbyr et resultat som viser C02 utslipp, så har de bommet etter min mening. 
+Det er ikke denne omregningen som er det mest interessante. Men det er ikke å komme  unna at energi-
+målinger er et komplekst fagområde uansett.
+
+En annen indirekte svært unøyaktig metode er rett og slett å se på kostnadene for å utvikle, teste og drifte datasystemet.
+Vi kan være ganske sikre på at skyleverandøren ikke vil tilby oss en løsning med et kostandsnivå som ikke dekker
+egne energikostnader.
+
+Det er ikke mulig med "grønn" systemutvikling uten å ha et reflektert syn på hva som står her.
+Dess større prosjekt, dess mer relevant er det å faktisk måle eller estimere totalt energiforbruk for en verdikjede.
+Det alle utviklere kan gjøre er å se gjennom kodetipsene og legge til egen smart praksis.
+
+## Generelle tips for energieffektiv utvikling
+
+- Se på hele arkitekturen samlet, inkludert flere systemer og grensesnitt.
+- Identifiser energikriske deler av koden og optimaliser eller skriv på nytt.
+- Optimaliser bruk av kontainere (max minne, max CPU, opp og nedskalering)
+- Energivurder AI bruk
+- Effektive algoritmer har lavere energiforbruk.
+- Kode som eksekveres raskt uten ventetid har lavere energiforbruk.
+- Enkel kode kan ha (men IKKE alltid) lavere energiforbruk.
+- Unngå unødvendige beregninger, betinget logikk kan brukes.
+- Spring Boot Virtual Threads bør brukes. Vær ellers oppmerksom på trådhåndtering i koden.
+- Asynkron signalbehandling har ofte lavere energiforbruk
+- Pakking av data hjelper (f.eks. vanlige teknikker for web-frontend)
+- Krav til datalagring må ses på (umiddelbart RAM, cache, disk, arkiv, ..)
+- Minimer I/O operasjoner
+
+Det som er fint med dette, er at dette (som regel) er fullt i overenstemmelse med vanlige prinsipper for god og 
+clean kode. Så det er dobbelt vinn: Enklere vedlikehold og lavere energiforbruk.
+Valg av driftsplattform /skytjenester påvirker også dette, men gjøres jo som regel i forkant.
+
+### Et lite eksempel på optimalisering av overføring for store datamengder.
+
+Et gammelt stort monolittisk Java basert system skulle flyttes over i skya.
+Vi optimaliserte tildelt minne og CPU i deployment konfigurasjon av pod'er.
+Det var gammel kode for filoverføring som var ekstremt ineffektivt.
+Vi oppdaget problemene etter at hele systemet var flyttet over i skya.
+Da måtte minnet skrus opp alt for mye dessverre. Uten dette fikk brukere i distriktet med dårlig nett problemer.
+Løsningen var å skrive om kritiske deler av koden basert på nye APIer for filoverføring tilpasset nye Spring versjon.
+
+I et senere prosjekt, testet jeg ut ny bedre kode for filoverføring av store datamengder.
+Reaktiv kode i Java ble testet ut som fikset de med filstørrelser inntil 2GB, den gamle koden hos gammel kunde
+taklet ikke noe særlig mer enn 20Mb.  Parametre som hvor store biter av bitstrømmen som leses av gangen settes for optimalisering.
+Dette er omtrent grensen for hva JVM tåler. 
+Nye versioner av Spring Boot og REST grensnitt takler ganske store datamengder uansett, viste det seg.
+
+Et annet krav var mellomlagring i database. Etter å ha sjekket ut både et vanlig database API og et reaktiv API og 
+også lagring i BLOB type objekter, så kom vil til at en vanlig relasjonsdatabase ikke var egnet. Da ble det
+lagret i et nøkkel/verdi lager i skya i stedet. Mye bedre ytelse viste det seg.
+
+Men var dette 2GB kravet en spesifikasjons feil egentlig?  Hvorfor skal Så store datamengder overføres i en klump?
+Her kan vi stille spørsmålstegn med hele arkitekturen som inkluderte flere systemer.
+
+### Energieffektive miljøer med kontainer teknologi
+
+Å bruke Kubernetes basert teknologi kan anbefales (men fikk i praksis mye hjelp av plattform team og overbygg)
+Jeg jobbet også med en mer nettverksnær tjeneste i Azure (Azure App services), 
+men denne var ikke nødvendigvis enklere  å sette opp med Ci/Cd og virtuelle nett (VNet).
+
+Optimaliser kontainere ved å minimere max minne, max CPU og parametre for opp og nedskalering av antall kontainere.
+
+Jeg prøvde i Openshift (Kubernetes) rett og slett å avbryte REST kallet før minnet gikk i taket for en pod,
+og returnere en feilmelding til klienten om at lasten var for stor. I dette tilfellet var det snakk om en stor
+engangs last. Erfaringen derfra var at dette heller ikke var noen vits i. Det var bedre å la Kubernetes vanlig
+kontainerhåndtering fikse det, dvs. drepe containeren automatisk og ta opp en ny.
+
+Ofte kan visuelle verktøy som Grafana være en stor hjelp her.
+
+### AI eller ikke AI
+
+For en del typer anvendelser så kan fuzzy tekstsøk være vel så bra som et søk i en AI modell.
+Da brukes f.eks. "Elastic Search" eller fuzzy søk i objekter i databaser beregnet for større tekstmengder
+(Både Oracle og PostgreSQL har dette).
+Det er ikke alltid like gunstig heller med en naturlig språk modell for presentasjon av et resultat.
+Det passer best for mennesker og ikke for videre maskinell behandling.
+Det må vurderes i hvert enkelt tilfelle. AI trening og bruk regnes generelt som det mest energikrevende.
+
+### Valg av grensesnitt for effektiv prosessering
+
+Det finnes ikke noe fasit svar. Det kommer an på anvendelsen.
+
+| Metode        |  Energi effektivitet | Bruksområder                                                | Programmeringsmodell |
+|---------------|---------------------:|-------------------------------------------------------------|----------------------|
+| Synkron REST  |      Lav til moderat | Liten til middels datamengde, enkel request-response        | Enkel                |
+| Asynkron REST |      Moderat til høy | Stor datamengde, request håndtering ikke blokkerende        | Noe mer kompleks     |
+| Kafka         | Høy (med forebehold) | Stort datavolum, skalerbart, hendelsesdrevet, mer komplekst | Enda mer kompleks    |
+
+Virtuelle tråder gjør synkron REST mer effektiv, spesielt ved stor last (mange kall fra ulike klienter).
+Det finnes ikke noe fasitsvar her. For systemer som får inn mange meldinger,
+og med store krav til ytelse og pålitelighet kan Kafka være fordelaktig.
+Det må sies at jeg har enda ikke prøvd Kafka i praksis. Disse andre har jeg testet ut.
+
+
+### Konkrete kodetips
+
+- Gjenbruk objekter i stedet for å rekreere dem.
+- Bruk inline for små funksjoner i Kotlin.
+- Velg datastruktur med omhu etter bruksområde. F.eks: Bruk Hashmap for raske oppslag, hvis rekkefølge er viktig LinkedHashMap
+- Mye å spare på riktig SQL, konsistent datamodell og indeksering av tabeller
+- Vurder relasjonsdatabase opp mot NO-SQL alternativer.
+- Ordinær fillagring og filoverføring er tilsynelatende enkelt, men bør unngås, i hvertfall i skya.
+- Valg av eventuell ORM teknologi som Spring Data JPA bør vurderes nøye
+  - Mange alternativer tilbyr også enkle APIer for CRUD (Create, Read, Update, Delete)
+  - For lagring i litt komplekse stukturer er ORM bra.
+  - For store spørringer / rapporter, ikke bruk JPA / ORM.
+  - Ytelses optimalisering av ORM kan være tidkrevende, hvis man ikke har erfaring
+- Søk i lange tekstbeskrivelser krever helt egne metoder og datatyper i databaser.
+
+#### Virtuelle tråder i JVM og Spring
+
+Slik setter man "Virtual Threads" i Spring Boot i yaml fil:
+```
+spring.threads.virtual.enabled: true
+```
+#### I/O med mye data
+
+Bruk ByteArray for I/O Operasjoner i stedet for å jobbe med tekststrenger.
+```
+fun readFile(file: File): ByteArray {
+    return file.inputStream().use { it.readBytes() }
+}
+
+```
+
+#### Effektive Collection operasjoner og lambda uttrykk
+```
+// Inefficient: Creates multiple temporary lists
+val result = list.map { it * 2 }.filter { it > 10 }
+
+// Efficient: Using sequence to avoid unnecessary temporary collections
+val efficientResult = list.asSequence().map { it * 2 }.filter { it > 10 }.toList()
+
+```
+
+#### Effektive løkker
+```
+fun processList(items: List<Int>) {
+    items.forEach {
+        if (it == 5) return@forEach // Skips to the next iteration
+        println(it)
+    }
+}
+
+```
+
+#### Bruk av MXBean i Kotlin (Java)
 ```
 fun mem(): MB {
     val memory: MemoryMXBean = ManagementFactory.getMemoryMXBean()
@@ -92,38 +252,18 @@ fun mem(): MB {
     )
     return mem
 }
-```
-Parameterene kan brukes  f.eks. ved logging av REST kall i et filter.  
+```  
+
+Parameterene kan brukes  f.eks. ved logging av REST kall i et filter.
 
 Jeg anbefaler å droppe CPU målinger egentlig i koden over, for ga ikke meg noe. I så fall må beregne et gjennomsnitt.
 Det viktige er å sjekke at minnebruken ikke blir for høy, og at den faktisk går ned igjen etterhvert etter
 mye minnebruk. Det samme gjelder antall tråder. Om virtuelle tråder er i bruk vises også her.
-Hvis antall tråder bare vokser er det feil programmering, det fikk jeg erfare en gang i hvertfall.
-Jeg prøvde i Openshift (Kubernetes) rett og slett å avbryte REST kallet før minnet gikk i taket for en Container,
-og returnere en feilmelding til klienten om at lasten var for stor. I dette tilfellet var det snakk om en stor 
-engangs last. Erfaringen derfra var at dette heller ikke var noen vits i. Det var bedre å la Kubernetes vanlig
-kontainerhåndtering fikse det, dvs. drepe containeren automatisk og ta opp en ny.
+Hvis antall tråder bare vokser er det feil programmering, det fikk jeg erfare en gang i hvertfall.  
 
-Vi optimaliserte tildelt minne og CPU i deployment konfigurasjon.
-Det var noe gammel kode for filoverføring som var ekstremt ineffektivt.
-Da måtte minnet skrus opp dessverre alt for mye.
-Løsningen var rett og slett å skrive om hele koden for filoverføring og problemet var vekk.
-I detalj implementasjon har det noe med hvor store biter av bitstrømmen som leses av gangen.
-Her går det an å bruke reaktiv kode. Gikk helt fint med filstørrelser intil 2Gb.
-Dette er omtrent grensen for hva JVM tåler. Men var dette en design feil egentlig? 
-Hvorfor skal så store datamengder overføres i en klump?
+### Bruk av Docker Stats kommandoen og egen kontainer for å måle energiforbruk
 
-Energiforbruk [kWh] = ((Σ(%c * Ec) + ΣEm) * PUE)
-
-%c = % av CPU brukt (kan f.eks. være CPU, GPU eller TPU)
-Ec = kWh forbrukt av all CPU
-Em =  kWh forbrukt av minne 
-
-PUE = Power Usage Effectiveness = Total energi brukt av datasentret / Energi brukt av IT-utstyr.
-PUE = 1, all energi går til IT-utstyr, neppe oppnåelig.
-PUE > 1.0. Dess høyere tall, desd mindre effektivt.
-
-I stedet for den JVM baserte MxBean metoden beskrevet over, så bør  Docker Stats kommandoen brukes for kontainere. 
+I stedet for den JVM baserte MxBean metoden beskrevet over, så bør  Docker Stats kommandoen brukes for containere.
 Denne gir mer stabile målinger.
 ```
 docker stats
@@ -134,104 +274,10 @@ CONTAINER ID   NAME               CPU %     MEM USAGE / LIMIT     MEM %     NET 
 5b0957e198f2   awesome_mahavira   1.24%     332.6MiB / 7.648GiB   4.25%     1.39kB / 0B   0B / 0B     34
 ```
 
-Jeg tenker meg et oppsett i skya med en kontainer som kjører et API som kaller denne 
+Jeg tenker meg et oppsett i skya med en kontainer som kjører et API som kaller denne
 og beregner energiforbruk på andre kontainere som er selve systemet. Det hadde vært morsomt å faktisk gjort
-denne øvelsen. Jeg har ikke hatt tid eller mulighet. Alternativet her er sky baserte verktøy fra skyleverandører som
-Azure, Google og Amazon for det samme. Men når Azure bare tilbyr et resultat som viser C02 utslipp, så har de bommet
-etter min mening. Det er ikke denne omregningen som er det mest interessante. Men det er ikke å komme  unna at energi-
-målinger er et komplekst fagområde.
+denne øvelsen. Jeg har ikke hatt tid eller mulighet.  
 
-En annen indirekte unøyaktig metode er rett og slett å se på kostnadene for å utvikle, teste og drifte datasystemet.
-Vi kan være ganske sikre på at skyleverandøren ikke vil tilby oss en løsning med et kostandsnivå som ikke dekker
-egne energikostnader.
-
-## Generelle tips for energieffektiv utvikling
-
-- Effektive algoritmer har lavere energiforbruk.
-- Kode som eksekveres raskt uten ventetid har lavere energiforbruk.
-- Enkel kode har ofte (men IKKE alltid) lavere energiforbruk.
-- Unngå unødvendige beregninger, f.eks. med betinget logikk.
-- Spring Boot Virtual Threads bør brukes. Vær ellers oppmerksom på trådhåndtering i koden.
-- Asynkron signalbehandling har ofte lavere energiforbruk
-- Pakking av data hjelper (f.eks. vanlige teknikker for web-frontend)
-- Krav til datalagring må ses på (umiddelbart RAM, cache, disk, arkiv, ..)
-- Minimer I/O operasjoner
-- Optimaliser bruk av kontainere (max minne, max CPU, opp og nedskalering)
-- Energivurder AI bruk
-
-Det som er fint med dette, er at dette (som regel) er fullt i overenstemmelse med vanlige prinsipper for god og 
-clean kode. Så det er dobbelt vinn: Enklere vedlikehold og lavere energiforbruk.
-Valg av driftsplattform /skytjenester påvirker også dette, men gjøres jo som regel i forkant.
-
-### AI eller ikke AI
-
-For en del typer anvendelser så kan fuzzy tekstsøk være vel så bra som et søk i en AI modell.
-Da brukes f.eks. "Elastic Search" eller fuzzy søk i objekter i databaser beregnet for større tekstmengder
-(Både Oracle og PostgreSQL har dette).
-Det er ikke alltid like gunstig heller med en naturlig språk modell for presentasjon av et resultat.
-Det må vurderes i hvert enkelt tilfelle. AI bruk regnes generelt som det mest energikrevende.
-
-Det er ikke mulig med "grønn" systemutvikling uten å ha et reflektert syn på hva som står her.
-Dess større prosjekt, dess mer relevant er det å faktisk måle eller estimere totalt energiforbruk for en verdikjede.
-Det alle utviklere kan gjøre er å se gjennom kodetipsene og legge til egen smart praksis.
-
-### Valg av grensesnitt for effektiv prosessering
-
-Det finnes ikke noe fasit svar her, det kommer an på anvendelsen.
-
-| Metode        |  Energi effektivitet | Bruksområder                                                | Programmeringsmodell |
-|---------------|---------------------:|-------------------------------------------------------------|----------------------|
-| Synkron REST  |      Lav til moderat | Liten til middels datamengde, enkel request-response        | Enkel                |
-| Asynkron REST |      Moderat til høy | Stor datamengde, request håndtering ikke blokkerende        | Noe mer kompleks     |
-| Kafka         | Høy (med forebehold) | Stort datavolum, skalerbart, hendelsesdrevet, mer komplekst | Enda mer kompleks    |
-
-Virtuelle tråder gjør synkron REST mer effektiv, spesielt ved stor last (mange kall fra ulike klienter).
-Det finnes ikke noe fasitsvar her. For systemer som får inn mange meldinger,
-og med store krav til ytelse og pålitelighet kan Kafka være fordelaktig.
-Det må sies at jeg har enda ikke prøvd Kafka i praksis. Disse andre har jeg testet ut.
-
-### Tilslutt noen konkrete kodetips:
-
-Slik setter man "Virtual Threads" i Spring Boot i yaml fil:
-```
-spring.threads.virtual.enabled: true
-```
-Bruk ByteArray for I/O Operasjoner i stedet for å jobbe med tekststrenger.
-```
-fun readFile(file: File): ByteArray {
-    return file.inputStream().use { it.readBytes() }
-}
-
-```
-Bruk effektive Collection operasjoner og lambda uttrykk
-```
-// Inefficient: Creates multiple temporary lists
-val result = list.map { it * 2 }.filter { it > 10 }
-
-// Efficient: Using sequence to avoid unnecessary temporary collections
-val efficientResult = list.asSequence().map { it * 2 }.filter { it > 10 }.toList()
-
-```
-
-Effektive løkker:
-```
-fun processList(items: List<Int>) {
-    items.forEach {
-        if (it == 5) return@forEach // Skips to the next iteration
-        println(it)
-    }
-}
-
-```
-
-- Gjenbruk objekter i stedet for å rekreere dem.
-- Bruk inline for små funksjoner.
-- Velg datastruktur med omhu etter bruksområde. F.eks: Bruk Hashmap for raske oppslag, hvis rekkefølge er viktig LinkedHashMap
-- Mye å spare på riktig SQL, konsistent datamodell og indeksering av tabeller
-- Vurder relasjonsdatabase opp mot NO-SQL alternativer.
-- For store spørringer / rapporter, ikke bruk JPA / ORM.
-- Søk i tekstbeskrivelser krever helt egne metoder og datatyper i databaser, hvis dette er et krav, eventuelt elasticSearch.
-- For JPA/ORM er det et helt eget tema for å optimalisere lesing og skriving av relaterte objekter i databasen.
 
 
 
