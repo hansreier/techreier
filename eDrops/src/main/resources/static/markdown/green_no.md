@@ -232,10 +232,19 @@ val result = list.map { it * 2 }.filter { it > 10 }
 
 // Efficient: Using sequence to avoid unnecessary temporary collections
 val efficientResult = list.asSequence().map { it * 2 }.filter { it > 10 }.toList()
-
 ```
+For hvert trinn med en collection type skapes det nye midlertidig collections.
+Dess flere kjedede slike operasjoner med Collections, dess mindre effektivt.
+Det kan også være en ide i stedet for filter
 
-#### Effektive løkker
+Hvert element i en sequence eksekveres gjennom hele kjeden, 
+skjer helt i det siste trinnet hvis mulig.
+
+Det går også an å droppe fil
+
+#### Effektive løkker i Kotlin
+
+Den mest effektive varianten med forEach:
 ```
 fun processList(items: List<Int>) {
     items.forEach {
@@ -245,6 +254,22 @@ fun processList(items: List<Int>) {
 }
 
 ```
+
+Den mest effektive varianten uansett er en tradisjonell for loop:
+```
+fun processList(items: List<Int>) {
+    for (i in items) {
+         if (i == 3) break // Skips right out of the loop
+            println(i)
+    }
+}
+
+```
+
+Her er det noe med ekstra lambda abstraksjonslag og funksjonell kode som er litt mindre effektivt. 
+Hvis det betyr noe i praksis da. Jeg minner om at lambdaer blir oversatt til slike strukturer uansett.
+Det er jo en trend å gå mot funksjonell programmering, som i mange tilfeller gir mer konsis kode.
+Akkurat her synes jeg heller ikke det. Men det er nok ikke dette jeg ville ha fokusert på for å energioptimalisere.
 
 #### Bruk av MXBean i Kotlin (Java)
 ```
