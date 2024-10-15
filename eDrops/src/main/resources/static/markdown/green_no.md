@@ -13,7 +13,7 @@ Hva kan du og jeg gjøre da? Økonomien for mange folk og småbedrifter er blitt
 
 Hva kan vi gjøre som helt vanlige utviklere?
 
-Det er ett stikkord her som er helt vesentlig:
+Det er ett stikkord som er helt vesentlig:
 
 *BRUK MINDRE ENERGI, GJELDER OGSÅ IKT LØSNINGER*
 
@@ -135,7 +135,7 @@ Løsningen var å skrive om kritiske deler av koden basert på nye APIer for fil
 Hvordan finne kritiske deler av koden? Det aller enkleste verktøyet er rett og slett vanlig logging med
 f.eks. logback. Se eksempel på bruk av MxBean lenger ned på siden. 
 Så kan logge nivået  settes til debug eller trace senere når ikke relevant lenger. 
-En vanlig stoppe klokke kan også brukes ved en GUI operasjon (eller bruk et GUI testverkøy).
+En vanlig stoppeklokke kan også brukes ved en GUI operasjon (eller bruk et GUI testverkøy).
 Hvis responsen tar mer enn 2-3  sekunder fra GUI, så er det ikke bra. 
 Profil-verktøy for Java / JVM kan også brukes for dette, men det er dyrere.  
 
@@ -162,7 +162,7 @@ Optimaliser kontainere ved å minimere max minne, max CPU og parametre for opp o
 
 Jeg prøvde i Openshift (Kubernetes) rett og slett å avbryte REST kallet før minnet gikk i taket for en pod,
 og returnere en feilmelding til klienten om at lasten var for stor. I dette tilfellet var det snakk om en stor
-engangs last. Erfaringen derfra var at dette heller ikke var noen vits i. Det var bedre å la Kubernetes vanlig
+engangs-last. Erfaringen derfra var at dette heller ikke var noen vits i. Det var bedre å la Kubernetes vanlig
 kontainerhåndtering fikse det, dvs. drepe containeren automatisk og ta opp en ny.  
 
 Ofte kan visuelle verktøy som Grafana være en stor hjelp her.  
@@ -188,8 +188,8 @@ Det finnes ikke noe fasit svar. Det kommer an på anvendelsen.
 | Asynkron REST |      Moderat til høy | Stor datamengde, request håndtering ikke blokkerende        | Noe mer kompleks     |
 | Kafka         | Høy (med forebehold) | Stort datavolum, skalerbart, hendelsesdrevet, mer komplekst | Enda mer kompleks    |
 
-Virtuelle tråder gjør synkron REST mer effektiv, spesielt ved stor last (mange kall fra ulike klienter).
-Det finnes ikke noe fasitsvar her. For systemer som får inn mange meldinger,
+Virtuelle tråder gjør synkron REST mer effektiv, spesielt ved stor last (mange kall fra ulike klienter). 
+For systemer som får inn mange meldinger,
 og med store krav til ytelse og pålitelighet kan Kafka være fordelaktig.
 Det må sies at jeg har enda ikke prøvd Kafka i praksis. Disse andre har jeg testet ut.  
 
