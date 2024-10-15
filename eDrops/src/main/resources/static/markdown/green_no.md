@@ -28,13 +28,13 @@ En veldig forenklet generell verdikjede:
 
 Manuell verdikjede:
 
-☺ -> Manuell planlegging -> Verktøy -> ☺ ->
-☺ -> Manuell opppgave med verktøy -> Resultat -> ☺ 
+☺ -> Manuell planlegging -> Verktøy -> ☺ ->  
+☺ -> Manuell opppgave med verktøy -> Resultat -> ☺   
 
 Heldigital verdikjede:
 
-☺ -> Digital utvikling   -> Datasystem -> ☺ ->
-☺ -> Digital operasjoner i datasystem -> Resultat -> ☺
+☺ -> Digital utvikling   -> Datasystem -> ☺ ->  
+☺ -> Digital operasjoner i datasystem -> Resultat -> ☺  
 
 I praksis er disse verdikjedene mye lengre og involverer langt flere og som regel både automatiske og manuelle prosesser
 i en blanding, men vi gjør det enkelt her.  
@@ -47,9 +47,9 @@ Hvis ikke involveringen av en digital operasjon gir noen gevinst på noen måte 
 så er det selvsagt ingen vits. KPIer kan også relateres til FNs 17 bærekraftsmål.
 
 Resultat inkluderer blant annet kost & nytte, energiforbruk, klima og miljøpåvirkning, nødvendig etterarbeid. 
-Dette er også pålagt for større prosjekter / organisasjoner, gjerne via ESG prinsipper (Environmental, Sosial, Goverance).
+Dette er også pålagt for større prosjekter / organisasjoner, gjerne via ESG prinsipper (Environmental, Social, Governance).
 
-Først så koder vi noe, tester og retter, så blir systemet deployet til produksjon. 
+Først så koder vi noe, tester og retter, så blir systemet satt i produksjon.
 Alternativt blir AI modellen først trent opp, så brukes prompt engineering til å få et resultat. 
 Begge disse fasene forbruker energi. 
 Det er vel kjent at trening av AI bruker energi, litt mindre vanlig å tenke på energiforbruk for en tradisjonell
@@ -94,12 +94,14 @@ Det er ikke denne omregningen som er det mest interessante. Men det er ikke å k
 målinger er et komplekst fagområde uansett.
 
 En annen indirekte svært unøyaktig metode er rett og slett å se på kostnadene for å utvikle, teste og drifte datasystemet.
-Vi kan være ganske sikre på at skyleverandøren ikke vil tilby oss en løsning med et kostandsnivå som ikke dekker
+Vi kan være ganske sikre på at skyleverandøren ikke vil tilby oss en løsning med et kostnadsnivå som ikke dekker
 egne energikostnader.
 
-Det er ikke mulig med "grønn" systemutvikling uten å ha et reflektert syn på hva som står her.
+## Konklusjon
+
+Det er ikke mulig med "grønn" systemutvikling uten å ha et reflektert syn på hele verdikjeder, som også inkluderer IKT.
 Dess større prosjekt, dess mer relevant er det å faktisk måle eller estimere totalt energiforbruk for en verdikjede.
-Det alle utviklere kan gjøre er å se gjennom kodetipsene og legge til egen smart praksis.
+Det alle utviklere kan gjøre i det minste er å se gjennom kodetipsene under og legge til egen smart praksis.
 
 ## Generelle tips for energieffektiv utvikling
 
@@ -119,16 +121,23 @@ Det alle utviklere kan gjøre er å se gjennom kodetipsene og legge til egen sma
 
 Det som er fint med dette, er at dette (som regel) er fullt i overenstemmelse med vanlige prinsipper for god og 
 clean kode. Så det er dobbelt vinn: Enklere vedlikehold og lavere energiforbruk.
-Valg av driftsplattform /skytjenester påvirker også dette, men gjøres jo som regel i forkant.
+Valg av driftsplattform / skytjenester påvirker også dette, men gjøres jo som regel i forkant.
 
 ### Et lite eksempel på optimalisering av overføring for store datamengder.
 
-Et gammelt stort monolittisk Java basert system skulle flyttes over i skya.
+Et gammelt stor Java monolitt skulle flyttes over i skya.
 Vi optimaliserte tildelt minne og CPU i deployment konfigurasjon av pod'er.
 Det var gammel kode for filoverføring som var ekstremt ineffektivt.
 Vi oppdaget problemene etter at hele systemet var flyttet over i skya.
 Da måtte minnet skrus opp alt for mye dessverre. Uten dette fikk brukere i distriktet med dårlig nett problemer.
 Løsningen var å skrive om kritiske deler av koden basert på nye APIer for filoverføring tilpasset nye Spring versjon.
+
+Hvordan finne kritiske deler av koden? Det aller enkleste verktøyet er rett og slett vanlig logging med
+f.eks. logback. Se eksempel på bruk av MxBean lenger ned på siden. 
+Så kan logge nivået  settes til debug eller trace senere når ikke relevant lenger. 
+En vanlig stoppe klokke kan også brukes ved en GUI operasjon (eller bruk et GUI testverkøy).
+Hvis responsen tar mer enn 2-3  sekunder fra GUI, så er det ikke bra. 
+Profil-verktøy for Java / JVM kan også brukes for dette, men det er dyrere.
 
 I et senere prosjekt, testet jeg ut ny bedre kode for filoverføring av store datamengder.
 Reaktiv kode i Java ble testet ut som fikset de med filstørrelser inntil 2GB, den gamle koden hos gammel kunde
@@ -166,6 +175,8 @@ Da brukes f.eks. "Elastic Search" eller fuzzy søk i objekter i databaser beregn
 Det er ikke alltid like gunstig heller med en naturlig språk modell for presentasjon av et resultat.
 Det passer best for mennesker og ikke for videre maskinell behandling.
 Det må vurderes i hvert enkelt tilfelle. AI trening og bruk regnes generelt som det mest energikrevende.
+
+Men det er viktig å se på hele verdikjeden når AI vurderes.
 
 ### Valg av grensesnitt for effektiv prosessering
 
@@ -252,9 +263,29 @@ fun mem(): MB {
     )
     return mem
 }
+
+data class MB(
+    val init: Long, val used: Long, val committed: Long, val max: Long, val threads: Int,
+    val virtual: Boolean
+) {
+    override fun toString(): String {
+        return "init=${init / MBYTE}MB, used=${used / MBYTE}MB, committed=${committed / MBYTE}MB" +
+                ", max=${max / MBYTE}MB, ${if (virtual) "vthreads=" else "threads="}$threads"
+    }
+}
 ```  
 
 Parameterene kan brukes  f.eks. ved logging av REST kall i et filter.
+``` 
+logger.info("${req.method} ${req.servletPath} ${mem()}")
+```
+Resultat:
+``` 
+16:25:36.723 [tomcat-handler-0] INFO GET / init=254MB, used=72MB, committed=88MB, max=4040MB, vthreads=26 
+```  
+
+Utviklingen observeres på denne måten,om det er vekst i minneforbruk eller antall tråder.
+Tilsvarende kan gjøres for kritiske deler av koden generelt.
 
 Jeg anbefaler å droppe CPU målinger egentlig i koden over, for ga ikke meg noe. I så fall må beregne et gjennomsnitt.
 Det viktige er å sjekke at minnebruken ikke blir for høy, og at den faktisk går ned igjen etterhvert etter
