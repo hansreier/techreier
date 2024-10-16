@@ -1,7 +1,7 @@
 ## About my electic power manifest for Norway
 
 This manifest was written simply because I am frustrated regarding the current energy policy in Norway.
-What is alarming is that the current political direction does not solve the climate crisis, aggrevates the nature crisis,
+What is alarming is that the current political direction does not solve the climate crisis, aggravates the nature crisis,
 creates unnecessary inflation, higher interest rates, poverty, and contempt for politicians. 
 A century of efforts by the entire Norwegian society
 to build an industrial nation based on cheap hydropower has been reversed and gradually destroyed in just a few years.
