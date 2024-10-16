@@ -48,6 +48,8 @@ object Docs {
         Doc("tech", Norwegian, "Teknologi",false),
         Doc("tech", English, "Technology",false),
         Doc("maintainable", Norwegian, "Vedlikeholdbarhet",false),
+        Doc("green", Norwegian, "Grønn systemutvikling"),
+        Doc("green", English, "Green system development"),
         Doc("maintainable", English, "Maintainability",false),
         Doc("markdown", Norwegian, "Markdown", false),
         Doc( "markdown", English, "Markdown", false),
