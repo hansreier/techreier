@@ -46,13 +46,13 @@ En veldig forenklet generell verdikjede:
 
 Manuell verdikjede:
 
-☺ -> Manuell planlegging -> Verktøy -> ☺ ->  
-☺ -> Manuell opppgave med verktøy -> Resultat -> ☺
+☺ -> Manuell planlegging -> Oppskrift -> ☺   
+☺ -> Manuelle operasjoner -> Resultat -> ☺
 
 Heldigital verdikjede:
 
-☺ -> Digital utvikling   -> Datasystem -> ☺ ->  
-☺ -> Digital operasjoner i datasystem -> Resultat -> ☺
+☺ -> Digital utvikling -> Datasystem -> ☺   
+☺ -> Digitale operasjoner -> Resultat -> ☺
 
 I praksis er disse verdikjedene mye lengre og involverer langt flere og som regel både automatiske og manuelle prosesser
 i en blanding, men vi gjør det enkelt her.

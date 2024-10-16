@@ -131,7 +131,7 @@ Minst effektivt alternativ:
 val selectedCertifications = certifications.filter { s -> analyzeInactive || !s.disabled }.toMutableSet()
 
 ```
-Det går også an å la være å filtere hvis ikke nødvendig. Eksempel:
+Det går også an å la være å filtrere hvis ikke nødvendig. Eksempel:
 ```
   val selectedCertifications = if (analyzeInactive) 
     certifications 
