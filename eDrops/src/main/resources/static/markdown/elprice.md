@@ -204,7 +204,7 @@ Folk opplever det slik:
 Meningsmålinger gir nå Ap ca 15% oppslutning og Sp nesten på sperregrensen. 
 Hvis dere ser på lista over konsekvensene av regjeringens politikk, så er det helt åpenbart hvorfor. 
 Det som er skrevet lenger oppe i dette notatet oppsummerer hvorfor oppslutningen om dagens regjering er så dårlig. 
-Det er rett og slett feil energi- og næringspolitikk.  
+Det er rett og slett feil energi- og nærings-politikk.  
 
 Hvorfor Sp som i hovedsak er mot EØS og nå ser problemene for distriktene, 
 vil være med på dette i lengden, skjønner ikke jeg. Jeg stemte Sp ved valget. Aldri mer og ikke Ap. Aldri.  
@@ -213,7 +213,7 @@ Min påstand er at regjeringen blir ikke mer populær med mindre det blir gjort 
 Folk flest er ikke dumme og glemmer heller ikke så lett. De skjønner disse sammenhengene. 
 Det gjør åpenbart ikke regjeringen.  
 
-Derfor bør regjeringen forstå dette, vurdere å gå av og overlate roret til noen som kan gjøre dette bedre. 
+Derfor bør regjeringen forstå dette, og endre energipolitikken sin.
 Ja det er ingen rask løsning, som Støre sier, 
 men det må absolutt gjøres et forsøk på reforhandling av kraftavtaler og innføre et topris-system. 
 Nå er det jaggu vanlige folks tur...
