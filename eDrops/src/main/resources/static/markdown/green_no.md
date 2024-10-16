@@ -2,13 +2,13 @@
 
 Det grønne skiftet er betegnet som det grå skiftet av kritikere, 
 fordi det i praksis forbruker naturressurser i rasende tempo og ødelegger natur som binder C02.
-Hvor godt faglig fundert er egentlig løsningene for å redde klima som vindturbiner, når det har denne bieffekten?
+Hvor godt faglig fundert er egentlig løsningene for å redde klima med vindturbiner, når det har denne bieffekten?
 Det grå skiftet innebærer ganske mye kynisme, fordi kontrollen blir overført til store organisasjoner, som
 tjener på grå tankegang. 
 
 I sosiale medier bobler det over med oppgitthet over det grønne skiftet.
-Hva kan du og jeg gjøre da? Økonomien for mange folk og småbedrifter er blitt dårligere. Det begrenser handlingsrommet.  
-Hvis vi som utviklere kunne hjelpe til med å lage mer energieffektive løsninger, så hadde det vært supert.
+Hva kan du og jeg gjøre da? Økonomien for mange folk og småbedrifter er blitt dårligere. Det begrenser handlingsrommet.
+Hvis vi som utviklere og IT arkitekter kunne hjelpe til med å lage mer energieffektive løsninger, så hadde det vært supert.
 Det krever mye samarbeid og innovasjon på tvers av fagområder ut over ren IKT.
 
 Digitalisering er ikke nødvendigvis bærekraftig i seg selv. Men det kan bli det hvis det gjøres riktig:
@@ -20,7 +20,12 @@ Digitalisering er ikke nødvendigvis bærekraftig i seg selv. Men det kan bli de
 - Må regne med miljø- og klimaavtrykket som digitalisering gir i det totale regnestykket.
 
 En felle det er lett å falle i er å endre hver enkelt manuelle delprosess til noe som støttes digitalt,
-uten å tenke helheten. Spesielt for offentlig virksomhet er dette en stor fare.
+uten å tenke helheten. Spesielt for offentlig forvaltning som er veldig regelstyrt dette en stor utfordring.  
+
+Det finnes ingen god definisjon på hva "grønn" systemutvikling er. Men jeg oppfordrer alle i bransjen
+til å tenke litt selv hva det faktisk innebærer. Pinnepunktene over gir en pekepinn. 
+Et viktig poeng er at reduksjon i energiforbruk ved hjelp av IKT, faktisk må kunne måles. Uten dette blir det
+vanskelig å sette inn tiltak på riktig sted.
 
 ## Råd til utviklere og IT arkitekter
 
@@ -65,7 +70,7 @@ Dette er også pålagt for større prosjekter / organisasjoner, gjerne via ESG p
 Først så koder vi noe, tester og retter, så blir systemet satt i produksjon.
 Alternativt blir AI modellen først trent opp, så brukes prompt engineering til å få et resultat. 
 Begge disse fasene forbruker energi. 
-Det er vel kjent at trening av AI bruker energi, litt mindre vanlig å tenke på energiforbruk for en tradisjonell
+Det er vel kjent at trening av AI bruker mye energi, litt mindre vanlig å tenke på energiforbruk for en tradisjonell
 systemutviklingsprosess. Uansett blir systemet satt i drift på tjenere, enten internt eller i skya. Det er
 som regel testmiljøer som likner på produksjonsmiljø, som forbruker energi det og. Prosessering forbruker energi,
 Datalagring forbruker energi. 
@@ -82,13 +87,15 @@ Dette kan for eksempel bety at et høyt energiforbruk pga AI trening og svar fra
 energi totalt fordi man da klarer å optimalisere en industriprosess eller et kraftnett. Dette høres jo selvsagt ut.
 Men det er et poeng at verktøy for å faktisk regne på dette ikke er så veldig tilgjengelige.  
 
+### Måling av energiforbruk
+
 For å finne energiforbruket, så må det være målbart. Det mest nøyaktige for datasystemer er å måle forbruket direkte 
-med utstyr på tjenere. I skya så er ikke dette så enkelt som det høres ut, fordi virtuell maskiner og containere kjører
+med måleutstyr på tjenere. I skya så er ikke dette så enkelt som det høres ut, fordi virtuell maskiner og containere kjører
 en eller flere tjenere. Da kan jo flere helt uavhengig systemer være installert på den samme tjeneren.
 Vi er uansett avhengig av skyleverandørens verktøykasse her.  
 
 Den andre metoden er å estimere energiforbruket basert på målt CPU og forbrukt minne. I Java finnes det APIer for å 
-gjøre dette. Jeg har prøvd lokalt med Spring Boot og en embedded tjener, med å logge dette og summere opp.
+gjøre dette. Jeg har prøvd lokalt med Spring Boot med innebygget Tomcat, med å logge dette og summere opp.
 Spesielt måling av CPU er så ustabilt at det anbefales ikke. Se kodeeksempel lenger ned.  
 
 Energiforbruk [kWh] = ((Σ(%c * Ec) + ΣEm) * PUE)
@@ -114,7 +121,12 @@ egne energikostnader.
 
 Det er ikke mulig med "grønn" systemutvikling uten å ha et reflektert syn på hele verdikjeder, som også inkluderer IKT.
 Dess større prosjekt, dess mer relevant er det å faktisk måle eller estimere totalt energiforbruk for en verdikjede.
-Det alle utviklere kan gjøre i det minste er å se gjennom kodetipsene under og legge til egen smart praksis.  
+Det alle utviklere kan gjøre er å se gjennom kodetipsene under og legge til egen smart praksis. 
+
+En utfordring er at metodene for å faktisk måle resultater i form av redusert energiforbruk er for 
+utviklet og kjent blant utviklere, arkitekter og ledere.
+IKT-bransjen bør tenke på hvordan egne smarte løsninger utnyttes på best mulig måte i egne prosesser. 
+Det er ingen fordel for eksempel for energiforbruk og C02 utslipp ved å tvinge utviklere tilbake til hovedkontoret.  
 
 ## Generelle tips for energieffektiv utvikling
 
@@ -167,7 +179,7 @@ Her kan vi stille spørsmålstegn med hele arkitekturen som inkluderte flere sys
 
 ### Energieffektive miljøer med kontainer teknologi
 
-Å bruke Kubernetes basert teknologi kan anbefales (men fikk i praksis mye hjelp av plattform team og overbygg)
+Å bruke Kubernetes basert teknologi kan anbefales (men fikk i praksis mye hjelp av plattform team og overbygg).
 Jeg jobbet også med en mer nettverksnær tjeneste i Azure (Azure App services), 
 men denne var ikke nødvendigvis enklere  å sette opp med Ci/Cd og virtuelle nett (VNet).  
 
@@ -298,6 +310,9 @@ Det er jo en trend å gå mot funksjonell programmering, som i mange tilfeller g
 Akkurat her synes jeg heller ikke det. Men det er nok ikke dette jeg ville ha fokusert på for å energioptimalisere.  
 
 #### Bruk av MXBean i Kotlin (Java)
+
+Hensikten er å kunne logge minneforbruk, antall tråder og eventuelt CPU.  
+
 ```
 fun mem(): MB {
     val memory: MemoryMXBean = ManagementFactory.getMemoryMXBean()
@@ -359,9 +374,6 @@ CONTAINER ID   NAME               CPU %     MEM USAGE / LIMIT     MEM %     NET 
 Jeg tenker meg et oppsett i skya med en kontainer som kjører et API som kaller denne
 og beregner energiforbruk på andre kontainere som er selve systemet. Det hadde vært morsomt å faktisk gjort
 denne øvelsen. Jeg har ikke hatt tid eller mulighet.  
-
-
-
 
 
 
