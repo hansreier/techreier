@@ -1,12 +1,12 @@
 ## Green software development, what is it?
 
-Sorry, the rest in Norwegian. TODO.
+The green transition is seen as the grey transition by critics.
+In practice, it consumes natural resources at a rapid pace and destroys nature that absorbs CO2. 
+How well-founded are the solutions to save the climate with wind turbines when they have this side effect? 
+The green transition involves a great deal of cynicism, 
+because control is transferred to large organizations that profit from green thinking.
 
-Det grønne skiftet er betegnet som det grå skiftet av kritikere, 
-fordi det i praksis forbruker naturressurser i rasende tempo og ødelegger natur som binder C02.
-Hvor godt faglig fundert er egentlig løsningene for å redde klima med vindturbiner, når det har denne bieffekten?
-Det grå skiftet innebærer ganske mye kynisme, fordi kontrollen blir overført til store organisasjoner, som
-tjener på grønn tankegang. 
+TODO Translate to English. Sorry.
 
 I sosiale medier bobler det over med oppgitthet over det grønne skiftet.
 Hva kan du og jeg gjøre da? Økonomien for mange folk og småbedrifter er blitt dårligere. Det begrenser handlingsrommet.

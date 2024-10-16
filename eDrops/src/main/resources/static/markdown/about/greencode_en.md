@@ -1,6 +1,8 @@
-## Energieffektiv kode
+## Energy efficient code
 
-### Generelle tips for energieffektiv utvikling
+### General advice for energy efficient coding
+
+TODO Translate to english
 
 - Se på hele arkitekturen samlet, inkludert flere systemer og grensesnitt.
 - Identifiser energikritiske deler av koden (med dårlig ytelse) og optimaliser eller skriv på nytt.

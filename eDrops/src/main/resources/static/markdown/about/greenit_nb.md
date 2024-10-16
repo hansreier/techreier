@@ -3,7 +3,7 @@
 Det grønne skiftet er betegnet som det grå skiftet av kritikere,
 fordi det i praksis forbruker naturressurser i litt for stort tempo og ødelegger natur som binder C02.
 Hvor godt faglig fundert er egentlig løsningene for å redde klima med vindturbiner, når det har denne bieffekten?
-Det grå skiftet innebærer ganske mye kynisme, fordi mye av kontrollen blir overført til store organisasjoner, som
+Det grønne skiftet innebærer ganske mye kynisme, fordi mye av kontrollen blir overført til store organisasjoner, som
 tjener på grønn tankegang.
 
 I sosiale medier bobler det over med oppgitthet over det grønne skiftet.
