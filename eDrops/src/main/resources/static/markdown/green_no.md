@@ -8,6 +8,19 @@ tjener på grå tankegang.
 
 I sosiale medier bobler det over med oppgitthet over det grønne skiftet.
 Hva kan du og jeg gjøre da? Økonomien for mange folk og småbedrifter er blitt dårligere. Det begrenser handlingsrommet.  
+Hvis vi som utviklere kunne hjelpe til med å lage mer energieffektive løsninger, så hadde det vært supert.
+Det krever mye samarbeid og innovasjon på tvers av fagområder ut over ren IKT.
+
+Digitalisering er ikke nødvendigvis bærekraftig i seg selv. Men det kan bli det hvis det gjøres riktig:
+- Digital disrupsjon for energibesparende arbeidsmåter
+- Muliggjør jobb og tjenester hvor som helst
+- Automatisering og forenkling av manuelle prosesser
+- Fjerne rutineoppgaver så man kan fokusere på viktigere ting.
+- Minske miljø- og C02 utslipp ved smarte løsninger for styring av prosesser (AI, big data, ..)
+- Må regne med miljø- og klimaavtrykket som digitalisering gir i det totale regnestykket.
+
+En felle det er lett å falle i er å endre hver enkelt manuelle delprosess til noe som støttes digitalt,
+uten å tenke helheten. Spesielt for offentlig virksomhet er dette en stor fare.
 
 ## Råd til utviklere og IT arkitekter
 
