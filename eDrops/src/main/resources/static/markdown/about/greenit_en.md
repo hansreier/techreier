@@ -108,7 +108,7 @@ Em =  kWh forbrukt av minne
 
 PUE = Power Usage Effectiveness = Total energi brukt av datasentret / Energi brukt av IT-utstyr.  
 PUE = 1, all energi går til IT-utstyr, neppe oppnåelig.  
-PUE > 1.0. Dess høyere tall, desd mindre effektivt.  
+PUE > 1.0. Jo høyere tall, dess mindre effektivt.  
 
 Et alternativet er sky baserte verktøy fra skyleverandører som  Azure, Google og Amazon for det samme. 
 Når Azure bare tilbyr et resultat som viser C02 utslipp, så har de bommet etter min mening. 
