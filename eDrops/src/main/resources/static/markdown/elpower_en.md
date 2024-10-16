@@ -4,7 +4,7 @@ This manifest was written simply because I am frustrated regarding the current e
 What is alarming is that the current political direction does not solve the climate crisis, aggrevates the nature crisis,
 creates unnecessary inflation, higher interest rates, poverty, and contempt for politicians. 
 A century of efforts by the entire Norwegian society
-to build an industrial nation based on cheap hydropower has been reversed and destroyed in just a few years.
+to build an industrial nation based on cheap hydropower has been reversed and gradually destroyed in just a few years.
 Norway had a system with stable, cheap electric power that worked well for many years.
 We no longer have that, but an EU-adapted market-based power system with extremely high and fluctuating electricity prices.
 Now and for the foreseeable future! Note also that this policy creates a lot of problems internally in EU.
@@ -19,9 +19,9 @@ especially in recent years with the adoption of EU energy market packages.
 This manifest outlines the main direction Norway should take to resolve the electricity (price) crisis 
 while also contributing to solve the climate crisis and preventing massive loss of nature. 
 This differs significantly from both the current energy policy of the Socialist government, 
-as well as the previous energy policy of the Conservative government.  
+and the previous energy policy of the Conservative government.  
 
-The measures are not described in detail. I do not state wheather Norway should drop the existing EEA agreement,
+The measures are not described in detail. I do not state whether Norway should drop the existing EEA agreement,
 including ACER, and renegotiate existing power agreements with foreign countries.
 However, it is quite obvious to me that if the necessary adjustments cannot be made within this framework,
 both the EEA agreement and ACER should be terminated and replaced with trade agreements. 
@@ -35,7 +35,7 @@ SOURCES OF INSPIRATION
 - Look at The Norwegian Society for the Conservation of Nature and fight agains Wind Turbines and general misuse of Nature.
 - Look at how the energy grid in Germany is destabilices by extensive use of windturbines and solar power.
 - Look to the dysfunctional Eu Norpool power market that dictates spot prices in the south of Norway.
-- Look at what professional energy experts tells us about the Norwegian Grid (Several links from this web site)  
+- Look at what professional energy experts tells us about the Norwegian Grid (Several links from this website)  
 
 It is quite obvious that the leading political parties in Norway are completely out of sync with the public
 when it comes to energy policy related to the production, distribution, sale, and consumption of electric power.
@@ -45,7 +45,7 @@ I demand that politicians at least understand the difference between dispatchabl
 and the negative consequences large amounts of new non-dispatchable power will have on the Norwegian power grid.  
 
 Leading Norwegian politic parties should take notice of the public opinion of this subject that exists in Norway and
-change there policies. To be noted: 
+change their policies. To be noted: 
 It is not professionally or scientifically proven that the current policies actually is  working.
 The opposite is closer to the truth.  
 

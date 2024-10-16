@@ -1,9 +1,9 @@
 ## Om mitt strøm manifest
 
-Dette manifestet ble rett og slett skrevet fordi jeg er fly forbanna og oppgitt over nåværende energipolitikk.
+Dette manifestet ble rett og slett skrevet fordi jeg er frustrert over nåværende energipolitikk.
 Det som er ille er at nåværende politiske retning ikke løser klimakrisa, forverrer naturkrisa, 
 skaper unødvendig inflasjon, høyere rente, fattigdom og politikerforakt. 100 års møysommelig innsats av hele det norske samfunnet
-for å bygge opp en industrinasjon basert på billig vannkraft, er i løpet av få år reversert og kastet bort.
+for å bygge opp en industrinasjon basert på billig vannkraft, er i løpet av få år reversert og gradvis kastet bort.
 Vi hadde et system med stabil billig elektrisk kraft for det norske samfunnet som fungerte godt i mange år.
 Nå har vi ikke det lenger, men et EU tilpasset markedsbasert kraftsystem med kjempehøye jojo kraftpriser.  Nå og i 
 uoverskuelig framtid! Det er i tillegg et potensiale for kraftunderskudd: Først og fremst på grunn av nye høykapasitets utenlandskabler, 

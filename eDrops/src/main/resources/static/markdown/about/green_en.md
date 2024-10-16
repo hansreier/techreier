@@ -6,7 +6,7 @@ Det grønne skiftet er betegnet som det grå skiftet av kritikere,
 fordi det i praksis forbruker naturressurser i rasende tempo og ødelegger natur som binder C02.
 Hvor godt faglig fundert er egentlig løsningene for å redde klima med vindturbiner, når det har denne bieffekten?
 Det grå skiftet innebærer ganske mye kynisme, fordi kontrollen blir overført til store organisasjoner, som
-tjener på grå tankegang. 
+tjener på grønn tankegang. 
 
 I sosiale medier bobler det over med oppgitthet over det grønne skiftet.
 Hva kan du og jeg gjøre da? Økonomien for mange folk og småbedrifter er blitt dårligere. Det begrenser handlingsrommet.
@@ -125,7 +125,7 @@ Det er ikke mulig med "grønn" systemutvikling uten å ha et reflektert syn på 
 Dess større prosjekt, dess mer relevant er det å faktisk måle eller estimere totalt energiforbruk for en verdikjede.
 Det alle utviklere kan gjøre er å se gjennom kodetipsene under og legge til egen smart praksis. 
 
-En utfordring er at metodene for å faktisk måle resultater i form av redusert energiforbruk er for 
+En utfordring er at metodene for å faktisk måle resultater i form av redusert energiforbruk er for lite
 utviklet og kjent blant utviklere, arkitekter og ledere.
 IKT-bransjen bør tenke på hvordan egne smarte løsninger utnyttes på best mulig måte i egne prosesser. 
 Det er ingen fordel for eksempel for energiforbruk og C02 utslipp ved å tvinge utviklere tilbake til hovedkontoret.  
@@ -133,7 +133,7 @@ Det er ingen fordel for eksempel for energiforbruk og C02 utslipp ved å tvinge 
 ## Generelle tips for energieffektiv utvikling
 
 - Se på hele arkitekturen samlet, inkludert flere systemer og grensesnitt.
-- Identifiser energikritiske (med dårlig ytelse) deler av koden og optimaliser eller skriv på nytt.
+- Identifiser energikritiske deler av koden (med dårlig ytelse) og optimaliser eller skriv på nytt.
 - Optimaliser bruk av kontainere (max minne, max CPU, opp og nedskalering)
 - Energivurder AI bruk
 - Effektive algoritmer har lavere energiforbruk.
@@ -167,17 +167,20 @@ Hvis responsen tar mer enn 2-3  sekunder fra GUI, så er det ikke bra.
 Profil-verktøy for Java / JVM kan også brukes for dette, men det er dyrere.  
 
 I et senere prosjekt, testet jeg ut ny bedre kode for filoverføring av store datamengder.
-Reaktiv kode i Java ble testet ut som fikset de med filstørrelser inntil 2GB, den gamle koden hos gammel kunde
-taklet ikke noe særlig mer enn 20Mb.  Parametre som hvor store biter av bitstrømmen som leses av gangen settes for optimalisering.
-Dette er omtrent grensen for hva JVM tåler. 
-Nye versioner av Spring Boot og REST grensnitt takler ganske store datamengder uansett, viste det seg.  
+Reaktiv kode i Java ble testet ut som fikset det med filstørrelser inntil 2GB. 
+2GB er omtrent grensen for hva ordinær streng håndtering tåler (Char Array). Er det større en det krever det
+spesialhåndtering. Det er viktig å tenke på også at biblioteker vi bruker må støtte det.
+Nye versioner av Spring Boot og REST grensnitt takler ganske store datamengder omtrent inntil den grensen,
+riktig konfigurert viste det seg.  Parametre som hvor store biter av bitstrømmen som leses av gangen, settes for optimalisering.
+Den gamle koden hos forrige kunde taklet forresten ikke noe særlig mer enn 30MB.
 
 Et annet krav var mellomlagring i database. Etter å ha sjekket ut både et vanlig database API og et reaktiv API og 
 også lagring i BLOB type objekter, så kom vil til at en vanlig relasjonsdatabase ikke var egnet. Da ble det
 lagret i et nøkkel/verdi lager i skya i stedet. Mye bedre ytelse viste det seg.  
 
 Men var dette 2GB kravet en spesifikasjons-feil egentlig?  Hvorfor skal Så store datamengder overføres i en klump?
-Her kan vi stille spørsmålstegn med hele arkitekturen som inkluderte flere systemer.  
+Her kan vi stille spørsmålstegn med hele arkitekturen som inkluderte flere systemer. I praksis var det ikke mer 
+enn 200-300 MB. Det løste mye av problemet.
 
 ### Energieffektive miljøer med kontainer teknologi
 
