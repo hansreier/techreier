@@ -75,11 +75,24 @@ header {
 	height: 2em;
 }
 
+code {
+	display: block;
+	background-color: #f4f4f4;
+	color: #333;
+	padding: 10px;
+	border-radius: 5px;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 12px;
+	white-space: pre;
+	overflow-x: auto;
+	line-height: 2em;
+}
+
 #techreier {
 	display: flex;
 	text-decoration: none;
 	transition: background-color 0.3s ease;
-	font-size:2em;
+	font-size:1em;
 }
 
 #homebutton {
