@@ -22,7 +22,7 @@
 
 The great thing about this is that it usually aligns well with common principles of good and clean code. 
 So it’s a double win: Easier maintenance and lower energy consumption. 
-The choice of hosting platform or cloud services affects this, but it is typically decided in advance.
+The choice of hosting platform or cloud services affects this, but it is typically decided in advance.  
 
 ### An example of optimizing large chunks of data
 
@@ -32,7 +32,7 @@ There was old code for file transfer that was extremely inefficient (30MB maximu
 We discovered the problems after the entire system had been moved to the cloud.
 Unfortunately, this meant that memory had to be increased significantly. 
 Without this, users in areas with poor network connectivity experienced issues.
-The solution was to rewrite critical parts of the code based on new file transfer APIs adapted to the new version of Spring.
+The solution was to rewrite critical parts of the code based on new file transfer APIs adapted to the new version of Spring.  
 
 How to identify critical parts of the code? 
 The simplest is regular logging with, for example, Logback. See the example of using MXBean further down the page.
@@ -47,41 +47,41 @@ Reactive code in Java was tested, which handled file sizes up to 2GB.
 If it’s larger than that, it requires special handling. It’s also important to consider that the libraries we use must support this.
 New versions of Spring Boot and REST interfaces can handle quite large amounts of data, up to that limit, 
 if configured correctly, as it turned out.
-Parameters such as how large chunks of the byte stream are read simultaneously are set for optimization.
+Parameters such as how large chunks of the byte stream are read simultaneously are set for optimization.  
 
 Another requirement was intermediate storage in a database. 
 After examining both a standard database API and a reactive API, as well as storage in BLOB-type objects; 
 we concluded that a standard relational database was not suitable.
-Instead, it was stored in a key/value store in the cloud. It turned out to be much more performant.
+Instead, it was stored in a key/value store in the cloud. It turned out to be much more performant.  
 
 But was this 2GB requirement actually a specification error? Why should such large amounts of data be transferred in one chunk?
 We can question the entire architecture, which included several systems. 
-In practice, it was no more than 200-300MB. This solved much of the problem.
+In practice, it was no more than 200-300MB. This solved much of the problem.  
 
 ### Energy efficient environments with container technology
 
-Å bruke Kubernetes basert teknologi kan anbefales (men fikk i praksis mye hjelp av plattform team og overbygg).
-Jeg jobbet også med en mer nettverksnær tjeneste i Azure (Azure App services), 
-men denne var ikke nødvendigvis enklere  å sette opp med Ci/Cd og virtuelle nett (VNet).  
+To use technology based on Kubernetes can be recommended (I got some help from platform team and a wrapper layer).
+I also worked with a more network centric service in Azure (Azure App services). 
+This was not necessarily simpler to configure with Ci/Cd pipeline and virtual networks (VNet).  
 
-Optimaliser kontainere ved å minimere max minne, max CPU og parametre for opp og nedskalering av antall kontainere.  
+Optimize containers by minimizing max memory, max CPU and parameters for up- and down-scaling of containers.  
 
-Jeg prøvde i Openshift (Kubernetes) rett og slett å avbryte REST kallet før minnet gikk i taket for en pod,
-og returnere en feilmelding til klienten om at lasten var for stor. I dette tilfellet var det snakk om en stor
-engangs-last. Erfaringen derfra var at dette heller ikke var noen vits i. Det var bedre å la Kubernetes vanlig
-kontainerhåndtering fikse det, dvs. drepe containeren automatisk og ta opp en ny.  
+I tried in Openshift (Kubernetes) to abort a REST call if memory was a bit below the maximum limit for a pod,
+and then return and error message to the client to state that the load was too large. 
+I learned that this was not a good idea. It was better just to allow Kubernetes regular container handling to fix it,
+meaning killing the container and starting a new fresh container.  
 
-Ofte kan visuelle verktøy som Grafana være en stor hjelp her.  
+Visual tools like Grafana can often be a great help.  
 
 ### AI or no AI
 
 For certain types of applications, fuzzy text search can be just as effective as a search in an AI model with prompt engineering.
 For example, Elastic-search or fuzzy search in databases designed for larger text volumes can be used 
-(both Oracle and PostgreSQL have this capability).
+(both Oracle and PostgreSQL have this capability).  
 
 It is not always advantageous to use a natural language model for presenting results either. 
 Such models are best suited for human consumption rather than further machine processing. 
-Each scenario must be evaluated individually. AI training and usage are generally considered to be the most energy-intensive.  
+Each scenario must be evaluated individually. AI training and usage are generally considered to be the most energy-intensive.   
 
 It is important to consider the entire value chain when deciding to use AI.
 
@@ -97,7 +97,7 @@ There is no definitive answer. It depends on the use case.
 
 Virtual threads increases the performance of synchronous REST, most valid for large throughput.
 Kafka can be beneficial for message intensive systems with strict requirements for performance and reliability.
-I have to admit that I have not tried Kafka in practical programming yet. The other alternatives I have tested.
+I have to admit that I have not tried Kafka in practical programming yet. The other alternatives I have tested.  
 
 
 ### Good coding practices
@@ -163,7 +163,7 @@ The more chained collection operation, the less efficient.
 Each element in a Sequence is executed seperately through the entire chain,
 the calculation happens in the last step if possible.
 This is an advantage for large data set, not quite like that for small ones
-But do we really need a Mutable Collection here. It is another question.
+But do we really need a Mutable Collection here. It is another question.  
 
 #### Efficient loops in Kotlin
 
@@ -191,7 +191,7 @@ The extra lambda abstraction layer and functional code is a bit less efficient.
 If that means anything in practice. I would like to remind you that lambdas are translated into such structures regardless. 
 There is a trend towards functional programming, which often results in more concise code. 
 However, in this case, I don't think that’s true. 
-But this code improvement is probably not what I would focus on for energy optimization.
+But this code improvement is probably not what I would focus on for energy optimization.  
 
 #### Usage of MXBean in Kotlin (Java)
 
@@ -258,7 +258,6 @@ CONTAINER ID   NAME               CPU %     MEM USAGE / LIMIT     MEM %     NET 
 I am considering a setup in a cloud service with a container that runs an API calling this command.
 The energy usage of the other containers in the system whill  then be calculated.
 It should be a lot of fun to do this, but I have not had time or opportunity.
-.  
 
 
 
