@@ -35,7 +35,7 @@ Da måtte minnet skrus opp alt for mye dessverre. Uten dette fikk brukere i dist
 Løsningen var å skrive om kritiske deler av koden basert på nye APIer for filoverføring tilpasset nye Spring versjon.
 
 Hvordan finne kritiske deler av koden? Det aller enkleste verktøyet er rett og slett vanlig logging med
-f.eks. logback. Se eksempel på bruk av MxBean lenger ned på siden.
+f.eks. logback. Se eksempel på bruk av MXBean lenger ned på siden.
 Så kan logge nivået  settes til debug eller trace senere når ikke relevant lenger.
 En vanlig stoppeklokke kan også brukes ved en GUI operasjon (eller bruk et GUI testverkøy).
 Hvis responsen tar mer enn 2-3  sekunder fra GUI, så er det ikke bra.
@@ -242,9 +242,9 @@ over litt tid. Det viktige er å sjekke at minnebruken ikke blir for høy, og at
 mye minnebruk. Det samme gjelder antall tråder. Om virtuelle tråder er i bruk vises også her.
 Hvis antall tråder bare vokser er det feil programmering, det fikk jeg erfare en gang i hvertfall.
 
-### Use of the Docker Stats command and a separate container to measure energy usage. 
+### Bruk av Docker Stats kommandoen og egen kontainer med tjeneste for å måle energiforbruk
 
-I stedet for den JVM baserte MxBean metoden beskrevet over, så bør  Docker Stats kommandoen brukes for containere.
+I stedet for den JVM baserte MXBean metoden beskrevet over, så bør  Docker Stats kommandoen brukes for containere.
 Denne gir mer stabile målinger.
 ```
 docker stats

@@ -35,7 +35,7 @@ Without this, users in areas with poor network connectivity experienced issues.
 The solution was to rewrite critical parts of the code based on new file transfer APIs adapted to the new version of Spring.
 
 How to identify critical parts of the code? 
-The simplest is regular logging with, for example, Logback. See the example of using MxBean further down the page.
+The simplest is regular logging with, for example, Logback. See the example of using MXBean further down the page.
 The logging level can be set to debug or trace later when it is no longer relevant.
 A regular stopwatch can also be used for a GUI operation (or use a GUI testing tool).
 If the response takes more than 2-3 seconds from the GUI, it’s not good.
@@ -190,7 +190,7 @@ Hvis det betyr noe i praksis da. Jeg minner om at lambdaer blir oversatt til sli
 Det er jo en trend å gå mot funksjonell programmering, som i mange tilfeller gir mer konsis kode.
 Akkurat her synes jeg heller ikke det. Men det er nok ikke dette jeg ville ha fokusert på for å energioptimalisere.  
 
-#### Bruk av MXBean i Kotlin (Java)
+#### Usage of MXBean in Kotlin (Java)
 
 Hensikten er å kunne logge minneforbruk, antall tråder og eventuelt CPU.  
 
@@ -222,7 +222,7 @@ data class MB(
 }
 ```  
 
-Parameterene kan brukes  f.eks. ved logging av REST kall i et filter.
+The parameters can be used, e.g. by logging a REST call in a filter.
 ``` 
 logger.info("${req.method} ${req.servletPath} ${mem()}")
 ```
@@ -230,19 +230,20 @@ Result:
 ``` 
 16:25:36.723 [tomcat-handler-0] INFO GET / init=254MB, used=72MB, committed=88MB, max=4040MB, vthreads=26 
 ```  
+Observe in this way the change in memory usage and number of threads over time.
+The same can be done for critical parts of the code in general.  
 
-Utviklingen observeres på denne måten,om det er vekst i minneforbruk eller antall tråder.
-Tilsvarende kan gjøres for kritiske deler av koden generelt.  
+I recommend skipping CPU measurements in the above code, because the results were unstable. You can of cause try to calculate
+an average over a period of time. The most critical checkpoint is to ensure that the memory usage remains within acceptable
+limits and gradually decreases after high throughput. The same applies to the number of threads. 
+If virtual threads are used, is detected in the code.
+If the number of threads is growing steadily upwards, it is a bug in the code. I experienced that one occasion.  
 
-Jeg anbefaler å droppe CPU målinger i koden over, for ga ikke meg noe. I så fall må beregne et gjennomsnitt
-over litt tid. Det viktige er å sjekke at minnebruken ikke blir for høy, og at den faktisk går ned igjen etterhvert etter
-mye minnebruk. Det samme gjelder antall tråder. Om virtuelle tråder er i bruk vises også her.
-Hvis antall tråder bare vokser er det feil programmering, det fikk jeg erfare en gang i hvertfall.  
+### Usage of the Docker Stats command and a separate container with a service to measure energy usage
 
-### Bruk av Docker Stats kommandoen og egen kontainer for å måle energiforbruk
+Instead of the JVM based MXBean method described below, the Dockes Stats command should be used for containers.
+This provides more stable measurements.  
 
-I stedet for den JVM baserte MxBean metoden beskrevet over, så bør  Docker Stats kommandoen brukes for containere.
-Denne gir mer stabile målinger.  
 ```
 docker stats
 ```
@@ -251,10 +252,10 @@ Result:
 CONTAINER ID   NAME               CPU %     MEM USAGE / LIMIT     MEM %     NET I/O       BLOCK I/O   PIDS
 5b0957e198f2   awesome_mahavira   1.24%     332.6MiB / 7.648GiB   4.25%     1.39kB / 0B   0B / 0B     34
 ```
-
-Jeg tenker meg et oppsett i skya med en kontainer som kjører et API som kaller denne
-og beregner energiforbruk på andre kontainere som er selve systemet. Det hadde vært morsomt å faktisk gjort
-denne øvelsen. Jeg har ikke hatt tid eller mulighet.  
+I am considering a setup in a cloud service with a container that runs an API calling this command.
+The energy usage of the other containers in the system whill  then be calculated.
+It should be a lot of fun to do this, but I have not had time or opportunity.
+.  
 
 
 
