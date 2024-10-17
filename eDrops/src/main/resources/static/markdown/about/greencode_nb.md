@@ -88,8 +88,8 @@ Det finnes ikke noe fasit svar. Det kommer an på anvendelsen.
 
 | Metode        | Energi effektivitet  | Kapasitet | Mønster                            | Modell     |
 |---------------|----------------------|-----------|------------------------------------|------------|
-| Synkron REST  | Lav til moderat      | Lav       | Request-response blokkerende       | Enkel      |
-| Asynkron REST | Moderat til høy      | Middels   | Request-response ikke blokkerende  | Middels    |
+| Synkron REST  | Lav til medium       | Lav       | Request-response blokkerende       | Enkel      |
+| Asynkron REST | Medium til høy       | Middels   | Request-response ikke blokkerende  | Middels    |
 | Kafka         | Høy (med forebehold) | Høy       | Publish-subscribe skalerbar        | Kompleks   |
 
 Virtuelle tråder gjør synkron REST mer effektiv og ikke like blokkerende, spesielt ved stor last (mange kall fra ulike klienter).
@@ -112,11 +112,11 @@ Det må sies at jeg har enda ikke prøvd Kafka i praksis. Disse andre har jeg te
 - Vurder relasjonsdatabase opp mot NO-SQL alternativer.
 - Ordinær fillagring og filoverføring er tilsynelatende enkelt, men bør unngås, i hvertfall i skya.
 - Valg av eventuell ORM teknologi som Spring Data JPA bør vurderes nøye
-  - Mange alternativer tilbyr også enkle APIer for CRUD (Create, Read, Update, Delete)
+  - Mange alternativer tilbyr også enkle APIer for CRUD (Create, Read, Update, Delete) og er fortsatt type-sikkert.
   - For lagring i litt komplekse stukturer er ORM bra.
   - For store spørringer / rapporter, ikke bruk JPA / ORM.
   - Ytelses optimalisering av ORM kan være tidkrevende, hvis man ikke har erfaring
-- Søk i lange tekstbeskrivelser krever helt egne metoder og datatyper i databaser.
+- Effektivt fri tekst søk krever helt egne metoder og datatyper i databaser.
 
 #### Virtuelle tråder i JVM og Spring
 

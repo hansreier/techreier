@@ -84,36 +84,38 @@ Det må vurderes i hvert enkelt tilfelle. AI trening og bruk regnes generelt som
 
 Men det er viktig å se på hele verdikjeden når AI vurderes.  
 
-### Valg av grensesnitt for effektiv prosessering
 
-Det finnes ikke noe fasit svar. Det kommer an på anvendelsen.  
+### To select interface type for efficient processing
 
-| Metode        |  Energi effektivitet | Bruksområder                                                | Programmeringsmodell |
-|---------------|---------------------:|-------------------------------------------------------------|----------------------|
-| Synkron REST  |      Lav til moderat | Liten til middels datamengde, enkel request-response        | Enkel                |
-| Asynkron REST |      Moderat til høy | Stor datamengde, request håndtering ikke blokkerende        | Noe mer kompleks     |
-| Kafka         | Høy (med forebehold) | Stort datavolum, skalerbart, hendelsesdrevet, mer komplekst | Enda mer kompleks    |
+There is no definitive answer. It depends on the use case.
 
-Virtuelle tråder gjør synkron REST mer effektiv, spesielt ved stor last (mange kall fra ulike klienter). 
-For systemer som får inn mange meldinger,
-og med store krav til ytelse og pålitelighet kan Kafka være fordelaktig.
-Det må sies at jeg har enda ikke prøvd Kafka i praksis. Disse andre har jeg testet ut.  
+| Method            | Energy efficiency        | Capacity | Pattern                       | Model   |
+|-------------------|--------------------------|----------|-------------------------------|---------|
+| Synchronous REST  | Low to average           | Low      | Request-response blocking     | Simple  |
+| Asynchronous REST | Average to high          | Average  | Request-response non blocking | Average |
+| Kafka             | High (with reservations) | High     | Publish-subscribe scalable    | Complex |
+
+Virtual threads increases the performance of synchronous REST, most valid for large throughput.
+Kafka can be beneficial for message intensive systems with strict requirements for performance and reliability.
+I have to admit that I have not tried Kafka in practical programming yet. The other alternatives I have tested.
 
 
-### Konkrete kodetips
+### Good coding practices
 
-- Gjenbruk objekter i stedet for å rekreere dem.
-- Bruk inline for små funksjoner i Kotlin.
+- Reuse objects, do not recreate.
+- Use inline for tiny Kotlin functions.
 - Velg datastruktur med omhu etter bruksområde. F.eks: Bruk Hashmap for raske oppslag, hvis rekkefølge er viktig LinkedHashMap
 - Mye å spare på riktig SQL, konsistent datamodell og indeksering av tabeller
-- Vurder relasjonsdatabase opp mot NO-SQL alternativer.
+- Evaluate usage of relational databases relasjonsdatabase opp mot NO-SQL alternativer.
 - Ordinær fillagring og filoverføring er tilsynelatende enkelt, men bør unngås, i hvertfall i skya.
-- Valg av eventuell ORM teknologi som Spring Data JPA bør vurderes nøye
-  - Mange alternativer tilbyr også enkle APIer for CRUD (Create, Read, Update, Delete)
-  - For lagring i litt komplekse stukturer er ORM bra.
-  - For store spørringer / rapporter, ikke bruk JPA / ORM.
-  - Ytelses optimalisering av ORM kan være tidkrevende, hvis man ikke har erfaring
-- Søk i lange tekstbeskrivelser krever helt egne metoder og datatyper i databaser.
+
+- The choice of any ORM technology, such as Spring Data JPA, should be carefully evaluated.
+  - Many alternatives offer simple APIs for CRUD (Create, Read, Update, Delete) and is still type safe.
+  - JPA is excellent used for storage of complex structures.
+  - JPA is not that well suited for large queries and reports.
+  - Performance optimization of and ORM can be time-consuming, if you lack experience.
+- Efficient free text search requires separate methods and data types in databases.
+
 
 #### Virtual threads in JVM and Spring
 
