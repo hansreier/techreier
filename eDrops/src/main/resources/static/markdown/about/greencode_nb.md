@@ -74,7 +74,7 @@ Ofte kan visuelle verktøy som Grafana være en stor hjelp her.
 ### AI eller ikke AI
 
 For en del typer anvendelser så kan fuzzy tekstsøk være vel så bra som et søk i en AI modell med "Prompt engineering".
-Da brukes f.eks. "Elastic Search" eller fuzzy søk i objekter i databaser beregnet for større tekstmengder
+Da brukes f.eks. "Elastic-search" eller fuzzy søk i objekter i databaser beregnet for større tekstmengder
 (Både Oracle og PostgreSQL har dette).
 Det er ikke alltid like gunstig heller med en naturlig språk modell for presentasjon av et resultat.
 Det passer best for mennesker og ikke for videre maskinell behandling.

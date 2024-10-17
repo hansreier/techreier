@@ -58,7 +58,7 @@ But was this 2GB requirement actually a specification error? Why should such lar
 We can question the entire architecture, which included several systems. 
 In practice, it was no more than 200-300MB. This solved much of the problem.
 
-### Energieffektive miljøer med kontainer teknologi
+### Energy efficient environments with container technology
 
 Å bruke Kubernetes basert teknologi kan anbefales (men fikk i praksis mye hjelp av plattform team og overbygg).
 Jeg jobbet også med en mer nettverksnær tjeneste i Azure (Azure App services), 
@@ -75,15 +75,15 @@ Ofte kan visuelle verktøy som Grafana være en stor hjelp her.
 
 ### AI or no AI
 
-For en del typer anvendelser så kan fuzzy tekstsøk være vel så bra som et søk i en AI modell med "Prompt engineering".
-Da brukes f.eks. "Elastic Search" eller fuzzy søk i objekter i databaser beregnet for større tekstmengder
-(Både Oracle og PostgreSQL har dette).
-Det er ikke alltid like gunstig heller med en naturlig språk modell for presentasjon av et resultat.
-Det passer best for mennesker og ikke for videre maskinell behandling.
-Det må vurderes i hvert enkelt tilfelle. AI trening og bruk regnes generelt som det mest energikrevende.  
+For certain types of applications, fuzzy text search can be just as effective as a search in an AI model with prompt engineering.
+For example, Elastic-search or fuzzy search in databases designed for larger text volumes can be used 
+(both Oracle and PostgreSQL have this capability).
 
-Men det er viktig å se på hele verdikjeden når AI vurderes.  
+It is not always advantageous to use a natural language model for presenting results either. 
+Such models are best suited for human consumption rather than further machine processing. 
+Each scenario must be evaluated individually. AI training and usage are generally considered to be the most energy-intensive.  
 
+It is important to consider the entire value chain when deciding to use AI.
 
 ### To select interface type for efficient processing
 
