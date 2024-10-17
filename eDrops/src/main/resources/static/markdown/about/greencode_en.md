@@ -73,7 +73,7 @@ kontainerhåndtering fikse det, dvs. drepe containeren automatisk og ta opp en n
 
 Ofte kan visuelle verktøy som Grafana være en stor hjelp her.  
 
-### AI eller ikke AI
+### AI or no AI
 
 For en del typer anvendelser så kan fuzzy tekstsøk være vel så bra som et søk i en AI modell med "Prompt engineering".
 Da brukes f.eks. "Elastic Search" eller fuzzy søk i objekter i databaser beregnet for større tekstmengder
@@ -115,29 +115,29 @@ Det må sies at jeg har enda ikke prøvd Kafka i praksis. Disse andre har jeg te
   - Ytelses optimalisering av ORM kan være tidkrevende, hvis man ikke har erfaring
 - Søk i lange tekstbeskrivelser krever helt egne metoder og datatyper i databaser.
 
-#### Virtuelle tråder i JVM og Spring
+#### Virtual threads in JVM and Spring
 
-Slik setter man "Virtual Threads" i Spring Boot i yaml fil:
+Configure virtual threads in Spring Boot in the yaml file:
 ```
 spring.threads.virtual.enabled: true
 ```
-#### I/O med mye data
+#### I/O with a lot of throughput
 
-Bruk ByteArray for I/O Operasjoner i stedet for å jobbe med tekststrenger.
+Use ByteArray and not text strings for I/O operations.
 ```
 fun readFile(file: File): ByteArray {
     return file.inputStream().use { it.readBytes() }
 }
 ```
 
-#### Effektive Collection operasjoner og lambda uttrykk
+#### Effective Collection operations and lambda expressions
 
-Minst effektivt alternativ:
+The least efficient alternative:
 ```
 val selectedCertifications = certifications.filter { s -> analyzeInactive || !s.disabled }.toMutableSet()
 
 ```
-Det går også an å la være å filtere hvis ikke nødvendig. Eksempel:
+Do not filter if not required. Example:
 ```
   val selectedCertifications = if (analyzeInactive) 
     certifications 
@@ -145,7 +145,7 @@ else
     certifications.filterNot { s -> s.disabled }.toMutableSet()
 ```
 
-Enda mer effektivt med sequences:
+Even more efficient with Sequences:
 ```
 val selectedCertifications = if (analyzeInactive) {
     certifications
@@ -156,16 +156,16 @@ val selectedCertifications = if (analyzeInactive) {
 }
 ```
 
-For hvert trinn med en collection type skapes det nye midlertidig collections.
-Dess flere kjedede slike operasjoner med Collections, dess mindre effektivt.
-Hvert element i en sequence eksekveres gjennom hele kjeden,
-beregning skjer helt i det siste trinnet hvis mulig. 
-Dette er en fordel for store datasett, ikke helt slik for små.
-Men trenger vi virkelig en Mutable Collection her. Det er et annet spørsmål.  
+Every step involving a Collection type creates a new temporary Collection.
+The more chained collection operation, the less efficient.
+Each element in a Sequence is executed seperately through the entire chain,
+the calculation happens in the last step if possible.
+This is an advantage for large data set, not quite like that for small ones
+But do we really need a Mutable Collection here. It is another question.
 
-#### Effektive løkker i Kotlin
+#### Efficient loops in Kotlin
 
-Den mest effektive varianten med forEach:
+The most efficient variant with forEach:
 ```
 fun processList(items: List<Int>) {
     items.forEach {
@@ -175,7 +175,7 @@ fun processList(items: List<Int>) {
 }
 ```
 
-Den mest effektive varianten uansett er en tradisjonell for loop:
+The most efficient code is a traditional for loop:
 ```
 fun processList(items: List<Int>) {
     for (i in items) {
@@ -185,14 +185,15 @@ fun processList(items: List<Int>) {
 }
 ```
 
-Her er det noe med ekstra lambda abstraksjonslag og funksjonell kode som er litt mindre effektivt. 
-Hvis det betyr noe i praksis da. Jeg minner om at lambdaer blir oversatt til slike strukturer uansett.
-Det er jo en trend å gå mot funksjonell programmering, som i mange tilfeller gir mer konsis kode.
-Akkurat her synes jeg heller ikke det. Men det er nok ikke dette jeg ville ha fokusert på for å energioptimalisere.  
+The extra lambda abstraction layer and functional code is a bit less efficient. 
+If that means anything in practice. I would like to remind you that lambdas are translated into such structures regardless. 
+There is a trend towards functional programming, which often results in more concise code. 
+However, in this case, I don't think that’s true. 
+But this code improvement is probably not what I would focus on for energy optimization.
 
 #### Usage of MXBean in Kotlin (Java)
 
-Hensikten er å kunne logge minneforbruk, antall tråder og eventuelt CPU.  
+The purpose is to be able to log memory usage, the number of threads and possibly CPU.
 
 ```
 fun mem(): MB {

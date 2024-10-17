@@ -126,7 +126,7 @@ spring.threads.virtual.enabled: true
 ```
 #### I/O med mye data
 
-Bruk ByteArray for I/O Operasjoner i stedet for å jobbe med tekststrenger.
+Bruk ByteArray og ikke tekst strenger for I/O Operasjoner.
 ```
 fun readFile(file: File): ByteArray {
     return file.inputStream().use { it.readBytes() }
@@ -148,7 +148,7 @@ else
     certifications.filterNot { s -> s.disabled }.toMutableSet()
 ```
 
-Enda mer effektivt med sequences:
+Enda mer effektivt med Sequences:
 ```
 val selectedCertifications = if (analyzeInactive) {
     certifications
@@ -159,9 +159,9 @@ val selectedCertifications = if (analyzeInactive) {
 }
 ```
 
-For hvert trinn med en collection type skapes det nye midlertidig collections.
+For hvert trinn med en Collection type skapes det en ny midlertidig Collection.
 Dess flere kjedede slike operasjoner med Collections, dess mindre effektivt.
-Hvert element i en sequence eksekveres gjennom hele kjeden,
+Hvert element i en Sequence eksekveres gjennom hele kjeden,
 beregning skjer helt i det siste trinnet hvis mulig.
 Dette er en fordel for store datasett, ikke helt slik for små.
 Men trenger vi virkelig en Mutable Collection her. Det er et annet spørsmål.
