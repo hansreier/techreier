@@ -2,19 +2,21 @@
 
 ### Generelle tips for energieffektiv koding
 
-- Se på hele arkitekturen samlet, inkludert flere systemer og grensesnitt.
+- Se på hele IKT arkitekturen samlet, inkludert systemer og grensesnitt i verdikjeden.
 - Identifiser energikritiske deler av koden (med dårlig ytelse) og optimaliser eller skriv på nytt.
 - Optimaliser bruk av kontainere (max minne, max CPU, opp og nedskalering)
-- Energivurder AI bruk
+- Evaluer energibruk for AI, trening og vanlig bruk.
 - Effektive algoritmer har lavere energiforbruk.
 - Kode som eksekveres raskt uten ventetid har lavere energiforbruk.
-- Enkel kode kan ha (men IKKE alltid) lavere energiforbruk.
+- Enkel kode kan ha (men IKKE alltid) lavere energiforbruk. Verifiser i det minst.
 - Fjern ubrukt kode og data
 - Unngå unødvendige beregninger, betinget logikk kan brukes.
 - Spring Boot Virtual Threads bør brukes. Vær ellers oppmerksom på trådhåndtering i koden.
-- Asynkron signalbehandling har ofte lavere energiforbruk
-- Pakking av data hjelper (f.eks. vanlige teknikker for web-frontend)
-- Digre ukomprimerte bilder i frontend? For ikke å snakke om animasjoner og video.
+- Reaktive (asynkron) objekthåndtering har ofte lavere energiforbruk
+- Effektiv pakking av data hjelper
+  - Vanlige teknikker for initiell last av web-frontend.
+  - Digre ukomprimerte bilder? For ikke å snakke om animasjoner og video.
+- Optimaliser datalagring(RAM, cache, disk, database, noSQL, midlertidig, semi permanent, permanent, backup
 - Krav til datalagring må ses på (umiddelbart RAM, cache, disk, arkiv, ..)
 - Trenger du virkelig å lagre dette?
 - Minimer I/O operasjoner

@@ -2,21 +2,23 @@
 
 ### General advice for energy efficient coding
 
-TODO Translate to english
-
-- Se på hele arkitekturen samlet, inkludert flere systemer og grensesnitt.
-- Identifiser energikritiske deler av koden (med dårlig ytelse) og optimaliser eller skriv på nytt.
-- Optimaliser bruk av kontainere (max minne, max CPU, opp og nedskalering)
-- Energivurder AI bruk
-- Effektive algoritmer har lavere energiforbruk.
-- Kode som eksekveres raskt uten ventetid har lavere energiforbruk.
-- Enkel kode kan ha (men IKKE alltid) lavere energiforbruk.
-- Unngå unødvendige beregninger, betinget logikk kan brukes.
-- Spring Boot Virtual Threads bør brukes. Vær ellers oppmerksom på trådhåndtering i koden.
-- Asynkron signalbehandling har ofte lavere energiforbruk
-- Pakking av data hjelper (f.eks. vanlige teknikker for web-frontend)
-- Krav til datalagring må ses på (umiddelbart RAM, cache, disk, arkiv, ..)
-- Minimer I/O operasjoner
+- Evaluate the entire ICT architecture, including systems and interfaces in the value chain.
+- Identify energy critical parts of the code (with bad performance) and optimize or rewrite.
+- Optimize usage of containers (max memory, max CPU, scaling and down)
+- Evaluate energy usage of AI. training and prompt engineering.
+- Effective algorithms have lower energy usage.
+- Code that is run quickly without waiting time, have lower energy usage.
+- Simple code can have (but not always) lower energy usage. At least verify.
+- Remove unused code and data
+- Avoid calculations that is not required, conditional logic can be used.
+- Spring Boot Virtual Threads shoul be used. Be aware of thread handing in the code.
+- Reactive (asynchronous) object handling implies lower energy usage.
+- Effective data packaging 
+  - common techniques for initial load of web front-end.
+  - Large uncompressed pictures? Consider usage of animations and video. 
+- Effective packaging of data (e.g. common web-frontend techniques)
+- Optimize data storage (RAM, cache, disk, database, noSQL, temporary, semi-permanent, permanent, backup)
+- Minimize I/O operations.
 
 Det som er fint med dette, er at dette (som regel) er fullt i overenstemmelse med vanlige prinsipper for god og
 clean kode. Så det er dobbelt vinn: Enklere vedlikehold og lavere energiforbruk.
