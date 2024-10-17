@@ -14,6 +14,7 @@
 - Spring Boot Virtual Threads bør brukes. Vær ellers oppmerksom på trådhåndtering i koden.
 - Asynkron signalbehandling har ofte lavere energiforbruk
 - Pakking av data hjelper (f.eks. vanlige teknikker for web-frontend)
+- Digre ukomprimerte bilder i frontend? For ikke å snakke om animasjoner og video.
 - Krav til datalagring må ses på (umiddelbart RAM, cache, disk, arkiv, ..)
 - Trenger du virkelig å lagre dette?
 - Minimer I/O operasjoner
