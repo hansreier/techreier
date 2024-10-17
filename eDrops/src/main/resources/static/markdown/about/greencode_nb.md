@@ -82,15 +82,20 @@ Men det er viktig å se på hele verdikjeden når AI vurderes.
 
 Det finnes ikke noe fasit svar. Det kommer an på anvendelsen.
 
-| Metode        |  Energi effektivitet | Bruksområder                                                | Programmeringsmodell |
-|---------------|---------------------:|-------------------------------------------------------------|----------------------|
-| Synkron REST  |      Lav til moderat | Liten til middels datamengde, enkel request-response        | Enkel                |
-| Asynkron REST |      Moderat til høy | Stor datamengde, request håndtering ikke blokkerende        | Noe mer kompleks     |
-| Kafka         | Høy (med forebehold) | Stort datavolum, skalerbart, hendelsesdrevet, mer komplekst | Enda mer kompleks    |
+| Metode        | Energi effektivitet  | Kapasitet | Mønster                            | Modell     |
+|---------------|----------------------|-----------|------------------------------------|------------|
+| Synkron REST  | Lav til moderat      | Lav       | Request-response blokkerende       | Enkel      |
+| Asynkron REST | Moderat til høy      | Middels   | Request-response ikke blokkerende  | Middels    |
+| Kafka         | Høy (med forebehold) | Høy       | Publish-subscribe skalerbar        | Kompleks   |
 
-Virtuelle tråder gjør synkron REST mer effektiv, spesielt ved stor last (mange kall fra ulike klienter).
-For systemer som får inn mange meldinger,
-og med store krav til ytelse og pålitelighet kan Kafka være fordelaktig.
+Virtuelle tråder gjør synkron REST mer effektiv og ikke like blokkerende, spesielt ved stor last (mange kall fra ulike klienter).
+Vi kan spørre oss om trenger vi egentlig noe mer avansert enn synkron REST med virtuelle tråder.
+Dette er jo den mest vanlige arkitekturen. For Spring 3 og framover så brukes typisk den nye RestClient for synkron Rest og WebFlux for 
+asynkron REST. RestTemplate anbefales egentlig ikke og skal deprikeres, men fungerer fortsatt for eksisterende prosjekter.  
+
+For systemer som får inn mange meldinger, og med store krav til ytelse og pålitelighet kan Kafka være fordelaktig.
+Kafka har også innebygd feilhåndtering, replikering og lagring, som må programmeres manuelt for de ande typer grensesnitt.
+Kafka er mer avhengig av hvordan den underliggende infrastrukturen er satt opp for hvor effektivt det er.
 Det må sies at jeg har enda ikke prøvd Kafka i praksis. Disse andre har jeg testet ut.
 
 
