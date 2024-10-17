@@ -23,13 +23,13 @@
 
 Det som er fint med dette, er at dette (som regel) er fullt i overenstemmelse med vanlige prinsipper for god og
 clean kode. Så det er dobbelt vinn: Enklere vedlikehold og lavere energiforbruk.
-Valg av driftsplattform / skytjenester påvirker også dette, men gjøres jo som regel i forkant.
+Valg av driftsplattform / skytjenester påvirker dette, men gjøres jo som regel i forkant.
 
 ### Et lite eksempel på optimalisering av overføring for store datamengder.
 
 Et gammelt stor Java monolitt skulle flyttes over i skya.
 Vi optimaliserte tildelt minne og CPU i deployment konfigurasjon av pod'er.
-Det var gammel kode for filoverføring som var ekstremt ineffektivt.
+Det var gammel kode for filoverføring som var ekstremt ineffektivt (30MB maksimum)
 Vi oppdaget problemene etter at hele systemet var flyttet over i skya.
 Da måtte minnet skrus opp alt for mye dessverre. Uten dette fikk brukere i distriktet med dårlig nett problemer.
 Løsningen var å skrive om kritiske deler av koden basert på nye APIer for filoverføring tilpasset nye Spring versjon.
@@ -47,14 +47,13 @@ Reaktiv kode i Java ble testet ut som fikset det med filstørrelser inntil 2GB.
 spesialhåndtering. Det er viktig å tenke på også at biblioteker vi bruker må støtte det.
 Nye versioner av Spring Boot og REST grensnitt takler ganske store datamengder omtrent inntil den grensen,
 riktig konfigurert viste det seg.  Parametre som hvor store biter av bitstrømmen som leses av gangen, settes for optimalisering.
-Den gamle koden hos forrige kunde taklet forresten ikke noe særlig mer enn 30MB.
 
 Et annet krav var mellomlagring i database. Etter å ha sjekket ut både et vanlig database API og et reaktiv API og
 også lagring i BLOB type objekter, så kom vil til at en vanlig relasjonsdatabase ikke var egnet. Da ble det
 lagret i et nøkkel/verdi lager i skya i stedet. Mye bedre ytelse viste det seg.
 
 Men var dette 2GB kravet en spesifikasjons-feil egentlig?  Hvorfor skal Så store datamengder overføres i en klump?
-Her kan vi stille spørsmålstegn med hele arkitekturen som inkluderte flere systemer. I praksis var det ikke mer
+Vi kan stille spørsmålstegn med hele arkitekturen som inkluderte flere systemer. I praksis var det ikke mer
 enn 200-300 MB. Det løste mye av problemet.
 
 ### Energieffektive miljøer med kontainer teknologi

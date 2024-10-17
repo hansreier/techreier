@@ -20,41 +20,43 @@
 - Optimize data storage (RAM, cache, disk, database, noSQL, temporary, semi-permanent, permanent, backup)
 - Minimize I/O operations.
 
-Det som er fint med dette, er at dette (som regel) er fullt i overenstemmelse med vanlige prinsipper for god og
-clean kode. Så det er dobbelt vinn: Enklere vedlikehold og lavere energiforbruk.
-Valg av driftsplattform / skytjenester påvirker også dette, men gjøres jo som regel i forkant.
+The great thing about this is that it usually aligns well with common principles of good and clean code. 
+So it’s a double win: Easier maintenance and lower energy consumption. 
+The choice of hosting platform or cloud services affects this, but it is typically decided in advance.
 
-### Et lite eksempel på optimalisering av overføring for store datamengder.
+### An example of optimizing large chunks of data
 
-Et gammelt stor Java monolitt skulle flyttes over i skya.
-Vi optimaliserte tildelt minne og CPU i deployment konfigurasjon av pod'er.
-Det var gammel kode for filoverføring som var ekstremt ineffektivt.
-Vi oppdaget problemene etter at hele systemet var flyttet over i skya.
-Da måtte minnet skrus opp alt for mye dessverre. Uten dette fikk brukere i distriktet med dårlig nett problemer.
-Løsningen var å skrive om kritiske deler av koden basert på nye APIer for filoverføring tilpasset nye Spring versjon.  
+An old large Java monolith was to be migrated to the cloud.
+We optimized the allocated memory and CPU in the deployment configuration of the pods.
+There was old code for file transfer that was extremely inefficient (30MB maximum)
+We discovered the problems after the entire system had been moved to the cloud.
+Unfortunately, this meant that memory had to be increased significantly. 
+Without this, users in areas with poor network connectivity experienced issues.
+The solution was to rewrite critical parts of the code based on new file transfer APIs adapted to the new version of Spring.
 
-Hvordan finne kritiske deler av koden? Det aller enkleste verktøyet er rett og slett vanlig logging med
-f.eks. logback. Se eksempel på bruk av MxBean lenger ned på siden. 
-Så kan logge nivået  settes til debug eller trace senere når ikke relevant lenger. 
-En vanlig stoppeklokke kan også brukes ved en GUI operasjon (eller bruk et GUI testverkøy).
-Hvis responsen tar mer enn 2-3  sekunder fra GUI, så er det ikke bra. 
-Profil-verktøy for Java / JVM kan også brukes for dette, men det er dyrere.  
+How to identify critical parts of the code? 
+The simplest is regular logging with, for example, Logback. See the example of using MxBean further down the page.
+The logging level can be set to debug or trace later when it is no longer relevant.
+A regular stopwatch can also be used for a GUI operation (or use a GUI testing tool).
+If the response takes more than 2-3 seconds from the GUI, it’s not good.
+Profiling tools for Java / JVM can also be used for this, but they are more expensive.
 
-I et senere prosjekt, testet jeg ut ny bedre kode for filoverføring av store datamengder.
-Reaktiv kode i Java ble testet ut som fikset det med filstørrelser inntil 2GB. 
-2GB er omtrent grensen for hva ordinær streng håndtering tåler (Char Array). Er det større en det krever det
-spesialhåndtering. Det er viktig å tenke på også at biblioteker vi bruker må støtte det.
-Nye versioner av Spring Boot og REST grensnitt takler ganske store datamengder omtrent inntil den grensen,
-riktig konfigurert viste det seg.  Parametre som hvor store biter av bitstrømmen som leses av gangen, settes for optimalisering.
-Den gamle koden hos forrige kunde taklet forresten ikke noe særlig mer enn 30MB.
+In a later project, I tested a new, better code for transferring large amounts of data.
+Reactive code in Java was tested, which handled file sizes up to 2GB.
+2GB is approximately the limit for what ordinary string handling can manage (Char Array). 
+If it’s larger than that, it requires special handling. It’s also important to consider that the libraries we use must support this.
+New versions of Spring Boot and REST interfaces can handle quite large amounts of data, up to that limit, 
+if configured correctly, as it turned out.
+Parameters such as how large chunks of the byte stream are read simultaneously are set for optimization.
 
-Et annet krav var mellomlagring i database. Etter å ha sjekket ut både et vanlig database API og et reaktiv API og 
-også lagring i BLOB type objekter, så kom vil til at en vanlig relasjonsdatabase ikke var egnet. Da ble det
-lagret i et nøkkel/verdi lager i skya i stedet. Mye bedre ytelse viste det seg.  
+Another requirement was intermediate storage in a database. 
+After examining both a standard database API and a reactive API, as well as storage in BLOB-type objects; 
+we concluded that a standard relational database was not suitable.
+Instead, it was stored in a key/value store in the cloud. It turned out to be much more performant.
 
-Men var dette 2GB kravet en spesifikasjons-feil egentlig?  Hvorfor skal Så store datamengder overføres i en klump?
-Her kan vi stille spørsmålstegn med hele arkitekturen som inkluderte flere systemer. I praksis var det ikke mer 
-enn 200-300 MB. Det løste mye av problemet.
+But was this 2GB requirement actually a specification error? Why should such large amounts of data be transferred in one chunk?
+We can question the entire architecture, which included several systems. 
+In practice, it was no more than 200-300MB. This solved much of the problem.
 
 ### Energieffektive miljøer med kontainer teknologi
 
