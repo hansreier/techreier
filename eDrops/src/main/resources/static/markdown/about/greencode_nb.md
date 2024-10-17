@@ -229,7 +229,7 @@ Parameterene kan brukes  f.eks. ved logging av REST kall i et filter.
 ``` 
 logger.info("${req.method} ${req.servletPath} ${mem()}")
 ```
-Resultat:
+Result:
 ``` 
 16:25:36.723 [tomcat-handler-0] INFO GET / init=254MB, used=72MB, committed=88MB, max=4040MB, vthreads=26 
 ```  
@@ -242,14 +242,14 @@ over litt tid. Det viktige er å sjekke at minnebruken ikke blir for høy, og at
 mye minnebruk. Det samme gjelder antall tråder. Om virtuelle tråder er i bruk vises også her.
 Hvis antall tråder bare vokser er det feil programmering, det fikk jeg erfare en gang i hvertfall.
 
-### Bruk av Docker Stats kommandoen og egen kontainer for å måle energiforbruk
+### Use of the Docker Stats command and a separate container to measure energy usage. 
 
 I stedet for den JVM baserte MxBean metoden beskrevet over, så bør  Docker Stats kommandoen brukes for containere.
 Denne gir mer stabile målinger.
 ```
 docker stats
 ```
-Resultat eksempel:
+Resultat:
 ```
 CONTAINER ID   NAME               CPU %     MEM USAGE / LIMIT     MEM %     NET I/O       BLOCK I/O   PIDS
 5b0957e198f2   awesome_mahavira   1.24%     332.6MiB / 7.648GiB   4.25%     1.39kB / 0B   0B / 0B     34
