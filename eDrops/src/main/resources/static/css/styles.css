@@ -55,6 +55,7 @@ th, td {
 	border: 1px solid black;
 	overflow: hidden;
 	word-wrap: break-word;
+	word-break: break-word;
 	text-overflow:clip;
 }
 
