@@ -51,13 +51,13 @@ A very simplified general value chain:
 
 Manual value chain:
 
-☺ -> Manual planning -> Tool -> ☺ ->  
-☺ -> Manual planning with tool -> Result -> ☺   
+☺ -> Manual planning -> Tool -> ☺  
+☺ -> Manual operations -> Result -> ☺   
 
 Digital value chain:
 
-☺ -> Digital development -> Software -> ☺ ->  
-☺ -> Digital operations with software -> Result -> ☺  
+☺ -> Digital development -> Software -> ☺   
+☺ -> Digital operations -> Result -> ☺  
 
 In practice, these value chains are much longer and involve many more processes, 
 typically both automated and manual in a mix, but we are keeping it simple here.
