@@ -82,21 +82,23 @@ RAM, disk (SDD, HDD),  file storage, database, cache, semi-permanent, permanent,
 
 *Total energy consumption is the sum of energy used for every individual element in the value chain*
 
-Regardless of energy consumption being caused by digital or manual tools. 
+This applies, of course, regardless of whether the processes in the value chain are manual or digital. 
+The production value chain uses energy every time it is in use.  
 
-Det må også regnes med at produksjonsleddet blir utført mange ganger.
-Det er energiforbruk knyttet til det fysiske miljøet i tillegg (kontoret, fabrikken, datasentret, internettet).  
-
-Dette kan for eksempel bety at et høyt energiforbruk pga AI trening og svar fra en AI tjeneste, likevel kan spare
-energi totalt fordi man da klarer å optimalisere en industriprosess eller et kraftnett. Dette høres jo selvsagt ut.
-Men det er et poeng at verktøy for å faktisk regne på dette ikke er så veldig tilgjengelige.  
+Energy is in addition consumed related to the physical location and infrastructure: 
+The office, the factory, the data center, internet.
+This could imply that high energy usage caused by AI training and an AI service, nevertheless can save energy totally, 
+because an industrial process or an electric  power chain is optimized. 
+Tools to actually calculate this must be developed and is today not very accessible.
 
 ### To measure energy usage
 
-For å finne energiforbruket, så må det være målbart. Det mest nøyaktige for datasystemer er å måle forbruket direkte 
-med måleutstyr på tjenere. I skya så er ikke dette så enkelt som det høres ut, fordi virtuell maskiner og containere kjører
-en eller flere tjenere. Da kan jo flere helt uavhengig systemer være installert på den samme tjeneren.
-Vi er uansett avhengig av skyleverandørens verktøykasse her.  
+To determine energy consumption, it must be measurable. 
+The most accurate method for data systems is to measure consumption directly with measuring equipment on physical servers.
+In the cloud, this isn't as straightforward as it sounds because virtual machines and containers related with one system
+can run on different physical servers.
+This means that multiple completely independent systems can be installed on the same server. 
+Regardless, we are dependent on the cloud provider's toolkit.
 
 The other method is to estimate the energy usage based on CPU measurements and memory usage. In Java there is APIs that
 can do this. I have tried locally with Spring Boot with embedded Tomcat, by calling the API and calculate the average.
@@ -110,17 +112,17 @@ Em =  kWh used for memory
 
 PUE = Power Usage Effectiveness = Total energy used in data center / Energy used by ICT-equipment
 
-PUE = 1, all energi går til IT-utstyr, neppe oppnåelig.  
-PUE > 1.0. Jo høyere tall, dess mindre effektivt.  
+PUE = 1, all energy is used for ICT-equipment, hardly possible.
+PUE > 1.0. The higher number, the less efficient. 
 
-Et alternativet er sky baserte verktøy fra skyleverandører som  Azure, Google og Amazon for det samme. 
-Når Azure bare tilbyr et resultat som viser C02 utslipp, så har de bommet etter min mening. 
-Det er ikke denne omregningen som er det mest interessante. Men det er ikke å komme  unna at energi-
-målinger er et komplekst fagområde uansett.  
+An alternative is use cloud-based tools from cloud providers like Azure, Google, and Amazon for the same purpose.
+When Azure only provides a result that shows CO2 emissions, they have missed the mark, in my opinion. 
+This conversion is not the most interesting aspect. However, it cannot be denied that energy measurements are a complex field regardless.
 
-En annen indirekte svært unøyaktig metode er rett og slett å se på kostnadene for å utvikle, teste og drifte datasystemet.
-Vi kan være ganske sikre på at skyleverandøren ikke vil tilby oss en løsning med et kostnadsnivå som ikke dekker
-egne energikostnader.
+Another indirect and highly inaccurate method is simply to look at the costs of developing, 
+testing, and operating the data system. 
+We can be fairly certain that the cloud provider will not offer us a solution with a cost level 
+that does not cover their own energy costs.
 
 ## Conclusion.
 

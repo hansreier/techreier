@@ -78,22 +78,22 @@ RAM, disk (SDD, HDD), fil-lagring, database, cache, semi permanent, permanent, b
 
 *Totalt energiforbruk er summen av energiforbruket for hvert enkelt ledd i verdikjeden*
 
-Enten energiforbruket skyldes digitale eller manuelle verktøy.
-
-Produksjonskjeden blir også utført kontinuerlig. TODO dårlig formulering.
+Dette gjelder selvsagt uansett om prosessene i verdikjeden er manuell eller digitale. 
+Produksjonskjeden forbruker energi hver gang den er i bruk.  
 
 Det må også regnes med at produksjonsleddet blir utført mange ganger.
-Det er energiforbruk knyttet til det fysiske miljøet i tillegg (kontoret, fabrikken, datasentret, internettet).
+Det er energiforbruk knyttet til det fysiske lokasjonen og infrastruktur i tillegg:  Kontoret, fabrikken, datasentret, internett.  
 
-Dette kan for eksempel bety at et høyt energiforbruk pga AI trening og svar fra en AI tjeneste, likevel kan spare
+Dette kan bety at et høyt energiforbruk pga AI trening og en AI tjeneste, likevel kan spare
 energi totalt fordi man da klarer å optimalisere en industriprosess eller et kraftnett. Dette høres jo selvsagt ut.
 Men det er et poeng at verktøy for å faktisk regne på dette ikke er så veldig tilgjengelige.
 
 ### Måling av energiforbruk
 
 For å finne energiforbruket, så må det være målbart. Det mest nøyaktige for datasystemer er å måle forbruket direkte
-med måleutstyr på tjenere. I skya så er ikke dette så enkelt som det høres ut, fordi virtuell maskiner og containere kjører
-en eller flere tjenere. Da kan jo flere helt uavhengig systemer være installert på den samme tjeneren.
+med måleutstyr på fysiske tjenere. I skya så er ikke dette så enkelt som det høres ut, 
+fordi relaterte virtuell maskiner og containere relatert til et system kan kjøre på ulike fysiske tjenere.
+Da kan jo flere helt uavhengig systemer være installert på den samme tjeneren.
 Vi er uansett avhengig av skyleverandørens verktøykasse her.
 
 Den andre metoden er å estimere energiforbruket basert på målt CPU og forbrukt minne. I Java finnes det APIer for å
@@ -107,7 +107,7 @@ Ec = kWh forbrukt av all CPU
 Em =  kWh forbrukt av minne
 
 PUE = Power Usage Effectiveness = Total energi brukt av datasentret / Energi brukt av IKT-utstyr.  
-PUE = 1, all energi går til IT-utstyr, neppe oppnåelig.  
+PUE = 1, all energi går til IKT-utstyr, neppe oppnåelig.  
 PUE > 1.0. Jo høyere tall, dess mindre effektivt.
 
 Et alternativet er sky baserte verktøy fra skyleverandører som  Azure, Google og Amazon for det samme.
