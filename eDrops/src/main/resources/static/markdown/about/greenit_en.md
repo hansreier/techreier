@@ -61,24 +61,24 @@ Digital value chain:
 In practice, these value chains are much longer and involve many more processes, 
 typically both automated and manual in a mix, but we are keeping it simple here.
 
-Det er en grunn til at jeg har delt verdikjeden opp i to, der den siste er en produksjonskjede, 
-mens den første  innebærer utviklingsaktiviteter for verktøykassa (Digitale eller manuelle).
-Slik er det jo i virkeligheten også, det er gjerne det som karakteriserer menneskelig aktivitet.
-Oppgavene kan også være delvis digitalt utført, går ikke i slike detaljer i dette eksemplet.
-Hvis ikke involveringen av en digital operasjon gir noen gevinst på noen måte i form av KPIer,
-så er det selvsagt ingen vits. KPIer kan også relateres til FNs 17 bærekraftsmål.
+There is a reason for splitting the value chain in two, where the last is a production chain, 
+and the first contains development activities for the toolbox (digital or manual).
+It is like this in reality as well, planning ahead is something that characterizes human activity.
+The tasks can be partly digitally executed, this example does go into such details.
+If the inclusion of a digital operation does not result in benefits measured by KPIs, it is no point in including it. 
+Key Performance Indicators can also be related to United Nations 17 sustainability goals.
 
-Resultat inkluderer blant annet kost & nytte, energiforbruk, klima og miljøpåvirkning, nødvendig etterarbeid. 
-Dette er også pålagt for større prosjekter / organisasjoner, gjerne via ESG prinsipper (Environmental, Social, Governance).
+The result includes cost & benefit calculations, energy consumption, climate- and environmental impact, 
+required follow-up work. For large projects / organizations. This is mandatory for large projects / organizations,
+likely by ESG principes (Environmental, Social, Governance).
 
-Først så koder vi noe, tester og retter, så blir systemet satt i produksjon.
-Alternativt blir AI modellen først trent opp, så brukes prompt engineering til å få et resultat. 
-Begge disse fasene forbruker energi. 
-Det er vel kjent at trening av AI bruker mye energi, litt mindre vanlig å tenke på energiforbruk for en tradisjonell
-systemutviklingsprosess. Uansett blir systemet satt i drift på tjenere, enten internt eller i skya. Det er
-som regel testmiljøer som likner på produksjonsmiljø, som forbruker energi det og. Prosessering forbruker energi,
-Datalagring forbruker energi. 
-Dette er veldig avhengig av type datalagring, RAM, fillagring, database, semi permanent, permanent, arkiv, .. ).
+First we plan, code, test and bugfixes, then the system is deployed into production.
+Alternatively the AI model is first trained, when prompt engineering is used to obtain a result.
+Both  phases uses energy. It is well known that AI training uses a lot of energy, it is not that common to think
+of energy usage for a traditional system development process. The system is  deployed on servers, either on premises
+or in the cloud. Usually there are test environments that looks like production, that also consumes energy.
+Processing consumes electrical power. Data storage consumes electrical power, dependent of storage types:
+RAM, disk (SDD, HDD),  file storage, database, cache, semi-permanent, permanent, backup.
 
 *Total energy consumption is the sum of energy used for every individual element in the value chain*
 

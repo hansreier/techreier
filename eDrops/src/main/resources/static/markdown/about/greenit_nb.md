@@ -59,26 +59,28 @@ i en blanding, men vi gjør det enkelt her.
 
 Det er en grunn til at jeg har delt verdikjeden opp i to, der den siste er en produksjonskjede,
 mens den første  innebærer utviklingsaktiviteter for verktøykassa (Digitale eller manuelle).
-Slik er det jo i virkeligheten også, det er gjerne det som karakteriserer menneskelig aktivitet.
+Slik er det jo i virkeligheten også, å planlegge på forhånd er noe som karakteriserer menneskelig aktivitet.
 Oppgavene kan også være delvis digitalt utført, går ikke i slike detaljer i dette eksemplet.
-Hvis ikke involveringen av en digital operasjon gir noen gevinst på noen måte i form av KPIer,
+Hvis inkludering av en digital operasjon ikke gir noen gevinst på noen måte målt av KPIer,
 så er det selvsagt ingen vits. KPIer kan også relateres til FNs 17 bærekraftsmål.
 
 Resultat inkluderer blant annet kost & nytte, energiforbruk, klima og miljøpåvirkning, nødvendig etterarbeid.
 Dette er også pålagt for større prosjekter / organisasjoner, gjerne via ESG prinsipper (Environmental, Social, Governance).
 
-Først så koder vi noe, tester og retter, så blir systemet satt i produksjon.
+Først så planlegger vi, koder, tester og retter, så blir systemet satt i produksjon.
 Alternativt blir AI modellen først trent opp, så brukes prompt engineering til å få et resultat.
 Begge disse fasene forbruker energi.
 Det er vel kjent at trening av AI bruker mye energi, litt mindre vanlig å tenke på energiforbruk for en tradisjonell
 systemutviklingsprosess. Uansett blir systemet satt i drift på tjenere, enten internt eller i skya. Det er
 som regel testmiljøer som likner på produksjonsmiljø, som forbruker energi det og. Prosessering forbruker energi,
-Datalagring forbruker energi.
-Dette er veldig avhengig av type datalagring, RAM, fillagring, database, semi permanent, permanent, arkiv, .. ).
+Datalagring forbruker energi, veldig avhengig av type datalagring: 
+RAM, disk (SDD, HDD), fil-lagring, database, cache, semi permanent, permanent, backup.  
 
 *Totalt energiforbruk er summen av energiforbruket for hvert enkelt ledd i verdikjeden*
 
 Enten energiforbruket skyldes digitale eller manuelle verktøy.
+
+Produksjonskjeden blir også utført kontinuerlig. TODO dårlig formulering.
 
 Det må også regnes med at produksjonsleddet blir utført mange ganger.
 Det er energiforbruk knyttet til det fysiske miljøet i tillegg (kontoret, fabrikken, datasentret, internettet).
