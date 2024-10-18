@@ -20,7 +20,8 @@ Digitalization is not necessarily sustainable in itself. But it can be done righ
 - The environmental- and climate- impact of digitalization need to be included in the total equation.
 
 One pitfall that is easy to fall into is changing each individual manual subprocess to something supported digitally, 
-without considering the whole picture. This is especially a significant challenge for public administration, which is highly regulate
+without considering the whole picture.
+Especially for public administration, which is very rule-based, this is a significant challenge.
 
 There is no clear definition of what "green" system development actually is.
 However, I encourage everyone in the industry to reflect on what it actually involves.
@@ -87,7 +88,8 @@ The production value chain uses energy every time it is in use.
 
 Energy is in addition consumed related to the physical location and infrastructure: 
 The office, the factory, the data center, internet.
-This could imply that high energy usage caused by AI training and an AI service, nevertheless can save energy totally, 
+
+High energy usage caused by AI training and an AI service, can nevertheless can save energy totally, 
 because an industrial process or an electric  power chain is optimized. 
 Tools to actually calculate this must be developed and is today not very accessible.
 
@@ -115,7 +117,7 @@ PUE = Power Usage Effectiveness = Total energy used in data center / Energy used
 PUE = 1, all energy is used for ICT-equipment, hardly possible.
 PUE > 1.0. The higher number, the less efficient. 
 
-An alternative is use cloud-based tools from cloud providers like Azure, Google, and Amazon for the same purpose.
+An alternative is to use cloud-based tools from cloud providers like Azure, Google, and Amazon for calculating energy consumption.
 When Azure only provides a result that shows CO2 emissions, they have missed the mark, in my opinion. 
 This conversion is not the most interesting aspect. However, it cannot be denied that energy measurements are a complex field regardless.
 

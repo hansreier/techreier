@@ -84,8 +84,8 @@ Produksjonskjeden forbruker energi hver gang den er i bruk.
 Det må også regnes med at produksjonsleddet blir utført mange ganger.
 Det er energiforbruk knyttet til det fysiske lokasjonen og infrastruktur i tillegg:  Kontoret, fabrikken, datasentret, internett.  
 
-Dette kan bety at et høyt energiforbruk pga AI trening og en AI tjeneste, likevel kan spare
-energi totalt fordi man da klarer å optimalisere en industriprosess eller et kraftnett. Dette høres jo selvsagt ut.
+Høyt energiforbruk pga AI trening og en AI tjeneste, kan likevel spare  energi totalt 
+fordi man da klarer å optimalisere en industriprosess eller et kraftnett. 
 Men det er et poeng at verktøy for å faktisk regne på dette ikke er så veldig tilgjengelige.
 
 ### Måling av energiforbruk
@@ -110,7 +110,7 @@ PUE = Power Usage Effectiveness = Total energi brukt av datasentret / Energi bru
 PUE = 1, all energi går til IKT-utstyr, neppe oppnåelig.  
 PUE > 1.0. Jo høyere tall, dess mindre effektivt.
 
-Et alternativet er sky baserte verktøy fra skyleverandører som  Azure, Google og Amazon for det samme.
+Et alternativet er å bruke sky baserte verktøy fra skyleverandører som  Azure, Google og Amazon for å beregne energiforbruk.
 Når Azure bare tilbyr et resultat som viser C02 utslipp, så har de bommet etter min mening.
 Det er ikke denne omregningen som er det mest interessante. Men det er ikke å komme  unna at energi-
 målinger er et komplekst fagområde uansett.
