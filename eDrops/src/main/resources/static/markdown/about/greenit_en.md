@@ -122,23 +122,18 @@ En annen indirekte svært unøyaktig metode er rett og slett å se på kostnaden
 Vi kan være ganske sikre på at skyleverandøren ikke vil tilby oss en løsning med et kostnadsnivå som ikke dekker
 egne energikostnader.
 
-## Conclusion
-
-What you as a developer can do is to review [kodetipsene](greencode_en.md) and add your own smart practices.
+## Conclusion.
 
 Green system development is impossible without a holistic view of entire value chains, including the ICT part.
 The larger the project, the more relevant is it to actually measure or estimate the total energy consumption of a value chain.  
 
-What you as a developer can do is to review [kodetipsene](greencode_en.md) and add your own smart practices.
+What you as a developer can do is to review [code tips](greencode_en.md) and add your own smart practices.
 
+One challenge is that the methods for actually measuring results in terms of reduced power consumption are underdeveloped 
+and not well known among developers, architects, and managers.  
 
-
-En utfordring er at metodene for å faktisk måle resultater i form av redusert energiforbruk er for lite
-utviklet og kjent blant utviklere, arkitekter og ledere.
-IKT-bransjen bør tenke på hvordan egne smarte løsninger utnyttes på best mulig måte i egne prosesser. 
-Det er ingen fordel for eksempel for energiforbruk og C02 utslipp ved å tvinge utviklere tilbake til hovedkontoret.
-
-
+The ICT industry should consider how its own smart solutions are utilized internally.
+For instance, there is no benefit for energy consumption and CO2 emissions by forcing developers back to the headquarters.
 
 
 

@@ -125,6 +125,9 @@ Dess større prosjekt, dess mer nødvendig er det å faktisk måle eller estimer
 Det du som utvikler kan gjøre er å se gjennom [kodetipsene](greencode_nb.md) og legge til egen smart praksis.
 
 En utfordring er at metodene for å faktisk måle resultater i form av redusert energiforbruk er for lite
-utviklet og kjent blant utviklere, arkitekter og ledere.
-IKT-bransjen bør tenke på hvordan egne smarte løsninger utnyttes på best mulig måte i egne prosesser.
+utviklet og kjent blant utviklere, arkitekter og ledere.  
+
+IKT-bransjen bør tenke på hvordan egne smarte løsninger er brukt internt.
 Det er ingen fordel for eksempel for energiforbruk og C02 utslipp ved å tvinge utviklere tilbake til hovedkontoret.
+
+
