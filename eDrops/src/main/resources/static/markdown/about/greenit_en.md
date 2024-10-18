@@ -6,58 +6,60 @@ How well-founded are the solutions to save the climate with wind turbines when t
 The green transition involves a great deal of cynicism, 
 because control is transferred to large organizations that profit from green thinking.
 
-TODO Translate to English. Sorry.
+Social media in Norway is overflowing with frustration over the green transition.
+What can you and I do, then? The economy has worsened for many people and small businesses, limiting their options.
+If we, as developers and IT architects, could help create more energy-efficient solutions, that would be great.
+It requires a lot of collaboration and innovation across disciplines beyond just IT.
 
-I sosiale medier bobler det over med oppgitthet over det grønne skiftet.
-Hva kan du og jeg gjøre da? Økonomien for mange folk og småbedrifter er blitt dårligere. Det begrenser handlingsrommet.
-Hvis vi som utviklere og IT arkitekter kunne hjelpe til med å lage mer energieffektive løsninger, så hadde det vært supert.
-Det krever mye samarbeid og innovasjon på tvers av fagområder ut over ren IKT.
+Digitalization is not necessarily sustainable in itself. But it can be done right:
+- Digital disruption for energy saving work practices.
+- Enable work and services anywhere.
+- Automate and simplify manual processes.
+- Eliminate routine tasks to focus on more value-creating work.
+- Reduce energy consumption and CO2 emissions through smart solutions for process control (IoT, data collection, analysis)
+- The environmental- and climate- impact of digitalization need to be included in the total equation.
 
-Digitalisering er ikke nødvendigvis bærekraftig i seg selv. Men det kan bli det hvis det gjøres riktig:
-- Digital disrupsjon for energibesparende arbeidsmåter
-- Muliggjør jobb og tjenester hvor som helst
-- Automatisering og forenkling av manuelle prosesser
-- Fjerne rutineoppgaver så man kan fokusere på viktigere ting.
-- Minske miljø- og C02 utslipp ved smarte løsninger for styring av prosesser (AI, big data, ..)
-- Må regne med miljø- og klimaavtrykket som digitalisering gir i det totale regnestykket.
+One pitfall that is easy to fall into is changing each individual manual subprocess to something supported digitally, 
+without considering the whole picture. This is especially a significant challenge for public administration, which is highly regulate
 
-En felle det er lett å falle i er å endre hver enkelt manuelle delprosess til noe som støttes digitalt,
-uten å tenke helheten. Spesielt for offentlig forvaltning som er veldig regelstyrt dette en stor utfordring.  
+There is no clear definition of what "green" system development actually is.
+However, I encourage everyone in the industry to reflect on what it actually involves.
+The bullet points abouve provide some guidance. 
+An important point is that the reduction in energy consumption through ICT must be measurable. 
+Without this, it becomes challenging to implement measures effectively.
 
-Det finnes ingen god definisjon på hva "grønn" systemutvikling er. Men jeg oppfordrer alle i bransjen
-til å tenke litt selv hva det faktisk innebærer. Pinnepunktene over gir en pekepinn. 
-Et viktig poeng er at reduksjon i energiforbruk ved hjelp av IKT, faktisk må kunne måles. Uten dette blir det
-vanskelig å sette inn tiltak på riktig sted.
 
-## Råd til utviklere og IT arkitekter
+## Advice for developers and IT architects
 
-Hva kan vi gjøre som helt vanlige utviklere?
+What can we do as developers?
 
-Det er ett stikkord som er helt vesentlig:
+There is one keyword that is essential:
 
-*BRUK MINDRE ENERGI, GJELDER OGSÅ IKT LØSNINGER*
+*USE LESS ENERGY, APPLIES TO ICT SOLUTIONS AS WELL*
 
-Da slipper vi naturødeleggelsene. Mindre energiforbruk blir via en omregningsfaktor til mindre C02 utslipp, 
-mye avhengig av hvor skitten produksjonen av elektrisk strøm er. Selv om strømmen fra ditt datasenter kommer
-100% fra vannkraft, så fortrenger dette energibruk brukt til andre formål og dermed indirekte C02 utslipp.
-Så jeg vil ikke snakke om redusert C02 utslipp som Microsoft gjør i sin kalkulator, men redusert energiforbruk.
+This way, we avoid environmental destruction. 
+Reduced energy consumption translates into lower CO2 emissions through a conversion factor, 
+largely depending on how dirty the electricity production is. 
+Even if the power from your data center comes 100% from hydropower, 
+it displaces energy used for other purposes, and thus indirectly contributes to CO2 emissions. 
+Therefore, I prefer not to discuss reduced CO2 emissions as Microsoft does in its calculator, but rather reduced energy consumption
 
-### Energiforbruk ved digital transformasjon
+### Energy usage involved in digital processes:
 
-En veldig forenklet generell verdikjede:
+A very simplified general value chain:
 
-Manuell verdikjede:
+Manual value chain:
 
-☺ -> Manuell planlegging -> Verktøy -> ☺ ->  
-☺ -> Manuell opppgave med verktøy -> Resultat -> ☺   
+☺ -> Manual planning -> Tool -> ☺ ->  
+☺ -> Manual planning with tool -> Result -> ☺   
 
-Heldigital verdikjede:
+Digital value chain:
 
-☺ -> Digital utvikling   -> Datasystem -> ☺ ->  
-☺ -> Digital operasjoner i datasystem -> Resultat -> ☺  
+☺ -> Digital development -> Software -> ☺ ->  
+☺ -> Digital operations with software -> Result -> ☺  
 
-I praksis er disse verdikjedene mye lengre og involverer langt flere og som regel både automatiske og manuelle prosesser
-i en blanding, men vi gjør det enkelt her.  
+In practice, these value chains are much longer and involve many more processes, 
+typically both automated and manual in a mix, but we are keeping it simple here.
 
 Det er en grunn til at jeg har delt verdikjeden opp i to, der den siste er en produksjonskjede, 
 mens den første  innebærer utviklingsaktiviteter for verktøykassa (Digitale eller manuelle).
@@ -78,9 +80,9 @@ som regel testmiljøer som likner på produksjonsmiljø, som forbruker energi de
 Datalagring forbruker energi. 
 Dette er veldig avhengig av type datalagring, RAM, fillagring, database, semi permanent, permanent, arkiv, .. ).
 
-*Totalt energiforbruk er summen av energiforbruket for hvert enkelt ledd i verdikjeden*  
+*Total energy consumption is the sum of energy used for every individual element in the value chain*
 
-enten energiforbruket skyldes digitale eller manuelle verktøy.  
+Regardless of energy consumption being caused by digital or manual tools. 
 
 Det må også regnes med at produksjonsleddet blir utført mange ganger.
 Det er energiforbruk knyttet til det fysiske miljøet i tillegg (kontoret, fabrikken, datasentret, internettet).  
@@ -89,24 +91,25 @@ Dette kan for eksempel bety at et høyt energiforbruk pga AI trening og svar fra
 energi totalt fordi man da klarer å optimalisere en industriprosess eller et kraftnett. Dette høres jo selvsagt ut.
 Men det er et poeng at verktøy for å faktisk regne på dette ikke er så veldig tilgjengelige.  
 
-### Måling av energiforbruk
+### To measure energy usage
 
 For å finne energiforbruket, så må det være målbart. Det mest nøyaktige for datasystemer er å måle forbruket direkte 
 med måleutstyr på tjenere. I skya så er ikke dette så enkelt som det høres ut, fordi virtuell maskiner og containere kjører
 en eller flere tjenere. Da kan jo flere helt uavhengig systemer være installert på den samme tjeneren.
 Vi er uansett avhengig av skyleverandørens verktøykasse her.  
 
-Den andre metoden er å estimere energiforbruket basert på målt CPU og forbrukt minne. I Java finnes det APIer for å 
-gjøre dette. Jeg har prøvd lokalt med Spring Boot med innebygget Tomcat, med å logge dette og summere opp.
-Spesielt måling av CPU er så ustabilt at det anbefales ikke. Se kodeeksempel lenger ned.  
+The other method is to estimate the energy usage based on CPU measurements and memory usage. In Java there is APIs that
+can do this. I have tried locally with Spring Boot with embedded Tomcat, by calling the API and calculate the average.
+The measurement of CPU is very unstable, so it is not recommended. Refer to below code sample.
 
-Energiforbruk [kWh] = (Σ(%c * Ec) + ΣEm) * PUE
+Energy usage [kWh] = (Σ(%c * Ec) + ΣEm) * PUE
 
-%c = % CPU brukt (kan f.eks. være CPU, GPU eller TPU)  
-Ec = kWh forbrukt av all CPU  
-Em =  kWh forbrukt av minne  
+%c = % CPU used (can for example be CPU, GPU or TPU)  
+Ec = kWh consumed for all CPU  
+Em =  kWh used for memory
 
-PUE = Power Usage Effectiveness = Total energi brukt av datasentret / Energi brukt av IT-utstyr.  
+PUE = Power Usage Effectiveness = Total energy used in data center / Energy used by ICT-equipment
+
 PUE = 1, all energi går til IT-utstyr, neppe oppnåelig.  
 PUE > 1.0. Jo høyere tall, dess mindre effektivt.  
 
@@ -119,11 +122,16 @@ En annen indirekte svært unøyaktig metode er rett og slett å se på kostnaden
 Vi kan være ganske sikre på at skyleverandøren ikke vil tilby oss en løsning med et kostnadsnivå som ikke dekker
 egne energikostnader.
 
-## Konklusjon
+## Conclusion
 
-Det er ikke mulig med "grønn" systemutvikling uten å ha et reflektert syn på hele verdikjeder, som også inkluderer IKT.
-Dess større prosjekt, dess mer relevant er det å faktisk måle eller estimere totalt energiforbruk for en verdikjede.
-Det alle utviklere kan gjøre er å se gjennom kodetipsene under og legge til egen smart praksis. 
+What you as a developer can do is to review [kodetipsene](greencode_en.md) and add your own smart practices.
+
+Green system development is impossible without a holistic view of entire value chains, including the ICT part.
+The larger the project, the more relevant is it to actually measure or estimate the total energy consumption of a value chain.  
+
+What you as a developer can do is to review [kodetipsene](greencode_en.md) and add your own smart practices.
+
+
 
 En utfordring er at metodene for å faktisk måle resultater i form av redusert energiforbruk er for lite
 utviklet og kjent blant utviklere, arkitekter og ledere.

@@ -12,11 +12,11 @@ Hvis vi som utviklere og IT arkitekter kunne hjelpe til med å lage mer energief
 Det krever mye samarbeid og innovasjon på tvers av fagområder ut over ren IKT.
 
 Digitalisering er ikke nødvendigvis bærekraftig i seg selv. Men det kan bli det hvis det gjøres riktig:
-- Digital disrupsjon med energibesparende arbeidsmåter
-- Muliggjør jobb og tjenester hvor som helst
+- Digital disrupsjon med energibesparende arbeidsmåter.
+- Muliggjør jobb og tjenester hvor som helst.
 - Automatisering og forenkling av manuelle prosesser
-- Fjerne rutineoppgaver så man kan fokusere på viktigere ting.
-- Minske miljø- og C02 utslipp ved smarte løsninger for styring av prosesser (AI, big data, ..)
+- Fjerne rutineoppgaver så man kan fokusere på mer verdiskapende arbeid.
+- Minske energibruk og C02 utslipp ved smarte løsninger for styring av prosesser (IoT, data innsamling, analyse, ..)
 - Vi må regne med miljø- og klimaavtrykket som digitalisering gir i det totale regnestykket.
 
 En felle det er lett å falle i er å endre hver enkelt manuelle delprosess til noe som støttes digitalt,
@@ -40,7 +40,7 @@ mye avhengig av hvor skitten produksjonen av elektrisk strøm er. Selv om strøm
 100% fra vannkraft, så fortrenger dette energibruk brukt til andre formål og dermed indirekte C02 utslipp.
 Så jeg vil ikke snakke om redusert C02 utslipp som Microsoft gjør i sin kalkulator, men redusert energiforbruk.
 
-### Energiforbruk ved digital transformasjon
+### Energiforbruk ved digitale prosesser
 
 En veldig forenklet generell verdikjede:
 
@@ -78,7 +78,7 @@ Dette er veldig avhengig av type datalagring, RAM, fillagring, database, semi pe
 
 *Totalt energiforbruk er summen av energiforbruket for hvert enkelt ledd i verdikjeden*
 
-enten energiforbruket skyldes digitale eller manuelle verktøy.
+Enten energiforbruket skyldes digitale eller manuelle verktøy.
 
 Det må også regnes med at produksjonsleddet blir utført mange ganger.
 Det er energiforbruk knyttet til det fysiske miljøet i tillegg (kontoret, fabrikken, datasentret, internettet).
@@ -95,7 +95,7 @@ en eller flere tjenere. Da kan jo flere helt uavhengig systemer være installert
 Vi er uansett avhengig av skyleverandørens verktøykasse her.
 
 Den andre metoden er å estimere energiforbruket basert på målt CPU og forbrukt minne. I Java finnes det APIer for å
-gjøre dette. Jeg har prøvd lokalt med Spring Boot med innebygget Tomcat, med å logge dette og summere opp.
+gjøre dette. Jeg har prøvd lokalt med Spring Boot med innebygget Tomcat, med å kalle APIet og beregne gjennomsnitt.
 Spesielt måling av CPU er så ustabilt at det anbefales ikke. Se kodeeksempel lenger ned.
 
 Energiforbruk [kWh] = ((Σ(%c * Ec) + ΣEm) * PUE)
@@ -104,7 +104,7 @@ Energiforbruk [kWh] = ((Σ(%c * Ec) + ΣEm) * PUE)
 Ec = kWh forbrukt av all CPU  
 Em =  kWh forbrukt av minne
 
-PUE = Power Usage Effectiveness = Total energi brukt av datasentret / Energi brukt av IT-utstyr.  
+PUE = Power Usage Effectiveness = Total energi brukt av datasentret / Energi brukt av IKT-utstyr.  
 PUE = 1, all energi går til IT-utstyr, neppe oppnåelig.  
 PUE > 1.0. Jo høyere tall, dess mindre effektivt.
 
@@ -119,9 +119,10 @@ egne energikostnader.
 
 ## Konklusjon
 
-Det er ikke mulig med "grønn" systemutvikling uten å ha et reflektert syn på hele verdikjeder, som også inkluderer IKT.
-Dess større prosjekt, dess mer relevant er det å faktisk måle eller estimere totalt energiforbruk for en verdikjede.
-Det alle utviklere kan gjøre er å se gjennom kodetipsene under og legge til egen smart praksis.
+Grønn systemutvikling er ikke mulig uten et helhetlig syn på verdikjeder, som også inkluderer IKT.
+Dess større prosjekt, dess mer nødvendig er det å faktisk måle eller estimere totalt energiforbruk for en verdikjede.  
+
+Det du som utvikler kan gjøre er å se gjennom [kodetipsene](greencode_nb.md) og legge til egen smart praksis.
 
 En utfordring er at metodene for å faktisk måle resultater i form av redusert energiforbruk er for lite
 utviklet og kjent blant utviklere, arkitekter og ledere.
