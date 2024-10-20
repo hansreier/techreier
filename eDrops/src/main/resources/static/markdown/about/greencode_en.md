@@ -266,4 +266,6 @@ software exists for Kubernetes clusters to measure energy usage: E.g. Kepler (us
 Scaphandre or PowerAPI. Prometheus I have used in some projects. The other tools I have never tried. Kepler should
 be the easiest.  
 
+A combination of Docker stats and Prometheus can be beneficial, 
+especially because CPU measurements in a container are not very reliable.  
 
