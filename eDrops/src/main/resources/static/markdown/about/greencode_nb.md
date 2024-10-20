@@ -261,6 +261,6 @@ denne øvelsen. Jeg har ikke hatt tid eller mulighet.
 
 Et anbefalt alternativ er å installere en Prometheus tjener på en kontainer. Prometheus kan innhente måledata fra endepunkter
 i kontainere. Inkluder Promethus for API monitorering med et /metrics endepunkt. Fri kildekode programvare
-finnes for Kubernetes klustre for å måle energibruken: F.eks. Kepler (bruker AI modell som konsumere noe energi),
-eller Scaphaldre eller PowerAPI. Prometheus har jeg brukt i noen prosjekter, disse Kubernetes verktøyene integrert med
-Grafana har jeg aldri prøvd. Kepler skal være det enkleste.  
+finnes for Kubernetes klustre for å måle energibruken: F.eks. Kepler (bruker AI modell som konsumerer noe energi),
+Scaphandre eller PowerAPI. Prometheus har jeg brukt i noen prosjekter. 
+De andre verktøyene har jeg aldri prøvd. Kepler skal være det enkleste.  

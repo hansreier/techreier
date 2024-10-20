@@ -262,8 +262,8 @@ It should be a lot of fun to do this, but I have not had time or opportunity.
 
 A recommended alternative is to install a Prometheus server on a container. Prometheus can scrape metrics from various
 endpoints in containers, e.g. include Prometheus for API monitoring with a /metrics endpoint. Open source
-software exists for Kubernetes clusters to measure energy usage: E.g. Kepler (uses AI model that consumes some energy)
-,or Scaphandre or PowerAPI. Prometheus I have used in some projects, the Kubernetes tools I have never tried. Kepler should
+software exists for Kubernetes clusters to measure energy usage: E.g. Kepler (uses AI model that consumes some energy),
+Scaphandre or PowerAPI. Prometheus I have used in some projects. The other tools I have never tried. Kepler should
 be the easiest.  
 
 
