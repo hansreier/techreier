@@ -69,9 +69,10 @@ Optimize containers by minimizing max memory, max CPU and parameters for up- and
 I tried in Openshift (Kubernetes) to abort a REST call if memory was a bit below the maximum limit for a pod,
 and then return and error message to the client to state that the load was too large. 
 I learned that this was not a good idea. It was better just to allow Kubernetes regular container handling to fix it,
-meaning killing the container and starting a new fresh container.  
+meaning killing the container and starting a new fresh container. 
 
-Visual tools like Grafana can often be a great help.  
+Visual tools like Grafana in combination with Prometheus metrics can be a great help.  
+ 
 
 ### AI or no AI
 
@@ -242,7 +243,7 @@ limits and gradually decreases after high throughput. The same applies to the nu
 If virtual threads are used, is detected in the code.
 If the number of threads is growing steadily upwards, it is a bug in the code. I experienced that one occasion.  
 
-### Usage of the Docker Stats command and a separate container with a service to measure energy usage
+### A separate container to measure energy usage
 
 Instead of the JVM based MXBean method described below, the Dockes Stats command should be used for containers.
 This provides more stable measurements.  
@@ -256,9 +257,13 @@ CONTAINER ID   NAME               CPU %     MEM USAGE / LIMIT     MEM %     NET 
 5b0957e198f2   awesome_mahavira   1.24%     332.6MiB / 7.648GiB   4.25%     1.39kB / 0B   0B / 0B     34
 ```
 I am considering a setup in a cloud service with a container that runs an API calling this command.
-The energy usage of the other containers in the system whill  then be calculated.
-It should be a lot of fun to do this, but I have not had time or opportunity.
+The energy usage of the other containers in the system can  then be calculated.
+It should be a lot of fun to do this, but I have not had time or opportunity.  
 
-
+A recommended alternative is to install a Prometheus server on a container. Prometheus can scrape metrics from various
+endpoints in containers, e.g. include Prometheus for API monitoring with a /metrics endpoint. Open source
+software exists for Kubernetes clusters to measure energy usage: E.g. Kepler (uses AI model that consumes some energy)
+,or Scaphandre or PowerAPI. Prometheus I have used in some projects, the Kubernetes tools I have never tried. Kepler should
+be the easiest.  
 
 

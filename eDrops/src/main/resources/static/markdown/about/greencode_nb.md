@@ -69,7 +69,7 @@ og returnere en feilmelding til klienten om at lasten var for stor. I dette tilf
 engangs-last. Erfaringen derfra var at dette heller ikke var noen vits i. Det var bedre å la Kubernetes vanlig
 kontainerhåndtering fikse det, dvs. drepe containeren automatisk og ta opp en ny.
 
-Ofte kan visuelle verktøy som Grafana være en stor hjelp her.
+Visuelle verktøy som Grafana i kombinasjon med Prometheus kan være til stor hjelp.  
 
 ### AI eller ikke AI
 
@@ -242,7 +242,7 @@ over litt tid. Det viktige er å sjekke at minnebruken ikke blir for høy, og at
 mye minnebruk. Det samme gjelder antall tråder. Om virtuelle tråder er i bruk vises også her.
 Hvis antall tråder bare vokser er det feil programmering, det fikk jeg erfare en gang i hvertfall.
 
-### Bruk av Docker Stats kommandoen og egen kontainer med tjeneste for å måle energiforbruk
+### Bruk av egen kontainer for å måle energiforbruk
 
 I stedet for den JVM baserte MXBean metoden beskrevet over, så bør  Docker Stats kommandoen brukes for containere.
 Denne gir mer stabile målinger.
@@ -257,4 +257,10 @@ CONTAINER ID   NAME               CPU %     MEM USAGE / LIMIT     MEM %     NET 
 
 Jeg tenker meg et oppsett i skya med en kontainer som kjører et API som kaller denne
 og beregner energiforbruk på andre kontainere som er selve systemet. Det hadde vært morsomt å faktisk gjort
-denne øvelsen. Jeg har ikke hatt tid eller mulighet.  
+denne øvelsen. Jeg har ikke hatt tid eller mulighet. 
+
+Et anbefalt alternativ er å installere en Prometheus tjener på en kontainer. Prometheus kan innhente måledata fra endepunkter
+i kontainere. Inkluder Promethus for API monitorering med et /metrics endepunkt. Fri kildekode programvare
+finnes for Kubernetes klustre for å måle energibruken: F.eks. Kepler (bruker AI modell som konsumere noe energi),
+eller Scaphaldre eller PowerAPI. Prometheus har jeg brukt i noen prosjekter, disse Kubernetes verktøyene integrert med
+Grafana har jeg aldri prøvd. Kepler skal være det enkleste.  
