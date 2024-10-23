@@ -84,8 +84,8 @@ Hva karakteriserer vedlikeholdbare data systemer?
     - Et alternativ for integrasjonstester er kontainere med det samme database system som produksjon.
     - Vær klar over at test kontainere ikke er veldig gunstig for automatiserte tester inkludert i bygget.
     - Skriv gjerne integrasjonstester uten mocks som ikke inkluderes i bygget.
-- Use automated code checks to company development standards, including security checks.
-    - But it can be too rigid if too much of this.
+- Bruk automatiske kode sjekker som følger kode standarder, inkludert sikkerhets sjekker.
+    - Men det kan bli litt for rigid hvis det er for mye av det.
 - Be careful with AI assisted development. 
     - I have mixed experience with GitHub Copilot, quite often my intentions is not what Copilot expects.
     - You can very quickly generate a lot of code more difficult to maintain with AI.

@@ -83,7 +83,7 @@ What characterizes maintainable computer systems?
     - An alternative for integration tests is containers with the same database system as production.
     - Beware that test containers can be bad for automated tests included in the build.
     - It can be a good idea to write som integration tests without mocks that is not included in the build.
-- Use automated code checks to company development standards, including security checks.
+- Use automated code checks to verify development standards, including security checks.
     - But it can be too rigid if too much of this.
 - Be careful with AI assisted development. 
     - I have mixed experience with GitHub Copilot, quite often my intentions is not what Copilot expects.
