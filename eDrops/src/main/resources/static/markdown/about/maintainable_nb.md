@@ -63,7 +63,7 @@ Hva karakteriserer vedlikeholdbare data systemer?
   - Ikke lag et internt bibliotekt hvis det ikke kan vedlikeholdes langsiktig av organisajonen, som av et plattform team.
   - Mange lag av biblioteker er ikke hensiktsmessig.
   - Planlegg for jevline språk- og biblioteks- oppgraderinger
-  - Selv om en ny hovedversjon av et bibliotek krever kode omskriving, så er det beste å gjøre det mend en gang. Senere blir det værre.
+  - Selv om en ny hovedversjon av et bibliotek krever kode omskriving, så er det beste å gjøre det mend en gang. Senere blir det verre.
   - Hvis et bibliotek ikke vedlikeholdes mer, så må det før eller senere ersatattes.
 - Systemet skal være testbart, manuelt og automatisk.
   - Planlegg for testing helt i starten av livssyklusen for systemet.
@@ -77,13 +77,13 @@ Hva karakteriserer vedlikeholdbare data systemer?
   - Identifiser kritiske deler av koden, der grundig testing er nødvendig.
   - Kode, GUI eller logikk som endrer seg hele tiden er ikke noen spesielt god kandidat for testautomatisering.
   - Ideelt sett skal testkode være integrert med kode repoet og i det samme språket.
-  - For tester integrert i koden:
-    - Enkle enhetstester har best ytelse.
-    - Vurder kompleksitet og vedlikeholdbarhet på tester. Ende-til-ende tester med mocks kan bli kompliserte.
-    - Minnebaserte databaser som H2 kan hvis mulig med fordel benyttes for integrasjons tester.
-    - Et alternativ for integrasjonstester er kontainere med det samme database system som produksjon.
-    - Vær klar over at test kontainere ikke er veldig gunstig for automatiserte tester inkludert i bygget.
-    - Skriv gjerne integrasjonstester uten mocks som ikke inkluderes i bygget.
+- For tester integrert i koden:
+  - Enkle enhetstester har best ytelse.
+  - Vurder kompleksitet og vedlikeholdbarhet på tester. Ende-til-ende tester med mocks kan bli kompliserte.
+  - Minnebaserte databaser som H2 kan hvis mulig med fordel benyttes for integrasjons tester.
+  - Et alternativ for integrasjonstester er kontainere med det samme database system som produksjon.
+  - Test kontainere er ikke er veldig gunstig for automatiserte tester inkludert i bygget.
+  - Skriv gjerne integrasjonstester uten mocks som ikke inkluderes i bygget.
 - Bruk automatiske kode sjekker som følger kode standarder, inkludert sikkerhets sjekker.
     - Men det kan bli litt for rigid hvis det er for mye av det.
 - Vær forsiktig med AI assistert utvikling.
@@ -101,7 +101,8 @@ Hva karakteriserer vedlikeholdbare data systemer?
   - Å kaste unntak er for tekniske feil, ikke funksjonelle unntak.
   - I Kotlin er et alternativ til å kaste et unntak å bruke en Sealed Class som inneholder suksess og feilet.
   - Implementer et logge-system, så feil lett kan plukkes opp av drift og utviklere.
-  - Følg retningslinjer for logging, bruk nivåer ERROR, WARNING, INFO and DEBUG.
+  - Følg retningslinjer for logging, bruk nivåer ERROR, WARN, INFO and DEBUG.
+  - Logg alltid alvorlige feil med ERROR ellers WARN.
 - Bruk selvforklarende modul navn, variable navn, klasse navn og metode navn.
 - Dokumentasjon ER påkrevet, uavhengig av clean code.
   - I readme filer laget sammen med kodebasen.
@@ -119,7 +120,7 @@ Det vanskeligste systemet å vedlikeholde:
 - Hvis funksjonell eller teknisk kunnskap er for begrenset i et smidig team, så kan det være skummelt.
 - For begrenset teknisk og funksjonell dokumentasjon.
 - Vær forsiktig med for mye kodegenerering, øker kompleksiteten.
-  - Enda værre, teamet utviklet selv kode- eller GUI generatoren, f.eks. fra domene modell eller database.
+  - Enda verre, teamet utviklet selv kode- eller GUI generatoren, f.eks. fra domene modell eller database.
 - Et for generisk system eller bibliotek er utviklet og vedlikeholdes.
 - GUI, API, tjenester, forretningslogikk, data-aksesslag og database blandet sammen med for tett kopling.
 - For mye løst koplet funksjonalitet koplet sammen i et stort gammeldags system. 

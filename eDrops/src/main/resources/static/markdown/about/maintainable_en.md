@@ -76,13 +76,13 @@ What characterizes maintainable computer systems?
   - Code, GUI or logic that change all the time is no perfect candidate for test automation.
   - Identify critical parts of the codebase where extensive testing is required.
   - Ideally test code should be done integrated with the code and in the same language.
-  - For tests integrated in the code:
-    - Simple unit tests is most performant.
-    - Consider  test complexity and maintainability. End-to-end tests with mocks tends to be complex.
-    - In memory databases like H2 could be used if possible for integration tests.
-    - An alternative for integration tests is containers with the same database system as production.
-    - Beware that test containers can be bad for automated tests included in the build.
-    - It can be a good idea to write som integration tests without mocks that is not included in the build.
+- For tests integrated in the code:
+  - Simple unit tests is most performant.
+  - Consider  test complexity and maintainability. End-to-end tests with mocks tends to be complex.
+  - In memory databases like H2 could be used if possible for integration tests.
+  - An alternative for integration tests is containers with the same database system as production.
+  - Test containers can be bad for automated tests included in the build.
+  - It can be a good idea to write som integration tests without mocks that is not included in the build.
 - Use automated code checks to verify development standards, including security checks.
   - But it can be too rigid if too much of this.
 - Be careful with AI assisted development: 
@@ -100,7 +100,8 @@ What characterizes maintainable computer systems?
   - Throwing exceptions is for technical errors, not functional exceptions.
   - In Kotlin an alternative to throwing an exception is to use a sealed class that consists success and error.
   - Implement a logging system, so errors is easily picked up by operations and developers.
-  - Follow guidelines for logging, use levels ERROR, WARNING, INFO and DEBUG.
+  - Follow guidelines for logging, use levels ERROR, WARN, INFO and DEBUG.
+  - Always logg serious errors with ERROR, else WARN.
 - Use explainable module names, variable names, class names and method names.
 - Documentation IS required, regardless of Clean Code.
   - In readme files saved within the codebase.
