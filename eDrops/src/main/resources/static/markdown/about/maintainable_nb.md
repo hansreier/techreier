@@ -1,38 +1,39 @@
-## How to achieve maintainable computer systems.
+## Hvordan oppnå vedlikeholdbare datasystemer
 
-This is just quick notes, to be expanded.  
+Dette er bare raske notater, vil legge til mer etterhvert.
 
-I have as a software engineer for 40 years, developed all kinds of systems implemented in various languages:
+Jeg har vært utvikler i 40 år, og utviklet alle slags systemer implementert i ulike språk:
 
-Fortran, Visual Basic, C / C ++ / Pascal (several variants) / Java / Kotlin / SQL / JavaScript (not my favorite).
-Including templating languages: HTML, JSP, JSF, Thymeleaf, Terraform, XML / XML-schemas, JSON, UML and scripting languages (various).   
+Fortran, Visual Basic, C / C ++ / Pascal (flere varianter) / Java / Kotlin / SQL / JavaScript (ikke min favoritt).
+Inkludert malbaserte språk: HTML, JSP, JSF, Thymeleaf, Terraform, XML / XML-schemas, JSON, UML and skript-språk (flere).   
 
-Sorry I do not remember the details of all of them, when not used them for a while.
-Too much tech mixed together does not make a maintainable system.
+Unnskyld jeg husker ikke detaljene på alle språkene, når jeg ikke har brukt dem på en stund.
+For mye forskjellig teknologi blandet sammen gir ikke et vedlikeholdbart system.
 
-What characterizes maintainable computer systems?
+Hva karakteriserer vedlikeholdbare data systemer?
 
-- Select a technology stack that is well known for a lot of developers.
-- Check licencing and maintenance of development tools and libraries.
-- Split into maintainable code bases in centralized repo.
-- I prefer Microservices, but sometimes it can be required with a common database.
-- Focus on consistent interfaces between systems.
-  - Contract first is not always the best option, it can be too rigid.
-  - Collaboration between teams is super important.
-- A well planned and documented layered architecture:  Applies to both frontend and backend.
-- A well planned deployment platform, cloud or other, to be selected by actual need and economics.
-- A well planned deployment strategy (DevOps)
-- Start with a proof of concept of the selected technology.
-  - Make a runnable and testable prototype through all layers of the application.
-  - Be aware that mocks and service virtualization can hide integration surprises.
-  - Do no wait too long before integrating major parts of a system or connected systems
-- Use cross-functional product focused agile team(s) dedicated to maintain the system(s).
-  - Continuous development and maintenance of the system(s).
-- I suggest using containers and e.g. Docker
-  - latest stable version of operating system.
-  - latest stable versions of computer language.
-  - latest stable version of libraries.
-  - latest security updates.
+- Velg en teknologi stakk som er velkjent for en hel masse utviklere.
+- Sjekk lisenser og vedlikehold av utviklingverktøy og biblioteker.
+- Del inn i vedlikeholdbare kode baser i et sentralisert repo.
+- Jeg foretrekker Microtjenester, men noen ganger kan det være nødvendig med felles database.
+- Fokuser på veldefinert grensesnitt mellom systemer.
+  - Kontrakt først er ikke alltid den beste opsjonen, det kan bli for rigid.
+  - Samarbeid mellom team er superviktig.
+- En godt planlagt og dokumentert lagdelt arkitektur: Gjelder både for frontend og backend.
+- Em godt planlagt driftsplattform, i skya eller annet, velges ut fra behov og økonomi.
+- En godt planlagt idriftssetting strategi (DevOps)
+- Start med å verifisere ditt valgte teknologi konsept.
+  - Lag en kjørbar og testbar prototype gjennom alle lag av applikasjonen.
+  - Vær løar pver at mock og tjeneste virtualisering kan skjule overraskelser ved integrasjoner.
+  - Ikke velt for lenge før viktige deler av et system eller samarbeidende systemer integreres.
+- Bruk kryss funksjonelle smidige produkt team som er dedikert for programvare vedlikehold av system(ene).
+  - Kontinuerig utvikling og vedlikehold av system(ene).
+- Jeg foreslår å bruke kontainere, f.eks. Docker.
+  - siste stabile versjon av operativ system.
+  - latest stabile version of operating system.
+  - siste statile versjon av programmeringsspråk.
+  - siste stabile versjon av biblioteker.
+  - siste sikkerhets-oppdateringer.
 - Development done locally, not e.g. directly in cloud.
 - Define multiple deployment platforms (development, test, production) according to needs.
 - In large organizations: A platform team is required to support cross-cutting technical aspects
@@ -104,22 +105,23 @@ What characterizes maintainable computer systems?
   - Code standard guide.
   - A developer can be replaced with another, at any time. Remember this when writing code without documenting.
 
-***WARNING***  
+***ADVARSEL***  
 
-The most difficult system to maintain:
-- The coders started without a well-defined architecture and methodology
-- If functional or technical knowledge is too limited in the current agile team, it can be dangerous.
-- Too limited technical and functional documentation.
-- Be careful with too much code generation, adds complexity.
-  - even worse, the team developed itself the code or GUI generation, e.g. from domain model or database.
-- A too generic system or library developed and maintained.
-- GUI, API, service, business logic, data access layer and database mixed together in tight coupling.
-- Too much loosely related functionality in one large legacy system.
-- Ad hoc discontinuous development when the sponsor has got the money.
-- To upgrade from very old framework versions can be costly but is required, also refer to security issues.
-- Too many languages involved for too few developers. 
-  - Watch out for one developer should know it all strategy: Backend, frontend, devops, iaC, database, stored procedure, cloud infrastructure, ...
+Det vanskeligste systemet å vedlikeholde:
+- Koderne startet uten en godt definert arkitektur og metodikk.
+- Hvis funksjonell eller teknisk kunnskap er for begrenset i et smidig team, så kan det være skummelt.
+- For begrenset teknisk og funksjonell dokumentasjon.
+- Vær forsiktig med for mye kodegenerering, øker kompleksiteten.
+  - Enda værre, teamet utviklet selv kode- eller GUI generatoren, f.eks. fra domene modell eller database.
+- Et for generisk system eller bibliotek er utviklet og vedlikeholdes.
+- GUI, API, tjenester, forretningslogikk, data-aksesslag og database blandet sammen med for tett kopling.
+- For mye løst koplet funksjonalitet koplet sammen i et stort gammeldags system. 
+- Ad hoc diskontinuerlig utvikling når sponsoren har penger.
+- Å oppgradere fra veldig gamle rammeverks-versjoner kan vært kostbart, men er nødvendig, også referer til sikkerhet.
+- For mange språk involvert kombinert med for få utviklere.
+  - Pass opp for "en utvikler skal kunne alt strategien": Backend, frontend, devops, iaC, database, stored procedure, cloud infrastructure, ...
 
-I have seen it all and even been on the project with the most difficult system to maintain.
-Sometimes a rewrite or partly rewrite of the whole system is required because the legacy system is unmanageable.
-Usually splitting up the system in several smaller systems with REST interfaces is the best.
+Jeg har sett alt dette og til og med deltatt på prosjeket med det vanskeligste systemet å vedlikeholde.
+Noen ganger er en fullstendig eller delvis omskriving av hele systemet nødvendig, for det gamle systemet er ikke lenge håndterbar.
+Det som vanligvis er å anbefale er å splitte opp systemet i flere mindre systemer med REST grensesnitt.
+
