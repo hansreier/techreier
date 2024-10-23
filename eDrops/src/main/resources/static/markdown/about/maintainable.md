@@ -46,16 +46,17 @@ What characterizes maintainable computer systems?
 - Reactive asynchronous programming can be complex in Java/Kotlin. 
   - Reactive programming can be replaced with Spring Boot Virtual Threads from Java v 21.
   - Calling blocking code is not recommended from reactive code.
+  - For parallel processing in Kotlin, you can use Kotlin Coroutines (alternative to Spring virtual threads)
 - Do not develop everything from scratch, frameworks like Spring Boot is desirable.
-- Beware that the database is the most stable part of a system.
+- Beware that the data is the most stable part of a system.
   - A lot of changes in the data model can be expensive.
-  - A bad data model is expensive to fix, try to be thorough and do it right.
+  - A bad data model is expensive to fix, try to be thorough and do it right the first time.
   - Select database type with care, it need not even be relational or can be combined with noSQL.
   - I warn about stored procedures. Only use then if absolutely required for performance.
   - Select database API with caution. Is an ORM like Hibernate / JPA really desired?
 - Avoid including too many languages in the same project / system.
 - In simple or internal web based systems, backend based HTML generation should be considered. 
-  - It is not always the best idea to use frontend based code generation with e.g. React or Angular.
+  - It is not always the best idea to use frontend based HTML generation with e.g. React or Angular.
 - Consistent use of well-designed and well-maintained libraries with little overlapping functionality.
   - Do not make an internal library if it cannot be maintained long-term by the organization, such as by platform team.
   - Many layers of libraries is undesired.

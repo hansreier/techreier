@@ -34,29 +34,31 @@ Hva karakteriserer vedlikeholdbare data systemer?
   - siste statile versjon av programmeringsspråk.
   - siste stabile versjon av biblioteker.
   - siste sikkerhets-oppdateringer.
-- Development done locally, not e.g. directly in cloud.
-- Define multiple deployment platforms (development, test, production) according to needs.
-- In large organizations: A platform team is required to support cross-cutting technical aspects
-- A split of services into several systems / sub systems based on functionality
-- Sensible modularization within each system (not too many modules)
-- Cross-cutting concerns should be handled at one place, e.g. token checks in filter.
-- Use well known patterns.
-- Minimize state in a session.
-- Do not be too rigid about using either functional style or object-oriented style. Both has is uses.
-- Compact short code is not always the best (e.g. Regex). The concepts must be understood.
-- Reactive asynchronous programming can be complex in Java/Kotlin. 
-  - Reactive programming can be replaced with Spring Boot Virtual Threads from Java v 21.
-  - Calling blocking code is not recommended from reactive code.
-- Do not develop everything from scratch, frameworks like Spring Boot is desirable.
-- Beware that the database is the most stable part of a system.
-  - A lot of changes in the data model can be expensive.
-  - A bad data model is expensive to fix, try to be thorough and do it right.
+- Utvikling skal gjøres lokalt, ikke f.eks. direkte i skya.
+- Sett opp flere driftsplattformer (utvikling, test, produksjon) avhengig av behov.
+- I store organisasjoner: Et plattform team er nødvendig for å støtte tekniske aspekter på tvers av systemer.
+- Splitt opp tjenester i flere systemer / delsystemer basert på funksjonalitet.
+- Fornuftig modularisering innenfor hvert system (ikke for mange moduler)
+- Tekninske aspekter på tvers i et system, håndteres på et sted, f.eks. token sjekk i filter.
+- Bruk velkjente mønstre.
+- Minimer tilstand i en sesjon.
+- Ikke vær for rigid med å bruke enten funksjonell eller objekt orienterert stil. Begge har sine bruksområder.
+- Kompankt kort kode er ikke alltid det beste (f.eks. Regex). Konseptene må kunne forstås.
+- Reaktiv asynkron programmering kan være kompleks i Java/Kotlin.
+  - Reaktiv asynkron kode kan erstattes av Spring Boot virtuelle tråder fra Java v 21.
+  - Å kalle blokkerende kode er ikke anbefalt fra reaktiv kode.
+  - For parallell prosessering i Kotlin kan Coroutines benyttes (alternativ til Spring virtuelle tråder).
+- Ikke utvikle alt fra bunn av, rammeverk som Spring Boot er fordelaktige.
+- Vær klar over at data er den mest stabile delen av et system.
+  - En hel masse endringer i en datamodell kan være kostbart.
+  - En dårlig datamodell er kostbart å rette, prøv å være grundig og gjør det mest mulig riktig til å starte med.
+  - Tenk grundig når du velger type database. Den trenger ikke engang være relasjonsdatabase, eller kan kombinseres med noSQL.
   - Select database type with care, it need not even be relational or can be combined with noSQL.
-  - I warn about stored procedures. Only use then if absolutely required for performance.
-  - Select database API with caution. Is an ORM like Hibernate / JPA really desired?
-- Avoid including too many languages in the same project / system.
-- In simple or internal web based systems, backend based HTML generation should be considered. 
-  - It is not always the best idea to use frontend based code generation with e.g. React or Angular.
+  - Jeg advarer mot lagrede prosedyrer. Bruk dem bare hvis det er absolutt nødvendig for ytelse.
+  - Velg database API med omtanke. Er en ORM som Hibernate / JPA virkelig nødvendig?
+- Unngå for mange programmeringspråk i det samme prosjektet / systemet.
+- I enkle eller interne web applikasjoner, så kan backend basert HTML generering vurderes.
+  - Det er ikke alltid best å bruke frontend basert HTML med f.eks. React eller Angular.
 - Consistent use of well-designed and well-maintained libraries with little overlapping functionality.
   - Do not make an internal library if it cannot be maintained long-term by the organization, such as by platform team.
   - Many layers of libraries is undesired.
