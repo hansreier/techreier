@@ -59,29 +59,31 @@ Hva karakteriserer vedlikeholdbare data systemer?
 - Unngå for mange programmeringspråk i det samme prosjektet / systemet.
 - I enkle eller interne web applikasjoner, så kan backend basert HTML generering vurderes.
   - Det er ikke alltid best å bruke frontend basert HTML med f.eks. React eller Angular.
-- Consistent use of well-designed and well-maintained libraries with little overlapping functionality.
-  - Do not make an internal library if it cannot be maintained long-term by the organization, such as by platform team.
-  - Many layers of libraries is undesired.
-  - Plan for regular language and library updates.
-  - Even if a new major library version requires code rewrite, the best is just to do it ASAP. Later it gets worse.
-  - If a library is not maintained anymore, sooner or later you have to replace it.
-- The system should be testable, manually and automated.
-  - Plan for testing at the start of the lifetime of the system.
-  - Think of what to test, relate  to the test pyramid.
-  - To do some manual or ad hoc testing is not necessarily wrong.
-  - Types of automated testing: unit tests, integration tests, system integration tests, performance tests, security tests.
-  - Performance test critical parts of the system, at least manually.
-  - Ideally testing should be done integrated with the code repo and in the same language.
-  - Select test tools with care. The automated tests there must be maintained.
-  - The tests increase quality and prevents errors, but binds the code and slows down initial development.
-  - Identify critical parts of the codebase where extensive testing is required.
-  - Code that change all the time is expensive to automate.
-  - Consider  test complexity and maintainability. End-to-end tests with mocks tends to be complex.
-  - In memory databases like H2 could be used if possible for integration tests.
-  - An alternative is containers with the same database system as production.
-  - Beware that test containers can be bad for automated tests included in the build.
-  - Simple unit tests is most performant.
-  - Extensive use of GUI tests and test tools is not always desired.
+- Konsistent bruk av godt designed og godt vedlikeholdte biblioteker med lite overlappende funksjonalitet.
+  - Ikke lag et internt bibliotekt hvis det ikke kan vedlikeholdes langsiktig av organisajonen, som av et plattform team.
+  - Mange lag av biblioteker er ikke hensiktsmessig.
+  - Planlegg for jevline språk- og biblioteks- oppgraderinger
+  - Selv om en ny hovedversjon av et bibliotek krever kode omskriving, så er det beste å gjøre det mend en gang. Senere blir det værre.
+  - Hvis et bibliotek ikke vedlikeholdes mer, så må det før eller senere ersatattes.
+- Systemet skal være testbart, manuelt og automatisk.
+  - Planlegg for testing helt i starten av livssyklusen for systemet.
+  - Velg testverktøy med omhu. Testene der må vedlikeholdes.
+  - Overdreven bruk av GUI tester og test verktøy er ikke alltid å foretrekke.
+  - Tenk på hva som skal testes, relater det til test pyramiden.
+  - Å teste noe manuele eller ad hov er ikke nødvendigvis feil.
+  - Måter å teste automatisk på: Enhetstester, integrasjonstester, system integrasjons tester, ytelses tester, sikkerhets tester.
+  - Ytelsestest kritiske delere av systemet, i det minste manuelt.
+  - Automatiserte tester øker kodekvalitet og hinder  feil, men binder kode og kan forsinke rask utvikling.
+  - Identifiser kritiske deler av koden, der grundig testing er nødvendig.
+  - Kode, GUI eller logikk som endrer seg hele tiden er ikke noen spesielt god kandidat for testautomatisering.
+  - Ideelt sett skal testkode være integrert med kode repoet og i det samme språket.
+  - For tester integrert i koden:
+    - Enkle enhetstester har best ytelse.
+    - Vurder kompleksitet og vedlikeholdbarhet på tester. Ende-til-ende tester med mocks kan bli kompliserte.
+    - Minnebaserte databaser som H2 kan hvis mulig med fordel benyttes for integrasjons tester.
+    - Et alternativ for integrasjonstester er kontainere med det samme database system som produksjon.
+    - Vær klar over at test kontainere ikke er veldig gunstig for automatiserte tester inkludert i bygget.
+    - Skriv gjerne integrasjonstester uten mocks som ikke inkluderes i bygget.
 - Use automated code checks to company development standards, including security checks.
     - But it can be too rigid if too much of this.
 - Be careful with AI assisted development. 

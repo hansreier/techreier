@@ -65,21 +65,24 @@ What characterizes maintainable computer systems?
   - If a library is not maintained anymore, sooner or later you have to replace it.
 - The system should be testable, manually and automated.
   - Plan for testing at the start of the lifetime of the system.
+  - Select test tools with care. The tests must be maintained.
+  - Extensive use of GUI tests and test tools is not always desired.
   - Think of what to test, relate  to the test pyramid.
   - To do some manual or ad hoc testing is not necessarily wrong.
   - Types of automated testing: unit tests, integration tests, system integration tests, performance tests, security tests.
   - Performance test critical parts of the system, at least manually.
-  - Ideally testing should be done integrated with the code repo and in the same language.
   - Select test tools with care. The automated tests there must be maintained.
-  - The tests increase quality and prevents errors, but binds the code and slows down initial development.
+  - Automated tests increase quality and prevents errors, but binds the code and can slows down development.
+  - Code, GUI or logic that change all the time is no perfect candidate for test automation.
   - Identify critical parts of the codebase where extensive testing is required.
-  - Code that change all the time is expensive to automate.
-  - Consider  test complexity and maintainability. End-to-end tests with mocks tends to be complex.
-  - In memory databases like H2 could be used if possible for integration tests.
-  - An alternative is containers with the same database system as production.
-  - Beware that test containers can be bad for automated tests included in the build.
-  - Simple unit tests is most performant.
-  - Extensive use of GUI tests and test tools is not always desired.
+  - Ideally test code should be done integrated with the code and in the same language.
+  - For tests integrated in the code:
+    - Simple unit tests is most performant.
+    - Consider  test complexity and maintainability. End-to-end tests with mocks tends to be complex.
+    - In memory databases like H2 could be used if possible for integration tests.
+    - An alternative for integration tests is containers with the same database system as production.
+    - Beware that test containers can be bad for automated tests included in the build.
+    - It can be a good idea to write som integration tests without mocks that is not included in the build.
 - Use automated code checks to company development standards, including security checks.
     - But it can be too rigid if too much of this.
 - Be careful with AI assisted development. 
