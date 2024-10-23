@@ -96,7 +96,7 @@ What characterizes maintainable computer systems?
 - Throwing exceptions is for technical errors, not functional exceptions.
 - Implement a logging system, so errors is easily picked up by operations and developers.
 - Use explainable module names, variable names, class names and method names.
-- Documentation IS required, regardless of clean code.
+- Documentation IS required, regardless of Clean Code.
   - In readme files saved within the codebase.
   - In code, write short comments to explain the unexpected.
   - In e.g. Javadoc (if a library).

@@ -96,16 +96,16 @@ Hva karakteriserer vedlikeholdbare data systemer?
     - Using AI will get you up and running on unfamiliar tech more quickly.
 - Use consistent error handling at the right level in the application, e.g. in controllers.
 - Throwing exceptions is for technical errors, not functional exceptions.
-- Implement a logging system, so errors is easily picked up by operations and developers.
-- Use explainable module names, variable names, class names and method names.
-- Documentation IS required, regardless of clean code.
-  - In readme files saved within the codebase.
-  - In code, write short comments to explain the unexpected.
-  - In e.g. Javadoc (if a library).
-  - Explaining functionality, architecture and principles (can e.g. use Wiki).
-  - Setup guide for developers.
-  - Code standard guide.
-  - A developer can be replaced with another, at any time. Remember this when writing code without documenting.
+- Implementer et logge-system, så feil lett kan plukkes opp av drift og utviklere.
+- Bruk selvforklarende modul navn, variable navn, klasse navn og metode navn.
+- Dokumentasjon ER påkrevet, uavhengig av clean code.
+  - I readme filer laget sammen med kodebasen.
+  - I kode, skriv korte kommentarer for å forklare det uventede.
+  - I f.eks. Javadoc (hvis det er et bibliotek).
+  - Forklar funksjonalitet, arkitektur og prinsipper (kan f.eks. bruke Wiki)
+  - Oppstarts guide for utviklere.
+  - Kode standard guide.
+  - En utvikler kan erstattes av en annen når som helst. Hust dette når du koder uten å dokumentere.
 
 ***ADVARSEL***  
 
