@@ -84,20 +84,23 @@ What characterizes maintainable computer systems?
     - Beware that test containers can be bad for automated tests included in the build.
     - It can be a good idea to write som integration tests without mocks that is not included in the build.
 - Use automated code checks to verify development standards, including security checks.
-    - But it can be too rigid if too much of this.
-- Be careful with AI assisted development. 
-    - I have mixed experience with GitHub Copilot, quite often my intentions is not what Copilot expects.
-    - You can very quickly generate a lot of code more difficult to maintain with AI.
-    - ChatGpt4 is better for explaining concepts and writing code examples.
-    - The devil is in the details, this is where AI generated code often fails.
-    - Proper testing and QA is always required when using AI generated code.
-    - The source of the code is often unknown when using AI.
-    - Obviously do not feed AI with business secrets, unless you are 100% certain it will not be used.
-    - Follow company guidelines when using AI.
-    - Using AI will get you up and running on unfamiliar tech more quickly.
-- Use consistent error handling at the right level in the application, e.g. in controllers.
-- Throwing exceptions is for technical errors, not functional exceptions.
-- Implement a logging system, so errors is easily picked up by operations and developers.
+  - But it can be too rigid if too much of this.
+- Be careful with AI assisted development: 
+  - I have mixed experience with GitHub Copilot, quite often my intentions is not what Copilot expects.
+  - You can very quickly generate a lot of code more difficult to maintain with AI.
+  - ChatGpt4 is better for explaining concepts and writing code examples.
+  - The devil is in the details, this is where AI generated code often fails.
+  - Proper testing and QA is always required when using AI generated code.
+  - The source of the code is often unknown when using AI. This is a known danger.
+  - Obviously do not feed AI with business secrets, unless you are 100% certain it will not be used an stored.
+  - Follow company guidelines when using AI.
+  - Using AI will get you up and running on unfamiliar tech more quickly.
+- Error handling and logging:
+  - Use consistent error handling at the right level in the application, e.g. in controllers.
+  - Throwing exceptions is for technical errors, not functional exceptions.
+  - In Kotlin an alternative to throwing an exception is to use a sealed class that consists success and error.
+  - Implement a logging system, so errors is easily picked up by operations and developers.
+  - Follow guidelines for logging, use levels ERROR, WARNING, INFO and DEBUG.
 - Use explainable module names, variable names, class names and method names.
 - Documentation IS required, regardless of Clean Code.
   - In readme files saved within the codebase.

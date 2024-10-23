@@ -86,19 +86,22 @@ Hva karakteriserer vedlikeholdbare data systemer?
     - Skriv gjerne integrasjonstester uten mocks som ikke inkluderes i bygget.
 - Bruk automatiske kode sjekker som følger kode standarder, inkludert sikkerhets sjekker.
     - Men det kan bli litt for rigid hvis det er for mye av det.
-- Be careful with AI assisted development. 
-    - I have mixed experience with GitHub Copilot, quite often my intentions is not what Copilot expects.
-    - You can very quickly generate a lot of code more difficult to maintain with AI.
-    - ChatGpt4 is better for explaining concepts and writing code examples.
-    - The devil is in the details, this is where AI generated code often fails.
-    - Proper testing and QA is always required when using AI generated code.
-    - The source of the code is often unknown when using AI.
-    - Obviously do not feed AI with business secrets, unless you are 100% certain it will not be used.
-    - Follow company guidelines when using AI.
-    - Using AI will get you up and running on unfamiliar tech more quickly.
-- Use consistent error handling at the right level in the application, e.g. in controllers.
-- Throwing exceptions is for technical errors, not functional exceptions.
-- Implementer et logge-system, så feil lett kan plukkes opp av drift og utviklere.
+- Vær forsiktig med AI assistert utvikling.
+  - Jeg har blandet erfaring med GitHub Copilot, ofte er mine intensjoner ikke det Copilot forventer.
+  - Det er veldig lett å generere en masse kode som er vanskelig å vedlikeholde med AI.
+  - ChatGpt4 er bedre for å forklare konsepter og skrive kode eksempler.
+  - Djevelen er i detaljene, det er der hvor AI generert kode ofte feiler.
+  - Grundig testing og QA er alltid påkrevet når du bruker AI generert kode.
+  - Kilden til AI generert kode er som regel ukjent. Det er en kjent fare.
+  - Åpenbart ikke for AI med forretnings-hemmeligheter, unntatt hvis du er 100% sikker på at det ikke vil bli brukt og lagret.
+  - Følg organisasjonens retningslinjer når du bruker AI.
+  - Hvis du bruker AI vil du raskere komme igang med ukjent teknologi.
+- Feilhåndtering og logging:
+  - Bruk konsistent feilhåndtering på riktig nivå i applikasjonen, f.eks. i tilknytning til kontrollere.
+  - Å kaste unntak er for tekniske feil, ikke funksjonelle unntak.
+  - I Kotlin er et alternativ til å kaste et unntak å bruke en Sealed Class som inneholder suksess og feilet.
+  - Implementer et logge-system, så feil lett kan plukkes opp av drift og utviklere.
+  - Følg retningslinjer for logging, bruk nivåer ERROR, WARNING, INFO and DEBUG.
 - Bruk selvforklarende modul navn, variable navn, klasse navn og metode navn.
 - Dokumentasjon ER påkrevet, uavhengig av clean code.
   - I readme filer laget sammen med kodebasen.
