@@ -86,6 +86,12 @@ Each scenario must be evaluated individually. AI training and usage are generall
 
 It is important to consider the entire value chain when deciding to use AI.
 
+There are several techniques for reducing energy consumption for AI. 
+This is not my area of expertise.
+One thing we should look for is whether a small model is actually sufficient.
+I have observed myself in a project, that if we do not get quick prompt answers, something should be optimized.  
+
+
 ### To select interface type for efficient processing
 
 There is no definitive answer. It depends on the use case.

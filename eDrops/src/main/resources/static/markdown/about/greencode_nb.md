@@ -80,7 +80,11 @@ Det er ikke alltid like gunstig heller med en naturlig språk modell for present
 Det passer best for mennesker og ikke for videre maskinell behandling.
 Det må vurderes i hvert enkelt tilfelle. AI trening og bruk regnes generelt som det mest energikrevende.
 
-Men det er viktig å se på hele verdikjeden når AI vurderes.
+Men det er viktig å se på hele verdikjeden når AI vurderes.  
+
+Det finnes en rekke teknikker for å redusere energiforbruk for AI. Dette er ikke mitt fagområde.
+Noe som vi bør se etter er om en liten modell faktisk er tilstrekkelig.
+Jeg har observert selv i et prosjekt at får vi ikke raske svar fra et prompt, så bør noe optimaliseres.  
 
 ### Valg av grensesnitt for effektiv prosessering
 
