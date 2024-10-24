@@ -1,5 +1,13 @@
 ## Green software development, what is it?
 
+Green software development focuses on creating software that minimizes environmental impact. 
+This involves building software and infrastructure that supports energy-efficient processes, reduces carbon footprints, 
+and promotes sustainability goals.    
+
+This is my attempt at a definition. 
+You can find more online. 
+One challenge is that included in this are sub-goals that are partly contradictory.  
+
 The green transition is seen as the grey transition by critics.
 In practice, it consumes natural resources at a rapid pace and destroys nature that absorbs CO2. 
 How well-founded are the solutions to save the climate with wind turbines when they have this side effect? 
@@ -16,7 +24,7 @@ Digitalization is not necessarily sustainable in itself. But it can be done righ
 - Enable work and services anywhere.
 - Automate and simplify manual processes.
 - Eliminate routine tasks to focus on more value-creating work.
-- Reduce energy consumption and CO2 emissions through smart solutions for process control (IoT, data collection, analysis)
+- Reduce energy consumption and CO2 emissions through smart solutions for process control (IoT, data collection, AI, analysis)
 - The environmental- and climate- impact of digitalization need to be included in the total equation.
 
 One pitfall that is easy to fall into is changing each individual manual subprocess to something supported digitally, 
@@ -34,6 +42,7 @@ Without this, it becomes challenging to implement measures effectively.
 
 What can we do as developers?
 
+
 There is one keyword that is essential:
 
 *USE LESS ENERGY, APPLIES TO ICT SOLUTIONS AS WELL*
@@ -43,7 +52,9 @@ Reduced energy consumption translates into lower CO2 emissions through a convers
 largely depending on how dirty the electricity production is. 
 Even if the power from your data center comes 100% from hydropower, 
 it displaces energy used for other purposes, and thus indirectly contributes to CO2 emissions. 
-Therefore, I prefer not to discuss reduced CO2 emissions as Microsoft does in its calculator, but rather reduced energy consumption
+Therefore, I prefer not to discuss reduced CO2 emissions as Microsoft does in its calculator, but rather reduced energy consumption.
+
+[My advice for energy efficient code](greencode_en.md)
 
 ### Energy usage involved in digital processes:
 

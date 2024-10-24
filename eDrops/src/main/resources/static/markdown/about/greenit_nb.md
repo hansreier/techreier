@@ -1,5 +1,12 @@
 ## Grønn systemutvikling, hva er det?
 
+Grønn systemutvikling fokuserer på å lage programvare som minimaliserer miljøpåvirkning.
+Dette betyr å bygge programvare og infrastruktur som støtter energi-effektive prosesser, reduserer C02 utslipp,
+og fremmer bærekraftsmål.  
+
+Dette er mitt forsøk på en definisjon. Du finner flere på nettet. En utfordring er at inkludert i dette er det 
+delmål som tildels er motstridende.  
+
 Det grønne skiftet er betegnet som det grå skiftet av kritikere,
 fordi det i praksis forbruker naturressurser i litt for stort tempo og ødelegger natur som binder C02.
 Hvor godt faglig fundert er egentlig løsningene for å redde klima med vindturbiner, når det har denne bieffekten?
@@ -16,7 +23,7 @@ Digitalisering er ikke nødvendigvis bærekraftig i seg selv. Men det kan bli de
 - Muliggjør jobb og tjenester hvor som helst.
 - Automatisering og forenkling av manuelle prosesser
 - Fjerne rutineoppgaver så man kan fokusere på mer verdiskapende arbeid.
-- Minske energibruk og C02 utslipp ved smarte løsninger for styring av prosesser (IoT, data innsamling, analyse, ..)
+- Minske energibruk og C02 utslipp ved smarte løsninger for styring av prosesser (IoT, data innsamling, analyse, AI, ..)
 - Vi må regne med miljø- og klimaavtrykket som digitalisering gir i det totale regnestykket.
 
 En felle det er lett å falle i er å endre hver enkelt manuelle delprosess til noe som støttes digitalt,
@@ -39,6 +46,8 @@ Da slipper vi naturødeleggelsene. Mindre energiforbruk blir via en omregningsfa
 mye avhengig av hvor skitten produksjonen av elektrisk strøm er. Selv om strømmen fra ditt datasenter kommer
 100% fra vannkraft, så fortrenger dette energibruk brukt til andre formål og dermed indirekte C02 utslipp.
 Så jeg vil ikke snakke om redusert C02 utslipp som Microsoft gjør i sin kalkulator, men redusert energiforbruk.
+
+[Mine tips for energi effektiv kode](greencode_nb.md)
 
 ### Energiforbruk ved digitale prosesser
 

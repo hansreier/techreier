@@ -8,7 +8,7 @@
 - Evaluer energibruk for AI, trening og vanlig bruk.
 - Effektive algoritmer har lavere energiforbruk.
 - Kode som eksekveres raskt uten ventetid har lavere energiforbruk.
-- Enkel kode kan ha (men IKKE alltid) lavere energiforbruk. Verifiser i det minst.
+- Enkel kode kan ha (men IKKE alltid) lavere energiforbruk. Verifiser i det minste.
 - Fjern ubrukt kode og data
 - Unngå unødvendige beregninger, betinget logikk kan brukes.
 - Spring Boot Virtual Threads bør brukes. Vær ellers oppmerksom på trådhåndtering i koden.
