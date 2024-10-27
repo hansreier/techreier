@@ -54,7 +54,10 @@ Even if the power from your data center comes 100% from hydropower,
 it displaces energy used for other purposes, and thus indirectly contributes to CO2 emissions. 
 Therefore, I prefer not to discuss reduced CO2 emissions as Microsoft does in its calculator, but rather reduced energy consumption.
 
-[My advice for energy efficient code](greencode_en.md)
+[My advice for energy efficient code](greencode_en.md)  
+
+[My advice for maintainable code](maintainable_en.md)  
+
 
 ### Energy usage involved in digital processes:
 
@@ -115,7 +118,7 @@ Regardless, we are dependent on the cloud provider's toolkit.
 
 The other method is to estimate the energy usage based on CPU measurements and memory usage. In Java there is APIs that
 can do this. I have tried locally with Spring Boot with embedded Tomcat, by calling the API and calculate the average.
-The measurement of CPU is very unstable, so it is not recommended. Refer to below code sample.
+The measurement of CPU is very unstable, so it is not recommended.  [Refer to example with MxBean](greencode_en.md).
 
 Energy usage [kWh] = (Σ(%c * Ec) + ΣEm) * PUE
 

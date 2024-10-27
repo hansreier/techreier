@@ -49,7 +49,6 @@ What characterizes maintainable computer systems?
   - For parallel processing in Kotlin, you can use Kotlin Coroutines (alternative to Spring virtual threads)
 - Do not develop everything from scratch, frameworks like Spring Boot is desirable.
 - Beware that the data is the most stable part of a system.
-  - A lot of changes in the data model can be expensive.
   - A bad data model is expensive to fix, try to be thorough and do it right the first time.
   - Select database type with care, it need not even be relational or can be combined with noSQL.
   - I warn about stored procedures. Only use then if absolutely required for performance.
@@ -57,8 +56,10 @@ What characterizes maintainable computer systems?
 - Avoid including too many languages in the same project / system.
 - In simple or internal web based systems, backend based HTML generation should be considered. 
   - It is not always the best idea to use frontend based HTML generation with e.g. React or Angular.
-- Consistent use of well-designed and well-maintained libraries with little overlapping functionality.
-  - Do not make an internal library if it cannot be maintained long-term by the organization, such as by platform team.
+- Consistent use of well-designed and well-maintained libraries.
+  - Is it really required to include several libraries with overlapping functionality?
+- - Vurder som det virkelig er nødvendig å inkludere biblioteker med overlappende funksjonalitet.
+  - Do not make an internal library if it cannot be maintained long-term by the organization.
   - Many layers of libraries is undesired.
   - Plan for regular language and library updates.
   - Even if a new major library version requires code rewrite, the best is just to do it ASAP. Later it gets worse.
@@ -66,10 +67,10 @@ What characterizes maintainable computer systems?
 - The system should be testable, manually and automated.
   - Plan for testing at the start of the lifetime of the system.
   - Select test tools with care. The tests must be maintained.
+  - Types of automated tests: unit tests, integration tests, system integration tests, GUI tests, performance tests, security tests.
   - Extensive use of GUI tests and test tools is not always desired.
   - Think of what to test, relate  to the test pyramid.
   - To do some manual or ad hoc testing is not necessarily wrong.
-  - Types of automated testing: unit tests, integration tests, system integration tests, performance tests, security tests.
   - Performance test critical parts of the system, at least manually.
   - Select test tools with care. The automated tests there must be maintained.
   - Automated tests increase quality and prevents errors, but binds the code and can slows down development.
@@ -80,10 +81,10 @@ What characterizes maintainable computer systems?
   - Simple unit tests is most performant.
   - Consider  test complexity and maintainability. End-to-end tests with mocks tends to be complex.
   - In memory databases like H2 could be used if possible for integration tests.
-  - An alternative for integration tests is containers with the same database system as production.
+  - An alternative for integration tests is test-containers with the same database system as production.
   - Test containers can be bad for automated tests included in the build.
   - It can be a good idea to write som integration tests without mocks that is not included in the build.
-- Use automated code checks to verify development standards, including security checks.
+- Use automated code checker to verify development standards, including security checks.
   - But it can be too rigid if too much of this.
 - Be careful with AI assisted development: 
   - I have mixed experience with GitHub Copilot, quite often my intentions is not what Copilot expects.
@@ -124,9 +125,9 @@ The most difficult system to maintain:
 - GUI, API, service, business logic, data access layer and database mixed together in tight coupling.
 - Too much loosely related functionality in one large legacy system.
 - Ad hoc discontinuous development when the sponsor has got the money.
-- To upgrade from very old framework versions can be costly but is required, also refer to security issues.
+- To upgrade from very old framework versions can be costly but is required, refer to security issues.
 - Too many languages involved for too few developers. 
-  - Watch out for one developer should know it all strategy: Backend, frontend, devops, iaC, database, stored procedure, cloud infrastructure, ...
+  - Watch out for "one developer should know it all strategy": Backend, frontend, devops, iaC, database, stored procedure, cloud infrastructure, ...
 
 I have seen it all and even been on the project with the most difficult system to maintain.
 Sometimes a rewrite or partly rewrite of the whole system is required because the legacy system is unmanageable.

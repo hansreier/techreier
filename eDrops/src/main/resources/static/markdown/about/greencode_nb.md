@@ -264,10 +264,11 @@ og beregner energiforbruk på andre kontainere som er selve systemet. Det hadde 
 denne øvelsen. Jeg har ikke hatt tid eller mulighet. 
 
 Et anbefalt alternativ er å installere en Prometheus tjener på en kontainer. Prometheus kan innhente måledata fra endepunkter
-i kontainere. Inkluder Promethus for API monitorering med et /metrics endepunkt. Fri kildekode programvare
+i kontainere. Inkluder Prometheus for API monitorering med et /metrics endepunkt. Fri kildekode programvare
 finnes for Kubernetes klustre for å måle energibruken: F.eks. Kepler (bruker AI modell som konsumerer noe energi),
 Scaphandre eller PowerAPI. Prometheus har jeg brukt i noen prosjekter. 
 De andre verktøyene har jeg aldri prøvd. Kepler skal være det enkleste. 
 
-En kombinasjon av Docker stats og Premetheus kan være gunstig, 
+En kombinasjon av Docker stats og Prometheus kan være gunstig, 
 spesielt fordi CPU målinger i en kontainer ikke er veldig pålitelige.  
+

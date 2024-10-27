@@ -14,7 +14,7 @@ Hva karakteriserer vedlikeholdbare data systemer?
 
 - Velg en teknologi stakk som er velkjent for en hel masse utviklere.
 - Sjekk lisenser og vedlikehold av utviklingverktøy og biblioteker.
-- Del inn i vedlikeholdbare kode baser i et sentralisert repo.
+- Del inn i vedlikeholdbare kodebaser i et sentralisert repo.
 - Jeg foretrekker Microtjenester, men noen ganger kan det være nødvendig med felles database.
 - Fokuser på veldefinert grensesnitt mellom systemer.
   - Kontrakt først er ikke alltid den beste opsjonen, det kan bli for rigid.
@@ -24,14 +24,13 @@ Hva karakteriserer vedlikeholdbare data systemer?
 - En godt planlagt idriftssetting strategi (DevOps)
 - Start med å verifisere ditt valgte teknologi konsept.
   - Lag en kjørbar og testbar prototype gjennom alle lag av applikasjonen.
-  - Vær løar pver at mock og tjeneste virtualisering kan skjule overraskelser ved integrasjoner.
-  - Ikke velt for lenge før viktige deler av et system eller samarbeidende systemer integreres.
-- Bruk kryss funksjonelle smidige produkt team som er dedikert for programvare vedlikehold av system(ene).
+  - Vær klar over at mock og tjeneste virtualisering kan skjule overraskelser ved integrasjoner.
+  - Ikke vent for lenge før viktige deler av et system eller samarbeidende systemer integreres.
+- Bruk kryssfunksjonelle smidige produktteam som er dedikert for programvare vedlikehold av system(ene).
   - Kontinuerig utvikling og vedlikehold av system(ene).
 - Jeg foreslår å bruke kontainere, f.eks. Docker.
   - siste stabile versjon av operativ system.
-  - latest stabile version of operating system.
-  - siste statile versjon av programmeringsspråk.
+  - siste stabile versjon av programmeringsspråk.
   - siste stabile versjon av biblioteker.
   - siste sikkerhets-oppdateringer.
 - Utvikling skal gjøres lokalt, ikke f.eks. direkte i skya.
@@ -42,49 +41,48 @@ Hva karakteriserer vedlikeholdbare data systemer?
 - Tekninske aspekter på tvers i et system, håndteres på et sted, f.eks. token sjekk i filter.
 - Bruk velkjente mønstre.
 - Minimer tilstand i en sesjon.
-- Ikke vær for rigid med å bruke enten funksjonell eller objekt orienterert stil. Begge har sine bruksområder.
-- Kompankt kort kode er ikke alltid det beste (f.eks. Regex). Konseptene må kunne forstås.
+- Ikke vær for rigid med å bruke enten funksjonell eller objektorienterert stil. Begge har sine bruksområder.
+- Kompakt kort kode er ikke alltid det beste (f.eks. Regex). Konseptene må kunne forstås.
 - Reaktiv asynkron programmering kan være kompleks i Java/Kotlin.
   - Reaktiv asynkron kode kan erstattes av Spring Boot virtuelle tråder fra Java v 21.
   - Å kalle blokkerende kode er ikke anbefalt fra reaktiv kode.
   - For parallell prosessering i Kotlin kan Coroutines benyttes (alternativ til Spring virtuelle tråder).
 - Ikke utvikle alt fra bunn av, rammeverk som Spring Boot er fordelaktige.
 - Vær klar over at data er den mest stabile delen av et system.
-  - En hel masse endringer i en datamodell kan være kostbart.
   - En dårlig datamodell er kostbart å rette, prøv å være grundig og gjør det mest mulig riktig til å starte med.
   - Tenk grundig når du velger type database. Den trenger ikke engang være relasjonsdatabase, eller kan kombinseres med noSQL.
-  - Select database type with care, it need not even be relational or can be combined with noSQL.
   - Jeg advarer mot lagrede prosedyrer. Bruk dem bare hvis det er absolutt nødvendig for ytelse.
   - Velg database API med omtanke. Er en ORM som Hibernate / JPA virkelig nødvendig?
 - Unngå for mange programmeringspråk i det samme prosjektet / systemet.
-- I enkle eller interne web applikasjoner, så kan backend basert HTML generering vurderes.
-  - Det er ikke alltid best å bruke frontend basert HTML med f.eks. React eller Angular.
-- Konsistent bruk av godt designed og godt vedlikeholdte biblioteker med lite overlappende funksjonalitet.
-  - Ikke lag et internt bibliotekt hvis det ikke kan vedlikeholdes langsiktig av organisajonen, som av et plattform team.
+- I enkle eller interne webapplikasjoner, så kan backend basert HTML generering vurderes.
+  - Det er ikke alltid best å bruke frontend-basert HTML med f.eks. React eller Angular.
+- Konsistent bruk av godt designet og godt vedlikeholdte biblioteker.
+  - Er det nødvendig å inkludere biblioteker med overlappende funksjonalitet?
+  - Ikke lag et internt bibliotek hvis det ikke kan vedlikeholdes langsiktig av organisasjonen.
   - Mange lag av biblioteker er ikke hensiktsmessig.
-  - Planlegg for jevline språk- og biblioteks- oppgraderinger
-  - Selv om en ny hovedversjon av et bibliotek krever kode omskriving, så er det beste å gjøre det mend en gang. Senere blir det verre.
+  - Planlegg for jevnline språk- og biblioteks- oppgraderinger
+  - Selv om en ny hovedversjon av et bibliotek krever omskriving av kode, så er det beste å gjøre det ASAP. Senere blir det verre.
   - Hvis et bibliotek ikke vedlikeholdes mer, så må det før eller senere ersatattes.
 - Systemet skal være testbart, manuelt og automatisk.
   - Planlegg for testing helt i starten av livssyklusen for systemet.
   - Velg testverktøy med omhu. Testene der må vedlikeholdes.
+  - Typer automatiserte tester: Enhetstester, integrasjonstester, systemintegrasjonstester, GUI tester, ytelsestester, sikkerhetstester.
   - Overdreven bruk av GUI tester og test verktøy er ikke alltid å foretrekke.
   - Tenk på hva som skal testes, relater det til test pyramiden.
-  - Å teste noe manuele eller ad hov er ikke nødvendigvis feil.
-  - Måter å teste automatisk på: Enhetstester, integrasjonstester, system integrasjons tester, ytelses tester, sikkerhets tester.
-  - Ytelsestest kritiske delere av systemet, i det minste manuelt.
+  - Å teste noe manuelt eller ad hoc er ikke nødvendigvis feil.
+  - Ytelsestest kritiske deler av systemet, i det minste manuelt.
   - Automatiserte tester øker kodekvalitet og hinder  feil, men binder kode og kan forsinke rask utvikling.
   - Identifiser kritiske deler av koden, der grundig testing er nødvendig.
   - Kode, GUI eller logikk som endrer seg hele tiden er ikke noen spesielt god kandidat for testautomatisering.
-  - Ideelt sett skal testkode være integrert med kode repoet og i det samme språket.
+  - Ideelt skal testkode være integrert med kode repoet og i det samme språket.
 - For tester integrert i koden:
   - Enkle enhetstester har best ytelse.
   - Vurder kompleksitet og vedlikeholdbarhet på tester. Ende-til-ende tester med mocks kan bli kompliserte.
-  - Minnebaserte databaser som H2 kan hvis mulig med fordel benyttes for integrasjons tester.
-  - Et alternativ for integrasjonstester er kontainere med det samme database system som produksjon.
+  - Minnebaserte databaser som H2 kan hvis mulig med fordel benyttes for integrasjonstester.
+  - Et alternativ for integrasjonstester er test-kontainere med det samme database system som produksjon.
   - Test kontainere er ikke er veldig gunstig for automatiserte tester inkludert i bygget.
   - Skriv gjerne integrasjonstester uten mocks som ikke inkluderes i bygget.
-- Bruk automatiske kode sjekker som følger kode standarder, inkludert sikkerhets sjekker.
+- Bruk automatisk kodesjekker som følger kode standarder, inkludert sikkerhets sjekker.
     - Men det kan bli litt for rigid hvis det er for mye av det.
 - Vær forsiktig med AI assistert utvikling.
   - Jeg har blandet erfaring med GitHub Copilot, ofte er mine intensjoner ikke det Copilot forventer.
@@ -116,20 +114,20 @@ Hva karakteriserer vedlikeholdbare data systemer?
 ***ADVARSEL***  
 
 Det vanskeligste systemet å vedlikeholde:
-- Koderne startet uten en godt definert arkitektur og metodikk.
+- Kodere startet uten en godt definert arkitektur og metodikk.
 - Hvis funksjonell eller teknisk kunnskap er for begrenset i et smidig team, så kan det være skummelt.
-- For begrenset teknisk og funksjonell dokumentasjon.
+- For lite teknisk og funksjonell dokumentasjon.
 - Vær forsiktig med for mye kodegenerering, øker kompleksiteten.
   - Enda verre, teamet utviklet selv kode- eller GUI generatoren, f.eks. fra domene modell eller database.
 - Et for generisk system eller bibliotek er utviklet og vedlikeholdes.
 - GUI, API, tjenester, forretningslogikk, data-aksesslag og database blandet sammen med for tett kopling.
 - For mye løst koplet funksjonalitet koplet sammen i et stort gammeldags system. 
 - Ad hoc diskontinuerlig utvikling når sponsoren har penger.
-- Å oppgradere fra veldig gamle rammeverks-versjoner kan vært kostbart, men er nødvendig, også referer til sikkerhet.
+- Å oppgradere fra veldig gamle rammeverks-versjoner kan vært kostbart, men er nødvendig, referert til sikkerhet.
 - For mange språk involvert kombinert med for få utviklere.
   - Pass opp for "en utvikler skal kunne alt strategien": Backend, frontend, devops, iaC, database, stored procedure, cloud infrastructure, ...
 
 Jeg har sett alt dette og til og med deltatt på prosjeket med det vanskeligste systemet å vedlikeholde.
-Noen ganger er en fullstendig eller delvis omskriving av hele systemet nødvendig, for det gamle systemet er ikke lenge håndterbar.
+Noen ganger er fullstendig eller delvis omskriving av hele systemet nødvendig, for det gamle systemet er ikke lenge håndterbart.
 Det som vanligvis er å anbefale er å splitte opp systemet i flere mindre systemer med REST grensesnitt.
 

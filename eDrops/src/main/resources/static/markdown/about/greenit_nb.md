@@ -47,7 +47,9 @@ mye avhengig av hvor skitten produksjonen av elektrisk strøm er. Selv om strøm
 100% fra vannkraft, så fortrenger dette energibruk brukt til andre formål og dermed indirekte C02 utslipp.
 Så jeg vil ikke snakke om redusert C02 utslipp som Microsoft gjør i sin kalkulator, men redusert energiforbruk.
 
-[Mine tips for energi effektiv kode](greencode_nb.md)
+[Mine tips for energi effektiv kode](greencode_nb.md)  
+
+[Mine tips for vedlikeholdbar kode](maintainable_nb.md)  
 
 ### Energiforbruk ved digitale prosesser
 
@@ -107,7 +109,7 @@ Vi er uansett avhengig av skyleverandørens verktøykasse her.
 
 Den andre metoden er å estimere energiforbruket basert på målt CPU og forbrukt minne. I Java finnes det APIer for å
 gjøre dette. Jeg har prøvd lokalt med Spring Boot med innebygget Tomcat, med å kalle APIet og beregne gjennomsnitt.
-Spesielt måling av CPU er så ustabilt at det anbefales ikke. Se kodeeksempel lenger ned.
+Spesielt måling av CPU er så ustabilt at det anbefales ikke. [Se eksempel med MxBean](greencode_nb.md).
 
 Energiforbruk [kWh] = ((Σ(%c * Ec) + ΣEm) * PUE)
 
@@ -119,7 +121,7 @@ PUE = Power Usage Effectiveness = Total energi brukt av datasentret / Energi bru
 PUE = 1, all energi går til IKT-utstyr, neppe oppnåelig.  
 PUE > 1.0. Jo høyere tall, dess mindre effektivt.
 
-Et alternativet er å bruke sky baserte verktøy fra skyleverandører som  Azure, Google og Amazon for å beregne energiforbruk.
+Et alternativ er å bruke sky baserte verktøy fra skyleverandører som  Azure, Google og Amazon for å beregne energiforbruk.
 Når Azure bare tilbyr et resultat som viser C02 utslipp, så har de bommet etter min mening.
 Det er ikke denne omregningen som er det mest interessante. Men det er ikke å komme  unna at energi-
 målinger er et komplekst fagområde uansett.
