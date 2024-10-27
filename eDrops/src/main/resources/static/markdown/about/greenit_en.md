@@ -118,7 +118,7 @@ Regardless, we are dependent on the cloud provider's toolkit.
 
 The other method is to estimate the energy usage based on CPU measurements and memory usage. In Java there is APIs that
 can do this. I have tried locally with Spring Boot with embedded Tomcat, by calling the API and calculate the average.
-The measurement of CPU is very unstable, so it is not recommended.  [Refer to example with MxBean](greencode_en.md).
+The measurement of CPU is very unstable, so it is not recommended.  [Refer to example with MxBean](greencode_en.md#usage-of-mxbean).
 
 Energy usage [kWh] = (Σ(%c * Ec) + ΣEm) * PUE
 

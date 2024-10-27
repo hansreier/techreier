@@ -200,8 +200,9 @@ There is a trend towards functional programming, which often results in more con
 However, in this case, I don't think that’s true. 
 But this code improvement is probably not what I would focus on for energy optimization.  
 
-#### Usage of MXBean in Kotlin (Java)
+#### Usage of MxBean
 
+Get information from system resources with MxBean Java API.
 The purpose is to be able to log memory usage, the number of threads and possibly CPU.
 
 ```

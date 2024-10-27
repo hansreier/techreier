@@ -195,10 +195,11 @@ fun processList(items: List<Int>) {
 Her er det noe med ekstra lambda abstraksjonslag og funksjonell kode som er litt mindre effektivt.
 Hvis det betyr noe i praksis da. Jeg minner om at lambdaer blir oversatt til slike strukturer uansett.
 Det er jo en trend å gå mot funksjonell programmering, som i mange tilfeller gir mer konsis kode.
-Akkurat her synes jeg heller ikke det. Men det er nok ikke dette jeg ville ha fokusert på for å energioptimalisere.
+Akkurat her synes jeg heller ikke det. Men det er nok ikke dette jeg ville ha fokusert på for å energioptimalisere.  
 
-#### Bruk av MXBean i Kotlin (Java)
+#### Bruk av MXBean
 
+HeNt informasjon fra system ressurser med MxBean Java Api.
 Hensikten er å kunne logge minneforbruk, antall tråder og eventuelt CPU.
 
 ```

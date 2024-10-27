@@ -109,7 +109,7 @@ Vi er uansett avhengig av skyleverandørens verktøykasse her.
 
 Den andre metoden er å estimere energiforbruket basert på målt CPU og forbrukt minne. I Java finnes det APIer for å
 gjøre dette. Jeg har prøvd lokalt med Spring Boot med innebygget Tomcat, med å kalle APIet og beregne gjennomsnitt.
-Spesielt måling av CPU er så ustabilt at det anbefales ikke. [Se eksempel med MxBean](greencode_nb.md).
+Spesielt måling av CPU er så ustabilt at det anbefales ikke. [Se eksempel med MxBean](greencode_nb.md#bruk-av-mxbean).
 
 Energiforbruk [kWh] = ((Σ(%c * Ec) + ΣEm) * PUE)
 
