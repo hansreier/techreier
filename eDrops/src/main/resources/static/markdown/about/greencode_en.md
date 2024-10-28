@@ -15,8 +15,8 @@
 - Reactive (asynchronous) object handling implies lower energy usage.
 - Effective data packaging:
   - common techniques for initial load of web front-end.
-  - Large uncompressed pictures? Consider usage of animations and video. 
-- Effective packaging of data (e.g. common web-frontend techniques).
+  - Large uncompressed pictures? Consider usage of animations and video.
+- Do you really need to store this?
 - Optimize data storage (RAM, cache, disk, database, noSQL, temporary, semi-permanent, permanent, backup).
 - Minimize I/O operations.
 

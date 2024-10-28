@@ -17,6 +17,7 @@
   - Vanlige teknikker for initiell last av web-frontend.
   - Digre ukomprimerte bilder? For ikke å snakke om animasjoner og video.
 - Trenger du virkelig å lagre dette?
+- Optimaliser datalagring (RAM, cache, disk, database, noSQL, midlertidig, semi-permanent, permanent, backup).
 - Minimer I/O operasjoner.
 
 Det som er fint med dette, er at dette (som regel) er fullt i overenstemmelse med vanlige prinsipper for god og
