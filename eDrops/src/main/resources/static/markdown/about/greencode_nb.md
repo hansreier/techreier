@@ -9,17 +9,15 @@
 - Effektive algoritmer har lavere energiforbruk.
 - Kode som eksekveres raskt uten ventetid har lavere energiforbruk.
 - Enkel kode kan ha (men IKKE alltid) lavere energiforbruk. Verifiser i det minste.
-- Fjern ubrukt kode og data
+- Fjern ubrukt kode og data.
 - Unngå unødvendige beregninger, betinget logikk kan brukes.
 - Spring Boot Virtual Threads bør brukes. Vær ellers oppmerksom på trådhåndtering i koden.
-- Reaktive (asynkron) objekthåndtering har ofte lavere energiforbruk
-- Effektiv pakking av data hjelper
+- Reaktive (asynkron) objekthåndtering har ofte lavere energiforbruk.
+- Effektiv pakking av data:
   - Vanlige teknikker for initiell last av web-frontend.
   - Digre ukomprimerte bilder? For ikke å snakke om animasjoner og video.
-- Optimaliser datalagring(RAM, cache, disk, database, noSQL, midlertidig, semi permanent, permanent, backup
-- Krav til datalagring må ses på (umiddelbart RAM, cache, disk, arkiv, ..)
 - Trenger du virkelig å lagre dette?
-- Minimer I/O operasjoner
+- Minimer I/O operasjoner.
 
 Det som er fint med dette, er at dette (som regel) er fullt i overenstemmelse med vanlige prinsipper for god og
 clean kode. Så det er dobbelt vinn: Enklere vedlikehold og lavere energiforbruk.

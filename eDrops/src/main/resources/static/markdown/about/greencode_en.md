@@ -9,15 +9,15 @@
 - Effective algorithms have lower energy usage.
 - Code that is run quickly without waiting time, have lower energy usage.
 - Simple code can have (but not always) lower energy usage. At least verify.
-- Remove unused code and data
+- Remove unused code and data.
 - Avoid calculations that is not required, conditional logic can be used.
 - Spring Boot Virtual Threads shoul be used. Be aware of thread handing in the code.
 - Reactive (asynchronous) object handling implies lower energy usage.
-- Effective data packaging 
+- Effective data packaging:
   - common techniques for initial load of web front-end.
   - Large uncompressed pictures? Consider usage of animations and video. 
-- Effective packaging of data (e.g. common web-frontend techniques)
-- Optimize data storage (RAM, cache, disk, database, noSQL, temporary, semi-permanent, permanent, backup)
+- Effective packaging of data (e.g. common web-frontend techniques).
+- Optimize data storage (RAM, cache, disk, database, noSQL, temporary, semi-permanent, permanent, backup).
 - Minimize I/O operations.
 
 The great thing about this is that it usually aligns well with common principles of good and clean code. 
