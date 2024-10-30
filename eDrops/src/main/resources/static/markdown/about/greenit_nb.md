@@ -90,10 +90,8 @@ RAM, disk (SDD, HDD), fil-lagring, database, cache, semi permanent, permanent, b
 *Totalt energiforbruk er summen av energiforbruket for hvert enkelt ledd i verdikjeden*
 
 Dette gjelder selvsagt uansett om prosessene i verdikjeden er manuell eller digitale. 
-Produksjonskjeden forbruker energi hver gang den er i bruk.  
-
-Det må også regnes med at produksjonsleddet blir utført mange ganger.
-Det er energiforbruk knyttet til det fysiske lokasjonen og infrastruktur i tillegg:  Kontoret, fabrikken, datasentret, internett.  
+Produksjonskjeden forbruker energi hver gang den er i bruk avhendig av last, som regel kontinuerlig.
+Energi forbrukes relatert til det fysiske lokasjonen og infrastruktur:  Kontoret, fabrikken, datasentret, internett.  
 
 Høyt energiforbruk pga AI trening og en AI tjeneste, kan likevel spare  energi totalt 
 fordi man da klarer å optimalisere en industriprosess eller et kraftnett. 

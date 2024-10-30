@@ -98,10 +98,8 @@ RAM, disk (SDD, HDD),  file storage, database, cache, semi-permanent, permanent,
 *Total energy consumption is the sum of energy used for every individual element in the value chain*
 
 This applies, of course, regardless of whether the processes in the value chain are manual or digital. 
-The production value chain uses energy every time it is in use.  
-
-Energy is in addition consumed related to the physical location and infrastructure: 
-The office, the factory, the data center, internet.
+The production value chain uses energy every time it is in use depending on load, usually continuously.
+Energy is consumed related to the physical location and infrastructure: The office, the factory, the data center, internet.  
 
 High energy usage caused by AI training and an AI service, can nevertheless can save energy totally, 
 because an industrial process or an electric  power chain is optimized. 

@@ -12,7 +12,7 @@
 - Fjern ubrukt kode og data.
 - Unngå unødvendige beregninger, betinget logikk kan brukes.
 - Spring Boot Virtual Threads bør brukes. Vær ellers oppmerksom på trådhåndtering i koden.
-- Reaktive (asynkron) objekthåndtering har ofte lavere energiforbruk.
+- Reaktiv (asynkron) objekthåndtering har ofte lavere energiforbruk.
 - Effektiv pakking av data:
   - Vanlige teknikker for initiell last av web-frontend.
   - Digre ukomprimerte bilder? For ikke å snakke om animasjoner og video.
