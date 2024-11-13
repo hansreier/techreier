@@ -12,7 +12,7 @@ const val DISPLAY_SEQUENCE = true
 //divide by two if result is integer else multiply by 3 and add one. Repeat.
 // 8 minutes. As many numbers as possible until you reach 1
 // If your not down to one after 8 minutes you loose.
-class TestCollatz {
+class CollatzTest {
 
     @Test
     fun testCollatz() {
