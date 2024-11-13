@@ -20,7 +20,7 @@ This is a simple and limited Blog system.
 Unsecure
 """
 
-class TestMarkdown {
+class MarkdownTest {
     @Test
     fun `from secure markdown to html`() {
         val html = markdownToHtml(SECURE, true)

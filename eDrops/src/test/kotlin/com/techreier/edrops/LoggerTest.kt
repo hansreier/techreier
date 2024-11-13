@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 
-class TestLogger {
+class LoggerTest {
     @BeforeEach
     fun setUp() {
         logger.info("BeforeEach")

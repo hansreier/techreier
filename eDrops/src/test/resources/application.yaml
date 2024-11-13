@@ -2,6 +2,11 @@ app:
   appname: ${APP_NAME:edrops}
   user: ${USER:Reier}
   password: ${PASSWORD:Passord}
+
+spring:
+  flyway:
+    enabled: false
+
 # SpringBoot tests uses this file, other tests uses logback-test
 logging:
   level:
@@ -15,4 +20,34 @@ logging:
     org.hibernate.SQL: DEBUG
   pattern:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+---
+spring:
+  config:
+    activate:
+      on-profile: gensql
+  flyway:
+    enabled: false
+  jpa:
+    defer-datasource-initialization: false
+    properties:
+      hibernate:
+        show_sql: false
+      jakarta.persistence.schema-generation.database.action: create
+      jakarta.persistence.schema-generation.scripts.action: create
+      jakarta.persistence.schema-generation.scripts.create-target: src/main/resources/db/migration/create.sql
+#     jakarta.persistence.schema-generation.scripts.create-source: metadata
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.springframework.security: WARN
+    org.springframework.orm.jpa: INFO
+    org.apache.coyote.http11: INFO
+    com.techreier.edrops: INFO
+    org.hibernate: INFO
+    org.hibernate.orm.jdbc.bind: INFO
+    org.hibernate.SQL: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
 

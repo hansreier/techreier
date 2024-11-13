@@ -50,7 +50,8 @@ spring:
     open-in-view: false
     properties:
       hibernate.show_sql: false
-
+  flyway:
+    enabled: false
   datasource:
     url: jdbc:mariadb://host.docker.internal:3308/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
     username: dbuser
