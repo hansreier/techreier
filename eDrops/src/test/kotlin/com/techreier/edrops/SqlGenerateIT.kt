@@ -14,7 +14,7 @@ class SqlGenerateIT {
 
     //Generates SQL from object model with JPA/Hibernate in file create.sql
     @Test
-    fun testSqlGenerate() {
+    fun generateSQL() {
         logger.info("test generate SQL from JPA/Hibernate domain model")
     }
 }
