@@ -44,7 +44,7 @@ spring:
   jpa:
     generate-ddl: true
 #    database-platform: org.hibernate.dialect.H2Dialect
-    database-platform: org.hibernate.dialect.MariaDBDialect
+#    database-platform: org.hibernate.dialect.MariaDBDialect
     defer-datasource-initialization: true
 # Must be investigated. Should really be set to false.
     open-in-view: false
@@ -84,7 +84,7 @@ spring:
         hibernate.show_sql: false
   datasource:
     driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:mydb1;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:mydb1;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
     username: sa
     password: sa
   thymeleaf:
@@ -108,7 +108,7 @@ spring:
       hibernate.show_sql: false
   datasource:
     driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:mydb1;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:mydb1;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
     username: sa
     password: sa
   thymeleaf:
@@ -126,13 +126,12 @@ spring:
       on-profile: h2disk
   jpa:
     generate-ddl: true
-    database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
     properties:
       hibernate.show_sql: false
   datasource:
     driverClassName: org.h2.Driver
-    url: jdbc:h2:file:C:/h2/edrops
+    url: jdbc:h2:file:C:/h2/edrops;MODE=MYSQL
     username: sa
     password: sa
   thymeleaf.cache: true
