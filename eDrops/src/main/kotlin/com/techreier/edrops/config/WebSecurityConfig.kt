@@ -1,16 +1,17 @@
 package com.techreier.edrops.config
 
 import com.techreier.edrops.controllers.LOGIN_DIR
+import com.techreier.edrops.service.UserDetailsService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.invoke
-import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 
@@ -68,15 +69,15 @@ class WebSecurityConfig(val appConfig: AppConfig) {
     }
 
     @Bean
-    fun userDetailService(): UserDetailsService {
-        val userDetailsService = InMemoryUserDetailsManager()
-        val user = User.withUsername(appConfig.user) //Simple builder to define user
-            .password(appConfig.password)
-            .authorities("read","write")
-            .build()
-
-        userDetailsService.createUser(user)
-        return userDetailsService
+    fun authenticationManager(userDetailsService: UserDetailsService, passwordEncoder: PasswordEncoder): AuthenticationManager {
+        return AuthenticationManager {
+            val userDetails = userDetailsService.loadUserByUsername(it.name)
+            if (passwordEncoder.matches(it.credentials.toString(), userDetails.password)) {
+                UsernamePasswordAuthenticationToken(userDetails.username, userDetails.password, userDetails.authorities)
+            } else {
+                throw BadCredentialsException("Bad credentials for user: ${it.name}")
+            }
+        }
     }
 
     @Bean
