@@ -35,13 +35,13 @@ fun visit(link: Link) {
 
 private fun replaceFileLinks(origPath: String):String {
     if (origPath.contains(".md")) {
-        val tag = origPath.substringAfterLast("#", "")
+        val segment = origPath.substringAfterLast("#", "")
         val path = origPath.substringBeforeLast("#")
             .replace(".md", "")
             .replaceAfterLast("_", "")
             .replace("_", "")
             .replace("/home","/") //home page no subpath
-        val newPath =  if (tag.isEmpty()) path else "$path#$tag"
+        val newPath =  if (segment.isEmpty()) path else "$path#$segment"
         logger.debug("Visitor - Link path replaced: $origPath to: $newPath")
         return  newPath
     } else return origPath
@@ -106,7 +106,7 @@ fun sanitize(html: String): String {
 fun markdownToHtml(doc: Doc, subDir: String=""): String {
     val lc = if (doc.ext) "_" + doc.language.code else ""
     val classLoader = object {}.javaClass.classLoader
-    val fileName = "static/markdown/" + subDir + "/" + doc.tag + lc + MARKDOWN_EXT
+    val fileName = "static/markdown/" + subDir + "/" + doc.segment + lc + MARKDOWN_EXT
     val inputStream = classLoader.getResourceAsStream(fileName)
     return markdownToHtml(
         inputStream?.bufferedReader().use { it?.readText() ?: "$fileName not found" }, true)

@@ -4,12 +4,12 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
 <head>
-    <title th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.tag}}">Views</title>
+    <title th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}">Views</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
 <div layout:fragment="content">
-    <h2 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.tag}}"/>
+    <h2 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"/>
     <div class="container">
         <div th:utext="${docText}"></div>
     </div>

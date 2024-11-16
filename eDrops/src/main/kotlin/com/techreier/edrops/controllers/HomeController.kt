@@ -23,7 +23,7 @@ class HomeController(dbService: DbService, messageSource: MessageSource) : BaseC
 
     @GetMapping
     fun home(
-        @PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
+        @PathVariable segment: String?, @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest, model: Model
     ): String {
         val blogParams = setCommonModelParameters(HOME, model, request, langCode)
@@ -37,7 +37,7 @@ class HomeController(dbService: DbService, messageSource: MessageSource) : BaseC
 
     // Rules for what is allowed for web crawlers
     // Direct handling of robots.txt, instead of using the robots.txt file placed in static folder
-    // It creates unwanted error if handled by the tag endpoint.
+    // It creates unwanted error if handled by the segment endpoint.
     @GetMapping("/robots.txt")
     @ResponseBody
     fun handleDefault(): String {
@@ -49,11 +49,11 @@ class HomeController(dbService: DbService, messageSource: MessageSource) : BaseC
         return rules
     }
 
-    @GetMapping("/{tag}")
-    fun content(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String?,
+    @GetMapping("/{segment}")
+    fun content(@PathVariable segment: String?, @RequestParam(required = false, name = "lang") langCode: String?,
                 request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(HOME, model, request, langCode)
-        val docIndex = Docs.getDocIndex(home, blogParams.locale.language, tag)
+        val docIndex = Docs.getDocIndex(home, blogParams.locale.language, segment)
         val doc = home[docIndex]
 
         val docText: String = markdownToHtml(doc, HOME_DIR)

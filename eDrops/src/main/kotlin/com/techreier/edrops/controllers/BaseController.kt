@@ -37,7 +37,7 @@ abstract class BaseController(private val dbService: DbService,
     protected fun setCommonModelParameters(
         menu: String,
         model: Model, request: HttpServletRequest,
-        langCode: String?, tag: String? = null, db: Boolean = true
+        langCode: String?, segment: String? = null, db: Boolean = true
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("languages", fetchLanguages(db))
@@ -45,7 +45,7 @@ abstract class BaseController(private val dbService: DbService,
         val selectedLangCode = model.getAttribute("langCode") as String?
         val usedLangcode = usedLanguageCode(selectedLangCode ?: langCode ?: defaultLangCode)
         val locale = Locale.of(usedLangcode)
-        val blogId = (model.getAttribute("blogId") ?: fetchBlogId(usedLangcode, tag)) as Long
+        val blogId = (model.getAttribute("blogId") ?: fetchBlogId(usedLangcode, segment)) as Long
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
         logger.info("Menu: $menu BlogId: $blogId Language path: $langCode, selected: $selectedLangCode default: $defaultLangCode used: $usedLangcode")
@@ -65,11 +65,11 @@ abstract class BaseController(private val dbService: DbService,
 
     protected fun redirect(redirectAttributes: RedirectAttributes, result: String, subpath: String): String {
         // Alternatives: Hidden input fields (process entire list and select by name) or server state, this is easier
-        val tag = result.substringBefore(" ", "")
+        val segment = result.substringBefore(" ", "")
         val blogId = result.substringAfter(" ", "0").toLongOrNull()
-        logger.debug("Redirect params: $result tag: $tag id: $blogId redirect:$subpath/$tag")
+        logger.debug("Redirect params: $result segment: $segment id: $blogId redirect:$subpath/$segment")
         redirectAttributes.addFlashAttribute("blogId", blogId)
-        return "redirect:$subpath/$tag"
+        return "redirect:$subpath/$segment"
     }
 
     protected fun fetchFirstBlog(langCode: String): Blog {
@@ -111,9 +111,9 @@ abstract class BaseController(private val dbService: DbService,
         return blogs
     }
 
-    private fun fetchBlogId(langCode: String, tag: String?): Long {
-        logger.debug("Fetch blogId by tag: $tag and langCode: $langCode")
-        val blogId = tag?.let { dbService.readBlog(langCode, tag)?.id } ?: -1L
+    private fun fetchBlogId(langCode: String, segment: String?): Long {
+        logger.debug("Fetch blogId by segment: $segment and langCode: $langCode")
+        val blogId = segment?.let { dbService.readBlog(langCode, segment)?.id } ?: -1L
         return blogId
     }
 

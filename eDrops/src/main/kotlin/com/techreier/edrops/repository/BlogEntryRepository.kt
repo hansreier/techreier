@@ -11,5 +11,5 @@ interface BlogEntryRepository : JpaRepository<BlogEntry, Long> {
 
 
   // TODO Remove? Not needed
-  fun findByBlogIdAndTag(blogId: Long, tag: String): BlogEntry?
+  fun findByBlogIdAndSegment(blogId: Long, segment: String): BlogEntry?
 }

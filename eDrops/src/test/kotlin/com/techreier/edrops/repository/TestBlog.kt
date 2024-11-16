@@ -167,17 +167,17 @@ class TestBlog : Base() {
 
     @Test
     @DirtiesContext
-    fun `read first blog found by language and tag`() {
+    fun `read first blog found by language and segment`() {
         with(blogData) {
             logger.info("starting read all test")
             entityManager.clear()
             logger.info("saved")
             val languageCode = LanguageCode("",NB)
-            val blog = blogRepo.findFirstBlogByLanguageAndTag(languageCode, ENV_TAG)
+            val blog = blogRepo.findFirstBlogByLanguageAndSegment(languageCode, ENV_SEGMENT)
             blog?.blogEntries = blog?.blogEntries
             assertThat(blog).isNotNull
             assertThat(blog?.language?.code).isEqualTo(NB)
-            assertThat(blog?.tag).isEqualTo(ENV_TAG)
+            assertThat(blog?.segment).isEqualTo(ENV_SEGMENT)
             assertThat(blog?.blogEntries?.size).isEqualTo(3)
             logger.info("Blog found: $blog")
         }

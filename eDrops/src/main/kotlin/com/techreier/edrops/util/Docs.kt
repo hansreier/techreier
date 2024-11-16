@@ -13,8 +13,8 @@ const val ILLEGAL_PATH = "Illegal path"
  * Documents read directly from disk.
  * Documents are fetch from drop down menu
  * TODO: Enable usage of multiple drop down menus
- * The tag is the file name without extension
- * If no value of subject, tag is used to pick up text in resource
+ * The segment is the file name without extension
+ * If no value of subject, segment is used to pick up text in resource
  * Language is part of file name if ext is set to true
  */
 object Docs {
@@ -66,10 +66,10 @@ object Docs {
         Doc("collatz", English,"Collatz")
     )
 
-    // Find the first Doc index that matches language code and eventually nonnull tag
-    fun getDocIndex(docs: Array<Doc>, languageCode: String, tag: String? = null): Int {
+    // Find the first Doc index that matches language code and eventually nonnull segment
+    fun getDocIndex(docs: Array<Doc>, languageCode: String, segment: String? = null): Int {
         val usedCode = usedLanguageCode(languageCode)
-        val docIndex =  docs.indexOfFirst { (it.language.code == usedCode) && (tag == it.tag || tag == null) }
+        val docIndex =  docs.indexOfFirst { (it.language.code == usedCode) && (segment == it.segment || segment == null) }
         if (docIndex < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ILLEGAL_PATH)
         }

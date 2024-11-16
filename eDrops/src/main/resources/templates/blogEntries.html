@@ -28,8 +28,8 @@
         <form id="blogentryform" th:action="@{/xxxx}" th:object="${blogEntryForm}" th:method="post">
             <div id="inputfields" class="container">
                 <div class="input-row">
-                    <label th:for="tag" th:text="tag"></label>
-                    <input type="text" id="tag" th:field="*{tag}">
+                    <label th:for="segment" th:text="segment"></label>
+                    <input type="text" id="segment" th:field="*{segment}">
                 </div>
                 <div class="input-row">
                     <label th:for="title" th:text="#{title}"></label>

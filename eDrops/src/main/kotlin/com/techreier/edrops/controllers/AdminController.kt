@@ -19,10 +19,10 @@ const val ADMIN_DIR= "/$ADMIN"
 class AdminController(private val dbService: DbService,
                       messageSource: MessageSource): BaseController(dbService, messageSource)
 {
-    @GetMapping("/{tag}")
-    fun allBlogEntries(@PathVariable tag: String?, @RequestParam(required = false, name = "lang") langCode: String? ,
+    @GetMapping("/{segment}")
+    fun allBlogEntries(@PathVariable segment: String?, @RequestParam(required = false, name = "lang") langCode: String?,
                        request: HttpServletRequest, model: Model): String {
-        val blogParams = setCommonModelParameters(ADMIN, model, request, langCode, tag)
+        val blogParams = setCommonModelParameters(ADMIN, model, request, langCode, segment)
         if (blogParams.blogId <0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
@@ -37,7 +37,7 @@ class AdminController(private val dbService: DbService,
     fun redirect(@RequestParam(required = false, name = "lang") language: String?,
                  request: HttpServletRequest, model: Model): String {
         val blogParams = setCommonModelParameters(ADMIN, model, request, language)
-        return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.locale.language).tag}"
+        return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
     }
 
     @PostMapping

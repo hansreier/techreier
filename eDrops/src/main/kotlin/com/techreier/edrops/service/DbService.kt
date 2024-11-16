@@ -52,11 +52,11 @@ class DbService(
         return blogRepo.findAllById(blogId).orElse(null)
     }
 
-    fun readBlog(languageCode: String, tag: String): Blog? {
-        return blogRepo.findFirstBlogByLanguageAndTag(LanguageCode("", languageCode), tag)
+    fun readBlog(languageCode: String, segment: String): Blog? {
+        return blogRepo.findFirstBlogByLanguageAndSegment(LanguageCode("", languageCode), segment)
     }
 
-    //if language is changed, we try to fetch a blog with the new language and the same tag
+    //if language is changed, we try to fetch a blog with the new language and the same segment
     // TODO, changing languge on URL, blogId is not picked up and the logic is wrong
     // https://stackoverflow.com/questions/38803656/spring-thymeleaf-changing-locale-and-stay-on-the-current-page
     // Hidden input field cannot be used directly to transfer blogId when just changing URL parameter
@@ -68,7 +68,7 @@ class DbService(
             if (blog != null ) {
                 logger.debug("The current blog is found with language.code ${blog.language.code}, should be: $langCode")
                 if (blog.language.code != langCode) {
-                    val blogSwitched = blogRepo.findFirstBlogByLanguageAndTag(LanguageCode("", langCode), blog.tag)
+                    val blogSwitched = blogRepo.findFirstBlogByLanguageAndSegment(LanguageCode("", langCode), blog.segment)
                     blogIdNew = blogSwitched?.id ?: blogId
                 }
             }
@@ -82,8 +82,8 @@ class DbService(
     }
 
     //TODO Remove? Not needed
-    fun readBlogEntry(blogId: Long, tag: String): BlogEntry? {
-        return blogEntryRepo.findByBlogIdAndTag(blogId, tag)
+    fun readBlogEntry(blogId: Long, segment: String): BlogEntry? {
+        return blogEntryRepo.findByBlogIdAndSegment(blogId, segment)
     }
 
     fun readLanguages(): MutableList<LanguageCode> {

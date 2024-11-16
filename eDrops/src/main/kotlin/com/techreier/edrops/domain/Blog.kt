@@ -11,7 +11,7 @@ class Blog(
     val created: LocalDateTime,
 
     @Column(nullable = false)
-    var tag: String,
+    var segment: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "code", nullable = false)
@@ -32,5 +32,5 @@ class Blog(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?=null,
 ) {
-    override fun toString() = "id: $id tag: $tag subject: $subject language: ${language.language} blogOwner: $blogOwner created: $created"
+    override fun toString() = "id: $id segment: $segment subject: $subject language: ${language.language} blogOwner: $blogOwner created: $created"
 }

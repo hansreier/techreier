@@ -26,10 +26,10 @@ interface BlogRepository : JpaRepository<Blog, Long> {
 
     //Works, but cannot include blogEntries in entityGraph (when only first blogEntry is selected)
     @EntityGraph(attributePaths = ["blogOwner", "language"])
-    fun findFirstBlogByLanguageAndTag(language: LanguageCode, tag: String): Blog?
+    fun findFirstBlogByLanguageAndSegment(language: LanguageCode, segment: String): Blog?
 
    // @EntityGraph(attributePaths = ["blogOwner", "language"])
-    //@Query("SELECT b FROM Blog b WHERE b.language=:l AND b.tag=:t")
-    //fun findFirstBlog2ByLanguageAndTag(@Param("l") l: LanguageCode, @Param("t") tag: String): MutableSet<Blog>?
+    //@Query("SELECT b FROM Blog b WHERE b.language=:l AND b.segment=:t")
+    //fun findFirstBlog2ByLanguageAndSegment(@Param("l") l: LanguageCode, @Param("t") segment: String): MutableSet<Blog>?
 
 }

@@ -14,7 +14,7 @@ class BlogEntry(
     var changed: LocalDateTime?,
 
     @Column(nullable = false)
-    var tag: String,
+    var segment: String,
 
     @Column(nullable = false)
     var version: Long,

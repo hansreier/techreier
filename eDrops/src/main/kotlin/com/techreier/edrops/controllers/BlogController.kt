@@ -19,19 +19,19 @@ const val BLOG_DIR = "/$BLOG"
 class BlogController(private val dbService: DbService,
                      messageSource: MessageSource) :
                      BaseController(dbService, messageSource) {
-    @GetMapping("/{tag}")
+    @GetMapping("/{segment}")
     fun allBlogTexts(
-        @PathVariable tag: String?,
+        @PathVariable segment: String?,
         @RequestParam(required = false, name = "lang")  langCode: String?,
-    request: HttpServletRequest, model: Model
+        request: HttpServletRequest, model: Model
     ): String {
-        val blogParams = setCommonModelParameters(BLOG, model, request, langCode, tag)
+        val blogParams = setCommonModelParameters(BLOG, model, request, langCode, segment)
         if (blogParams.blogId < 0) {
             // If blog is not found, redirect to first blog, other alternatives in comment below
             // throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
             // return "redirect:/"
-            logger.warn("Blog $tag is not found in language: ${blogParams.locale.language}")
-            return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).tag}"
+            logger.warn("Blog $segment is not found in language: ${blogParams.locale.language}")
+            return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
@@ -46,7 +46,7 @@ class BlogController(private val dbService: DbService,
         request: HttpServletRequest, model: Model
     ): String {
         val blogParams = setCommonModelParameters(BLOG, model, request, language)
-        return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).tag}"
+        return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
     }
 
     // Redirect to other blog from menu
