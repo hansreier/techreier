@@ -1,7 +1,6 @@
 package com.techreier.edrops.domain
 
 import com.techreier.edrops.config.AppConfig
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
@@ -78,13 +77,12 @@ const val SUMMARY4 = """
 
 // Initial populate table. Temporary. Move later back to test
 @Component
-class BlogData(passwordEncoder: PasswordEncoder, appConfig: AppConfig) {
+class BlogData(appConfig: AppConfig) {
 
     //    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
     //    val English: LanguageCode = LanguageCode(ENGLISH, EN)
     final val blogOwner: BlogOwner = BlogOwner(
-        LocalDateTime.now(), null, appConfig.user,
-        passwordEncoder.encode(appConfig.password),
+        LocalDateTime.now(), null, appConfig.user, appConfig.password,
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv"
     )
