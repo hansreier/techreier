@@ -1,7 +1,5 @@
 app:
   appname: ${APP_NAME:edrops}
-  user: ${USER:Reier}
-  password: ${PASSWORD:Passord123-}
 server:
   error:
     include-stacktrace: always

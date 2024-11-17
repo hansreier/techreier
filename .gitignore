@@ -34,9 +34,11 @@ target/
 
 #ignore generated javadoc
 */doc/javadoc/
-/fitnesse/FitNesseRoot/FitNesse
-/fitnesse/FitNesseRoot/files/testResults
 
 #ignore intellij
 .idea/
 *.iml
+
+#ignore application.properties
+src/main/resources/application.properties
+

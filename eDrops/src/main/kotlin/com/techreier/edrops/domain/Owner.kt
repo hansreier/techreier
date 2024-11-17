@@ -9,7 +9,7 @@ class Owner(blogOwner: BlogOwner): UserDetails {
 
     val user = blogOwner
 
-    //Role bases authorization, do it simple
+    //Role based authorization, do it simple
     override fun getAuthorities(): MutableCollection<GrantedAuthority> {
        val role =  mutableSetOf<GrantedAuthority>()
         role.add(SimpleGrantedAuthority("read"))

@@ -80,11 +80,8 @@ const val SUMMARY4 = """
 @Component
 class BlogData(passwordEncoder: PasswordEncoder, appConfig: AppConfig) {
 
-   // @Value("\$adminPassword}")
-   // private val password: String = ""
-
     //    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
-//    val English: LanguageCode = LanguageCode(ENGLISH, EN)
+    //    val English: LanguageCode = LanguageCode(ENGLISH, EN)
     final val blogOwner: BlogOwner = BlogOwner(
         LocalDateTime.now(), null, appConfig.user,
         passwordEncoder.encode(appConfig.password),
