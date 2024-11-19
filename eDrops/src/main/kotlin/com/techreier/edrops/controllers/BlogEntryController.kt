@@ -37,11 +37,11 @@ class BlogEntryController(
             var index: Int
             val no = subsegment.toIntOrNull()
             no?.let {
-                if (it > blogEntries.size) {
-                    index = blogEntries.size - 1
-                } else if (it <= 0) index = 0 else index = it - 1
+                index = if (it > blogEntries.size) {
+                    blogEntries.size - 1
+                } else if (it <= 0) 0 else it - 1
                 blogEntries[index]
-            } ?: blogEntries.find { it.segment.equals(subsegment) }
+            } ?: blogEntries.find { it.segment == subsegment }
         } ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
 
         model.addAttribute("blog", blog)

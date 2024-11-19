@@ -4,21 +4,22 @@ import com.techreier.edrops.config.AppConfig
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
-const val SEGMENT1 = "Sjoe"
-const val SEGMENT1E = "Sea"
-const val SEGMENT2 = "Fjell"
-const val SEGMENT2E = "Montain"
+// Predefined segments
+const val ENVIRONMENT = "env"
+const val ENERGY = "energy"
+const val ELPOWER = "elpower"
+const val WEATHER = "weather"
+const val HIBERNATE = "hibernate"
 
 const val TITLE1 = "Om strøm"
 const val TITLE1E = "About electric power"
 const val TITLE2 = "Om været"
 const val TITLE2E = "About weather"
 const val TITLE3 = "Om Hibernate"
+
 const val TITLE3E = "About Hibernate"
 const val TITLE4 = "Energi blog"
 const val TITLE4MOD = "Modified blog"
-const val ENV_SEGMENT = "env"
-const val ENERGY_SEGMENT = "energy"
 const val SUBJECT1 = "Miljø saker"
 const val SUBJECT1E = "Environmental issues"
 const val SUBJECT2 = "Energi saker"
@@ -90,17 +91,17 @@ class BlogData(appConfig: AppConfig) {
     private final val blogEntries1e = mutableListOf<BlogEntry>()
     private final val blogEntries2 = mutableListOf<BlogEntry>()
     private final val timestamp: LocalDateTime = LocalDateTime.now()
-    final val blog1 = Blog(timestamp, ENV_SEGMENT, Norwegian, SUBJECT1, blogEntries1, blogOwner)
-    private final val blog1e = Blog(timestamp, ENV_SEGMENT, English, SUBJECT1E, blogEntries1e, blogOwner)
-    private final val blog2 = Blog(timestamp, ENERGY_SEGMENT, Norwegian, SUBJECT2, blogEntries2, blogOwner)
+    final val blog1 = Blog(timestamp, ENVIRONMENT, Norwegian, SUBJECT1, blogEntries1, blogOwner)
+    private final val blog1e = Blog(timestamp, ENVIRONMENT, English, SUBJECT1E, blogEntries1e, blogOwner)
+    private final val blog2 = Blog(timestamp, ENERGY, Norwegian, SUBJECT2, blogEntries2, blogOwner)
 
-    final val blogEntry1 = BlogEntry(timestamp, timestamp, SEGMENT1, V1, TITLE1, SUMMARY1, blog1)
-    private final val blogEntry2 = BlogEntry(timestamp, timestamp, SEGMENT2, V1, TITLE2, SUMMARY2, blog1)
-    private final val blogEntry3 = BlogEntry(timestamp, timestamp, SEGMENT2, V1, TITLE3, SUMMARY3, blog1)
-    private final val blogEntry1e = BlogEntry(timestamp, timestamp, SEGMENT1E, V1, TITLE1E, SUMMARY1E, blog1e)
-    private final val blogEntry2e = BlogEntry(timestamp, timestamp, SEGMENT2E, V1, TITLE2E, SUMMARY2E, blog1e)
-    private final val blogEntry3e = BlogEntry(timestamp, timestamp, SEGMENT2E, V1, TITLE3E, SUMMARY3E, blog1e)
-    private final val blog2Entry3 = BlogEntry(timestamp, timestamp, SEGMENT2, V1, TITLE4, SUMMARY4, blog2)
+    final val blogEntry1 = BlogEntry(timestamp, timestamp, ELPOWER, V1, TITLE1, SUMMARY1, blog1)
+    private final val blogEntry2 = BlogEntry(timestamp, timestamp, WEATHER, V1, TITLE2, SUMMARY2, blog1)
+    private final val blogEntry3 = BlogEntry(timestamp, timestamp, HIBERNATE, V1, TITLE3, SUMMARY3, blog1)
+    private final val blogEntry1e = BlogEntry(timestamp, timestamp, ELPOWER, V1, TITLE1E, SUMMARY1E, blog1e)
+    private final val blogEntry2e = BlogEntry(timestamp, timestamp, WEATHER, V1, TITLE2E, SUMMARY2E, blog1e)
+    private final val blogEntry3e = BlogEntry(timestamp, timestamp, HIBERNATE, V1, TITLE3E, SUMMARY3E, blog1e)
+    private final val blog2Entry3 = BlogEntry(timestamp, timestamp, ENERGY, V1, TITLE4, SUMMARY4, blog2)
     final val noOfBlogs: Int
     final val noOfBlogEntries: Int
 
