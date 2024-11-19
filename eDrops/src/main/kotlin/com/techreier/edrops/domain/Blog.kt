@@ -1,5 +1,6 @@
 package com.techreier.edrops.domain
 
+import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -10,7 +11,7 @@ class Blog(
     @Column(nullable = false)
     val created: LocalDateTime,
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = MAX_SEGMENT_SIZE)
     var segment: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

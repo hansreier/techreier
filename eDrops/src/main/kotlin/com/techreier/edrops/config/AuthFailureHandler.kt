@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.ForwardAuthenticationFailureHandler
+import org.springframework.security.authentication.BadCredentialsException
 
 // https://www.baeldung.com/spring-security-custom-authentication-failure-handler
 class AuthFailureHandler(private val forwardUrl: String) : ForwardAuthenticationFailureHandler(forwardUrl) {
@@ -12,8 +13,13 @@ class AuthFailureHandler(private val forwardUrl: String) : ForwardAuthentication
         response: HttpServletResponse,
         exception: AuthenticationException
     ) {
-        logger.warn("Authentication error: ${exception.message}") // TODO what about other error types?
-        request.session.setAttribute("loginError", "loginError") //references language resource file
+        //References keywords in language resource files, for details refer to logs.
+        val loginError = when (exception) {
+            is BadCredentialsException -> "error.auth"
+            else -> "error.login"
+        }
+        logger.warn("Authentication error: ${exception.message}")
+        request.session.setAttribute("loginError", loginError)
         response.sendRedirect(forwardUrl)
     }
 }

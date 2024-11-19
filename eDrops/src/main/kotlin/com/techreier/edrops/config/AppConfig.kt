@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.client.RestClient
 
+const val MAX_SEGMENT_SIZE = 30
 // This way of reading app properties is more flexible and easier than using @Value in Kotlin
 // Disadvantage: Have to inject this always
 @Configuration

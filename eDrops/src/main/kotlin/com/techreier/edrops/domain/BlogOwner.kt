@@ -12,7 +12,7 @@ class BlogOwner(
     @Column
     var changed: LocalDateTime?,
 
-    @Column
+    @Column(nullable = false, unique = true)
     var username: String,
 
     @Column
