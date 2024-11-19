@@ -1,6 +1,5 @@
 package com.techreier.edrops.service
 
-import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.repository.BlogOwnerRepository
 import org.springframework.security.core.userdetails.UserDetails
@@ -9,16 +8,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+// Obtain details about user by checking in database
+// Note that Spring Security by default replaces UsernameNotFoundException with BadCredentialsException
+// Other exceptions results in error with stack trace
 @Service
 @Transactional
 class UserDetailsService(
     private val blogOwnerRepository: BlogOwnerRepository
 ) : UserDetailsService {
-    // Obtain details about user by a user name. Use DB service or hardcoded
     override fun loadUserByUsername(user: String): UserDetails {
-        logger.info("Find user in database: $user")
         val blogOwner = blogOwnerRepository.findBlogOwnerByUsername(user)
-            ?: throw UsernameNotFoundException("User not found with username: $user")
+            ?: throw UsernameNotFoundException("User $user not found")
         return Owner(blogOwner)
     }
 }
