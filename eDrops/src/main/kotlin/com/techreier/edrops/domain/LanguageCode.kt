@@ -1,6 +1,7 @@
 
 package com.techreier.edrops.domain
 
+import com.techreier.edrops.config.MAX_CODE_SIZE
 import jakarta.persistence.*
 
 @Entity
@@ -10,6 +11,7 @@ class LanguageCode(
     var language: String,
 
     @Id
+    @Column(length = MAX_CODE_SIZE)
     val code: String
 
 ) {

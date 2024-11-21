@@ -1,5 +1,7 @@
 package com.techreier.edrops.domain
 
+import com.techreier.edrops.config.MAX_CODE_SIZE
+import com.techreier.edrops.config.MAX_USERNAME_SIZE
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -12,7 +14,7 @@ class BlogOwner(
     @Column(columnDefinition = "TIMESTAMP(0)")
     var changed: LocalDateTime?,
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = MAX_USERNAME_SIZE)
     var username: String,
 
     @Column
@@ -33,13 +35,13 @@ class BlogOwner(
     @Column(nullable = false)
     var address: String,
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = MAX_CODE_SIZE)
     var zipCode: String,
 
     @Column(nullable = false)
     var location: String,
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = MAX_CODE_SIZE)
     var countryCode: String,
 
     @Id

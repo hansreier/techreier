@@ -23,7 +23,7 @@ class BlogEntry(
     var summary: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "blogEntries", nullable = false)
+    @JoinColumn(name = "blog_id", nullable = false)
     var blog: Blog,
 
     @Id

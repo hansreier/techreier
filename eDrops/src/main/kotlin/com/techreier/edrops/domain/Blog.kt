@@ -17,7 +17,7 @@ class Blog(
     var segment: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "code", nullable = false)
+    @JoinColumn(name = "language_code", nullable = false)
     var language: LanguageCode,
 
     @Column(nullable = false, length = MAX_TITLE_SIZE)
@@ -31,7 +31,7 @@ class Blog(
     var blogEntries: MutableList<BlogEntry>? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "blogs", nullable = false)
+    @JoinColumn(name = "blog_owner_id", nullable = false)
     var blogOwner: BlogOwner,
 
     @Id
