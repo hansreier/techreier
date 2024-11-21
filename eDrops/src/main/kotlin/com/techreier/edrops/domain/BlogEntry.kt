@@ -1,6 +1,8 @@
 package com.techreier.edrops.domain
 
 import com.techreier.edrops.config.MAX_SEGMENT_SIZE
+import com.techreier.edrops.config.MAX_SUMMARY_SIZE
+import com.techreier.edrops.config.MAX_TITLE_SIZE
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -8,23 +10,16 @@ import java.time.LocalDateTime
 @Entity
 class BlogEntry(
 
-    @Column(nullable = false)
-    val created: LocalDateTime,
-
-    @Column
+    @Column(columnDefinition = "TIMESTAMP(0)")
     var changed: LocalDateTime?,
 
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
     var segment: String,
 
-    @Column(nullable = false)
-    var version: Long,
-
-    @Column(nullable = false)
+    @Column(nullable = false, length = MAX_TITLE_SIZE)
     var title: String,
 
-    // @Column(length = 400) TODO revert
-    @Column(length = 58000, nullable = false)
+    @Column(nullable = false, length = MAX_SUMMARY_SIZE)
     var summary: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -35,5 +30,5 @@ class BlogEntry(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?=null
 ) {
-    override fun toString() = "id: $id blog: $blog created: $created changed: $changed text: $title"
+    override fun toString() = "id: $id blog: $blog changed: $changed text: $title"
 }

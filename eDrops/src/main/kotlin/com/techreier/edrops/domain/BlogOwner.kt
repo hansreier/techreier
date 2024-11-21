@@ -6,10 +6,10 @@ import java.time.LocalDateTime
 @Entity
 class BlogOwner(
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TIMESTAMP(0)")
     val created: LocalDateTime,
 
-    @Column
+    @Column(columnDefinition = "TIMESTAMP(0)")
     var changed: LocalDateTime?,
 
     @Column(nullable = false, unique = true)
@@ -38,6 +38,9 @@ class BlogOwner(
 
     @Column(nullable = false)
     var location: String,
+
+    @Column(nullable = false)
+    var countryCode: String,
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

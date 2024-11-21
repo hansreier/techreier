@@ -16,7 +16,7 @@ public class TestReachKotlin {
         BlogOwner blogOwner = new BlogOwner(LocalDateTime.now(), null, "Reier","Passord",
                 "Reier", "Sigmond",
                 "reier.sigmond@gmail.com", "91668863", "Sløttvegen 17",
-                "2390", "Moelv", 1L, null);
+                "2390", "Moelv", "NO", 1L, null);
         String address = blogOwner.getAddress();
         logger.info("Reier was here {}", address);
     }

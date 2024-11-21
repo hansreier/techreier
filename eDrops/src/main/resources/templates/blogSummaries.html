@@ -16,7 +16,7 @@
                 <a th:text="${blogEntry.title}"></a>
             </h2>
             <a th:text="${blogEntry.summary}"></a><br><br>
-            <a th:text="${#temporals.format(blogEntry.changed,'dd-MM-yyyy')}"></a>
+            <a th:text="${#temporals.format(blogEntry.changed, #messages.msg('datetime.format'))}"></a>
         </div>
     </div>
 </div>
