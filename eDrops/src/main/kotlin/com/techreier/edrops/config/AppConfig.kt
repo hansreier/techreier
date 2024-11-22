@@ -4,8 +4,11 @@ import jakarta.validation.constraints.NotNull
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.DependsOn
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.client.RestClient
+
 
 const val MAX_SEGMENT_SIZE = 30
 const val MAX_TITLE_SIZE = 50
@@ -29,4 +32,11 @@ class AppConfig {
     fun restClient(): RestClient {
        return RestClient.create()
     }
+
+    /*
+    @Bean
+    @DependsOn("flyway")
+    fun entityManagerFactory(): LocalContainerEntityManagerFactoryBean {
+        return LocalContainerEntityManagerFactoryBean()
+    }*/
 }

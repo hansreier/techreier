@@ -8,10 +8,10 @@ import java.time.LocalDateTime
 @Entity
 class BlogOwner(
 
-    @Column(nullable = false, columnDefinition = "TIMESTAMP(0)")
+    @Column(nullable = false, columnDefinition = "timestamp(0)")
     val created: LocalDateTime,
 
-    @Column(columnDefinition = "TIMESTAMP(0)")
+    @Column(columnDefinition = "timestamp(0)")
     var changed: LocalDateTime?,
 
     @Column(nullable = false, unique = true, length = MAX_USERNAME_SIZE)

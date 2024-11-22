@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 @Entity
 class Blog(
 
-    @Column(nullable = false, columnDefinition = "TIMESTAMP(0)")
+    @Column(nullable = false, columnDefinition = "timestamp(0)")
     val changed: LocalDateTime,
 
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
