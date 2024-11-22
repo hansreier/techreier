@@ -21,7 +21,7 @@
 		<java.version>21</java.version>
 		<kotlin.version>1.9.23</kotlin.version>
 		<coroutines.version>1.8.0</coroutines.version>
-		<mariadb.version>3.4.1</mariadb.version>
+		<mariadb.version>3.5.1</mariadb.version>
 		<maven-failsafe-plugin.version>3.5.0</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>3.5.0</maven-surefire-plugin.version>
 		<kotlin.code.style>official</kotlin.code.style>
@@ -30,7 +30,7 @@
 		<assertJ.version>3.26.3</assertJ.version>
 		<!-- fetched automagically-->
 		<h2.version>2.3.232</h2.version>
-		<flyway.version>10.21.0</flyway.version>
+		<flyway.version>10.22.0</flyway.version>
 		<flexmark.version>0.64.8</flexmark.version>
 		<!--esapi.version>2.5.2.0</esapi.version-->
 		<!--encoder.version>1.2.3</encoder.version-->
@@ -152,7 +152,7 @@
 						<jvmFlags>
 							<!--jvmFlag>-Dspring.profiles.active=docker-mariadb</jvmFlag-->
 							<!--jvmFlag>-Dspring.profiles.active=mariadb-dockerized</jvmFlag-->
-							<jvmFlag>-Dspring.profiles.active=h2prod</jvmFlag>
+							<jvmFlag>-Dspring.profiles.active=h2-prod</jvmFlag>
 						</jvmFlags>
 						<!--environment>
 							<DB_PASSWORD>Password</DB_PASSWORD>
@@ -420,6 +420,10 @@
 			<artifactId>flyway-core</artifactId>
 			<version>${flyway.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-mysql</artifactId>
+			<version>${flyway.version}</version> </dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
