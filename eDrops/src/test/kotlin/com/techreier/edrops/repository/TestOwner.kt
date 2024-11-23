@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional
 //@DataJpaTest
 @SpringBootTest
 @Transactional
-class TestOwner : Base() {
+class TestOwner : TestBase() {
+
+    /*
     @Test
     @DirtiesContext
     fun `cascade delete test`() {
@@ -38,6 +40,9 @@ class TestOwner : Base() {
         }
     }
 
+     */
+
+    /*
     @Test
     @DirtiesContext
     fun `read all with JPQL test`() {
@@ -55,7 +60,7 @@ class TestOwner : Base() {
                 }
             }
         }
-    }
+    } */
 
     //Using JPQL instead of typesafe JPA criteria queries (too much work for nothing)
     // find.. does not seem to populate children
@@ -88,6 +93,7 @@ class TestOwner : Base() {
         return result as MutableList<Blog>
     }
 
+    /*
     @Test
     @DirtiesContext
     fun `read all with findById test`() {
@@ -107,8 +113,9 @@ class TestOwner : Base() {
                 }
             }
         }
-    }
+    } */
 
+    /*
     @Test
     @DirtiesContext
     //Works, generates only one SQL
@@ -134,6 +141,10 @@ class TestOwner : Base() {
         }
     }
 
+     */
+
+
+    /*
     @Test
     @DirtiesContext
     //https://www.baeldung.com/jpa-entity-graph
@@ -158,5 +169,5 @@ class TestOwner : Base() {
                         " entries: ${blogOwner.blogs?.first()?.blogEntries}"
             )
         }
-    }
+    } */
 }

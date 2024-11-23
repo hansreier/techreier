@@ -4,14 +4,20 @@ app:
   password: ${PASSWORD:Passord}
 
 spring:
+  profiles:
+    active: test
   flyway:
     enabled: true
     baseline-on-migrate: true
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false;MODE=MYSQL
-  jpa:
-    defer-datasource-initialization: false
-    generate-ddl: false
+#  jpa:
+#    defer-datasource-initialization: true
+#    generate-ddl: true
+#    hibernate:
+#      ddl-auto: update
+#      naming:
+#        implicit-strategy: com.techreier.edrops.config.MyImplicitNamingStrategy
 
 # SpringBoot tests uses this file, other tests uses logback-test
 logging:
@@ -20,10 +26,10 @@ logging:
     org.springframework: WARN
     org.springframework.security: WARN
     org.apache.coyote.http11: INFO
-    com.techreier.edrops: INFO
+    com.techreier.edrops: DEBUG
     org.hibernate: INFO
     org.hibernate.orm.jdbc.bind: INFO
-    org.hibernate.SQL: INFO
+    org.hibernate.SQL: DEBUG
   pattern:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
 
@@ -33,7 +39,7 @@ spring:
     activate:
       on-profile: gensql
   flyway:
-    enabled: false
+    enabled: true
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false;MODE=MYSQL
   jpa:

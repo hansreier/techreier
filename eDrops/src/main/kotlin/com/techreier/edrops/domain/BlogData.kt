@@ -19,7 +19,6 @@ const val TITLE3 = "Om Hibernate"
 
 const val TITLE3E = "About Hibernate"
 const val TITLE4 = "Energi blog"
-const val TITLE4MOD = "Modified blog"
 const val SUBJECT1 = "Miljø saker"
 const val ABOUT1 = "Om natur, miljø og klima i Norge"
 const val ABOUT1E = "About nature, envirnoment and climate in Norway"
@@ -103,14 +102,14 @@ class BlogData(appConfig: AppConfig) {
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv","NO"
     )
-    final val blogEntries1 = mutableListOf<BlogEntry>()
+    private final val blogEntries1 = mutableListOf<BlogEntry>()
     private final val blogEntries1e = mutableListOf<BlogEntry>()
     private final val blogEntries2 = mutableListOf<BlogEntry>()
-    final val blog1 = Blog(datetime1, ENVIRONMENT, Norwegian, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
+    private final val blog1 = Blog(datetime1, ENVIRONMENT, Norwegian, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
     private final val blog1e = Blog(datetimeb1, ENVIRONMENT, English, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
     private final val blog2 = Blog(datetimeb2, ENERGY, Norwegian, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
 
-    final val blogEntry1 = BlogEntry(datetime1, ELPOWER,  TITLE1, SUMMARY1, blog1)
+    private final val blogEntry1 = BlogEntry(datetime1, ELPOWER,  TITLE1, SUMMARY1, blog1)
     private final val blogEntry2 = BlogEntry(datetime2, WEATHER,  TITLE2, SUMMARY2, blog1)
     private final val blogEntry3 = BlogEntry(datetime3,  HIBERNATE,  TITLE3, SUMMARY3, blog1)
     private final val blogEntry1e = BlogEntry(datetime1,  ELPOWER,  TITLE1E, SUMMARY1E, blog1e)
@@ -119,6 +118,7 @@ class BlogData(appConfig: AppConfig) {
     private final val blog2Entry3 = BlogEntry(datetime23,  ENERGY,  TITLE4, SUMMARY4, blog2)
     final val noOfBlogs: Int
     final val noOfBlogEntries: Int
+    final val noOfBlog1Entries: Int
 
     init {
         val blogList = mutableSetOf<Blog>()
@@ -132,6 +132,7 @@ class BlogData(appConfig: AppConfig) {
         blog1.blogEntries?.add(blogEntry1)
         blog1.blogEntries?.add(blogEntry2)
         blog1.blogEntries?.add(blogEntry3)
+        noOfBlog1Entries = 3
 
         blog1e.blogEntries = blogEntries1e
         blog1e.blogEntries?.add(blogEntry1e)

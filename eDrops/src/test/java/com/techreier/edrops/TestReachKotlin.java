@@ -20,4 +20,5 @@ public class TestReachKotlin {
         String address = blogOwner.getAddress();
         logger.info("Reier was here {}", address);
     }
+
 }

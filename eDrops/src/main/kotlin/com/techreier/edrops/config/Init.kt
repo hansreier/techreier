@@ -6,8 +6,10 @@ import com.techreier.edrops.domain.Norwegian
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.LanguageRepository
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 
 @Configuration
+@Profile("!test")
 class Init(
     languageRepo: LanguageRepository,
     ownerRepo: BlogOwnerRepository,
