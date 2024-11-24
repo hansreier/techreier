@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 @ExtendWith(SpringExtension::class)
 @SpringBootTest
 @Transactional
-class TestBlog : TestBase() {
+class BlogTest : TestBase() {
 
     @Test
     //Do not use this Kotlin extension, does not read JPA annotations, generates more SQL statements
@@ -25,7 +25,7 @@ class TestBlog : TestBase() {
             entityManager.clear()
             val blog = blogRepo.findByIdOrNull(blogId)
             assertNotNull(blog)
-            assertEquals(blog1.id, blog?.id)
+            assertEquals(this.blog.id, blog?.id)
             logger.info("blog: ${blog}")
     }
 
@@ -33,10 +33,10 @@ class TestBlog : TestBase() {
     fun `read with findById`() {
         logger.info("starting read with findById")
         entityManager.clear()
-        val blog = blogRepo.findById(blogId).orElse(null)
-        assertNotNull(blog)
-        assertEquals(blog1.id, blog.id)
-        logger.info("blog: $blog")
+        val blog1 = blogRepo.findById(blogId).orElse(null)
+        assertNotNull(blog1)
+        assertEquals(this.blog.id, blog1.id)
+        logger.info("blog: $blog1")
     }
 
     @Test
@@ -75,13 +75,13 @@ class TestBlog : TestBase() {
     @Test
     fun `read blog by language and segment`() {
         logger.info("starting read blog by language and segment")
-        val blog = blogRepo.findFirstBlogByLanguageAndSegment(Norwegian, ENVIRONMENT)
-        assertThat(blog).isNotNull
-        assertThat(blog?.language?.code).isEqualTo(NB)
-        assertThat(blog?.language?.language).isEqualTo(NORWEGIAN)
-        assertThat(blog?.segment).isEqualTo(ENVIRONMENT)
-        logger.info("blog: $blog ${blog?.blogEntries?.size}")
-        assertThat(blog?.blogEntries?.size).isEqualTo(blogData.noOfBlog1Entries)
+        val blog1 = blogRepo.findFirstBlogByLanguageAndSegment(Norwegian, ENVIRONMENT)
+        assertThat(blog1).isNotNull
+        assertThat(blog1?.language?.code).isEqualTo(NB)
+        assertThat(blog1?.language?.language).isEqualTo(NORWEGIAN)
+        assertThat(blog1?.segment).isEqualTo(ENVIRONMENT)
+        logger.info("blog: $blog1 ${blog1?.blogEntries?.size}")
+        assertThat(blog1?.blogEntries?.size).isEqualTo(blogData.noOfBlog1Entries)
     }
 
     @Test
@@ -89,10 +89,10 @@ class TestBlog : TestBase() {
     //https://www.baeldung.com/spring-data-jpa-named-entity-graphs
     fun `read all with findAll`() {
         logger.info("starting read all test")
-        val blog = blogRepo.findAll()
-        logger.info("blogs: $blog noOfBlogs: ${blog.size}")
-        assertThat(blog.size).isEqualTo(blogData.noOfBlogs)
-        blog.forEach {
+        val blogs = blogRepo.findAll()
+        logger.info("blogs: $blogs noOfBlogs: ${blogs.size}")
+        assertThat(blogs.size).isEqualTo(blogData.noOfBlogs)
+        blogs.forEach {
             val entries = it.blogEntries
             logger.info("my entries: $entries")
         }
@@ -111,9 +111,9 @@ class TestBlog : TestBase() {
         val hints: MutableMap<String, Any> = HashMap()
         hints["javax.persistence.fetchgraph"] = entityGraph
         logger.info("saved")
-        val blog = entityManager.find(Blog::class.java, blog1?.id, hints)
-        assertThat(blog?.blogEntries?.size).isEqualTo(blog1?.blogEntries?.size)
-        logger.info("Blog language: ${blog.language.language} owner: ${blog.blogOwner.id} entries: ${blog.blogEntries}")
+        val blog2 = entityManager.find(Blog::class.java, blog1?.id, hints)
+        assertThat(blog2?.blogEntries?.size).isEqualTo(blog1?.blogEntries?.size)
+        logger.info("Blog language: ${blog2.language.language} owner: ${blog2.blogOwner.id} entries: ${blog2.blogEntries}")
     }
 
     @Test

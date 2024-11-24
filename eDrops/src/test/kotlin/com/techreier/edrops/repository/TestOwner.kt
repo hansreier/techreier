@@ -3,7 +3,6 @@ package com.techreier.edrops.repository
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogOwner
-import jakarta.persistence.Subgraph
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -20,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 class TestOwner : TestBase() {
 
     /*
+
     @Test
     @DirtiesContext
     fun `cascade delete test`() {
@@ -30,7 +30,7 @@ class TestOwner : TestBase() {
             logger.info("blogEntry: $blogEntry1")
             ownerRepo.delete(blogOwner)
             logger.info("Reier Deleted")
-            val blogDeleted = blogRepo.findByIdOrNull(blog1.id)
+            val blogDeleted = blogRepo.findByIdOrNull(blog.id)
             assertThat(blogDeleted).isNull()
             val blogEntryDeleted = entryRepo.findByIdOrNull(blogEntry1.id)
             assertThat(blogEntryDeleted).isNull()
@@ -38,9 +38,9 @@ class TestOwner : TestBase() {
             ownerRepo.flush()
             blogOwner.blogs?.clear() // or else inconsistency if more processing
         }
-    }
+    }*/
 
-     */
+
 
     /*
     @Test

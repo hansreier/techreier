@@ -30,7 +30,8 @@ abstract class TestBase {
     lateinit var blogData: BlogData
 
     lateinit var blogOwner: BlogOwner
-    lateinit var blog1: Blog
+    lateinit var blog: Blog
+    lateinit var blogEntry: BlogEntry
     var blogId: Long = 0
 
 
@@ -40,8 +41,8 @@ abstract class TestBase {
         languageRepo.save(Norwegian)
         languageRepo.save(English)
         blogOwner = ownerRepo.save(blogData.blogOwner)
-        blog1 = blogOwner.blogs?.filter {it.segment == ENVIRONMENT}!!.first()
-        blogId =  blog1.id!!
+        blog = blogOwner.blogs?.filter {it.segment == ENVIRONMENT}!!.first()
+        blogId =  blog.id!!
     }
 
     // Does not clean sequences in id's, but really does not matter

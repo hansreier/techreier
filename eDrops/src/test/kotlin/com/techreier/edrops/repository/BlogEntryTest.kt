@@ -16,7 +16,7 @@ import java.time.temporal.ChronoUnit
 @ExtendWith(SpringExtension::class)
 @SpringBootTest
 @Transactional
-class TestBlogEntry : TestBase() {
+class BlogEntryTest : TestBase() {
 
 
     @Test
@@ -24,9 +24,10 @@ class TestBlogEntry : TestBase() {
         logger.info("Basic crud test start create")
         var blogEntry1 = BlogEntry(
             ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS),
-            "Katt", "Pus", "Min katt er huskatt", blog1
+            "Katt", "Pus", "Min katt er huskatt", blog
         )
         blogEntry1 = entryRepo.saveAndFlush(blogEntry1)
+        blog.blogEntries!!.add(blogEntry1)
         assertNotNull(blogEntry1)
         assertNotNull(blogEntry1.id)
         entityManager.clear()
@@ -35,7 +36,7 @@ class TestBlogEntry : TestBase() {
         assertNotNull(blogEntry2)
         assertNotNull(blogEntry2.id)
         assertEquals(blogEntry1.changed, blogEntry2.changed)
-        //           assertThat(blogEntry2).usingRecursiveComparison().isEqualTo(blogEntry1)
+        //   assertThat(blogEntry2).usingRecursiveComparison().isEqualTo(blogEntry1)
         logger.info("Basic crud test start update")
         blogEntry1.title = "Pusur"
         entryRepo.save(blogEntry1)
