@@ -29,9 +29,8 @@ class Blog(
     @Column(nullable = false, length = MAX_SUMMARY_SIZE)
     var about: String,
 
-    @Column(nullable = true)
     @OneToMany(mappedBy = "blog", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var blogEntries: MutableList<BlogEntry>? = null,
+    var blogEntries: MutableList<BlogEntry>,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "blog_owner_id", nullable = false)

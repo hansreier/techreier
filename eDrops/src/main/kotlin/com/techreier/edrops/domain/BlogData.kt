@@ -133,20 +133,20 @@ class BlogData(appConfig: AppConfig) {
         noOfBlogs = blogList.size
 
         blog1.blogEntries = blogEntries1
-        blog1.blogEntries?.add(blogEntry1)
-        blog1.blogEntries?.add(blogEntry2)
-        blog1.blogEntries?.add(blogEntry3)
+        blog1.blogEntries.add(blogEntry1)
+        blog1.blogEntries.add(blogEntry2)
+        blog1.blogEntries.add(blogEntry3)
         noOfBlog1Entries = 3
 
         blog1e.blogEntries = blogEntries1e
-        blog1e.blogEntries?.add(blogEntry1e)
-        blog1e.blogEntries?.add(blogEntry2e)
-        blog1e.blogEntries?.add(blogEntry3e)
+        blog1e.blogEntries.add(blogEntry1e)
+        blog1e.blogEntries.add(blogEntry2e)
+        blog1e.blogEntries.add(blogEntry3e)
 
         blog2.blogEntries = blogEntries2
-        blog2.blogEntries?.add(blog2Entry3)
+        blog2.blogEntries.add(blog2Entry3)
 
-        noOfBlogEntries = blogList.sumOf { it.blogEntries?.size ?: 0 }
+        noOfBlogEntries = blogList.sumOf { it.blogEntries.size }
     }
 
     private fun timestamp(datetime: String): ZonedDateTime {

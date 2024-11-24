@@ -27,7 +27,7 @@ class BlogEntryTest : TestBase() {
             "Katt", "Pus", "Min katt er huskatt", blog
         )
         blogEntry1 = entryRepo.saveAndFlush(blogEntry1)
-        blog.blogEntries!!.add(blogEntry1)
+        blog.blogEntries.add(blogEntry1)
         assertNotNull(blogEntry1)
         assertNotNull(blogEntry1.id)
         entityManager.clear()

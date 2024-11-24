@@ -26,7 +26,7 @@ class BlogTest : TestBase() {
             val blog = blogRepo.findByIdOrNull(blogId)
             assertNotNull(blog)
             assertEquals(this.blog.id, blog?.id)
-            logger.info("blog: ${blog}")
+            logger.info("blog: $blog")
     }
 
     @Test
