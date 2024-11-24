@@ -3,6 +3,9 @@ package com.techreier.edrops.domain
 import com.techreier.edrops.config.AppConfig
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 // Predefined segments
 const val ENVIRONMENT = "env"
@@ -88,17 +91,17 @@ const val SUMMARY4 = """
 // Initial populate table. Temporary. Move later back to test
 @Component
 class BlogData(appConfig: AppConfig) {
-    final val datetimeb1 = LocalDateTime.of(2024, 1,1,13,5,3)
-    final val datetimeb2 = LocalDateTime.of(2024, 2,2,13,5,3)
-    final val datetime1 = LocalDateTime.of(2024, 2,15,13,5,3)
-    final val datetime2 = LocalDateTime.of(2024, 2,17,15,5,30)
-    final val datetime3 = LocalDateTime.of(2024, 3,12,11,2,0)
-    final val datetime23 = LocalDateTime.of(2024, 1,1,8,5,12)
+    final val datetimeb1 = timestamp("02.02.2024 13:01:24")
+    final val datetimeb2 = timestamp("02.02.2024 13:05:03")
+    final val datetime1 =  timestamp("15.02.2024 15:05:30")
+    final val datetime2 =  timestamp("17.02.2024 15:05:30")
+    final val datetime3 =  timestamp("12.03.2024 11:02:00")
+    final val datetime23 = timestamp("01.01.2024 08:04:12")
 
     //    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
     //    val English: LanguageCode = LanguageCode(ENGLISH, EN)
     final val blogOwner: BlogOwner = BlogOwner(
-        LocalDateTime.now(), null, appConfig.user, appConfig.password,
+        ZonedDateTime.now(ZoneOffset.UTC), null, appConfig.user, appConfig.password,
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv","NO"
     )
@@ -143,5 +146,10 @@ class BlogData(appConfig: AppConfig) {
         blog2.blogEntries?.add(blog2Entry3)
 
         noOfBlogEntries = blogList.sumOf { it.blogEntries?.size ?: 0 }
+    }
+
+    private fun timestamp(datetime: String): ZonedDateTime {
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+        return LocalDateTime.parse(datetime, formatter).atZone(ZoneOffset.UTC)
     }
 }

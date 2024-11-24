@@ -3,6 +3,8 @@ package com.techreier.edrops.repository
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.*
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,6 +17,28 @@ import org.springframework.transaction.annotation.Transactional
 @SpringBootTest
 @Transactional
 class TestBlog : TestBase() {
+
+    @Test
+    //Do not use this Kotlin extension, does not read JPA annotations, generates more SQL statements
+    fun `read with findByIdOrNull`() {
+            logger.info("starting read with findByIdOrNull")
+            entityManager.clear()
+            val blog = blogRepo.findByIdOrNull(blogId)
+            assertNotNull(blog)
+            assertEquals(blog1.id, blog?.id)
+            logger.info("blog: ${blog}")
+    }
+
+    @Test
+    fun `read with findById`() {
+        logger.info("starting read with findById")
+        entityManager.clear()
+        val blog = blogRepo.findById(blogId).orElse(null)
+        assertNotNull(blog)
+        assertEquals(blog1.id, blog.id)
+        logger.info("blog: $blog")
+    }
+
     @Test
     fun `test findAll`() {
         val instances = blogRepo.findAll()
@@ -23,21 +47,22 @@ class TestBlog : TestBase() {
 
     @Test
     fun `cascade delete test`() {
-        logger.info("starting transactional test")
+        logger.info("starting cascade delete test")
         val blog1 = blogOwner.blogs?.first()
-        val blogEntry1 = blog1?.blogEntries?.first()
+        val blogEntry1 = blog1?.blogEntries?.first()!!
+        assertNotNull(blogEntry1)
         logger.info("blogEntry: $blogEntry1")
-        val blogEntrySaved = entryRepo.findByIdOrNull(blogEntry1?.id)
-        assertThat(blogEntrySaved?.id).isEqualTo(blogEntry1?.id)
-        blogRepo.delete(blog1!!)
+        val blogEntrySaved = entryRepo.findById(blogEntry1.id!!).orElse(null)
+        assertThat(blogEntrySaved.id).isEqualTo(blogEntry1.id)
+        blogRepo.delete(blog1)
         logger.info("Deleted")
-        val blogEntryDeleted = entryRepo.findByIdOrNull(blogEntry1?.id)
+        val blogEntryDeleted = entryRepo.findById(blogEntry1.id).orElse(null)
         assertThat(blogEntryDeleted).isNull()
         logger.info("completed")
     }
 
     @Test
-    fun `read blog with JPQL test`() {
+    fun `read blog with JPQL`() {
         logger.info("starting transactional test")
         val query =
             entityManager.createQuery("SELECT DISTINCT b FROM Blog b INNER JOIN FETCH b.blogEntries WHERE b.subject = ?1 ")
@@ -48,7 +73,8 @@ class TestBlog : TestBase() {
     }
 
     @Test
-    fun `read blog simple test`() {
+    fun `read blog by language and segment`() {
+        logger.info("starting read blog by language and segment")
         val blog = blogRepo.findFirstBlogByLanguageAndSegment(Norwegian, ENVIRONMENT)
         assertThat(blog).isNotNull
         assertThat(blog?.language?.code).isEqualTo(NB)
@@ -61,7 +87,7 @@ class TestBlog : TestBase() {
     @Test
     //Using JPQL more efficient, only one SQL statement
     //https://www.baeldung.com/spring-data-jpa-named-entity-graphs
-    fun `read all with findAll test`() {
+    fun `read all with findAll`() {
         logger.info("starting read all test")
         val blog = blogRepo.findAll()
         logger.info("blogs: $blog noOfBlogs: ${blog.size}")
@@ -74,7 +100,7 @@ class TestBlog : TestBase() {
 
     @Test
     //https://www.baeldung.com/jpa-entity-graph
-    fun `read with entityManager find manual entityGraph`() {
+    fun `read with manual entityGraph`() {
         logger.info("starting read all test")
         val languageCode = LanguageCode(NORWEGIAN, NB)
         val blog1 = blogRepo.findFirstBlogByLanguageAndSegment(languageCode, ENVIRONMENT)

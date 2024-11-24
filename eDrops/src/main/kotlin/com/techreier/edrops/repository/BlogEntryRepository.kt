@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository
 @Repository
 interface BlogEntryRepository : JpaRepository<BlogEntry, Long> {
   //  fun getBlogEntry(id: Long): BlogEntry?
-  fun findByTitle(text: String): Iterable<BlogEntry>
+ //  fun findByTitle(text: String): Iterable<BlogEntry>
+ // fun findByTitle(text: String): BlogEntry?
+  fun findByTitle(text: String): List<BlogEntry>
 
 
   // TODO Remove? Not needed
