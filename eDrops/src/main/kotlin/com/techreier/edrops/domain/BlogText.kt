@@ -2,9 +2,16 @@
 package com.techreier.edrops.domain
 
 import jakarta.persistence.*
+import org.hibernate.annotations.TimeZoneStorage
+import org.hibernate.annotations.TimeZoneStorageType
+import java.time.ZonedDateTime
 
 @Entity
 class BlogText(
+
+    @TimeZoneStorage(TimeZoneStorageType.NORMALIZE_UTC)
+    @Column(columnDefinition ="timestamp(0)")
+    var changed: ZonedDateTime?,
 
     @Column(nullable = false, columnDefinition ="TEXT")
     var text: String,

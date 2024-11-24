@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 // Predefined segments
 const val ENVIRONMENT = "env"
@@ -101,7 +102,7 @@ class BlogData(appConfig: AppConfig) {
     //    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
     //    val English: LanguageCode = LanguageCode(ENGLISH, EN)
     final val blogOwner: BlogOwner = BlogOwner(
-        ZonedDateTime.now(ZoneOffset.UTC), null, appConfig.user, appConfig.password,
+        ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS), null, appConfig.user, appConfig.password,
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv","NO"
     )

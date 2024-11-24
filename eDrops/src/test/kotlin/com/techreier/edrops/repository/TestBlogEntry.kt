@@ -11,6 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest
@@ -22,7 +23,7 @@ class TestBlogEntry : TestBase() {
     fun `basic CRUD checks`() {
         logger.info("Basic crud test start create")
         var blogEntry1 = BlogEntry(
-            ZonedDateTime.now(ZoneOffset.UTC),
+            ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS),
             "Katt", "Pus", "Min katt er huskatt", blog1
         )
         blogEntry1 = entryRepo.saveAndFlush(blogEntry1)

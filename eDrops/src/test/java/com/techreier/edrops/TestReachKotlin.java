@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class TestReachKotlin {
 
@@ -14,7 +15,7 @@ public class TestReachKotlin {
 
     @Test
     public void testReachKotlin() {
-        BlogOwner blogOwner = new BlogOwner(ZonedDateTime.now(ZoneOffset.UTC), null, "Reier","Passord",
+        BlogOwner blogOwner = new BlogOwner(ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS), null, "Reier","Passord",
                 "Reier", "Sigmond",
                 "reier.sigmond@gmail.com", "91668863", "Sløttvegen 17",
                 "2390", "Moelv", "NO", 1L, null);

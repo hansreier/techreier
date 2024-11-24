@@ -13,7 +13,7 @@ import java.time.ZonedDateTime
 class BlogEntry(
 
     @TimeZoneStorage(TimeZoneStorageType.NORMALIZE_UTC)
-    @Column(columnDefinition = "timestamp(9)")
+    @Column(columnDefinition = "timestamp(0)")
     var changed: ZonedDateTime?,
 
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
