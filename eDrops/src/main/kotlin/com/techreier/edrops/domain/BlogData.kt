@@ -99,15 +99,17 @@ class BlogData(appConfig: AppConfig) {
     private final val datetime3 = timestamp("12.03.2024 11:02:00")
     private final val datetime23 = timestamp("01.01.2024 08:04:12")
 
-    final val blogOwner: BlogOwner = BlogOwner(
-        ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS), null, appConfig.user, appConfig.password,
-        "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
-        "+4791668863", "Sløttvegen 17", "2390", "Moelv", "NO"
-    )
-    private final val blogList = mutableSetOf<Blog>()
     private final val blogEntries1 = mutableListOf<BlogEntry>()
     private final val blogEntries1e = mutableListOf<BlogEntry>()
     private final val blogEntries2 = mutableListOf<BlogEntry>()
+    private final val blogList = mutableSetOf<Blog>()
+
+    final val blogOwner: BlogOwner = BlogOwner(
+        ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS), null, appConfig.user, appConfig.password,
+        "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
+        "+4791668863", "Sløttvegen 17", "2390", "Moelv", "NO", blogList
+    )
+
     private final val blog1 = Blog(datetime1, ENVIRONMENT, Norwegian, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
     private final val blog1e = Blog(datetimeb1, ENVIRONMENT, English, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
     private final val blog2 = Blog(datetimeb2, ENERGY, Norwegian, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
@@ -127,9 +129,9 @@ class BlogData(appConfig: AppConfig) {
     final fun initialize() {
         blogList.clear()
         blogOwner.blogs = blogList
-        blogOwner.blogs?.add(blog1)
-        blogOwner.blogs?.add(blog1e)
-        blogOwner.blogs?.add(blog2)
+        blogOwner.blogs.add(blog1)
+        blogOwner.blogs.add(blog1e)
+        blogOwner.blogs.add(blog2)
 
         blogEntries1.clear()
         blog1.blogEntries = blogEntries1

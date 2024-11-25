@@ -48,14 +48,14 @@ class BlogOwner(
     @Column(nullable = false, length = MAX_CODE_SIZE)
     var countryCode: String,
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
-
-    @Column(nullable = true)
     @OneToMany(mappedBy = "blogOwner", cascade = [CascadeType.ALL], orphanRemoval = true)
     @OrderBy("id DESC")
-    var blogs: MutableSet<Blog>? = null
+    var blogs: MutableSet<Blog>,
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null
+
 ) {
     override fun toString() = "id: $id created: $created changed: $changed name: $firstName $lastName"
 }
