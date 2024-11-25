@@ -31,8 +31,9 @@ abstract class TestBase {
 
     lateinit var blogOwner: BlogOwner
     lateinit var blog: Blog
-    lateinit var blogEntry: BlogEntry //TODO initialize
+    lateinit var blogEntry: BlogEntry
     var blogId: Long = 0
+    var blogEntryId: Long = 0
     var noOfBlogEntries: Int = 0
     var noOfBlogs: Int = 0
 
@@ -44,10 +45,12 @@ abstract class TestBase {
         languageRepo.save(English)
         logger.info("Reier før blogOwner")
         blogOwner = ownerRepo.save(blogData.blogOwner)
-        blog = blogOwner.blogs?.filter {it.segment == ENVIRONMENT}!!.first()
+        blog = blogOwner.blogs.filter {it.segment == ENVIRONMENT}.first()
         blogId =  blog.id!!
-        noOfBlogEntries = blogOwner.blogs!!.sumOf { it.blogEntries.size }
-        noOfBlogs = blogOwner.blogs!!.size
+        blogEntry = blog.blogEntries.filter {it.segment == ELPOWER }.first()
+        blogEntryId = blog.blogEntries.filter {it.segment == ELPOWER }.first().id!!
+        noOfBlogEntries = blogOwner.blogs.sumOf { it.blogEntries.size }
+        noOfBlogs = blogOwner.blogs.size
     }
 
     // Does not clean sequences in id's, but really does not matter

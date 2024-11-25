@@ -50,13 +50,14 @@ class BlogTest : TestBase() {
         logger.info("starting cascade delete test")
         val blog1 = blogOwner.blogs.first()
         val blogEntry1 = blog1.blogEntries.first()
+        val blogEntry1id = blogEntry1.id!!
         assertNotNull(blogEntry1)
         logger.info("blogEntry: $blogEntry1")
-        val blogEntrySaved = entryRepo.findById(blogEntry1.id!!).orElse(null)
-        assertThat(blogEntrySaved.id).isEqualTo(blogEntry1.id)
+        val blogEntrySaved = entryRepo.findById(blogEntry1id).orElse(null)
+        assertThat(blogEntrySaved.id).isEqualTo(blogEntry1id)
         blogRepo.delete(blog1)
         logger.info("Deleted")
-        val blogEntryDeleted = entryRepo.findById(blogEntry1.id).orElse(null)
+        val blogEntryDeleted = entryRepo.findById(blogEntry1id).orElse(null)
         assertThat(blogEntryDeleted).isNull()
         logger.info("completed")
     }

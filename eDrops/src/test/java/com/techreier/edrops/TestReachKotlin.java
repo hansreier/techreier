@@ -6,11 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
+
+import static com.techreier.edrops.util.UtilKt.timeStamp;
 
 public class TestReachKotlin {
 
@@ -21,7 +20,7 @@ public class TestReachKotlin {
 
         Set<Blog> blogList = new HashSet<>();
 
-        BlogOwner blogOwner = new BlogOwner(ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS),
+        BlogOwner blogOwner = new BlogOwner(timeStamp(),
                 null, "Reier", "Passord",
                 "Reier", "Sigmond",
                 "reier.sigmond@gmail.com", "91668863", "Sløttvegen 17",

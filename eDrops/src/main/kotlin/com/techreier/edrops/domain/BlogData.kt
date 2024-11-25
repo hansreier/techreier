@@ -1,12 +1,12 @@
 package com.techreier.edrops.domain
 
 import com.techreier.edrops.config.AppConfig
+import com.techreier.edrops.util.timeStamp
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 
 // Predefined segments
 const val ENVIRONMENT = "env"
@@ -104,8 +104,8 @@ class BlogData(appConfig: AppConfig) {
     private final val blogEntries2 = mutableListOf<BlogEntry>()
     private final val blogList = mutableSetOf<Blog>()
 
-    final val blogOwner: BlogOwner = BlogOwner(
-        ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS), null, appConfig.user, appConfig.password,
+    final val blogOwner: BlogOwner = BlogOwner(timeStamp()
+        , null, appConfig.user, appConfig.password,
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv", "NO", blogList
     )
