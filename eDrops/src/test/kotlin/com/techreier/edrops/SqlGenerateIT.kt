@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ActiveProfiles("gensql")
 class SqlGenerateIT {
 
-    //Generates SQL from object model with JPA/Hibernate in file create.sql
+    //Generates SQL from object model with JPA/Hibernate in file Generated.sql in target/generated-sql
     @Test
     fun generateSQL() {
         logger.info("test generate SQL from JPA/Hibernate domain model")

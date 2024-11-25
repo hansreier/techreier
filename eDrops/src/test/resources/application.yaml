@@ -53,7 +53,7 @@ spring:
         format_sql: true
       jakarta.persistence.schema-generation.database.action: create
       jakarta.persistence.schema-generation.scripts.action: create
-      jakarta.persistence.schema-generation.scripts.create-target: src/main/resources/db/migration/Generated.sql
+      jakarta.persistence.schema-generation.scripts.create-target: target/generated-sql/Generated.sql
       jakarta.persistence.database-product-name: MariaDB
 #     jakarta.persistence.schema-generation.scripts.create-source: metadata
 logging:

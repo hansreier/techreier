@@ -12,11 +12,25 @@ SPRING_PROFILES_ACTIVE="profile".
 
 ## H2
 
-H2 is mainly used for unit and integration tests
+H2 is mainly used for unit and integration tests.  
 
-Spring boot profiles:
-- h2: in memory profile
-- h2disk: disk file storage. Current Docker setup is without mounting of the database files
+### About unit tests using Spring Boot testing and H2
+
+In earlier versions the entire Spring Context was reloaded and tables recreated for every unit test.
+In the new version the tables is cleared instead. Note that other database configuration is not cleared.
+Identifier numbers will continue to increase through all the tests, so take care when doing asserts.  
+
+Tables are created using Flyway. This can easily be changed in config, so Hibernate/JPA is used instead if desired.  
+
+### Profiles
+
+Spring boot H2 profiles:
+- h2: In memory. Uses Flyway for table generation, else JPA/Hibernate for other DB operations.
+- h2-jpa-generate: H2 in memory: Uses JPA/Hibernate for all DB operations.
+- h2-prod: Uses Flyway for table generation, else JPA/Hibernate for other DB operations. Temporary prod profile.
+- h2-disk: H2 in local disk. Uses Flyway for table generation, else JPA/Hibernate for other DB operations.
+- test: In memory for unit tests.  Uses Flyway for table generation, else JPA/Hibernate for other DB operations.
+- gensql: Profile for generating sql from JPA/Hibernate to be used as V1__initial.sql for Flyway.
 
 H2 could even be used with the disk option in production for simplicity, but it is only recommended for
 reading database instances and not writing by many clients. One simple option would be to mount the h2 database
@@ -26,13 +40,19 @@ files (volume or bind) to ensure permanent storage. This is not tested.
 
 MariaDB is selected as database to use in production. Mariadb is built on MySQL, but seems a better option
 today due to licencing and other issues. PostgreSQL could be another option, but MariaDB has a smaller footprint,
-is simpler and best suited for web applications. 
+is simpler and best suited for web applications. TODO: Temporarily H2 and the h2-prod profile is used in production.
 
-Spring boot profiles:
-- local-mariadb - connect locally using mariadb installed on development PC
+### Profiles
+
+Spring boot MariaDB profiles:
+- local-mariadb: Mariadb in local disk. 
 - mariadb-dockerized - connect dockerized mariadb (locally or from docker)
 - docker-mariadb - connect from local docker image to local mariadb
 - global-mariadb - connect globally to dockerized mariadb
+
+All these profile uses Flyway for table generation, else JPA/Hibernate for other DB operations.
+
+### Installing MariaDB locally
 
 I installed MariaDB locally on PC, and it was almost as easy to set up as H2.
 It was very easy to connect using the Database connect possibilities in Intellij.
@@ -50,11 +70,16 @@ GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, SHOW VIEW ON e
 ```
 refer to script dbInit.sql. The bottom grant statement is better to use, gives more limited access.
 
-As an alternative use MariaDb official image from Dockerhub. Create a container. Remember to enter port 
-and set MARIADB_ROOT_PASSWORD as environment variable when using Docker Desktop or docker command.
-Sign in
+### Installing MariaDB on docker image
 
-Note: The db port is changed to 3308 in config for local Docker.
+I have tested this, but I really like local installation better because it is easier. 
+It is not that complicated if required to clear the tables, you just have to do it in the correct order.  
+
+Use MariaDb official image from Dockerhub. Create a container. Remember to enter port 
+and set MARIADB_ROOT_PASSWORD as environment variable when using Docker Desktop or docker command.
+Sign in.  
+
+Note: The db port is changed to 3308 in config for local Docker.  
 
 Never use the root user and password for connection, a separate user: dbuser is defined for the purpose.
 I have used an environment variable DB_PASSWORD, to avoid checking in db user password to github.  
@@ -79,4 +104,14 @@ To connect from container to db-service on the host:
  url: jdbc:mariadb://host.docker.internal:3308/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
 ```
 This only works using Docker Desktop. Docker Desktop cannot be run in Host mode, only in Brigde Mode (default).
-Verify and eventuelly change port number!
+Verify and eventuelly change port number
+
+
+## Order of clearing tables
+
+- BLOG_TEXT (can be done in any order)
+- BLOG_ENTRY
+- BLOG
+- BLOG_OWNER
+- LANGUAGE_CODE
+- FLYWAY_SCHEMA_HISTORY (If existing)
