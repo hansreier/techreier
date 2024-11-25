@@ -31,8 +31,10 @@ abstract class TestBase {
 
     lateinit var blogOwner: BlogOwner
     lateinit var blog: Blog
-    lateinit var blogEntry: BlogEntry
+    lateinit var blogEntry: BlogEntry //TODO initialize
     var blogId: Long = 0
+    var noOfBlogEntries: Int = 0
+    var noOfBlogs: Int = 0
 
 
     @BeforeEach
@@ -40,9 +42,12 @@ abstract class TestBase {
         clean()
         languageRepo.save(Norwegian)
         languageRepo.save(English)
+        logger.info("Reier før blogOwner")
         blogOwner = ownerRepo.save(blogData.blogOwner)
         blog = blogOwner.blogs?.filter {it.segment == ENVIRONMENT}!!.first()
         blogId =  blog.id!!
+        noOfBlogEntries = blogOwner.blogs!!.sumOf { it.blogEntries.size }
+        noOfBlogs = blogOwner.blogs!!.size
     }
 
     // Does not clean sequences in id's, but really does not matter
@@ -56,5 +61,6 @@ abstract class TestBase {
         entityManager.createQuery("DELETE FROM LanguageCode").executeUpdate()
         entityManager.flush()
         entityManager.clear()
+        blogData.initialize()
     }
 }

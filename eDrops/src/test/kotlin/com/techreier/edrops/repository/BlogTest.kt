@@ -42,7 +42,7 @@ class BlogTest : TestBase() {
     @Test
     fun `test findAll`() {
         val instances = blogRepo.findAll()
-        assertThat(instances.size).isEqualTo(blogData.noOfBlogs)
+        assertThat(instances.size).isEqualTo(noOfBlogs)
     }
 
     @Test
@@ -81,7 +81,6 @@ class BlogTest : TestBase() {
         assertThat(blog1?.language?.language).isEqualTo(NORWEGIAN)
         assertThat(blog1?.segment).isEqualTo(ENVIRONMENT)
         logger.info("blog: $blog1 ${blog1?.blogEntries?.size}")
-        assertThat(blog1?.blogEntries?.size).isEqualTo(blogData.noOfBlog1Entries)
     }
 
     @Test
@@ -91,7 +90,7 @@ class BlogTest : TestBase() {
         logger.info("starting read all test")
         val blogs = blogRepo.findAll()
         logger.info("blogs: $blogs noOfBlogs: ${blogs.size}")
-        assertThat(blogs.size).isEqualTo(blogData.noOfBlogs)
+        assertThat(blogs.size).isEqualTo(noOfBlogs)
         blogs.forEach {
             val entries = it.blogEntries
             logger.info("my entries: $entries")

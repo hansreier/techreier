@@ -92,20 +92,19 @@ const val SUMMARY4 = """
 // Initial populate table. Temporary. Move later back to test
 @Component
 class BlogData(appConfig: AppConfig) {
-    final val datetimeb1 = timestamp("02.02.2024 13:01:24")
-    final val datetimeb2 = timestamp("02.02.2024 13:05:03")
-    final val datetime1 =  timestamp("15.02.2024 15:05:30")
-    final val datetime2 =  timestamp("17.02.2024 15:05:30")
-    final val datetime3 =  timestamp("12.03.2024 11:02:00")
-    final val datetime23 = timestamp("01.01.2024 08:04:12")
+    private final val datetimeb1 = timestamp("02.02.2024 13:01:24")
+    private final val datetimeb2 = timestamp("02.02.2024 13:05:03")
+    private final val datetime1 = timestamp("15.02.2024 15:05:30")
+    private final val datetime2 = timestamp("17.02.2024 15:05:30")
+    private final val datetime3 = timestamp("12.03.2024 11:02:00")
+    private final val datetime23 = timestamp("01.01.2024 08:04:12")
 
-    //    val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
-    //    val English: LanguageCode = LanguageCode(ENGLISH, EN)
     final val blogOwner: BlogOwner = BlogOwner(
         ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS), null, appConfig.user, appConfig.password,
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
-        "+4791668863", "Sløttvegen 17", "2390", "Moelv","NO"
+        "+4791668863", "Sløttvegen 17", "2390", "Moelv", "NO"
     )
+    private final val blogList = mutableSetOf<Blog>()
     private final val blogEntries1 = mutableListOf<BlogEntry>()
     private final val blogEntries1e = mutableListOf<BlogEntry>()
     private final val blogEntries2 = mutableListOf<BlogEntry>()
@@ -113,40 +112,40 @@ class BlogData(appConfig: AppConfig) {
     private final val blog1e = Blog(datetimeb1, ENVIRONMENT, English, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
     private final val blog2 = Blog(datetimeb2, ENERGY, Norwegian, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
 
-    private final val blogEntry1 = BlogEntry(datetime1, ELPOWER,  TITLE1, SUMMARY1, blog1)
-    private final val blogEntry2 = BlogEntry(datetime2, WEATHER,  TITLE2, SUMMARY2, blog1)
-    private final val blogEntry3 = BlogEntry(datetime3,  HIBERNATE,  TITLE3, SUMMARY3, blog1)
-    private final val blogEntry1e = BlogEntry(datetime1,  ELPOWER,  TITLE1E, SUMMARY1E, blog1e)
-    private final val blogEntry2e = BlogEntry(datetime2,  WEATHER,  TITLE2E, SUMMARY2E, blog1e)
-    private final val blogEntry3e = BlogEntry(datetime3,  HIBERNATE,  TITLE3E, SUMMARY3E, blog1e)
-    private final val blog2Entry3 = BlogEntry(datetime23,  ENERGY,  TITLE4, SUMMARY4, blog2)
-    final val noOfBlogs: Int
-    final val noOfBlogEntries: Int
-    final val noOfBlog1Entries: Int
+    private final val blogEntry1 = BlogEntry(datetime1, ELPOWER, TITLE1, SUMMARY1, blog1)
+    private final val blogEntry2 = BlogEntry(datetime2, WEATHER, TITLE2, SUMMARY2, blog1)
+    private final val blogEntry3 = BlogEntry(datetime3, HIBERNATE, TITLE3, SUMMARY3, blog1)
+    private final val blogEntry1e = BlogEntry(datetime1, ELPOWER, TITLE1E, SUMMARY1E, blog1e)
+    private final val blogEntry2e = BlogEntry(datetime2, WEATHER, TITLE2E, SUMMARY2E, blog1e)
+    private final val blogEntry3e = BlogEntry(datetime3, HIBERNATE, TITLE3E, SUMMARY3E, blog1e)
+    private final val blog2Entry3 = BlogEntry(datetime23, ENERGY, TITLE4, SUMMARY4, blog2)
 
     init {
-        val blogList = mutableSetOf<Blog>()
+        initialize()
+    }
+
+    final fun initialize() {
+        blogList.clear()
         blogOwner.blogs = blogList
         blogOwner.blogs?.add(blog1)
         blogOwner.blogs?.add(blog1e)
         blogOwner.blogs?.add(blog2)
-        noOfBlogs = blogList.size
 
+        blogEntries1.clear()
         blog1.blogEntries = blogEntries1
         blog1.blogEntries.add(blogEntry1)
         blog1.blogEntries.add(blogEntry2)
         blog1.blogEntries.add(blogEntry3)
-        noOfBlog1Entries = 3
 
+        blogEntries1e.clear()
         blog1e.blogEntries = blogEntries1e
         blog1e.blogEntries.add(blogEntry1e)
         blog1e.blogEntries.add(blogEntry2e)
         blog1e.blogEntries.add(blogEntry3e)
 
+        blogEntries2.clear()
         blog2.blogEntries = blogEntries2
         blog2.blogEntries.add(blog2Entry3)
-
-        noOfBlogEntries = blogList.sumOf { it.blogEntries.size }
     }
 
     private fun timestamp(datetime: String): ZonedDateTime {
