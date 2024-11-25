@@ -45,8 +45,9 @@ spring:
     enabled: true
     baseline-on-migrate: true
   jpa:
-    generate-ddl: false
     defer-datasource-initialization: false
+    hibernate:
+      ddl-auto: none
 # Must be investigated. Should really be set to false.
     open-in-view: false
     properties:
@@ -74,8 +75,8 @@ spring:
     activate:
       on-profile: h2-jpa-generate
   jpa:
-    generate-ddl: true
     hibernate:
+      ddl-auto: create
       naming:
         implicit-strategy: com.techreier.edrops.config.MyImplicitNamingStrategy
     defer-datasource-initialization: true
