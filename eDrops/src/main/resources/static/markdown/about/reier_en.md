@@ -11,7 +11,7 @@ My name is Reier. It is an old Norwegian name.
 - TechReier refers to reliable sources.
 - TechReier cooperates with other professionals in agile product teams.
 
-This is the reason for this blog inspired website. Not sponsored by any company.
+This is the reason for this blog inspired website. Not sponsored or affiliated with any employer, company or organization.
 
 I am a senior software engineer living in Moelv, Innlandet, Norway with female partner.
 I enjoy nature, with walks, running, cross country skiing and orienteering.

@@ -1,4 +1,4 @@
-## Velkommen til Reiers nettside
+## Velkommen til Reiers private nettsted
 
 Som nesten er ferdig...
 

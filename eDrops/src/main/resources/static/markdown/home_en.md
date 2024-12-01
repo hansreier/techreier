@@ -1,4 +1,4 @@
-## Welcome to Reiers home page
+## Welcome to Reiers private website
 
 Nearly completed..
 

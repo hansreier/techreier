@@ -12,7 +12,7 @@ Navnet mitt er Reier. Det er et gammelt norsk navn.
 - TechReier samarbeider med andre fagpersoner i smidige produkt team.
 
 Derfor dette blogg inspirerte nettstedet.
-Ikke sponset av noe firma.
+Ikke sponset eller tilknyttet noen arbeidsgiver, firma eller organisasjon.
 
 Jeg er en senior programvareutvikler som bor på Moelv, Innlandet Norge med kvinnelig samboer.
 Jeg liker meg også ute i naturen, med turer, løping, skigåing og orientering.
