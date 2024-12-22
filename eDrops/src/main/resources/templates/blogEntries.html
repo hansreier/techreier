@@ -15,15 +15,17 @@
             <thead>
                 <tr>
                     <th th:text="#{id}"></th>
+                    <th th:text="#{segment}"></th>
                     <th th:text="#{title}"></th>
                     <th th:text="#{changed}"></th>
                 </tr>
             </thead>
             <tbody>
             <tr th:each="blogEntry : ${blog.blogEntries}">
-                <td><a th:href="@{${linkPath + blogEntry.id}}" th:text="${blogEntry.id}"></a></td>
-                <td><a th:href="@{${linkPath + blogEntry.id}}" th:text="${blogEntry.title}"></a></td>
-                <td><a th:href="@{${linkPath + blogEntry.id}}" th:text="${#temporals.format(blogEntry.changed, #messages.msg('datetime.format'))}"></a></td>
+                <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${blogEntry.id}"></a></td>
+                <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${blogEntry.segment}"></a></td>
+                <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${blogEntry.title}"></a></td>
+                <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${#temporals.format(blogEntry.changed, #messages.msg('datetime.format'))}"></a></td>
             </tr>
             </tbody>
         </table>
