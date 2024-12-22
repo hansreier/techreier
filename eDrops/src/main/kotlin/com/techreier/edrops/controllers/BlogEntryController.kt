@@ -45,6 +45,7 @@ class BlogEntryController(
         } ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
 
         model.addAttribute("blog", blog)
+        model.addAttribute("linkPath", "$ADMIN_DIR/${segment}/")
         logger.info("getting GUI with blogEntry. ${selectedBlogEntry.title}")
         val blogEntryForm = BlogEntryForm(selectedBlogEntry.segment, selectedBlogEntry.title, selectedBlogEntry.summary)
         model.addAttribute("blogEntryForm", blogEntryForm)

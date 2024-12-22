@@ -186,6 +186,11 @@ img:hover::after {
 
 #blogentries tr:hover {background-color: #ddd;}
 
+#blogentries a {
+	text-decoration: none;
+	color: inherit;
+}
+
 #blogentryform {
 	color: green;
 	width: 100%;

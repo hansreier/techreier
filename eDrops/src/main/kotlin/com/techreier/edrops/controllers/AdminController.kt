@@ -29,6 +29,7 @@ class AdminController(private val dbService: DbService,
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language )
         model.addAttribute("blog", blog)
+        model.addAttribute("linkPath", "$ADMIN_DIR/${segment}/")
         logger.info("getting GUI with blogEntries")
         return "blogEntries"
     }

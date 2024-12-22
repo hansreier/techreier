@@ -124,6 +124,7 @@ spring:
     cache: false
   devtools:
     livereload.enabled: true
+    restart.enabled: true
   web.resources.cache.period: 3600
   h2:
     console.enabled: true

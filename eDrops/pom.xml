@@ -13,6 +13,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.3.4</version>
+		<!--version>3.4.1</version TODO generate test errors-->
 	</parent>
 
 	<properties>
@@ -360,7 +361,7 @@
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
 			<!-- Temporary explicit version to fix Thymeleaf bug -->
-			<version>3.1.1.RELEASE</version>
+			<version>3.1.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
