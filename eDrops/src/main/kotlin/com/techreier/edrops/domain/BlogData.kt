@@ -42,22 +42,22 @@ val English: LanguageCode = LanguageCode(ENGLISH, EN)
 
 val Languages = listOf(Norwegian, English)
 
-const val SUMMARY1 = """
-    Regjeringen Støre nekter å regulere strømmarkedet.
-    I stedet er det innført en strømstøtteordning.
-    Denne er brukbar for privatpersoner, men ikke for bedrifter.
-    Dette er dessverre bare å fikle på en dårlig ordning.
-    I tillegg så lekker det strøm ut via de nye høykapasitets utenlandskablene.
-    #Strøm #Støre
-    """
-const val SUMMARY1E = """
-    The government Støre refuses to control the electricity marked.
-    As a replacement you get some money returned back from Norwegian Authorities.
-    It is not that bad for private citizens, but not for companies.
-    This is unfortunately just tinkering with a bad setup.
-    In addition, electricity is leaking out through the new high-capacity foreign cables.
-    #ElectricalPower #Støre
-    """
+const val SUMMARY1 =
+        "Regjeringen Støre nekter å regulere strømmarkedet. " +
+        "I stedet er det innført en strømstøtteordning. " +
+        "Denne er brukbar for privatpersoner, men ikke for bedrifter. " +
+        "Dette er dessverre bare å fikle på en dårlig ordning. " +
+        "I tillegg så lekker det strøm ut via de nye høykapasitets utenlandskablene.\n\n" +
+        "#Strøm #Støre"
+
+const val SUMMARY1E =
+    "The government Støre refuses to control the electricity marked. " +
+    "As a replacement you get some money returned back from Norwegian Authorities. " +
+    "It is not that bad for private citizens, but not for companies. " +
+    "This is unfortunately just tinkering with a bad setup. " +
+    " In addition, electricity is leaking out through the new high-capacity foreign cables. \n\n" +
+    "#ElectricalPower #Støre"
+
 const val SUMMARY2 = """
     Først var det ikke snø,
     Så snødde det mye.
@@ -104,8 +104,8 @@ class BlogData(appConfig: AppConfig) {
     private final val blogEntries2 = mutableListOf<BlogEntry>()
     private final val blogList = mutableSetOf<Blog>()
 
-    final val blogOwner: BlogOwner = BlogOwner(timeStamp()
-        , null, appConfig.user, appConfig.password,
+    final val blogOwner: BlogOwner = BlogOwner(
+        timeStamp(), null, appConfig.user, appConfig.password,
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv", "NO", blogList
     )

@@ -152,6 +152,10 @@ img:hover::after {
 	opacity: 0.9;
 }
 
+.section {
+	white-space: pre-line
+}
+
 .linkbutton {
 	display: inline-block;
 	padding: 10px 20px;
@@ -165,6 +169,7 @@ img:hover::after {
 
 #blogentries {
 	border-collapse: collapse;
+	cursor: pointer;
 	width: 100%;
 }
 
@@ -201,8 +206,17 @@ img:hover::after {
 	grid-template-columns: 1fr;
 	flex-direction: column;
 	width: 100%;
-	gap: 10px;
-	color: red;
+	gap: 5px;
+	color: black;
+}
+
+#inputfields label {
+	margin-top: 10px
+}
+
+#inputfields textarea {
+	resize: vertical; /* Allow resizing vertically only */
+	min-height: 100px; /* Ensure a minimum height */
 }
 
 .input-row {
