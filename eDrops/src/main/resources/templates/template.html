@@ -17,20 +17,24 @@
 </head>
 <body>
 <header>
-    <a id="homebutton" th:text="'⌂'" href="/"/>
-    <a id="techreier" th:text="Techreier" href="/"/>
-    <form id="language" th:action="@{/language}" th:method="post">
-        <label th:text="language" for="dropDownList" >Language code:</label>
-        <select id="dropDownList" name="languageCode" onchange="language.submit()">
-            <option th:each="language : ${languages}"
+    <div id="left-top">
+        <a id="homebutton" th:text="'⌂'" href="/"/>
+        <a id="techreier" th:text="Techreier" href="/"/>
+    </div>
+    <div id="right-top">
+        <form id="language" th:action="@{/language}" th:method="post">
+            <label id="languageLabel" th:text="language" for="languageSelect"></label>
+            <select id="languageSelect" name="languageCode" onchange="language.submit()">
+                <option id="languageOption" th:each="language : ${languages}"
                     th:value="${language.code}" th:text="${language.language} + ' ' + ${language.code}"
                     th:selected="${language.code eq langCode}"></option>
-        </select>
-        <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
-        <input type="hidden" th:value="${blogId}" name="blogid">
-        <input type="hidden" th:value="${path}" name="path">
-    </form>
-    <div sec:authorize="isAuthenticated()"> ✔</div>
+            </select>
+            <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
+            <input type="hidden" th:value="${blogId}" name="blogid">
+            <input type="hidden" th:value="${path}" name="path">
+        </form>
+        <div sec:authorize="isAuthenticated()"> ✔</div>
+    </div>
 </header>
 <div class="navbar">
     <div class="dropdown">
