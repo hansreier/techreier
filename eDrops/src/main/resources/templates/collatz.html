@@ -14,14 +14,10 @@
         <div th:utext="${docText}"></div><br>
     </div>
     <form th:action="@{/collatz}" th:object="${collatz}" th:method="post">
-        <div class="container" id="collatzForm">
-            <div class="form-row">
-                <label th:for="seed" th:text="#{collatzSeed}"></label>
-                <input type="text" id="seed" th:field="*{seed}" maxLength="18">
-                <span class="error" th:if="${#fields.hasErrors('seed')}" th:errors="*{seed}"></span>
-            </div>
-        </div>
-        <div>
+        <div class="form-row">
+            <label th:for="seed" th:text="#{collatzSeed}"></label>
+            <input type="text" id="seed" th:field="*{seed}" maxLength="18">
+            <span class="error" th:if="${#fields.hasErrors('seed')}" th:errors="*{seed}"></span>
             <button type="submit" th:text="#{calculate}"></button>
         </div>
         <th:block th:if="${result}">

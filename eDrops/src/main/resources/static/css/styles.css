@@ -6,14 +6,20 @@ body {
 	height: 100%;
 	width: 100%;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 1em;
+	font-size: 1rem;
     overflow-x: auto;
 	overflow-y: auto;
+	font-weight: 400;
+}
+
+button {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
 }
 
 p {
 	margin-top: 0;
-	padding: 0.5em 5px;
+	padding: 0.5rem 5px;
 	margin-bottom: 0;
 }
 
@@ -27,16 +33,37 @@ h2 {
 
 ul {
 	list-style-type: disc;
-	padding: 0.1em 1em 0.2em 1.2em;
+	padding: 0.1rem 1rem 0.2rem 1.2rem;
 }
 
 ul ul {
 	list-style-type: "- ";
-    padding: 0.1em 1em 0.2em 0.6em;
+    padding: 0.1rem 1rem 0.2rem 0.6rem;
 }
 
 li {
-	padding-top: 0.2em;
+	padding-top: 0.2rem;
+}
+
+label {
+	font-weight: 500;
+	font-size: 0.92rem;
+	margin-bottom: 0.2rem;
+}
+
+input {
+	font-size: 1rem;
+	font-weight: 400;
+	margin-bottom: 0.5rem;
+}
+
+table {
+	margin-bottom: 1rem;
+}
+
+textarea {
+	font-size: 1rem;
+	margin-bottom: 0.5rem;
 }
 
 table {
@@ -63,7 +90,7 @@ header {
     font-weight: bold;
 	font-size: 0.7em;
 	white-space:nowrap;
-	padding: 1em 15px;
+	padding: 1rem 15px;
 	margin: 0;
 	background-color: yellow;
 	border-style: solid;
@@ -72,8 +99,8 @@ header {
  	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	line-height: 2em;
-	height: 2em;
+	line-height: 2rem;
+	height: 2rem;
 }
 
 code {
@@ -82,48 +109,48 @@ code {
 	color: #333;
 	padding: 10px;
 	border-radius: 5px;
-	font-size: 1.1em;
+	font-size: 1.1rem;
 	white-space: pre;
 	overflow-x: auto;
-	line-height: 1.5em;
+	line-height: 1.5rem;
 }
 
 #techreier {
 	display: flex;
 	text-decoration: none;
 	transition: background-color 0.3s ease;
-	font-size:1em;
+	font-size:1rem;
 }
 
 #homebutton {
 	display: flex;
 	text-decoration: none;
 	transition: background-color 0.3s ease;
-	font-size: 2.2em;
+	font-size: 2.2rem;
 	color: blue;
 	margin-right: 5px;
-	padding-bottom: 0.2em;
+	padding-bottom: 0.2rem;
 }
 
 #language {
 	display: flex;
 	color: green;
-	font-size: 1.4em;
+	font-size: 1.4rem;
 	margin-left: auto;
 }
 
 footer {
 	color: green;
-	font-size: 0.7em;
+	font-size: 0.7rem;
 	background-color: transparent;
-	padding: 0.5em 20px;
+	padding: 0.5rem 20px;
 	border: none;
 }
 
 /* Work area */
 #work {
 	margin: 0;
-	padding: 0.75em 20px;
+	padding: 0.75rem 20px;
 	border-style: solid;
 	border-width: 0 0 1px;
 }
@@ -210,13 +237,9 @@ img:hover::after {
 	color: black;
 }
 
-#inputfields label {
-	margin-top: 10px
-}
-
 #inputfields textarea {
-	resize: vertical; /* Allow resizing vertically only */
-	min-height: 100px; /* Ensure a minimum height */
+	resize: vertical;
+	min-height: 100px;
 }
 
 .input-row {
@@ -224,8 +247,8 @@ img:hover::after {
 }
 
 #seed {
-	width: 11em;
-	margin-right: 4em;
+	width: 11rem;
+	margin-right: 4rem;
 }
 
 /* Add a black background color to the top navigation */
@@ -342,7 +365,7 @@ img:hover::after {
 	border: none;
 	float: none;
 	color: black;
-	padding: 12px 16px;
+	padding: 0.4rem 0.6rem;
 	text-decoration: none;
 	width: 100%;
 	display: block;
@@ -362,9 +385,11 @@ img:hover::after {
 	max-width: 95%;
 }
 
+/*
+
 .form-row {
 	margin-bottom: 10px;
-}
+} */
 
 .form-row label {
 	display: block;
