@@ -18,8 +18,8 @@
             <label th:for="seed" th:text="#{collatzSeed}"></label>
             <input type="text" id="seed" th:field="*{seed}" maxLength="18">
             <span class="error" th:if="${#fields.hasErrors('seed')}" th:errors="*{seed}"></span>
-            <button type="submit" th:text="#{calculate}"></button>
         </div>
+        <button type="submit" th:text="#{calculate}"></button>
         <th:block th:if="${result}">
             <p class="error" th:if="${result.error != null }" th:text="#{${result.error}}"></p>
             <p th:text="#{iterations} + ': ' + ${result.iterations}"></p>

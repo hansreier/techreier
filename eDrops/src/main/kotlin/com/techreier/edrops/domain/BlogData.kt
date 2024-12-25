@@ -42,52 +42,37 @@ val English: LanguageCode = LanguageCode(ENGLISH, EN)
 
 val Languages = listOf(Norwegian, English)
 
-const val SUMMARY1 =
-        "Regjeringen Støre nekter å regulere strømmarkedet. " +
+const val SUMMARY1 = "Regjeringen Støre nekter å regulere strømmarkedet. " +
         "I stedet er det innført en strømstøtteordning. " +
         "Denne er brukbar for privatpersoner, men ikke for bedrifter. " +
         "Dette er dessverre bare å fikle på en dårlig ordning. " +
         "I tillegg så lekker det strøm ut via de nye høykapasitets utenlandskablene.\n\n" +
         "#Strøm #Støre"
 
-const val SUMMARY1E =
-    "The government Støre refuses to control the electricity marked. " +
-    "As a replacement you get some money returned back from Norwegian Authorities. " +
-    "It is not that bad for private citizens, but not for companies. " +
-    "This is unfortunately just tinkering with a bad setup. " +
-    " In addition, electricity is leaking out through the new high-capacity foreign cables. \n\n" +
-    "#ElectricalPower #Støre"
+const val SUMMARY1E = "The government Støre refuses to control the electricity marked. " +
+        "As a replacement you get some money returned back from Norwegian Authorities. " +
+        "It is not that bad for private citizens, but not for companies. " +
+        "This is unfortunately just tinkering with a bad setup. " +
+        " In addition, electricity is leaking out through the new high-capacity foreign cables. \n\n" +
+        "#ElectricalPower #Støre"
 
-const val SUMMARY2 = """
-    Først var det ikke snø,
-    Så snødde det mye.
-    Så kom det masse regn.
-    Så ble det isglatt og iskaldt.
-    #Snø
-    """
+const val SUMMARY2 = "Først var det ikke snø. " +
+        "Så snødde det mye. " +
+        "Så kom det masse regn. " +
+        "Så ble det isglatt og iskaldt. #Snø"
 
-const val SUMMARY2E = """
-    At first no snow
-    Then it snowed a lot,
-    Then a lot of rain poured down.
-    Then it god icy and slippery and freezing cold.
-    #Snow
-    """
+const val SUMMARY2E = "At first no snow. " +
+        "Then it snowed a lot. " +
+        "Then a lot of rain poured down. " +
+        "Then it god icy and slippery and freezing cold. #Snø"
 
-const val SUMMARY3 = """
-    Det er tydeligvis helt umulig med toveis relasjon for Hibernate på en til en relasjoner.
-    Jeg har gitt opp å gjøre noe med det etter mange forsøk.
-    #Hibernate
-    """
-const val SUMMARY3E = """
-    It is apparently impossible with a two way relation for Hibernate on a one to one relation.
-    I have given up doing something about it after many attempts.
-    #Hibernate
-    """
+const val SUMMARY3 = "Det er tydeligvis helt umulig med toveis relasjon for Hibernate på en til en relasjoner. " +
+        "Jeg har gitt opp å gjøre noe med det etter mange forsøk. #Hibernate"
 
-const val SUMMARY4 = """
-    Dette er min nye blogg med tvilsomt innhold.
-    """
+const val SUMMARY3E = "It is apparently impossible with a two way relation for Hibernate on a one to one relation. " +
+        "I have given up doing something about it after many attempts. #Hibernate"
+
+const val SUMMARY4 = "Dette er min nye blogg med tvilsomt innhold."
 
 // Initial populate table. Temporary. Move later back to test
 @Component
