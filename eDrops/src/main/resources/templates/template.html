@@ -26,8 +26,8 @@
             <label id="languageLabel" th:text="language" for="languageSelect"></label>
             <select id="languageSelect" name="languageCode" onchange="language.submit()">
                 <option id="languageOption" th:each="language : ${languages}"
-                    th:value="${language.code}" th:text="${language.language} + ' ' + ${language.code}"
-                    th:selected="${language.code eq langCode}"></option>
+                        th:value="${language.code}" th:text="${language.language} + ' ' + ${language.code}"
+                        th:selected="${language.code eq langCode}"></option>
             </select>
             <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
             <input type="hidden" th:value="${blogId}" name="blogid">
@@ -72,17 +72,18 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <ul>
-                <li>
-                    <a href="/collatz" class="dropdown-item" th:text="#{collatz}"></a>
-                </li>
-                <form th:action="@{/blogs}"  th:method="post">
+            <form th:action="@{/blogs}" th:method="post">
+                <ul>
+                    <li>
+                        <a href="/collatz" class="dropdown-item" th:text="#{collatz}"></a>
+                    </li>
                     <li th:each="blog: ${blogs}">
-                        <button class=dropdown-item type="submit" name="result" th:value="${blog.segment} +' '+ ${blog.id}"
+                        <button class=dropdown-item type="submit" name="result"
+                                th:value="${blog.segment} +' '+ ${blog.id}"
                                 th:text="${blog.subject}"></button>
                     </li>
-                </form>
-            </ul>
+                </ul>
+            </form>
         </div>
     </div>
     <div class="dropdown">
@@ -94,22 +95,27 @@
                 <li>
                     <div sec:authorize="!isAuthenticated()">
                         <a href="/login" class="dropdown-item" th:text="#{login}"></a>
-                     </div>
+                    </div>
                 </li>
-                <div sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" th:method="post">
+            </ul>
+            <div sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" th:method="post">
+                    <ul>
                         <li>
                             <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                         </li>
-                    </form>
-                    <form th:action="@{/admin}" th:method="post">
+                    </ul>
+                </form>
+                <form th:action="@{/admin}" th:method="post">
+                    <ul>
                         <li th:each="blog: ${blogs}">
-                            <button class=dropdown-item name="result" type="submit" th:value="${blog.segment} +' '+ ${blog.id}"
+                            <button class=dropdown-item name="result" type="submit"
+                                    th:value="${blog.segment} +' '+ ${blog.id}"
                                     th:text="${blog.subject}"></button>
                         </li>
-                    </form>
-                </div>
-            </ul>
+                    </ul>
+                </form>
+            </div>
         </div>
     </div>
 </div>
