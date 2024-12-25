@@ -58,12 +58,10 @@
         </button>
         <div class="dropdown-content">
             <form th:action="@{/about}" th:method="post">
-                <ul>
-                    <li th:each="doc: ${aboutDocs}">
-                        <button class=dropdown-item name="doc" type="submit" th:value="${doc.segment}"
-                                th:text="${doc.subject} ? ${doc.subject} : #{${doc.segment}}"></button>
-                    </li>
-                </ul>
+                <button class=dropdown-item name="doc" type="submit"
+                        th:each="doc: ${aboutDocs}"
+                        th:value="${doc.segment}"
+                        th:text="${doc.subject} ? ${doc.subject} : #{${doc.segment}}"></button>
             </form>
         </div>
     </div>
@@ -73,16 +71,11 @@
         </button>
         <div class="dropdown-content">
             <form th:action="@{/blogs}" th:method="post">
-                <ul>
-                    <li>
-                        <a href="/collatz" class="dropdown-item" th:text="#{collatz}"></a>
-                    </li>
-                    <li th:each="blog: ${blogs}">
-                        <button class=dropdown-item type="submit" name="result"
-                                th:value="${blog.segment} +' '+ ${blog.id}"
-                                th:text="${blog.subject}"></button>
-                    </li>
-                </ul>
+                <a href="/collatz" class="dropdown-item" th:text="#{collatz}"></a>
+                <button class=dropdown-item type="submit" name="result"
+                        th:each="blog: ${blogs}"
+                        th:value="${blog.segment} +' '+ ${blog.id}"
+                        th:text="${blog.subject}"></button>
             </form>
         </div>
     </div>
@@ -99,13 +92,10 @@
                     <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                 </form>
                 <form th:action="@{/admin}" th:method="post">
-                    <ul>
-                        <li th:each="blog: ${blogs}">
-                            <button class=dropdown-item name="result" type="submit"
-                                    th:value="${blog.segment} +' '+ ${blog.id}"
-                                    th:text="${blog.subject}"></button>
-                        </li>
-                    </ul>
+                    <button class=dropdown-item name="result" type="submit"
+                            th:each="blog: ${blogs}"
+                            th:value="${blog.segment} +' '+ ${blog.id}"
+                            th:text="${blog.subject}"></button>
                 </form>
             </div>
         </div>

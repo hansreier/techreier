@@ -364,21 +364,10 @@ img:hover::after {
 	z-index: 1;
 }
 
-.dropdown-content ul {
-	padding: 0;
-	margin: 0;
-}
-
-.dropdown-content li {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-
 /* Button and direct link inherits differently, I got a lot of trouble with this.
    To define them separate seems to be the simplest */
 
-button.dropdown-item{
+button.dropdown-item {
 	background-color: inherit;
 	border: none;
 	color: black;
