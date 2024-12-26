@@ -5,7 +5,7 @@ html {
 	overflow-x: auto; /* scroll bars */
 	overflow-y: auto; /* scroll bars */
 	/*font-size: 1rem; */
-	font-size: clamp(1rem, 1.25vw, 1.25em); /*scale with viewport width*/
+	font-size: clamp(1.2rem, 3vw, 1.5em); /*scale with viewport width*/
 	font-weight: 400;
 	min-width: 10px;
 }
@@ -217,14 +217,14 @@ img:hover::after {
 	.blogentries-time {
 		display: none;
 	}
-	table {
+	#blogentries {
 		white-space: normal;
 	}
 }
 
-/* still wrap if mobile phone / smaall size */
+/* still wrap if mobile phone / small size */
 @media (max-width: 768px) {
-	table {
+	#blogentries {
 		white-space: normal;
 	}
 }
