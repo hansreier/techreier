@@ -17,7 +17,7 @@
                     <th th:text="#{id}"></th>
                     <th th:text="#{segment}"></th>
                     <th th:text="#{title}"></th>
-                    <th class= "blogentrytime" th:text="#{changed}"></th>
+                    <th class= "blogentries-time" th:text="#{changed}"></th>
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +25,7 @@
                 <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${blogEntry.id}"></a></td>
                 <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${blogEntry.segment}"></a></td>
                 <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${blogEntry.title}"></a></td>
-                <td class="blogentrytime"><a th:href="@{${linkPath + blogEntry.segment}}"
+                <td class="blogentries-time"><a th:href="@{${linkPath + blogEntry.segment}}"
                        th:text="${#temporals.format(blogEntry.changed, #messages.msg('datetime.format'))}"></a></td>
             </tr>
             </tbody>

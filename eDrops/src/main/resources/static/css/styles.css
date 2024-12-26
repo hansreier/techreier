@@ -1,4 +1,16 @@
-/* HTML body */
+
+/* General HTML settings */
+html {
+	height: 100%;
+	overflow-x: auto; /* scroll bars */
+	overflow-y: auto; /* scroll bars */
+	/*font-size: 1rem; */
+	font-size: clamp(1rem, 1.25vw, 1.25em); /*scale with viewport width*/
+	font-weight: 400;
+	min-width: 10px;
+}
+
+/* General body settings */
 body {
 	background-color: lightyellow;
 	margin: 0;
@@ -6,10 +18,6 @@ body {
 	height: 100%;
 	width: 100%;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 1rem;
-    overflow-x: auto;
-	overflow-y: auto;
-	font-weight: 400;
 }
 
 button {
@@ -57,10 +65,6 @@ input {
 	margin-bottom: 0.5rem;
 }
 
-table {
-	margin-bottom: 1rem;
-}
-
 textarea {
 	font-size: 1rem;
 	margin-bottom: 0.5rem;
@@ -70,6 +74,7 @@ table {
 	width: 100%;
 	table-layout: auto;
 	border-collapse: collapse;
+	margin-bottom: 1rem;
 }
 
 th {
@@ -202,9 +207,25 @@ img:hover::after {
 	width: 100%;
 }
 
-@media (max-width: 300px) {
-	.blogentrytime {
+/* No text wrapping for blogentries table */
+#blogentries {
+	white-space: nowrap;
+}
+
+/* Remove timestamp row in blogentries table for space on mobile phones */
+@media (max-width: 768px) {
+	.blogentries-time {
 		display: none;
+	}
+	table {
+		white-space: normal;
+	}
+}
+
+/* still wrap if mobile phone / smaall size */
+@media (max-width: 768px) {
+	table {
+		white-space: normal;
 	}
 }
 
@@ -372,7 +393,6 @@ img:hover::after {
 
 /* Button and direct link inherits differently, I got a lot of trouble with this.
    To define them separate seems to be the simplest */
-
 button.dropdown-item {
 	background-color: inherit;
 	border: none;
@@ -413,7 +433,6 @@ a.dropdown-item:hover {
 }
 
 /*
-
 .form-row {
 	margin-bottom: 10px;
 } */
