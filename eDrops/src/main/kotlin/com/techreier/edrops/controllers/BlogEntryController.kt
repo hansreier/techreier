@@ -46,7 +46,8 @@ class BlogEntryController(
         model.addAttribute("blog", blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/${segment}/")
         logger.info("getting GUI with blogEntry. ${selectedBlogEntry.title}")
-        val blogEntryForm = BlogEntryForm(selectedBlogEntry.segment, selectedBlogEntry.title, selectedBlogEntry.summary)
+        val blogEntryForm = BlogEntryForm(selectedBlogEntry.id, selectedBlogEntry.segment, selectedBlogEntry.title,
+            selectedBlogEntry.summary, selectedBlogEntry.changed)
         model.addAttribute("blogEntryForm", blogEntryForm)
         return "blogEntries"
     }

@@ -202,6 +202,12 @@ img:hover::after {
 	width: 100%;
 }
 
+@media (max-width: 800px) {
+	.blogentrytime {
+		display: none;
+	}
+}
+
 #inputfields {
 	display: grid;
 	grid-template-columns: 1fr;

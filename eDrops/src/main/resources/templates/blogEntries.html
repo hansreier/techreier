@@ -17,7 +17,7 @@
                     <th th:text="#{id}"></th>
                     <th th:text="#{segment}"></th>
                     <th th:text="#{title}"></th>
-                    <th th:text="#{changed}"></th>
+                    <th class= "blogentrytime" th:text="#{changed}"></th>
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +25,8 @@
                 <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${blogEntry.id}"></a></td>
                 <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${blogEntry.segment}"></a></td>
                 <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${blogEntry.title}"></a></td>
-                <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${#temporals.format(blogEntry.changed, #messages.msg('datetime.format'))}"></a></td>
+                <td class="blogentrytime"><a th:href="@{${linkPath + blogEntry.segment}}"
+                       th:text="${#temporals.format(blogEntry.changed, #messages.msg('datetime.format'))}"></a></td>
             </tr>
             </tbody>
         </table>
@@ -33,6 +34,9 @@
     <div th:if="${blogEntryForm != null}">
         <form id="blogentryform" th:action="@{/xxxx}" th:object="${blogEntryForm}" th:method="post">
             <div id="inputfields" class="container">
+                <p th:text="'id: ' + ${blogEntryForm.id != null ? blogEntryForm.id : ' '}"/>
+                <p th:text="#{changed} + ': ' + (${blogEntryForm.changed != null
+                    ? #temporals.format(blogEntryForm.changed, #messages.msg('datetime.format')) : ' '})"/>
                 <div class="input-row">
                     <label th:for="segment" th:text="segment"></label>
                     <input type="text" id="segment" th:field="*{segment}">
@@ -41,10 +45,11 @@
                     <label th:for="title" th:text="#{title}"></label>
                     <input type="text" id="title" th:field="*{title}">
                 </div>
-                <div class="input-row">
+                 <div class="input-row">
                     <label th:for="summary" th:text="#{summary}"></label>
                     <textarea id="summary" th:field="*{summary}"></textarea>
                 </div>
+                <input type="hidden" th:field="*{id}">
             </div>
         </form>
     </div>
