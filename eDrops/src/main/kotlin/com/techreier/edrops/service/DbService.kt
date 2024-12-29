@@ -6,8 +6,6 @@ import com.techreier.edrops.repository.BlogEntryRepository
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.LanguageRepository
-import jakarta.persistence.EntityManager
-import jakarta.persistence.PersistenceContext
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,17 +17,7 @@ class DbService(
     private val blogRepo: BlogRepository,
     private val blogEntryRepo: BlogEntryRepository,
     private val languageRepo: LanguageRepository,
-    private val blogData: BlogData
 ) {
-
-    @PersistenceContext
-    lateinit var entityManager: EntityManager
-
-    fun createBlog() {
-        logger.info("Create blog")
-        ownerRepo.save(blogData.blogOwner)
-        logger.info("saved")
-    }
 
     fun readFirstBlog(blogOwnerId: Long): Blog? {
         logger.info("Read first blog")

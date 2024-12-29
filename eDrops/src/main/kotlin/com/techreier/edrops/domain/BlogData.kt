@@ -2,7 +2,6 @@ package com.techreier.edrops.domain
 
 import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.util.timeStamp
-import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
@@ -75,19 +74,18 @@ const val SUMMARY3E = "It is apparently impossible with a two way relation for H
 const val SUMMARY4 = "Dette er min nye blogg med tvilsomt innhold."
 
 // Initial populate table. Temporary. Move later back to test
-@Component
-class BlogData(appConfig: AppConfig) {
-    private final val datetimeb1 = timestamp("02.02.2024 13:01:24")
-    private final val datetimeb2 = timestamp("02.02.2024 13:05:03")
-    private final val datetime1 = timestamp("15.02.2024 15:05:30")
-    private final val datetime2 = timestamp("17.02.2024 15:05:30")
-    private final val datetime3 = timestamp("12.03.2024 11:02:00")
-    private final val datetime23 = timestamp("01.01.2024 08:04:12")
+data class BlogData(val appConfig: AppConfig) {
+    private val datetimeb1 = timestamp("02.02.2024 13:01:24")
+    private val datetimeb2 = timestamp("02.02.2024 13:05:03")
+    private val datetime1 = timestamp("15.02.2024 15:05:30")
+    private val datetime2 = timestamp("17.02.2024 15:05:30")
+    private  val datetime3 = timestamp("12.03.2024 11:02:00")
+    private val datetime23 = timestamp("01.01.2024 08:04:12")
 
-    private final val blogEntries1 = mutableListOf<BlogEntry>()
-    private final val blogEntries1e = mutableListOf<BlogEntry>()
-    private final val blogEntries2 = mutableListOf<BlogEntry>()
-    private final val blogList = mutableSetOf<Blog>()
+    private val blogEntries1 = mutableListOf<BlogEntry>()
+    private val blogEntries1e = mutableListOf<BlogEntry>()
+    private val blogEntries2 = mutableListOf<BlogEntry>()
+    private val blogList = mutableSetOf<Blog>()
 
     final val blogOwner: BlogOwner = BlogOwner(
         timeStamp(), null, appConfig.user, appConfig.password,
@@ -95,23 +93,23 @@ class BlogData(appConfig: AppConfig) {
         "+4791668863", "Sløttvegen 17", "2390", "Moelv", "NO", blogList
     )
 
-    private final val blog1 = Blog(datetime1, ENVIRONMENT, Norwegian, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
-    private final val blog1e = Blog(datetimeb1, ENVIRONMENT, English, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
-    private final val blog2 = Blog(datetimeb2, ENERGY, Norwegian, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
+    private val blog1 = Blog(datetime1, ENVIRONMENT, Norwegian, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
+    private val blog1e = Blog(datetimeb1, ENVIRONMENT, English, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
+    private val blog2 = Blog(datetimeb2, ENERGY, Norwegian, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
 
-    private final val blogEntry1 = BlogEntry(datetime1, ELPOWER, TITLE1, SUMMARY1, blog1)
-    private final val blogEntry2 = BlogEntry(datetime2, WEATHER, TITLE2, SUMMARY2, blog1)
-    private final val blogEntry3 = BlogEntry(datetime3, HIBERNATE, TITLE3, SUMMARY3, blog1)
-    private final val blogEntry1e = BlogEntry(datetime1, ELPOWER, TITLE1E, SUMMARY1E, blog1e)
-    private final val blogEntry2e = BlogEntry(datetime2, WEATHER, TITLE2E, SUMMARY2E, blog1e)
-    private final val blogEntry3e = BlogEntry(datetime3, HIBERNATE, TITLE3E, SUMMARY3E, blog1e)
-    private final val blog2Entry3 = BlogEntry(datetime23, ENERGY, TITLE4, SUMMARY4, blog2)
+    private val blogEntry1 = BlogEntry(datetime1, ELPOWER, TITLE1, SUMMARY1, blog1)
+    private val blogEntry2 = BlogEntry(datetime2, WEATHER, TITLE2, SUMMARY2, blog1)
+    private val blogEntry3 = BlogEntry(datetime3, HIBERNATE, TITLE3, SUMMARY3, blog1)
+    private val blogEntry1e = BlogEntry(datetime1, ELPOWER, TITLE1E, SUMMARY1E, blog1e)
+    private val blogEntry2e = BlogEntry(datetime2, WEATHER, TITLE2E, SUMMARY2E, blog1e)
+    private val blogEntry3e = BlogEntry(datetime3, HIBERNATE, TITLE3E, SUMMARY3E, blog1e)
+    private val blog2Entry3 = BlogEntry(datetime23, ENERGY, TITLE4, SUMMARY4, blog2)
 
     init {
         initialize()
     }
 
-    final fun initialize() {
+    private fun initialize() {
         blogList.clear()
         blogOwner.blogs = blogList
         blogOwner.blogs.add(blog1)

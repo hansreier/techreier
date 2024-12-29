@@ -1,5 +1,6 @@
 package com.techreier.edrops.repository
 
+import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.*
 import jakarta.persistence.*
@@ -27,8 +28,9 @@ abstract class TestBase {
     lateinit var blogTextRepo: BlogTextRepository
 
     @Autowired
-    lateinit var blogData: BlogData
+    lateinit var appConfig: AppConfig
 
+    lateinit var blogData: BlogData
     lateinit var blogOwner: BlogOwner
     lateinit var blog: Blog
     lateinit var blogEntry: BlogEntry
@@ -37,20 +39,20 @@ abstract class TestBase {
     var noOfBlogEntries: Int = 0
     var noOfBlogs: Int = 0
 
-
     @BeforeEach
     fun setup() {
         clean()
+        blogData = BlogData(appConfig)
         languageRepo.save(Norwegian)
         languageRepo.save(English)
-        logger.info("Reier før blogOwner")
         blogOwner = ownerRepo.save(blogData.blogOwner)
-        blog = blogOwner.blogs.filter {it.segment == ENVIRONMENT}.first()
+        blog = blogOwner.blogs.first { it.segment == ENVIRONMENT }
         blogId =  blog.id!!
-        blogEntry = blog.blogEntries.filter {it.segment == ELPOWER }.first()
-        blogEntryId = blog.blogEntries.filter {it.segment == ELPOWER }.first().id!!
+        blogEntry = blog.blogEntries.first { it.segment == ELPOWER }
+        blogEntryId = blog.blogEntries.first { it.segment == ELPOWER }.id!!
         noOfBlogEntries = blogOwner.blogs.sumOf { it.blogEntries.size }
         noOfBlogs = blogOwner.blogs.size
+        entityManager.flush()
     }
 
     // Does not clean sequences in id's, but really does not matter
@@ -64,6 +66,5 @@ abstract class TestBase {
         entityManager.createQuery("DELETE FROM LanguageCode").executeUpdate()
         entityManager.flush()
         entityManager.clear()
-        blogData.initialize()
     }
 }

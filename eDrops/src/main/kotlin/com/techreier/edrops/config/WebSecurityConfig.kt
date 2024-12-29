@@ -27,7 +27,7 @@ class WebSecurityConfig {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http {
             logger.info("Inside security config")
-            authorizeRequests {
+            authorizeHttpRequests {
                 authorize("/admin/**", authenticated)
                 authorize("/**", permitAll)
                 //  authorize("/css/*", permitAll)

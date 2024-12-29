@@ -31,12 +31,9 @@ logging:
 spring:
   profiles:
     active: h2-prod
-  threads.virtual.enabled: true
+#  threads.virtual.enabled: true
   main:
     banner-mode: off
-  mvc:
-    #Changing thiw implies implementing av HandlerExceptionResolver else 404 is returned.
-    throw-exception-if-no-handler-found: false
   messages:
     basename: language/messages
     fallback-to-system-locale: true

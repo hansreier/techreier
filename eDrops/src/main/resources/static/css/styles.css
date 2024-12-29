@@ -12,13 +12,13 @@ html {
 /* Smaller size for smaller screens, add different background color to verify, did not use clamp */
 @media (max-width: 480px) {
 	html {
-		font-size: 0.85rem;
+		font-size: 0.9rem;
 	}
 }
 
 @media (max-width: 900px) and  (max-height: 480px) {
 	html {
-		font-size: 0.85rem;
+		font-size: 0.9rem;
 	}
 }
 

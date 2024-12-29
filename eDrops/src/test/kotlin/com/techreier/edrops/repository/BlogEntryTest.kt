@@ -5,19 +5,15 @@ import com.techreier.edrops.domain.BlogEntry
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
-@ExtendWith(SpringExtension::class)
 @SpringBootTest
 @Transactional
 class BlogEntryTest : TestBase() {
-
 
     @Test
     fun `basic CRUD checks`() {
@@ -47,7 +43,7 @@ class BlogEntryTest : TestBase() {
         assertEquals("Pusur", blogList[0].title)
         logger.info("Basic crud test start delete")
         entryRepo.delete(blogEntry1)
-        val notFound = entryRepo.findById(blogEntry1.id!!).orElse(null)
+        val notFound = entryRepo.findById(blogEntry1.id).orElse(null)
         assertNull(notFound)
     }
 }

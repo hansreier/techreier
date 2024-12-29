@@ -21,8 +21,8 @@ class BlogTextTest : TestBase() {
     @Test
     fun `basic CRUD checks`() {
         logger.info("Basic crud test")
-        blogEntryId.let {
-            blogTextRepo.saveAndFlush(BlogText(timeStamp(), SUMMARY1, blogEntry, it))
+        blogEntryId.let { //Just cannot use save here with partly persisted entities (change in Spring Boot 3.4).
+            entityManager.persist(BlogText(timeStamp(), SUMMARY1, blogEntry, it))
         }
         val blogTextFound = blogTextRepo.findByIdOrNull(blogEntryId)
         assertThat(blogTextFound).isNotNull

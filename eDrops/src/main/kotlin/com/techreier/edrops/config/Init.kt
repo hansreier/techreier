@@ -14,14 +14,13 @@ class Init(
     languageRepo: LanguageRepository,
     ownerRepo: BlogOwnerRepository,
     appConfig: AppConfig,
-    blogData: BlogData
 ) {
     init {
         logger.info("App name: ${appConfig.appname}")
         if (ownerRepo.count() == 0L) {
             languageRepo.save(Norwegian)
             languageRepo.save(English)
-            ownerRepo.save(blogData.blogOwner)
+            ownerRepo.save(BlogData(appConfig).blogOwner)
             logger.info("Initialized with data")
         } else {
             logger.info("Initial data was already there, skipping")
