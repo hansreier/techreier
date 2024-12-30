@@ -58,12 +58,14 @@ object Docs {
         Doc("databases", Norwegian, "Databaser", false),
         Doc("databases", English, "Databases", false),
         Doc("hosting", Norwegian, "Mitt web hotell", false),
-        Doc("hosting", English, "My web host", false)
+        Doc("hosting", English, "My web host", false),
+        Doc("device", Norwegian, "Responsivt design"),
+        Doc("device", English, "Responsive design")
    )
 
     val collatz = arrayOf(
         Doc("collatz", Norwegian,"Collatz") ,
-        Doc("collatz", English,"Collatz")
+        Doc("collatz", English,"Collatz"),
     )
 
     // Find the first Doc index that matches language code and eventually nonnull segment

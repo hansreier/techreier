@@ -10,8 +10,13 @@
 <div layout:fragment="content">
     <h2 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"/>
     <div class="container">
-        <div th:utext="${docText}"></div><br><br>
+        <div th:utext="${docText}"></div>
     </div>
+    <div th:if="${doc.segment == 'device'}">
+        <div id="deviceInfo" class="info"></div>
+    </div>
+    <script th:if="${langCode == 'en'}" th:src="@{/js/deviceinfo_en.js}"></script>
+    <script th:if="${langCode != 'en'}" th:src="@{/js/deviceinfo_nb.js}"></script>
 </div>
 
 </body>
