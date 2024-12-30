@@ -14,9 +14,9 @@
     </div>
     <div th:if="${doc.segment == 'device'}">
         <div id="deviceInfo" class="info"></div>
+        <script th:if="${langCode == 'en'}" th:src="@{/js/deviceinfo_en.js}"></script>
+        <script th:if="${langCode != 'en'}" th:src="@{/js/deviceinfo_nb.js}"></script>
     </div>
-    <script th:if="${langCode == 'en'}" th:src="@{/js/deviceinfo_en.js}"></script>
-    <script th:if="${langCode != 'en'}" th:src="@{/js/deviceinfo_nb.js}"></script>
 </div>
 
 </body>

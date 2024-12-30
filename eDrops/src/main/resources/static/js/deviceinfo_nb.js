@@ -26,3 +26,10 @@ function displayDeviceInfo() {
 
 document.addEventListener("DOMContentLoaded", displayDeviceInfo);
 window.addEventListener("resize",displayDeviceInfo);
+
+document.addEventListener("DOMContentLoaded", function () {
+    const deviceInfo = document.getElementById("deviceInfo");
+    if (deviceInfo) {
+        document.body.classList.add("has-device-info");
+    }
+});

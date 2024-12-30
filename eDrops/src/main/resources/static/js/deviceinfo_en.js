@@ -13,7 +13,6 @@ function deviceinfo() {
 function displayDeviceInfo() {
     const info = deviceinfo();
     const infoDiv = document.getElementById("deviceInfo");
-    console.log("Reier in device info");
     infoDiv.innerHTML = `
         <p><strong>Screen Width:</strong> ${info.screenWidth}px</p>
         <p><strong>Screen Height:</strong> ${info.screenHeight}px</p>
@@ -27,3 +26,10 @@ function displayDeviceInfo() {
 
 document.addEventListener("DOMContentLoaded", displayDeviceInfo);
 window.addEventListener("resize",displayDeviceInfo);
+
+document.addEventListener("DOMContentLoaded", function () {
+    const deviceInfo = document.getElementById("deviceInfo");
+    if (deviceInfo) {
+        document.body.classList.add("has-device-info");
+    }
+});
