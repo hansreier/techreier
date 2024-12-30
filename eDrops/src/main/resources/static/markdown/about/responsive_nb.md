@@ -4,7 +4,10 @@ Responsivt design er en tilnærming til webdesign og utvikling som har som mål 
 og applikasjoner som gir en optimal brukeropplevelse på tvers av et bredt spekter
 av enheter og skjermstørrelser. Det som er viktigst for meg er at den samme kodebasen enkelt kan tilpasses
 til ulike enheter uten for mye innsats. Et arvehierarki fra topp HTML nivå med CSS og ned til hver enkelt
-GUI element er nøkkelen for dette. Alt kan tilpasses med enkle endringer fra CSS topp nivå.  
+GUI element er nøkkelen for dette. Alt kan tilpasses med enkle endringer fra CSS topp nivå.
+Jeg har forenklet GUI med design basert på en kolonne uavhengig av skjermstørrelse.
+Dette gjelder tekst og input felter med fortekst. NB! jeg har noen tabeller med flere kolonner, der noen kolonner
+i noen tilfeller kan gjemmes i noen tilfeller på små skjermer.  
 
 Funksjonaliten i denne web appen er utviklet for å kunne velge font størrelse basert på visningsområde (ViewPort).
 Bakgrunnsfargen på denne siden endres til hvit for liten størrelse, grå for medium størrelse.
@@ -18,5 +21,7 @@ Jeg foretrekker å ikke gjøre det agressivt, fordi det kan være
 forvirrende med mange endringer i font størrelser når vinduet endrer størrelse.
 
 Informasjonen er funnet med Javascript. Ikke noe lagres noe sted.  
+
+## Informasjon om din skjerm
 
 

@@ -59,8 +59,8 @@ object Docs {
         Doc("databases", English, "Databases", false),
         Doc("hosting", Norwegian, "Mitt web hotell", false),
         Doc("hosting", English, "My web host", false),
-        Doc("device", Norwegian, "Responsivt design"),
-        Doc("device", English, "Responsive design")
+        Doc("responsive", Norwegian, "Responsivt design"),
+        Doc("responsive", English, "Responsive design")
    )
 
     val collatz = arrayOf(
