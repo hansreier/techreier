@@ -11,6 +11,7 @@ function displayDeviceInfo() {
         <p><strong>Viewport Height:</strong> ${info.viewportHeight}px</p>
         <p><strong>Font size:</strong> ${info.fontSize}</p>
         <p><strong>Font type:</strong> ${info.fontFamily}</p>
+        <p><strong>Language:</strong> ${info.language}</p>
         <p><strong>Device info:</strong><br> ${info.userAgent}</p>
     `;
 }

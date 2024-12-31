@@ -7,6 +7,7 @@ export function deviceinfo() {
         viewportHeight: window.innerHeight,
         devicePixelRatio: window.devicePixelRatio,
         userAgent: navigator.userAgent,
+        language: navigator.language,
         fontSize: window.getComputedStyle(paragraph).getPropertyValue("font-size"),
         fontFamily: window.getComputedStyle(paragraph).getPropertyValue("font-family")
     };
