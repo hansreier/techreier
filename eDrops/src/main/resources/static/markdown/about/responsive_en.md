@@ -1,4 +1,4 @@
-## How this website adapts to your device
+## Adaptation to your device
 
 Responsive design is an approach to web design and development aimed at creating websites 
 and applications that provide an optimal user experience across a wide range of devices and screen sizes.
@@ -11,7 +11,7 @@ Note: I have some tables with several columns, where some columns occasionally c
 The functionality in my web app is developed to be able to select font sizes based on viewport sizes.
 The background color on this page changes to white for small size, grey for medium size.
 The font size decreases accordingly to the background color (small and medium is set to the same). 
-Basic information about your device included dimensions and changing viewport sizes is shown here.  
+Basic information about your deviceinfo included dimensions and changing viewport sizes is shown here.  
 
 Resize the window to test.  
 
@@ -21,4 +21,4 @@ with too many changes in font size when resizing the viewport.
 
 The information is fetched using Javascript. Nothing is stored anywhere.
 
-## Information about your device
+## Your device with screen and font

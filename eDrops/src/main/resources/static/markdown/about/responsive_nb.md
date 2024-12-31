@@ -1,4 +1,4 @@
-## Hvordan dette nettstedet tilpasser seg din skjerm
+## Tilpasning til din skjerm
 
 Responsivt design er en tilnærming til webdesign og utvikling som har som mål å lage nettsider
 og applikasjoner som gir en optimal brukeropplevelse på tvers av et bredt spekter
@@ -22,6 +22,6 @@ forvirrende med mange endringer i font størrelser når vinduet endrer størrels
 
 Informasjonen er funnet med Javascript. Ikke noe lagres noe sted.  
 
-## Informasjon om din skjerm
+## Din enhet med skjerm og font
 
 
