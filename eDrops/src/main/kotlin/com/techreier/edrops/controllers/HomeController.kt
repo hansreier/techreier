@@ -12,7 +12,6 @@ import org.springframework.context.MessageSource
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val HOME="home"
 const val HOME_DIR= ""
@@ -22,8 +21,7 @@ const val HOME_DIR= ""
 class HomeController(dbService: DbService, messageSource: MessageSource) : BaseController(dbService, messageSource) {
 
     @GetMapping
-    fun home(
-        @PathVariable segment: String?, @RequestParam(required = false, name = "lang") langCode: String?,
+    fun home(@RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest, model: Model
     ): String {
         val blogParams = setCommonModelParameters(HOME, model, request, langCode)
@@ -63,7 +61,8 @@ class HomeController(dbService: DbService, messageSource: MessageSource) : BaseC
     }
 
     @PostMapping
-    fun getEntry(redirectAttributes: RedirectAttributes, doc: String): String {
+    fun getEntry(doc: String): String {
+        logger.info("Redirect to home")
         return "redirect:$HOME_DIR/$doc"
     }
 }

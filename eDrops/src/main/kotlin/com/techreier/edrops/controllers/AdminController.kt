@@ -43,6 +43,7 @@ class AdminController(private val dbService: DbService,
 
     @PostMapping
     fun getBlogAdmin(redirectAttributes: RedirectAttributes, result: String): String {
+        logger.info("Admin controller redirect: $result")
         return redirect(redirectAttributes, result, ADMIN_DIR)
     }
 

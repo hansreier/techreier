@@ -31,7 +31,7 @@
         </table>
     </div>
     <div th:if="${blogEntryForm != null}">
-        <form id="blogentryform" th:action="@{/xxxx}" th:object="${blogEntryForm}" th:method="post">
+        <form id="blogentryform" th:action="@{/admin/save}" th:object="${blogEntryForm}" th:method="post">
             <div id="inputfields" class="container">
                 <p th:text="'id: ' + ${blogEntryForm.id != null ? blogEntryForm.id : ' '}"/>
                 <p th:text="#{changed} + ': ' + (${blogEntryForm.changed != null
@@ -49,7 +49,10 @@
                     <textarea id="summary" th:field="*{summary}"></textarea>
                 </div>
                 <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:value="${blogId}" name="blogId">
             </div>
+            <p th:text="'path: ' + ${path}"></p>
+            <button type="submit" th:text="#{save}" name="path" th:value="${path}"></button>
         </form>
     </div>
 </div>

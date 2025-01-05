@@ -52,6 +52,7 @@ class BlogController(private val dbService: DbService,
     // Redirect to other blog from menu
     @PostMapping
     fun getBlog(redirectAttributes: RedirectAttributes, result: String): String {
+        logger.info("Blog controller redirect: $result")
         return redirect(redirectAttributes, result, BLOG_DIR)
     }
 }

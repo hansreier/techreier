@@ -1,7 +1,11 @@
 package com.techreier.edrops.service
 
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.*
+import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.domain.BlogEntry
+import com.techreier.edrops.domain.BlogOwner
+import com.techreier.edrops.domain.LanguageCode
+import com.techreier.edrops.forms.BlogEntryForm
 import com.techreier.edrops.repository.BlogEntryRepository
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.BlogRepository
@@ -9,6 +13,7 @@ import com.techreier.edrops.repository.LanguageRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.ZonedDateTime
 
 @Service
 @Transactional
@@ -53,10 +58,11 @@ class DbService(
         var blogIdNew = blogId
         if (langCode != null) {
             val blog = blogRepo.findById(blogId).orElse(null) //Finds current blog
-            if (blog != null ) {
+            if (blog != null) {
                 logger.debug("The current blog is found with language.code ${blog.language.code}, should be: $langCode")
                 if (blog.language.code != langCode) {
-                    val blogSwitched = blogRepo.findFirstBlogByLanguageAndSegment(LanguageCode("", langCode), blog.segment)
+                    val blogSwitched =
+                        blogRepo.findFirstBlogByLanguageAndSegment(LanguageCode("", langCode), blog.segment)
                     blogIdNew = blogSwitched?.id ?: blogId
                 }
             }
@@ -64,14 +70,23 @@ class DbService(
         return blogRepo.findAllById(blogIdNew).orElse(null)
     }
 
-    fun readBlogs(blogOwnerId: Long, languageCode: String): MutableSet<Blog> {
+    fun readBlogs(languageCode: String): MutableSet<Blog> {
         logger.info("Read blogs with language: $languageCode")
         return blogRepo.findByLanguage(LanguageCode("", languageCode)) //TODO something goes wrong here
     }
 
-    //TODO Remove? Not needed
-    fun readBlogEntry(blogId: Long, segment: String): BlogEntry? {
-        return blogEntryRepo.findByBlogIdAndSegment(blogId, segment)
+    fun saveBlogEntry(blogId: Long?, blogEntryForm: BlogEntryForm) {
+        logger.info("Saving blogEntry with id: ${blogEntryForm.id} segment: ${blogEntryForm.segment} blogId: $blogId")
+        blogId?.let {
+            val blog = blogRepo.findById(blogId).orElse(null)
+            blog?.let { blog ->
+                val blogEntry = BlogEntry(
+                    ZonedDateTime.now(), blogEntryForm.segment, blogEntryForm.title,
+                    blogEntryForm.summary, blog, blogEntryForm.id
+                )
+                blogEntryRepo.save(blogEntry)
+            } ?: logger.error("Blogentry not saved, cannot read parent blog")
+        } ?: logger.error("Blogentry not saved, parent blog is detached")
     }
 
     fun readLanguages(): MutableList<LanguageCode> {
