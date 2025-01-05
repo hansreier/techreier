@@ -106,7 +106,7 @@ abstract class BaseController(private val dbService: DbService,
 
     private fun fetchBlogs(langCode: String): MutableSet<Blog> {
         logger.debug("Fetch blogs by Owner langCode: $langCode")
-        val blogs = dbService.readBlogs(1, langCode)
+        val blogs = dbService.readBlogs(langCode)
         logger.debug("Blogs fetched")
         return blogs
     }
