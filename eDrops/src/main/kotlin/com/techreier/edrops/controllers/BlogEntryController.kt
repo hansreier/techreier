@@ -59,7 +59,8 @@ class BlogEntryController(
     fun save(@ModelAttribute blogEntryForm: BlogEntryForm, path: String, blogId: Long?
     ): String {
         logger.info("save and redirect blog entry: path: $path")
+        val newPath = path.replaceAfterLast("/",blogEntryForm.segment)
         dbService.saveBlogEntry(blogId, blogEntryForm)
-        return "redirect:$path"
+        return "redirect:$newPath"
     }
 }
