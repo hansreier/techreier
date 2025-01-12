@@ -123,6 +123,17 @@ th, td {
 	text-overflow:clip;
 }
 
+#error-table th, td {
+	width: auto;
+	min-width: 7rem;
+	padding: 4px 2px;
+	border: 1px solid black;
+	overflow: hidden;
+	word-wrap: break-word;
+	word-break: break-word;
+	text-overflow:clip;
+}
+
 header {
 	padding-top: 0;
 	padding-bottom: 0;

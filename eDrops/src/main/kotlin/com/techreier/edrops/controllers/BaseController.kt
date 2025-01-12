@@ -1,6 +1,9 @@
 package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.InitException
+import com.techreier.edrops.config.MAX_SEGMENT_SIZE
+import com.techreier.edrops.config.MAX_SUMMARY_SIZE
+import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.LanguageCode
@@ -59,7 +62,9 @@ abstract class BaseController(private val dbService: DbService,
         }
 
         model.addAttribute("blogId", blogId)
-        //   model.addAttribute("blogForm",BlogForm()) not required any more
+        model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
+        model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
+        model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
         return BlogParams(blogId, locale)
     }
 
@@ -85,7 +90,21 @@ abstract class BaseController(private val dbService: DbService,
     // Normally a default value should be added, but not required
     // (The simplified FieldError constructor with 3 arguments did not allow for default value)
     fun BindingResult.addFieldError(form: String, field: String, key: String, defaultFieldValue: String? = null) {
-        addError(FieldError(form, field, defaultFieldValue,  true, null, null, msg(key)))
+        addError(FieldError(form, field, defaultFieldValue,  true, null, null, msg("error.$key")))
+    }
+
+    protected fun checkStringSize(value: String?, size: Int, form: String, field: String,
+                            bindingResult: BindingResult) {
+        if (value.isNullOrBlank()) return
+        if (value.length > size) {
+            logger.info("$form $field: ${value.length} is longer than the allowed size: $size")
+            bindingResult.addFieldError(form, field, "maxSize", value)
+        }
+        val byteSize = value.toByteArray(Charsets.UTF_8).size
+        if (byteSize > size) {
+            logger.info("$form $field: $byteSize (checked for multibyte) is longer than the allowed size: $size")
+            bindingResult.addFieldError(form, field, "maxSizeM", value)
+        }
     }
 
     // Return language dependende message from any key

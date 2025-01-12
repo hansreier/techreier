@@ -1,5 +1,8 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.MAX_SEGMENT_SIZE
+import com.techreier.edrops.config.MAX_SUMMARY_SIZE
+import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.forms.BlogEntryForm
 import com.techreier.edrops.service.DbService
@@ -8,6 +11,7 @@ import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
@@ -48,6 +52,7 @@ class BlogEntryController(
 
         model.addAttribute("blog", blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/${segment}/")
+
         logger.info("getting GUI with blogEntry. ${selectedBlogEntry.title}")
         val blogEntryForm = BlogEntryForm(selectedBlogEntry.id, selectedBlogEntry.segment, selectedBlogEntry.title,
             selectedBlogEntry.summary, selectedBlogEntry.changed)
@@ -56,11 +61,20 @@ class BlogEntryController(
     }
 
     @PostMapping("/save")
-    fun save(@ModelAttribute blogEntryForm: BlogEntryForm, path: String, blogId: Long?
+    fun save(@ModelAttribute blogEntryForm: BlogEntryForm, path: String, blogId: Long?, bindingResult: BindingResult
     ): String {
         logger.info("save and redirect blog entry: path: $path")
+        checkStringSize(blogEntryForm.segment, MAX_SEGMENT_SIZE, "blogEntryForm", "segment", bindingResult)
+        checkStringSize(blogEntryForm.title, MAX_TITLE_SIZE, "blogEntryForm", "title", bindingResult)
+        checkStringSize(blogEntryForm.summary, MAX_SUMMARY_SIZE, "blogEntryForm", "summary", bindingResult)
+        if (bindingResult.hasErrors()) {
+            logger.warn("Error in BlogEntryForm")
+            return ADMIN //Returns to wrong path, either redirect or change Postmapping path to get path.
+        }
         val newPath = path.replaceAfterLast("/",blogEntryForm.segment)
-        dbService.saveBlogEntry(blogId, blogEntryForm)
+        // throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
+        // bindingResult.addFieldError("collatz","seed", "noLongError", collatz.seed)
+        dbService.saveBlogEntry(blogId, blogEntryForm) //Error results in GUI output, wrong
         return "redirect:$newPath"
     }
 }
