@@ -36,7 +36,7 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
     @PostMapping
     fun calculate(
         redirectAttributes: RedirectAttributes,
-        collatz: Collatz, langCode: String?, bindingResult: BindingResult,
+        collatz: Collatz,  bindingResult: BindingResult,
         request: HttpServletRequest, model: Model
     ): String {
         logger.info("calculate collatz sequence")
@@ -52,7 +52,7 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
 
         if (bindingResult.hasErrors()) {
             logger.info("warn collatz seed input error: $collatz")
-            prepare(model, request, langCode)
+            prepare(model, request)
             model.addAttribute("collatz", collatz)
             return COLLATZ
         }
@@ -63,7 +63,7 @@ class CollatzController(dbService: DbService, messageSource: MessageSource, val 
 
     }
 
-    private fun prepare(model: Model, request: HttpServletRequest, langCode: String?) {
+    private fun prepare(model: Model, request: HttpServletRequest, langCode: String? = null) {
         val blogParams = setCommonModelParameters(COLLATZ, model, request, langCode)
         val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.locale.language, COLLATZ)
         val doc = Docs.collatz[docIndex]

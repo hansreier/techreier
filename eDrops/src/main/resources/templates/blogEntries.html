@@ -31,25 +31,30 @@
         </table>
     </div>
     <div th:if="${blogEntryForm != null}">
-        <form id="blogentryform" th:action="@{/admin/save}" th:object="${blogEntryForm}" th:method="post">
+        <form id="blogentryform" th:action="@{${path}}" th:object="${blogEntryForm}" th:method="post">
             <div id="inputfields" class="container">
                 <p th:text="'id: ' + ${blogEntryForm.id != null ? blogEntryForm.id : ' '}"/>
-                <p th:text="#{changed} + ': ' + (${blogEntryForm.changed != null
-                    ? #temporals.format(blogEntryForm.changed, #messages.msg('datetime.format')) : ' '})"/>
+                <p th:text="#{changed} + ': ' + (${changed != null
+                    ? #temporals.format(changed, #messages.msg('datetime.format')) : ' '})"/>
                 <div class="input-row">
                     <label th:for="segment" th:text="segment"></label>
+                    <!--input type="text" id="segment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}"-->
                     <input type="text" id="segment" th:field="*{segment}">
+                    <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
                 </div>
                 <div class="input-row">
                     <label th:for="title" th:text="#{title}"></label>
                     <input type="text" id="title" th:field="*{title}">
+                    <!--input type="text" id="title" th:field="*{title}" th:attr="maxLength=${maxTitleSize}"-->
+                    <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
                 </div>
                  <div class="input-row">
                     <label th:for="summary" th:text="#{summary}"></label>
-                    <textarea id="summary" th:field="*{summary}"></textarea>
+                    <textarea id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"></textarea>
                 </div>
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:value="${blogId}" name="blogId">
+                <input type="hidden" th:value="${changed}" name="changed">
             </div>
             <p th:text="'path: ' + ${path}"></p>
             <button type="submit" th:text="#{save}" name="path" th:value="${path}"></button>

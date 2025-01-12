@@ -1,10 +1,6 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.InitException
-import com.techreier.edrops.config.MAX_SEGMENT_SIZE
-import com.techreier.edrops.config.MAX_SUMMARY_SIZE
-import com.techreier.edrops.config.MAX_TITLE_SIZE
-import com.techreier.edrops.config.logger
+import com.techreier.edrops.config.*
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Languages
@@ -24,8 +20,9 @@ import org.springframework.web.context.ServletContextAware
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.util.*
 
-abstract class BaseController(private val dbService: DbService,
-                              private val messageSource: MessageSource
+abstract class BaseController(
+    private val dbService: DbService,
+    private val messageSource: MessageSource
 ) : ServletContextAware {
 
     private var servletContext: ServletContext? = null
@@ -45,13 +42,12 @@ abstract class BaseController(private val dbService: DbService,
         logger.debug("set common model parameters")
         model.addAttribute("languages", fetchLanguages(db))
         val defaultLangCode = LocaleContextHolder.getLocale().language
-        val selectedLangCode = model.getAttribute("langCode") as String?
-        val usedLangcode = usedLanguageCode(selectedLangCode ?: langCode ?: defaultLangCode)
+        val usedLangcode = usedLanguageCode(langCode ?: defaultLangCode)
         val locale = Locale.of(usedLangcode)
         val blogId = (model.getAttribute("blogId") ?: fetchBlogId(usedLangcode, segment)) as Long
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
-        logger.info("Menu: $menu BlogId: $blogId Language path: $langCode, selected: $selectedLangCode default: $defaultLangCode used: $usedLangcode")
+        logger.info("Menu: $menu BlogId: $blogId Language set: $langCode, default: $defaultLangCode used: $usedLangcode")
         model.addAttribute("langCode", usedLangcode)
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
@@ -90,11 +86,13 @@ abstract class BaseController(private val dbService: DbService,
     // Normally a default value should be added, but not required
     // (The simplified FieldError constructor with 3 arguments did not allow for default value)
     fun BindingResult.addFieldError(form: String, field: String, key: String, defaultFieldValue: String? = null) {
-        addError(FieldError(form, field, defaultFieldValue,  true, null, null, msg("error.$key")))
+        addError(FieldError(form, field, defaultFieldValue, true, null, null, msg("error.$key")))
     }
 
-    protected fun checkStringSize(value: String?, size: Int, form: String, field: String,
-                            bindingResult: BindingResult) {
+    protected fun checkStringSize(
+        value: String?, size: Int, form: String, field: String,
+        bindingResult: BindingResult
+    ) {
         if (value.isNullOrBlank()) return
         if (value.length > size) {
             logger.info("$form $field: ${value.length} is longer than the allowed size: $size")

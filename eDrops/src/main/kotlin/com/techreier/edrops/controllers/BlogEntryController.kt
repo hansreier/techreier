@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.server.ResponseStatusException
+import java.time.ZonedDateTime
 
 @Controller
 @RequestMapping(ADMIN_DIR)
@@ -55,13 +56,17 @@ class BlogEntryController(
 
         logger.info("getting GUI with blogEntry. ${selectedBlogEntry.title}")
         val blogEntryForm = BlogEntryForm(selectedBlogEntry.id, selectedBlogEntry.segment, selectedBlogEntry.title,
-            selectedBlogEntry.summary, selectedBlogEntry.changed)
+            selectedBlogEntry.summary)
+        model.addAttribute("changed", selectedBlogEntry.changed)
         model.addAttribute("blogEntryForm", blogEntryForm)
         return "blogEntries"
     }
 
-    @PostMapping("/save")
-    fun save(@ModelAttribute blogEntryForm: BlogEntryForm, path: String, blogId: Long?, bindingResult: BindingResult
+    @PostMapping("/{segment}/{subsegment}")
+    fun save(
+        @ModelAttribute blogEntryForm: BlogEntryForm,
+        @PathVariable segment: String, @PathVariable subsegment: String,
+        path: String, blogId: Long?, changed: ZonedDateTime?, bindingResult: BindingResult, request: HttpServletRequest, model: Model
     ): String {
         logger.info("save and redirect blog entry: path: $path")
         checkStringSize(blogEntryForm.segment, MAX_SEGMENT_SIZE, "blogEntryForm", "segment", bindingResult)
@@ -69,12 +74,21 @@ class BlogEntryController(
         checkStringSize(blogEntryForm.summary, MAX_SUMMARY_SIZE, "blogEntryForm", "summary", bindingResult)
         if (bindingResult.hasErrors()) {
             logger.warn("Error in BlogEntryForm")
-            return ADMIN //Returns to wrong path, either redirect or change Postmapping path to get path.
+            prepare(model, request,  segment, changed )
+            return "blogEntries"
         }
         val newPath = path.replaceAfterLast("/",blogEntryForm.segment)
-        // throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
-        // bindingResult.addFieldError("collatz","seed", "noLongError", collatz.seed)
-        dbService.saveBlogEntry(blogId, blogEntryForm) //Error results in GUI output, wrong
+        dbService.saveBlogEntry(blogId, blogEntryForm)
         return "redirect:$newPath"
+    }
+
+    private fun prepare(model: Model, request: HttpServletRequest, segment: String, changed: ZonedDateTime?) {
+        val blogParams = setCommonModelParameters(ADMIN, model, request, null, segment)
+        logger.info("Prepare allBlogEntries Fetch blog entries with: $blogParams")
+        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
+        model.addAttribute("blog", blog)
+        model.addAttribute("linkPath", "$ADMIN_DIR/${segment}/")
+        model.addAttribute("changed", changed)
+        logger.info("prepared)")
     }
 }
