@@ -93,7 +93,7 @@ abstract class BaseController(
         value: String?, form: String, field: String,
         bindingResult: BindingResult
     ) {
-        val regex = "^[a-z][a-z0-9-]*$".toRegex()
+        val regex = "^[a-z](?:[a-z0-9-]*[a-z0-9])?$".toRegex()
 
         if (value.isNullOrBlank()) {
             logger.info("$form $field: used in URL and cannot be empty")

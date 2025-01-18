@@ -35,13 +35,12 @@
             <div id="inputfields" class="container">
                 <div class="input-row">
                     <label th:for="segment" th:text="segment"></label>
-                    <input type="text" id="segment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}">
+                    <input type="text" id="segment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}" th:title="#{tip.segment}">
                     <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
                 </div>
                 <div class="input-row">
                     <label th:for="title" th:text="#{title}"></label>
-                    <input type="text" id="title" th:field="*{title}">
-                    <!--input type="text" id="title" th:field="*{title}" th:attr="maxLength=${maxTitleSize}"-->
+                    <input type="text" id="title" th:field="*{title}" th:attr="maxLength=${maxTitleSize}">
                     <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
                 </div>
                  <div class="input-row">
