@@ -89,6 +89,28 @@ abstract class BaseController(
         addError(FieldError(form, field, defaultFieldValue, true, null, null, msg("error.$key")))
     }
 
+    protected fun checkSegment(
+        value: String?, form: String, field: String,
+        bindingResult: BindingResult
+    ) {
+        val regex = "^[a-z][a-z0-9-]*$".toRegex()
+
+        if (value.isNullOrBlank()) {
+            logger.info("$form $field: used in URL and cannot be empty")
+            bindingResult.addFieldError(form, field, "empty", value)
+            return
+        }
+        if (value.length > MAX_SEGMENT_SIZE) {
+            logger.info("$form $field: ${value.length} is longer than the allowed size: $MAX_SEGMENT_SIZE")
+            bindingResult.addFieldError(form, field, "maxSize", value)
+            return
+        }
+        if (!value.matches(regex)) {
+            logger.info("$form $field: used in URL, use lower case and no special characters ")
+            bindingResult.addFieldError(form, field, "segment", value)
+        }
+    }
+
     protected fun checkStringSize(
         value: String?, size: Int, form: String, field: String,
         bindingResult: BindingResult
@@ -97,6 +119,7 @@ abstract class BaseController(
         if (value.length > size) {
             logger.info("$form $field: ${value.length} is longer than the allowed size: $size")
             bindingResult.addFieldError(form, field, "maxSize", value)
+            return
         }
         val byteSize = value.toByteArray(Charsets.UTF_8).size
         if (byteSize > size) {

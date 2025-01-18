@@ -358,10 +358,6 @@ img:hover::after {
 	overflow: hidden;
 }
 
-.error {
-	color: red;
-}
-
 /* Style the links inside the navigation bar */
 .navbar a {
 	float: left;
@@ -432,6 +428,16 @@ img:hover::after {
 	min-width: 4rem;
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 	z-index: 1;
+}
+
+/* Validation error text */
+.error {
+	display: block;
+	padding-top: 0;
+	padding-bottom: 1rem;
+	margin-top: 0;
+	color: red;
+	font-style: italic;
 }
 
 /* Button and direct link inherits differently, I got a lot of trouble with this.
@@ -505,13 +511,6 @@ a.dropdown-item:hover {
 #password-container span {
 	margin-left: 0;
 	margin-bottom: 8px;
-}
-
-.error {
-	display: block;
-	margin-top: 5px;
-	color: red;
-	font-style: italic;
 }
 
 #reier {

@@ -1,6 +1,5 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
@@ -69,7 +68,7 @@ class BlogEntryController(
         path: String, blogId: Long?, changed: ZonedDateTime?, bindingResult: BindingResult, request: HttpServletRequest, model: Model
     ): String {
         logger.info("save and redirect blog entry: path: $path")
-        checkStringSize(blogEntryForm.segment, MAX_SEGMENT_SIZE, "blogEntryForm", "segment", bindingResult)
+        checkSegment(blogEntryForm.segment,"blogEntryForm", "segment",  bindingResult)
         checkStringSize(blogEntryForm.title, MAX_TITLE_SIZE, "blogEntryForm", "title", bindingResult)
         checkStringSize(blogEntryForm.summary, MAX_SUMMARY_SIZE, "blogEntryForm", "summary", bindingResult)
         if (bindingResult.hasErrors()) {
