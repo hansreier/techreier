@@ -84,7 +84,7 @@ li {
 label {
 	font-weight: 500;
 	font-size: 0.92rem;
-	margin-bottom: 0.2rem;
+	margin-bottom: 0.3rem;
 }
 
 ul ul {
@@ -246,7 +246,6 @@ img:hover::after {
 }
 
 #blogentryform {
-	color: green;
 	width: 100%;
 }
 
@@ -277,7 +276,7 @@ img:hover::after {
 	grid-template-columns: 1fr;
 	flex-direction: column;
 	width: 100%;
-	gap: 5px;
+	gap: 0;
 	color: black;
 }
 
@@ -342,7 +341,7 @@ img:hover::after {
 	font-size: 0.8rem;
 	margin-top: 0;
 	margin-bottom: 0;
-	margin-right: 0.5em;
+	margin-right: 0.5rem;
 }
 
 #languageSelect {
@@ -434,7 +433,7 @@ img:hover::after {
 .error {
 	display: block;
 	padding-top: 0;
-	padding-bottom: 1rem;
+	padding-bottom: 0.5rem;
 	margin-top: 0;
 	color: red;
 	font-style: italic;

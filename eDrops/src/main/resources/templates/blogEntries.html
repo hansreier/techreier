@@ -33,9 +33,6 @@
     <div th:if="${blogEntryForm != null}">
         <form id="blogentryform" th:action="@{${path}}" th:object="${blogEntryForm}" th:method="post">
             <div id="inputfields" class="container">
-                <p th:text="'id: ' + ${blogEntryForm.id != null ? blogEntryForm.id : ' '}"/>
-                <p th:text="#{changed} + ': ' + (${changed != null
-                    ? #temporals.format(changed, #messages.msg('datetime.format')) : ' '})"/>
                 <div class="input-row">
                     <label th:for="segment" th:text="segment"></label>
                     <input type="text" id="segment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}">
@@ -55,8 +52,10 @@
                 <input type="hidden" th:value="${blogId}" name="blogId">
                 <input type="hidden" th:value="${changed}" name="changed">
             </div>
-            <p th:text="'path: ' + ${path}"></p>
             <button type="submit" th:text="#{save}" name="path" th:value="${path}"></button>
+            <p th:text="#{changed} + ': ' + (${changed != null
+                    ? #temporals.format(changed, #messages.msg('datetime.format')) : ' '})
+                    + ' id: ' + ${blogEntryForm.id != null ? blogEntryForm.id : ' '} "/>
         </form>
     </div>
 </div>
