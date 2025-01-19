@@ -7,6 +7,7 @@ import com.techreier.edrops.forms.BlogEntryForm
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.MessageSource
+import org.springframework.dao.DataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -62,23 +63,40 @@ class BlogEntryController(
     }
 
     @PostMapping("/{segment}/{subsegment}")
-    fun save(
+    fun action(
         @ModelAttribute blogEntryForm: BlogEntryForm,
         @PathVariable segment: String, @PathVariable subsegment: String,
-        path: String, blogId: Long?, changed: ZonedDateTime?, bindingResult: BindingResult, request: HttpServletRequest, model: Model
+        action: String, blogId: Long?, changed: ZonedDateTime?, bindingResult: BindingResult, request: HttpServletRequest, model: Model
     ): String {
-        logger.info("save and redirect blog entry: path: $path")
-        checkSegment(blogEntryForm.segment,"blogEntryForm", "segment",  bindingResult)
-        checkStringSize(blogEntryForm.title, MAX_TITLE_SIZE, "blogEntryForm", "title", bindingResult)
-        checkStringSize(blogEntryForm.summary, MAX_SUMMARY_SIZE, "blogEntryForm", "summary", bindingResult)
-        if (bindingResult.hasErrors()) {
-            logger.warn("Error in BlogEntryForm")
-            prepare(model, request,  segment, changed )
-            return "blogEntries"
+        val path = request.servletPath
+        logger.info("blog entry: path: $path action:  $action")
+        if (action != "delete") {
+            checkSegment(blogEntryForm.segment, "blogEntryForm", "segment", bindingResult)
+            checkStringSize(blogEntryForm.title, MAX_TITLE_SIZE, "blogEntryForm", "title", bindingResult)
+            checkStringSize(blogEntryForm.summary, MAX_SUMMARY_SIZE, "blogEntryForm", "summary", bindingResult)
+            if (bindingResult.hasErrors()) {
+                prepare(model, request, segment, changed)
+                return "blogEntries"
+            }
+            val newPath = request.servletPath.replaceAfterLast("/", blogEntryForm.segment)
+            try {
+                dbService.saveBlogEntry(blogId, blogEntryForm)
+            } catch (e: DataAccessException) {
+                handleRecoverableError(e, "dbSave", bindingResult)
+                prepare(model, request, segment, changed)
+                return "blogEntries"
+            }
+            return "redirect:$newPath"
+        } else {
+            try {
+                dbService.deleteBlogEntry(blogId, blogEntryForm)
+            } catch (e: DataAccessException) {
+                handleRecoverableError(e, "dbDelete", bindingResult)
+                prepare(model, request, segment, changed)
+                return "blogEntries"
+            }
+            return "redirect:$ADMIN_DIR/$segment"
         }
-        val newPath = path.replaceAfterLast("/",blogEntryForm.segment)
-        dbService.saveBlogEntry(blogId, blogEntryForm)
-        return "redirect:$newPath"
     }
 
     private fun prepare(model: Model, request: HttpServletRequest, segment: String, changed: ZonedDateTime?) {

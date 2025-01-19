@@ -131,7 +131,16 @@ abstract class BaseController(
     // Return language dependende message from any key
     protected fun msg(key: String): String {
         val locale = LocaleContextHolder.getLocale()
-        return messageSource.getMessage(key, null, locale)
+        return messageSource.getMessage(key, null, "??$key??", locale)
+    }
+
+    // Logg and handle a general recoverable error to be presented in Thymeleaf
+    // Note: Stacktrace not logged, should it?
+    // The primary error text is fetched from language files with "error.key"
+    protected fun handleRecoverableError(e: Exception, key: String, bindingResult: BindingResult) {
+        val errorMessage = msg("error.$key") + if (e.message.isNullOrBlank()) "" else ": ${e.message}"
+        logger.warn("${e.javaClass}: $errorMessage")
+        bindingResult.reject("key", errorMessage)
     }
 
     private fun fetchLanguages(db: Boolean = true): MutableList<LanguageCode> {

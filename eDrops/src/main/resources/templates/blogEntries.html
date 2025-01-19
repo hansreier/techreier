@@ -51,7 +51,11 @@
                 <input type="hidden" th:value="${blogId}" name="blogId">
                 <input type="hidden" th:value="${changed}" name="changed">
             </div>
-            <button type="submit" th:text="#{save}" name="path" th:value="${path}"></button>
+            <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
+            <button type="submit" th:text="#{delete}" name="action" th:value="delete"></button>
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+            </div>
             <p th:text="#{changed} + ': ' + (${changed != null
                     ? #temporals.format(changed, #messages.msg('datetime.format')) : ' '})
                     + ' id: ' + ${blogEntryForm.id != null ? blogEntryForm.id : ' '} "/>

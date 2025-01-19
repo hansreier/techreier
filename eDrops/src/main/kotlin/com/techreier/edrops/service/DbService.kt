@@ -89,6 +89,13 @@ class DbService(
         } ?: logger.error("Blogentry not saved, parent blog is detached")
     }
 
+    fun deleteBlogEntry(blogId: Long?, blogEntryForm: BlogEntryForm) {
+        logger.info("Deleting blogEntry with id: ${blogEntryForm.id} segment: ${blogEntryForm.segment} blogId: $blogId")
+        blogEntryForm.id?.let { id ->
+            blogEntryRepo.deleteById(id)
+        } ?: logger.error("Blogentry not deleted, no id")
+    }
+
     fun readLanguages(): MutableList<LanguageCode> {
         return languageRepo.findAll()
     }
