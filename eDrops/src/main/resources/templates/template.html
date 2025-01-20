@@ -17,11 +17,11 @@
 </head>
 <body>
 <header>
-    <div id="left-top">
+    <div class="left-top">
         <a id="homebutton" th:text="'⌂'" href="/"/>
         <a id="techreier" th:text="Techreier" href="/"/>
     </div>
-    <div id="right-top">
+    <div class="right-top">
         <form id="language" th:action="@{/language}" th:method="post">
             <label id="languageLabel" th:text="language" for="languageSelect"></label>
             <select id="languageSelect" name="languageCode" onchange="language.submit()">

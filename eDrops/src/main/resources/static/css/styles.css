@@ -296,13 +296,13 @@ img:hover::after {
 
 /* Specific formatting of header line  */
 
-#left-top {
+.left-top {
 	display: flex;
 	align-items: center;
 	gap: 0;
 }
 
-#right-top {
+.right-top {
 	display: flex;
 	align-items: center;
 	gap: 0;
