@@ -53,6 +53,7 @@
             </div>
             <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
             <button type="submit" th:text="#{delete}" name="action" th:value="delete"></button>
+            <button type="submit" th:text="#{new}" name="action" th:value="new"></button>
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
             </div>

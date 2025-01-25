@@ -3,6 +3,8 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.exceptions.DuplicateSegmentException
+import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogEntryForm
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
@@ -12,13 +14,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.time.ZonedDateTime
 
 @Controller
@@ -55,20 +53,30 @@ class BlogEntryController(
         model.addAttribute("linkPath", "$ADMIN_DIR/${segment}/")
 
         logger.info("getting GUI with blogEntry. ${selectedBlogEntry.title}")
-        val blogEntryForm = BlogEntryForm(selectedBlogEntry.id, selectedBlogEntry.segment, selectedBlogEntry.title,
-            selectedBlogEntry.summary)
+        val blogEntryForm = BlogEntryForm(
+            selectedBlogEntry.id, selectedBlogEntry.segment, selectedBlogEntry.title,
+            selectedBlogEntry.summary
+        )
         model.addAttribute("changed", selectedBlogEntry.changed)
         model.addAttribute("blogEntryForm", blogEntryForm)
         return "blogEntries"
     }
 
-    @PostMapping("/{segment}/{subsegment}")
+    @PostMapping(value = ["/{segment}/{subsegment}","/{segment}"])
     fun action(
+        redirectAttributes: RedirectAttributes,
         @ModelAttribute blogEntryForm: BlogEntryForm,
-        @PathVariable segment: String, @PathVariable subsegment: String,
-        action: String, blogId: Long?, changed: ZonedDateTime?, bindingResult: BindingResult, request: HttpServletRequest, model: Model
+        @PathVariable segment: String,
+        @PathVariable subsegment: String?,
+        action: String,
+        blogId: Long?,
+        changed: ZonedDateTime?,
+        bindingResult: BindingResult,
+        request: HttpServletRequest,
+        model: Model
     ): String {
         val path = request.servletPath
+        redirectAttributes.addFlashAttribute("action", action)
         logger.info("blog entry: path: $path action:  $action")
         if (action != "delete") {
             checkSegment(blogEntryForm.segment, "blogEntryForm", "segment", bindingResult)
@@ -78,15 +86,23 @@ class BlogEntryController(
                 prepare(model, request, segment, changed)
                 return "blogEntries"
             }
-            val newPath = request.servletPath.replaceAfterLast("/", blogEntryForm.segment)
+
             try {
                 dbService.saveBlogEntry(blogId, blogEntryForm)
-            } catch (e: DataAccessException) {
-                handleRecoverableError(e, "dbSave", bindingResult)
+            } catch (e: Exception ) {
+                when (e) {
+                    is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
+                    is DuplicateSegmentException ->
+                        bindingResult.addFieldError("blogEntryForm","segment","duplicate",blogEntryForm.segment)
+                    else -> throw e
+                }
                 prepare(model, request, segment, changed)
                 return "blogEntries"
             }
+
+            val newPath =  "$ADMIN_DIR/$segment${if (action == "save") "/${blogEntryForm.segment}" else ""}"
             return "redirect:$newPath"
+
         } else {
             try {
                 dbService.deleteBlogEntry(blogId, blogEntryForm)

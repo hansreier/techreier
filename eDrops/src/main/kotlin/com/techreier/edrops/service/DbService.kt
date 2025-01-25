@@ -5,6 +5,8 @@ import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogEntry
 import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.domain.LanguageCode
+import com.techreier.edrops.exceptions.DuplicateSegmentException
+import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogEntryForm
 import com.techreier.edrops.repository.BlogEntryRepository
 import com.techreier.edrops.repository.BlogOwnerRepository
@@ -79,14 +81,19 @@ class DbService(
         logger.info("Saving blogEntry with id: ${blogEntryForm.id} segment: ${blogEntryForm.segment} blogId: $blogId")
         blogId?.let {
             val blog = blogRepo.findById(blogId).orElse(null)
-            blog?.let { blog ->
+            blog?.let { foundBlog ->
                 val blogEntry = BlogEntry(
                     ZonedDateTime.now(), blogEntryForm.segment, blogEntryForm.title,
-                    blogEntryForm.summary, blog, blogEntryForm.id
+                    blogEntryForm.summary, foundBlog, blogEntryForm.id
                 )
+                if (blogEntryForm.id == null) {
+                    if (blog.blogEntries.any {   it.segment == blogEntryForm.segment }) {
+                        throw DuplicateSegmentException("Segment: ${blogEntryForm.segment} is duplicate in blog ${blog.segment}")
+                    }
+                }
                 blogEntryRepo.save(blogEntry)
-            } ?: logger.error("Blogentry not saved, cannot read parent blog")
-        } ?: logger.error("Blogentry not saved, parent blog is detached")
+            } ?: throw ParentBlogException("Blogentry ${blogEntryForm.segment} not saved, cannot read parent blog with id: $blogId")
+        } ?: throw ParentBlogException("Blogentry ${blogEntryForm.segment} not saved, parent blog is detached")
     }
 
     fun deleteBlogEntry(blogId: Long?, blogEntryForm: BlogEntryForm) {

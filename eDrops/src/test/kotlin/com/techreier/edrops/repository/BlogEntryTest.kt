@@ -26,9 +26,10 @@ class BlogEntryTest : TestBase() {
         blog.blogEntries.add(blogEntry1)
         assertNotNull(blogEntry1)
         assertNotNull(blogEntry1.id)
+        val blogEntry1id = blogEntry1.id!!
         entityManager.clear()
         logger.info("Basic crud test start read")
-        val blogEntry2 = entryRepo.findById(blogEntry1.id!!).orElse(null)
+        val blogEntry2 = entryRepo.findById(blogEntry1id).orElse(null)
         assertNotNull(blogEntry2)
         assertNotNull(blogEntry2.id)
         assertEquals(blogEntry1.changed, blogEntry2.changed)
@@ -43,7 +44,7 @@ class BlogEntryTest : TestBase() {
         assertEquals("Pusur", blogList[0].title)
         logger.info("Basic crud test start delete")
         entryRepo.delete(blogEntry1)
-        val notFound = entryRepo.findById(blogEntry1.id).orElse(null)
+        val notFound: BlogEntry? = entryRepo.findById(blogEntry1id).orElse(null)
         assertNull(notFound)
     }
 }

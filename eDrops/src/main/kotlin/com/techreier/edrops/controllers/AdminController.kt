@@ -1,6 +1,7 @@
 package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.forms.BlogEntryForm
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.MessageSource
@@ -28,6 +29,12 @@ class AdminController(private val dbService: DbService,
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language )
+        if (blogParams.action == "new" && blog != null) { //TODO Reier verify if this is OK
+            logger.info("getting GUI with new blogEntry")
+            val blogEntryForm = BlogEntryForm(null, "", "", "")
+            model.addAttribute("changed", null)
+            model.addAttribute("blogEntryForm", blogEntryForm)
+            }
         model.addAttribute("blog", blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/${segment}/")
         logger.info("getting GUI with blogEntries")

@@ -45,6 +45,7 @@ abstract class BaseController(
         val usedLangcode = usedLanguageCode(langCode ?: defaultLangCode)
         val locale = Locale.of(usedLangcode)
         val blogId = (model.getAttribute("blogId") ?: fetchBlogId(usedLangcode, segment)) as Long
+        val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
         logger.info("Menu: $menu BlogId: $blogId Language set: $langCode, default: $defaultLangCode used: $usedLangcode")
@@ -61,7 +62,7 @@ abstract class BaseController(
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
-        return BlogParams(blogId, locale)
+        return BlogParams(blogId, locale, action)
     }
 
     protected fun redirect(redirectAttributes: RedirectAttributes, result: String, subpath: String): String {
@@ -128,10 +129,10 @@ abstract class BaseController(
         }
     }
 
-    // Return language dependende message from any key
+    // Return language dependent message from any key
     protected fun msg(key: String): String {
         val locale = LocaleContextHolder.getLocale()
-        return messageSource.getMessage(key, null, "??$key??", locale)
+        return messageSource.getMessage(key, null, "??$key??", locale) as String
     }
 
     // Logg and handle a general recoverable error to be presented in Thymeleaf
@@ -167,5 +168,5 @@ abstract class BaseController(
     }
 
     //  data class BlogParams(val blogId: Long, val langCode: String)
-    data class BlogParams(val blogId: Long, val locale: Locale)
+    data class BlogParams(val blogId: Long, val locale: Locale, val action: String)
 }
