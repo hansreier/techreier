@@ -62,13 +62,15 @@
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
             </div>
-            <div th:if="${changed != null || blogEntryForm.id != null} ">
-                <p th:text="#{changed} + ': ' + (${changed != null
-                    ? #temporals.format(changed, #messages.msg('datetime.format')) : ' '})
-                    + ' id: ' + ${blogEntryForm.id != null ? blogEntryForm.id : ' '} "/>
-                <!--p th:text="${changed != null ? #{changed} + ': ' + #temporals.format(changed, #messages.msg('datetime.format')) : ' '}"/-->
-                <!--p th:text="(${changed != null ? #{changed} + ': ' + #temporals.format(changed, #messages.msg('datetime.format')) : ' '}) + ${blogEntryForm.id != null ? ' id: ' + blogEntryForm.id : ' '} "/-->
-
+            <div id = "statusline" th:if="${changed != null} ">
+                <div class="outputfield">
+                    <p th:text="#{changed} +  ':'"></p>
+                    <p th:text="${#temporals.format(changed, #messages.msg('datetime.format'))}"></p>
+                </div>
+                <div class="outputfield">
+                    <p th:text="#{id} + ':'"></p>
+                    <p th:text="${blogEntryForm.id}"></p>
+                </div>
             </div>
         </form>
     </div>

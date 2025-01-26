@@ -18,6 +18,8 @@ import org.springframework.validation.BindingResult
 import org.springframework.validation.FieldError
 import org.springframework.web.context.ServletContextAware
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 abstract class BaseController(
@@ -133,6 +135,13 @@ abstract class BaseController(
     protected fun msg(key: String): String {
         val locale = LocaleContextHolder.getLocale()
         return messageSource.getMessage(key, null, "??$key??", locale) as String
+    }
+
+    // Return a formatted string of datetime given a format selected in language file by locale
+    // It was planned to be used, but is not. Not tested: What happens if datetime.format is undefined.
+    protected fun datetime(dateTime: ZonedDateTime): String {
+        val formatter = DateTimeFormatter.ofPattern(msg("datetime.format"))
+        return dateTime.format(formatter)
     }
 
     // Logg and handle a general recoverable error to be presented in Thymeleaf
