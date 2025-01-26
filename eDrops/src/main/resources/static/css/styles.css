@@ -48,9 +48,8 @@ p, ul, ol, a {
 }
 
 button {
-	margin-top: 0.5rem;
-	margin-bottom: 0.5rem;
 	font-size: 1.1rem;
+	margin: 0.5rem 0.5rem;
 }
 
 p {
@@ -349,6 +348,13 @@ img:hover::after {
 	border: 1px solid black;
 	width: auto;
 	margin: 0;
+}
+
+#headline {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0;
 }
 
 /* Add a black background color to the top navigation */

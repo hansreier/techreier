@@ -78,7 +78,7 @@ class BlogEntryController(
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blog entry: path: $path action:  $action")
-        if (action != "delete") {
+        if (action == "save" || action == "saveCreate") {
             checkSegment(blogEntryForm.segment, "blogEntryForm", "segment", bindingResult)
             checkStringSize(blogEntryForm.title, MAX_TITLE_SIZE, "blogEntryForm", "title", bindingResult)
             checkStringSize(blogEntryForm.summary, MAX_SUMMARY_SIZE, "blogEntryForm", "summary", bindingResult)
@@ -89,20 +89,23 @@ class BlogEntryController(
 
             try {
                 dbService.saveBlogEntry(blogId, blogEntryForm)
-            } catch (e: Exception ) {
+            } catch (e: Exception) {
                 when (e) {
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
                     is DuplicateSegmentException ->
-                        bindingResult.addFieldError("blogEntryForm","segment","duplicate",blogEntryForm.segment)
+                        bindingResult.addFieldError("blogEntryForm", "segment", "duplicate", blogEntryForm.segment)
+
                     else -> throw e
                 }
                 prepare(model, request, segment, changed)
                 return "blogEntries"
             }
 
-            val newPath =  "$ADMIN_DIR/$segment${if (action == "save") "/${blogEntryForm.segment}" else ""}"
+            val newPath = "$ADMIN_DIR/$segment${if (action == "save") "/${blogEntryForm.segment}" else ""}"
             return "redirect:$newPath"
-
+        }
+        if (action == "create") {
+            return "redirect:$ADMIN_DIR/$segment"
         } else {
             try {
                 dbService.deleteBlogEntry(blogId, blogEntryForm)

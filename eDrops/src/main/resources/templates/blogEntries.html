@@ -8,7 +8,12 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h2 th:text="${blog.subject}"/>
+    <div id="headline">
+        <h2 th:text="${blog.subject}"/>
+        <form th:action="@{${path}}" method="post">
+            <button type="submit" th:text="#{create}" name="action" th:value="create"></button>
+        </form>
+    </div>
     <div>
         <table id="blogentries">
             <thead>
@@ -53,13 +58,18 @@
             </div>
             <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
             <button type="submit" th:text="#{delete}" name="action" th:value="delete"></button>
-            <button type="submit" th:text="#{new}" name="action" th:value="new"></button>
+            <button type="submit" th:text="#{saveCreate}" name="action" th:value="saveCreate"></button>
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
             </div>
-            <p th:text="#{changed} + ': ' + (${changed != null
+            <div th:if="${changed != null || blogEntryForm.id != null} ">
+                <p th:text="#{changed} + ': ' + (${changed != null
                     ? #temporals.format(changed, #messages.msg('datetime.format')) : ' '})
                     + ' id: ' + ${blogEntryForm.id != null ? blogEntryForm.id : ' '} "/>
+                <!--p th:text="${changed != null ? #{changed} + ': ' + #temporals.format(changed, #messages.msg('datetime.format')) : ' '}"/-->
+                <!--p th:text="(${changed != null ? #{changed} + ': ' + #temporals.format(changed, #messages.msg('datetime.format')) : ' '}) + ${blogEntryForm.id != null ? ' id: ' + blogEntryForm.id : ' '} "/-->
+
+            </div>
         </form>
     </div>
 </div>

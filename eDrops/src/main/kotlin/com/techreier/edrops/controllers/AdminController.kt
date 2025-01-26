@@ -29,7 +29,7 @@ class AdminController(private val dbService: DbService,
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language )
-        if (blogParams.action == "new" && blog != null) { //TODO Reier verify if this is OK
+        if ((blogParams.action == "create" || blogParams.action == "saveCreate") && blog != null) {
             logger.info("getting GUI with new blogEntry")
             val blogEntryForm = BlogEntryForm(null, "", "", "")
             model.addAttribute("changed", null)
