@@ -115,18 +115,27 @@ abstract class BaseController(
     }
 
     protected fun checkStringSize(
-        value: String?, size: Int, form: String, field: String,
-        bindingResult: BindingResult
+        value: String?, maxSize: Int, form: String, field: String,
+        bindingResult: BindingResult, minSize: Int = 0
     ) {
-        if (value.isNullOrBlank()) return
-        if (value.length > size) {
-            logger.info("$form $field: ${value.length} is longer than the allowed size: $size")
+        if (value.isNullOrBlank()) {
+            if (minSize == 1)
+                bindingResult.addFieldError(form, field, "empty", value)
+            return
+        }
+        if (value.length > maxSize) {
+            logger.info("$form $field: ${value.length} is longer than the allowed size: $maxSize")
             bindingResult.addFieldError(form, field, "maxSize", value)
             return
         }
+        if (value.length < minSize) {
+            logger.info("$form $field: ${value.length} is shorter than the minimum size: $minSize")
+            bindingResult.addFieldError(form, field, "minSize", value)
+            return
+        }
         val byteSize = value.toByteArray(Charsets.UTF_8).size
-        if (byteSize > size) {
-            logger.info("$form $field: $byteSize (checked for multibyte) is longer than the allowed size: $size")
+        if (byteSize > maxSize) {
+            logger.info("$form $field: $byteSize (checked for multibyte) is longer than the allowed size: $maxSize")
             bindingResult.addFieldError(form, field, "maxSizeM", value)
         }
     }

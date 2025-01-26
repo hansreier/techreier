@@ -80,7 +80,7 @@ class BlogEntryController(
         logger.info("blog entry: path: $path action:  $action")
         if (action == "save" || action == "saveCreate") {
             checkSegment(blogEntryForm.segment, "blogEntryForm", "segment", bindingResult)
-            checkStringSize(blogEntryForm.title, MAX_TITLE_SIZE, "blogEntryForm", "title", bindingResult)
+            checkStringSize(blogEntryForm.title, MAX_TITLE_SIZE, "blogEntryForm", "title", bindingResult, 1)
             checkStringSize(blogEntryForm.summary, MAX_SUMMARY_SIZE, "blogEntryForm", "summary", bindingResult)
             if (bindingResult.hasErrors()) {
                 prepare(model, request, segment, changed)
