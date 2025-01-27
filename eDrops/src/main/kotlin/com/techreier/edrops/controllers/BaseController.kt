@@ -43,6 +43,7 @@ abstract class BaseController(
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("languages", fetchLanguages(db))
+        model.addAttribute("auth", false)
         val defaultLangCode = LocaleContextHolder.getLocale().language
         val usedLangcode = usedLanguageCode(langCode ?: defaultLangCode)
         val locale = Locale.of(usedLangcode)

@@ -85,6 +85,20 @@
             <div sec:authorize="!isAuthenticated()">
                 <a href="/login" class="dropdown-item" th:text="#{login}"></a>
             </div>
+            <div th:if="!${auth}">
+                <div sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" th:method="post">
+                        <button class=dropdown-item type="submit" th:text="#{logout}"></button>
+                    </form>
+                </div>
+                <form th:action="@{/admin}" th:method="post">
+                    <button class=dropdown-item name="result" type="submit"
+                            th:each="blog: ${blogs}"
+                            th:value="${blog.segment} +' '+ ${blog.id}"
+                            th:text="${blog.subject}"></button>
+                </form>
+            </div>
+            <div th:else></div>
             <div sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" th:method="post">
                     <button class=dropdown-item type="submit" th:text="#{logout}"></button>
@@ -99,6 +113,7 @@
         </div>
     </div>
 </div>
+
 
 <div id="work">
     <section layout:fragment="content">
