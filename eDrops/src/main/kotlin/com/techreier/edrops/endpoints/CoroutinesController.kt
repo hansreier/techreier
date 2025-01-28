@@ -14,10 +14,14 @@ import org.springframework.web.client.RestClient
 @RestController
 @RequestMapping("/api")
 @Profile("h2")
-class CoroutinesController(val restClient: RestClient) {
-
+class CoroutinesController(
+    val restClient: RestClient,
+) {
     @GetMapping("/blockcr/{seconds}/{count}")
-    fun block(@PathVariable seconds: Int, @PathVariable count: Int): String {
+    fun block(
+        @PathVariable seconds: Int,
+        @PathVariable count: Int,
+    ): String {
         logger.info("block endpoint using coroutines")
         runBlocking {
             multipleRestCalls(count, seconds)
@@ -26,18 +30,24 @@ class CoroutinesController(val restClient: RestClient) {
         return "Finished processing requests using coroutines"
     }
 
-    suspend fun multipleRestCalls(count: Int, seconds: Int) {
+    suspend fun multipleRestCalls(
+        count: Int,
+        seconds: Int,
+    ) {
         val deferredResults = mutableListOf<Deferred<ResponseEntity<String>>>()
 
         coroutineScope {
             // Launch multiple coroutines concurrently
             repeat(count) { index ->
-                val deferred = async(Dispatchers.IO) { //needs this dispatcher for IO tasks
-                    restClient.get()
-                        .uri("http://localhost:8080/api/waitcr/$seconds/$index")
-                        .retrieve()
-                        .toEntity(String::class.java)
-                }
+                val deferred =
+                    async(Dispatchers.IO) {
+                        // needs this dispatcher for IO tasks
+                        restClient
+                            .get()
+                            .uri("http://localhost:8080/api/waitcr/$seconds/$index")
+                            .retrieve()
+                            .toEntity(String::class.java)
+                    }
                 deferredResults.add(deferred)
             }
         }
@@ -48,6 +58,4 @@ class CoroutinesController(val restClient: RestClient) {
             logger.info("Received response ${result.statusCode}, ${result.body})")
         }
     }
-
-
 }

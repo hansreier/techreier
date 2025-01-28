@@ -1,6 +1,11 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.*
+import com.techreier.edrops.config.AppConfig
+import com.techreier.edrops.config.InitException
+import com.techreier.edrops.config.MAX_SEGMENT_SIZE
+import com.techreier.edrops.config.MAX_SUMMARY_SIZE
+import com.techreier.edrops.config.MAX_TITLE_SIZE
+import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Languages
@@ -24,10 +29,11 @@ import java.util.*
 
 abstract class BaseController(
     private val dbService: DbService,
-    private val messageSource: MessageSource
+    private val messageSource: MessageSource,
+    private val appConfig: AppConfig,
 ) : ServletContextAware {
-
     private var servletContext: ServletContext? = null
+
     override fun setServletContext(servletContext: ServletContext) {
         this.servletContext = servletContext
     }
@@ -38,12 +44,15 @@ abstract class BaseController(
     // TODO The option of no DB is not really used, and it is not tested either
     protected fun setCommonModelParameters(
         menu: String,
-        model: Model, request: HttpServletRequest,
-        langCode: String?, segment: String? = null, db: Boolean = true
+        model: Model,
+        request: HttpServletRequest,
+        langCode: String?,
+        segment: String? = null,
+        db: Boolean = true,
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("languages", fetchLanguages(db))
-        model.addAttribute("auth", false)
+        model.addAttribute("auth", appConfig.auth)
         val defaultLangCode = LocaleContextHolder.getLocale().language
         val usedLangcode = usedLanguageCode(langCode ?: defaultLangCode)
         val locale = Locale.of(usedLangcode)
@@ -68,7 +77,11 @@ abstract class BaseController(
         return BlogParams(blogId, locale, action)
     }
 
-    protected fun redirect(redirectAttributes: RedirectAttributes, result: String, subpath: String): String {
+    protected fun redirect(
+        redirectAttributes: RedirectAttributes,
+        result: String,
+        subpath: String,
+    ): String {
         // Alternatives: Hidden input fields (process entire list and select by name) or server state, this is easier
         val segment = result.substringBefore(" ", "")
         val blogId = result.substringAfter(" ", "0").toLongOrNull()
@@ -89,13 +102,20 @@ abstract class BaseController(
     // Extension function to simplify implementation of adding field error
     // Normally a default value should be added, but not required
     // (The simplified FieldError constructor with 3 arguments did not allow for default value)
-    fun BindingResult.addFieldError(form: String, field: String, key: String, defaultFieldValue: String? = null) {
+    fun BindingResult.addFieldError(
+        form: String,
+        field: String,
+        key: String,
+        defaultFieldValue: String? = null,
+    ) {
         addError(FieldError(form, field, defaultFieldValue, true, null, null, msg("error.$key")))
     }
 
     protected fun checkSegment(
-        value: String?, form: String, field: String,
-        bindingResult: BindingResult
+        value: String?,
+        form: String,
+        field: String,
+        bindingResult: BindingResult,
     ) {
         val regex = "^[a-z](?:[a-z0-9-]*[a-z0-9])?$".toRegex()
 
@@ -116,12 +136,17 @@ abstract class BaseController(
     }
 
     protected fun checkStringSize(
-        value: String?, maxSize: Int, form: String, field: String,
-        bindingResult: BindingResult, minSize: Int = 0
+        value: String?,
+        maxSize: Int,
+        form: String,
+        field: String,
+        bindingResult: BindingResult,
+        minSize: Int = 0,
     ) {
         if (value.isNullOrBlank()) {
-            if (minSize == 1)
+            if (minSize == 1) {
                 bindingResult.addFieldError(form, field, "empty", value)
+            }
             return
         }
         if (value.length > maxSize) {
@@ -157,21 +182,24 @@ abstract class BaseController(
     // Logg and handle a general recoverable error to be presented in Thymeleaf
     // Note: Stacktrace not logged, should it?
     // The primary error text is fetched from language files with "error.key"
-    protected fun handleRecoverableError(e: Exception, key: String, bindingResult: BindingResult) {
+    protected fun handleRecoverableError(
+        e: Exception,
+        key: String,
+        bindingResult: BindingResult,
+    ) {
         val errorMessage = msg("error.$key") + if (e.message.isNullOrBlank()) "" else ": ${e.message}"
         logger.warn("${e.javaClass}: $errorMessage")
         bindingResult.reject("key", errorMessage)
     }
 
-    private fun fetchLanguages(db: Boolean = true): MutableList<LanguageCode> {
-        return if (db) {
+    private fun fetchLanguages(db: Boolean = true): MutableList<LanguageCode> =
+        if (db) {
             logger.debug("fetch languages from db")
             dbService.readLanguages()
         } else {
             logger.debug("fetch languages from code")
             Languages.toMutableList()
         }
-    }
 
     private fun fetchBlogs(langCode: String): MutableSet<Blog> {
         logger.debug("Fetch blogs by Owner langCode: $langCode")
@@ -180,12 +208,19 @@ abstract class BaseController(
         return blogs
     }
 
-    private fun fetchBlogId(langCode: String, segment: String?): Long {
+    private fun fetchBlogId(
+        langCode: String,
+        segment: String?,
+    ): Long {
         logger.debug("Fetch blogId by segment: $segment and langCode: $langCode")
         val blogId = segment?.let { dbService.readBlog(langCode, segment)?.id } ?: -1L
         return blogId
     }
 
     //  data class BlogParams(val blogId: Long, val langCode: String)
-    data class BlogParams(val blogId: Long, val locale: Locale, val action: String)
+    data class BlogParams(
+        val blogId: Long,
+        val locale: Locale,
+        val action: String,
+    )
 }

@@ -12,21 +12,23 @@ const val MAX_TITLE_SIZE = 50
 const val MAX_SUMMARY_SIZE = 400
 const val MAX_CODE_SIZE = 15
 const val MAX_USERNAME_SIZE = 60
+
 // This way of reading app properties is more flexible and easier than using @Value in Kotlin
 // Disadvantage: Have to inject this always
 @Configuration
 @ConfigurationProperties(prefix = "app")
-@Validated //Checks if properties exist in combination with @NotNull and aborts if not
+@Validated // Checks if properties exist in combination with @NotNull and aborts if not
 class AppConfig {
-    @NotNull(message = "Mangler navn på applikasjon") //Checks if properties exist
+    @NotNull(message = "Mangler navn på applikasjon") // Checks if properties exist
     lateinit var appname: String
+
     @NotNull(message = "Missing admin password")
     lateinit var password: String
+
     @NotNull(message = "Missing admin user")
     lateinit var user: String
+    var auth: Boolean = false
 
     @Bean
-    fun restClient(): RestClient {
-       return RestClient.create()
-    }
+    fun restClient(): RestClient = RestClient.create()
 }
