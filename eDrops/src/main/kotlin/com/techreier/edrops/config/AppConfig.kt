@@ -27,7 +27,7 @@ class AppConfig {
 
     @NotNull(message = "Missing admin user")
     lateinit var user: String
-    var auth: Boolean = false
+    var auth: Boolean = true
 
     @Bean
     fun restClient(): RestClient = RestClient.create()
