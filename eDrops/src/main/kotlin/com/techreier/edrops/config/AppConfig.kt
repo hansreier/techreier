@@ -27,6 +27,7 @@ class AppConfig {
 
     @NotNull(message = "Missing admin user")
     lateinit var user: String
+
     var auth: Boolean = true
 
     @Bean
