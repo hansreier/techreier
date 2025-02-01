@@ -52,9 +52,6 @@ class DbService(
     }
 
     //if language is changed, we try to fetch a blog with the new language and the same segment
-    // TODO, changing language on URL, blogId is not picked up and the logic is wrong
-    // https://stackoverflow.com/questions/38803656/spring-thymeleaf-changing-locale-and-stay-on-the-current-page
-    // Hidden input field cannot be used directly to transfer blogId when just changing URL parameter
     fun readBlogWithSameLanguage(blogId: Long, langCode: String?): Blog? {
         logger.info("Read blog with same language: $langCode as blog with id $blogId")
         var blogIdNew = blogId
