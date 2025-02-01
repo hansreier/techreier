@@ -117,8 +117,7 @@ class BlogTest : TestBase() {
         logger.info("starting read all test")
         entityManager.clear()
         logger.info("saved")
-        val languageCode = LanguageCode("dummy", NB)
-        val blogs = blogRepo.findByLanguage(languageCode)
+        val blogs = blogRepo.findByLanguageCode(NB)
         assertThat(blogs.size).isGreaterThan(0)
         blogs.forEach {
             logger.info("blog: $it")

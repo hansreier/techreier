@@ -22,8 +22,9 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     fun findAllById(id: Long): Optional<Blog>
 
     @EntityGraph(attributePaths = ["blogOwner", "language"])
-    fun findByLanguage(language: LanguageCode): MutableSet<Blog>
+    fun findByLanguageCode(languageCode: String): MutableSet<Blog>
 
+    //TODO can also be simpified like the above findByLanguageCode?
     //Works, but cannot include blogEntries in entityGraph (when only first blogEntry is selected)
     @EntityGraph(attributePaths = ["blogOwner", "language"])
     fun findFirstBlogByLanguageAndSegment(language: LanguageCode, segment: String): Blog?

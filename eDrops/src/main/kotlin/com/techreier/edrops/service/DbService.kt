@@ -74,7 +74,7 @@ class DbService(
 
     fun readBlogs(languageCode: String): MutableSet<Blog> {
         logger.info("Read blogs with language: $languageCode")
-        return blogRepo.findByLanguage(LanguageCode("", languageCode)) //TODO something goes wrong here
+        return blogRepo.findByLanguageCode(languageCode)
     }
 
     fun saveBlogEntry(blogId: Long?, blogEntryForm: BlogEntryForm) {

@@ -173,6 +173,9 @@ abstract class BaseController(
         }
     }
 
+    // TODO change so does not read Blog summary
+    // @Query("SELECT new com.yourpackage.BlogMenuDto(be.id, be.title) FROM BlogEntry be WHERE be.blog.id = :blogId")
+    // Return DTO instead
     private fun fetchBlogs(langCode: String): MutableSet<Blog> {
         logger.debug("Fetch blogs by Owner langCode: $langCode")
         val blogs = dbService.readBlogs(langCode)
