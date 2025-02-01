@@ -2,6 +2,7 @@ app:
   appname: ${APP_NAME:edrops}
   user: Reier
   password: $2a$10$RXI.HV1eFSTCsHlDFFkHlO37yjw4qM4XS6I57gP2upV46lDi0ZFTa
+  auth: true
 server:
   error:
     include-stacktrace: always
@@ -123,7 +124,8 @@ spring:
   web.resources.cache.period: 3600
   h2:
     console.enabled: true
-
+app:
+  auth: false
 ---
 spring:
   config:

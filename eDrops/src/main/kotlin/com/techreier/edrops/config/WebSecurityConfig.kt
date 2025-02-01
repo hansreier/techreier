@@ -14,7 +14,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 @Configuration
 @EnableWebSecurity
 class WebSecurityConfig {
-
     // Spring security is totally changed from Spring Boot v3
     // Code style is very Kotlin specific, DSL (Domain Specific Language)
     // No need to separately permit css or h2 console
@@ -24,11 +23,16 @@ class WebSecurityConfig {
     // https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html
     // https://www.baeldung.com/spring-security-exceptions
     @Bean
-    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+    fun filterChain(
+        http: HttpSecurity,
+        appConfig: AppConfig,
+    ): SecurityFilterChain {
         http {
             logger.info("Inside security config")
             authorizeHttpRequests {
-              //  authorize("/admin/**", authenticated)
+                if (appConfig.auth) {
+                    authorize("/admin/**", authenticated)
+                }
                 authorize("/**", permitAll)
                 //  authorize("/css/*", permitAll)
                 // authorize("/h2-console/**", permitAll)
@@ -48,7 +52,7 @@ class WebSecurityConfig {
                 ignoringRequestMatchers("/h2-console/**")
             }
             headers {
-                frameOptions { sameOrigin = true } //Required for h2-console
+                frameOptions { sameOrigin = true } // Required for h2-console
             }
 
             sessionManagement {
@@ -63,13 +67,8 @@ class WebSecurityConfig {
     }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
-    }
+    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
     @Bean
-    fun authFailureHandler(): AuthenticationFailureHandler {
-        return AuthFailureHandler(LOGIN_DIR)
-    }
-
+    fun authFailureHandler(): AuthenticationFailureHandler = AuthFailureHandler(LOGIN_DIR)
 }

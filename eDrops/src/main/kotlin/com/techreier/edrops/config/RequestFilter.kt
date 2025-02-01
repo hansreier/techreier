@@ -1,12 +1,16 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package com.techreier.edrops.config
 
 import com.techreier.edrops.util.mem
-import jakarta.servlet.*
+import jakarta.servlet.Filter
+import jakarta.servlet.FilterChain
 import jakarta.servlet.FilterConfig
+import jakarta.servlet.ServletRequest
+import jakarta.servlet.ServletResponse
 import jakarta.servlet.annotation.WebFilter
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletRequestWrapper
-
 
 // Used for logging
 @WebFilter
@@ -15,7 +19,11 @@ class RequestFilter : Filter {
         logger.info("Filter init")
     }
 
-    override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
+    override fun doFilter(
+        request: ServletRequest,
+        response: ServletResponse,
+        chain: FilterChain,
+    ) {
         // val res = HttpServletResponseWrapper(response as HttpServletResponse)
         val req = HttpServletRequestWrapper(request as HttpServletRequest)
         logger.info("${req.method} ${req.servletPath} ${mem()}")
@@ -33,14 +41,9 @@ class RequestFilter : Filter {
         val writer: PrintWriter = response.writer
         writer.write("Error: ${e.message}")
         writer.close() */
-
     }
 
     override fun destroy() {
         logger.info("Filter destroy")
     }
 }
-
-
-
-

@@ -1,5 +1,6 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs.about
@@ -9,17 +10,29 @@ import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
-const val ABOUT="about"
-const val ABOUT_DIR= "/$ABOUT"
+const val ABOUT = "about"
+const val ABOUT_DIR = "/$ABOUT"
 
 @Controller
 @RequestMapping(ABOUT_DIR)
-class AboutController(dbService: DbService, messageSource: MessageSource) : BaseController(dbService, messageSource) {
+class AboutController(
+    dbService: DbService,
+    messageSource: MessageSource,
+    appConfig: AppConfig,
+) : BaseController(dbService, messageSource, appConfig) {
     @GetMapping("/{segment}")
-    fun content(@PathVariable segment: String?, @RequestParam(required = false, name = "lang") langCode: String?,
-                request: HttpServletRequest, model: Model): String {
+    fun content(
+        @PathVariable segment: String?,
+        @RequestParam(required = false, name = "lang") langCode: String?,
+        request: HttpServletRequest,
+        model: Model,
+    ): String {
         val blogParams = setCommonModelParameters(ABOUT, model, request, langCode)
         val docIndex = getDocIndex(about, blogParams.locale.language, segment)
         val doc = about[docIndex]
@@ -32,10 +45,13 @@ class AboutController(dbService: DbService, messageSource: MessageSource) : Base
 
     // Redirect to page with segment in path
     @GetMapping
-    fun redirect(@RequestParam(required = false, name = "lang") language: String?,
-                 request: HttpServletRequest, model: Model): String {
+    fun redirect(
+        @RequestParam(required = false, name = "lang") language: String?,
+        request: HttpServletRequest,
+        model: Model,
+    ): String {
         val blogParams = setCommonModelParameters(ABOUT, model, request, language)
-        val docIndex = getDocIndex(about,blogParams.locale.language)
+        val docIndex = getDocIndex(about, blogParams.locale.language)
         val doc = about[docIndex]
         return "redirect:$ABOUT_DIR/${doc.segment}"
     }
