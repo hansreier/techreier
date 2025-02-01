@@ -48,7 +48,7 @@ class DbService(
     }
 
     fun readBlog(languageCode: String, segment: String): Blog? {
-        return blogRepo.findFirstBlogByLanguageAndSegment(LanguageCode("", languageCode), segment)
+        return blogRepo.findFirstBlogByLanguageCodeAndSegment(languageCode, segment)
     }
 
     //if language is changed, we try to fetch a blog with the new language and the same segment
@@ -64,7 +64,7 @@ class DbService(
                 logger.debug("The current blog is found with language.code ${blog.language.code}, should be: $langCode")
                 if (blog.language.code != langCode) {
                     val blogSwitched =
-                        blogRepo.findFirstBlogByLanguageAndSegment(LanguageCode("", langCode), blog.segment)
+                        blogRepo.findFirstBlogByLanguageCodeAndSegment(langCode, blog.segment)
                     blogIdNew = blogSwitched?.id ?: blogId
                 }
             }

@@ -72,7 +72,7 @@ class BlogTest : TestBase() {
     @Test
     fun `read blog by language and segment`() {
         logger.info("starting read blog by language and segment")
-        val blog1 = blogRepo.findFirstBlogByLanguageAndSegment(Norwegian, ENVIRONMENT)
+        val blog1 = blogRepo.findFirstBlogByLanguageCodeAndSegment(Norwegian.code, ENVIRONMENT)
         assertThat(blog1).isNotNull
         assertThat(blog1?.language?.code).isEqualTo(NB)
         assertThat(blog1?.language?.language).isEqualTo(NORWEGIAN)
@@ -98,8 +98,7 @@ class BlogTest : TestBase() {
     //https://www.baeldung.com/jpa-entity-graph
     fun `read with manual entityGraph`() {
         logger.info("starting read all test")
-        val languageCode = LanguageCode(NORWEGIAN, NB)
-        val blog1 = blogRepo.findFirstBlogByLanguageAndSegment(languageCode, ENVIRONMENT)
+        val blog1 = blogRepo.findFirstBlogByLanguageCodeAndSegment(NB, ENVIRONMENT)
         val entityGraph = entityManager.createEntityGraph(Blog::class.java)
         entityGraph.addAttributeNodes("language")
         entityGraph.addAttributeNodes("blogOwner")

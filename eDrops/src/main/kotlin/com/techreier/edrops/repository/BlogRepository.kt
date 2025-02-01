@@ -1,7 +1,6 @@
 package com.techreier.edrops.repository
 
 import com.techreier.edrops.domain.Blog
-import com.techreier.edrops.domain.LanguageCode
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
@@ -24,10 +23,9 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "language"])
     fun findByLanguageCode(languageCode: String): MutableSet<Blog>
 
-    //TODO can also be simpified like the above findByLanguageCode?
     //Works, but cannot include blogEntries in entityGraph (when only first blogEntry is selected)
     @EntityGraph(attributePaths = ["blogOwner", "language"])
-    fun findFirstBlogByLanguageAndSegment(language: LanguageCode, segment: String): Blog?
+    fun findFirstBlogByLanguageCodeAndSegment(language: String, segment: String): Blog?
 
    // @EntityGraph(attributePaths = ["blogOwner", "language"])
     //@Query("SELECT b FROM Blog b WHERE b.language=:l AND b.segment=:t")
