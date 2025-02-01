@@ -23,8 +23,7 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "language"])
     fun findByLanguageCode(languageCode: String): MutableSet<Blog>
 
-    //Works, but cannot include blogEntries in entityGraph (when only first blogEntry is selected)
-    @EntityGraph(attributePaths = ["blogOwner", "language"])
+    @EntityGraph(attributePaths = ["blogOwner", "language","blogEntries"])
     fun findFirstBlogByLanguageCodeAndSegment(language: String, segment: String): Blog?
 
    // @EntityGraph(attributePaths = ["blogOwner", "language"])
