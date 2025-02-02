@@ -9,6 +9,7 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Languages
+import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.about
@@ -66,8 +67,8 @@ abstract class BaseController(
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("path", path)
         model.addAttribute("menu", menu)
-        if (db) {
-            model.addAttribute("blogs", fetchBlogs(usedLangcode))
+        if (db) { //TODO Does not work without DB anyhow like it is now
+            model.addAttribute("menu", fetchMenu(usedLangcode))
         }
 
         model.addAttribute("blogId", blogId)
@@ -201,13 +202,12 @@ abstract class BaseController(
             Languages.toMutableList()
         }
 
-    // TODO change so does not read Blog summary
-    // @Query("SELECT new com.yourpackage.BlogMenuDto(be.id, be.title) FROM BlogEntry be WHERE be.blog.id = :blogId")
-    // Return DTO instead
-    private fun fetchBlogs(langCode: String): MutableSet<Blog> {
-        logger.debug("Fetch blogs by Owner langCode: $langCode")
-        val blogs = dbService.readBlogs(langCode)
-        logger.debug("Blogs fetched")
+    // Assumption: Only one owner and admin user: Me.
+    // TODO: If several owners is permitted an extra level in URL must be added
+    private fun fetchMenu(langCode: String): List<MenuItemDTO> {
+        logger.debug("Fetch menu items by langCode: $langCode")
+        val blogs = dbService.readMenu(langCode)
+        logger.debug("Menu fetched")
         return blogs
     }
 

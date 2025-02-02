@@ -23,6 +23,9 @@ class Blog(
     @JoinColumn(name = "language_code", nullable = false)
     var language: LanguageCode,
 
+    @Column(nullable = false)
+    var menuOrder: Int,
+
     @Column(nullable = false, length = MAX_TITLE_SIZE)
     var subject: String,
 

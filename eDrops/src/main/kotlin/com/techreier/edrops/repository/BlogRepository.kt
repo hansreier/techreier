@@ -1,8 +1,10 @@
 package com.techreier.edrops.repository
 
 import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.dto.MenuItemDTO
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -23,11 +25,12 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "language"])
     fun findByLanguageCode(languageCode: String): MutableSet<Blog>
 
-    @EntityGraph(attributePaths = ["blogOwner", "language","blogEntries"])
-    fun findFirstBlogByLanguageCodeAndSegment(language: String, segment: String): Blog?
+    @EntityGraph(attributePaths = ["blogOwner", "language", "blogEntries"])
+    fun findFirstBlogByLanguageCodeAndSegment(languageCode: String, segment: String): Blog?
 
-   // @EntityGraph(attributePaths = ["blogOwner", "language"])
-    //@Query("SELECT b FROM Blog b WHERE b.language=:l AND b.segment=:t")
-    //fun findFirstBlog2ByLanguageAndSegment(@Param("l") l: LanguageCode, @Param("t") segment: String): MutableSet<Blog>?
+    @Query("SELECT new com.techreier.edrops.dto.MenuItemDTO(b.id, b.subject, b.segment) " +
+            " FROM Blog b where b.language.code = :languageCode ORDER BY b.menuOrder")
+
+    fun getMenuItems(languageCode: String): List<MenuItemDTO>
 
 }

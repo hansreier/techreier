@@ -5,6 +5,7 @@ import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogEntry
 import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.domain.LanguageCode
+import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogEntryForm
@@ -72,6 +73,11 @@ class DbService(
     fun readBlogs(languageCode: String): MutableSet<Blog> {
         logger.info("Read blogs with language: $languageCode")
         return blogRepo.findByLanguageCode(languageCode)
+    }
+
+    fun readMenu(languageCode: String): List<MenuItemDTO> {
+        logger.info("Read menu from blog with language: $languageCode")
+        return blogRepo.getMenuItems(languageCode)
     }
 
     fun saveBlogEntry(blogId: Long?, blogEntryForm: BlogEntryForm) {

@@ -4,6 +4,7 @@ CREATE TABLE blog
     changed       TIMESTAMP(0) NOT NULL,
     id            BIGINT       NOT NULL AUTO_INCREMENT,
     language_code VARCHAR(15)  NOT NULL,
+    menu_order    INT          NOT NULL,
     segment       VARCHAR(30)  NOT NULL,
     subject       VARCHAR(50)  NOT NULL,
     about         VARCHAR(400) NOT NULL,

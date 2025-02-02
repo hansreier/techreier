@@ -87,15 +87,15 @@ data class BlogData(val appConfig: AppConfig) {
     private val blogEntries2 = mutableListOf<BlogEntry>()
     private val blogList = mutableSetOf<Blog>()
 
-    final val blogOwner: BlogOwner = BlogOwner(
+    val blogOwner: BlogOwner = BlogOwner(
         timeStamp(), null, appConfig.user, appConfig.password,
         "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
         "+4791668863", "Sløttvegen 17", "2390", "Moelv", "NO", blogList
     )
 
-    private val blog1 = Blog(datetime1, ENVIRONMENT, Norwegian, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
-    private val blog1e = Blog(datetimeb1, ENVIRONMENT, English, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
-    private val blog2 = Blog(datetimeb2, ENERGY, Norwegian, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
+    private val blog1 = Blog(datetime1, ENVIRONMENT, Norwegian, 1, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
+    private val blog1e = Blog(datetimeb1, ENVIRONMENT, English, 1, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
+    private val blog2 = Blog(datetimeb2, ENERGY, Norwegian, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
 
     private val blogEntry1 = BlogEntry(datetime1, ELPOWER, TITLE1, SUMMARY1, blog1)
     private val blogEntry2 = BlogEntry(datetime2, WEATHER, TITLE2, SUMMARY2, blog1)

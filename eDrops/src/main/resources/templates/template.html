@@ -93,9 +93,9 @@
                 </div>
                 <form th:action="@{/admin}" th:method="post">
                     <button class=dropdown-item name="result" type="submit"
-                            th:each="blog: ${blogs}"
-                            th:value="${blog.segment} +' '+ ${blog.id}"
-                            th:text="${blog.subject}"></button>
+                            th:each="item: ${menu}"
+                            th:value="${item.segment} +' '+ ${item.id}"
+                            th:text="${item.subject}"></button>
                 </form>
             </div>
             <div th:if="${auth}">
@@ -105,9 +105,9 @@
                     </form>
                     <form th:action="@{/admin}" th:method="post">
                         <button class=dropdown-item name="result" type="submit"
-                                th:each="blog: ${blogs}"
-                                th:value="${blog.segment} +' '+ ${blog.id}"
-                                th:text="${blog.subject}"></button>
+                                th:each="item: ${menu}"
+                                th:value="${item.segment} +' '+ ${item.id}"
+                                th:text="${item.subject}"></button>
                     </form>
                 </div>
             </div>
