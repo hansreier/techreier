@@ -89,13 +89,13 @@ class DbService(
                     ZonedDateTime.now(), blogEntryForm.segment, blogEntryForm.title,
                     blogEntryForm.summary, foundBlog, blogEntryForm.id
                 )
-                if (blogEntryForm.id == null) {
-                    if (blog.blogEntries.any {   it.segment == blogEntryForm.segment }) {
-                        throw DuplicateSegmentException("Segment: ${blogEntryForm.segment} is duplicate in blog ${blog.segment}")
-                    }
+                if (blog.blogEntries.any { it.segment == blogEntryForm.segment }) {
+                    throw DuplicateSegmentException("Segment: ${blogEntryForm.segment} is duplicate in blog ${blog.segment}")
                 }
+
                 blogEntryRepo.save(blogEntry)
-            } ?: throw ParentBlogException("Blogentry ${blogEntryForm.segment} not saved, cannot read parent blog with id: $blogId")
+            }
+                ?: throw ParentBlogException("Blogentry ${blogEntryForm.segment} not saved, cannot read parent blog with id: $blogId")
         } ?: throw ParentBlogException("Blogentry ${blogEntryForm.segment} not saved, parent blog is detached")
     }
 
