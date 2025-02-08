@@ -23,6 +23,10 @@ class Blog(
     @JoinColumn(name = "language_code", nullable = false)
     var language: LanguageCode,
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "topic", nullable = false)
+    var topic: Topic,
+
     @Column(nullable = false)
     var menuOrder: Int,
 
@@ -43,5 +47,6 @@ class Blog(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?=null,
 ) {
-    override fun toString() = "id: $id segment: $segment subject: $subject language: ${language.language} blogOwner: $blogOwner changed: $changed"
+    override fun toString() = "id: $id segment: $segment subject: $subject language: ${language.language} " +
+            "topic: ${topic.text} blogOwner: $blogOwner changed: $changed"
 }

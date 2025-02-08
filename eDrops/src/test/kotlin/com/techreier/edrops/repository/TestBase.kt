@@ -22,6 +22,9 @@ abstract class TestBase {
     lateinit var ownerRepo: BlogOwnerRepository
 
     @Autowired
+    lateinit var topicRepo: TopicRepository
+
+    @Autowired
     lateinit var languageRepo: LanguageRepository
 
     @Autowired
@@ -45,6 +48,10 @@ abstract class TestBase {
         blogData = BlogData(appConfig)
         languageRepo.save(Norwegian)
         languageRepo.save(English)
+        topicRepo.save(blogData.defaultN)
+        topicRepo.save(blogData.defaultE)
+        topicRepo.save(blogData.energyE)
+        topicRepo.save(blogData.energyN)
         blogOwner = ownerRepo.save(blogData.blogOwner)
         blog = blogOwner.blogs.first { it.segment == ENVIRONMENT }
         blogId =  blog.id!!

@@ -7,6 +7,13 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
+// Predefine topics
+const val _DEFAULT= "default"
+const val _ENERGY = "energy"
+const val _POLITICS = "politics"
+const val _CODING ="coding"
+
+
 // Predefined segments
 const val ENVIRONMENT = "env"
 const val ENERGY = "energy"
@@ -93,9 +100,16 @@ data class BlogData(val appConfig: AppConfig) {
         "+4791668863", "Sløttvegen 17", "2390", "Moelv", "NO", blogList
     )
 
-    private val blog1 = Blog(datetime1, ENVIRONMENT, Norwegian, 1, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
-    private val blog1e = Blog(datetimeb1, ENVIRONMENT, English, 1, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
-    private val blog2 = Blog(datetimeb2, ENERGY, Norwegian, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
+    val defaultN = Topic(_DEFAULT, "Standard", Norwegian)
+    val defaultE = Topic(_DEFAULT, "Default", English)
+    val energyN = Topic(_ENERGY, "Energi", Norwegian)
+    val energyE = Topic(_ENERGY, "Energy", English)
+    private val codingN = Topic(_CODING, "Koding", Norwegian)
+    private val codingE = Topic(_CODING, "Coding", English)
+
+    private val blog1 = Blog(datetime1, ENVIRONMENT, Norwegian, energyN, 1,  SUBJECT1, ABOUT1, blogEntries1, blogOwner)
+    private val blog1e = Blog(datetimeb1, ENVIRONMENT, English, energyE, 1, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
+    private val blog2 = Blog(datetimeb2, ENERGY, Norwegian, energyN, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
 
     private val blogEntry1 = BlogEntry(datetime1, ELPOWER, TITLE1, SUMMARY1, blog1)
     private val blogEntry2 = BlogEntry(datetime2, WEATHER, TITLE2, SUMMARY2, blog1)
