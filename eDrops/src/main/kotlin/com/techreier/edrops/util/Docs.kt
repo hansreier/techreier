@@ -28,7 +28,6 @@ object Docs {
     val energyEn = Topic.create(ENERGY, English)
     val codingNo = Topic.create(CODING, Norwegian)
     val codingEn = Topic.create(CODING, English)
-    val allTopics = listOf(defaultNo, defaultEn, energyNo, energyEn, codingNo)
     val home = arrayOf(
         Doc("energy", energyNo, "Energi i Norge"),
         Doc("energy", energyEn, "Energy in Norway"),
