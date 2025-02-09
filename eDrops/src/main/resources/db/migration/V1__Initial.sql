@@ -62,7 +62,7 @@ CREATE TABLE topic
     id            BIGINT      NOT NULL AUTO_INCREMENT,
     language_code VARCHAR(15) NOT NULL,
     key_word      VARCHAR(30) NOT NULL,
-    text          VARCHAR(50) NOT NULL,
+    text          VARCHAR(50) NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 

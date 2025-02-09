@@ -89,7 +89,7 @@ class DbService(
                     ZonedDateTime.now(), blogEntryForm.segment, blogEntryForm.title,
                     blogEntryForm.summary, foundBlog, blogEntryForm.id
                 )
-                if (blog.blogEntries.any { it.segment == blogEntryForm.segment }) {
+                if (blog.blogEntries.any { (it.segment == blogEntryForm.segment) && it.id != blogEntryForm.id }) {
                     throw DuplicateSegmentException("Segment: ${blogEntryForm.segment} is duplicate in blog ${blog.segment}")
                 }
 

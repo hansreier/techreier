@@ -48,11 +48,10 @@ abstract class TestBase {
         blogData = BlogData(appConfig)
         languageRepo.save(Norwegian)
         languageRepo.save(English)
-        topicRepo.save(blogData.defaultN)
-        topicRepo.save(blogData.defaultE)
-        topicRepo.save(blogData.energyE)
-        topicRepo.save(blogData.energyN)
+        topicRepo.save(blogData.defaultNo)
+        topicRepo.save(blogData.defaultEn)
         blogOwner = ownerRepo.save(blogData.blogOwner)
+        //TODO Rethink. Still problem here if Topic actually had a relation the blogOwner.
         blog = blogOwner.blogs.first { it.segment == ENVIRONMENT }
         blogId =  blog.id!!
         blogEntry = blog.blogEntries.first { it.segment == ELPOWER }
@@ -70,8 +69,10 @@ abstract class TestBase {
         entityManager.createQuery("DELETE FROM BlogEntry").executeUpdate()
         entityManager.createQuery("DELETE FROM Blog").executeUpdate()
         entityManager.createQuery("DELETE FROM BlogOwner").executeUpdate()
+        entityManager.createQuery("DELETE FROM Topic").executeUpdate()
         entityManager.createQuery("DELETE FROM LanguageCode").executeUpdate()
         entityManager.flush()
         entityManager.clear()
+        logger.info("cleanup end")
     }
 }

@@ -23,6 +23,7 @@
     </div>
     <div class="right-top">
         <form id="language" th:action="@{/language}" th:method="post">
+            <p th:text="'Language: ' + ${langCode}"></p>
             <label id="languageLabel" th:text="language" for="languageSelect"></label>
             <select id="languageSelect" name="languageCode" onchange="language.submit()">
                 <option id="languageOption" th:each="language : ${languages}"

@@ -104,7 +104,7 @@ fun sanitize(html: String): String {
 
 //Must do it this way with classLoader and streams to be able to read files in Docker and locally
 fun markdownToHtml(doc: Doc, subDir: String=""): String {
-    val lc = if (doc.ext) "_" + doc.language.code else ""
+    val lc = if (doc.ext) "_" + doc.topic.language.code else ""
     val classLoader = object {}.javaClass.classLoader
     val fileName = "static/markdown/" + subDir + "/" + doc.segment + lc + MARKDOWN_EXT
     val inputStream = classLoader.getResourceAsStream(fileName)

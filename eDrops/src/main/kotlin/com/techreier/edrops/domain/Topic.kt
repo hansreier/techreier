@@ -12,12 +12,12 @@ class Topic(
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
     val keyWord: String,
 
-    @Column(nullable = false, length = MAX_TITLE_SIZE)
-    val text: String,
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "language_code", nullable = false)
     var language: LanguageCode,
+
+    @Column(nullable = true, length = MAX_TITLE_SIZE)
+    val text: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "blog_owner_id", nullable = true)
@@ -27,5 +27,17 @@ class Topic(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?=null
 ) {
+    companion object {
+        const val DEFAULT="default"
+        const val CODING="coding"
+        const val ENERGY="energy"
+      //  val ALL = listOf(DEFAULT_EN,DEFAULT_NO,CODING_EN,CODING_NO,ENERGY_EN,ENERGY_NO)
+
+        fun create(keyword: String, language: LanguageCode):Topic {
+            return Topic(keyword, language)
+        }
+
+    }
+
     override fun toString() = "key: $keyWord topic: $text: $text language: ${language.language} id: $id"
 }

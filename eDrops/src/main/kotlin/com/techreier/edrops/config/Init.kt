@@ -6,6 +6,7 @@ import com.techreier.edrops.domain.Norwegian
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.LanguageRepository
 import com.techreier.edrops.repository.TopicRepository
+import com.techreier.edrops.util.Docs
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 
@@ -23,10 +24,7 @@ class Init(
             val blogData = BlogData(appConfig)
             languageRepo.save(Norwegian)
             languageRepo.save(English)
-            topicRepo.save(blogData.defaultN)
-            topicRepo.save(blogData.defaultE)
-            topicRepo.save(blogData.energyN)
-            topicRepo.save(blogData.energyE)
+            topicRepo.saveAll(Docs.allTopics)
             ownerRepo.save(blogData.blogOwner)
             logger.info("Initialized with data")
         } else {
