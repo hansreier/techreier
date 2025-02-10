@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotNull
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.transaction.annotation.EnableTransactionManagement
+import org.springframework.transaction.annotation.RollbackOn
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.client.RestClient
 
@@ -17,6 +19,7 @@ const val MAX_USERNAME_SIZE = 60
 // Disadvantage: Have to inject this always
 @Configuration
 @ConfigurationProperties(prefix = "app")
+@EnableTransactionManagement(rollbackOn = RollbackOn.ALL_EXCEPTIONS)
 @Validated // Checks if properties exist in combination with @NotNull and aborts if not
 class AppConfig {
     @NotNull(message = "Mangler navn på applikasjon") // Checks if properties exist
