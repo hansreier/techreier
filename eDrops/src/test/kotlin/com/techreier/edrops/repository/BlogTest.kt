@@ -2,6 +2,7 @@ package com.techreier.edrops.repository
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.*
+import jakarta.persistence.Subgraph
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -75,7 +76,7 @@ class BlogTest : TestBase() {
         val blog1 = blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(Norwegian.code, ENVIRONMENT)
         assertThat(blog1).isNotNull
         assertThat(blog1!!.topic.language.code).isEqualTo(NB)
-        assertThat(blog1.topic.language).isEqualTo(NORWEGIAN)
+        assertThat(blog1.topic.language.language).isEqualTo(NORWEGIAN)
         assertThat(blog1.segment).isEqualTo(ENVIRONMENT)
         logger.info("blog: $blog1 ${blog1.blogEntries.size}")
     }
@@ -100,7 +101,8 @@ class BlogTest : TestBase() {
         logger.info("starting read all test")
         val blog1 = blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(NB, ENVIRONMENT)
         val entityGraph = entityManager.createEntityGraph(Blog::class.java)
-        entityGraph.addAttributeNodes("language")
+        val topicGraph: Subgraph<Topic> = entityGraph.addSubgraph("topic")
+        topicGraph.addAttributeNodes("language")
         entityGraph.addAttributeNodes("blogOwner")
         entityGraph.addAttributeNodes("blogEntries")
         val hints: MutableMap<String, Any> = HashMap()

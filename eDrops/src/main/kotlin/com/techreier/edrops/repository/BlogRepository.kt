@@ -13,7 +13,7 @@ import java.util.*
 @Repository
 interface BlogRepository : JpaRepository<Blog, Long> {
     //add hoc entity graph https://www.baeldung.com/spring-data-jpa-named-entity-graphs
-    @EntityGraph(attributePaths = ["blogOwner", "language", "blogEntries"])
+    @EntityGraph(attributePaths = ["blogOwner", "topic","topic.language", "blogEntries"])
     override fun findAll(): MutableList<Blog>
 
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])

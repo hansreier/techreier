@@ -3,6 +3,7 @@ package com.techreier.edrops.repository
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogOwner
+import com.techreier.edrops.domain.Topic
 import jakarta.persistence.Subgraph
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -131,8 +132,8 @@ class OwnerTest : TestBase() {
         entityManager.clear()
         val entityGraph = entityManager.createEntityGraph(BlogOwner::class.java)
         val blogGraph: Subgraph<Blog> = entityGraph.addSubgraph("blogs")
-        entityGraph.addAttributeNodes("blogs")
-        blogGraph.addAttributeNodes("language")
+        val topicGraph: Subgraph<Topic> = blogGraph.addSubgraph("topic")
+        topicGraph.addAttributeNodes("language")
         blogGraph.addAttributeNodes("blogEntries")
         val hints: MutableMap<String, Any> = HashMap()
         hints["javax.persistence.loadgraph"] = entityGraph //Fetchgraph or loadgraph (uses defaults)
