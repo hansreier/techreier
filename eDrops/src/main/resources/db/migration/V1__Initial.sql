@@ -5,7 +5,6 @@ CREATE TABLE blog
     changed       TIMESTAMP(0) NOT NULL,
     id            BIGINT       NOT NULL AUTO_INCREMENT,
     topic         BIGINT       NOT NULL,
-    language_code VARCHAR(15)  NOT NULL,
     segment       VARCHAR(30)  NOT NULL,
     subject       VARCHAR(50)  NOT NULL,
     about         VARCHAR(400) NOT NULL,
@@ -58,11 +57,10 @@ CREATE TABLE language_code
 
 CREATE TABLE topic
 (
-    blog_owner_id BIGINT,
     id            BIGINT      NOT NULL AUTO_INCREMENT,
     language_code VARCHAR(15) NOT NULL,
     key_word      VARCHAR(30) NOT NULL,
-    text          VARCHAR(50) NULL,
+    text          VARCHAR(50),
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
@@ -73,11 +71,6 @@ ALTER TABLE blog
     ADD CONSTRAINT fk_blog_blog_owner
         FOREIGN KEY (blog_owner_id)
             REFERENCES blog_owner (id);
-
-ALTER TABLE blog
-    ADD CONSTRAINT fk_blog_language_code
-        FOREIGN KEY (language_code)
-            REFERENCES language_code (code);
 
 ALTER TABLE blog
     ADD CONSTRAINT fk_blog_topic
@@ -95,13 +88,6 @@ ALTER TABLE blog_text
             REFERENCES blog_entry (id);
 
 ALTER TABLE topic
-    ADD CONSTRAINT fk_topic_blog_owner
-        FOREIGN KEY (blog_owner_id)
-            REFERENCES blog_owner (id);
-
-ALTER TABLE topic
     ADD CONSTRAINT fk_topic_language_code
         FOREIGN KEY (language_code)
             REFERENCES language_code (code);
-
-

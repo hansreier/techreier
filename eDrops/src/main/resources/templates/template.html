@@ -107,8 +107,8 @@
                     <form th:action="@{/admin}" th:method="post">
                         <button class=dropdown-item name="result" type="submit"
                                 th:each="blog: ${menu}"
-                                th:value="${blog.segment} +' '+ ${item.id}"
-                                th:text="${itemblog.subject}"></button>
+                                th:value="${blog.segment} +' '+ ${blog.id}"
+                                th:text="${blog.subject}"></button>
                     </form>
                 </div>
             </div>

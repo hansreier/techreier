@@ -94,9 +94,9 @@ data class BlogData(val appConfig: AppConfig) {
     val defaultNo = Topic.create(Topic.DEFAULT, Norwegian)
     val defaultEn = Topic.create(Topic.DEFAULT, English)
 
-    private val blog1 = Blog(datetime1, ENVIRONMENT, Norwegian, defaultNo, 1,  SUBJECT1, ABOUT1, blogEntries1, blogOwner)
-    private val blog1e = Blog(datetimeb1, ENVIRONMENT, English, defaultEn, 1, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
-    private val blog2 = Blog(datetimeb2, ENERGY, Norwegian, defaultNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
+    private val blog1 = Blog(datetime1, ENVIRONMENT,  defaultNo, 1,  SUBJECT1, ABOUT1, blogEntries1, blogOwner)
+    private val blog1e = Blog(datetimeb1, ENVIRONMENT,  defaultEn, 1, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
+    private val blog2 = Blog(datetimeb2, ENERGY, defaultNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
 
     private val blogEntry1 = BlogEntry(datetime1, ELPOWER, TITLE1, SUMMARY1, blog1)
     private val blogEntry2 = BlogEntry(datetime2, WEATHER, TITLE2, SUMMARY2, blog1)

@@ -65,19 +65,19 @@ class BlogTest : TestBase() {
             entityManager.createQuery("SELECT DISTINCT b FROM Blog b INNER JOIN FETCH b.blogEntries WHERE b.subject = ?1 ")
         val blog = query.setParameter(1, SUBJECT1).singleResult as Blog
         logger.info("blog: $blog")
-        assertThat(blog.language.language).isEqualTo(NORWEGIAN)
+        assertThat(blog.topic.language.language).isEqualTo(NORWEGIAN)
         assertThat(blog.segment).isEqualTo(ENVIRONMENT)
     }
 
     @Test
     fun `read blog by language and segment`() {
         logger.info("starting read blog by language and segment")
-        val blog1 = blogRepo.findFirstBlogByLanguageCodeAndSegment(Norwegian.code, ENVIRONMENT)
+        val blog1 = blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(Norwegian.code, ENVIRONMENT)
         assertThat(blog1).isNotNull
-        assertThat(blog1?.language?.code).isEqualTo(NB)
-        assertThat(blog1?.language?.language).isEqualTo(NORWEGIAN)
-        assertThat(blog1?.segment).isEqualTo(ENVIRONMENT)
-        logger.info("blog: $blog1 ${blog1?.blogEntries?.size}")
+        assertThat(blog1!!.topic.language.code).isEqualTo(NB)
+        assertThat(blog1.topic.language).isEqualTo(NORWEGIAN)
+        assertThat(blog1.segment).isEqualTo(ENVIRONMENT)
+        logger.info("blog: $blog1 ${blog1.blogEntries.size}")
     }
 
     @Test
@@ -98,7 +98,7 @@ class BlogTest : TestBase() {
     //https://www.baeldung.com/jpa-entity-graph
     fun `read with manual entityGraph`() {
         logger.info("starting read all test")
-        val blog1 = blogRepo.findFirstBlogByLanguageCodeAndSegment(NB, ENVIRONMENT)
+        val blog1 = blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(NB, ENVIRONMENT)
         val entityGraph = entityManager.createEntityGraph(Blog::class.java)
         entityGraph.addAttributeNodes("language")
         entityGraph.addAttributeNodes("blogOwner")
@@ -108,7 +108,7 @@ class BlogTest : TestBase() {
         logger.info("saved")
         val blog2 = entityManager.find(Blog::class.java, blog1?.id, hints)
         assertThat(blog2?.blogEntries?.size).isEqualTo(blog1?.blogEntries?.size)
-        logger.info("Blog language: ${blog2.language.language} owner: ${blog2.blogOwner.id} entries: ${blog2.blogEntries}")
+        logger.info("Blog language: ${blog2.topic.language.language} owner: ${blog2.blogOwner.id} entries: ${blog2.blogEntries}")
     }
 
     @Test
@@ -116,11 +116,11 @@ class BlogTest : TestBase() {
         logger.info("starting read all test")
         entityManager.clear()
         logger.info("saved")
-        val blogs = blogRepo.findByLanguageCode(NB)
+        val blogs = blogRepo.findByTopicLanguageCode(NB)
         assertThat(blogs.size).isGreaterThan(0)
         blogs.forEach {
             logger.info("blog: $it")
-            assertThat(it.language.code).isEqualTo(NB)
+            assertThat(it.topic.language.code).isEqualTo(NB)
         }
     }
 }

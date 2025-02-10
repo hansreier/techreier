@@ -16,20 +16,20 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "language", "blogEntries"])
     override fun findAll(): MutableList<Blog>
 
-    @EntityGraph(attributePaths = ["blogOwner", "language"])
+    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     override fun findById(id: Long): Optional<Blog>
 
-    @EntityGraph(attributePaths = ["blogOwner", "language", "blogEntries"])
+    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogEntries"])
     fun findAllById(id: Long): Optional<Blog>
 
-    @EntityGraph(attributePaths = ["blogOwner", "language"])
-    fun findByLanguageCode(languageCode: String): MutableSet<Blog>
+    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
+    fun findByTopicLanguageCode(languageCode: String): MutableSet<Blog>
 
-    @EntityGraph(attributePaths = ["blogOwner", "language", "blogEntries"])
-    fun findFirstBlogByLanguageCodeAndSegment(languageCode: String, segment: String): Blog?
+    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogEntries"])
+    fun findFirstBlogByTopicLanguageCodeAndSegment(languageCode: String, segment: String): Blog?
 
     @Query("SELECT new com.techreier.edrops.dto.MenuItemDTO(b.id, b.subject, b.segment) " +
-            " FROM Blog b where b.language.code = :languageCode ORDER BY b.menuOrder")
+            " FROM Blog b where b.topic.language.code = :languageCode ORDER BY b.menuOrder")
 
     fun getMenuItems(languageCode: String): List<MenuItemDTO>
 

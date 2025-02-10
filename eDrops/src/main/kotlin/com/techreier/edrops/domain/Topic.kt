@@ -19,10 +19,6 @@ class Topic(
     @Column(nullable = true, length = MAX_TITLE_SIZE)
     val text: String? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "blog_owner_id", nullable = true)
-    val blogOwner: BlogOwner? = null,
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?=null

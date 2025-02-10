@@ -49,7 +49,7 @@ class DbService(
     }
 
     fun readBlog(languageCode: String, segment: String): Blog? {
-        return blogRepo.findFirstBlogByLanguageCodeAndSegment(languageCode, segment)
+        return blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(languageCode, segment)
     }
 
     //if language is changed, we try to fetch a blog with the new language and the same segment
@@ -59,10 +59,10 @@ class DbService(
         if (langCode != null) {
             val blog = blogRepo.findById(blogId).orElse(null) //Finds current blog
             if (blog != null) {
-                logger.debug("The current blog is found with language.code ${blog.language.code}, should be: $langCode")
-                if (blog.language.code != langCode) {
+                logger.debug("The current blog is found with language.code ${blog.topic.language.code}, should be: $langCode")
+                if (blog.topic.language.code != langCode) {
                     val blogSwitched =
-                        blogRepo.findFirstBlogByLanguageCodeAndSegment(langCode, blog.segment)
+                        blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(langCode, blog.segment)
                     blogIdNew = blogSwitched?.id ?: blogId
                 }
             }
@@ -72,7 +72,7 @@ class DbService(
 
     fun readBlogs(languageCode: String): MutableSet<Blog> {
         logger.info("Read blogs with language: $languageCode")
-        return blogRepo.findByLanguageCode(languageCode)
+        return blogRepo.findByTopicLanguageCode(languageCode)
     }
 
     fun readMenu(languageCode: String): List<MenuItemDTO> {

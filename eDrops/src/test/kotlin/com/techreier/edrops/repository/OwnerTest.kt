@@ -139,7 +139,7 @@ class OwnerTest : TestBase() {
         logger.info("saved")
         val blogOwner = entityManager.find(BlogOwner::class.java, blogOwner.id, hints)
         logger.info(
-            "Blog language: ${blogOwner.blogs.first().language} owner: ${blogOwner.id}" + "" +
+            "Blog language: ${blogOwner.blogs.first().topic.language} owner: ${blogOwner.id}" + "" +
                     " entries: ${blogOwner.blogs.first().blogEntries}"
         )
     }
