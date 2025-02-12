@@ -23,9 +23,8 @@ class Init(
             val blogData = BlogData(appConfig)
             languageRepo.save(Norwegian)
             languageRepo.save(English)
-            topicRepo.save(blogData.defaultNo)
-            topicRepo.save(blogData.defaultEn)
-            ownerRepo.save(blogData.blogOwner) //TODO Does not work is any of the Topics contains relation to blogOwner.
+            topicRepo.saveAll(blogData.topics)
+            ownerRepo.save(blogData.blogOwner)
             logger.info("Initialized with data")
         } else {
             logger.info("Initial data was already there, skipping")

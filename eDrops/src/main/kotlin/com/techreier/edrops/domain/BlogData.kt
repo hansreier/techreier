@@ -33,51 +33,58 @@ const val ENGLISH = "English"
 const val NB = "nb"
 const val EN = "en"
 
-
 val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
 val English: LanguageCode = LanguageCode(ENGLISH, EN)
 
 val Languages = listOf(Norwegian, English)
 
-const val SUMMARY1 = "Regjeringen Støre nekter å regulere strømmarkedet. " +
+const val SUMMARY1 =
+    "Regjeringen Støre nekter å regulere strømmarkedet. " +
         "I stedet er det innført en strømstøtteordning. " +
         "Denne er brukbar for privatpersoner, men ikke for bedrifter. " +
         "Dette er dessverre bare å fikle på en dårlig ordning. " +
         "I tillegg så lekker det strøm ut via de nye høykapasitets utenlandskablene.\n\n" +
         "#Strøm #Støre"
 
-const val SUMMARY1E = "The government Støre refuses to control the electricity marked. " +
+const val SUMMARY1E =
+    "The government Støre refuses to control the electricity marked. " +
         "As a replacement you get some money returned back from Norwegian Authorities. " +
         "It is not that bad for private citizens, but not for companies. " +
         "This is unfortunately just tinkering with a bad setup. " +
         " In addition, electricity is leaking out through the new high-capacity foreign cables. \n\n" +
         "#ElectricalPower #Støre"
 
-const val SUMMARY2 = "Først var det ikke snø. " +
+const val SUMMARY2 =
+    "Først var det ikke snø. " +
         "Så snødde det mye. " +
         "Så kom det masse regn. " +
         "Så ble det isglatt og iskaldt. #Snø"
 
-const val SUMMARY2E = "At first no snow. " +
+const val SUMMARY2E =
+    "At first no snow. " +
         "Then it snowed a lot. " +
         "Then a lot of rain poured down. " +
         "Then it god icy and slippery and freezing cold. #Snø"
 
-const val SUMMARY3 = "Det er tydeligvis helt umulig med toveis relasjon for Hibernate på en til en relasjoner. " +
+const val SUMMARY3 =
+    "Det er tydeligvis helt umulig med toveis relasjon for Hibernate på en til en relasjoner. " +
         "Jeg har gitt opp å gjøre noe med det etter mange forsøk. #Hibernate"
 
-const val SUMMARY3E = "It is apparently impossible with a two way relation for Hibernate on a one to one relation. " +
+const val SUMMARY3E =
+    "It is apparently impossible with a two way relation for Hibernate on a one to one relation. " +
         "I have given up doing something about it after many attempts. #Hibernate"
 
 const val SUMMARY4 = "Dette er min nye blogg med tvilsomt innhold."
 
 // Initial populate table. Temporary. Move later back to test
-data class BlogData(val appConfig: AppConfig) {
+data class BlogData(
+    val appConfig: AppConfig,
+) {
     private val datetimeb1 = timestamp("02.02.2024 13:01:24")
     private val datetimeb2 = timestamp("02.02.2024 13:05:03")
     private val datetime1 = timestamp("15.02.2024 15:05:30")
     private val datetime2 = timestamp("17.02.2024 15:05:30")
-    private  val datetime3 = timestamp("12.03.2024 11:02:00")
+    private val datetime3 = timestamp("12.03.2024 11:02:00")
     private val datetime23 = timestamp("01.01.2024 08:04:12")
 
     private val blogEntries1 = mutableListOf<BlogEntry>()
@@ -85,17 +92,36 @@ data class BlogData(val appConfig: AppConfig) {
     private val blogEntries2 = mutableListOf<BlogEntry>()
     private val blogList = mutableSetOf<Blog>()
 
-    val blogOwner: BlogOwner = BlogOwner(
-        timeStamp(), null, appConfig.user, appConfig.password,
-        "Hans Reier", "Sigmond", "reier.sigmond@gmail.com",
-        "+4791668863", "Sløttvegen 17", "2390", "Moelv", "NO", blogList
-    )
+    val blogOwner: BlogOwner =
+        BlogOwner(
+            timeStamp(),
+            null,
+            appConfig.user,
+            appConfig.password,
+            "Hans Reier",
+            "Sigmond",
+            "reier.sigmond@gmail.com",
+            "+4791668863",
+            "Sløttvegen 17",
+            "2390",
+            "Moelv",
+            "NO",
+            blogList,
+        )
 
-    val defaultNo = Topic.create(Topic.DEFAULT, Norwegian)
-    val defaultEn = Topic.create(Topic.DEFAULT, English)
+    // Predefined topics.
+    val defaultNo = Topic(Topic.DEFAULT, Norwegian)
+    val defaultEn = Topic(Topic.DEFAULT, English)
+    val codingNo = Topic(Topic.CODING, Norwegian)
+    val codingEn = Topic(Topic.CODING, English)
+    val energyNo = Topic(Topic.ENERGY, Norwegian)
+    val energyEn = Topic(Topic.ENERGY, English)
 
-    private val blog1 = Blog(datetime1, ENVIRONMENT,  defaultNo, 1,  SUBJECT1, ABOUT1, blogEntries1, blogOwner)
-    private val blog1e = Blog(datetimeb1, ENVIRONMENT,  defaultEn, 1, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
+    val topics = listOf(defaultNo, defaultEn, codingNo, codingEn, energyNo, energyEn)
+
+    //  val a = Topics.CODING_EN.create()
+    private val blog1 = Blog(datetime1, ENVIRONMENT, defaultNo, 1, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
+    private val blog1e = Blog(datetimeb1, ENVIRONMENT, defaultEn, 1, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
     private val blog2 = Blog(datetimeb2, ENERGY, defaultNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
 
     private val blogEntry1 = BlogEntry(datetime1, ELPOWER, TITLE1, SUMMARY1, blog1)
