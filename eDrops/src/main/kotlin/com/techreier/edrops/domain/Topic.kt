@@ -19,11 +19,5 @@ class Topic(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 ) {
-    companion object {
-        const val DEFAULT = "default"
-        const val CODING = "coding"
-        const val ENERGY = "energy"
-    }
-
     override fun toString() = "key: $keyWord topic: $text: $text language: ${language.language} id: $id"
 }

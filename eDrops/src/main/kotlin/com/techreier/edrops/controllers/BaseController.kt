@@ -7,8 +7,8 @@ import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.domain.Common
 import com.techreier.edrops.domain.LanguageCode
-import com.techreier.edrops.domain.Languages
 import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
@@ -67,7 +67,7 @@ abstract class BaseController(
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("path", path)
         model.addAttribute("menu", menu)
-        if (db) { //TODO Does not work without DB anyhow like it is now
+        if (db) { // TODO Does not work without DB anyhow like it is now
             model.addAttribute("menu", fetchMenu(usedLangcode))
         }
 
@@ -199,7 +199,7 @@ abstract class BaseController(
             dbService.readLanguages()
         } else {
             logger.debug("fetch languages from code")
-            Languages.toMutableList()
+            Common().languages.toMutableList() // Reier TODO not the best, but not used
         }
 
     // Assumption: Only one owner and admin user: Me.

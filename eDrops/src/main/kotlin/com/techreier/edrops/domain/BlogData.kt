@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter
 
 // Predefined segments
 const val ENVIRONMENT = "env"
-const val ENERGY = "energy"
 const val ELPOWER = "elpower"
 const val WEATHER = "weather"
 const val HIBERNATE = "hibernate"
@@ -28,15 +27,6 @@ const val ABOUT1E = "About nature, envirnoment and climate in Norway"
 const val SUBJECT1E = "Environmental issues"
 const val SUBJECT2 = "Energi saker"
 const val ABOUT2 = "Om energi og elkraft i Norge"
-const val NORWEGIAN = "Norwegian"
-const val ENGLISH = "English"
-const val NB = "nb"
-const val EN = "en"
-
-val Norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
-val English: LanguageCode = LanguageCode(ENGLISH, EN)
-
-val Languages = listOf(Norwegian, English)
 
 const val SUMMARY1 =
     "Regjeringen Støre nekter å regulere strømmarkedet. " +
@@ -77,8 +67,9 @@ const val SUMMARY3E =
 const val SUMMARY4 = "Dette er min nye blogg med tvilsomt innhold."
 
 // Initial populate table. Temporary. Move later back to test
-data class BlogData(
+class BlogData(
     val appConfig: AppConfig,
+    common: Common,
 ) {
     private val datetimeb1 = timestamp("02.02.2024 13:01:24")
     private val datetimeb2 = timestamp("02.02.2024 13:05:03")
@@ -109,19 +100,9 @@ data class BlogData(
             blogList,
         )
 
-    // Predefined topics.
-    val defaultNo = Topic(Topic.DEFAULT, Norwegian)
-    val defaultEn = Topic(Topic.DEFAULT, English)
-    val codingNo = Topic(Topic.CODING, Norwegian)
-    val codingEn = Topic(Topic.CODING, English)
-    val energyNo = Topic(Topic.ENERGY, Norwegian)
-    val energyEn = Topic(Topic.ENERGY, English)
-
-    val topics = listOf(defaultNo, defaultEn, codingNo, codingEn, energyNo, energyEn)
-
-    private val blog1 = Blog(datetime1, ENVIRONMENT, defaultNo, 1, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
-    private val blog1e = Blog(datetimeb1, ENVIRONMENT, defaultEn, 1, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
-    private val blog2 = Blog(datetimeb2, ENERGY, defaultNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
+    private val blog1 = Blog(datetime1, ENVIRONMENT, common.defaultNo, 1, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
+    private val blog1e = Blog(datetimeb1, ENVIRONMENT, common.defaultEn, 1, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
+    private val blog2 = Blog(datetimeb2, ENERGY, common.defaultNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
 
     private val blogEntry1 = BlogEntry(datetime1, ELPOWER, TITLE1, SUMMARY1, blog1)
     private val blogEntry2 = BlogEntry(datetime2, WEATHER, TITLE2, SUMMARY2, blog1)

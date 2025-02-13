@@ -2,9 +2,9 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.domain.DEFAULT
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
-import com.techreier.edrops.domain.Topic.Companion.DEFAULT
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Doc
 import com.techreier.edrops.util.Docs
@@ -33,7 +33,7 @@ class HomeController(
         model: Model,
     ): String {
         val blogParams = setCommonModelParameters(HOME, model, request, langCode)
-        //Reier TODO extension function on language?
+        // Reier TODO extension function on language?
         val doc = Doc(HOME, Topic(DEFAULT, LanguageCode("", blogParams.locale.language)))
         val docText: String = markdownToHtml(doc)
         logger.debug("BlogId: ${blogParams.blogId}")

@@ -1,11 +1,6 @@
 package com.techreier.edrops.util
 
-import com.techreier.edrops.domain.English
-import com.techreier.edrops.domain.Norwegian
-import com.techreier.edrops.domain.Topic
-import com.techreier.edrops.domain.Topic.Companion.CODING
-import com.techreier.edrops.domain.Topic.Companion.DEFAULT
-import com.techreier.edrops.domain.Topic.Companion.ENERGY
+import com.techreier.edrops.domain.Common
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ResponseStatusException
 
@@ -22,63 +17,59 @@ const val ILLEGAL_PATH = "Illegal path"
  * Language is part of file name if ext is set to true
  */
 object Docs {
-    val defaultNo = Topic(DEFAULT, Norwegian)
-    val defaultEn = Topic(DEFAULT, English)
-    val energyNo = Topic(ENERGY, Norwegian)
-    val energyEn = Topic(ENERGY, English)
-    val codingNo = Topic(CODING, Norwegian)
-    val codingEn = Topic(CODING, English)
+    val c =
+        Common()
     val home =
         arrayOf(
-            Doc("energy", energyNo, "Energi i Norge"),
-            Doc("energy", energyEn, "Energy in Norway"),
-            Doc("elpower", energyNo, "Elkraft i Norge"),
-            Doc("elpower", energyEn, "Electrical power in Norway"),
-            Doc("manifest", energyNo, "Strøm manifest"),
-            Doc("manifest", energyEn, "Electrical power manifest"),
-            Doc("elprice", energyNo, "Strøm(pris)krisen", false),
-            Doc("elcrazy", energyNo, "To år med elgalskap", false),
-            Doc("ringsaker", energyNo, "Kraft og hytter i Ringsaker", false),
-            Doc("windpower", energyNo, "Myter om vindkraft", false),
-            Doc("energylinks", energyNo, "Energi linker"),
-            Doc("energylinks", energyEn, "Energy links"),
-            Doc("ai2084", energyNo, "AI paranoia", false),
-            Doc("homeoffice", defaultNo, "Om hjemmekontor"),
-            Doc("homeoffice", defaultEn, "About home office"),
+            Doc("energy", c.energyNo, "Energi i Norge"),
+            Doc("energy", c.energyEn, "Energy in Norway"),
+            Doc("elpower", c.energyNo, "Elkraft i Norge"),
+            Doc("elpower", c.energyEn, "Electrical power in Norway"),
+            Doc("manifest", c.energyNo, "Strøm manifest"),
+            Doc("manifest", c.energyEn, "Electrical power manifest"),
+            Doc("elprice", c.energyNo, "Strøm(pris)krisen", false),
+            Doc("elcrazy", c.energyNo, "To år med elgalskap", false),
+            Doc("ringsaker", c.energyNo, "Kraft og hytter i Ringsaker", false),
+            Doc("windpower", c.energyNo, "Myter om vindkraft", false),
+            Doc("energylinks", c.energyNo, "Energi linker"),
+            Doc("energylinks", c.energyEn, "Energy links"),
+            Doc("ai2084", c.energyNo, "AI paranoia", false),
+            Doc("homeoffice", c.defaultNo, "Om hjemmekontor"),
+            Doc("homeoffice", c.defaultEn, "About home office"),
         )
 
     val about =
         arrayOf(
-            Doc("reier", defaultNo, "Meg"),
-            Doc("reier", defaultEn, "Me"),
-            Doc("links", defaultNo, "Mine linker"),
-            Doc("links", defaultEn, "My links"),
-            Doc("website", codingNo, "Nettsted"),
-            Doc("website", codingEn, "Website"),
-            Doc("readme", codingNo, "Prosjektet", false),
-            Doc("readme", codingEn, "Project", false),
-            Doc("tech", codingNo, "Teknologi", false),
-            Doc("tech", codingEn, "Technology", false),
-            Doc("maintainable", codingNo, "Vedlikeholdbarhet"),
-            Doc("maintainable", codingEn, "Maintainability"),
-            Doc("greenit", codingNo, "Grønn IKT"),
-            Doc("greenit", codingEn, "Green ICT"),
-            Doc("greencode", codingNo, "Grønn koding"),
-            Doc("greencode", codingEn, "Green coding"),
-            Doc("markdown", codingNo, "Markdown", false),
-            Doc("markdown", codingEn, "Markdown", false),
-            Doc("databases", codingNo, "Databaser", false),
-            Doc("databases", codingEn, "Databases", false),
-            Doc("hosting", defaultNo, "Mitt web hotell", false),
-            Doc("hosting", defaultEn, "My web host", false),
-            Doc("responsive", codingNo, "Responsivt design"),
-            Doc("responsive", codingEn, "Responsive design"),
+            Doc("reier", c.defaultNo, "Meg"),
+            Doc("reier", c.defaultEn, "Me"),
+            Doc("links", c.defaultNo, "Mine linker"),
+            Doc("links", c.defaultEn, "My links"),
+            Doc("website", c.codingNo, "Nettsted"),
+            Doc("website", c.codingEn, "Website"),
+            Doc("readme", c.codingNo, "Prosjektet", false),
+            Doc("readme", c.codingEn, "Project", false),
+            Doc("tech", c.codingNo, "Teknologi", false),
+            Doc("tech", c.codingEn, "Technology", false),
+            Doc("maintainable", c.codingNo, "Vedlikeholdbarhet"),
+            Doc("maintainable", c.codingEn, "Maintainability"),
+            Doc("greenit", c.codingNo, "Grønn IKT"),
+            Doc("greenit", c.codingEn, "Green ICT"),
+            Doc("greencode", c.codingNo, "Grønn koding"),
+            Doc("greencode", c.codingEn, "Green coding"),
+            Doc("markdown", c.codingNo, "Markdown", false),
+            Doc("markdown", c.codingEn, "Markdown", false),
+            Doc("databases", c.codingNo, "Databaser", false),
+            Doc("databases", c.codingEn, "Databases", false),
+            Doc("hosting", c.defaultNo, "Mitt web hotell", false),
+            Doc("hosting", c.defaultEn, "My web host", false),
+            Doc("responsive", c.codingNo, "Responsivt design"),
+            Doc("responsive", c.codingEn, "Responsive design"),
         )
 
     val collatz =
         arrayOf(
-            Doc("collatz", defaultNo, "Collatz"),
-            Doc("collatz", defaultEn, "Collatz"),
+            Doc("collatz", c.defaultNo, "Collatz"),
+            Doc("collatz", c.defaultEn, "Collatz"),
         )
 
     // Find the first Doc index that matches language code and eventually nonnull segment

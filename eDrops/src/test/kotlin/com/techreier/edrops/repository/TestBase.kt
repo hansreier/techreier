@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 
 abstract class TestBase {
-
     @PersistenceContext
     lateinit var entityManager: EntityManager
 
@@ -32,9 +31,9 @@ abstract class TestBase {
 
     @Autowired
     lateinit var appConfig: AppConfig
-
     lateinit var blogData: BlogData
     lateinit var blogOwner: BlogOwner
+    lateinit var common: Common
     lateinit var blog: Blog
     lateinit var blogEntry: BlogEntry
     var blogId: Long = 0
@@ -45,15 +44,13 @@ abstract class TestBase {
     @BeforeEach
     fun setup() {
         clean()
-        blogData = BlogData(appConfig)
-        languageRepo.save(Norwegian)
-        languageRepo.save(English)
-        topicRepo.save(blogData.defaultNo)
-        topicRepo.save(blogData.defaultEn)
+        common = Common()
+        blogData = BlogData(appConfig, common)
+        languageRepo.saveAll(common.languages)
+        topicRepo.saveAll(common.topics)
         blogOwner = ownerRepo.save(blogData.blogOwner)
-        //TODO Rethink. Still problem here if Topic actually had a relation the blogOwner.
         blog = blogOwner.blogs.first { it.segment == ENVIRONMENT }
-        blogId =  blog.id!!
+        blogId = blog.id!!
         blogEntry = blog.blogEntries.first { it.segment == ELPOWER }
         blogEntryId = blog.blogEntries.first { it.segment == ELPOWER }.id!!
         noOfBlogEntries = blogOwner.blogs.sumOf { it.blogEntries.size }

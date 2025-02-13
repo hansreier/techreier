@@ -14,16 +14,15 @@ import org.springframework.transaction.annotation.Transactional
 @SpringBootTest
 @Transactional
 class BlogTest : TestBase() {
-
+    // Do not use this Kotlin extension, does not read JPA annotations, generates more SQL statements
     @Test
-    //Do not use this Kotlin extension, does not read JPA annotations, generates more SQL statements
     fun `read with findByIdOrNull`() {
-            logger.info("starting read with findByIdOrNull")
-            entityManager.clear()
-            val blog = blogRepo.findByIdOrNull(blogId)
-            assertNotNull(blog)
-            assertEquals(this.blog.id, blog?.id)
-            logger.info("blog: $blog")
+        logger.info("starting read with findByIdOrNull")
+        entityManager.clear()
+        val blog = blogRepo.findByIdOrNull(blogId)
+        assertNotNull(blog)
+        assertEquals(this.blog.id, blog?.id)
+        logger.info("blog: $blog")
     }
 
     @Test
@@ -73,7 +72,7 @@ class BlogTest : TestBase() {
     @Test
     fun `read blog by language and segment`() {
         logger.info("starting read blog by language and segment")
-        val blog1 = blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(Norwegian.code, ENVIRONMENT)
+        val blog1 = blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(NB, ENVIRONMENT)
         assertThat(blog1).isNotNull
         assertThat(blog1!!.topic.language.code).isEqualTo(NB)
         assertThat(blog1.topic.language.language).isEqualTo(NORWEGIAN)
@@ -81,9 +80,9 @@ class BlogTest : TestBase() {
         logger.info("blog: $blog1 ${blog1.blogEntries.size}")
     }
 
+    // Using JPQL more efficient, only one SQL statement
+    // https://www.baeldung.com/spring-data-jpa-named-entity-graphs
     @Test
-    //Using JPQL more efficient, only one SQL statement
-    //https://www.baeldung.com/spring-data-jpa-named-entity-graphs
     fun `read all with findAll`() {
         logger.info("starting read all test")
         val blogs = blogRepo.findAll()
@@ -95,8 +94,8 @@ class BlogTest : TestBase() {
         }
     }
 
+    // https://www.baeldung.com/jpa-entity-graph
     @Test
-    //https://www.baeldung.com/jpa-entity-graph
     fun `read with manual entityGraph`() {
         logger.info("starting read all test")
         val blog1 = blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(NB, ENVIRONMENT)
