@@ -22,4 +22,8 @@ class Common {
     val energyEn = Topic(ENERGY, english)
 
     val topics = listOf(defaultNo, defaultEn, codingNo, codingEn, energyNo, energyEn)
+
+    companion object {
+        fun languages(): List<LanguageCode> = Common().languages
+    }
 }

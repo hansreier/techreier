@@ -199,7 +199,7 @@ abstract class BaseController(
             dbService.readLanguages()
         } else {
             logger.debug("fetch languages from code")
-            Common().languages.toMutableList() // Reier TODO not the best, but not used
+            Common.languages().toMutableList()
         }
 
     // Assumption: Only one owner and admin user: Me.
