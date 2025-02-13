@@ -119,7 +119,6 @@ data class BlogData(
 
     val topics = listOf(defaultNo, defaultEn, codingNo, codingEn, energyNo, energyEn)
 
-    //  val a = Topics.CODING_EN.create()
     private val blog1 = Blog(datetime1, ENVIRONMENT, defaultNo, 1, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
     private val blog1e = Blog(datetimeb1, ENVIRONMENT, defaultEn, 1, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
     private val blog2 = Blog(datetimeb2, ENERGY, defaultNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
