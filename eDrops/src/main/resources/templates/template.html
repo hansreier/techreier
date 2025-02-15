@@ -24,7 +24,7 @@
     <div class="right-top">
         <form id="topic" th:action="@{/topic}" th:method="post">
             <label id="topicLabel" th:text="#{topic}" for="topicSelect"></label>
-            <select id="topicSelect" name="Topic" onchange="topic.submit()">
+            <select id="topicSelect" name="topic" onchange="topic.submit()">
                 <option id="topicOption" th:each="topic : ${topics}"
                         th:value="${topic.topicKey}" th:text="${topic.text}"
                         th:selected="${topic.topicKey eq topicKey}"></option>

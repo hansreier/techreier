@@ -57,10 +57,12 @@ abstract class BaseController(
         sessionLocaleResolver.setLocale(request,response, locale)
         val blogId = (model.getAttribute("blogId") ?: fetchBlogId(usedLangcode, segment)) as Long
         val action = (model.getAttribute("action") ?: "") as String
+        val topicKey = (model.getAttribute("topicKey") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
         logger.info("BlogId: $blogId Language set: $langCode, default: $defaultLangCode used: $usedLangcode set: ${locale.language}")
         model.addAttribute("langCode", usedLangcode)
+        model.addAttribute("topicKey", topicKey)
         model.addAttribute("topics", fetchTopics(usedLangcode))
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
@@ -226,6 +228,6 @@ abstract class BaseController(
     data class BlogParams(
         val blogId: Long,
         val locale: Locale,
-        val action: String,
+        val action: String
     )
 }

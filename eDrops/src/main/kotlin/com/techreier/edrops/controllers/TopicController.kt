@@ -22,7 +22,7 @@ class TopicController {
         // Alternative to use hidden field is either cookie or store in session
         // If more state is needed, using Spring session (and store session in db) is recommended.
         redirectAttributes.addFlashAttribute("blogId", blogId)
-        logger.debug("before redirect to get")
-        return "redirect:$path?lang=$topicKey"
+        logger.info("before redirect to get: $topicKey")
+        return "redirect:$path"
     }
 }
