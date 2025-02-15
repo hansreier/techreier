@@ -42,9 +42,7 @@ abstract class BaseController(
     // We have to fetch both file based (.md) markdown and db based content to populate the dropdown menu
     // Selecting no DB removes menu items and contents stored in DB
     // Should only be used if no DB is available
-    // TODO The option of no DB is not really used, and it is not tested either
     protected fun setCommonModelParameters(
-        menu: String,
         model: Model,
         request: HttpServletRequest,
         langCode: String?,
@@ -61,16 +59,12 @@ abstract class BaseController(
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
-        logger.info("Menu: $menu BlogId: $blogId Language set: $langCode, default: $defaultLangCode used: $usedLangcode")
+        logger.info("BlogId: $blogId Language set: $langCode, default: $defaultLangCode used: $usedLangcode")
         model.addAttribute("langCode", usedLangcode)
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("path", path)
-        model.addAttribute("menu", menu)
-        if (db) { // TODO Does not work without DB anyhow like it is now
-            model.addAttribute("menu", fetchMenu(usedLangcode))
-        }
-
+        model.addAttribute("menu", fetchMenu(usedLangcode))
         model.addAttribute("blogId", blogId)
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)

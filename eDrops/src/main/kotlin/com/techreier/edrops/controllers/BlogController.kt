@@ -33,7 +33,7 @@ class BlogController(
         request: HttpServletRequest,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(BLOG, model, request, langCode, segment)
+        val blogParams = setCommonModelParameters(model, request, langCode, segment)
         if (blogParams.blogId < 0) {
             // If blog is not found, redirect to first blog, other alternatives in comment below
             // throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
@@ -54,7 +54,7 @@ class BlogController(
         request: HttpServletRequest,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(BLOG, model, request, language)
+        val blogParams = setCommonModelParameters(model, request, language)
         return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
     }
 

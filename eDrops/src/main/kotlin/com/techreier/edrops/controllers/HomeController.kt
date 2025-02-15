@@ -32,7 +32,7 @@ class HomeController(
         request: HttpServletRequest,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(HOME, model, request, langCode)
+        val blogParams = setCommonModelParameters(model, request, langCode)
         // Reier TODO extension function on language?
         val doc = Doc(HOME, Topic(DEFAULT, LanguageCode("", blogParams.locale.language)))
         val docText: String = markdownToHtml(doc)
@@ -64,7 +64,7 @@ class HomeController(
         request: HttpServletRequest,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(HOME, model, request, langCode)
+        val blogParams = setCommonModelParameters(model, request, langCode)
         val docIndex = Docs.getDocIndex(home, blogParams.locale.language, segment)
         val doc = home[docIndex]
 

@@ -34,7 +34,7 @@ class LoginController(
         model.addAttribute("loginError", loginError)
         val user = User()
         model.addAttribute("user", user)
-        setCommonModelParameters(LOGIN, model, request, language)
+        setCommonModelParameters(model, request, language)
         return LOGIN
     }
 

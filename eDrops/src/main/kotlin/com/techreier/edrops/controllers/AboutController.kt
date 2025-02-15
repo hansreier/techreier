@@ -33,7 +33,7 @@ class AboutController(
         request: HttpServletRequest,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(ABOUT, model, request, langCode)
+        val blogParams = setCommonModelParameters(model, request, langCode)
         val docIndex = getDocIndex(about, blogParams.locale.language, segment)
         val doc = about[docIndex]
 
@@ -50,7 +50,7 @@ class AboutController(
         request: HttpServletRequest,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(ABOUT, model, request, language)
+        val blogParams = setCommonModelParameters(model, request, language)
         val docIndex = getDocIndex(about, blogParams.locale.language)
         val doc = about[docIndex]
         return "redirect:$ABOUT_DIR/${doc.segment}"

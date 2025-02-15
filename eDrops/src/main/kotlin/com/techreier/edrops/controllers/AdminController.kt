@@ -34,7 +34,7 @@ class AdminController(
         request: HttpServletRequest,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(ADMIN, model, request, langCode, segment)
+        val blogParams = setCommonModelParameters(model, request, langCode, segment)
         if (blogParams.blogId < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
@@ -58,7 +58,7 @@ class AdminController(
         request: HttpServletRequest,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(ADMIN, model, request, language)
+        val blogParams = setCommonModelParameters(model, request, language)
         return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
     }
 

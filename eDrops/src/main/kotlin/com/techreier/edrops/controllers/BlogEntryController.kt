@@ -40,7 +40,7 @@ class BlogEntryController(
         request: HttpServletRequest,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(ADMIN, model, request, langCode, segment)
+        val blogParams = setCommonModelParameters(model, request, langCode, segment)
         if (blogParams.blogId < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
@@ -141,7 +141,7 @@ class BlogEntryController(
         segment: String,
         changed: ZonedDateTime?,
     ) {
-        val blogParams = setCommonModelParameters(ADMIN, model, request, null, segment)
+        val blogParams = setCommonModelParameters( model, request, null, segment)
         logger.info("Prepare allBlogEntries Fetch blog entries with: $blogParams")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
         model.addAttribute("blog", blog)
