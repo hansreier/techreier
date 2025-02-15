@@ -4,6 +4,7 @@ import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val BLOG = "blogs"
@@ -24,16 +26,18 @@ const val BLOG_DIR = "/$BLOG"
 class BlogController(
     private val dbService: DbService,
     messageSource: MessageSource,
+    sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(dbService, messageSource, appConfig) {
+) : BaseController(dbService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping("/{segment}")
     fun allBlogTexts(
         @PathVariable segment: String?,
         @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
+        response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, langCode, segment)
+        val blogParams = setCommonModelParameters(model, request, response, langCode, segment)
         if (blogParams.blogId < 0) {
             // If blog is not found, redirect to first blog, other alternatives in comment below
             // throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
@@ -51,10 +55,10 @@ class BlogController(
     @GetMapping
     fun redirect(
         @RequestParam(required = false, name = "lang") language: String?,
-        request: HttpServletRequest,
+        request: HttpServletRequest, response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, language)
+        val blogParams = setCommonModelParameters(model, request, response, language)
         return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
     }
 

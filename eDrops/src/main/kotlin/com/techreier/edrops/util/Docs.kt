@@ -78,7 +78,7 @@ object Docs {
         languageCode: String,
         segment: String? = null,
     ): Int {
-        val usedCode = usedLanguageCode(languageCode)
+        val usedCode = validProjectLanguageCode(languageCode)
         val docIndex =
             docs.indexOfFirst { (it.topic.language.code == usedCode) && (segment == it.segment || segment == null) }
         if (docIndex < 0) {
@@ -91,10 +91,7 @@ object Docs {
         docs: Array<Doc>,
         languageCode: String,
     ): List<Doc> {
-        val usedCode = usedLanguageCode(languageCode)
+        val usedCode = validProjectLanguageCode(languageCode)
         return docs.filter { (it.topic.language.code == usedCode) }
     }
-
-    // Rule for returning language code used in this project from unknown codes.
-    fun usedLanguageCode(languageCode: String): String = if (languageCode in listOf("nn", "no", "nb")) "nb" else "en"
 }

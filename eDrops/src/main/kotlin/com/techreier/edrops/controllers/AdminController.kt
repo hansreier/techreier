@@ -5,6 +5,7 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.forms.BlogEntryForm
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val ADMIN = "admin"
@@ -25,16 +27,18 @@ const val ADMIN_DIR = "/$ADMIN"
 class AdminController(
     private val dbService: DbService,
     messageSource: MessageSource,
+    sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(dbService, messageSource, appConfig) {
+) : BaseController(dbService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping("/{segment}")
     fun allBlogEntries(
         @PathVariable segment: String?,
         @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
+        response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, langCode, segment)
+        val blogParams = setCommonModelParameters(model, request, response, langCode, segment)
         if (blogParams.blogId < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
@@ -55,10 +59,10 @@ class AdminController(
     @GetMapping
     fun redirect(
         @RequestParam(required = false, name = "lang") language: String?,
-        request: HttpServletRequest,
+        request: HttpServletRequest, response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, language)
+        val blogParams = setCommonModelParameters(model, request, response, language)
         return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
     }
 

@@ -9,6 +9,7 @@ import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogEntryForm
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
 import org.springframework.dao.DataAccessException
 import org.springframework.http.HttpStatus
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.time.ZonedDateTime
 
@@ -30,17 +32,19 @@ import java.time.ZonedDateTime
 class BlogEntryController(
     private val dbService: DbService,
     messageSource: MessageSource,
+    sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(dbService, messageSource, appConfig) {
+) : BaseController(dbService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping("/{segment}/{subsegment}")
     fun blogEntry(
         @PathVariable segment: String,
         @PathVariable subsegment: String,
         @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
+        response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, langCode, segment)
+        val blogParams = setCommonModelParameters(model, request, response, langCode, segment)
         if (blogParams.blogId < 0) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
@@ -90,6 +94,7 @@ class BlogEntryController(
         changed: ZonedDateTime?,
         bindingResult: BindingResult,
         request: HttpServletRequest,
+        response: HttpServletResponse,
         model: Model,
     ): String {
         val path = request.servletPath
@@ -100,7 +105,7 @@ class BlogEntryController(
             checkStringSize(blogEntryForm.title, MAX_TITLE_SIZE, "blogEntryForm", "title", bindingResult, 1)
             checkStringSize(blogEntryForm.summary, MAX_SUMMARY_SIZE, "blogEntryForm", "summary", bindingResult)
             if (bindingResult.hasErrors()) {
-                prepare(model, request, segment, changed)
+                prepare(model, request, response, segment, changed)
                 return "blogEntries"
             }
 
@@ -114,7 +119,7 @@ class BlogEntryController(
 
                     else -> throw e
                 }
-                prepare(model, request, segment, changed)
+                prepare(model, request, response, segment, changed)
                 return "blogEntries"
             }
 
@@ -128,7 +133,7 @@ class BlogEntryController(
                 dbService.deleteBlogEntry(blogId, blogEntryForm)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
-                prepare(model, request, segment, changed)
+                prepare(model, request, response, segment, changed)
                 return "blogEntries"
             }
             return "redirect:$ADMIN_DIR/$segment"
@@ -138,10 +143,11 @@ class BlogEntryController(
     private fun prepare(
         model: Model,
         request: HttpServletRequest,
+        response: HttpServletResponse,
         segment: String,
         changed: ZonedDateTime?,
     ) {
-        val blogParams = setCommonModelParameters( model, request, null, segment)
+        val blogParams = setCommonModelParameters( model, request, response,  null, segment)
         logger.info("Prepare allBlogEntries Fetch blog entries with: $blogParams")
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
         model.addAttribute("blog", blog)

@@ -11,10 +11,12 @@ import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.home
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.i18n.SessionLocaleResolver
 
 const val HOME = "home"
 const val HOME_DIR = ""
@@ -24,15 +26,17 @@ const val HOME_DIR = ""
 class HomeController(
     dbService: DbService,
     messageSource: MessageSource,
+    sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(dbService, messageSource, appConfig) {
+) : BaseController(dbService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping
     fun home(
         @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
+        response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, langCode)
+        val blogParams = setCommonModelParameters(model, request, response, langCode)
         // Reier TODO extension function on language?
         val doc = Doc(HOME, Topic(DEFAULT, LanguageCode("", blogParams.locale.language)))
         val docText: String = markdownToHtml(doc)
@@ -62,9 +66,10 @@ class HomeController(
         @PathVariable segment: String?,
         @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
+        response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, langCode)
+        val blogParams = setCommonModelParameters(model, request, response, langCode)
         val docIndex = Docs.getDocIndex(home, blogParams.locale.language, segment)
         val doc = home[docIndex]
 

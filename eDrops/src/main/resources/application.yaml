@@ -100,7 +100,7 @@ logging:
     com.techreier.edrops: INFO
     org.hibernate: INFO
     org.hibernate.orm.jdbc.bind: INFO
-    org.hibernate.SQL: DEBUG
+    org.hibernate.SQL: INFO
 ---
 spring:
   config:

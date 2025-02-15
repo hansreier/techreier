@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.i18n.SessionLocaleResolver
 
 const val LOGOUT = "logout"
 const val LOGOUT_DIR = "/$LOGOUT"
@@ -18,8 +19,9 @@ const val LOGOUT_DIR = "/$LOGOUT"
 class LogoutController(
     dbService: DbService,
     messageSource: MessageSource,
+    sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(dbService, messageSource, appConfig) {
+) : BaseController(dbService, messageSource, sessionLocaleResolver,appConfig) {
         @PostMapping("/logout")
     fun performLogout(
         authentication: Authentication,

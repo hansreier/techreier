@@ -2,7 +2,6 @@ package com.techreier.edrops.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.servlet.LocaleResolver
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor
@@ -16,10 +15,9 @@ import java.util.*
 class LocaleConfig : WebMvcConfigurer {
 
     @Bean
-    fun localeResolver(): LocaleResolver {
+    fun localeResolver(): SessionLocaleResolver {
         val slr = SessionLocaleResolver()
         slr.setDefaultLocale(Locale.forLanguageTag("nb"))
-       // slr.setDefaultLocale(Locale.UK)
         return slr
     }
 

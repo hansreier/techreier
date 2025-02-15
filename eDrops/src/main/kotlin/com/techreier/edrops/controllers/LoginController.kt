@@ -4,10 +4,12 @@ import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.i18n.SessionLocaleResolver
 
 const val LOGIN = "login"
 const val LOGIN_DIR = "/$LOGIN"
@@ -20,12 +22,14 @@ const val LOGIN_DIR = "/$LOGIN"
 class LoginController(
     dbService: DbService,
     messageSource: MessageSource,
+    sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(dbService, messageSource, appConfig) {
+) : BaseController(dbService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping
     fun login(
         @RequestParam(required = false, name = "lang") language: String?,
         request: HttpServletRequest,
+        response: HttpServletResponse,
         model: Model,
     ): String {
         logger.info("Returning login page")
@@ -34,7 +38,7 @@ class LoginController(
         model.addAttribute("loginError", loginError)
         val user = User()
         model.addAttribute("user", user)
-        setCommonModelParameters(model, request, language)
+        setCommonModelParameters(model, request, response, language)
         return LOGIN
     }
 

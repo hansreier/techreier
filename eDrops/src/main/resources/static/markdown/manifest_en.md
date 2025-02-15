@@ -1,6 +1,6 @@
 ## POWER MANIFEST FOR NORWAY:
 
-The reason for writing this (originally in Norwegian) is because EU / EEA / ACER agreements gradually result in Norwey 
+The reason for writing this (originally in Norwegian) is because EU / EEA / ACER agreements gradually result in Norway 
 loosing control of its own electrical power production and consumption including electrical power prices. 
 Most ordinary people in Norway disagrees with the official Norwegian and EU policy regarding this.  
 

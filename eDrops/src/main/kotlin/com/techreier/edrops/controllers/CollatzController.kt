@@ -8,11 +8,13 @@ import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val COLLATZ = "collatz"
@@ -23,19 +25,21 @@ const val COLLATZ_DIR = "/$COLLATZ"
 class CollatzController(
     dbService: DbService,
     messageSource: MessageSource,
+    sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
     val collatzService: CollatzService,
-) : BaseController(dbService, messageSource, appConfig) {
+) : BaseController(dbService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping
     fun collatz(
         @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
+        response: HttpServletResponse,
         model: Model,
     ): String {
         logger.info("Collatz page")
         val collatz = model.getAttribute("collatz") ?: Collatz()
         model.addAttribute("collatz", collatz)
-        prepare(model, request, langCode)
+        prepare(model, request, response, langCode)
         return COLLATZ
     }
 
@@ -45,6 +49,7 @@ class CollatzController(
         collatz: Collatz,
         bindingResult: BindingResult,
         request: HttpServletRequest,
+        response: HttpServletResponse,
         model: Model,
     ): String {
         logger.info("calculate collatz sequence")
@@ -60,7 +65,7 @@ class CollatzController(
 
         if (bindingResult.hasErrors()) {
             logger.info("warn collatz seed input error: $collatz")
-            prepare(model, request)
+            prepare(model, request, response)
             model.addAttribute("collatz", collatz)
             return COLLATZ
         }
@@ -73,9 +78,10 @@ class CollatzController(
     private fun prepare(
         model: Model,
         request: HttpServletRequest,
+        response: HttpServletResponse,
         langCode: String? = null,
     ) {
-        val blogParams = setCommonModelParameters(model, request, langCode)
+        val blogParams = setCommonModelParameters(model, request, response, langCode)
         val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.locale.language, COLLATZ)
         val doc = Docs.collatz[docIndex]
         val docText: String = markdownToHtml(doc, COLLATZ)

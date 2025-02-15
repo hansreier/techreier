@@ -9,15 +9,17 @@ import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.home
-import com.techreier.edrops.util.Docs.usedLanguageCode
+import com.techreier.edrops.util.validProjectLanguageCode
 import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.FieldError
 import org.springframework.web.context.ServletContextAware
+import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -26,6 +28,7 @@ import java.util.*
 abstract class BaseController(
     private val dbService: DbService,
     private val messageSource: MessageSource,
+    private val sessionLocaleResolver: SessionLocaleResolver,
     private val appConfig: AppConfig,
 ) : ServletContextAware {
     private var servletContext: ServletContext? = null
@@ -40,20 +43,23 @@ abstract class BaseController(
     protected fun setCommonModelParameters(
         model: Model,
         request: HttpServletRequest,
+        response: HttpServletResponse,
         langCode: String?,
         segment: String? = null
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("languages", fetchLanguages())
         model.addAttribute("auth", appConfig.auth)
+        // Language code as detected for web site user or set with ?lang= parameter, not default setting on PC/browser
         val defaultLangCode = LocaleContextHolder.getLocale().language
-        val usedLangcode = usedLanguageCode(langCode ?: defaultLangCode)
+        val usedLangcode = validProjectLanguageCode(langCode ?: defaultLangCode) //Check that language code is of supported types.
         val locale = Locale.of(usedLangcode)
+        sessionLocaleResolver.setLocale(request,response, locale)
         val blogId = (model.getAttribute("blogId") ?: fetchBlogId(usedLangcode, segment)) as Long
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
-        logger.info("BlogId: $blogId Language set: $langCode, default: $defaultLangCode used: $usedLangcode")
+        logger.info("BlogId: $blogId Language set: $langCode, default: $defaultLangCode used: $usedLangcode set: ${locale.language}")
         model.addAttribute("langCode", usedLangcode)
         model.addAttribute("topics", fetchTopics(usedLangcode))
         // Add path and menu attributes based on servletPath
@@ -86,7 +92,7 @@ abstract class BaseController(
         if (blog?.id == null) {
             throw InitException("Cannot find default blog")
         }
-        return dbService.readBlogWithSameLanguage(blog.id, usedLanguageCode(langCode)) ?: blog
+        return dbService.readBlogWithSameLanguage(blog.id, validProjectLanguageCode(langCode)) ?: blog
     }
 
     // Extension function to simplify implementation of adding field error
