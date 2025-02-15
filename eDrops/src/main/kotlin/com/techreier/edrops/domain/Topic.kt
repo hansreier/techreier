@@ -10,11 +10,17 @@ import jakarta.persistence.*
 class Topic(
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
     val topicKey: String,
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "language_code", nullable = false)
     var language: LanguageCode,
+
+    @Column(nullable = false)
+    var pos: Int  = 0,
+
     @Column(nullable = true, length = MAX_TITLE_SIZE)
     var text: String? = null,
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,

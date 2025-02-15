@@ -37,7 +37,6 @@ class HomeController(
         model: Model,
     ): String {
         val blogParams = setCommonModelParameters(model, request, response, langCode)
-        // Reier TODO extension function on language?
         val doc = Doc(HOME, Topic(DEFAULT, LanguageCode("", blogParams.locale.language)))
         val docText: String = markdownToHtml(doc)
         logger.debug("BlogId: ${blogParams.blogId}")

@@ -24,7 +24,7 @@ class Blog(
     var topic: Topic,
 
     @Column(nullable = false)
-    var menuOrder: Int,
+    var pos: Int,
 
     @Column(nullable = false, length = MAX_TITLE_SIZE)
     var subject: String,

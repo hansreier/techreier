@@ -14,16 +14,12 @@ class Common {
 
     val languages = listOf(norwegian, english)
 
-    val defaultNo = Topic(DEFAULT, norwegian)
-    val defaultEn = Topic(DEFAULT, english)
-    val codingNo = Topic(CODING, norwegian)
-    val codingEn = Topic(CODING, english)
-    val energyNo = Topic(ENERGY, norwegian)
-    val energyEn = Topic(ENERGY, english)
+    val defaultNo = Topic(DEFAULT, norwegian, 0)
+    val defaultEn = Topic(DEFAULT, english, 1)
+    val codingNo = Topic(CODING, norwegian, 1)
+    val codingEn = Topic(CODING, english, 1)
+    val energyNo = Topic(ENERGY, norwegian, 2)
+    val energyEn = Topic(ENERGY, english, 2)
 
     val topics = listOf(defaultNo, defaultEn, codingNo, codingEn, energyNo, energyEn)
-
-    companion object {
-        fun languages(): List<LanguageCode> = Common().languages
-    }
 }

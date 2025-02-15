@@ -114,9 +114,7 @@ class DbService(
     }
 
     fun readTopics(languageCode: String): MutableList<Topic> {
-        logger.info("Reier read topics")
-        val topics =  topicRepo.findAllByLanguageCode(languageCode)
-        logger.info("topics: ${topics}")
+        val topics =  topicRepo.findAllByLanguageCodeOrderByPos(languageCode)
         return topics
     }
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface TopicRepository : JpaRepository<Topic, Long> {
 
- //   @EntityGraph(attributePaths = [ "topic", "topic.language"])
-    fun findAllByLanguageCode(languageCode: String): MutableList<Topic>
+    @EntityGraph(attributePaths = ["language"])
+    fun findAllByLanguageCodeOrderByPos(languageCode: String): MutableList<Topic>
 }

@@ -29,7 +29,7 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     fun findFirstBlogByTopicLanguageCodeAndSegment(languageCode: String, segment: String): Blog?
 
     @Query("SELECT new com.techreier.edrops.dto.MenuItemDTO(b.id, b.subject, b.segment) " +
-            " FROM Blog b where b.topic.language.code = :languageCode ORDER BY b.menuOrder")
+            " FROM Blog b where b.topic.language.code = :languageCode ORDER BY b.pos")
 
     fun getMenuItems(languageCode: String): List<MenuItemDTO>
 
