@@ -1,6 +1,6 @@
 CREATE TABLE blog
 (
-    menu_order    INTEGER      NOT NULL,
+    pos           INTEGER      NOT NULL,
     blog_owner_id BIGINT       NOT NULL,
     changed       TIMESTAMP(0) NOT NULL,
     id            BIGINT       NOT NULL AUTO_INCREMENT,
@@ -57,9 +57,10 @@ CREATE TABLE language_code
 
 CREATE TABLE topic
 (
+    pos           INTEGER     NOT NULL,
     id            BIGINT      NOT NULL AUTO_INCREMENT,
     language_code VARCHAR(15) NOT NULL,
-    key_word      VARCHAR(30) NOT NULL,
+    topic_key     VARCHAR(30) NOT NULL,
     text          VARCHAR(50),
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
