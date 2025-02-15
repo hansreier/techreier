@@ -1,14 +1,9 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.AppConfig
-import com.techreier.edrops.config.InitException
-import com.techreier.edrops.config.MAX_SEGMENT_SIZE
-import com.techreier.edrops.config.MAX_SUMMARY_SIZE
-import com.techreier.edrops.config.MAX_TITLE_SIZE
-import com.techreier.edrops.config.logger
+import com.techreier.edrops.config.*
 import com.techreier.edrops.domain.Blog
-import com.techreier.edrops.domain.Common
 import com.techreier.edrops.domain.LanguageCode
+import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
@@ -46,11 +41,10 @@ abstract class BaseController(
         model: Model,
         request: HttpServletRequest,
         langCode: String?,
-        segment: String? = null,
-        db: Boolean = true,
+        segment: String? = null
     ): BlogParams {
         logger.debug("set common model parameters")
-        model.addAttribute("languages", fetchLanguages(db))
+        model.addAttribute("languages", fetchLanguages())
         model.addAttribute("auth", appConfig.auth)
         val defaultLangCode = LocaleContextHolder.getLocale().language
         val usedLangcode = usedLanguageCode(langCode ?: defaultLangCode)
@@ -61,6 +55,7 @@ abstract class BaseController(
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
         logger.info("BlogId: $blogId Language set: $langCode, default: $defaultLangCode used: $usedLangcode")
         model.addAttribute("langCode", usedLangcode)
+        model.addAttribute("topics", fetchTopics(usedLangcode))
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("path", path)
@@ -187,14 +182,21 @@ abstract class BaseController(
         bindingResult.reject("key", errorMessage)
     }
 
-    private fun fetchLanguages(db: Boolean = true): MutableList<LanguageCode> =
-        if (db) {
-            logger.debug("fetch languages from db")
-            dbService.readLanguages()
-        } else {
-            logger.debug("fetch languages from code")
-            Common.languages().toMutableList()
+    private fun fetchLanguages(): MutableList<LanguageCode> {
+        logger.debug("fetch languages from db")
+        return dbService.readLanguages()
+    }
+
+    private fun fetchTopics(languageCode: String): MutableList<Topic> {
+        logger.debug("fetch topics from db")
+        val topics = dbService.readTopics(languageCode)
+        topics.forEach { topic ->
+            if (topic.text.isNullOrBlank()) {
+                topic.text = msg("topic." + topic.topicKey)
+            }
         }
+        return topics
+    }
 
     // Assumption: Only one owner and admin user: Me.
     // TODO: If several owners is permitted an extra level in URL must be added

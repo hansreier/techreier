@@ -5,6 +5,7 @@ import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogEntry
 import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.domain.LanguageCode
+import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.exceptions.ParentBlogException
@@ -13,6 +14,7 @@ import com.techreier.edrops.repository.BlogEntryRepository
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.LanguageRepository
+import com.techreier.edrops.repository.TopicRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -25,6 +27,7 @@ class DbService(
     private val blogRepo: BlogRepository,
     private val blogEntryRepo: BlogEntryRepository,
     private val languageRepo: LanguageRepository,
+    private val topicRepo: TopicRepository,
 ) {
 
     fun readFirstBlog(blogOwnerId: Long): Blog? {
@@ -108,5 +111,12 @@ class DbService(
 
     fun readLanguages(): MutableList<LanguageCode> {
         return languageRepo.findAll()
+    }
+
+    fun readTopics(languageCode: String): MutableList<Topic> {
+        logger.info("Reier read topics")
+        val topics =  topicRepo.findAllByLanguageCode(languageCode)
+        logger.info("topics: ${topics}")
+        return topics
     }
 }

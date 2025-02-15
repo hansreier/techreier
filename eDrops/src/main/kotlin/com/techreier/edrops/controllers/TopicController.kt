@@ -7,22 +7,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping
-class LanguageController {
-    @PostMapping("/language")
-    fun getLanguage(
+class TopicController {
+    @PostMapping("/topic")
+    fun getTopic(
         redirectAttributes: RedirectAttributes,
-        languageCode: String?,
+        topicKey: String?,
         blogId: Long?,
         path: String,
     ): String {
-        logger.info("POST /language, and redirect")
-        logger.debug("Language selected: $languageCode path: $path blogId: $blogId")
-        redirectAttributes.addFlashAttribute("languageCode", languageCode)
+        logger.info("POST /topic, and redirect")
+        logger.debug("Topic selected: $topicKey path: $path blogId: $blogId")
+        redirectAttributes.addFlashAttribute("topicKey", topicKey)
         // Or else id blogId used to populate menu will not be preserved
         // Alternative to use hidden field is either cookie or store in session
         // If more state is needed, using Spring session (and store session in db) is recommended.
         redirectAttributes.addFlashAttribute("blogId", blogId)
         logger.debug("before redirect to get")
-        return "redirect:$path?lang=$languageCode"
+        return "redirect:$path?lang=$topicKey"
     }
 }

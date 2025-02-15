@@ -134,8 +134,8 @@ th, td {
 }
 
 header {
-	padding-top: 0;
-	padding-bottom: 0;
+	padding-top:0.2rem;
+	padding-bottom: 0.2rem;
 	padding-left: 1rem;
 	margin: 0;
 	background-color: yellow;
@@ -333,18 +333,41 @@ img:hover::after {
 	color: green;
 	margin: 0;
 	padding: 0;
-	height: 1em;
+	height: 1rem;
 }
 
 #languageLabel {
-	font-size: 0.8rem;
+	font-size: 1rem;
 	margin-top: 0;
 	margin-bottom: 0;
 	margin-right: 0.5rem;
 }
 
 #languageSelect {
-	font-size: 0.8rem;
+	font-size: 1rem;
+	border: 1px solid black;
+	width: auto;
+	margin: 0;
+}
+
+#topic {
+	display: flex;
+	align-items: center;
+	color: green;
+	margin: 0;
+	padding: 0;
+	height: 1rem;
+}
+
+#topicLabel {
+	font-size: 1rem;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-right: 0.5rem;
+}
+
+#topicSelect {
+	font-size: 1rem;
 	border: 1px solid black;
 	width: auto;
 	margin: 0;
