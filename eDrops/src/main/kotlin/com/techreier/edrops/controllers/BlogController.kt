@@ -46,6 +46,7 @@ class BlogController(
             return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
+        // TODO check that the same blog is not read twice, here and in setCommonModelParameters
         val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
         model.addAttribute("blog", blog)
         return "blogSummaries"

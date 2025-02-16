@@ -56,9 +56,9 @@ abstract class BaseController(
         val usedLangcode = validProjectLanguageCode(langCode ?: defaultLangCode) //Check that language code is of supported types.
         val locale = Locale.of(usedLangcode)
         sessionLocaleResolver.setLocale(request,response, locale)
-        val blogId2  = model.getAttribute("blogId")
-        val blog: BlogDTO? = if (blogId2 == null) dbService.findBlog(usedLangcode, segment) else null
-        val blogId = (model.getAttribute("blogId") as Long?) ?: blog?.id
+        var blogId  = model.getAttribute("blogId") as Long?
+        val blog: BlogDTO? = if (blogId == null) dbService.findBlog(usedLangcode, segment) else null
+        blogId = blogId ?: blog?.id
         val topicKey = (model.getAttribute("topicKey") as String?) ?: blog?.topicKey
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
