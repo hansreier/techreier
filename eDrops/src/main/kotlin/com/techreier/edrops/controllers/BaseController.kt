@@ -4,6 +4,7 @@ import com.techreier.edrops.config.*
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
+import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
@@ -55,9 +56,11 @@ abstract class BaseController(
         val usedLangcode = validProjectLanguageCode(langCode ?: defaultLangCode) //Check that language code is of supported types.
         val locale = Locale.of(usedLangcode)
         sessionLocaleResolver.setLocale(request,response, locale)
-        val blogId = (model.getAttribute("blogId") ?: fetchBlogId(usedLangcode, segment)) as Long
+        val blogId2  = model.getAttribute("blogId")
+        val blog: BlogDTO? = if (blogId2 == null) dbService.findBlog(usedLangcode, segment) else null
+        val blogId = (model.getAttribute("blogId") as Long?) ?: blog?.id
+        val topicKey = (model.getAttribute("topicKey") as String?) ?: blog?.topicKey
         val action = (model.getAttribute("action") ?: "") as String
-        val topicKey = (model.getAttribute("topicKey") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
         logger.info("BlogId: $blogId Language set: $langCode, default: $defaultLangCode used: $usedLangcode set: ${locale.language}")
@@ -215,18 +218,9 @@ abstract class BaseController(
         return blogs
     }
 
-    private fun fetchBlogId(
-        langCode: String,
-        segment: String?,
-    ): Long {
-        logger.debug("Fetch blogId by segment: $segment and langCode: $langCode")
-        val blogId = segment?.let { dbService.readBlog(langCode, segment)?.id } ?: -1L
-        return blogId
-    }
-
     //  data class BlogParams(val blogId: Long, val langCode: String)
     data class BlogParams(
-        val blogId: Long,
+        val blogId: Long?,
         val locale: Locale,
         val action: String
     )

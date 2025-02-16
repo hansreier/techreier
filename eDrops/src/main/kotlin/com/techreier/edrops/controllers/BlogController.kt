@@ -38,7 +38,7 @@ class BlogController(
         model: Model,
     ): String {
         val blogParams = setCommonModelParameters(model, request, response, langCode, segment)
-        if (blogParams.blogId < 0) {
+        if (blogParams.blogId == null) {
             // If blog is not found, redirect to first blog, other alternatives in comment below
             // throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
             // return "redirect:/"

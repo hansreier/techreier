@@ -39,7 +39,7 @@ class AdminController(
         model: Model,
     ): String {
         val blogParams = setCommonModelParameters(model, request, response, langCode, segment)
-        if (blogParams.blogId < 0) {
+        if (blogParams.blogId == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")

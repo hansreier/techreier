@@ -1,20 +1,13 @@
 package com.techreier.edrops.service
 
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.Blog
-import com.techreier.edrops.domain.BlogEntry
-import com.techreier.edrops.domain.BlogOwner
-import com.techreier.edrops.domain.LanguageCode
-import com.techreier.edrops.domain.Topic
+import com.techreier.edrops.domain.*
+import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogEntryForm
-import com.techreier.edrops.repository.BlogEntryRepository
-import com.techreier.edrops.repository.BlogOwnerRepository
-import com.techreier.edrops.repository.BlogRepository
-import com.techreier.edrops.repository.LanguageRepository
-import com.techreier.edrops.repository.TopicRepository
+import com.techreier.edrops.repository.*
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -51,8 +44,17 @@ class DbService(
         return blogRepo.findAllById(blogId).orElse(null)
     }
 
-    fun readBlog(languageCode: String, segment: String): Blog? {
-        return blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(languageCode, segment)
+    fun findBlog(languageCode: String, segment: String?): BlogDTO? {
+        return segment?.let { segment ->
+            return blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(languageCode, segment)?.let { blog ->
+                return blog.id?.let { blogId ->
+                    BlogDTO(
+                        blogId, blog.segment, blog.topic.topicKey, blog.topic.language.code,
+                        blog.pos, blog.subject, blog.about
+                    )
+                }
+            }
+        }
     }
 
     //if language is changed, we try to fetch a blog with the new language and the same segment
@@ -114,7 +116,7 @@ class DbService(
     }
 
     fun readTopics(languageCode: String): MutableList<Topic> {
-        val topics =  topicRepo.findAllByLanguageCodeOrderByPos(languageCode)
+        val topics = topicRepo.findAllByLanguageCodeOrderByPos(languageCode)
         return topics
     }
 }

@@ -16,12 +16,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
@@ -45,7 +40,7 @@ class BlogEntryController(
         model: Model,
     ): String {
         val blogParams = setCommonModelParameters(model, request, response, langCode, segment)
-        if (blogParams.blogId < 0) {
+        if (blogParams.blogId == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
@@ -147,9 +142,12 @@ class BlogEntryController(
         segment: String,
         changed: ZonedDateTime?,
     ) {
-        val blogParams = setCommonModelParameters( model, request, response,  null, segment)
+        val blogParams = setCommonModelParameters(model, request, response, null, segment)
         logger.info("Prepare allBlogEntries Fetch blog entries with: $blogParams")
-        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
+
+        val blog = blogParams.blogId?.let {
+                dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
+            }
         model.addAttribute("blog", blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
         model.addAttribute("changed", changed)
