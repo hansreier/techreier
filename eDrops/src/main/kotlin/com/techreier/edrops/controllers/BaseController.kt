@@ -4,7 +4,6 @@ import com.techreier.edrops.config.*
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
-import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
@@ -49,16 +48,25 @@ abstract class BaseController(
         segment: String? = null
     ): BlogParams {
         logger.debug("set common model parameters")
-        model.addAttribute("languages", fetchLanguages())
         model.addAttribute("auth", appConfig.auth)
+
         // Language code as detected for web site user or set with ?lang= parameter, not default setting on PC/browser
+        model.addAttribute("languages", fetchLanguages())
         val defaultLangCode = LocaleContextHolder.getLocale().language
-        val usedLangcode = validProjectLanguageCode(langCode ?: defaultLangCode) //Check that language code is of supported types.
+        val usedLangcode =
+            validProjectLanguageCode(langCode ?: defaultLangCode) //Check that language code is of supported types.
         val locale = Locale.of(usedLangcode)
-        sessionLocaleResolver.setLocale(request,response, locale)
-        var blogId  = model.getAttribute("blogId") as Long?
-        val blog: BlogDTO? = if (blogId == null) dbService.findBlog(usedLangcode, segment) else null
+        sessionLocaleResolver.setLocale(request, response, locale)
+
+        var blogId = model.getAttribute("blogId") as Long?
+
+        // Only for controllers where it is relevant to call DB, else segment is omitted
+        val blog = segment?.let {
+            if (blogId == null) dbService.findBlog(usedLangcode, segment) else null
+        }
+
         blogId = blogId ?: blog?.id
+
         val topicKey = (model.getAttribute("topicKey") as String?) ?: blog?.topicKey
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))

@@ -44,15 +44,13 @@ class DbService(
         return blogRepo.findAllById(blogId).orElse(null)
     }
 
-    fun findBlog(languageCode: String, segment: String?): BlogDTO? {
-        return segment?.let { segment ->
-            return blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(languageCode, segment)?.let { blog ->
-                return blog.id?.let { blogId ->
-                    BlogDTO(
-                        blogId, blog.segment, blog.topic.topicKey, blog.topic.language.code,
-                        blog.pos, blog.subject, blog.about
-                    )
-                }
+    fun findBlog(languageCode: String, segment: String): BlogDTO? {
+        return blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(languageCode, segment)?.let { blog ->
+            return blog.id?.let { blogId ->
+                BlogDTO(
+                    blogId, blog.segment, blog.topic.topicKey, blog.topic.language.code,
+                    blog.pos, blog.subject, blog.about
+                )
             }
         }
     }
