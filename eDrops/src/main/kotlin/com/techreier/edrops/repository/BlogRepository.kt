@@ -25,7 +25,8 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCode(languageCode: String): MutableSet<Blog>
 
-    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogEntries"])
+//@EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogEntries"])
+    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findFirstBlogByTopicLanguageCodeAndSegment(languageCode: String, segment: String): Blog?
 
     @Query("SELECT new com.techreier.edrops.dto.MenuItemDTO(b.id, b.subject, b.segment) " +

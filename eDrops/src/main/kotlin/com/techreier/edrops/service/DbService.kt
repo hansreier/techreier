@@ -45,6 +45,7 @@ class DbService(
     }
 
     fun findBlog(languageCode: String, segment: String): BlogDTO? {
+        logger.info("Find blog by languageCode: $languageCode and segment: $segment")
         return blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(languageCode, segment)?.let { blog ->
             return blog.id?.let { blogId ->
                 BlogDTO(
@@ -87,7 +88,7 @@ class DbService(
 
     //if language is changed, we try to fetch a blog with the new language and the same segment
     fun readBlogWithSameLanguage(blogId: Long, langCode: String?): Blog? {
-        logger.info("Read blog with same language: $langCode as blog with id $blogId")
+        logger.info("Read blog with same language 2: $langCode as blog with id $blogId")
         var blogIdNew = blogId
         if (langCode != null) {
             val blog = blogRepo.findById(blogId).orElse(null) //Finds current blog
