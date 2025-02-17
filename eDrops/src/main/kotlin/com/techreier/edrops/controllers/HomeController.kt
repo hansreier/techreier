@@ -39,7 +39,6 @@ class HomeController(
         val blogParams = setCommonModelParameters(model, request, response, langCode)
         val doc = Doc(HOME, Topic(DEFAULT, LanguageCode("", blogParams.locale.language)))
         val docText: String = markdownToHtml(doc)
-        logger.debug("BlogId: ${blogParams.blogId}")
         model.addAttribute("docText", docText)
         model.addAttribute("doc", doc)
         return HOME

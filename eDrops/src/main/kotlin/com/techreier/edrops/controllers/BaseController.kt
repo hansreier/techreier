@@ -64,11 +64,11 @@ abstract class BaseController(
         // TODO some duplicated code with something that happens later. Fix.
         val blog = segment?.let {
             blogId?.let {
-                dbService.readBlog(usedLangcode, blogId)
-            } ?: dbService.findBlog(usedLangcode, segment)
+                dbService.readBlogWithSameLanguage(blogId, usedLangcode)
+            } ?: dbService.findBlogNy(usedLangcode, segment)
         }
 
-        val topicKey = (model.getAttribute("topicKey") as String?) ?: blog?.topicKey
+        val topicKey = (model.getAttribute("topicKey") as String?) ?: blog?.topic?.topicKey
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
@@ -84,7 +84,7 @@ abstract class BaseController(
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
-        return BlogParams(blog?.id, locale, action)
+        return BlogParams(blog, locale, action)
     }
 
     protected fun redirect(
@@ -229,7 +229,7 @@ abstract class BaseController(
 
     //  data class BlogParams(val blogId: Long, val langCode: String)
     data class BlogParams(
-        val blogId: Long?,
+        val blog: Blog?,
         val locale: Locale,
         val action: String
     )

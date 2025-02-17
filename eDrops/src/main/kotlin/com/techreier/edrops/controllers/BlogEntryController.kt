@@ -40,14 +40,14 @@ class BlogEntryController(
         model: Model,
     ): String {
         val blogParams = setCommonModelParameters(model, request, response, langCode, segment)
-        if (blogParams.blogId == null) {
+        if (blogParams.blog == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
-        val blog = dbService.readBlog(blogParams.blogId)
+        val blog = dbService.readBlog(blogParams.blog.id) //TODO might not have value
      //   val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
         val selectedBlogEntry =
-            blog?.blogEntries?.let { blogEntries ->
+            blog?.blogEntries?.let { blogEntries ->  //TODO use let here? Else structure must be complete here eller error.
                 var index: Int
                 val no = subsegment.toIntOrNull()
                 no?.let {
@@ -146,10 +146,10 @@ class BlogEntryController(
         val blogParams = setCommonModelParameters(model, request, response, null, segment)
         logger.info("Prepare allBlogEntries Fetch blog entries with: $blogParams")
 
-        val blog = blogParams.blogId?.let {
-                dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
-            }
-        model.addAttribute("blog", blog)
+      //  val blog = blogParams.blog?.let {
+      //          dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
+      //      }
+        model.addAttribute("blog", blogParams.blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
         model.addAttribute("changed", changed)
         logger.info("prepared)")

@@ -38,7 +38,7 @@ class BlogController(
         model: Model,
     ): String {
         val blogParams = setCommonModelParameters(model, request, response, langCode, segment)
-        if (blogParams.blogId == null) {
+        if (blogParams.blog == null) {
             // If blog is not found, redirect to first blog, other alternatives in comment below
             // throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
             // return "redirect:/"
@@ -48,8 +48,8 @@ class BlogController(
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
         // TODO check that the same blog is not read twice, here and in setCommonModelParameters
       //  val blog = dbService.readBlogWithSameLanguage
-        val blog = dbService.readBlog(blogParams.blogId)
-        model.addAttribute("blog", blog)
+//val blog = dbService.readBlog(blogParams.blogId)
+        model.addAttribute("blog", blogParams.blog)
         return "blogSummaries"
     }
 

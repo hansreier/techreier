@@ -39,19 +39,19 @@ class AdminController(
         model: Model,
     ): String {
         val blogParams = setCommonModelParameters(model, request, response, langCode, segment)
-        if (blogParams.blogId == null) {
+        if (blogParams.blog == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
-        val blog = dbService.readBlog(blogParams.blogId)
+      //  val blog = dbService.readBlog(blogParams.blogId)
       //  val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
-        if ((blogParams.action == "create" || blogParams.action == "saveCreate") && blog != null) {
+        if (blogParams.action == "create" || blogParams.action == "saveCreate")  {
             logger.info("getting GUI with new blogEntry")
             val blogEntryForm = BlogEntryForm(null, "", "", "")
             model.addAttribute("changed", null)
             model.addAttribute("blogEntryForm", blogEntryForm)
         }
-        model.addAttribute("blog", blog)
+        model.addAttribute("blog", blogParams.blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
         logger.info("getting GUI with blogEntries")
         return "blogEntries"

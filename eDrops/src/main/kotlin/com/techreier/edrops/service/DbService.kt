@@ -56,6 +56,11 @@ class DbService(
         }
     }
 
+    fun findBlogNy(languageCode: String, segment: String): Blog? {
+        logger.info("Find blog by languageCode: $languageCode and segment: $segment")
+        return blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(languageCode, segment)
+    }
+
     fun readBlog(languageCode: String, blogId: Long): BlogDTO? {
         logger.info("Read blog with same language: $languageCode as blog with id $blogId")
         var blogDTO = null
