@@ -43,7 +43,8 @@ class AdminController(
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
-        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
+        val blog = dbService.readBlog(blogParams.blogId)
+      //  val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
         if ((blogParams.action == "create" || blogParams.action == "saveCreate") && blog != null) {
             logger.info("getting GUI with new blogEntry")
             val blogEntryForm = BlogEntryForm(null, "", "", "")

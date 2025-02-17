@@ -61,11 +61,12 @@ abstract class BaseController(
         var blogId = model.getAttribute("blogId") as Long?
 
         // Only for controllers where it is relevant to call DB, else segment is omitted
+        // TODO some duplicated code with something that happens later. Fix.
         val blog = segment?.let {
-            if (blogId == null) dbService.findBlog(usedLangcode, segment) else null
+            blogId?.let {
+                dbService.readBlog(usedLangcode, blogId)
+            } ?: dbService.findBlog(usedLangcode, segment)
         }
-
-        blogId = blogId ?: blog?.id
 
         val topicKey = (model.getAttribute("topicKey") as String?) ?: blog?.topicKey
         val action = (model.getAttribute("action") ?: "") as String
@@ -79,11 +80,11 @@ abstract class BaseController(
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("path", path)
         model.addAttribute("menu", fetchMenu(usedLangcode))
-        model.addAttribute("blogId", blogId)
+        model.addAttribute("blogId", blog?.id)
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
-        return BlogParams(blogId, locale, action)
+        return BlogParams(blog?.id, locale, action)
     }
 
     protected fun redirect(

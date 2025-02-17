@@ -47,7 +47,8 @@ class BlogController(
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
         // TODO check that the same blog is not read twice, here and in setCommonModelParameters
-        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
+      //  val blog = dbService.readBlogWithSameLanguage
+        val blog = dbService.readBlog(blogParams.blogId)
         model.addAttribute("blog", blog)
         return "blogSummaries"
     }

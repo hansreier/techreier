@@ -44,7 +44,8 @@ class BlogEntryController(
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
-        val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
+        val blog = dbService.readBlog(blogParams.blogId)
+     //   val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
         val selectedBlogEntry =
             blog?.blogEntries?.let { blogEntries ->
                 var index: Int

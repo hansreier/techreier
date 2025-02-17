@@ -37,11 +37,11 @@ class DbService(
         return ownerRepo.findById(blogOwnerId).orElse(null)
     }
 
-    fun readBlog(blogId: Long): Blog? {
+    fun readBlog(blogId: Long?): Blog? {
         logger.info("Read blog")
         // Does not fetch JPA annotations
         // val blog = blogRepo.findByIdOrNull(blogId)
-        return blogRepo.findAllById(blogId).orElse(null)
+        return blogId?.let { blogRepo.findAllById(it).orElse(null) }
     }
 
     fun findBlog(languageCode: String, segment: String): BlogDTO? {
@@ -54,6 +54,36 @@ class DbService(
             }
         }
     }
+
+    fun readBlog(languageCode: String, blogId: Long): BlogDTO? {
+        logger.info("Read blog with same language: $languageCode as blog with id $blogId")
+        var blogDTO = null
+        val blog = blogRepo.findById(blogId).orElse(null) //Finds current blog
+        if (blog != null) {
+            logger.debug("Current blog language code: {}, should be: {}", blog.topic.language.code, languageCode)
+            if (blog.topic.language.code != languageCode) {
+                val bs = blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(languageCode, blog.segment)
+                blogDTO = bs?.let { bs ->
+                    bs.id?.let { id ->
+                        return BlogDTO(
+                            id, bs.segment, bs.topic.topicKey, bs.topic.language.code,
+                            bs.pos, bs.subject, bs.about
+                        )
+                    }
+                }
+
+            } else {
+                blogDTO = blog.id?.let { id ->
+                    return BlogDTO(
+                        id, blog.segment, blog.topic.topicKey, blog.topic.language.code,
+                        blog.pos, blog.subject, blog.about
+                    )
+                }
+            }
+        }
+        return blogDTO
+    }
+
 
     //if language is changed, we try to fetch a blog with the new language and the same segment
     fun readBlogWithSameLanguage(blogId: Long, langCode: String?): Blog? {
