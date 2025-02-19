@@ -51,7 +51,8 @@ class AboutController(
     @GetMapping
     fun redirect(
         @RequestParam(required = false, name = "lang") language: String?,
-        request: HttpServletRequest, response: HttpServletResponse,
+        request: HttpServletRequest,
+        response: HttpServletResponse,
         model: Model,
     ): String {
         val blogParams = setCommonModelParameters(model, request, response, language)

@@ -72,7 +72,7 @@ class BlogTest : TestBase() {
     @Test
     fun `read blog by language and segment`() {
         logger.info("starting read blog by language and segment")
-        val blog1 = blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(NB, ENVIRONMENT)
+        val blog1 = blogRepo.findByTopicLanguageCodeAndSegment(NB, ENVIRONMENT)
         assertThat(blog1).isNotNull
         assertThat(blog1!!.topic.language.code).isEqualTo(NB)
         assertThat(blog1.topic.language.language).isEqualTo(NORWEGIAN)
@@ -98,7 +98,7 @@ class BlogTest : TestBase() {
     @Test
     fun `read with manual entityGraph`() {
         logger.info("starting read all test")
-        val blog1 = blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(NB, ENVIRONMENT)
+        val blog1 = blogRepo.findByTopicLanguageCodeAndSegment(NB, ENVIRONMENT)
         val entityGraph = entityManager.createEntityGraph(Blog::class.java)
         val topicGraph: Subgraph<Topic> = entityGraph.addSubgraph("topic")
         topicGraph.addAttributeNodes("language")

@@ -24,7 +24,7 @@ const val BLOG_DIR = "/$BLOG"
 @RequestMapping(BLOG_DIR)
 @Validated
 class BlogController(
-    private val dbService: DbService,
+    dbService: DbService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
@@ -37,7 +37,7 @@ class BlogController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, response, langCode, segment)
+        val blogParams = setCommonModelParameters(model, request, response, langCode, true, segment)
         if (blogParams.blog == null) {
             // If blog is not found, redirect to first blog, other alternatives in comment below
             // throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
@@ -46,9 +46,6 @@ class BlogController(
             return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
-        // TODO check that the same blog is not read twice, here and in setCommonModelParameters
-      //  val blog = dbService.readBlogWithSameLanguage
-//val blog = dbService.readBlog(blogParams.blogId)
         model.addAttribute("blog", blogParams.blog)
         return "blogSummaries"
     }
@@ -57,7 +54,8 @@ class BlogController(
     @GetMapping
     fun redirect(
         @RequestParam(required = false, name = "lang") language: String?,
-        request: HttpServletRequest, response: HttpServletResponse,
+        request: HttpServletRequest,
+        response: HttpServletResponse,
         model: Model,
     ): String {
         val blogParams = setCommonModelParameters(model, request, response, language)

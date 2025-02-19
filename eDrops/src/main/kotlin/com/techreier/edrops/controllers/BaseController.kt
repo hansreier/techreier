@@ -1,6 +1,11 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.*
+import com.techreier.edrops.config.AppConfig
+import com.techreier.edrops.config.InitException
+import com.techreier.edrops.config.MAX_SEGMENT_SIZE
+import com.techreier.edrops.config.MAX_SUMMARY_SIZE
+import com.techreier.edrops.config.MAX_TITLE_SIZE
+import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
@@ -45,7 +50,8 @@ abstract class BaseController(
         request: HttpServletRequest,
         response: HttpServletResponse,
         langCode: String?,
-        segment: String? = null
+        entries: Boolean = false,
+        segment: String? = null,
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("auth", appConfig.auth)
@@ -54,19 +60,20 @@ abstract class BaseController(
         model.addAttribute("languages", fetchLanguages())
         val defaultLangCode = LocaleContextHolder.getLocale().language
         val usedLangcode =
-            validProjectLanguageCode(langCode ?: defaultLangCode) //Check that language code is of supported types.
+            validProjectLanguageCode(langCode ?: defaultLangCode) // Check that language code is of supported types.
         val locale = Locale.of(usedLangcode)
         sessionLocaleResolver.setLocale(request, response, locale)
 
-        var blogId = model.getAttribute("blogId") as Long?
+        val blogId = model.getAttribute("blogId") as Long?
 
         // Only for controllers where it is relevant to call DB, else segment is omitted
         // TODO some duplicated code with something that happens later. Fix.
-        val blog = segment?.let {
-            blogId?.let {
-                dbService.readBlogWithSameLanguage(blogId, usedLangcode)
-            } ?: dbService.findBlogNy(usedLangcode, segment)
-        }
+        val blog =
+            segment?.let {
+                blogId?.let {
+                    dbService.readBlogWithSameLanguage(blogId, usedLangcode, entries)
+                } ?: dbService.findBlog(usedLangcode, segment, entries)
+            }
 
         val topicKey = (model.getAttribute("topicKey") as String?) ?: blog?.topic?.topicKey
         val action = (model.getAttribute("action") ?: "") as String
@@ -231,6 +238,6 @@ abstract class BaseController(
     data class BlogParams(
         val blog: Blog?,
         val locale: Locale,
-        val action: String
+        val action: String,
     )
 }

@@ -1,13 +1,20 @@
 package com.techreier.edrops.service
 
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.*
-import com.techreier.edrops.dto.BlogDTO
+import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.domain.BlogEntry
+import com.techreier.edrops.domain.BlogOwner
+import com.techreier.edrops.domain.LanguageCode
+import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogEntryForm
-import com.techreier.edrops.repository.*
+import com.techreier.edrops.repository.BlogEntryRepository
+import com.techreier.edrops.repository.BlogOwnerRepository
+import com.techreier.edrops.repository.BlogRepository
+import com.techreier.edrops.repository.LanguageRepository
+import com.techreier.edrops.repository.TopicRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -22,7 +29,6 @@ class DbService(
     private val languageRepo: LanguageRepository,
     private val topicRepo: TopicRepository,
 ) {
-
     fun readFirstBlog(blogOwnerId: Long): Blog? {
         logger.info("Read first blog")
         val blogOwner = ownerRepo.findByIdOrNull(blogOwnerId)
@@ -41,72 +47,43 @@ class DbService(
         logger.info("Read blog")
         // Does not fetch JPA annotations
         // val blog = blogRepo.findByIdOrNull(blogId)
-        return blogId?.let { blogRepo.findAllById(it).orElse(null) }
+        return blogId?.let { blogRepo.findWithEntriesById(it).orElse(null) }
     }
 
-    fun findBlog(languageCode: String, segment: String): BlogDTO? {
+    fun findBlog(
+        languageCode: String,
+        segment: String,
+        entries: Boolean = false,
+    ): Blog? {
         logger.info("Find blog by languageCode: $languageCode and segment: $segment")
-        return blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(languageCode, segment)?.let { blog ->
-            return blog.id?.let { blogId ->
-                BlogDTO(
-                    blogId, blog.segment, blog.topic.topicKey, blog.topic.language.code,
-                    blog.pos, blog.subject, blog.about
-                )
-            }
+        if (entries) {
+            return blogRepo.findByTopicLanguageCodeAndSegment(languageCode, segment)
+        } else {
+            return blogRepo.findWithEntriesByTopicLanguageCodeAndSegment(languageCode, segment)
         }
     }
 
-    fun findBlogNy(languageCode: String, segment: String): Blog? {
-        logger.info("Find blog by languageCode: $languageCode and segment: $segment")
-        return blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(languageCode, segment)
-    }
-
-    fun readBlog(languageCode: String, blogId: Long): BlogDTO? {
-        logger.info("Read blog with same language: $languageCode as blog with id $blogId")
-        var blogDTO = null
-        val blog = blogRepo.findById(blogId).orElse(null) //Finds current blog
-        if (blog != null) {
-            logger.debug("Current blog language code: {}, should be: {}", blog.topic.language.code, languageCode)
-            if (blog.topic.language.code != languageCode) {
-                val bs = blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(languageCode, blog.segment)
-                blogDTO = bs?.let { bs ->
-                    bs.id?.let { id ->
-                        return BlogDTO(
-                            id, bs.segment, bs.topic.topicKey, bs.topic.language.code,
-                            bs.pos, bs.subject, bs.about
-                        )
-                    }
-                }
-
-            } else {
-                blogDTO = blog.id?.let { id ->
-                    return BlogDTO(
-                        id, blog.segment, blog.topic.topicKey, blog.topic.language.code,
-                        blog.pos, blog.subject, blog.about
-                    )
-                }
-            }
-        }
-        return blogDTO
-    }
-
-
-    //if language is changed, we try to fetch a blog with the new language and the same segment
-    fun readBlogWithSameLanguage(blogId: Long, langCode: String?): Blog? {
+    // if language is changed, we try to fetch a blog with the new language and the same segment
+    fun readBlogWithSameLanguage(
+        blogId: Long,
+        langCode: String?,
+        entries: Boolean = false,
+    ): Blog? {
         logger.info("Read blog with same language 2: $langCode as blog with id $blogId")
         var blogIdNew = blogId
         if (langCode != null) {
-            val blog = blogRepo.findById(blogId).orElse(null) //Finds current blog
+            val blog = blogRepo.findById(blogId).orElse(null)
             if (blog != null) {
                 logger.debug("The current blog is found with language.code ${blog.topic.language.code}, should be: $langCode")
                 if (blog.topic.language.code != langCode) {
-                    val blogSwitched =
-                        blogRepo.findFirstBlogByTopicLanguageCodeAndSegment(langCode, blog.segment)
+                    val blogSwitched = blogRepo.findByTopicLanguageCodeAndSegment(langCode, blog.segment)
+                    if (!entries) return blogSwitched
                     blogIdNew = blogSwitched?.id ?: blogId
                 }
+                if (!entries) return blog
             }
         }
-        return blogRepo.findAllById(blogIdNew).orElse(null)
+        return blogRepo.findWithEntriesById(blogIdNew).orElse(null)
     }
 
     fun readBlogs(languageCode: String): MutableSet<Blog> {
@@ -119,15 +96,23 @@ class DbService(
         return blogRepo.getMenuItems(languageCode)
     }
 
-    fun saveBlogEntry(blogId: Long?, blogEntryForm: BlogEntryForm) {
+    fun saveBlogEntry(
+        blogId: Long?,
+        blogEntryForm: BlogEntryForm,
+    ) {
         logger.info("Saving blogEntry with id: ${blogEntryForm.id} segment: ${blogEntryForm.segment} blogId: $blogId")
         blogId?.let {
             val blog = blogRepo.findById(blogId).orElse(null)
             blog?.let { foundBlog ->
-                val blogEntry = BlogEntry(
-                    ZonedDateTime.now(), blogEntryForm.segment, blogEntryForm.title,
-                    blogEntryForm.summary, foundBlog, blogEntryForm.id
-                )
+                val blogEntry =
+                    BlogEntry(
+                        ZonedDateTime.now(),
+                        blogEntryForm.segment,
+                        blogEntryForm.title,
+                        blogEntryForm.summary,
+                        foundBlog,
+                        blogEntryForm.id,
+                    )
                 if (blog.blogEntries.any { (it.segment == blogEntryForm.segment) && it.id != blogEntryForm.id }) {
                     throw DuplicateSegmentException("Segment: ${blogEntryForm.segment} is duplicate in blog ${blog.segment}")
                 }
@@ -138,16 +123,17 @@ class DbService(
         } ?: throw ParentBlogException("Blogentry ${blogEntryForm.segment} not saved, parent blog is detached")
     }
 
-    fun deleteBlogEntry(blogId: Long?, blogEntryForm: BlogEntryForm) {
+    fun deleteBlogEntry(
+        blogId: Long?,
+        blogEntryForm: BlogEntryForm,
+    ) {
         logger.info("Deleting blogEntry with id: ${blogEntryForm.id} segment: ${blogEntryForm.segment} blogId: $blogId")
         blogEntryForm.id?.let { id ->
             blogEntryRepo.deleteById(id)
         } ?: logger.error("Blogentry not deleted, no id")
     }
 
-    fun readLanguages(): MutableList<LanguageCode> {
-        return languageRepo.findAll()
-    }
+    fun readLanguages(): MutableList<LanguageCode> = languageRepo.findAll()
 
     fun readTopics(languageCode: String): MutableList<Topic> {
         val topics = topicRepo.findAllByLanguageCodeOrderByPos(languageCode)

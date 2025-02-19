@@ -39,15 +39,17 @@ class BlogEntryController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, response, langCode, segment)
+        val blogParams = setCommonModelParameters(model, request, response, langCode, true, segment)
         if (blogParams.blog == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
-        val blog = dbService.readBlog(blogParams.blog.id) //TODO might not have value
-     //   val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
+        val blog = dbService.readBlog(blogParams.blog.id) // TODO might not have value
+        //   val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
+        // TODO Move to service layer??
         val selectedBlogEntry =
-            blog?.blogEntries?.let { blogEntries ->  //TODO use let here? Else structure must be complete here eller error.
+            blog?.blogEntries?.let { blogEntries ->
+                // TODO use let here? Else structure must be complete here eller error.
                 var index: Int
                 val no = subsegment.toIntOrNull()
                 no?.let {
@@ -143,12 +145,9 @@ class BlogEntryController(
         segment: String,
         changed: ZonedDateTime?,
     ) {
-        val blogParams = setCommonModelParameters(model, request, response, null, segment)
+        val blogParams = setCommonModelParameters(model, request, response, null, true, segment)
         logger.info("Prepare allBlogEntries Fetch blog entries with: $blogParams")
 
-      //  val blog = blogParams.blog?.let {
-      //          dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
-      //      }
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
         model.addAttribute("changed", changed)

@@ -25,7 +25,7 @@ const val ADMIN_DIR = "/$ADMIN"
 @Controller
 @RequestMapping(ADMIN_DIR)
 class AdminController(
-    private val dbService: DbService,
+    dbService: DbService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
@@ -38,14 +38,12 @@ class AdminController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, response, langCode, segment)
+        val blogParams = setCommonModelParameters(model, request, response, langCode, true, segment)
         if (blogParams.blog == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
-      //  val blog = dbService.readBlog(blogParams.blogId)
-      //  val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
-        if (blogParams.action == "create" || blogParams.action == "saveCreate")  {
+        if (blogParams.action == "create" || blogParams.action == "saveCreate") {
             logger.info("getting GUI with new blogEntry")
             val blogEntryForm = BlogEntryForm(null, "", "", "")
             model.addAttribute("changed", null)
@@ -60,10 +58,11 @@ class AdminController(
     @GetMapping
     fun redirect(
         @RequestParam(required = false, name = "lang") language: String?,
-        request: HttpServletRequest, response: HttpServletResponse,
+        request: HttpServletRequest,
+        response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, response, language)
+        val blogParams = setCommonModelParameters(model, request, response, language, true)
         return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
     }
 
