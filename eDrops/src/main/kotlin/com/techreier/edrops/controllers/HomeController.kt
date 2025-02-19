@@ -36,7 +36,7 @@ class HomeController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, response, langCode)
+        val blogParams = fetchBlogAndSetModelParameters(model, request, response, langCode)
         val doc = Doc(HOME, Topic(DEFAULT, LanguageCode("", blogParams.locale.language)))
         val docText: String = markdownToHtml(doc)
         model.addAttribute("docText", docText)
@@ -67,7 +67,7 @@ class HomeController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, response, langCode)
+        val blogParams = fetchBlogAndSetModelParameters(model, request, response, langCode)
         val docIndex = Docs.getDocIndex(home, blogParams.locale.language, segment)
         val doc = home[docIndex]
 

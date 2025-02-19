@@ -39,7 +39,7 @@ class BlogEntryController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = setCommonModelParameters(model, request, response, langCode, true, segment)
+        val blogParams = fetchBlogAndSetModelParameters(model, request, response, langCode, true, segment)
         if (blogParams.blog == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
@@ -145,7 +145,7 @@ class BlogEntryController(
         segment: String,
         changed: ZonedDateTime?,
     ) {
-        val blogParams = setCommonModelParameters(model, request, response, null, true, segment)
+        val blogParams = fetchBlogAndSetModelParameters(model, request, response, null, true, segment)
         logger.info("Prepare allBlogEntries Fetch blog entries with: $blogParams")
 
         model.addAttribute("blog", blogParams.blog)
