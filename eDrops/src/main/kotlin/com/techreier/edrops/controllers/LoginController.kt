@@ -38,7 +38,7 @@ class LoginController(
         model.addAttribute("loginError", loginError)
         val user = User()
         model.addAttribute("user", user)
-        fetchBlogAndSetModel(model, request, response, language)
+        fetchBlogAndParameters(model, request, response, language)
         return LOGIN
     }
 

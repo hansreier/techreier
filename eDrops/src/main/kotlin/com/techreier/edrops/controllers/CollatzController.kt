@@ -81,7 +81,7 @@ class CollatzController(
         response: HttpServletResponse,
         langCode: String? = null,
     ) {
-        val blogParams = fetchBlogAndSetModel(model, request, response, langCode)
+        val blogParams = fetchBlogAndParameters(model, request, response, langCode)
         val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.locale.language, COLLATZ)
         val doc = Docs.collatz[docIndex]
         val docText: String = markdownToHtml(doc, COLLATZ)

@@ -37,7 +37,7 @@ class BlogController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogAndSetModel(model, request, response, langCode, true, segment)
+        val blogParams = fetchBlogAndParameters(model, request, response, langCode, true, segment)
         if (blogParams.blog == null) {
             // If blog is not found, redirect to first blog, other alternatives in comment below
             // throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
@@ -58,7 +58,7 @@ class BlogController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogAndSetModel(model, request, response, language)
+        val blogParams = fetchBlogAndParameters(model, request, response, language)
         return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
     }
 

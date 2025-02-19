@@ -45,7 +45,7 @@ abstract class BaseController(
     // We have to fetch both file based (.md) markdown and db based content to populate the dropdown menu
     // Selecting no DB removes menu items and contents stored in DB
     // Should only be used if no DB is available
-    protected fun fetchBlogAndSetModel(
+    protected fun fetchBlogAndParameters(
         model: Model,
         request: HttpServletRequest,
         response: HttpServletResponse,
