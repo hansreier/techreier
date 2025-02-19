@@ -4,9 +4,11 @@ import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogEntryForm
+import com.techreier.edrops.service.BlogEntryService
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -25,7 +27,8 @@ import java.time.ZonedDateTime
 @Controller
 @RequestMapping(ADMIN_DIR)
 class BlogEntryController(
-    private val dbService: DbService,
+    dbService: DbService,
+    private val blogEntryService: BlogEntryService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
@@ -39,33 +42,15 @@ class BlogEntryController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogAndParameters(model, request, response, langCode, true, segment)
+        val blogParams = fetchBlogParams(model, request, response, langCode, true, segment)
         if (blogParams.blog == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
-        val blog = dbService.readBlog(blogParams.blog.id) // TODO might not have value
-        //   val blog = dbService.readBlogWithSameLanguage(blogParams.blogId, blogParams.locale.language)
-        // TODO Move to service layer??
-        val selectedBlogEntry =
-            blog?.blogEntries?.let { blogEntries ->
-                // TODO use let here? Else structure must be complete here eller error.
-                var index: Int
-                val no = subsegment.toIntOrNull()
-                no?.let {
-                    index =
-                        if (it > blogEntries.size) {
-                            blogEntries.size - 1
-                        } else if (it <= 0) {
-                            0
-                        } else {
-                            it - 1
-                        }
-                    blogEntries[index]
-                } ?: blogEntries.find { it.segment == subsegment }
-            } ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
 
-        model.addAttribute("blog", blog)
+        val selectedBlogEntry = select(subsegment, blogParams.blog)
+
+        model.addAttribute("blog", blogParams.blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
 
         logger.info("getting GUI with blogEntry. ${selectedBlogEntry.title}")
@@ -108,7 +93,7 @@ class BlogEntryController(
             }
 
             try {
-                dbService.saveBlogEntry(blogId, blogEntryForm)
+                blogEntryService.save(blogId, blogEntryForm)
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
@@ -128,7 +113,7 @@ class BlogEntryController(
             return "redirect:$ADMIN_DIR/$segment"
         } else {
             try {
-                dbService.deleteBlogEntry(blogId, blogEntryForm)
+                blogEntryService.delete(blogId, blogEntryForm)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
                 prepare(model, request, response, segment, changed)
@@ -145,7 +130,7 @@ class BlogEntryController(
         segment: String,
         changed: ZonedDateTime?,
     ) {
-        val blogParams = fetchBlogAndParameters(model, request, response, null, true, segment)
+        val blogParams = fetchBlogParams(model, request, response, null, true, segment)
         logger.info("Prepare allBlogEntries Fetch blog entries with: $blogParams")
 
         model.addAttribute("blog", blogParams.blog)
@@ -153,4 +138,23 @@ class BlogEntryController(
         model.addAttribute("changed", changed)
         logger.info("prepared)")
     }
+
+    private fun select(
+        subsegment: String,
+        blog: Blog?,
+    ) = blog?.blogEntries?.let { blogEntries ->
+        var index: Int
+        val no = subsegment.toIntOrNull()
+        no?.let {
+            index =
+                if (it > blogEntries.size) {
+                    blogEntries.size - 1
+                } else if (it <= 0) {
+                    0
+                } else {
+                    it - 1
+                }
+            blogEntries[index]
+        } ?: blogEntries.find { it.segment == subsegment }
+    } ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
 }

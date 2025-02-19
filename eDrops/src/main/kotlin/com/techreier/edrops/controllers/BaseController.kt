@@ -45,7 +45,7 @@ abstract class BaseController(
     // We have to fetch both file based (.md) markdown and db based content to populate the dropdown menu
     // Selecting no DB removes menu items and contents stored in DB
     // Should only be used if no DB is available
-    protected fun fetchBlogAndParameters(
+    protected fun fetchBlogParams(
         model: Model,
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -67,7 +67,6 @@ abstract class BaseController(
         val blogId = model.getAttribute("blogId") as Long?
 
         // Only for controllers where it is relevant to call DB, else segment is omitted
-        // TODO some duplicated code with something that happens later. Fix.
         val blog =
             segment?.let {
                 blogId?.let {

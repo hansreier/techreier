@@ -37,7 +37,7 @@ class AboutController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogAndParameters(model, request, response, langCode)
+        val blogParams = fetchBlogParams(model, request, response, langCode)
         val docIndex = getDocIndex(about, blogParams.locale.language, segment)
         val doc = about[docIndex]
 
@@ -55,7 +55,7 @@ class AboutController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogAndParameters(model, request, response, language)
+        val blogParams = fetchBlogParams(model, request, response, language)
         val docIndex = getDocIndex(about, blogParams.locale.language)
         val doc = about[docIndex]
         return "redirect:$ABOUT_DIR/${doc.segment}"
