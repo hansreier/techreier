@@ -24,7 +24,7 @@
     <div class="right-top">
         <form id="topic" th:action="@{/topic}" th:method="post">
             <label id="topicLabel" th:text="#{topic}" for="topicSelect"></label>
-            <select id="topicSelect" name="topic" onchange="topic.submit()">
+            <select id="topicSelect" name="topicKey" onchange="document.getElementById('topic').submit()">
                 <option id="topicOption" th:each="topic : ${topics}"
                         th:value="${topic.topicKey}" th:text="${topic.text}"
                         th:selected="${topic.topicKey eq topicKey}"></option>
@@ -35,7 +35,7 @@
         </form>
         <form id="language" th:action="@{/language}" th:method="post">
             <label id="languageLabel" th:text="language" for="languageSelect"></label>
-            <select id="languageSelect" name="languageCode" onchange="language.submit()">
+            <select id="languageSelect" name="languageCode" onchange="document.getElementById('language').submit()">
                 <option id="languageOption" th:each="language : ${languages}"
                         th:value="${language.code}" th:text="${language.language} + ' ' + ${language.code}"
                         th:selected="${language.code eq langCode}"></option>
