@@ -2,8 +2,8 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.service.BlogService
-import com.techreier.edrops.service.DbService
+import com.techreier.edrops.dbservice.BlogService
+import com.techreier.edrops.dbservice.GenService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
@@ -22,11 +22,11 @@ const val LOGIN_DIR = "/$LOGIN"
 @RequestMapping(LOGIN_DIR)
 class LoginController(
     blogService: BlogService,
-    dbService: DbService,
+    genService: GenService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(blogService, dbService, messageSource, sessionLocaleResolver, appConfig) {
+) : BaseController(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping
     fun login(
         @RequestParam(required = false, name = "lang") language: String?,

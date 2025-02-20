@@ -1,8 +1,8 @@
 package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.AppConfig
-import com.techreier.edrops.service.BlogService
-import com.techreier.edrops.service.DbService
+import com.techreier.edrops.dbservice.BlogService
+import com.techreier.edrops.dbservice.GenService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
@@ -19,11 +19,11 @@ const val LOGOUT_DIR = "/$LOGOUT"
 @RequestMapping(LOGOUT_DIR)
 class LogoutController(
     blogService: BlogService,
-    dbService: DbService,
+    genService: GenService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(blogService, dbService, messageSource, sessionLocaleResolver, appConfig) {
+) : BaseController(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
     @PostMapping("/logout")
     fun performLogout(
         authentication: Authentication,

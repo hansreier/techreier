@@ -1,4 +1,4 @@
-package com.techreier.edrops.service
+package com.techreier.edrops.dbservice
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.BlogEntry

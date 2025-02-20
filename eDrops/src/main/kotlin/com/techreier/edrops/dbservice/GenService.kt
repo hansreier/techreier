@@ -1,4 +1,4 @@
-package com.techreier.edrops.service
+package com.techreier.edrops.dbservice
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.BlogOwner
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class DbService(
+class GenService(
     private val ownerRepo: BlogOwnerRepository,
     private val languageRepo: LanguageRepository,
     private val topicRepo: TopicRepository,

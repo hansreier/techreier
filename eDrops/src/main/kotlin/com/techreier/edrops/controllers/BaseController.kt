@@ -6,12 +6,12 @@ import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.dbservice.BlogService
+import com.techreier.edrops.dbservice.GenService
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.MenuItemDTO
-import com.techreier.edrops.service.BlogService
-import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.home
@@ -33,7 +33,7 @@ import java.util.*
 
 abstract class BaseController(
     private val blogService: BlogService,
-    private val dbService: DbService,
+    private val genService: GenService,
     private val messageSource: MessageSource,
     private val sessionLocaleResolver: SessionLocaleResolver,
     private val appConfig: AppConfig,
@@ -212,12 +212,12 @@ abstract class BaseController(
 
     private fun fetchLanguages(): MutableList<LanguageCode> {
         logger.debug("fetch languages from db")
-        return dbService.readLanguages()
+        return genService.readLanguages()
     }
 
     private fun fetchTopics(languageCode: String): MutableList<Topic> {
         logger.debug("fetch topics from db")
-        val topics = dbService.readTopics(languageCode)
+        val topics = genService.readTopics(languageCode)
         topics.forEach { topic ->
             if (topic.text.isNullOrBlank()) {
                 topic.text = msg("topic." + topic.topicKey)

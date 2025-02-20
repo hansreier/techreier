@@ -1,4 +1,4 @@
-package com.techreier.edrops.service
+package com.techreier.edrops.dbservice
 
 import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.repository.BlogOwnerRepository
@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class UserDetailsService(
-    private val blogOwnerRepository: BlogOwnerRepository
+    private val blogOwnerRepository: BlogOwnerRepository,
 ) : UserDetailsService {
     override fun loadUserByUsername(user: String): UserDetails {
-        val blogOwner = blogOwnerRepository.findBlogOwnerByUsername(user)
-            ?: throw UsernameNotFoundException("User $user not found")
+        val blogOwner =
+            blogOwnerRepository.findBlogOwnerByUsername(user)
+                ?: throw UsernameNotFoundException("User $user not found")
         return Owner(blogOwner)
     }
 }
-

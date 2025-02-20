@@ -2,10 +2,10 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.service.BlogService
+import com.techreier.edrops.dbservice.BlogService
+import com.techreier.edrops.dbservice.GenService
 import com.techreier.edrops.service.CollatzResult
 import com.techreier.edrops.service.CollatzService
-import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
@@ -25,12 +25,12 @@ const val COLLATZ_DIR = "/$COLLATZ"
 @RequestMapping(COLLATZ_DIR)
 class CollatzController(
     blogService: BlogService,
-    dbService: DbService,
+    genService: GenService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
     val collatzService: CollatzService,
-) : BaseController(blogService, dbService, messageSource, sessionLocaleResolver, appConfig) {
+) : BaseController(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping
     fun collatz(
         @RequestParam(required = false, name = "lang") langCode: String?,

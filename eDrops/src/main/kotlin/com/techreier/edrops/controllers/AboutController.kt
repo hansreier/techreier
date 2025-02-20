@@ -2,8 +2,8 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.service.BlogService
-import com.techreier.edrops.service.DbService
+import com.techreier.edrops.dbservice.BlogService
+import com.techreier.edrops.dbservice.GenService
 import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.getDocIndex
 import com.techreier.edrops.util.markdownToHtml
@@ -26,11 +26,11 @@ const val ABOUT_DIR = "/$ABOUT"
 @RequestMapping(ABOUT_DIR)
 class AboutController(
     blogService: BlogService,
-    dbService: DbService,
+    genService: GenService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(blogService, dbService, messageSource, sessionLocaleResolver, appConfig) {
+) : BaseController(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping("/{segment}")
     fun content(
         @PathVariable segment: String?,
