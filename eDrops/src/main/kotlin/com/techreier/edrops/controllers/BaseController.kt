@@ -10,6 +10,7 @@ import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.MenuItemDTO
+import com.techreier.edrops.service.BlogService
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.about
@@ -31,6 +32,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 abstract class BaseController(
+    private val blogService: BlogService,
     private val dbService: DbService,
     private val messageSource: MessageSource,
     private val sessionLocaleResolver: SessionLocaleResolver,
@@ -70,8 +72,8 @@ abstract class BaseController(
         val blog =
             segment?.let {
                 blogId?.let {
-                    dbService.readBlogWithSameLanguage(blogId, usedLangcode, entries)
-                } ?: dbService.findBlog(usedLangcode, segment, entries)
+                    blogService.readBlogWithSameLanguage(blogId, usedLangcode, entries)
+                } ?: blogService.findBlog(usedLangcode, segment, entries)
             }
 
         val topicKey = (model.getAttribute("topicKey") as String?) ?: blog?.topic?.topicKey
@@ -108,11 +110,11 @@ abstract class BaseController(
 
     protected fun fetchFirstBlog(langCode: String): Blog {
         logger.debug("Fetch first blogId by langCode: $langCode")
-        val blog = dbService.readBlog(1L)
+        val blog = blogService.readBlog(1L)
         if (blog?.id == null) {
             throw InitException("Cannot find default blog")
         }
-        return dbService.readBlogWithSameLanguage(blog.id, validProjectLanguageCode(langCode)) ?: blog
+        return blogService.readBlogWithSameLanguage(blog.id, validProjectLanguageCode(langCode)) ?: blog
     }
 
     // Extension function to simplify implementation of adding field error
@@ -228,7 +230,7 @@ abstract class BaseController(
     // TODO: If several owners is permitted an extra level in URL must be added
     private fun fetchMenu(langCode: String): List<MenuItemDTO> {
         logger.debug("Fetch menu items by langCode: $langCode")
-        val blogs = dbService.readMenu(langCode)
+        val blogs = blogService.readMenu(langCode)
         logger.debug("Menu fetched")
         return blogs
     }

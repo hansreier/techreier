@@ -2,6 +2,7 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.service.BlogService
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -20,11 +21,12 @@ const val LOGIN_DIR = "/$LOGIN"
 @Controller
 @RequestMapping(LOGIN_DIR)
 class LoginController(
+    blogService: BlogService,
     dbService: DbService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(dbService, messageSource, sessionLocaleResolver, appConfig) {
+) : BaseController(blogService, dbService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping
     fun login(
         @RequestParam(required = false, name = "lang") language: String?,

@@ -9,6 +9,7 @@ import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogEntryForm
 import com.techreier.edrops.service.BlogEntryService
+import com.techreier.edrops.service.BlogService
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -27,12 +28,13 @@ import java.time.ZonedDateTime
 @Controller
 @RequestMapping(ADMIN_DIR)
 class BlogEntryController(
+    blogService: BlogService,
     dbService: DbService,
     private val blogEntryService: BlogEntryService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(dbService, messageSource, sessionLocaleResolver, appConfig) {
+) : BaseController(blogService, dbService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping("/{segment}/{subsegment}")
     fun blogEntry(
         @PathVariable segment: String,

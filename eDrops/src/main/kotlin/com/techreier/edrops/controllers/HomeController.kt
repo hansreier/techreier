@@ -5,6 +5,7 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.DEFAULT
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
+import com.techreier.edrops.service.BlogService
 import com.techreier.edrops.service.DbService
 import com.techreier.edrops.util.Doc
 import com.techreier.edrops.util.Docs
@@ -24,11 +25,12 @@ const val HOME_DIR = ""
 @Controller
 @RequestMapping()
 class HomeController(
+    blogService: BlogService,
     dbService: DbService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(dbService, messageSource, sessionLocaleResolver, appConfig) {
+) : BaseController(blogService, dbService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping
     fun home(
         @RequestParam(required = false, name = "lang") langCode: String?,

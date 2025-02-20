@@ -1,6 +1,7 @@
 package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.AppConfig
+import com.techreier.edrops.service.BlogService
 import com.techreier.edrops.service.DbService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -17,19 +18,19 @@ const val LOGOUT_DIR = "/$LOGOUT"
 @Controller
 @RequestMapping(LOGOUT_DIR)
 class LogoutController(
+    blogService: BlogService,
     dbService: DbService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(dbService, messageSource, sessionLocaleResolver,appConfig) {
-        @PostMapping("/logout")
+) : BaseController(blogService, dbService, messageSource, sessionLocaleResolver, appConfig) {
+    @PostMapping("/logout")
     fun performLogout(
         authentication: Authentication,
         request: HttpServletRequest,
-        response: HttpServletResponse
+        response: HttpServletResponse,
     ): String {
         SecurityContextLogoutHandler().logout(request, response, authentication)
         return "redirect:/$HOME_DIR"
     }
-
 }
