@@ -39,7 +39,8 @@ interface BlogRepository : JpaRepository<Blog, Long> {
 
     @Query(
         "SELECT new com.techreier.edrops.dto.MenuItemDTO(b.id, b.subject, b.segment) " +
-            " FROM Blog b where b.topic.language.code = :languageCode ORDER BY b.pos",
+            " FROM Blog b WHERE b.topic.language.code = :languageCode ORDER BY b.pos"
     )
     fun getMenuItems(languageCode: String): List<MenuItemDTO>
+
 }

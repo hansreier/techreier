@@ -1,7 +1,6 @@
 package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.AppConfig
-import com.techreier.edrops.config.InitException
 import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
@@ -21,10 +20,12 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
+import org.springframework.http.HttpStatus
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.FieldError
 import org.springframework.web.context.ServletContextAware
+import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.time.ZonedDateTime
@@ -52,8 +53,8 @@ abstract class BaseController(
         request: HttpServletRequest,
         response: HttpServletResponse,
         langCode: String?,
-        entries: Boolean = false,
         segment: String? = null,
+        entries: Boolean = false,
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("auth", appConfig.auth)
@@ -80,7 +81,8 @@ abstract class BaseController(
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
-        logger.info("BlogId: $blogId Language set: $langCode, default: $defaultLangCode used: $usedLangcode set: ${locale.language}")
+        logger.info("BlogId: $blogId Language: $langCode, default: $defaultLangCode used: $usedLangcode" +
+                " set: ${locale.language} topic: ${topicKey}")
         model.addAttribute("langCode", usedLangcode)
         model.addAttribute("topicKey", topicKey)
         model.addAttribute("topics", fetchTopics(usedLangcode))
@@ -106,15 +108,6 @@ abstract class BaseController(
         logger.debug("Redirect params: $result segment: $segment id: $blogId redirect:$subpath/$segment")
         redirectAttributes.addFlashAttribute("blogId", blogId)
         return "redirect:$subpath/$segment"
-    }
-
-    protected fun fetchFirstBlog(langCode: String): Blog {
-        logger.debug("Fetch first blogId by langCode: $langCode")
-        val blog = blogService.readBlog(1L)
-        if (blog?.id == null) {
-            throw InitException("Cannot find default blog")
-        }
-        return blogService.readBlogWithSameLanguage(blog.id, validProjectLanguageCode(langCode)) ?: blog
     }
 
     // Extension function to simplify implementation of adding field error
@@ -208,6 +201,14 @@ abstract class BaseController(
         val errorMessage = msg("error.$key") + if (e.message.isNullOrBlank()) "" else ": ${e.message}"
         logger.warn("${e.javaClass}: $errorMessage")
         bindingResult.reject("key", errorMessage)
+    }
+
+    //Not the most efficient to reuse getMenuItems, but will not be used often
+    protected fun readFirstSegment(languageCode: String): String {
+        val menuItems = blogService.readMenu(languageCode)
+        if (menuItems.isNotEmpty())
+            return menuItems.first().segment
+        else throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
     }
 
     private fun fetchLanguages(): MutableList<LanguageCode> {

@@ -39,13 +39,10 @@ class BlogController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, langCode, true, segment)
+        val blogParams = fetchBlogParams(model, request, response, langCode, segment, true)
         if (blogParams.blog == null) {
-            // If blog is not found, redirect to first blog, other alternatives in comment below
-            // throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
-            // return "redirect:/"
             logger.warn("Blog $segment is not found in language: ${blogParams.locale.language}")
-            return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
+            return "redirect:$BLOG_DIR/${readFirstSegment(blogParams.locale.language)}"
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
         model.addAttribute("blog", blogParams.blog)
@@ -61,7 +58,7 @@ class BlogController(
         model: Model,
     ): String {
         val blogParams = fetchBlogParams(model, request, response, language)
-        return "redirect:$BLOG_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
+        return "redirect:$BLOG_DIR/${readFirstSegment(blogParams.locale.language)}"
     }
 
     // Redirect to other blog from menu

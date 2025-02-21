@@ -40,7 +40,7 @@ class AdminController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, langCode, true, segment)
+        val blogParams = fetchBlogParams(model, request, response, langCode, segment, true)
         if (blogParams.blog == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
@@ -64,8 +64,8 @@ class AdminController(
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, language, true)
-        return "redirect:$ADMIN_DIR/${fetchFirstBlog(blogParams.locale.language).segment}"
+        val blogParams = fetchBlogParams(model, request, response, language)
+        return "redirect:$ADMIN_DIR/${readFirstSegment(blogParams.locale.language)}"
     }
 
     @PostMapping
