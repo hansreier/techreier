@@ -19,6 +19,7 @@ class BlogService(
         return blogId?.let { blogRepo.findWithEntriesById(it).orElse(null) }
     }
 
+    // TODO entries is always true calling this. Simplify later?
     fun findBlog(
         languageCode: String,
         segment: String,
@@ -33,6 +34,7 @@ class BlogService(
     }
 
     // if language is changed, we try to fetch a blog with the new language and the same segment
+    // TODO entries is always true calling this. Simplify later?
     fun readBlogWithSameLanguage(
         blogId: Long,
         langCode: String?,
