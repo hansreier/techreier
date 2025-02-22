@@ -5,6 +5,7 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.dbservice.GenService
 import com.techreier.edrops.forms.BlogEntryForm
+import com.techreier.edrops.util.addFlashAttributes
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
@@ -25,13 +26,13 @@ const val ADMIN_DIR = "/$ADMIN"
 
 @Controller
 @RequestMapping(ADMIN_DIR)
-class AdminController(
+class Admin(
     blogService: BlogService,
     genService: GenService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
+) : Base(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping("/{segment}")
     fun allBlogEntries(
         @PathVariable segment: String?,
@@ -72,8 +73,10 @@ class AdminController(
     fun getBlogAdmin(
         redirectAttributes: RedirectAttributes,
         result: String,
+        topicKey: String
     ): String {
         logger.info("Admin controller redirect: $result")
+        redirectAttributes.addFlashAttributes(topicKey)
         return redirect(redirectAttributes, result, ADMIN_DIR)
     }
 }

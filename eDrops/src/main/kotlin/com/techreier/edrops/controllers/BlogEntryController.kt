@@ -11,6 +11,7 @@ import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogEntryForm
+import com.techreier.edrops.util.addFlashAttributes
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
@@ -34,7 +35,7 @@ class BlogEntryController(
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
+) : Base(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping("/{segment}/{subsegment}")
     fun blogEntry(
         @PathVariable segment: String,
@@ -77,6 +78,7 @@ class BlogEntryController(
         @RequestParam(required = false, name = "lang") langCode: String?,
         action: String,
         blogId: Long?,
+        topicKey:String,
         changed: ZonedDateTime?,
         bindingResult: BindingResult,
         request: HttpServletRequest,
@@ -85,6 +87,7 @@ class BlogEntryController(
     ): String {
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
+        redirectAttributes.addFlashAttributes(topicKey)
         logger.info("blog entry: path: $path action:  $action")
         if (action == "save" || action == "saveCreate") {
             checkSegment(blogEntryForm.segment, "blogEntryForm", "segment", bindingResult)

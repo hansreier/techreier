@@ -17,13 +17,13 @@ const val LOGOUT_DIR = "/$LOGOUT"
 
 @Controller
 @RequestMapping(LOGOUT_DIR)
-class LogoutController(
+class Logout(
     blogService: BlogService,
     genService: GenService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
+) : Base(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
     @PostMapping("/logout")
     fun performLogout(
         authentication: Authentication,

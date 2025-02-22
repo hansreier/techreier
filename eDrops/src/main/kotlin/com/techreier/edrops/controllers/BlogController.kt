@@ -4,6 +4,7 @@ import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.dbservice.GenService
+import com.techreier.edrops.util.addFlashAttributes
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.MessageSource
@@ -24,13 +25,13 @@ const val BLOG_DIR = "/$BLOG"
 @Controller
 @RequestMapping(BLOG_DIR)
 @Validated
-class BlogController(
+class Blog(
     blogService: BlogService,
     genService: GenService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
+) : Base(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping("/{segment}")
     fun allBlogTexts(
         @PathVariable segment: String?,
@@ -65,9 +66,11 @@ class BlogController(
     @PostMapping
     fun getBlog(
         redirectAttributes: RedirectAttributes,
+        topicKey: String,
         result: String,
     ): String {
         logger.info("Blog controller redirect: $result")
+        redirectAttributes.addFlashAttributes(topicKey)
         return redirect(redirectAttributes, result, BLOG_DIR)
     }
 }

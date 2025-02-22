@@ -7,6 +7,7 @@ import com.techreier.edrops.dbservice.GenService
 import com.techreier.edrops.service.CollatzResult
 import com.techreier.edrops.service.CollatzService
 import com.techreier.edrops.util.Docs
+import com.techreier.edrops.util.addFlashAttributes
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -23,14 +24,14 @@ const val COLLATZ_DIR = "/$COLLATZ"
 
 @Controller
 @RequestMapping(COLLATZ_DIR)
-class CollatzController(
+class Collatz(
     blogService: BlogService,
     genService: GenService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
     val collatzService: CollatzService,
-) : BaseController(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
+) : Base(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping
     fun collatz(
         @RequestParam(required = false, name = "lang") langCode: String?,
@@ -41,6 +42,8 @@ class CollatzController(
         logger.info("Collatz page")
         val collatz = model.getAttribute("collatz") ?: Collatz()
         model.addAttribute("collatz", collatz)
+        val topicKey = model.getAttribute("topicKey") as String?
+        model.addAttribute("topicKey", topicKey)
         prepare(model, request, response, langCode)
         return COLLATZ
     }
@@ -49,6 +52,7 @@ class CollatzController(
     fun calculate(
         redirectAttributes: RedirectAttributes,
         collatz: Collatz,
+        topicKey: String,
         bindingResult: BindingResult,
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -74,6 +78,7 @@ class CollatzController(
 
         redirectAttributes.addFlashAttribute("collatz", collatz)
         redirectAttributes.addFlashAttribute("result", result)
+        redirectAttributes.addFlashAttributes(topicKey)
         return "redirect:$COLLATZ_DIR"
     }
 

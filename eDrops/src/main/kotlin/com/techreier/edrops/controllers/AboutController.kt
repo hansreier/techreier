@@ -6,6 +6,7 @@ import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.dbservice.GenService
 import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.getDocIndex
+import com.techreier.edrops.util.addFlashAttributes
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -18,19 +19,20 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val ABOUT = "about"
 const val ABOUT_DIR = "/$ABOUT"
 
 @Controller
 @RequestMapping(ABOUT_DIR)
-class AboutController(
+class About(
     blogService: BlogService,
     genService: GenService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
+) : Base(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping("/{segment}")
     fun content(
         @PathVariable segment: String?,
@@ -64,8 +66,9 @@ class AboutController(
     }
 
     @PostMapping
-    fun getEntry(doc: String): String {
+    fun getEntry(doc: String, topicKey: String, redirectAttributes: RedirectAttributes): String {
         logger.info("About controller redirect")
+        redirectAttributes.addFlashAttributes(topicKey)
         return "redirect:$ABOUT_DIR/$doc"
     }
 }

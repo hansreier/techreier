@@ -10,6 +10,7 @@ import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.util.Doc
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.home
+import com.techreier.edrops.util.addFlashAttributes
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -18,19 +19,20 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val HOME = "home"
 const val HOME_DIR = ""
 
 @Controller
 @RequestMapping()
-class HomeController(
+class Home(
     blogService: BlogService,
     genService: GenService,
     messageSource: MessageSource,
     sessionLocaleResolver: SessionLocaleResolver,
     appConfig: AppConfig,
-) : BaseController(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
+) : Base(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
     @GetMapping
     fun home(
         @RequestParam(required = false, name = "lang") langCode: String?,
@@ -80,8 +82,9 @@ class HomeController(
     }
 
     @PostMapping
-    fun getEntry(doc: String): String {
+    fun getEntry(doc: String, topicKey: String, redirectAttributes: RedirectAttributes): String {
         logger.info("Redirect to home")
+        redirectAttributes.addFlashAttributes(topicKey)
         return "redirect:$HOME_DIR/$doc"
     }
 }

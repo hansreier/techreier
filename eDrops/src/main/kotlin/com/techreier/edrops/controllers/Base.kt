@@ -1,10 +1,6 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.AppConfig
-import com.techreier.edrops.config.MAX_SEGMENT_SIZE
-import com.techreier.edrops.config.MAX_SUMMARY_SIZE
-import com.techreier.edrops.config.MAX_TITLE_SIZE
-import com.techreier.edrops.config.logger
+import com.techreier.edrops.config.*
 import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.dbservice.GenService
 import com.techreier.edrops.domain.Blog
@@ -32,7 +28,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-abstract class BaseController(
+abstract class Base(
     private val blogService: BlogService,
     private val genService: GenService,
     private val messageSource: MessageSource,
@@ -81,8 +77,10 @@ abstract class BaseController(
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
-        logger.info("BlogId: $blogId Language: $langCode, default: $defaultLangCode used: $usedLangcode" +
-                " set: ${locale.language} topic: ${topicKey}")
+        logger.info(
+            "BlogId: $blogId Language: $langCode, default: $defaultLangCode used: $usedLangcode" +
+                    " set: ${locale.language} topic: ${topicKey}"
+        )
         model.addAttribute("langCode", usedLangcode)
         model.addAttribute("topicKey", topicKey)
         model.addAttribute("topics", fetchTopics(usedLangcode))
@@ -242,4 +240,7 @@ abstract class BaseController(
         val locale: Locale,
         val action: String,
     )
+
+    companion object {
+    }
 }

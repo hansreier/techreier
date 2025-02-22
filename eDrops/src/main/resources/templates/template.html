@@ -41,6 +41,7 @@
                         th:selected="${language.code eq langCode}"></option>
             </select>
             <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
+            <input type="hidden" th:value="${topicKey}" name="topicKey">
             <input type="hidden" th:value="${blogId}" name="blogid">
             <input type="hidden" th:value="${path}" name="path">
         </form>
@@ -54,6 +55,7 @@
         </button>
         <div class="dropdown-content">
             <form th:action="@{/}" th:method="post">
+                <input type="hidden" th:value="${topicKey}" name="topicKey">
                 <button class=dropdown-item name="doc" type="submit"
                         th:each="doc: ${homeDocs}"
                         th:value="${doc.segment}"
@@ -67,6 +69,7 @@
         </button>
         <div class="dropdown-content">
             <form th:action="@{/about}" th:method="post">
+                <input type="hidden" th:value="${topicKey}" name="topicKey">
                 <button class=dropdown-item name="doc" type="submit"
                         th:each="doc: ${aboutDocs}"
                         th:value="${doc.segment}"
@@ -80,6 +83,7 @@
         </button>
         <div class="dropdown-content">
             <form th:action="@{/blogs}" th:method="post">
+                <input type="hidden" th:value="${topicKey}" name="topicKey">
                 <a href="/collatz" class="dropdown-item" th:text="#{collatz}"></a>
                 <button class=dropdown-item type="submit" name="result"
                         th:each="blog: ${menu}"
@@ -99,10 +103,12 @@
             <div th:if="!${auth}">
                 <div sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" th:method="post">
+                        <input type="hidden" th:value="${topicKey}" name="topicKey">
                         <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                     </form>
                 </div>
                 <form th:action="@{/admin}" th:method="post">
+                    <input type="hidden" th:value="${topicKey}" name="topicKey">
                     <button class=dropdown-item name="result" type="submit"
                             th:each="blog: ${menu}"
                             th:value="${blog.segment} +' '+ ${blog.id}"
@@ -112,9 +118,11 @@
             <div th:if="${auth}">
                 <div sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" th:method="post">
+                        <input type="hidden" th:value="${topicKey}" name="topicKey">
                         <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                     </form>
                     <form th:action="@{/admin}" th:method="post">
+                        <input type="hidden" th:value="${topicKey}" name="topicKey">
                         <button class=dropdown-item name="result" type="submit"
                                 th:each="blog: ${menu}"
                                 th:value="${blog.segment} +' '+ ${blog.id}"
