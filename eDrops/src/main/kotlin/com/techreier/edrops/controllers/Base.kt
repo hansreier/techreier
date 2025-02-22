@@ -48,7 +48,8 @@ abstract class Base(
         model: Model,
         request: HttpServletRequest,
         response: HttpServletResponse,
-        langCode: String?,
+        topicKeyInUrl: String? = null,
+        langCodeInUrl: String? = null,
         segment: String? = null,
         entries: Boolean = false,
     ): BlogParams {
@@ -59,7 +60,7 @@ abstract class Base(
         model.addAttribute("languages", fetchLanguages())
         val defaultLangCode = LocaleContextHolder.getLocale().language
         val usedLangcode =
-            validProjectLanguageCode(langCode ?: defaultLangCode) // Check that language code is of supported types.
+            validProjectLanguageCode(langCodeInUrl ?: defaultLangCode) // Check that language code is of supported types.
         val locale = Locale.of(usedLangcode)
         sessionLocaleResolver.setLocale(request, response, locale)
 
@@ -73,17 +74,18 @@ abstract class Base(
                 } ?: blogService.findBlog(usedLangcode, segment, entries)
             }
 
-        val topicKey = (model.getAttribute("topicKey") as String?) ?: blog?.topic?.topicKey
+        val topics = fetchTopics(usedLangcode)
+        val topicKey = topicKeyInUrl ?: (model.getAttribute("topicKey") as String?) ?: blog?.topic?.topicKey ?: topics.first().topicKey
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
         logger.info(
-            "BlogId: $blogId Language: $langCode, default: $defaultLangCode used: $usedLangcode" +
+            "BlogId: $blogId Language: $langCodeInUrl, default: $defaultLangCode used: $usedLangcode" +
                     " set: ${locale.language} topic: ${topicKey}"
         )
         model.addAttribute("langCode", usedLangcode)
         model.addAttribute("topicKey", topicKey)
-        model.addAttribute("topics", fetchTopics(usedLangcode))
+        model.addAttribute("topics", topics)
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("path", path)

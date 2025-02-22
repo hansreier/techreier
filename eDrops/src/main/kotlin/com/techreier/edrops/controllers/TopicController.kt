@@ -11,7 +11,7 @@ class TopicController {
     @PostMapping("/topic")
     fun getTopic(
         redirectAttributes: RedirectAttributes,
-        topicKey: String?,
+        topicKey: String,
         blogId: Long?,
         path: String,
     ): String {

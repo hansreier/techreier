@@ -30,6 +30,7 @@ class Login(
     @GetMapping
     fun login(
         @RequestParam(required = false, name = "lang") language: String?,
+        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
@@ -38,9 +39,11 @@ class Login(
         val loginError = request.session.getAttribute("loginError") as String?
         request.session.setAttribute("loginError", null)
         model.addAttribute("loginError", loginError)
+        logger.info("TopicKey is : {}", topicKey)
+        model.addAttribute("topicKey", topicKey)
         val user = User()
         model.addAttribute("user", user)
-        fetchBlogParams(model, request, response, language)
+        fetchBlogParams(model, request, response, topicKey, language)
         return LOGIN
     }
 

@@ -41,11 +41,12 @@ class BlogEntryController(
         @PathVariable segment: String,
         @PathVariable subsegment: String,
         @RequestParam(required = false, name = "lang") langCode: String?,
+        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, langCode, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, topicKey, langCode, segment, true)
         if (blogParams.blog == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
@@ -75,10 +76,9 @@ class BlogEntryController(
         @ModelAttribute blogEntryForm: BlogEntryForm,
         @PathVariable segment: String,
         @PathVariable subsegment: String?,
-        @RequestParam(required = false, name = "lang") langCode: String?,
         action: String,
         blogId: Long?,
-        topicKey:String,
+        topicKey: String,
         changed: ZonedDateTime?,
         bindingResult: BindingResult,
         request: HttpServletRequest,
@@ -94,7 +94,7 @@ class BlogEntryController(
             checkStringSize(blogEntryForm.title, MAX_TITLE_SIZE, "blogEntryForm", "title", bindingResult, 1)
             checkStringSize(blogEntryForm.summary, MAX_SUMMARY_SIZE, "blogEntryForm", "summary", bindingResult)
             if (bindingResult.hasErrors()) {
-                prepare(model, request, response, segment, changed, langCode)
+                prepare(model, request, response, segment, changed)
                 return "blogEntries"
             }
 
@@ -108,7 +108,7 @@ class BlogEntryController(
 
                     else -> throw e
                 }
-                prepare(model, request, response, segment, changed, langCode)
+                prepare(model, request, response, segment, changed)
                 return "blogEntries"
             }
 
@@ -122,7 +122,7 @@ class BlogEntryController(
                 blogEntryService.delete(blogId, blogEntryForm)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
-                prepare(model, request, response, segment, changed, langCode)
+                prepare(model, request, response, segment, changed)
                 return "blogEntries"
             }
             return "redirect:$ADMIN_DIR/$segment"
@@ -135,9 +135,8 @@ class BlogEntryController(
         response: HttpServletResponse,
         segment: String,
         changed: ZonedDateTime?,
-        langCode: String?
     ) {
-        val blogParams = fetchBlogParams(model, request, response, langCode, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, null, null, segment, true)
         logger.info("Prepare allBlogEntries Fetch blog entries with: $blogParams")
 
         model.addAttribute("blog", blogParams.blog)

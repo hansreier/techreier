@@ -37,11 +37,12 @@ class About(
     fun content(
         @PathVariable segment: String?,
         @RequestParam(required = false, name = "lang") langCode: String?,
+        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, langCode)
+        val blogParams = fetchBlogParams(model, request, response, topicKey, langCode)
         val docIndex = getDocIndex(about, blogParams.locale.language, segment)
         val doc = about[docIndex]
 
@@ -55,11 +56,12 @@ class About(
     @GetMapping
     fun redirect(
         @RequestParam(required = false, name = "lang") language: String?,
+        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, language)
+        val blogParams = fetchBlogParams(model, request, response, topicKey, language)
         val docIndex = getDocIndex(about, blogParams.locale.language)
         val doc = about[docIndex]
         return "redirect:$ABOUT_DIR/${doc.segment}"

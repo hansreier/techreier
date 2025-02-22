@@ -36,11 +36,12 @@ class Home(
     @GetMapping
     fun home(
         @RequestParam(required = false, name = "lang") langCode: String?,
+        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, langCode)
+        val blogParams = fetchBlogParams(model, request, response, topicKey, langCode)
         val doc = Doc(HOME, Topic(DEFAULT, LanguageCode("", blogParams.locale.language)))
         val docText: String = markdownToHtml(doc)
         model.addAttribute("docText", docText)
@@ -67,11 +68,12 @@ class Home(
     fun content(
         @PathVariable segment: String?,
         @RequestParam(required = false, name = "lang") langCode: String?,
+        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, langCode)
+        val blogParams = fetchBlogParams(model, request, response, topicKey, langCode)
         val docIndex = Docs.getDocIndex(home, blogParams.locale.language, segment)
         val doc = home[docIndex]
 

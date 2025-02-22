@@ -35,6 +35,7 @@ class Collatz(
     @GetMapping
     fun collatz(
         @RequestParam(required = false, name = "lang") langCode: String?,
+        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
@@ -42,9 +43,8 @@ class Collatz(
         logger.info("Collatz page")
         val collatz = model.getAttribute("collatz") ?: Collatz()
         model.addAttribute("collatz", collatz)
-        val topicKey = model.getAttribute("topicKey") as String?
-        model.addAttribute("topicKey", topicKey)
-        prepare(model, request, response, langCode)
+        logger.info("Reiers collatz topicKey: $topicKey")
+        prepare(model, request, response, topicKey, langCode)
         return COLLATZ
     }
 
@@ -86,9 +86,10 @@ class Collatz(
         model: Model,
         request: HttpServletRequest,
         response: HttpServletResponse,
+        topicKey: String? = null,
         langCode: String? = null,
     ) {
-        val blogParams = fetchBlogParams(model, request, response, langCode)
+        val blogParams = fetchBlogParams(model, request, response, topicKey,  langCode)
         val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.locale.language, COLLATZ)
         val doc = Docs.collatz[docIndex]
         val docText: String = markdownToHtml(doc, COLLATZ)

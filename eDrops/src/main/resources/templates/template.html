@@ -18,8 +18,8 @@
 <body>
 <header>
     <div class="left-top">
-        <a id="homebutton" th:text="'⌂'" href="/"/>
-        <a id="techreier" th:text="Techreier" href="/"/>
+        <a id="homebutton" th:href="@{/(topic=${topicKey})}" th:text="'⌂'"/>
+        <a id="techreier" th:href="@{/(topic=${topicKey})}" th:text="Techreier"></a>
     </div>
     <div class="right-top">
         <form id="topic" th:action="@{/topic}" th:method="post">
@@ -82,9 +82,9 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
+            <a th:href="@{/collatz(topic=${topicKey})}" class="dropdown-item" th:text="#{collatz}"></a>
             <form th:action="@{/blogs}" th:method="post">
                 <input type="hidden" th:value="${topicKey}" name="topicKey">
-                <a href="/collatz" class="dropdown-item" th:text="#{collatz}"></a>
                 <button class=dropdown-item type="submit" name="result"
                         th:each="blog: ${menu}"
                         th:value="${blog.segment} +' '+ ${blog.id}"
@@ -98,7 +98,7 @@
         </button>
         <div class="dropdown-content">
             <div sec:authorize="!isAuthenticated()">
-                <a href="/login" class="dropdown-item" th:text="#{login}"></a>
+                <a th:href="@{/login(topic=${topicKey})}" class="dropdown-item" th:text="#{login}"></a>
             </div>
             <div th:if="!${auth}">
                 <div sec:authorize="isAuthenticated()">
