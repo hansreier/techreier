@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val HOME = "home"
 const val HOME_DIR = ""
