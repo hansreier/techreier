@@ -3,7 +3,6 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.forms.BlogEntryForm
-import com.techreier.edrops.util.addFlashAttributes
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
@@ -24,12 +23,11 @@ class Admin(context: Context) : Base(context) {
     fun allBlogEntries(
         @PathVariable segment: String?,
         @RequestParam(required = false, name = "lang") langCode: String?,
-        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, topicKey, langCode, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, langCode, segment, true)
         if (blogParams.blog == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
@@ -49,23 +47,20 @@ class Admin(context: Context) : Base(context) {
     @GetMapping
     fun redirect(
         @RequestParam(required = false, name = "lang") language: String?,
-        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, topicKey, language)
+        val blogParams = fetchBlogParams(model, request, response, language)
         return "redirect:$ADMIN_DIR/${readFirstSegment(blogParams.locale.language)}"
     }
 
     @PostMapping
     fun getBlogAdmin(
         redirectAttributes: RedirectAttributes,
-        result: String,
-        topicKey: String
+        result: String
     ): String {
         logger.info("Admin controller redirect: $result")
-        redirectAttributes.addFlashAttributes(topicKey)
         return redirect(redirectAttributes, result, ADMIN_DIR)
     }
 }

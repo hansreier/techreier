@@ -5,6 +5,7 @@ import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.domain.DEFAULT
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.MenuItemDTO
@@ -41,7 +42,6 @@ abstract class Base(private val ctx: Context) : ServletContextAware {
         model: Model,
         request: HttpServletRequest,
         response: HttpServletResponse,
-        topicKeyInUrl: String? = null,
         langCodeInUrl: String? = null,
         segment: String? = null,
         entries: Boolean = false,
@@ -70,8 +70,11 @@ abstract class Base(private val ctx: Context) : ServletContextAware {
             }
 
         val topics = fetchTopics(usedLangcode)
-        val topicKey = topicKeyInUrl ?: (model.getAttribute("topicKey") as String?) ?: blog?.topic?.topicKey
-        ?: topics.first().topicKey
+
+        val topicKey = if (topics.size > 0)
+            (ctx.httpSession.getAttribute("topic") as String?) ?: topics.first().topicKey
+        else
+            DEFAULT
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))

@@ -4,7 +4,6 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.CollatzResult
 import com.techreier.edrops.service.CollatzService
 import com.techreier.edrops.util.Docs
-import com.techreier.edrops.util.addFlashAttributes
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -26,7 +25,6 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
     @GetMapping
     fun collatz(
         @RequestParam(required = false, name = "lang") langCode: String?,
-        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
@@ -34,8 +32,7 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
         logger.info("Collatz page")
         val collatz = model.getAttribute("collatz") ?: Collatz()
         model.addAttribute("collatz", collatz)
-        logger.info("Reiers collatz topicKey: $topicKey")
-        prepare(model, request, response, topicKey, langCode)
+        prepare(model, request, response, langCode)
         return COLLATZ
     }
 
@@ -43,7 +40,6 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
     fun calculate(
         redirectAttributes: RedirectAttributes,
         collatz: Collatz,
-        topicKey: String,
         bindingResult: BindingResult,
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -69,7 +65,6 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
 
         redirectAttributes.addFlashAttribute("collatz", collatz)
         redirectAttributes.addFlashAttribute("result", result)
-        redirectAttributes.addFlashAttributes(topicKey)
         return "redirect:$COLLATZ_DIR"
     }
 
@@ -77,10 +72,9 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
         model: Model,
         request: HttpServletRequest,
         response: HttpServletResponse,
-        topicKey: String? = null,
         langCode: String? = null,
     ) {
-        val blogParams = fetchBlogParams(model, request, response, topicKey, langCode)
+        val blogParams = fetchBlogParams(model, request, response, langCode)
         val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.locale.language, COLLATZ)
         val doc = Docs.collatz[docIndex]
         val docText: String = markdownToHtml(doc, COLLATZ)

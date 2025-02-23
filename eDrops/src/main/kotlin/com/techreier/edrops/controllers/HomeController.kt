@@ -7,7 +7,6 @@ import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.util.Doc
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.home
-import com.techreier.edrops.util.addFlashAttributes
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -25,12 +24,11 @@ class Home(context: Context ) : Base(context) {
     @GetMapping
     fun home(
         @RequestParam(required = false, name = "lang") langCode: String?,
-        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, topicKey, langCode)
+        val blogParams = fetchBlogParams(model, request, response, langCode)
         val doc = Doc(HOME, Topic(DEFAULT, LanguageCode("", blogParams.locale.language)))
         val docText: String = markdownToHtml(doc)
         model.addAttribute("docText", docText)
@@ -57,12 +55,11 @@ class Home(context: Context ) : Base(context) {
     fun content(
         @PathVariable segment: String?,
         @RequestParam(required = false, name = "lang") langCode: String?,
-        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, topicKey, langCode)
+        val blogParams = fetchBlogParams(model, request, response, langCode)
         val docIndex = Docs.getDocIndex(home, blogParams.locale.language, segment)
         val doc = home[docIndex]
 
@@ -73,9 +70,8 @@ class Home(context: Context ) : Base(context) {
     }
 
     @PostMapping
-    fun getEntry(doc: String, topicKey: String, redirectAttributes: RedirectAttributes): String {
+    fun getEntry(doc: String): String {
         logger.info("Redirect to home")
-        redirectAttributes.addFlashAttributes(topicKey)
         return "redirect:$HOME_DIR/$doc"
     }
 }

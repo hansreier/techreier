@@ -18,8 +18,8 @@
 <body>
 <header>
     <div class="left-top">
-        <a id="homebutton" th:href="@{/(topic=${topicKey})}" th:text="'⌂'"/>
-        <a id="techreier" th:href="@{/(topic=${topicKey})}" th:text="Techreier"></a>
+        <a id="homebutton" th:href="@{/}" th:text="'⌂'"/>
+        <a id="techreier" th:href="@{/}" th:text="Techreier"></a>
     </div>
     <div class="right-top">
         <form id="topic" th:action="@{/topic}" th:method="post">
@@ -41,7 +41,6 @@
                         th:selected="${language.code eq langCode}"></option>
             </select>
             <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
-            <input type="hidden" th:value="${topicKey}" name="topicKey">
             <input type="hidden" th:value="${blogId}" name="blogid">
             <input type="hidden" th:value="${path}" name="path">
         </form>
@@ -55,7 +54,6 @@
         </button>
         <div class="dropdown-content">
             <form th:action="@{/}" th:method="post">
-                <input type="hidden" th:value="${topicKey}" name="topicKey">
                 <button class=dropdown-item name="doc" type="submit"
                         th:each="doc: ${homeDocs}"
                         th:value="${doc.segment}"
@@ -69,7 +67,6 @@
         </button>
         <div class="dropdown-content">
             <form th:action="@{/about}" th:method="post">
-                <input type="hidden" th:value="${topicKey}" name="topicKey">
                 <button class=dropdown-item name="doc" type="submit"
                         th:each="doc: ${aboutDocs}"
                         th:value="${doc.segment}"
@@ -82,9 +79,8 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <a th:href="@{/collatz(topic=${topicKey})}" class="dropdown-item" th:text="#{collatz}"></a>
+            <a th:href="@{/collatz}" class="dropdown-item" th:text="#{collatz}"></a>
             <form th:action="@{/blogs}" th:method="post">
-                <input type="hidden" th:value="${topicKey}" name="topicKey">
                 <button class=dropdown-item type="submit" name="result"
                         th:each="blog: ${menu}"
                         th:value="${blog.segment} +' '+ ${blog.id}"
@@ -98,17 +94,15 @@
         </button>
         <div class="dropdown-content">
             <div sec:authorize="!isAuthenticated()">
-                <a th:href="@{/login(topic=${topicKey})}" class="dropdown-item" th:text="#{login}"></a>
+                <a th:href="@{/login}" class="dropdown-item" th:text="#{login}"></a>
             </div>
             <div th:if="!${auth}">
                 <div sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" th:method="post">
-                        <input type="hidden" th:value="${topicKey}" name="topicKey">
                         <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                     </form>
                 </div>
                 <form th:action="@{/admin}" th:method="post">
-                    <input type="hidden" th:value="${topicKey}" name="topicKey">
                     <button class=dropdown-item name="result" type="submit"
                             th:each="blog: ${menu}"
                             th:value="${blog.segment} +' '+ ${blog.id}"
@@ -118,11 +112,9 @@
             <div th:if="${auth}">
                 <div sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" th:method="post">
-                        <input type="hidden" th:value="${topicKey}" name="topicKey">
                         <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                     </form>
                     <form th:action="@{/admin}" th:method="post">
-                        <input type="hidden" th:value="${topicKey}" name="topicKey">
                         <button class=dropdown-item name="result" type="submit"
                                 th:each="blog: ${menu}"
                                 th:value="${blog.segment} +' '+ ${blog.id}"

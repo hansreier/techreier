@@ -8,7 +8,6 @@ import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogEntryForm
-import com.techreier.edrops.util.addFlashAttributes
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.dao.DataAccessException
@@ -33,12 +32,11 @@ class BlogEntryController(
         @PathVariable segment: String,
         @PathVariable subsegment: String,
         @RequestParam(required = false, name = "lang") langCode: String?,
-        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, topicKey, langCode, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, langCode, segment, true)
         if (blogParams.blog == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
@@ -70,7 +68,6 @@ class BlogEntryController(
         @PathVariable subsegment: String?,
         action: String,
         blogId: Long?,
-        topicKey: String,
         changed: ZonedDateTime?,
         bindingResult: BindingResult,
         request: HttpServletRequest,
@@ -79,7 +76,6 @@ class BlogEntryController(
     ): String {
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
-        redirectAttributes.addFlashAttributes(topicKey)
         logger.info("blog entry: path: $path action:  $action")
         if (action == "save" || action == "saveCreate") {
             checkSegment(blogEntryForm.segment, "blogEntryForm", "segment", bindingResult)
@@ -128,7 +124,7 @@ class BlogEntryController(
         segment: String,
         changed: ZonedDateTime?,
     ) {
-        val blogParams = fetchBlogParams(model, request, response, null, null, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, null, segment, true)
         logger.info("Prepare allBlogEntries Fetch blog entries with: $blogParams")
 
         model.addAttribute("blog", blogParams.blog)

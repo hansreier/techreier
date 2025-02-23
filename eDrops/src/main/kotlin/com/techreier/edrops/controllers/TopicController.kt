@@ -1,6 +1,7 @@
 package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.logger
+import jakarta.servlet.http.HttpSession
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
@@ -14,15 +15,12 @@ class TopicController {
         topicKey: String,
         blogId: Long?,
         path: String,
+        httpSession: HttpSession
     ): String {
         logger.info("POST /topic, and redirect")
-        logger.debug("Topic selected: $topicKey path: $path blogId: $blogId")
-        redirectAttributes.addFlashAttribute("topicKey", topicKey)
-        // Or else id blogId used to populate menu will not be preserved
-        // Alternative to use hidden field is either cookie or store in session
-        // If more state is needed, using Spring session (and store session in db) is recommended.
+        logger.info("Topic selected: $topicKey path: $path blogId: $blogId")
+        httpSession.setAttribute("topic", topicKey)
         redirectAttributes.addFlashAttribute("blogId", blogId)
-        logger.info("before redirect to get: $topicKey")
         return "redirect:$path"
     }
 }

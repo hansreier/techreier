@@ -1,7 +1,6 @@
 package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.util.addFlashAttributes
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
@@ -22,12 +21,11 @@ class Blog(context: Context) : Base(context) {
     fun allBlogTexts(
         @PathVariable segment: String?,
         @RequestParam(required = false, name = "lang") langCode: String?,
-        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, topicKey, langCode, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, langCode, segment, true)
         if (blogParams.blog == null) {
             logger.warn("Blog $segment is not found in language: ${blogParams.locale.language}")
             return "redirect:$BLOG_DIR/${readFirstSegment(blogParams.locale.language)}"
@@ -41,12 +39,11 @@ class Blog(context: Context) : Base(context) {
     @GetMapping
     fun redirect(
         @RequestParam(required = false, name = "lang") language: String?,
-        @RequestParam(required = false, name = "topic") topicKey: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, topicKey, language)
+        val blogParams = fetchBlogParams(model, request, response, language)
         return "redirect:$BLOG_DIR/${readFirstSegment(blogParams.locale.language)}"
     }
 
@@ -54,11 +51,9 @@ class Blog(context: Context) : Base(context) {
     @PostMapping
     fun getBlog(
         redirectAttributes: RedirectAttributes,
-        topicKey: String,
         result: String,
     ): String {
         logger.info("Blog controller redirect: $result")
-        redirectAttributes.addFlashAttributes(topicKey)
         return redirect(redirectAttributes, result, BLOG_DIR)
     }
 }

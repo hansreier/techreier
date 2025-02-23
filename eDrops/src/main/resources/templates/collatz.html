@@ -15,7 +15,6 @@
     <form th:action="@{/collatz}" th:object="${collatz}" th:method="post">
         <div class="form-row">
             <label th:for="seed" th:text="#{collatzSeed}"></label>
-            <input type="hidden" th:value="${topicKey}" name="topicKey">
             <input type="text" id="seed" th:field="*{seed}" maxLength="18">
             <span class="error" th:if="${#fields.hasErrors('seed')}" th:errors="*{seed}"></span>
         </div>
