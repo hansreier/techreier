@@ -31,7 +31,6 @@
             </select>
             <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
             <input type="hidden" th:value="${blogId}" name="blogid">
-            <input type="hidden" th:value="${path}" name="path">
         </form>
         <form id="language" th:action="@{/language}" th:method="post">
             <label id="languageLabel" th:text="language" for="languageSelect"></label>
@@ -42,7 +41,6 @@
             </select>
             <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
             <input type="hidden" th:value="${blogId}" name="blogid">
-            <input type="hidden" th:value="${path}" name="path">
         </form>
         <div sec:authorize="isAuthenticated()"> ✔</div>
     </div>

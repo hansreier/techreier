@@ -87,7 +87,7 @@ abstract class Base(private val ctx: Context) : ServletContextAware {
         model.addAttribute("topics", topics)
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
-        model.addAttribute("path", path)
+        ctx.httpSession.setAttribute("path", path)
         model.addAttribute("menu", fetchMenu(usedLangcode))
         model.addAttribute("blogId", blog?.id)
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
