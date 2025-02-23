@@ -17,7 +17,7 @@ const val LOGIN_DIR = "/$LOGIN"
 
 @Controller
 @RequestMapping(LOGIN_DIR)
-class Login(params: Params) : Base(params) {
+class Login(context: Context) : Base(context) {
     @GetMapping
     fun login(
         @RequestParam(required = false, name = "lang") language: String?,

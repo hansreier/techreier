@@ -24,9 +24,9 @@ import java.time.ZonedDateTime
 @Controller
 @RequestMapping(ADMIN_DIR)
 class BlogEntryController(
-    params: Params,
+    context: Context,
     private val blogEntryService: BlogEntryService,
-) : Base(params) {
+) : Base(context) {
 
     @GetMapping("/{segment}/{subsegment}")
     fun blogEntry(

@@ -22,7 +22,7 @@ const val COLLATZ_DIR = "/$COLLATZ"
 
 @Controller
 @RequestMapping(COLLATZ_DIR)
-class Collatz(params: Params, val collatzService: CollatzService) : Base(params) {
+class Collatz(context: Context, val collatzService: CollatzService) : Base(context) {
     @GetMapping
     fun collatz(
         @RequestParam(required = false, name = "lang") langCode: String?,

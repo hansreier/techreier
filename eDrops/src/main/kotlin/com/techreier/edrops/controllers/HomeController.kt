@@ -21,7 +21,7 @@ const val HOME_DIR = ""
 
 @Controller
 @RequestMapping()
-class Home(params: Params, ) : Base(params) {
+class Home(context: Context ) : Base(context) {
     @GetMapping
     fun home(
         @RequestParam(required = false, name = "lang") langCode: String?,

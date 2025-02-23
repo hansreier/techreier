@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
 
 @Component
-data class Params(
+data class Context(
     val blogService: BlogService,
     val genService: GenService,
     val messageSource: MessageSource,

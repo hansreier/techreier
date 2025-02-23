@@ -27,7 +27,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-abstract class Base(private val params: Params) : ServletContextAware {
+abstract class Base(private val context: Context) : ServletContextAware {
     private var servletContext: ServletContext? = null
 
     override fun setServletContext(servletContext: ServletContext) {
@@ -47,7 +47,7 @@ abstract class Base(private val params: Params) : ServletContextAware {
         entries: Boolean = false,
     ): BlogParams {
         logger.debug("set common model parameters")
-        model.addAttribute("auth", params.appConfig.auth)
+        model.addAttribute("auth", context.appConfig.auth)
 
         // Language code as detected for web site user or set with ?lang= parameter, not default setting on PC/browser
         model.addAttribute("languages", fetchLanguages())
@@ -57,7 +57,7 @@ abstract class Base(private val params: Params) : ServletContextAware {
                 langCodeInUrl ?: defaultLangCode
             ) // Check that language code is of supported types.
         val locale = Locale.of(usedLangcode)
-        params.sessionLocaleResolver.setLocale(request, response, locale)
+        context.sessionLocaleResolver.setLocale(request, response, locale)
 
         val blogId = model.getAttribute("blogId") as Long?
 
@@ -65,8 +65,8 @@ abstract class Base(private val params: Params) : ServletContextAware {
         val blog =
             segment?.let {
                 blogId?.let {
-                    params.blogService.readBlogWithSameLanguage(blogId, usedLangcode, entries)
-                } ?: params.blogService.findBlog(usedLangcode, segment, entries)
+                    context.blogService.readBlogWithSameLanguage(blogId, usedLangcode, entries)
+                } ?: context.blogService.findBlog(usedLangcode, segment, entries)
             }
 
         val topics = fetchTopics(usedLangcode)
@@ -176,7 +176,7 @@ abstract class Base(private val params: Params) : ServletContextAware {
     // Return language dependent message from any key
     protected fun msg(key: String): String {
         val locale = LocaleContextHolder.getLocale()
-        return params.messageSource.getMessage(key, null, "??$key??", locale) as String
+        return context.messageSource.getMessage(key, null, "??$key??", locale) as String
     }
 
     // Return a formatted string of datetime given a format selected in language file by locale
@@ -201,7 +201,7 @@ abstract class Base(private val params: Params) : ServletContextAware {
 
     //Not the most efficient to reuse getMenuItems, but will not be used often
     protected fun readFirstSegment(languageCode: String): String {
-        val menuItems = params.blogService.readMenu(languageCode)
+        val menuItems = context.blogService.readMenu(languageCode)
         if (menuItems.isNotEmpty())
             return menuItems.first().segment
         else throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
@@ -209,12 +209,12 @@ abstract class Base(private val params: Params) : ServletContextAware {
 
     private fun fetchLanguages(): MutableList<LanguageCode> {
         logger.debug("fetch languages from db")
-        return params.genService.readLanguages()
+        return context.genService.readLanguages()
     }
 
     private fun fetchTopics(languageCode: String): MutableList<Topic> {
         logger.debug("fetch topics from db")
-        val topics = params.genService.readTopics(languageCode)
+        val topics = context.genService.readTopics(languageCode)
         topics.forEach { topic ->
             if (topic.text.isNullOrBlank()) {
                 topic.text = msg("topic." + topic.topicKey)
@@ -227,7 +227,7 @@ abstract class Base(private val params: Params) : ServletContextAware {
     // TODO: If several owners is permitted an extra level in URL must be added
     private fun fetchMenu(langCode: String): List<MenuItemDTO> {
         logger.debug("Fetch menu items by langCode: $langCode")
-        val blogs = params.blogService.readMenu(langCode)
+        val blogs = context.blogService.readMenu(langCode)
         logger.debug("Menu fetched")
         return blogs
     }

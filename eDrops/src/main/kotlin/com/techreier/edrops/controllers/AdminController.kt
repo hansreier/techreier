@@ -18,7 +18,7 @@ const val ADMIN_DIR = "/$ADMIN"
 
 @Controller
 @RequestMapping(ADMIN_DIR)
-class Admin(params: Params) : Base(params) {
+class Admin(context: Context) : Base(context) {
 
     @GetMapping("/{segment}")
     fun allBlogEntries(
