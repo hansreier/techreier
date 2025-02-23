@@ -1,16 +1,13 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.dbservice.BlogService
-import com.techreier.edrops.dbservice.GenService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.context.MessageSource
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.i18n.SessionLocaleResolver
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 const val LOGIN = "login"
 const val LOGIN_DIR = "/$LOGIN"
@@ -20,13 +17,7 @@ const val LOGIN_DIR = "/$LOGIN"
 
 @Controller
 @RequestMapping(LOGIN_DIR)
-class Login(
-    blogService: BlogService,
-    genService: GenService,
-    messageSource: MessageSource,
-    sessionLocaleResolver: SessionLocaleResolver,
-    appConfig: AppConfig,
-) : Base(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
+class Login(params: Params) : Base(params) {
     @GetMapping
     fun login(
         @RequestParam(required = false, name = "lang") language: String?,
@@ -47,28 +38,28 @@ class Login(
         return LOGIN
     }
 
-/**
+    /**
      *  Not in use, Spring Security handles this (disadvantage fields are blanked if wrong)
      *  TODO: Kept for future use
      *
-     @PostMapping
-     fun verifyLogin(redirectAttributes: RedirectAttributes, @Valid @ModelAttribute("user")
-     user: User, language: String?, bindingResult: BindingResult, request: HttpServletRequest, model: Model): String {
-     logger.info("Handling login")
-     if (user.username.isEmpty()) {
-     bindingResult.addError(FieldError("user", "username", msg("emptyUsername")))
-     }
-     if (user.password.length < 8) {
-     bindingResult.addError(FieldError("user", "password", msg("shortPassword")))
-     }
-     if (bindingResult.hasErrors()) {
-     logger.info("error")
-     setCommonModelParameters(LOGIN, model, request, language)
-     return LOGIN_DIR
-     }
-     logger.info("no error")
-     return "redirect:/$HOME_DIR"
-     }
+    @PostMapping
+    fun verifyLogin(redirectAttributes: RedirectAttributes, @Valid @ModelAttribute("user")
+    user: User, language: String?, bindingResult: BindingResult, request: HttpServletRequest, model: Model): String {
+    logger.info("Handling login")
+    if (user.username.isEmpty()) {
+    bindingResult.addError(FieldError("user", "username", msg("emptyUsername")))
+    }
+    if (user.password.length < 8) {
+    bindingResult.addError(FieldError("user", "password", msg("shortPassword")))
+    }
+    if (bindingResult.hasErrors()) {
+    logger.info("error")
+    setCommonModelParameters(LOGIN, model, request, language)
+    return LOGIN_DIR
+    }
+    logger.info("no error")
+    return "redirect:/$HOME_DIR"
+    }
      **/
 
     data class User(

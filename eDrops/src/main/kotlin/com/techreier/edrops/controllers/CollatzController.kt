@@ -1,9 +1,6 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.dbservice.BlogService
-import com.techreier.edrops.dbservice.GenService
 import com.techreier.edrops.service.CollatzResult
 import com.techreier.edrops.service.CollatzService
 import com.techreier.edrops.util.Docs
@@ -11,12 +8,13 @@ import com.techreier.edrops.util.addFlashAttributes
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.context.MessageSource
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
-import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.i18n.SessionLocaleResolver
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val COLLATZ = "collatz"
@@ -24,14 +22,7 @@ const val COLLATZ_DIR = "/$COLLATZ"
 
 @Controller
 @RequestMapping(COLLATZ_DIR)
-class Collatz(
-    blogService: BlogService,
-    genService: GenService,
-    messageSource: MessageSource,
-    sessionLocaleResolver: SessionLocaleResolver,
-    appConfig: AppConfig,
-    val collatzService: CollatzService,
-) : Base(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
+class Collatz(params: Params, val collatzService: CollatzService) : Base(params) {
     @GetMapping
     fun collatz(
         @RequestParam(required = false, name = "lang") langCode: String?,
@@ -89,7 +80,7 @@ class Collatz(
         topicKey: String? = null,
         langCode: String? = null,
     ) {
-        val blogParams = fetchBlogParams(model, request, response, topicKey,  langCode)
+        val blogParams = fetchBlogParams(model, request, response, topicKey, langCode)
         val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.locale.language, COLLATZ)
         val doc = Docs.collatz[docIndex]
         val docText: String = markdownToHtml(doc, COLLATZ)

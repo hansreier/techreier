@@ -1,8 +1,9 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.*
-import com.techreier.edrops.dbservice.BlogService
-import com.techreier.edrops.dbservice.GenService
+import com.techreier.edrops.config.MAX_SEGMENT_SIZE
+import com.techreier.edrops.config.MAX_SUMMARY_SIZE
+import com.techreier.edrops.config.MAX_TITLE_SIZE
+import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
@@ -14,7 +15,6 @@ import com.techreier.edrops.util.validProjectLanguageCode
 import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.HttpStatus
 import org.springframework.ui.Model
@@ -22,19 +22,12 @@ import org.springframework.validation.BindingResult
 import org.springframework.validation.FieldError
 import org.springframework.web.context.ServletContextAware
 import org.springframework.web.server.ResponseStatusException
-import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-abstract class Base(
-    private val blogService: BlogService,
-    private val genService: GenService,
-    private val messageSource: MessageSource,
-    private val sessionLocaleResolver: SessionLocaleResolver,
-    private val appConfig: AppConfig,
-) : ServletContextAware {
+abstract class Base(private val params: Params) : ServletContextAware {
     private var servletContext: ServletContext? = null
 
     override fun setServletContext(servletContext: ServletContext) {
@@ -54,15 +47,17 @@ abstract class Base(
         entries: Boolean = false,
     ): BlogParams {
         logger.debug("set common model parameters")
-        model.addAttribute("auth", appConfig.auth)
+        model.addAttribute("auth", params.appConfig.auth)
 
         // Language code as detected for web site user or set with ?lang= parameter, not default setting on PC/browser
         model.addAttribute("languages", fetchLanguages())
         val defaultLangCode = LocaleContextHolder.getLocale().language
         val usedLangcode =
-            validProjectLanguageCode(langCodeInUrl ?: defaultLangCode) // Check that language code is of supported types.
+            validProjectLanguageCode(
+                langCodeInUrl ?: defaultLangCode
+            ) // Check that language code is of supported types.
         val locale = Locale.of(usedLangcode)
-        sessionLocaleResolver.setLocale(request, response, locale)
+        params.sessionLocaleResolver.setLocale(request, response, locale)
 
         val blogId = model.getAttribute("blogId") as Long?
 
@@ -70,12 +65,13 @@ abstract class Base(
         val blog =
             segment?.let {
                 blogId?.let {
-                    blogService.readBlogWithSameLanguage(blogId, usedLangcode, entries)
-                } ?: blogService.findBlog(usedLangcode, segment, entries)
+                    params.blogService.readBlogWithSameLanguage(blogId, usedLangcode, entries)
+                } ?: params.blogService.findBlog(usedLangcode, segment, entries)
             }
 
         val topics = fetchTopics(usedLangcode)
-        val topicKey = topicKeyInUrl ?: (model.getAttribute("topicKey") as String?) ?: blog?.topic?.topicKey ?: topics.first().topicKey
+        val topicKey = topicKeyInUrl ?: (model.getAttribute("topicKey") as String?) ?: blog?.topic?.topicKey
+        ?: topics.first().topicKey
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
@@ -180,7 +176,7 @@ abstract class Base(
     // Return language dependent message from any key
     protected fun msg(key: String): String {
         val locale = LocaleContextHolder.getLocale()
-        return messageSource.getMessage(key, null, "??$key??", locale) as String
+        return params.messageSource.getMessage(key, null, "??$key??", locale) as String
     }
 
     // Return a formatted string of datetime given a format selected in language file by locale
@@ -205,7 +201,7 @@ abstract class Base(
 
     //Not the most efficient to reuse getMenuItems, but will not be used often
     protected fun readFirstSegment(languageCode: String): String {
-        val menuItems = blogService.readMenu(languageCode)
+        val menuItems = params.blogService.readMenu(languageCode)
         if (menuItems.isNotEmpty())
             return menuItems.first().segment
         else throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
@@ -213,12 +209,12 @@ abstract class Base(
 
     private fun fetchLanguages(): MutableList<LanguageCode> {
         logger.debug("fetch languages from db")
-        return genService.readLanguages()
+        return params.genService.readLanguages()
     }
 
     private fun fetchTopics(languageCode: String): MutableList<Topic> {
         logger.debug("fetch topics from db")
-        val topics = genService.readTopics(languageCode)
+        val topics = params.genService.readTopics(languageCode)
         topics.forEach { topic ->
             if (topic.text.isNullOrBlank()) {
                 topic.text = msg("topic." + topic.topicKey)
@@ -231,7 +227,7 @@ abstract class Base(
     // TODO: If several owners is permitted an extra level in URL must be added
     private fun fetchMenu(langCode: String): List<MenuItemDTO> {
         logger.debug("Fetch menu items by langCode: $langCode")
-        val blogs = blogService.readMenu(langCode)
+        val blogs = params.blogService.readMenu(langCode)
         logger.debug("Menu fetched")
         return blogs
     }
@@ -243,6 +239,5 @@ abstract class Base(
         val action: String,
     )
 
-    companion object {
-    }
+    companion object
 }

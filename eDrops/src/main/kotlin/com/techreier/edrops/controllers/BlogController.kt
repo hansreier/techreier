@@ -1,22 +1,13 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.dbservice.BlogService
-import com.techreier.edrops.dbservice.GenService
 import com.techreier.edrops.util.addFlashAttributes
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.context.MessageSource
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.servlet.i18n.SessionLocaleResolver
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val BLOG = "blogs"
@@ -25,13 +16,8 @@ const val BLOG_DIR = "/$BLOG"
 @Controller
 @RequestMapping(BLOG_DIR)
 @Validated
-class Blog(
-    blogService: BlogService,
-    genService: GenService,
-    messageSource: MessageSource,
-    sessionLocaleResolver: SessionLocaleResolver,
-    appConfig: AppConfig,
-) : Base(blogService, genService, messageSource, sessionLocaleResolver, appConfig) {
+class Blog(params: Params) : Base(params) {
+
     @GetMapping("/{segment}")
     fun allBlogTexts(
         @PathVariable segment: String?,
