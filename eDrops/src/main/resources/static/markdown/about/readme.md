@@ -90,6 +90,7 @@ server requests. State could be preserved in different ways:
 - In hidden fields on the client (only if just a very small amount of state)
 - Using flash attributes for temporary storage in redirects (POST/REDIRECT/GET cycle)
 - Server session object: State must be copied between server nodes (use tools like Redis) or sticky session.
+- In the Url. But must not be overused. 
 - Hibernate second level cache (e.g. use Redis)
 - In a database: Using e.g. Spring JDBC session.
 
@@ -102,8 +103,50 @@ template. You need to handle redirect from template to the current web page. Err
 can redirect users to default error page or write an error message on the current page. What to do depends on the type
 of error. Be aware to avoid recursive redirects due to unhandled errors.
 
-What I would recommend to store state is to use Spring JDBC session, because it is independent of deploy platform.
-To use cookies is another alternative. As a start I have used a couple of hidden fields.
+What I would recommend to store state is to use session state, either using key value store in HttpSession or
+more advanced Spring session beans. But a session will at some point expire,
+either by user logging out or by built in timer. The result can be that the user
+suddenly is redirected to home page. To avoid this to a certain extent, I can increase the 30-min Spring default timeout, 
+but not too much since sessions should not live forever. Spring JDBC session mechanism that automatically stores state in 
+the database can be used, because it is independent of deploy platform and easier than Redis.
+
+As a start I have used some hidden fields, but have to be included in almost every form post, so a bit cumbersome.
+Too many hidden fields will usually mess up the code.
+One advantage with hidden fields, is that it does not matter if the session expires. 
+So actually I reverted to using hidden fields for some attributes. 
+But I will use session storage for blog searching and grouping
+attributes. Loosing this information will not force a return to the homepage anyhow.  
+
+I have only one container running av Hostinger. This means that users will not be automatically switched to another node
+that easily can occur with several Kubernetes pods. Perhaps later I will store
+state in the database using Spring JDBC session. But it is not absolutely required.  
+
+Cookies can be practical because kept when session expires, but I am not very fond of cookie abuse. 
+Note: Spring Security uses a cookie by default for user and login information and I use that.  
+
+Storing state in the URL path. It seems like a strange idea... What it means is to store some state in path variables,
+not query parameters since query parameters usually only used for GET. I have used the path to identify which
+blog and blog entry the user is looking at. E.g. 
+````
+https://techreier/blog/petters/cat/feeding
+https://techreier/blog/env/weather  (username is skipped for default admin user)
+````
+- blog refers to blogs tab in main menu.
+- petters refer to the unique username that created the blog.
+- env refers to a blog identified with unique identifier env.
+- weather refers to a blog entry with unique identifier weather. 
+
+Note: the identifiers must conform with allowed naming rules used for an url segment.
+I do not use them as id in the database, but it could. I think it is better to use sequential numbers
+that more easily allows for renaming of these identifiers (segments.  
+
+Currently, the username is skipped and I use only a default user to create blogs (me).
+This system makes it very easy to save hyperlinks and return to the same place.
+The path is always shared with the server, so no problem it is state.
+
+A lang query parameter can be added to adjust language. This is according to conventions for web apps.
+But it is not state. Spring stores internally language in the session as state.
+
 
 ## Security
 
