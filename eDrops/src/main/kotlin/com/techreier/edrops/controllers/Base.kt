@@ -58,9 +58,8 @@ abstract class Base(private val ctx: Context) : ServletContextAware {
             ) // Check that language code is of supported types.
         val locale = Locale.of(usedLangcode)
         ctx.sessionLocaleResolver.setLocale(request, response, locale)
-
         val blogId = model.getAttribute("blogId") as Long?
-
+        logger.info("REIERS blogid: $blogId") //TODO Suddenly this is null, why?
         // Only for controllers where it is relevant to call DB, else segment is omitted
         val blog =
             segment?.let {
