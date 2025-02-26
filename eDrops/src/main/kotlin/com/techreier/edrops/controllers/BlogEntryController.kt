@@ -4,7 +4,7 @@ import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogEntryService
-import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogEntryForm
@@ -135,7 +135,7 @@ class BlogEntryController(
 
     private fun select(
         subsegment: String,
-        blog: Blog?,
+        blog: BlogDTO?,
     ) = blog?.blogEntries?.let { blogEntries ->
         var index: Int
         val no = subsegment.toIntOrNull()

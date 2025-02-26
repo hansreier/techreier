@@ -4,10 +4,10 @@ import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.DEFAULT
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
+import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.about
@@ -65,7 +65,7 @@ abstract class Base(private val ctx: Context) : ServletContextAware {
         val blog =
             segment?.let {
                 blogId?.let {
-                    ctx.blogService.readBlogWithSameLanguage(blogId, usedLangcode, entries)
+                    ctx.blogService.readBlog(blogId, usedLangcode, entries)
                 } ?: ctx.blogService.findBlog(usedLangcode, segment, entries)
             }
 
@@ -237,7 +237,7 @@ abstract class Base(private val ctx: Context) : ServletContextAware {
 
     //  data class BlogParams(val blogId: Long, val langCode: String)
     data class BlogParams(
-        val blog: Blog?,
+        val blog: BlogDTO?,
         val locale: Locale,
         val action: String,
     )
