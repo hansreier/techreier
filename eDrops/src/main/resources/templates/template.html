@@ -34,12 +34,13 @@
         </form>
         <form id="language" th:action="@{/language}" th:method="post">
             <label id="languageLabel" th:text="language" for="languageSelect"></label>
-            <select id="languageSelect" name="languageCode" onchange="language.submit()">
+            <select id="languageSelect" name="languageCode" onchange="document.getElementById('language').submit();">
                 <option id="languageOption" th:each="language : ${languages}"
                         th:value="${language.code}" th:text="${language.language} + ' ' + ${language.code}"
                         th:selected="${language.code eq langCode}"></option>
             </select>
             <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
+            <p th:text="'blogidReier2 ' + ${blogId}"></p>
             <input type="hidden" th:value="${blogId}" name="blogid">
         </form>
         <div sec:authorize="isAuthenticated()"> ✔</div>
@@ -123,7 +124,7 @@
         </div>
     </div>
 </div>
-
+<p th:text="'blogidReier ' + ${blogId}"></p>
 
 <div id="work">
     <section layout:fragment="content">

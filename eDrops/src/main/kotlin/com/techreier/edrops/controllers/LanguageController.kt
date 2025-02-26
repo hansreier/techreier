@@ -13,8 +13,8 @@ class LanguageController {
     fun getLanguage(
         redirectAttributes: RedirectAttributes,
         httpSession: HttpSession,
-        languageCode: String?,
-        blogId: Long?
+       @RequestParam languageCode: String?,
+       @RequestParam blogId: Long?
     ): String {
         logger.info("POST /language, and redirect")
         val path = (httpSession.getAttribute("path") as String?) ?:"/$HOME_DIR" //TODO change back to hidden field to avoid return to homepage
