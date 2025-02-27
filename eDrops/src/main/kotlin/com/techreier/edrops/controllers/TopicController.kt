@@ -18,10 +18,10 @@ class TopicController {
         redirectAttributes: RedirectAttributes,
         topicKey: String,
         blogId: Long?,
-        httpSession: HttpSession
+        path: String,
+        httpSession: HttpSession,
     ): String {
         logger.info("POST /topic, and redirect")
-        val path = (httpSession.getAttribute("path") as String?) ?:"/$HOME_DIR" //TODO change back to hidden field to avoid return to homepage
         logger.info("Topic selected: $topicKey path: $path blogId: $blogId")
         httpSession.setAttribute("topic", topicKey)
         redirectAttributes.addFlashAttribute("blogId", blogId)

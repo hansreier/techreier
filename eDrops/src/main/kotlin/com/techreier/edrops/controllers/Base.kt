@@ -28,7 +28,9 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-abstract class Base(private val ctx: Context) : ServletContextAware {
+abstract class Base(
+    private val ctx: Context,
+) : ServletContextAware {
     private var servletContext: ServletContext? = null
 
     override fun setServletContext(servletContext: ServletContext) {
@@ -54,12 +56,12 @@ abstract class Base(private val ctx: Context) : ServletContextAware {
         val defaultLangCode = LocaleContextHolder.getLocale().language
         val usedLangcode =
             validProjectLanguageCode(
-                langCodeInUrl ?: defaultLangCode
+                langCodeInUrl ?: defaultLangCode,
             ) // Check that language code is of supported types.
         val locale = Locale.of(usedLangcode)
         ctx.sessionLocaleResolver.setLocale(request, response, locale)
         val blogId = model.getAttribute("blogId") as Long?
-        logger.info("REIERS blogid: $blogId") //TODO Suddenly this is null, why?
+        logger.info("REIERS blogid: $blogId") // TODO Suddenly this is null, why?
         // Only for controllers where it is relevant to call DB, else segment is omitted
         val blog =
             segment?.let {
@@ -70,23 +72,25 @@ abstract class Base(private val ctx: Context) : ServletContextAware {
 
         val topics = fetchTopics(usedLangcode)
 
-        val topicKey = if (topics.size > 0)
-            (ctx.httpSession.getAttribute("topic") as String?) ?: topics.first().topicKey
-        else
-            DEFAULT
+        val topicKey =
+            if (topics.size > 0) {
+                (ctx.httpSession.getAttribute("topic") as String?) ?: topics.first().topicKey
+            } else {
+                DEFAULT
+            }
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
         logger.info(
             "BlogId: $blogId Language: $langCodeInUrl, default: $defaultLangCode used: $usedLangcode" +
-                    " set: ${locale.language} topic: ${topicKey}"
+                " set: ${locale.language} topic: $topicKey",
         )
         model.addAttribute("langCode", usedLangcode)
         model.addAttribute("topicKey", topicKey)
         model.addAttribute("topics", topics)
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
-        ctx.httpSession.setAttribute("path", path)
+        model.addAttribute("path", path)
         model.addAttribute("menu", fetchMenu(usedLangcode))
         model.addAttribute("blogId", blog?.id)
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
@@ -201,12 +205,14 @@ abstract class Base(private val ctx: Context) : ServletContextAware {
         bindingResult.reject("key", errorMessage)
     }
 
-    //Not the most efficient to reuse getMenuItems, but will not be used often
+    // Not the most efficient to reuse getMenuItems, but will not be used often
     protected fun readFirstSegment(languageCode: String): String {
         val menuItems = ctx.blogService.readMenu(languageCode)
-        if (menuItems.isNotEmpty())
+        if (menuItems.isNotEmpty()) {
             return menuItems.first().segment
-        else throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
+        } else {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
+        }
     }
 
     private fun fetchLanguages(): MutableList<LanguageCode> {
