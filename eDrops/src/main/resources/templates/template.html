@@ -128,7 +128,7 @@
 
 <div id="work">
     <div th:if="${(blog != null) and (blog.langCodeFound != blog.langCodeWanted)}">
-        <p th:text="#{'warning.'+ ${blog.langCodeFound}}"></p>
+        <p class=warning th:text="#{'warning.'+ ${blog.langCodeFound}}"></p>
     </div>
     <section layout:fragment="content">
         <p>This is filled by the content template.</p>
