@@ -28,7 +28,8 @@ class BlogService(
     ): BlogDTO? {
         logger.info("Find blog by languageCode: $languageCode and segment: $segment")
         if (entries) {
-            return blogRepo.findWithEntriesByTopicLanguageCodeAndSegment(languageCode, segment)?.toDTO(languageCode, true)
+            return blogRepo.findWithEntriesByTopicLanguageCodeAndSegment(languageCode, segment)
+                ?.toDTO(languageCode, true)
         } else {
             return blogRepo.findByTopicLanguageCodeAndSegment(languageCode, segment)?.toDTO(languageCode, false)
         }
@@ -59,6 +60,26 @@ class BlogService(
             blogRepo.findWithEntriesById(blogIdNew).orElse(null)?.toDTO(langCode)
         else
             blog.toDTO(langCode, false)
+    }
+
+    fun readBlog(
+        segment: String,
+        oldLangCode: String?,
+        langCode: String,
+        entries: Boolean = false,
+    ): BlogDTO? {
+        logger.info("Read blog oldtLangCpde: $oldLangCode langCode: $langCode, segment $segment, entries? $entries")
+
+        var blogLanguageDTO = blogRepo.getBlogWithLanguageCode(segment, langCode)
+        if ((blogLanguageDTO == null) && (oldLangCode != null))
+            blogLanguageDTO = blogRepo.getBlogWithLanguageCode(segment, oldLangCode)
+        if (blogLanguageDTO == null) return null
+        val blog =
+            if (entries)
+                blogRepo.findWithEntriesById(blogLanguageDTO.id).orElse(null)
+            else
+                blogRepo.findById(blogLanguageDTO.id).orElse(null)
+        return blog.toDTO(langCode, entries)
     }
 
     fun readMenu(languageCode: String): List<MenuItemDTO> {

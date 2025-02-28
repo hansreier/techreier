@@ -22,12 +22,11 @@ class Admin(context: Context) : Base(context) {
     @GetMapping("/{segment}")
     fun allBlogEntries(
         @PathVariable segment: String?,
-        @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, langCode, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, segment, true)
         if (blogParams.blog == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
@@ -46,12 +45,11 @@ class Admin(context: Context) : Base(context) {
 
     @GetMapping
     fun redirect(
-        @RequestParam(required = false, name = "lang") language: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, language)
+        val blogParams = fetchBlogParams(model, request, response)
         return "redirect:$ADMIN_DIR/${readFirstSegment(blogParams.locale.language)}"
     }
 

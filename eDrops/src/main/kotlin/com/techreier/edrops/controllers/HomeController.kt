@@ -22,12 +22,11 @@ const val HOME_DIR = ""
 class Home(context: Context ) : Base(context) {
     @GetMapping
     fun home(
-        @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, langCode)
+        val blogParams = fetchBlogParams(model, request, response)
         val doc = Doc(HOME, Topic(DEFAULT, LanguageCode("", blogParams.locale.language)))
         val docText: String = markdownToHtml(doc)
         model.addAttribute("docText", docText)
@@ -53,12 +52,11 @@ class Home(context: Context ) : Base(context) {
     @GetMapping("/{segment}")
     fun content(
         @PathVariable segment: String?,
-        @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, langCode)
+        val blogParams = fetchBlogParams(model, request, response)
         val docIndex = Docs.getDocIndex(home, blogParams.locale.language, segment)
         val doc = home[docIndex]
 

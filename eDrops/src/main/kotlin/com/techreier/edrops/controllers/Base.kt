@@ -44,7 +44,6 @@ abstract class Base(
         model: Model,
         request: HttpServletRequest,
         response: HttpServletResponse,
-        langCodeInUrl: String? = null,
         segment: String? = null,
         entries: Boolean = false,
     ): BlogParams {
@@ -53,23 +52,24 @@ abstract class Base(
 
         // Language code as detected for web site user or set with ?lang= parameter, not default setting on PC/browser
         model.addAttribute("languages", fetchLanguages())
-        val defaultLangCode = LocaleContextHolder.getLocale().language
-        val usedLangcode =
-            validProjectLanguageCode(
-                langCodeInUrl ?: defaultLangCode,
-            ) // Check that language code is of supported types.
+        val currentLangCode = LocaleContextHolder.getLocale().language
+        val usedLangcode =  validProjectLanguageCode(currentLangCode) // LanguaCode of supported types
         val locale = Locale.of(usedLangcode)
         ctx.sessionLocaleResolver.setLocale(request, response, locale)
+        val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
+        ctx.httpSession.setAttribute("langcode", usedLangcode) //Set to chcck for changes
         val blogId = model.getAttribute("blogId") as Long?
-        logger.info("REIERS blogid: $blogId") // TODO Suddenly this is null, why?
+        logger.info("REIERS blogid: $blogId")
         // Only for controllers where it is relevant to call DB, else segment is omitted
         val blog =
             segment?.let {
-                blogId?.let {
-                    ctx.blogService.readBlog(blogId, usedLangcode, entries)
-                } ?: ctx.blogService.findBlog(usedLangcode, segment, entries)
+                //   blogId?.let {
+                    ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, entries)
+                //
+              //  ctx.blogService.readBlog(blogId, usedLangcode, entries)
+              //  } ?: ctx.blogService.findBlog(usedLangcode, segment, entries) //No blogId so this is run
             }
-
+        if (blog != null) {ctx.httpSession.setAttribute("langcode", blog.langCodeFound) }
         val topics = fetchTopics(usedLangcode)
 
         val topicKey =
@@ -81,10 +81,7 @@ abstract class Base(
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
-        logger.info(
-            "BlogId: $blogId Language: $langCodeInUrl, default: $defaultLangCode used: $usedLangcode" +
-                " set: ${locale.language} topic: $topicKey",
-        )
+        logger.info("BlogId: $blogId Language: $usedLangcode topic: $topicKey")
         model.addAttribute("langCode", usedLangcode)
         model.addAttribute("topicKey", topicKey)
         model.addAttribute("topics", topics)

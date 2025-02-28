@@ -31,12 +31,11 @@ class BlogEntryController(
     fun blogEntry(
         @PathVariable segment: String,
         @PathVariable subsegment: String,
-        @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, langCode, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, segment, true)
         if (blogParams.blog == null) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
         }
@@ -124,7 +123,7 @@ class BlogEntryController(
         segment: String,
         changed: ZonedDateTime?,
     ) {
-        val blogParams = fetchBlogParams(model, request, response, null, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, segment, true)
         logger.info("Prepare allBlogEntries Fetch blog entries with: $blogParams")
 
         model.addAttribute("blog", blogParams.blog)

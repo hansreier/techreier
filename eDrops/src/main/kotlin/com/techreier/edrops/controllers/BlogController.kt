@@ -20,12 +20,11 @@ class Blog(context: Context) : Base(context) {
     @GetMapping("/{segment}")
     fun allBlogTexts(
         @PathVariable segment: String?,
-        @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, langCode, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, segment, true)
         if (blogParams.blog == null) {
             logger.warn("Blog $segment is not found in language: ${blogParams.locale.language}")
             return "redirect:$BLOG_DIR/${readFirstSegment(blogParams.locale.language)}"
@@ -38,12 +37,11 @@ class Blog(context: Context) : Base(context) {
     // Redirect to first blog
     @GetMapping
     fun redirect(
-        @RequestParam(required = false, name = "lang") language: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, language)
+        val blogParams = fetchBlogParams(model, request, response)
         return "redirect:$BLOG_DIR/${readFirstSegment(blogParams.locale.language)}"
     }
 

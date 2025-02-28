@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 
 const val LOGIN = "login"
 const val LOGIN_DIR = "/$LOGIN"
@@ -20,7 +19,6 @@ const val LOGIN_DIR = "/$LOGIN"
 class Login(context: Context) : Base(context) {
     @GetMapping
     fun login(
-        @RequestParam(required = false, name = "lang") language: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
@@ -31,7 +29,7 @@ class Login(context: Context) : Base(context) {
         model.addAttribute("loginError", loginError)
         val user = User()
         model.addAttribute("user", user)
-        fetchBlogParams(model, request, response, language)
+        fetchBlogParams(model, request, response)
         return LOGIN
     }
 

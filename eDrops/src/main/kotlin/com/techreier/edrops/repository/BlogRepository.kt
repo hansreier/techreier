@@ -1,6 +1,7 @@
 package com.techreier.edrops.repository
 
 import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.dto.BlogLanguageDTO
 import com.techreier.edrops.dto.MenuItemDTO
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
@@ -43,4 +44,10 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     )
     fun getMenuItems(languageCode: String): List<MenuItemDTO>
 
+    // Assumption here is only one owner
+    @Query(
+        "SELECT DISTINCT new com.techreier.edrops.dto.BlogLanguageDTO(b.id, b.topic.language.code) " +
+                " FROM Blog b WHERE b.segment = :segment AND b.topic.language.code = :languageCode"
+    )
+    fun getBlogWithLanguageCode(segment: String, languageCode: String): BlogLanguageDTO?
 }

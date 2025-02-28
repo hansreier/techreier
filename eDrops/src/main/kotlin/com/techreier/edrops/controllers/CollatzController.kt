@@ -13,7 +13,6 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val COLLATZ = "collatz"
@@ -24,7 +23,6 @@ const val COLLATZ_DIR = "/$COLLATZ"
 class Collatz(context: Context, val collatzService: CollatzService) : Base(context) {
     @GetMapping
     fun collatz(
-        @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
@@ -32,7 +30,7 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
         logger.info("Collatz page")
         val collatz = model.getAttribute("collatz") ?: Collatz()
         model.addAttribute("collatz", collatz)
-        prepare(model, request, response, langCode)
+        prepare(model, request, response)
         return COLLATZ
     }
 
@@ -71,10 +69,9 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
     private fun prepare(
         model: Model,
         request: HttpServletRequest,
-        response: HttpServletResponse,
-        langCode: String? = null,
+        response: HttpServletResponse
     ) {
-        val blogParams = fetchBlogParams(model, request, response, langCode)
+        val blogParams = fetchBlogParams(model, request, response)
         val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.locale.language, COLLATZ)
         val doc = Docs.collatz[docIndex]
         val docText: String = markdownToHtml(doc, COLLATZ)

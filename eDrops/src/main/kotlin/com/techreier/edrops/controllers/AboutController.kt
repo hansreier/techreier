@@ -20,12 +20,11 @@ class About(context: Context) : Base(context) {
     @GetMapping("/{segment}")
     fun content(
         @PathVariable segment: String?,
-        @RequestParam(required = false, name = "lang") langCode: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, langCode)
+        val blogParams = fetchBlogParams(model, request, response)
         val docIndex = getDocIndex(about, blogParams.locale.language, segment)
         val doc = about[docIndex]
 
@@ -38,12 +37,11 @@ class About(context: Context) : Base(context) {
     // Redirect to page with segment in path
     @GetMapping
     fun redirect(
-        @RequestParam(required = false, name = "lang") language: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, language)
+        val blogParams = fetchBlogParams(model, request, response)
         val docIndex = getDocIndex(about, blogParams.locale.language)
         val doc = about[docIndex]
         return "redirect:$ABOUT_DIR/${doc.segment}"
