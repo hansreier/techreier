@@ -33,12 +33,9 @@ class BlogService(
 
         // If blog is not found with current language, use the previous language code if different
         // This prevents annoying use of error page or redirect to home page, can fail if e.g. expired session.
-        var blogLanguageDTO = blogRepo.getBlogWithLanguageCode(segment, langCode)
-
-        if ((blogLanguageDTO == null) && (oldLangCode != null) && (oldLangCode != langCode))
-            blogLanguageDTO = blogRepo.getBlogWithLanguageCode(segment, oldLangCode)
-
-        blogLanguageDTO ?: return null
+        val blogLanguageDTO = blogRepo.getBlogWithLanguageCode(segment, langCode)
+            ?: (if (oldLangCode != null && oldLangCode != langCode) blogRepo.getBlogWithLanguageCode(segment, oldLangCode) else null)
+            ?: return null
 
         val blog = if (entries)
                 blogRepo.findWithEntriesById(blogLanguageDTO.id).orElse(null)
