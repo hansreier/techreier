@@ -49,7 +49,6 @@ class Blog(context: Context) : Base(context) {
     fun getBlog(
         result: String,
     ): String {
-        logger.info("Blog controller redirect: $result")
-        return redirect(result, BLOG_DIR)
+        return "redirect:$BLOG_DIR/${result}"
     }
 }

@@ -84,16 +84,6 @@ abstract class Base(
         return BlogParams(blog, locale, action)
     }
 
-    protected fun redirect(
-        result: String,
-        subpath: String,
-    ): String {
-        // Alternatives: Hidden input fields (process entire list and select by name) or server state, this is easier
-        val segment = result.substringBefore(" ", "")
-        logger.info("Redirect params: $result segment: $segment redirect:$subpath/$segment")
-        return "redirect:$subpath/$segment"
-    }
-
     // Extension function to simplify implementation of adding field error
     // Normally a default value should be added, but not required
     // (The simplified FieldError constructor with 3 arguments did not allow for default value)

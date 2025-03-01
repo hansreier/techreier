@@ -56,7 +56,6 @@ class Admin(context: Context) : Base(context) {
     fun getBlogAdmin(
         result: String
     ): String {
-        logger.info("Admin controller redirect: $result")
-        return redirect(result, ADMIN_DIR)
+        return "redirect:$ADMIN_DIR/${result}"
     }
 }

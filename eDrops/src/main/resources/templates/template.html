@@ -81,7 +81,7 @@
             <form th:action="@{/blogs}" th:method="post">
                 <button class=dropdown-item type="submit" name="result"
                         th:each="blog: ${menu}"
-                        th:value="${blog.segment} +' '+ ${blog.id}"
+                        th:value="${blog.segment}"
                         th:text="${blog.subject}"></button>
             </form>
         </div>
@@ -103,7 +103,7 @@
                 <form th:action="@{/admin}" th:method="post">
                     <button class=dropdown-item name="result" type="submit"
                             th:each="blog: ${menu}"
-                            th:value="${blog.segment} +' '+ ${blog.id}"
+                            th:value="${blog.segment}"
                             th:text="${blog.subject}"></button>
                 </form>
             </div>
@@ -115,7 +115,7 @@
                     <form th:action="@{/admin}" th:method="post">
                         <button class=dropdown-item name="result" type="submit"
                                 th:each="blog: ${menu}"
-                                th:value="${blog.segment} +' '+ ${blog.id}"
+                                th:value="${blog.segment}"
                                 th:text="${blog.subject}"></button>
                     </form>
                 </div>
