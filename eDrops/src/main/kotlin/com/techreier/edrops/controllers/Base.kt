@@ -17,12 +17,10 @@ import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.i18n.LocaleContextHolder
-import org.springframework.http.HttpStatus
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.FieldError
 import org.springframework.web.context.ServletContextAware
-import org.springframework.web.server.ResponseStatusException
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -178,13 +176,11 @@ abstract class Base(
     }
 
     // Not the most efficient to reuse getMenuItems, but will not be used often
-    protected fun readFirstSegment(languageCode: String): String {
+    protected fun readFirstSegment(languageCode: String): String? {
         val menuItems = ctx.blogService.readMenu(languageCode)
         if (menuItems.isNotEmpty()) {
             return menuItems.first().segment
-        } else {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, BLOG)
-        }
+        } else return null
     }
 
     private fun fetchLanguages(): MutableList<LanguageCode> {

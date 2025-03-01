@@ -11,12 +11,10 @@ import com.techreier.edrops.forms.BlogEntryForm
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.dao.DataAccessException
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.time.ZonedDateTime
 
@@ -33,15 +31,22 @@ class BlogEntryController(
         @PathVariable subsegment: String,
         request: HttpServletRequest,
         response: HttpServletResponse,
+        redirectAttributes: RedirectAttributes,
         model: Model,
     ): String {
         val blogParams = fetchBlogParams(model, request, response, segment, true)
+
         if (blogParams.blog == null) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
+            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+            return "redirect:/$HOME_DIR"
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
 
         val selectedBlogEntry = select(subsegment, blogParams.blog)
+        if (selectedBlogEntry == null) {
+            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+            return "redirect:/$HOME_DIR"
+        }
 
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
@@ -149,5 +154,5 @@ class BlogEntryController(
                 }
             blogEntries[index]
         } ?: blogEntries.find { it.segment == subsegment }
-    } ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
+    }
 }

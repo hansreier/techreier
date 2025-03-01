@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val BLOG = "blogs"
 const val BLOG_DIR = "/$BLOG"
@@ -22,11 +23,17 @@ class Blog(context: Context) : Base(context) {
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
+        redirectAttributes: RedirectAttributes
     ): String {
         val blogParams = fetchBlogParams(model, request, response, segment, true)
         if (blogParams.blog == null) {
             logger.warn("Blog $segment is not found in language: ${blogParams.locale.language}")
-            return "redirect:$BLOG_DIR/${readFirstSegment(blogParams.locale.language)}"
+            val firstSegment = readFirstSegment(blogParams.locale.language)
+            if (firstSegment == null) {
+                redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+                return "redirect:/$HOME_DIR"
+            }
+            return "redirect:$BLOG_DIR/$firstSegment"
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
         model.addAttribute("blog", blogParams.blog)
@@ -39,9 +46,15 @@ class Blog(context: Context) : Base(context) {
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
+        redirectAttributes: RedirectAttributes
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
-        return "redirect:$BLOG_DIR/${readFirstSegment(blogParams.locale.language)}"
+        val firstSegment = readFirstSegment(blogParams.locale.language)
+        if (firstSegment == null) {
+            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+            return "redirect:/$HOME_DIR"
+        }
+        return "redirect:$BLOG_DIR/$firstSegment"
     }
 
     // Redirect to other blog from menu

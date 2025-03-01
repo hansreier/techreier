@@ -82,7 +82,7 @@ object Docs {
         val docIndex =
             docs.indexOfFirst { (it.topic.language.code == usedCode) && (segment == it.segment || segment == null) }
         if (docIndex < 0) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, ILLEGAL_PATH)
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ILLEGAL_PATH) //TODO Reier do differently
         }
         return docIndex
     }

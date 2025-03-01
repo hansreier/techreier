@@ -5,11 +5,10 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.forms.BlogEntryForm
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val ADMIN = "admin"
 const val ADMIN_DIR = "/$ADMIN"
@@ -23,11 +22,14 @@ class Admin(context: Context) : Base(context) {
         @PathVariable segment: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
+        redirectAttributes: RedirectAttributes,
         model: Model,
     ): String {
         val blogParams = fetchBlogParams(model, request, response, segment, true)
+
         if (blogParams.blog == null) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, ADMIN)
+            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+            return "redirect:/$HOME_DIR"
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
         if (blogParams.action == "create" || blogParams.action == "saveCreate") {
@@ -47,9 +49,16 @@ class Admin(context: Context) : Base(context) {
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
+        redirectAttributes: RedirectAttributes
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
-        return "redirect:$ADMIN_DIR/${readFirstSegment(blogParams.locale.language)}"
+        val firstSegment = readFirstSegment(blogParams.locale.language)
+        if (firstSegment == null) {
+            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+            return "redirect:/$HOME_DIR"
+        }
+
+        return "redirect:$ADMIN_DIR/$firstSegment"
     }
 
     @PostMapping
