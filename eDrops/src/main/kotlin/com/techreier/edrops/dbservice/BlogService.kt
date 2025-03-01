@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 class BlogService(
     private val blogRepo: BlogRepository,
 ) {
+    // TODO not used. Consider removing
     fun readBlog(blogId: Long?): Blog? {
         logger.info("Read blog")
         // Does not fetch JPA annotations
@@ -21,61 +22,25 @@ class BlogService(
         return blogId?.let { blogRepo.findWithEntriesById(it).orElse(null) }
     }
 
-    fun findBlog(
-        languageCode: String,
-        segment: String,
-        entries: Boolean = false,
-    ): BlogDTO? {
-        logger.info("Find blog by languageCode: $languageCode and segment: $segment")
-        if (entries) {
-            return blogRepo.findWithEntriesByTopicLanguageCodeAndSegment(languageCode, segment)
-                ?.toDTO(languageCode, true)
-        } else {
-            return blogRepo.findByTopicLanguageCodeAndSegment(languageCode, segment)?.toDTO(languageCode, false)
-        }
-    }
-
-    // if language is changed, we try to fetch a blog with the new language and the same segment
-    fun readBlog(
-        blogId: Long,
-        langCode: String?,
-        entries: Boolean = false,
-    ): BlogDTO? {
-        logger.info("Read blog with same language: $langCode as blog with id $blogId")
-        var blogIdNew = blogId
-
-        val blog = blogRepo.findById(blogId).orElse(null) ?: return null
-
-        logger.debug("The current blog is found with language.code ${blog.topic.language.code}, should be: $langCode")
-        if (langCode != null) {
-            if (blog.topic.language.code != langCode) { // language is changed.
-                val blogSwitched = blogRepo.findByTopicLanguageCodeAndSegment(langCode, blog.segment)
-                if (blogSwitched != null) {
-                    if (!entries) return blogSwitched.toDTO(langCode, false)
-                    blogIdNew = blogSwitched.id ?: blogId
-                }
-            }
-        }
-        return if (entries)
-            blogRepo.findWithEntriesById(blogIdNew).orElse(null)?.toDTO(langCode)
-        else
-            blog.toDTO(langCode, false)
-    }
-
+    // Read corrent blog based on segment,language code. Assumption: One owner
     fun readBlog(
         segment: String,
         oldLangCode: String?,
         langCode: String,
         entries: Boolean = false,
     ): BlogDTO? {
-        logger.info("Read blog oldtLangCpde: $oldLangCode langCode: $langCode, segment $segment, entries? $entries")
+        logger.info("Read blog old LangCode: $oldLangCode langCode: $langCode, segment $segment, entries? $entries")
 
+        // If blog is not found with current language, use the previous language code if different
+        // This prevents annoying use of error page or redirect to home page, can fail if e.g. expired session.
         var blogLanguageDTO = blogRepo.getBlogWithLanguageCode(segment, langCode)
-        if ((blogLanguageDTO == null) && (oldLangCode != null))
+
+        if ((blogLanguageDTO == null) && (oldLangCode != null) && (oldLangCode != langCode))
             blogLanguageDTO = blogRepo.getBlogWithLanguageCode(segment, oldLangCode)
-        if (blogLanguageDTO == null) return null
-        val blog =
-            if (entries)
+
+        blogLanguageDTO ?: return null
+
+        val blog = if (entries)
                 blogRepo.findWithEntriesById(blogLanguageDTO.id).orElse(null)
             else
                 blogRepo.findById(blogLanguageDTO.id).orElse(null)

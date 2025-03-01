@@ -26,12 +26,14 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCode(languageCode: String): MutableSet<Blog>
 
+    // TODO Not really used any more. Consider removing.
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogEntries"])
     fun findWithEntriesByTopicLanguageCodeAndSegment(
         languageCode: String,
         segment: String,
     ): Blog?
 
+    // TODO Not really used any more except in test. Consider removing.
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCodeAndSegment(
         languageCode: String,
@@ -44,7 +46,7 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     )
     fun getMenuItems(languageCode: String): List<MenuItemDTO>
 
-    // Assumption here is only one owner
+    // Assumption: Only one owner
     @Query(
         "SELECT DISTINCT new com.techreier.edrops.dto.BlogLanguageDTO(b.id, b.topic.language.code) " +
                 " FROM Blog b WHERE b.segment = :segment AND b.topic.language.code = :languageCode"
