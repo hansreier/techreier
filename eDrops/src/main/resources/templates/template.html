@@ -30,7 +30,6 @@
                         th:selected="${topic.topicKey eq topicKey}"></option>
             </select>
             <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
-            <input type="hidden" th:value="${blogId}" name="blogId">
             <input type="hidden" th:value="${path}" name="path">
         </form>
         <form id="language" th:action="@{/language}" th:method="post">
@@ -41,7 +40,6 @@
                         th:selected="${language.code eq langCode}"></option>
             </select>
             <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
-            <input type="hidden" th:value="${blogId}" name="blogId">
             <input type="hidden" th:value="${path}" name="path">
         </form>
         <div sec:authorize="isAuthenticated()"> ✔</div>
