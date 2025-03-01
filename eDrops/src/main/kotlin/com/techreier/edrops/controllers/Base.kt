@@ -49,22 +49,18 @@ abstract class Base(
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("auth", ctx.appConfig.auth)
-
-        // Language code as detected for web site user or set with ?lang= parameter, not default setting on PC/browser
         model.addAttribute("languages", fetchLanguages())
         val currentLangCode = LocaleContextHolder.getLocale().language
-        val usedLangcode =  validProjectLanguageCode(currentLangCode) // LanguaCode of supported types
+        val usedLangcode =  validProjectLanguageCode(currentLangCode)
         val locale = Locale.of(usedLangcode)
         ctx.sessionLocaleResolver.setLocale(request, response, locale)
         val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
-        ctx.httpSession.setAttribute("langcode", usedLangcode) //Set to chcck for changes
-        val blogId = model.getAttribute("blogId") as Long?
+        ctx.httpSession.setAttribute("langcode", usedLangcode) //Set to check for changes
+
         // Only for controllers where it is relevant to call DB, else segment is omitted
-        val blog =
-            segment?.let {
-                    ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, entries)
-            }
+        val blog = segment?.let { ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, entries) }
         if (blog != null) {ctx.httpSession.setAttribute("langcode", blog.langCodeFound) }
+
         val topics = fetchTopics(usedLangcode)
 
         val topicKey =
@@ -76,7 +72,6 @@ abstract class Base(
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
-        logger.info("BlogId: $blogId Language: $usedLangcode topic: $topicKey")
         model.addAttribute("langCode", usedLangcode)
         model.addAttribute("topicKey", topicKey)
         model.addAttribute("topics", topics)
@@ -84,7 +79,6 @@ abstract class Base(
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("path", path)
         model.addAttribute("menu", fetchMenu(usedLangcode))
-        model.addAttribute("blogId", blog?.id)
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
