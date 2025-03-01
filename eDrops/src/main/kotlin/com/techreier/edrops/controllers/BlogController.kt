@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val BLOG = "blogs"
 const val BLOG_DIR = "/$BLOG"
@@ -48,10 +47,9 @@ class Blog(context: Context) : Base(context) {
     // Redirect to other blog from menu
     @PostMapping
     fun getBlog(
-        redirectAttributes: RedirectAttributes,
         result: String,
     ): String {
         logger.info("Blog controller redirect: $result")
-        return redirect(redirectAttributes, result, BLOG_DIR)
+        return redirect(result, BLOG_DIR)
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
-import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val ADMIN = "admin"
 const val ADMIN_DIR = "/$ADMIN"
@@ -55,10 +54,9 @@ class Admin(context: Context) : Base(context) {
 
     @PostMapping
     fun getBlogAdmin(
-        redirectAttributes: RedirectAttributes,
         result: String
     ): String {
         logger.info("Admin controller redirect: $result")
-        return redirect(redirectAttributes, result, ADMIN_DIR)
+        return redirect(result, ADMIN_DIR)
     }
 }

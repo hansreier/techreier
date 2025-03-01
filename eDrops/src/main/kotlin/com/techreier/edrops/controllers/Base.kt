@@ -23,7 +23,6 @@ import org.springframework.validation.BindingResult
 import org.springframework.validation.FieldError
 import org.springframework.web.context.ServletContextAware
 import org.springframework.web.server.ResponseStatusException
-import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -86,7 +85,6 @@ abstract class Base(
     }
 
     protected fun redirect(
-        redirectAttributes: RedirectAttributes,
         result: String,
         subpath: String,
     ): String {
@@ -94,7 +92,6 @@ abstract class Base(
         val segment = result.substringBefore(" ", "")
         val blogId = result.substringAfter(" ", "0").toLongOrNull()
         logger.debug("Redirect params: $result segment: $segment id: $blogId redirect:$subpath/$segment")
-        redirectAttributes.addFlashAttribute("blogId", blogId)
         return "redirect:$subpath/$segment"
     }
 
