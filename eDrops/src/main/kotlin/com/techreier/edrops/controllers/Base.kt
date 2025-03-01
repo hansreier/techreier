@@ -90,8 +90,7 @@ abstract class Base(
     ): String {
         // Alternatives: Hidden input fields (process entire list and select by name) or server state, this is easier
         val segment = result.substringBefore(" ", "")
-        val blogId = result.substringAfter(" ", "0").toLongOrNull()
-        logger.debug("Redirect params: $result segment: $segment id: $blogId redirect:$subpath/$segment")
+        logger.info("Redirect params: $result segment: $segment redirect:$subpath/$segment")
         return "redirect:$subpath/$segment"
     }
 
