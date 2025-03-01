@@ -59,15 +59,10 @@ abstract class Base(
         val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
         ctx.httpSession.setAttribute("langcode", usedLangcode) //Set to chcck for changes
         val blogId = model.getAttribute("blogId") as Long?
-        logger.info("REIERS blogid: $blogId")
         // Only for controllers where it is relevant to call DB, else segment is omitted
         val blog =
             segment?.let {
-                //   blogId?.let {
                     ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, entries)
-                //
-              //  ctx.blogService.readBlog(blogId, usedLangcode, entries)
-              //  } ?: ctx.blogService.findBlog(usedLangcode, segment, entries) //No blogId so this is run
             }
         if (blog != null) {ctx.httpSession.setAttribute("langcode", blog.langCodeFound) }
         val topics = fetchTopics(usedLangcode)
@@ -237,7 +232,6 @@ abstract class Base(
         return blogs
     }
 
-    //  data class BlogParams(val blogId: Long, val langCode: String)
     data class BlogParams(
         val blog: BlogDTO?,
         val locale: Locale,
