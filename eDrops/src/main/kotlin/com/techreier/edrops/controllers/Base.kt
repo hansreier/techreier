@@ -55,20 +55,20 @@ abstract class Base(
         val locale = Locale.of(usedLangcode)
         ctx.sessionLocaleResolver.setLocale(request, response, locale)
         val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
-        ctx.httpSession.setAttribute("langcode", usedLangcode) //Set to check for changes
 
         // Only for controllers where it is relevant to call DB, else segment is omitted
         val blog = segment?.let { ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, entries) }
-        if (blog != null) {ctx.httpSession.setAttribute("langcode", blog.langCodeFound) }
+
+        ctx.httpSession.setAttribute("langcode", blog?.langCodeFound ?: usedLangcode)
 
         val topics = fetchTopics(usedLangcode)
-
         val topicKey =
             if (topics.size > 0) {
                 (ctx.httpSession.getAttribute("topic") as String?) ?: topics.first().topicKey
             } else {
                 DEFAULT
             }
+
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
