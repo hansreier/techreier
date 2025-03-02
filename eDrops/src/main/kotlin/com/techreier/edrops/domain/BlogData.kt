@@ -68,7 +68,7 @@ const val SUMMARY4 = "Dette er min nye blogg med tvilsomt innhold."
 
 // Initial populate table. Temporary. Move later back to test
 class BlogData(
-    val appConfig: AppConfig,
+    appConfig: AppConfig,
     common: Common,
 ) {
     private val datetimeb1 = timestamp("02.02.2024 13:01:24")
@@ -100,9 +100,9 @@ class BlogData(
             blogList,
         )
 
-    private val blog1 = Blog(datetime1, ENVIRONMENT, common.defaultNo, 1, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
-    private val blog1e = Blog(datetimeb1, ENVIRONMENT, common.defaultEn, 1, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
-    private val blog2 = Blog(datetimeb2, ENERGY, common.defaultNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
+    private val blog1 = Blog(datetime1, ENVIRONMENT, common.defaultNo, 2, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
+    private val blog1e = Blog(datetimeb1, ENVIRONMENT, common.defaultEn, 2, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
+    private val blog2 = Blog(datetimeb2, TOPIC_ENERGY, common.defaultNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
 
     private val blogEntry1 = BlogEntry(datetime1, ELPOWER, TITLE1, SUMMARY1, blog1)
     private val blogEntry2 = BlogEntry(datetime2, WEATHER, TITLE2, SUMMARY2, blog1)
@@ -110,7 +110,7 @@ class BlogData(
     private val blogEntry1e = BlogEntry(datetime1, ELPOWER, TITLE1E, SUMMARY1E, blog1e)
     private val blogEntry2e = BlogEntry(datetime2, WEATHER, TITLE2E, SUMMARY2E, blog1e)
     private val blogEntry3e = BlogEntry(datetime3, HIBERNATE, TITLE3E, SUMMARY3E, blog1e)
-    private val blog2Entry3 = BlogEntry(datetime23, ENERGY, TITLE4, SUMMARY4, blog2)
+    private val blog2Entry3 = BlogEntry(datetime23, TOPIC_ENERGY, TITLE4, SUMMARY4, blog2)
 
     init {
         initialize()

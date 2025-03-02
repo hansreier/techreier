@@ -1,7 +1,7 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.domain.TOPIC_DEFAULT
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.DEFAULT
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.util.Doc
@@ -28,7 +28,7 @@ class Home(context: Context ) : Base(context) {
         model: Model,
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
-        val doc = Doc(HOME, Topic(DEFAULT, LanguageCode("", blogParams.usedLangCode)))
+        val doc = Doc(HOME, Topic(TOPIC_DEFAULT, LanguageCode("", blogParams.usedLangCode)))
         val docText: String = markdownToHtml(doc)
         model.addAttribute("docText", docText)
         model.addAttribute("doc", doc)

@@ -4,8 +4,8 @@ import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.DEFAULT
 import com.techreier.edrops.domain.LanguageCode
+import com.techreier.edrops.domain.TOPIC_DEFAULT
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItemDTO
@@ -63,7 +63,7 @@ abstract class Base(
             if (topics.size > 0) {
                 (ctx.httpSession.getAttribute("topic") as String?) ?: topics.first().topicKey
             } else {
-                DEFAULT
+                TOPIC_DEFAULT
             }
 
         val action = (model.getAttribute("action") ?: "") as String
@@ -75,11 +75,11 @@ abstract class Base(
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("path", path)
-        model.addAttribute("menu", fetchMenu(usedLangcode))
+        model.addAttribute("menu", fetchMenu(usedLangcode, topicKey))
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
-        return BlogParams(blog, oldLangCode, usedLangcode,  action)
+        return BlogParams(blog, oldLangCode, usedLangcode,  action, topicKey)
     }
 
     // Extension function to simplify implementation of adding field error
@@ -176,8 +176,8 @@ abstract class Base(
     }
 
     // Not the most efficient to reuse getMenuItems, but will not be used often
-    protected fun readFirstSegment(languageCode: String): String? {
-        val menuItems = ctx.blogService.readMenu(languageCode)
+    protected fun readFirstSegment(languageCode: String, topicKey: String): String? {
+        val menuItems = ctx.blogService.readMenu(languageCode, topicKey)
         return if (menuItems.isNotEmpty()) { menuItems.first().segment } else null
     }
 
@@ -199,9 +199,9 @@ abstract class Base(
 
     // Assumption: Only one owner and admin user: Me.
     // TODO: If several owners is permitted an extra level in URL must be added
-    private fun fetchMenu(langCode: String): List<MenuItemDTO> {
-        logger.debug("Fetch menu items by langCode: $langCode")
-        val blogs = ctx.blogService.readMenu(langCode)
+    private fun fetchMenu(langCode: String, topicKey: String): List<MenuItemDTO> {
+        logger.debug("Fetch menu items by langCode: $langCode topic: $topicKey")
+        val blogs = ctx.blogService.readMenu(langCode, topicKey)
         logger.debug("Menu fetched")
         return blogs
     }
@@ -212,6 +212,7 @@ abstract class Base(
         val oldLangCode: String?,
         val usedLangCode: String,
         val action: String,
+        val topicKey: String,
     )
 
     companion object
