@@ -8,7 +8,11 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val ABOUT = "about"
 const val ABOUT_DIR = "/$ABOUT"
@@ -23,10 +27,20 @@ class About(context: Context) : Base(context) {
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
+        redirectAttributes: RedirectAttributes,
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
-        val docIndex = getDocIndex(about, blogParams.locale.language, segment)
-        val doc = about[docIndex]
+        val docIndex = getDocIndex(about, blogParams.oldLangCode, blogParams.usedLangCode, segment)
+        if (docIndex.error) {
+            if (docIndex.index < 0) {
+                redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+                return "redirect:/$HOME_DIR"
+            } else {
+                model.addAttribute("docLangCode", blogParams.oldLangCode)
+            }
+        }
+
+        val doc = about[docIndex.index]
 
         val docText: String = markdownToHtml(doc, ABOUT_DIR)
         model.addAttribute("doc", doc)
@@ -40,10 +54,21 @@ class About(context: Context) : Base(context) {
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
+        redirectAttributes: RedirectAttributes,
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
-        val docIndex = getDocIndex(about, blogParams.locale.language)
-        val doc = about[docIndex]
+        val docIndex = getDocIndex(about, blogParams.oldLangCode, blogParams.usedLangCode)
+        if (docIndex.error || docIndex.index < 0) {
+            if (docIndex.index < 0) {
+                redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+                return "redirect:/$HOME_DIR"
+            } else {
+                redirectAttributes.addFlashAttribute("warning", "readFirstBlog")
+                return "redirect:$BLOG_DIR/$docIndex.index"
+            }
+        }
+
+        val doc = about[docIndex.index]
         return "redirect:$ABOUT_DIR/${doc.segment}"
     }
 

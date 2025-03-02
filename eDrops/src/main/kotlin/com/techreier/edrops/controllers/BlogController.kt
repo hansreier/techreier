@@ -27,13 +27,14 @@ class Blog(context: Context) : Base(context) {
     ): String {
         val blogParams = fetchBlogParams(model, request, response, segment, true)
         if (blogParams.blog == null) {
-            logger.warn("Blog $segment is not found in language: ${blogParams.locale.language}")
-            val firstSegment = readFirstSegment(blogParams.locale.language)
-            if (firstSegment == null) {
+            logger.warn("Blog $segment is not found in language: ${blogParams.usedLangCode}")
+            readFirstSegment(blogParams.usedLangCode) ?. let {
+                redirectAttributes.addFlashAttribute("warning", "readFirstBlog")
+                return "redirect:$BLOG_DIR/$it"
+            } ?: run {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/$HOME_DIR"
             }
-            return "redirect:$BLOG_DIR/$firstSegment"
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
         model.addAttribute("blog", blogParams.blog)
@@ -49,7 +50,7 @@ class Blog(context: Context) : Base(context) {
         redirectAttributes: RedirectAttributes
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
-        val firstSegment = readFirstSegment(blogParams.locale.language)
+        val firstSegment = readFirstSegment(blogParams.usedLangCode)
         if (firstSegment == null) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"

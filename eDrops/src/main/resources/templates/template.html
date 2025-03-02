@@ -125,8 +125,11 @@
 </div>
 
 <div id="work">
-    <div th:if="${(warning != null)}">
+    <div th:if="${warning != null}">
         <p class=warning th:text="#{'warning.' + ${warning}}"></p>
+    </div>
+    <div th:if="${docLangCode != null}">
+        <p class=warning th:text="#{'warning.' + ${docLangCode}}"></p>
     </div>
     <div th:if="${(blog != null) and (blog.langCodeFound != blog.langCodeWanted)}">
         <p class=warning th:text="#{'warning.' + ${blog.langCodeFound}}"></p>

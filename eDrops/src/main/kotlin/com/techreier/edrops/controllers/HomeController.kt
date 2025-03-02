@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val HOME = "home"
 const val HOME_DIR = ""
@@ -27,7 +28,7 @@ class Home(context: Context ) : Base(context) {
         model: Model,
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
-        val doc = Doc(HOME, Topic(DEFAULT, LanguageCode("", blogParams.locale.language)))
+        val doc = Doc(HOME, Topic(DEFAULT, LanguageCode("", blogParams.usedLangCode)))
         val docText: String = markdownToHtml(doc)
         model.addAttribute("docText", docText)
         model.addAttribute("doc", doc)
@@ -55,11 +56,19 @@ class Home(context: Context ) : Base(context) {
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
+        redirectAttributes: RedirectAttributes,
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
-        val docIndex = Docs.getDocIndex(home, blogParams.locale.language, segment)
-        val doc = home[docIndex]
-
+        val docIndex = Docs.getDocIndex(home, blogParams.oldLangCode, blogParams.usedLangCode, segment)
+        if (docIndex.error) {
+            if (docIndex.index < 0) {
+                redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+                return "redirect:/$HOME_DIR"
+            } else {
+                model.addAttribute("docLangCode", blogParams.oldLangCode)
+            }
+        }
+        val doc = home[docIndex.index]
         val docText: String = markdownToHtml(doc, HOME_DIR)
         model.addAttribute("doc", doc)
         model.addAttribute("docText", docText)

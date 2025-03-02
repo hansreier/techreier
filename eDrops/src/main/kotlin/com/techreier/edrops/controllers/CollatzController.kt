@@ -4,6 +4,7 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.service.CollatzResult
 import com.techreier.edrops.service.CollatzService
 import com.techreier.edrops.util.Docs
+import com.techreier.edrops.util.Docs.DocIndex
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -26,11 +27,16 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
+        redirectAttributes: RedirectAttributes
     ): String {
         logger.info("Collatz page")
         val collatz = model.getAttribute("collatz") ?: Collatz()
         model.addAttribute("collatz", collatz)
-        prepare(model, request, response)
+        val docIndex = prepare(model, request, response)
+        if (docIndex.error || docIndex.index < 0) {
+            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+            return "redirect:/$HOME_DIR"
+        }
         return COLLATZ
     }
 
@@ -56,7 +62,11 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
 
         if (bindingResult.hasErrors()) {
             logger.info("warn collatz seed input error: $collatz")
-            prepare(model, request, response)
+            val docIndex = prepare(model, request, response)
+            if (docIndex.index < 0) {
+                redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+                return "redirect:/$HOME_DIR"
+            }
             model.addAttribute("collatz", collatz)
             return COLLATZ
         }
@@ -70,13 +80,17 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
         model: Model,
         request: HttpServletRequest,
         response: HttpServletResponse
-    ) {
+    ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response)
-        val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.locale.language, COLLATZ)
-        val doc = Docs.collatz[docIndex]
-        val docText: String = markdownToHtml(doc, COLLATZ)
-        model.addAttribute("doc", doc)
-        model.addAttribute("docText", docText)
+        val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.oldLangCode, blogParams.usedLangCode, COLLATZ)
+
+        if (docIndex.index >= 0 ) {
+            val doc = Docs.collatz[docIndex.index]
+            val docText: String = markdownToHtml(doc, COLLATZ)
+            model.addAttribute("doc", doc)
+            model.addAttribute("docText", docText)
+        }
+        return docIndex
     }
 
     data class Collatz(

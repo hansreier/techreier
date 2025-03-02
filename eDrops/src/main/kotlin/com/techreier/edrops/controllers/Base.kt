@@ -79,7 +79,7 @@ abstract class Base(
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
-        return BlogParams(blog, locale, action)
+        return BlogParams(blog, oldLangCode, usedLangcode,  action)
     }
 
     // Extension function to simplify implementation of adding field error
@@ -178,9 +178,7 @@ abstract class Base(
     // Not the most efficient to reuse getMenuItems, but will not be used often
     protected fun readFirstSegment(languageCode: String): String? {
         val menuItems = ctx.blogService.readMenu(languageCode)
-        if (menuItems.isNotEmpty()) {
-            return menuItems.first().segment
-        } else return null
+        return if (menuItems.isNotEmpty()) { menuItems.first().segment } else null
     }
 
     private fun fetchLanguages(): MutableList<LanguageCode> {
@@ -210,7 +208,9 @@ abstract class Base(
 
     data class BlogParams(
         val blog: BlogDTO?,
-        val locale: Locale,
+       // val locale: Locale,
+        val oldLangCode: String?,
+        val usedLangCode: String,
         val action: String,
     )
 

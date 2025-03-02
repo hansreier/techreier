@@ -1,11 +1,8 @@
 package com.techreier.edrops.util
 
 import com.techreier.edrops.domain.Common
-import org.springframework.http.HttpStatus
-import org.springframework.web.server.ResponseStatusException
 
 const val MARKDOWN_EXT = ".md"
-const val ILLEGAL_PATH = "Illegal path"
 
 /**
  * No database needed for rendering docs saved as markdown files.
@@ -73,18 +70,29 @@ object Docs {
         )
 
     // Find the first Doc index that matches language code and eventually nonnull segment
+    // If the languageCode is changed, it also checks against the old language code
+    // Note: No check if language codes are valid in project context, because done earlier.
     fun getDocIndex(
         docs: Array<Doc>,
-        languageCode: String,
+        oldLangCode: String?,
+        usedLangCode: String,
         segment: String? = null,
-    ): Int {
-        val usedCode = validProjectLanguageCode(languageCode)
-        val docIndex =
-            docs.indexOfFirst { (it.topic.language.code == usedCode) && (segment == it.segment || segment == null) }
+    ): DocIndex {
+        var error = false
+        var docIndex = -1
+
+        docIndex =
+            docs.indexOfFirst { (it.topic.language.code == usedLangCode) && (segment == it.segment || segment == null) }
         if (docIndex < 0) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, ILLEGAL_PATH) //TODO Reier do differently
+            error = true
+            if ((oldLangCode != null) && (oldLangCode != usedLangCode)) {
+                docIndex = docs.indexOfFirst {
+                    (it.topic.language.code == oldLangCode)
+                            && (segment == it.segment || segment == null)
+                }
+            }
         }
-        return docIndex
+        return DocIndex(docIndex, error)
     }
 
     fun getDocs(
@@ -94,4 +102,6 @@ object Docs {
         val usedCode = validProjectLanguageCode(languageCode)
         return docs.filter { (it.topic.language.code == usedCode) }
     }
+
+    data class DocIndex(val index: Int, val error: Boolean)
 }

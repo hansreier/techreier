@@ -4,7 +4,8 @@ import com.techreier.edrops.domain.Blog
 import java.time.ZonedDateTime
 
 data class BlogDTO (
-    val id: Long? , val topicKey: String, val topicText: String?, val langCodeFound: String, val langCodeWanted: String, val changed: ZonedDateTime, val segment: String,
+    val id: Long? , val topicKey: String, val topicText: String?, val langCodeFound: String, val langCodeWanted: String,
+    val changed: ZonedDateTime, val segment: String,
     val subject: String, val about: String, val blogEntries: List<BlogEntryDTO>
 )
 

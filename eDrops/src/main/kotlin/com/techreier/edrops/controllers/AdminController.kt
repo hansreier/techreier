@@ -52,12 +52,11 @@ class Admin(context: Context) : Base(context) {
         redirectAttributes: RedirectAttributes
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
-        val firstSegment = readFirstSegment(blogParams.locale.language)
+        val firstSegment = readFirstSegment(blogParams.usedLangCode)
         if (firstSegment == null) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
         }
-
         return "redirect:$ADMIN_DIR/$firstSegment"
     }
 
