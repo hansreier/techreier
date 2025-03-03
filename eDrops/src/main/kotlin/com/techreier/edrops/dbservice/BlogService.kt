@@ -46,7 +46,7 @@ class BlogService(
     }
 
     fun readMenu(languageCode: String, topicKey: String): List<MenuItemDTO> {
-        logger.info("Read menu from blog with language: $languageCode and topicKey: $topicKey")
+        logger.info("Read menu from blog with language: $languageCode and topicKey: $topicKey") //TODO? All is the same as default
         val topicKeys = if (topicKey == TOPIC_DEFAULT) listOf(TOPIC_DEFAULT) else listOf(topicKey, TOPIC_DEFAULT)
         return blogRepo.getMenuItems(languageCode, topicKeys)
     }

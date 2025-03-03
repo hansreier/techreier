@@ -38,7 +38,7 @@ class OwnerTest : TestBase() {
         logger.info("saved")
         val blogs = populate(blogOwner)
         logger.info("blog: $blogs ${blogs.size}")
-        assertThat(blogs.size).isEqualTo(noOfBlogs)
+        assertThat(noOfBlogs).isEqualTo(blogs.size)
         blogs.forEach {
             logger.info("my blog: $it")
             it.blogEntries.forEach {
