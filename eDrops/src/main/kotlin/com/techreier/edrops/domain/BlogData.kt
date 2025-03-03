@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter
 // Predefined segments
 const val ENVIRONMENT = "env"
 const val ELPOWER = "elpower"
+const val NATURE = "nature"
 const val WEATHER = "weather"
 const val HIBERNATE = "hibernate"
 const val SPRING_BOOT = "springboot"
@@ -18,16 +19,20 @@ const val TITLE_1X1 = "Om strøm"
 const val TITLE_1X1E = "About electric power"
 const val TITLE_1X2 = "Om været"
 const val TITLE_1X2E = "About weather"
-const val TITLE_1X3 = "Om Hibernate"
-const val TITLE_1X3E = "About Hibernate"
+const val TITLE_1X3 = "Om naturen"
+const val TITLE_1X3E = "About nature"
 const val TITLE_3X1 = "Om Spring Boot"
 const val TITLE_3X1E = "About Spring Boot"
 const val TITLE_2X1 = "Energi blog"
+const val TITLE_3X2 = "Om Hibernate"
+const val TITLE_3X2E = "About Hibernate"
+
 const val SUBJECT1 = "Miljø saker"
 const val SUBJECT1E = "Environmental issues"
 const val SUBJECT2 = "Energi saker"
 const val SUBJECT3 = "Programmerings saker"
 const val SUBJECT3E = "Programming stuff"
+
 const val ABOUT1 = "Om natur, miljø og klima i Norge"
 const val ABOUT1E = "About nature, envirnoment and climate in Norway"
 const val ABOUT2 = "Om energi og elkraft i Norge"
@@ -62,13 +67,9 @@ const val SUMMARY_1X2E =
         "Then a lot of rain poured down. " +
         "Then it god icy and slippery and freezing cold. #Snø"
 
-const val SUMMARY_1X3 =
-    "Det er tydeligvis helt umulig med toveis relasjon for Hibernate på en til en relasjoner. " +
-        "Jeg har gitt opp å gjøre noe med det etter mange forsøk. #Hibernate"
+const val SUMMARY_1X3 = "Jeg vil bevare  natur, ikke fylle dem med vindturbiner"
 
-const val SUMMARY_1X3E =
-    "It is apparently impossible with a two way relation for Hibernate on a one to one relation. " +
-        "I have given up doing something about it after many attempts. #Hibernate"
+const val SUMMARY_1X3E = "I want to preserve nature, not deatroy nature with wind turbines"
 
 const val SUMMARY_2X1 = "Dette er min nye blogg med tvilsomt innhold."
 
@@ -79,6 +80,15 @@ const val SUMMARY_3X1 =
 const val SUMMARY_3X1E =
     "The advantage with Spring Boot is that it is a solid and complete DI rammeverk " +
             "THe disadvantage is it size and that all code conventions must be followed"
+
+const val SUMMARY_3X2 =
+    "Det er tydeligvis helt umulig med toveis relasjon for Hibernate på en til en relasjoner. " +
+            "Jeg har gitt opp å gjøre noe med det etter mange forsøk. #Hibernate"
+
+const val SUMMARY_3X2E =
+    "It is apparently impossible with a two way relation for Hibernate on a one to one relation. " +
+            "I have given up doing something about it after many attempts. #Hibernate"
+
 
 
 // Initial populate table. Temporary. Move later back to test
@@ -93,6 +103,7 @@ class BlogData(
     private val datetime3 = timestamp("12.03.2024 11:02:00")
     private val datetime2x1 = timestamp("01.01.2024 08:04:12")
     private val datetime3x1 = timestamp("01.01.2025 08:04:12")
+    private val datetime3x2 = timestamp("01.02.2025 08:04:12")
 
     private val blogEntries1 = mutableListOf<BlogEntry>()
     private val blogEntries1e = mutableListOf<BlogEntry>()
@@ -126,15 +137,17 @@ class BlogData(
 
     private val blogEntry1x1 = BlogEntry(datetime1, ELPOWER, TITLE_1X1, SUMMARY_1X1, blog1)
     private val blogEntry1x2 = BlogEntry(datetime2, WEATHER, TITLE_1X2, SUMMARY_1X2, blog1)
-    private val blogEntry1x3 = BlogEntry(datetime3, HIBERNATE, TITLE_1X3, SUMMARY_1X3, blog1)
+    private val blogEntry1x3 = BlogEntry(datetime3, NATURE, TITLE_1X3, SUMMARY_1X3, blog1)
     private val blogEntry1x1e = BlogEntry(datetime1, ELPOWER, TITLE_1X1E, SUMMARY_1X1E, blog1e)
     private val blogEntry1x2e = BlogEntry(datetime2, WEATHER, TITLE_1X2E, SUMMARY_1X2E, blog1e)
-    private val blogEntry1x3e = BlogEntry(datetime3, HIBERNATE, TITLE_1X3E, SUMMARY_1X3E, blog1e)
+    private val blogEntry1x3e = BlogEntry(datetime3, NATURE, TITLE_1X3E, SUMMARY_1X3E, blog1e)
 
     private val blogEntry2x1 = BlogEntry(datetime2x1, TOPIC_ENERGY, TITLE_2X1, SUMMARY_2X1, blog2)
 
     private val blogEntry3x1 = BlogEntry(datetime3x1, SPRING_BOOT, TITLE_3X1, SUMMARY_3X1, blog3)
+    private val blogEntry3x2 = BlogEntry(datetime3x2, HIBERNATE, TITLE_3X2, SUMMARY_3X2, blog3)
     private val blogEntry3x1e = BlogEntry(datetime3x1, SPRING_BOOT, TITLE_3X1E, SUMMARY_3X1E, blog3e)
+    private val blogEntry3x2e = BlogEntry(datetime3x2, HIBERNATE, TITLE_3X2E, SUMMARY_3X2E, blog3e)
 
     init {
         initialize()
@@ -168,10 +181,12 @@ class BlogData(
         blogEntries3.clear()
         blog3.blogEntries = blogEntries3
         blog3.blogEntries.add(blogEntry3x1)
+        blog3.blogEntries.add(blogEntry3x2)
 
         blogEntries3e.clear()
         blog3e.blogEntries = blogEntries3e
         blog3e.blogEntries.add(blogEntry3x1e)
+        blog3e.blogEntries.add(blogEntry3x2e)
     }
 
     private fun timestamp(datetime: String): ZonedDateTime {
