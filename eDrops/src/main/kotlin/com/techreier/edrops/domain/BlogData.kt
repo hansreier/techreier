@@ -24,11 +24,15 @@ const val TITLE_3X1 = "Om Spring Boot"
 const val TITLE_3X1E = "About Spring Boot"
 const val TITLE_2X1 = "Energi blog"
 const val SUBJECT1 = "Miljø saker"
-const val ABOUT1 = "Om natur, miljø og klima i Norge"
-const val ABOUT1E = "About nature, envirnoment and climate in Norway"
 const val SUBJECT1E = "Environmental issues"
 const val SUBJECT2 = "Energi saker"
+const val SUBJECT3 = "Programmerings saker"
+const val SUBJECT3E = "Programming stuff"
+const val ABOUT1 = "Om natur, miljø og klima i Norge"
+const val ABOUT1E = "About nature, envirnoment and climate in Norway"
 const val ABOUT2 = "Om energi og elkraft i Norge"
+const val ABOUT3 = "Om koding"
+const val ABOUT3E = "About coding"
 
 const val SUMMARY_1X1 =
     "Regjeringen Støre nekter å regulere strømmarkedet. " +
@@ -117,8 +121,8 @@ class BlogData(
     private val blog1 = Blog(datetime1, TOPIC_ENVIRONMENT, common.defaultNo, 2, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
     private val blog1e = Blog(datetimeb1, TOPIC_ENVIRONMENT, common.defaultEn, 2, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
     private val blog2 = Blog(datetimeb2, TOPIC_ENERGY, common.defaultNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
-    private val blog3 = Blog(datetime1, TOPIC_CODING, common.defaultNo, 2, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
-    private val blog3e = Blog(datetimeb1, TOPIC_CODING, common.defaultEn, 2, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
+    private val blog3 = Blog(datetime1, TOPIC_CODING, common.defaultNo, 2, SUBJECT3, ABOUT3, blogEntries3, blogOwner)
+    private val blog3e = Blog(datetimeb1, TOPIC_CODING, common.defaultEn, 2, SUBJECT3E, ABOUT3E, blogEntries3e, blogOwner)
 
     private val blogEntry1x1 = BlogEntry(datetime1, ELPOWER, TITLE_1X1, SUMMARY_1X1, blog1)
     private val blogEntry1x2 = BlogEntry(datetime2, WEATHER, TITLE_1X2, SUMMARY_1X2, blog1)
@@ -166,8 +170,8 @@ class BlogData(
         blog3.blogEntries.add(blogEntry3x1)
 
         blogEntries3e.clear()
-        blog3.blogEntries = blogEntries3e
-        blog3.blogEntries.add(blogEntry3x1e)
+        blog3e.blogEntries = blogEntries3e
+        blog3e.blogEntries.add(blogEntry3x1e)
     }
 
     private fun timestamp(datetime: String): ZonedDateTime {
