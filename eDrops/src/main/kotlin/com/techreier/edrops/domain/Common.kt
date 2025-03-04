@@ -16,7 +16,7 @@ class Common {
     val languages = listOf(norwegian, english)
 
     val defaultNo = Topic(TOPIC_DEFAULT, norwegian, 0)
-    val defaultEn = Topic(TOPIC_DEFAULT, english, 1)
+    val defaultEn = Topic(TOPIC_DEFAULT, english, 0)
     val codingNo = Topic(TOPIC_CODING, norwegian, 1)
     val codingEn = Topic(TOPIC_CODING, english, 1)
     val energyNo = Topic(TOPIC_ENERGY, norwegian, 2)
