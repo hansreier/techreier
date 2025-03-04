@@ -25,6 +25,7 @@ const val TITLE_1X3E = "About nature"
 const val TITLE_3X1 = "Om Spring Boot"
 const val TITLE_3X1E = "About Spring Boot"
 const val TITLE_2X1 = "Energi blog"
+const val TITLE_2X2 = "Elkraft blog"
 const val TITLE_3X2 = "Om Hibernate"
 const val TITLE_3X2E = "About Hibernate"
 
@@ -72,7 +73,8 @@ const val SUMMARY_1X3 = "Jeg vil bevare  natur, ikke fylle dem med vindturbiner"
 
 const val SUMMARY_1X3E = "I want to preserve nature, not deatroy nature with wind turbines"
 
-const val SUMMARY_2X1 = "Dette er min nye blogg med tvilsomt innhold."
+const val SUMMARY_2X1 = "Dette er min nye blogg hvordan vi skal få nok energi og lite utslipp"
+const val SUMMARY_2X2 = "Dette er min nye blogg om elkraftproduksjon uten vindturbinindustriparker."
 
 const val SUMMARY_3X1 =
     "Fordelen med Spring Boot er at det er et solid og komplett DI rammeverk. " +
@@ -101,6 +103,7 @@ class BlogData(
     private val datetime2 = timestamp("17.02.2024 15:05:30")
     private val datetime3 = timestamp("12.03.2024 11:02:00")
     private val datetime2x1 = timestamp("01.01.2024 08:04:12")
+    private val datetime2x2 = timestamp("01.01.2025 08:04:12")
     private val datetime3x1 = timestamp("01.01.2025 08:04:12")
     private val datetime3x2 = timestamp("01.02.2025 08:04:12")
 
@@ -142,6 +145,7 @@ class BlogData(
     private val blogEntry1x3e = BlogEntry(datetime3, NATURE, TITLE_1X3E, SUMMARY_1X3E, blog1e)
 
     private val blogEntry2x1 = BlogEntry(datetime2x1, ENERGY, TITLE_2X1, SUMMARY_2X1, blog2)
+    private val blogEntry2x2 = BlogEntry(datetime2x2, ELPOWER, TITLE_2X2, SUMMARY_2X2, blog2)
 
     private val blogEntry3x1 = BlogEntry(datetime3x1, SPRING_BOOT, TITLE_3X1, SUMMARY_3X1, blog3)
     private val blogEntry3x2 = BlogEntry(datetime3x2, HIBERNATE, TITLE_3X2, SUMMARY_3X2, blog3)
@@ -176,6 +180,7 @@ class BlogData(
         blogEntries2.clear()
         blog2.blogEntries = blogEntries2
         blog2.blogEntries.add(blogEntry2x1)
+        blog2.blogEntries.add(blogEntry2x2)
 
         blogEntries3.clear()
         blog3.blogEntries = blogEntries3
