@@ -13,11 +13,12 @@ const val ELPOWER = "elpower"
 const val ENERGY = "energy"
 const val NATURE = "nature"
 const val WEATHER = "weather"
+const val SUSTAINABILITY = "sustainability"
 const val HIBERNATE = "hibernate"
 const val SPRING_BOOT = "springboot"
 
-const val TITLE_1X1 = "Om strøm"
-const val TITLE_1X1E = "About electric power"
+const val TITLE_1X1 = "Om bærekraft"
+const val TITLE_1X1E = "About sustainability"
 const val TITLE_1X2 = "Om været"
 const val TITLE_1X2E = "About weather"
 const val TITLE_1X3 = "Om naturen"
@@ -42,20 +43,10 @@ const val ABOUT3 = "Om koding"
 const val ABOUT3E = "About coding"
 
 const val SUMMARY_1X1 =
-    "Regjeringen Støre nekter å regulere strømmarkedet. " +
-        "I stedet er det innført en strømstøtteordning. " +
-        "Denne er brukbar for privatpersoner, men ikke for bedrifter. " +
-        "Dette er dessverre bare å fikle på en dårlig ordning. " +
-        "I tillegg så lekker det strøm ut via de nye høykapasitets utenlandskablene.\n\n" +
-        "#Strøm #Støre"
+    "FN har 17 bærekraftmål der alle er like viktig "
 
 const val SUMMARY_1X1E =
-    "The government Støre refuses to control the electricity marked. " +
-        "As a replacement you get some money returned back from Norwegian Authorities. " +
-        "It is not that bad for private citizens, but not for companies. " +
-        "This is unfortunately just tinkering with a bad setup. " +
-        " In addition, electricity is leaking out through the new high-capacity foreign cables. \n\n" +
-        "#ElectricalPower #Støre"
+    "FN har 17 sustainability goals where all are equally important"
 
 const val SUMMARY_1X2 =
     "Først var det ikke snø. " +
@@ -137,10 +128,10 @@ class BlogData(
     private val blog3 = Blog(datetime1, TOPIC_CODING, common.defaultNo, 2, SUBJECT3, ABOUT3, blogEntries3, blogOwner)
     private val blog3e = Blog(datetimeb1, TOPIC_CODING, common.defaultEn, 2, SUBJECT3E, ABOUT3E, blogEntries3e, blogOwner)
 
-    private val blogEntry1x1 = BlogEntry(datetime1, ELPOWER, TITLE_1X1, SUMMARY_1X1, blog1)
+    private val blogEntry1x1 = BlogEntry(datetime1, SUSTAINABILITY, TITLE_1X1, SUMMARY_1X1, blog1)
     private val blogEntry1x2 = BlogEntry(datetime2, WEATHER, TITLE_1X2, SUMMARY_1X2, blog1)
     private val blogEntry1x3 = BlogEntry(datetime3, NATURE, TITLE_1X3, SUMMARY_1X3, blog1)
-    private val blogEntry1x1e = BlogEntry(datetime1, ELPOWER, TITLE_1X1E, SUMMARY_1X1E, blog1e)
+    private val blogEntry1x1e = BlogEntry(datetime1, SUSTAINABILITY, TITLE_1X1E, SUMMARY_1X1E, blog1e)
     private val blogEntry1x2e = BlogEntry(datetime2, WEATHER, TITLE_1X2E, SUMMARY_1X2E, blog1e)
     private val blogEntry1x3e = BlogEntry(datetime3, NATURE, TITLE_1X3E, SUMMARY_1X3E, blog1e)
 
