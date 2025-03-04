@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter
 // Predefined segments
 const val ENVIRONMENT = "env"
 const val ELPOWER = "elpower"
+const val ENERGY = "energy"
 const val NATURE = "nature"
 const val WEATHER = "weather"
 const val HIBERNATE = "hibernate"
@@ -75,21 +76,19 @@ const val SUMMARY_2X1 = "Dette er min nye blogg med tvilsomt innhold."
 
 const val SUMMARY_3X1 =
     "Fordelen med Spring Boot er at det er et solid og komplett DI rammeverk. " +
-            "Ulempen er at det er stort og at alle kode-konvensjonene må føges"
+        "Ulempen er at det er stort og at alle kode-konvensjonene må føges"
 
 const val SUMMARY_3X1E =
     "The advantage with Spring Boot is that it is a solid and complete DI rammeverk " +
-            "THe disadvantage is it size and that all code conventions must be followed"
+        "THe disadvantage is it size and that all code conventions must be followed"
 
 const val SUMMARY_3X2 =
     "Det er tydeligvis helt umulig med toveis relasjon for Hibernate på en til en relasjoner. " +
-            "Jeg har gitt opp å gjøre noe med det etter mange forsøk. #Hibernate"
+        "Jeg har gitt opp å gjøre noe med det etter mange forsøk. #Hibernate"
 
 const val SUMMARY_3X2E =
     "It is apparently impossible with a two way relation for Hibernate on a one to one relation. " +
-            "I have given up doing something about it after many attempts. #Hibernate"
-
-
+        "I have given up doing something about it after many attempts. #Hibernate"
 
 // Initial populate table. Temporary. Move later back to test
 class BlogData(
@@ -142,7 +141,7 @@ class BlogData(
     private val blogEntry1x2e = BlogEntry(datetime2, WEATHER, TITLE_1X2E, SUMMARY_1X2E, blog1e)
     private val blogEntry1x3e = BlogEntry(datetime3, NATURE, TITLE_1X3E, SUMMARY_1X3E, blog1e)
 
-    private val blogEntry2x1 = BlogEntry(datetime2x1, TOPIC_ENERGY, TITLE_2X1, SUMMARY_2X1, blog2)
+    private val blogEntry2x1 = BlogEntry(datetime2x1, ENERGY, TITLE_2X1, SUMMARY_2X1, blog2)
 
     private val blogEntry3x1 = BlogEntry(datetime3x1, SPRING_BOOT, TITLE_3X1, SUMMARY_3X1, blog3)
     private val blogEntry3x2 = BlogEntry(datetime3x2, HIBERNATE, TITLE_3X2, SUMMARY_3X2, blog3)
