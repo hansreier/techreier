@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter
 const val BSEG_CODING = "coding"
 const val BSEG_ENVIRONMENT = "env"
 const val BSEG_ENERGY = "energy"
+
 const val ESEG_ELPOWER = "elpower"
 const val ESEG_NATURE = "nature"
 const val ESEG_WEATHER = "weather"
