@@ -41,15 +41,21 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     ): Blog?
 
     @Query(
-        "SELECT new com.techreier.edrops.dto.MenuItemDTO(b.id, b.subject, b.segment) " +
-            " FROM Blog b WHERE b.topic.language.code = :languageCode AND b.topic.topicKey IN :topicKeys ORDER BY b.pos"
+        "SELECT new com.techreier.edrops.dto.MenuItemDTO(b.id, b.subject, b.segment, b.topic.topicKey) " +
+            " FROM Blog b WHERE b.topic.language.code = :languageCode AND b.topic.topicKey IN :topicKeys ORDER BY b.pos",
     )
-    fun getMenuItems(languageCode: String, topicKeys: List<String>): List<MenuItemDTO>
+    fun getMenuItems(
+        languageCode: String,
+        topicKeys: List<String>,
+    ): List<MenuItemDTO>
 
     // Assumption: Only one owner
     @Query(
         "SELECT DISTINCT new com.techreier.edrops.dto.BlogLanguageDTO(b.id, b.topic.language.code) " +
-                " FROM Blog b WHERE b.segment = :segment AND b.topic.language.code = :languageCode"
+            " FROM Blog b WHERE b.segment = :segment AND b.topic.language.code = :languageCode",
     )
-    fun getBlogWithLanguageCode(segment: String, languageCode: String): BlogLanguageDTO?
+    fun getBlogWithLanguageCode(
+        segment: String,
+        languageCode: String,
+    ): BlogLanguageDTO?
 }

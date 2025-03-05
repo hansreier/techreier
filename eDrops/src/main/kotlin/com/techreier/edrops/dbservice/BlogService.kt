@@ -34,21 +34,26 @@ class BlogService(
 
         // If blog is not found with current language, use the previous language code if different
         // This prevents annoying use of error page or redirect to home page, can fail if e.g. expired session.
-        val blogLanguageDTO = blogRepo.getBlogWithLanguageCode(segment, langCode)
-            ?: (if (oldLangCode != null && oldLangCode != langCode) blogRepo.getBlogWithLanguageCode(segment, oldLangCode) else null)
-            ?: return null
+        val blogLanguageDTO =
+            blogRepo.getBlogWithLanguageCode(segment, langCode)
+                ?: (if (oldLangCode != null && oldLangCode != langCode) blogRepo.getBlogWithLanguageCode(segment, oldLangCode) else null)
+                ?: return null
 
-        val blog = if (entries)
+        val blog =
+            if (entries) {
                 blogRepo.findWithEntriesById(blogLanguageDTO.id).orElse(null)
-            else
+            } else {
                 blogRepo.findById(blogLanguageDTO.id).orElse(null)
+            }
         return blog.toDTO(langCode, entries)
     }
 
-    fun readMenu(languageCode: String, topicKey: String): List<MenuItemDTO> {
-        logger.info("Read menu from blog with language: $languageCode and topicKey: $topicKey") //TODO? All is the same as default
-        val topicKeys = if (topicKey == TOPIC_DEFAULT) listOf(TOPIC_DEFAULT) else listOf(topicKey, TOPIC_DEFAULT)
+    fun readMenu(
+        languageCode: String,
+        topicKey: String,
+    ): List<MenuItemDTO> {
+        logger.info("Read menu from blog with language: $languageCode and topicKey: $topicKey")
+        val topicKeys = if (topicKey == TOPIC_DEFAULT) listOf(TOPIC_DEFAULT) else listOf(topicKey, TOPIC_DEFAULT) // Wrong
         return blogRepo.getMenuItems(languageCode, topicKeys)
     }
-
 }

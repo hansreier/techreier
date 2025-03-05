@@ -66,17 +66,17 @@ class BlogTest : TestBase() {
         val blog = query.setParameter(1, SUBJECT1).singleResult as Blog
         logger.info("blog: $blog")
         assertThat(blog.topic.language.language).isEqualTo(NORWEGIAN)
-        assertThat(blog.segment).isEqualTo(ENVIRONMENT)
+        assertThat(blog.segment).isEqualTo(BSEG_ENVIRONMENT)
     }
 
     @Test
     fun `read blog by language and segment`() {
         logger.info("starting read blog by language and segment")
-        val blog1 = blogRepo.findByTopicLanguageCodeAndSegment(NB, ENVIRONMENT)
+        val blog1 = blogRepo.findByTopicLanguageCodeAndSegment(NB, BSEG_ENVIRONMENT)
         assertThat(blog1).isNotNull
         assertThat(blog1!!.topic.language.code).isEqualTo(NB)
         assertThat(blog1.topic.language.language).isEqualTo(NORWEGIAN)
-        assertThat(blog1.segment).isEqualTo(ENVIRONMENT)
+        assertThat(blog1.segment).isEqualTo(BSEG_ENVIRONMENT)
         logger.info("blog: $blog1 ${blog1.blogEntries.size}")
     }
 
@@ -98,7 +98,7 @@ class BlogTest : TestBase() {
     @Test
     fun `read with manual entityGraph`() {
         logger.info("starting read all test")
-        val blog1 = blogRepo.findByTopicLanguageCodeAndSegment(NB, ENVIRONMENT)
+        val blog1 = blogRepo.findByTopicLanguageCodeAndSegment(NB, BSEG_ENVIRONMENT)
         val entityGraph = entityManager.createEntityGraph(Blog::class.java)
         val topicGraph: Subgraph<Topic> = entityGraph.addSubgraph("topic")
         topicGraph.addAttributeNodes("language")

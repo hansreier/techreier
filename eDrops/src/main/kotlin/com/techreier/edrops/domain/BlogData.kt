@@ -8,14 +8,15 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 // Predefined segments
-const val ENVIRONMENT = "env"
-const val ELPOWER = "elpower"
-const val ENERGY = "energy"
-const val NATURE = "nature"
-const val WEATHER = "weather"
-const val SUSTAINABILITY = "sustainability"
-const val HIBERNATE = "hibernate"
-const val SPRING_BOOT = "springboot"
+const val BSEG_CODING = "coding"
+const val BSEG_ENVIRONMENT = "env"
+const val BSEG_ENERGY = "energy"
+const val ESEG_ELPOWER = "elpower"
+const val ESEG_NATURE = "nature"
+const val ESEG_WEATHER = "weather"
+const val ESEG_SUSTAINABILITY = "sustainability"
+const val ESEG_HIBERNATE = "hibernate"
+const val ESEG_SPRING_BOOT = "springboot"
 
 const val TITLE_1X1 = "Om bærekraft"
 const val TITLE_1X1E = "About sustainability"
@@ -122,26 +123,26 @@ class BlogData(
             blogList,
         )
 
-    private val blog1 = Blog(datetime1, TOPIC_ENVIRONMENT, common.defaultNo, 2, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
-    private val blog1e = Blog(datetimeb1, TOPIC_ENVIRONMENT, common.defaultEn, 2, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
-    private val blog2 = Blog(datetimeb2, TOPIC_ENERGY, common.defaultNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
-    private val blog3 = Blog(datetime1, TOPIC_CODING, common.defaultNo, 2, SUBJECT3, ABOUT3, blogEntries3, blogOwner)
-    private val blog3e = Blog(datetimeb1, TOPIC_CODING, common.defaultEn, 2, SUBJECT3E, ABOUT3E, blogEntries3e, blogOwner)
+    private val blog1 = Blog(datetime1, BSEG_ENVIRONMENT, common.defaultNo, 2, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
+    private val blog1e = Blog(datetimeb1, BSEG_ENVIRONMENT, common.defaultEn, 2, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
+    private val blog2 = Blog(datetimeb2, BSEG_ENERGY, common.energyNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
+    private val blog3 = Blog(datetime1, BSEG_CODING, common.codingNo, 2, SUBJECT3, ABOUT3, blogEntries3, blogOwner)
+    private val blog3e = Blog(datetimeb1, BSEG_CODING, common.codingEn, 2, SUBJECT3E, ABOUT3E, blogEntries3e, blogOwner)
 
-    private val blogEntry1x1 = BlogEntry(datetime1, SUSTAINABILITY, TITLE_1X1, SUMMARY_1X1, blog1)
-    private val blogEntry1x2 = BlogEntry(datetime2, WEATHER, TITLE_1X2, SUMMARY_1X2, blog1)
-    private val blogEntry1x3 = BlogEntry(datetime3, NATURE, TITLE_1X3, SUMMARY_1X3, blog1)
-    private val blogEntry1x1e = BlogEntry(datetime1, SUSTAINABILITY, TITLE_1X1E, SUMMARY_1X1E, blog1e)
-    private val blogEntry1x2e = BlogEntry(datetime2, WEATHER, TITLE_1X2E, SUMMARY_1X2E, blog1e)
-    private val blogEntry1x3e = BlogEntry(datetime3, NATURE, TITLE_1X3E, SUMMARY_1X3E, blog1e)
+    private val blogEntry1x1 = BlogEntry(datetime1, ESEG_SUSTAINABILITY, TITLE_1X1, SUMMARY_1X1, blog1)
+    private val blogEntry1x2 = BlogEntry(datetime2, ESEG_WEATHER, TITLE_1X2, SUMMARY_1X2, blog1)
+    private val blogEntry1x3 = BlogEntry(datetime3, ESEG_NATURE, TITLE_1X3, SUMMARY_1X3, blog1)
+    private val blogEntry1x1e = BlogEntry(datetime1, ESEG_SUSTAINABILITY, TITLE_1X1E, SUMMARY_1X1E, blog1e)
+    private val blogEntry1x2e = BlogEntry(datetime2, ESEG_WEATHER, TITLE_1X2E, SUMMARY_1X2E, blog1e)
+    private val blogEntry1x3e = BlogEntry(datetime3, ESEG_NATURE, TITLE_1X3E, SUMMARY_1X3E, blog1e)
 
-    private val blogEntry2x1 = BlogEntry(datetime2x1, ENERGY, TITLE_2X1, SUMMARY_2X1, blog2)
-    private val blogEntry2x2 = BlogEntry(datetime2x2, ELPOWER, TITLE_2X2, SUMMARY_2X2, blog2)
+    private val blogEntry2x1 = BlogEntry(datetime2x1, BSEG_ENERGY, TITLE_2X1, SUMMARY_2X1, blog2)
+    private val blogEntry2x2 = BlogEntry(datetime2x2, ESEG_ELPOWER, TITLE_2X2, SUMMARY_2X2, blog2)
 
-    private val blogEntry3x1 = BlogEntry(datetime3x1, SPRING_BOOT, TITLE_3X1, SUMMARY_3X1, blog3)
-    private val blogEntry3x2 = BlogEntry(datetime3x2, HIBERNATE, TITLE_3X2, SUMMARY_3X2, blog3)
-    private val blogEntry3x1e = BlogEntry(datetime3x1, SPRING_BOOT, TITLE_3X1E, SUMMARY_3X1E, blog3e)
-    private val blogEntry3x2e = BlogEntry(datetime3x2, HIBERNATE, TITLE_3X2E, SUMMARY_3X2E, blog3e)
+    private val blogEntry3x1 = BlogEntry(datetime3x1, ESEG_SPRING_BOOT, TITLE_3X1, SUMMARY_3X1, blog3)
+    private val blogEntry3x2 = BlogEntry(datetime3x2, ESEG_HIBERNATE, TITLE_3X2, SUMMARY_3X2, blog3)
+    private val blogEntry3x1e = BlogEntry(datetime3x1, ESEG_SPRING_BOOT, TITLE_3X1E, SUMMARY_3X1E, blog3e)
+    private val blogEntry3x2e = BlogEntry(datetime3x2, ESEG_HIBERNATE, TITLE_3X2E, SUMMARY_3X2E, blog3e)
 
     init {
         initialize()

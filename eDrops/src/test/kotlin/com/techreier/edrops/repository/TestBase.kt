@@ -49,10 +49,10 @@ abstract class TestBase {
         languageRepo.saveAll(common.languages)
         topicRepo.saveAll(common.topics)
         blogOwner = ownerRepo.save(blogData.blogOwner)
-        blog = blogOwner.blogs.first { it.segment == ENVIRONMENT }
+        blog = blogOwner.blogs.first { it.segment == BSEG_ENVIRONMENT }
         blogId = blog.id!!
-        blogEntry = blog.blogEntries.first { it.segment == SUSTAINABILITY }
-        blogEntryId = blog.blogEntries.first { it.segment == SUSTAINABILITY }.id!!
+        blogEntry = blog.blogEntries.first { it.segment == ESEG_SUSTAINABILITY }
+        blogEntryId = blog.blogEntries.first { it.segment == ESEG_SUSTAINABILITY }.id!!
         noOfBlogEntries = blogOwner.blogs.sumOf { it.blogEntries.size }
         noOfBlogs = blogOwner.blogs.size
         entityManager.flush()
