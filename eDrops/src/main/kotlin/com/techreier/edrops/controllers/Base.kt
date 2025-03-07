@@ -75,7 +75,7 @@ abstract class Base(
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("path", path)
-        model.addAttribute("menu", fetchMenu(usedLangcode, topicKey))
+        model.addAttribute("menu", fetchMenu(usedLangcode))
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
@@ -176,8 +176,8 @@ abstract class Base(
     }
 
     // Not the most efficient to reuse getMenuItems, but will not be used often
-    protected fun readFirstSegment(languageCode: String, topicKey: String): String? {
-        val menuItems = ctx.blogService.readMenu(languageCode, topicKey)
+    protected fun readFirstSegment(languageCode: String): String? {
+        val menuItems = ctx.blogService.readMenu(languageCode)
         return if (menuItems.isNotEmpty()) { menuItems.first().segment } else null
     }
 
@@ -199,9 +199,9 @@ abstract class Base(
 
     // Assumption: Only one owner and admin user: Me.
     // TODO: If several owners is permitted an extra level in URL must be added
-    private fun fetchMenu(langCode: String, topicKey: String): List<MenuItemDTO> {
-        logger.debug("Fetch menu items by langCode: $langCode topic: $topicKey")
-        val blogs = ctx.blogService.readMenu(langCode, topicKey)
+    private fun fetchMenu(langCode: String): List<MenuItemDTO> {
+        logger.debug("Fetch menu items by langCode: $langCode")
+        val blogs = ctx.blogService.readMenu(langCode)
         logger.debug("Menu fetched")
         return blogs
     }

@@ -42,11 +42,10 @@ interface BlogRepository : JpaRepository<Blog, Long> {
 
     @Query(
         "SELECT new com.techreier.edrops.dto.MenuItemDTO(b.id, b.subject, b.segment, b.topic.topicKey) " +
-            " FROM Blog b WHERE b.topic.language.code = :languageCode AND b.topic.topicKey IN :topicKeys ORDER BY b.pos",
+            " FROM Blog b WHERE b.topic.language.code = :languageCode ORDER BY b.topic.topicKey, b.pos",
     )
     fun getMenuItems(
-        languageCode: String,
-        topicKeys: List<String>,
+        languageCode: String
     ): List<MenuItemDTO>
 
     // Assumption: Only one owner

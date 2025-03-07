@@ -2,7 +2,6 @@ package com.techreier.edrops.dbservice
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
-import com.techreier.edrops.domain.TOPIC_DEFAULT
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.dto.toDTO
@@ -50,10 +49,8 @@ class BlogService(
 
     fun readMenu(
         languageCode: String,
-        topicKey: String,
     ): List<MenuItemDTO> {
-        logger.info("Read menu from blog with language: $languageCode and topicKey: $topicKey")
-        val topicKeys = if (topicKey == TOPIC_DEFAULT) listOf(TOPIC_DEFAULT) else listOf(topicKey, TOPIC_DEFAULT) // Wrong
-        return blogRepo.getMenuItems(languageCode, topicKeys)
+        logger.info("Read menu from blog with language: $languageCode")
+        return blogRepo.getMenuItems(languageCode)
     }
 }
