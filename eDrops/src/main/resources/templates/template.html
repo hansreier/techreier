@@ -78,9 +78,8 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <!--a th:href="@{/collatz}" class="dropdown-item" th:text="#{collatz}"></a-->
+            <a th:href="@{/collatz}" class="dropdown-item" th:text="#{collatz}"></a>
             <form th:action="@{/blogs}" th:method="post">
-                <!--p th:text="${'se:' + blog.segment + ' su:' + blog.subject + ' id:' + blog.id +' t:'+blog.topic}"></p-->
                 <button class=dropdown-item type="submit" name="result"
                         th:value="${blog.segment}"
                         th:text="${blog.subject}"

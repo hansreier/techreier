@@ -482,19 +482,29 @@ img:hover::after {
 	z-index: 1;
 }
 
+/* Hide meny items when  */
 .dropdown-item.collapsed {
-	display: none;
+    display: none;
 }
 
-/* Alternatively, for showing content inside
-.collapsible-content {
-	display: none;
+.dropdown-item.collapsible {
+	color:blue;
 }
 
-.collapsible-content.show {
-	display: block;
-} */
+.dropdown-item:not(.collapsible) {
+	color: green;
+}
 
+
+/* Style for the item that is expanded (triggering the collapse) */
+.dropdown-item[data-collapsible="true"].expandable {
+	color: saddlebrown; /* Style for item with expandable menu items */
+}
+
+/* style for item with collapsible items */
+.dropdown-item[data-collapsible="true"]:not(.expandable) {
+	color: red;
+}
 
 /* Validation error text */
 .error {
