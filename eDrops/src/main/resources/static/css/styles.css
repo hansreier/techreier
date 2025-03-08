@@ -487,10 +487,12 @@ img:hover::after {
     display: none;
 }
 
+/* Style for collapsible menu items */
 .dropdown-item.collapsible {
 	color:blue;
 }
 
+/* Style for not collapsible meny items */
 .dropdown-item:not(.collapsible) {
 	color: green;
 }

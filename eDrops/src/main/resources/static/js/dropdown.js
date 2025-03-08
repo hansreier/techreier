@@ -1,5 +1,19 @@
-
 document.addEventListener("DOMContentLoaded", function () {
+
+    function updateDropdownItems() {
+        let top = true
+        document.querySelectorAll(".dropdown-item").forEach(function (item) {
+            if (item.dataset.collapsible === "true") {
+                top = false
+            }
+            if (!top) {
+                item.classList.add("collapsible");
+            }
+        });
+    }
+
+    updateDropdownItems();
+
     document.querySelectorAll(".dropdown-item").forEach(function (item) {
 
         if (item.dataset.collapsible === "true") {
@@ -9,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 item.classList.add("collapsible")
                 let nextElement = item.nextElementSibling;
                 while (nextElement &&
-                        nextElement.classList.contains("dropdown-item") &&
-                        nextElement.dataset.collapsible === "false")  {
+                nextElement.classList.contains("dropdown-item") &&
+                nextElement.dataset.collapsible === "false") {
                     nextElement.classList.toggle("collapsed");
                     nextElement.classList.add("collapsible");
                     nextElement = nextElement.nextElementSibling;
