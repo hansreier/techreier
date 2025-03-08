@@ -482,6 +482,20 @@ img:hover::after {
 	z-index: 1;
 }
 
+.dropdown-item.collapsed {
+	display: none;
+}
+
+/* Alternatively, for showing content inside
+.collapsible-content {
+	display: none;
+}
+
+.collapsible-content.show {
+	display: block;
+} */
+
+
 /* Validation error text */
 .error {
 	display: block;

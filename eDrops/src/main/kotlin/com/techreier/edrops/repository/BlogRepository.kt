@@ -42,15 +42,15 @@ interface BlogRepository : JpaRepository<Blog, Long> {
 
     @Query(
         "SELECT new com.techreier.edrops.dto.MenuItemDTO(b.id, b.subject, b.segment, b.topic.topicKey) " +
-            " FROM Blog b WHERE b.topic.language.code = :languageCode ORDER BY b.topic.topicKey, b.pos",
+            " FROM Blog b WHERE b.topic.language.code = :languageCode ORDER BY b.topic.pos, b.pos",
     )
     fun getMenuItems(
         languageCode: String
     ): List<MenuItemDTO>
 
-    // Assumption: Only one owner
+    // Assumption: Only one owner. TODO Check for not saving blogs that returns duplicates here. Will crash here.
     @Query(
-        "SELECT DISTINCT new com.techreier.edrops.dto.BlogLanguageDTO(b.id, b.topic.language.code) " +
+        "SELECT new com.techreier.edrops.dto.BlogLanguageDTO(b.id, b.topic.language.code) " +
             " FROM Blog b WHERE b.segment = :segment AND b.topic.language.code = :languageCode",
     )
     fun getBlogWithLanguageCode(

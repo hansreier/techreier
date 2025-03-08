@@ -124,6 +124,12 @@ class BlogData(
             blogList,
         )
 
+    // Note: Adding duplicate entries will result in unique result exception when reading the blog.
+    // The problem is how to recover without risking recursion.
+    // A redirect to homepage with a warning message added is one possibility.
+    // The problem is that have to check for type of DB error, a general type of DB failure should not return to homepage
+    // since even the menu uses the database.
+    // TODO: Must at least be taken care of in save blog GUI. Using an array or list here could allow for adding check
     private val blog1 = Blog(datetime1, BSEG_ENVIRONMENT, common.defaultNo, 2, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
     private val blog1e = Blog(datetimeb1, BSEG_ENVIRONMENT, common.defaultEn, 2, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
     private val blog2 = Blog(datetimeb2, BSEG_ENERGY, common.energyNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)

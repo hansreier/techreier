@@ -8,6 +8,7 @@ import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.TOPIC_DEFAULT
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.BlogDTO
+import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.about
@@ -48,7 +49,7 @@ abstract class Base(
         model.addAttribute("auth", ctx.appConfig.auth)
         model.addAttribute("languages", fetchLanguages())
         val currentLangCode = LocaleContextHolder.getLocale().language
-        val usedLangcode =  validProjectLanguageCode(currentLangCode)
+        val usedLangcode = validProjectLanguageCode(currentLangCode)
         val locale = Locale.of(usedLangcode)
         ctx.sessionLocaleResolver.setLocale(request, response, locale)
         val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
@@ -79,7 +80,7 @@ abstract class Base(
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
-        return BlogParams(blog, oldLangCode, usedLangcode,  action, topicKey)
+        return BlogParams(blog, oldLangCode, usedLangcode, action, topicKey)
     }
 
     // Extension function to simplify implementation of adding field error
@@ -175,10 +176,11 @@ abstract class Base(
         bindingResult.reject("key", errorMessage)
     }
 
-    // Not the most efficient to reuse getMenuItems, but will not be used often
     protected fun readFirstSegment(languageCode: String): String? {
         val menuItems = ctx.blogService.readMenu(languageCode)
-        return if (menuItems.isNotEmpty()) { menuItems.first().segment } else null
+        return if (menuItems.isNotEmpty()) {
+            menuItems.first().segment
+        } else null
     }
 
     private fun fetchLanguages(): MutableList<LanguageCode> {
@@ -199,16 +201,30 @@ abstract class Base(
 
     // Assumption: Only one owner and admin user: Me.
     // TODO: If several owners is permitted an extra level in URL must be added
-    private fun fetchMenu(langCode: String): List<MenuItemDTO> {
+    private fun fetchMenu(langCode: String): List<MenuItem> {
         logger.debug("Fetch menu items by langCode: $langCode")
         val blogs = ctx.blogService.readMenu(langCode)
+        val menuItems = mutableListOf<MenuItem>()
+        var previousTopic = ""
+        var first = true
+        //TODO Need to verify if the rule of topic beeing TOPIC_DEFAULT means not collapsable is OK, or add other attribute
+        blogs.forEach { blog ->
+            if (blog.topic != previousTopic) {
+                if (first)
+                    first = false
+                else {
+                    menuItems.add(MenuItem(msg("topic." + blog.topic), blog.topic, blog.topic, true))
+                }
+        }
+            menuItems.add(MenuItem(blog.subject, blog.segment, blog.topic, false))
+        }
         logger.debug("Menu fetched")
-        return blogs
+        return menuItems
     }
 
     data class BlogParams(
         val blog: BlogDTO?,
-       // val locale: Locale,
+        // val locale: Locale,
         val oldLangCode: String?,
         val usedLangCode: String,
         val action: String,
