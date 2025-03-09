@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         if (!top) {
             item.classList.add("collapsible")
+            if (item.dataset.collapsible === "true") {
+                item.classList.toggle("expandable")
+            } else {
+                item.classList.toggle("collapsed")
+            }
         }
     });
 
@@ -18,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
             item.addEventListener("click", function (event) {
                 event.preventDefault(); // Prevent navigation
                 item.classList.toggle("expandable")
-                item.classList.add("collapsible")
                 let nextElement = item.nextElementSibling;
                 while (nextElement &&
                 nextElement.classList.contains("dropdown-item") &&
