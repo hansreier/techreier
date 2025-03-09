@@ -17,21 +17,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     //listen to clicks on dropdown menu
-    document.querySelectorAll(".dropdown-item").forEach(function (item) {
+    document.querySelectorAll(".dropdown-item[data-collapsible='true']")
+        .forEach(function (item) {
 
-        if (item.dataset.collapsible === "true") {
-            item.addEventListener("click", function (event) {
-                event.preventDefault(); // Prevent navigation
-                item.classList.toggle("expandable")
-                let nextElement = item.nextElementSibling;
-                while (nextElement &&
-                nextElement.classList.contains("dropdown-item") &&
-                nextElement.dataset.collapsible === "false") {
-                    nextElement.classList.toggle("collapsed");
-                    nextElement.classList.add("collapsible");
-                    nextElement = nextElement.nextElementSibling;
-                }
-            });
-        }
+        item.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent navigation
+            item.classList.toggle("expandable")
+            let nextElement = item.nextElementSibling;
+            while (nextElement &&
+            nextElement.classList.contains("dropdown-item") &&
+            nextElement.dataset.collapsible === "false") {
+                nextElement.classList.toggle("collapsed");
+                nextElement.classList.add("collapsible");
+                nextElement = nextElement.nextElementSibling;
+            }
+        });
+
     });
 });
