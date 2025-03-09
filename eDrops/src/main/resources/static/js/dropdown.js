@@ -1,19 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    function updateDropdownItems() {
-        let top = true
-        document.querySelectorAll(".dropdown-item").forEach(function (item) {
-            if (item.dataset.collapsible === "true") {
-                top = false
-            }
-            if (!top) {
-                item.classList.add("collapsible");
-            }
-        });
-    }
+    // Since the dropdown menus are dynamically generated, have to add class for css selectors to work.
+    let top = true
+    document.querySelectorAll(".dropdown-item").forEach(function (item) {
+        if (item.dataset.collapsible === "true") {
+            top = false
+        }
+        if (!top) {
+            item.classList.add("collapsible")
+        }
+    });
 
-    updateDropdownItems();
-
+    //listen to clicks on dropdown menu
     document.querySelectorAll(".dropdown-item").forEach(function (item) {
 
         if (item.dataset.collapsible === "true") {
