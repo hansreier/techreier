@@ -9,7 +9,6 @@ import com.techreier.edrops.domain.TOPIC_DEFAULT
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
-import com.techreier.edrops.dto.MenuItemDTO
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.home
@@ -212,11 +211,11 @@ abstract class Base(
             if (blog.topic != previousTopic) {
                 if (first)
                     first = false
-                else {
-                    menuItems.add(MenuItem(msg("topic." + blog.topic), blog.topic, blog.topic, true))
+                else { //Problematic if reason was to provide an unique id for frontend
+                    menuItems.add(MenuItem(blog.id.toString(), blog.langCode, msg("topic." + blog.topic), "#" + blog.topic, blog.topic, true))
                 }
         }
-            menuItems.add(MenuItem(blog.subject, blog.segment, blog.topic, false))
+            menuItems.add(MenuItem(blog.id.toString(), blog.langCode, blog.subject, blog.segment, blog.topic, false))
         }
         logger.debug("Menu fetched")
         return menuItems

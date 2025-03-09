@@ -488,23 +488,23 @@ img:hover::after {
 }
 
 /* Style for collapsible menu items */
-.dropdown-item.collapsible {
+.dropdown-item.topic {
 	color:blue;
 }
 
 /* Style for not collapsible meny items */
-.dropdown-item:not(.collapsible) {
+.dropdown-item:not(.topic) {
 	color: green;
 }
 
 
 /* Style for the item that is expanded (triggering the collapse) */
-.dropdown-item[data-collapsible="true"].expandable {
+.dropdown-item[data-topic="true"].expandable {
 	color: saddlebrown; /* Style for item with expandable menu items */
 }
 
 /* style for item with collapsible items */
-.dropdown-item[data-collapsible="true"]:not(.expandable) {
+.dropdown-item[data-topic="true"]:not(.expandable) {
 	color: red;
 }
 

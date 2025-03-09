@@ -83,7 +83,8 @@
                 <button class=dropdown-item type="submit" name="result"
                         th:value="${blog.segment}"
                         th:text="${blog.subject}"
-                        th:data-collapsible="${blog.collapsible}"
+                        th:data-topic="${blog.isTopic}"
+                        th:data-id="${blog.segment + '.' + blog.langCode}"
                         th:each="blog: ${menu}">
                 </button>
             </form>
