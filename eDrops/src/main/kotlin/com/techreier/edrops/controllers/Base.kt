@@ -206,7 +206,7 @@ abstract class Base(
         val menuItems = mutableListOf<MenuItem>()
         var previousTopic = ""
         var first = true
-        //TODO Need to verify if the rule of topic beeing TOPIC_DEFAULT means not collapsable is OK, or add other attribute
+
         blogs.forEach { blog ->
             if (blog.topic != previousTopic) {
                 if (first)
