@@ -204,7 +204,7 @@ abstract class Base(
         logger.debug("Fetch menu items by langCode: $langCode")
         val blogs = ctx.blogService.readMenu(langCode)
         val menuItems = mutableListOf<MenuItem>()
-        var previousTopic = ""
+        val previousTopic = ""
         var first = true
         //TODO Need to verify if the rule of topic beeing TOPIC_DEFAULT means not collapsable is OK, or add other attribute
         blogs.forEach { blog ->
@@ -212,10 +212,10 @@ abstract class Base(
                 if (first)
                     first = false
                 else { //Problematic if reason was to provide an unique id for frontend
-                    menuItems.add(MenuItem(blog.id.toString(), blog.langCode, msg("topic." + blog.topic), "#" + blog.topic, blog.topic, true))
+                    menuItems.add(MenuItem(blog.langCode, msg("topic." + blog.topic), "#" + blog.topic, blog.topic, true))
                 }
         }
-            menuItems.add(MenuItem(blog.id.toString(), blog.langCode, blog.subject, blog.segment, blog.topic, false))
+            menuItems.add(MenuItem( blog.langCode, blog.subject, blog.segment, blog.topic, false))
         }
         logger.debug("Menu fetched")
         return menuItems
