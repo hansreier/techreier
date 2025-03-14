@@ -489,23 +489,32 @@ img:hover::after {
 
 /* Style for collapsible menu items */
 .dropdown-item.topic {
-	color:blue;
 }
 
 /* Style for not collapsible meny items */
 .dropdown-item:not(.topic) {
-	color: green;
 }
 
-
-/* Style for the item that is expanded (triggering the collapse) */
+/* Style for the topic to expand */
 .dropdown-item[data-topic="true"].expandable {
-	color: saddlebrown; /* Style for item with expandable menu items */
+	font-weight: bold;
 }
 
-/* style for item with collapsible items */
+.dropdown-item[data-topic="true"].expandable::after {
+	content: "+";
+	font-weight: bold;
+	margin-left: 0.5em;
+}
+
+/* style for the topic to collapse */
 .dropdown-item[data-topic="true"]:not(.expandable) {
-	color: red;
+	font-weight: bold;
+}
+
+.dropdown-item[data-topic="true"]:not(.expandable)::after {
+	content: "-";
+	font-weight: bold;
+	margin-left: 0.5em;
 }
 
 /* Validation error text */
