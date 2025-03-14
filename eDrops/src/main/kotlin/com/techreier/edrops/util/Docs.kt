@@ -1,6 +1,7 @@
 package com.techreier.edrops.util
 
 import com.techreier.edrops.domain.Common
+import com.techreier.edrops.dto.MenuItem
 
 const val MARKDOWN_EXT = ".md"
 
@@ -17,6 +18,11 @@ object Docs {
     val c =
         Common()
     val home =
+        arrayOf(
+            Doc("home", c.defaultNo, "Hjem"),
+            Doc("home",c.defaultEn,"Home")
+    )
+    val views =
         arrayOf(
             Doc("energy", c.energyNo, "Energi i Norge"),
             Doc("energy", c.energyEn, "Energy in Norway"),
@@ -79,10 +85,10 @@ object Docs {
         segment: String? = null,
     ): DocIndex {
         var error = false
-        var docIndex = -1
 
-        docIndex =
+        var docIndex =
             docs.indexOfFirst { (it.topic.language.code == usedLangCode) && (segment == it.segment || segment == null) }
+
         if (docIndex < 0) {
             error = true
             if ((oldLangCode != null) && (oldLangCode != usedLangCode)) {
@@ -97,10 +103,34 @@ object Docs {
 
     fun getDocs(
         docs: Array<Doc>,
-        languageCode: String,
-    ): List<Doc> {
+        languageCode: String
+    ): List<MenuItem> {
         val usedCode = validProjectLanguageCode(languageCode)
-        return docs.filter { (it.topic.language.code == usedCode) }
+        val documents = docs.filter { (it.topic.language.code == usedCode) }
+
+        val menuItems = mutableListOf<MenuItem>()
+        var previousTopic = ""
+        var first = true
+
+        documents.forEach { doc ->
+
+            if (doc.topic.topicKey != previousTopic) {
+                if (first)
+                    first = false
+                else {
+                    menuItems.add(
+                        MenuItem(
+                            doc.topic.language.code, doc.subject,
+                            "#" + doc.topic.topicKey, doc.topic.topicKey, true
+                        )
+                    )
+                    previousTopic = doc.topic.topicKey
+                }
+            }
+            menuItems.add(MenuItem(doc.topic.language.code, doc.subject, doc.segment, doc.topic.topicKey, false))
+        }
+
+        return menuItems
     }
 
     data class DocIndex(val index: Int, val error: Boolean)

@@ -56,7 +56,10 @@
                 <button class=dropdown-item name="doc" type="submit"
                         th:each="doc: ${homeDocs}"
                         th:value="${doc.segment}"
-                        th:text="${doc.subject} ? ${doc.subject} : #{${doc.segment}}"></button>
+                        th:text="${doc.subject} ? ${doc.subject} : #{${doc.segment}}"
+                        th:data-topic="${doc.isTopic}"
+                        th:data-id="${doc.segment + '-' + doc.langCode}">
+                </button>
             </form>
         </div>
     </div>
@@ -69,7 +72,10 @@
                 <button class=dropdown-item name="doc" type="submit"
                         th:each="doc: ${aboutDocs}"
                         th:value="${doc.segment}"
-                        th:text="${doc.subject} ? ${doc.subject} : #{${doc.segment}}"></button>
+                        th:text="${doc.subject} ? ${doc.subject} : #{${doc.segment}}"
+                        th:data-topic="${doc.isTopic}"
+                        th:data-id="${doc.segment + '_' + doc.langCode}">
+                </button>
             </form>
         </div>
     </div>

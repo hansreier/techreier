@@ -1,18 +1,17 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.domain.TOPIC_DEFAULT
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.LanguageCode
-import com.techreier.edrops.domain.Topic
-import com.techreier.edrops.util.Doc
 import com.techreier.edrops.util.Docs
-import com.techreier.edrops.util.Docs.home
+import com.techreier.edrops.util.Docs.getDocIndex
+import com.techreier.edrops.util.Docs.views
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val HOME = "home"
@@ -28,10 +27,16 @@ class Home(context: Context ) : Base(context) {
         model: Model,
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
-        val doc = Doc(HOME, Topic(TOPIC_DEFAULT, LanguageCode("", blogParams.usedLangCode)))
-        val docText: String = markdownToHtml(doc)
-        model.addAttribute("docText", docText)
-        model.addAttribute("doc", doc)
+        val docIndex = getDocIndex(Docs.home, blogParams.oldLangCode, blogParams.usedLangCode)
+
+        if (docIndex.index >= 0 ) {
+            val doc = Docs.home[docIndex.index]
+            val docText: String = markdownToHtml(doc)
+            model.addAttribute("doc", doc)
+            model.addAttribute("docText", docText)
+        } else {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        }
         return HOME
     }
 
@@ -59,7 +64,7 @@ class Home(context: Context ) : Base(context) {
         redirectAttributes: RedirectAttributes,
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
-        val docIndex = Docs.getDocIndex(home, blogParams.oldLangCode, blogParams.usedLangCode, segment)
+        val docIndex = getDocIndex(views, blogParams.oldLangCode, blogParams.usedLangCode, segment)
         if (docIndex.error) {
             if (docIndex.index < 0) {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
@@ -68,7 +73,7 @@ class Home(context: Context ) : Base(context) {
                 model.addAttribute("docLangCode", blogParams.oldLangCode)
             }
         }
-        val doc = home[docIndex.index]
+        val doc = views[docIndex.index]
         val docText: String = markdownToHtml(doc, HOME_DIR)
         model.addAttribute("doc", doc)
         model.addAttribute("docText", docText)

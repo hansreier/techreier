@@ -11,7 +11,7 @@ import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.about
-import com.techreier.edrops.util.Docs.home
+import com.techreier.edrops.util.Docs.views
 import com.techreier.edrops.util.validProjectLanguageCode
 import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
@@ -67,7 +67,7 @@ abstract class Base(
             }
 
         val action = (model.getAttribute("action") ?: "") as String
-        model.addAttribute("homeDocs", Docs.getDocs(home, usedLangcode))
+        model.addAttribute("homeDocs", Docs.getDocs(views, usedLangcode))
         model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
         model.addAttribute("langCode", usedLangcode)
         model.addAttribute("topicKey", topicKey)
