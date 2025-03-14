@@ -9,6 +9,7 @@ import com.techreier.edrops.domain.TOPIC_DEFAULT
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
+import com.techreier.edrops.util.Doc
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.views
@@ -67,8 +68,8 @@ abstract class Base(
             }
 
         val action = (model.getAttribute("action") ?: "") as String
-        model.addAttribute("homeDocs", Docs.getDocs(views, usedLangcode))
-        model.addAttribute("aboutDocs", Docs.getDocs(about, usedLangcode))
+        model.addAttribute("homeDocs", getDocs(views, usedLangcode))
+        model.addAttribute("aboutDocs", getDocs(about, usedLangcode))
         model.addAttribute("langCode", usedLangcode)
         model.addAttribute("topicKey", topicKey)
         model.addAttribute("topics", topics)
@@ -218,14 +219,48 @@ abstract class Base(
                             "#" + blog.topic, blog.topic, true
                         )
                     )
-                    previousTopic = blog.topic
                 }
+                previousTopic = blog.topic
             }
             menuItems.add(MenuItem(blog.langCode, blog.subject, blog.segment, blog.topic, false))
         }
         logger.debug("Menu fetched")
         return menuItems
     }
+
+    // Return documents stored in the file system directly
+    fun getDocs(
+        docs: Array<Doc>,
+        languageCode: String
+    ): List<MenuItem> {
+        val usedCode = validProjectLanguageCode(languageCode)
+        val documents = docs.filter { (it.topic.language.code == usedCode) }
+
+        val menuItems = mutableListOf<MenuItem>()
+        var previousTopic = ""
+        var first = true
+
+        documents.forEach { doc ->
+
+            if (doc.topic.topicKey != previousTopic) {
+                if (first)
+                    first = false
+                else {
+                    menuItems.add(
+                        MenuItem(
+                            doc.topic.language.code, msg("topic." + doc.topic.topicKey),
+                            "#" + doc.topic.topicKey, doc.topic.topicKey, true
+                        )
+                    )
+                }
+                previousTopic = doc.topic.topicKey
+            }
+            menuItems.add(MenuItem(doc.topic.language.code, doc.subject, doc.segment, doc.topic.topicKey, false))
+        }
+
+        return menuItems
+    }
+
 
     data class BlogParams(
         val blog: BlogDTO?,

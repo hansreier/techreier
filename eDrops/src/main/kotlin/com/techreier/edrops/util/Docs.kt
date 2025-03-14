@@ -24,6 +24,9 @@ object Docs {
     )
     val views =
         arrayOf(
+            Doc("ai2084", c.defaultNo, "AI paranoia", false),
+            Doc("homeoffice", c.defaultNo, "Om hjemmekontor"),
+            Doc("homeoffice", c.defaultEn, "About home office"),
             Doc("energy", c.energyNo, "Energi i Norge"),
             Doc("energy", c.energyEn, "Energy in Norway"),
             Doc("elpower", c.energyNo, "Elkraft i Norge"),
@@ -35,10 +38,7 @@ object Docs {
             Doc("ringsaker", c.energyNo, "Kraft og hytter i Ringsaker", false),
             Doc("windpower", c.energyNo, "Myter om vindkraft", false),
             Doc("energylinks", c.energyNo, "Energi linker"),
-            Doc("energylinks", c.energyEn, "Energy links"),
-            Doc("ai2084", c.energyNo, "AI paranoia", false),
-            Doc("homeoffice", c.defaultNo, "Om hjemmekontor"),
-            Doc("homeoffice", c.defaultEn, "About home office"),
+            Doc("energylinks", c.energyEn, "Energy links")
         )
 
     val about =
@@ -47,6 +47,8 @@ object Docs {
             Doc("reier", c.defaultEn, "Me"),
             Doc("links", c.defaultNo, "Mine linker"),
             Doc("links", c.defaultEn, "My links"),
+            Doc("hosting", c.defaultNo, "Mitt web hotell", false),
+            Doc("hosting", c.defaultEn, "My web host", false),
             Doc("website", c.codingNo, "Nettsted"),
             Doc("website", c.codingEn, "Website"),
             Doc("readme", c.codingNo, "Prosjektet", false),
@@ -63,10 +65,8 @@ object Docs {
             Doc("markdown", c.codingEn, "Markdown", false),
             Doc("databases", c.codingNo, "Databaser", false),
             Doc("databases", c.codingEn, "Databases", false),
-            Doc("hosting", c.defaultNo, "Mitt web hotell", false),
-            Doc("hosting", c.defaultEn, "My web host", false),
             Doc("responsive", c.codingNo, "Responsivt design"),
-            Doc("responsive", c.codingEn, "Responsive design"),
+            Doc("responsive", c.codingEn, "Responsive design")
         )
 
     val collatz =
@@ -99,38 +99,6 @@ object Docs {
             }
         }
         return DocIndex(docIndex, error)
-    }
-
-    fun getDocs(
-        docs: Array<Doc>,
-        languageCode: String
-    ): List<MenuItem> {
-        val usedCode = validProjectLanguageCode(languageCode)
-        val documents = docs.filter { (it.topic.language.code == usedCode) }
-
-        val menuItems = mutableListOf<MenuItem>()
-        var previousTopic = ""
-        var first = true
-
-        documents.forEach { doc ->
-
-            if (doc.topic.topicKey != previousTopic) {
-                if (first)
-                    first = false
-                else {
-                    menuItems.add(
-                        MenuItem(
-                            doc.topic.language.code, doc.subject,
-                            "#" + doc.topic.topicKey, doc.topic.topicKey, true
-                        )
-                    )
-                    previousTopic = doc.topic.topicKey
-                }
-            }
-            menuItems.add(MenuItem(doc.topic.language.code, doc.subject, doc.segment, doc.topic.topicKey, false))
-        }
-
-        return menuItems
     }
 
     data class DocIndex(val index: Int, val error: Boolean)
