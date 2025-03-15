@@ -221,24 +221,24 @@ abstract class Base(
         val menuItems = mutableListOf<MenuItem>()
         var previousTopic = ""
 
-        menuItemOrig.forEach { doc ->
+        menuItemOrig.forEach { menuItem ->
 
-            if (doc.topicKey != previousTopic) {
+            if (menuItem.topicKey != previousTopic) {
                 if (previousTopic.isNotEmpty()) {
                     menuItems.add(
                         MenuItem(
-                            doc.langCode,
-                            "#$doc.topicKey",
-                            msg("topic.$doc.topicKey"),
-                            doc.topicKey,
+                            menuItem.langCode,
+                            "#${menuItem.topicKey}",
+                            menuItem.topicKey,
+                            msg("topic.${menuItem.topicKey}"),
                             true,
                             true
                         )
                     )
                 }
-                previousTopic = doc.topicKey
+                previousTopic = menuItem.topicKey
             }
-            menuItems.add(doc)
+            menuItems.add(menuItem)
         }
 
         return menuItems
