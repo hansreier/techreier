@@ -42,7 +42,7 @@ interface BlogRepository : JpaRepository<Blog, Long> {
 
     //TODO evaluate later if all attributes really is needed
     @Query(
-        "SELECT new com.techreier.edrops.dto.MenuItemDTO(b.id, b.topic.language.code, b.subject, b.segment, b.topic.topicKey) " +
+        "SELECT new com.techreier.edrops.dto.MenuItemDTO(b.topic.language.code, b.subject, b.segment, b.topic.topicKey) " +
             " FROM Blog b WHERE b.topic.language.code = :languageCode ORDER BY b.topic.pos, b.pos",
     )
     fun getMenuItems(
