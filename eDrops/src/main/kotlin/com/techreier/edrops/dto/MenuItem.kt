@@ -7,9 +7,9 @@ data class MenuItem(
     val segment: String,
     val topicKey: String,
     val subject: String,
-    val langCodeExt: Boolean = true,
+    val multilingual: Boolean = true,
     val isTopic: Boolean = false
 ) {
-    constructor(segment: String, topic: Topic, subject: String, langCodeExt: Boolean = true) :
-            this(topic.language.code, segment, topic.topicKey, subject, langCodeExt)
+    constructor(segment: String, topic: Topic, subject: String, multilingual: Boolean = true) :
+            this(topic.language.code, segment, topic.topicKey, subject, multilingual)
 }
