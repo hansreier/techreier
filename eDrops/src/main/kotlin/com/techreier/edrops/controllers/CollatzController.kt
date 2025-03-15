@@ -73,7 +73,7 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
 
         redirectAttributes.addFlashAttribute("collatz", collatz)
         redirectAttributes.addFlashAttribute("result", result)
-        return "redirect:$COLLATZ_DIR"
+        return "redirect:/$COLLATZ_DIR"
     }
 
     private fun prepare(
@@ -86,7 +86,7 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
 
         if (docIndex.index >= 0 ) {
             val doc = Docs.collatz[docIndex.index]
-            val docText: String = markdownToHtml(doc, COLLATZ)
+            val docText: String = markdownToHtml(doc, COLLATZ_DIR)
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)
         }
