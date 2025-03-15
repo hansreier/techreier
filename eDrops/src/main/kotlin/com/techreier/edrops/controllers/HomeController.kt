@@ -74,6 +74,8 @@ class Home(context: Context ) : Base(context) {
             }
         }
         val doc = views[docIndex.index]
+        if (docIndex.multilingual)model.addAttribute("warning", "blogOtherLanguage")
+
         val docText: String = markdownToHtml(doc, HOME_DIR)
         model.addAttribute("doc", doc)
         model.addAttribute("docText", docText)

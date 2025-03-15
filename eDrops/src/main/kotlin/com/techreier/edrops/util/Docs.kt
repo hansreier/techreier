@@ -47,8 +47,8 @@ object Docs {
             MenuItem("reier", c.defaultEn, "Me"),
             MenuItem("links", c.defaultNo, "Mine linker"),
             MenuItem("links", c.defaultEn, "My links"),
-            MenuItem("hosting", c.defaultNo, "Mitt web hotell", false),
-            MenuItem("hosting", c.defaultEn, "My web host", false),
+            MenuItem("hosting", c.codingNo, "Mitt web hotell", false),
+            MenuItem("hosting", c.codingEn, "My web host", false),
             MenuItem("website", c.codingNo, "Nettsted"),
             MenuItem("website", c.codingEn, "Website"),
             MenuItem("readme", c.codingNo, "Prosjektet", false),
@@ -98,8 +98,8 @@ object Docs {
                 }
             }
         }
-        return DocIndex(docIndex, error)
+        return DocIndex(docIndex, error,  menuItems[docIndex].multilingual )
     }
 
-    data class DocIndex(val index: Int, val error: Boolean)
+    data class DocIndex(val index: Int, val error: Boolean, val multilingual: Boolean)
 }

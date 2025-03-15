@@ -40,6 +40,7 @@ class About(context: Context) : Base(context) {
             }
         }
 
+        if (!docIndex.multilingual)model.addAttribute("warning", "blogOtherLanguage")
         val doc = about[docIndex.index]
 
         val docText: String = markdownToHtml(doc, ABOUT_DIR)
