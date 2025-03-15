@@ -53,12 +53,12 @@
         </button>
         <div class="dropdown-content">
             <form th:action="@{/}" th:method="post">
-                <button class=dropdown-item name="doc" type="submit"
-                        th:each="doc: ${homeDocs}"
-                        th:value="${doc.segment}"
-                        th:text="${doc.subject} ? ${doc.subject} : #{${doc.segment}}"
-                        th:data-topic="${doc.isTopic}"
-                        th:data-id="${doc.segment + '-' + doc.langCode}">
+                <button class=dropdown-item name="segment" type="submit"
+                        th:each="item: ${homeMenu}"
+                        th:value="${item.segment}"
+                        th:text="${item.subject} ? ${item.subject} : #{${item.segment}}"
+                        th:data-topic="${item.isTopic}"
+                        th:data-id="${item.segment + '-' + item.langCode}">
                 </button>
             </form>
         </div>
@@ -69,12 +69,12 @@
         </button>
         <div class="dropdown-content">
             <form th:action="@{/about}" th:method="post">
-                <button class=dropdown-item name="doc" type="submit"
-                        th:each="doc: ${aboutDocs}"
-                        th:value="${doc.segment}"
-                        th:text="${doc.subject} ? ${doc.subject} : #{${doc.segment}}"
-                        th:data-topic="${doc.isTopic}"
-                        th:data-id="${doc.segment + '_' + doc.langCode}">
+                <button class=dropdown-item name="segment" type="submit"
+                        th:each="item: ${aboutMenu}"
+                        th:value="${item.segment}"
+                        th:text="${item.subject} ? ${item.subject} : #{${item.segment}}"
+                        th:data-topic="${item.isTopic}"
+                        th:data-id="${item.segment + '_' + item.langCode}">
                 </button>
             </form>
         </div>
@@ -87,11 +87,11 @@
             <a th:href="@{/collatz}" class="dropdown-item" th:text="#{collatz}"></a>
             <form th:action="@{/blogs}" th:method="post">
                 <button class=dropdown-item type="submit" name="result"
-                        th:each="blog: ${menu}"
-                        th:value="${blog.segment}"
-                        th:text="${blog.subject}"
-                        th:data-topic="${blog.isTopic}"
-                        th:data-id="${blog.segment + '.' + blog.langCode}">
+                        th:each="item: ${menu}"
+                        th:value="${item.segment}"
+                        th:text="${item.subject}"
+                        th:data-topic="${item.isTopic}"
+                        th:data-id="${item.segment + '.' + item.langCode}">
                 </button>
             </form>
         </div>
@@ -112,11 +112,11 @@
                 </div>
                 <form th:action="@{/admin}" th:method="post">
                     <button class=dropdown-item name="result" type="submit"
-                            th:each="blog: ${menu}"
-                            th:value="${blog.segment}"
-                            th:text="${blog.subject}"
-                            th:data-topic="${blog.isTopic}"
-                            th:data-id="${blog.segment + '+' + blog.langCode}">
+                            th:each="item: ${menu}"
+                            th:value="${item.segment}"
+                            th:text="${item.subject}"
+                            th:data-topic="${item.isTopic}"
+                            th:data-id="${item.segment + '+' + item.langCode}">
                     </button>
                 </form>
             </div>
@@ -127,9 +127,9 @@
                     </form>
                     <form th:action="@{/admin}" th:method="post">
                         <button class=dropdown-item name="result" type="submit"
-                                th:each="blog: ${menu}"
-                                th:value="${blog.segment}"
-                                th:text="${blog.subject}">
+                                th:each="item: ${menu}"
+                                th:value="${item.segment}"
+                                th:text="${item.subject}">
                         </button>
                     </form>
                 </div>

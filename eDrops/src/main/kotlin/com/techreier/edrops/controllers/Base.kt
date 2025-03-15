@@ -66,15 +66,15 @@ abstract class Base(
             }
 
         val action = (model.getAttribute("action") ?: "") as String
-        model.addAttribute("homeDocs", getDocs(views, usedLangcode))
-        model.addAttribute("aboutDocs", getDocs(about, usedLangcode))
+        model.addAttribute("homeMenu", fetchMenuFromDisk(views, usedLangcode))
+        model.addAttribute("aboutMenu", fetchMenuFromDisk(about, usedLangcode))
         model.addAttribute("langCode", usedLangcode)
         model.addAttribute("topicKey", topicKey)
         model.addAttribute("topics", topics)
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("path", path)
-        model.addAttribute("menu", fetchMenu(usedLangcode))
+        model.addAttribute("menu", fetchMenuFromDb(usedLangcode))
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
@@ -197,47 +197,48 @@ abstract class Base(
         return topics
     }
 
-    // Assumption: Only one owner and admin user: Me.
-    // TODO: If several owners is permitted an extra level in URL must be added
-    private fun fetchMenu(langCode: String): List<MenuItem> {
+    // Fetch menu items from database (Note: Only own owner in this implementation)
+    private fun fetchMenuFromDb(langCode: String): List<MenuItem> {
         logger.debug("Fetch menu items by langCode: $langCode")
         val blogs = ctx.blogService.readMenu(langCode)
         return getMenuItems(blogs)
     }
 
-    // Return documents stored in the file system directly
-    fun getDocs(
+    // Fetch menu items from documents stored on disk
+    private fun fetchMenuFromDisk(
         docs: Array<MenuItem>,
-        languageCode: String
+        languageCode: String,
     ): List<MenuItem> {
         val usedCode = validProjectLanguageCode(languageCode)
         val documents = docs.filter { (it.langCode == usedCode) }
         return getMenuItems(documents)
     }
 
-    // Return documents stored in the file system directly
-    fun getMenuItems(menuItemOrig: List<MenuItem>
+    private fun getMenuItems(
+        menuItemOrig: List<MenuItem>,
     ): List<MenuItem> {
 
         val menuItems = mutableListOf<MenuItem>()
         var previousTopic = ""
-        var first = true
 
         menuItemOrig.forEach { doc ->
 
             if (doc.topicKey != previousTopic) {
-                if (first)
-                    first = false
-                else {
+                if (previousTopic.isNotEmpty()) {
                     menuItems.add(
                         MenuItem(
-                            doc.langCode, "#" + doc.topicKey, msg("topic." + doc.topicKey), doc.topicKey, true, true
+                            doc.langCode,
+                            "#$doc.topicKey",
+                            msg("topic.$doc.topicKey"),
+                            doc.topicKey,
+                            true,
+                            true
                         )
                     )
                 }
                 previousTopic = doc.topicKey
             }
-            menuItems.add(MenuItem(doc.langCode, doc.segment, doc.topicKey, doc.subject))
+            menuItems.add(doc)
         }
 
         return menuItems
