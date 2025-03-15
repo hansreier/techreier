@@ -80,7 +80,7 @@ class BlogEntryController(
     ): String {
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
-        logger.info("blog entry: path: $path action:  $action")
+        logger.info("blog entry: path: $path action:  $action blogid: $blogId")
         if (action == "save" || action == "saveCreate") {
             checkSegment(blogEntryForm.segment, "blogEntryForm", "segment", bindingResult)
             checkStringSize(blogEntryForm.title, MAX_TITLE_SIZE, "blogEntryForm", "title", bindingResult, 1)
@@ -97,7 +97,6 @@ class BlogEntryController(
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
                     is DuplicateSegmentException ->
                         bindingResult.addFieldError("blogEntryForm", "segment", "duplicate", blogEntryForm.segment)
-
                     else -> throw e
                 }
                 prepare(model, request, response, segment, changed)

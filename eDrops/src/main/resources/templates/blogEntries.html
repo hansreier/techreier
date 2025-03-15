@@ -11,6 +11,7 @@
     <div id="headline">
         <h2 th:text="${blog.subject}"/>
         <form th:action="@{${path}}" method="post">
+            <input type="hidden" th:value="${blog.id}" name="blogId">
             <button type="submit" th:text="#{create}" name="action" th:value="create"></button>
         </form>
     </div>
@@ -53,7 +54,7 @@
                     <textarea id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"></textarea>
                 </div>
                 <input type="hidden" th:field="*{id}">
-                <input type="hidden" th:value="${blogId}" name="blogId">
+                <input type="hidden" th:value="${blog.id}" name="blogId">
                 <input type="hidden" th:value="${changed}" name="changed">
             </div>
             <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
