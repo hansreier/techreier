@@ -9,8 +9,6 @@ import com.techreier.edrops.domain.TOPIC_DEFAULT
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
-import com.techreier.edrops.util.Doc
-import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.views
 import com.techreier.edrops.util.validProjectLanguageCode
@@ -204,67 +202,49 @@ abstract class Base(
     private fun fetchMenu(langCode: String): List<MenuItem> {
         logger.debug("Fetch menu items by langCode: $langCode")
         val blogs = ctx.blogService.readMenu(langCode)
-        val menuItems = mutableListOf<MenuItem>()
-        var previousTopic = ""
-        var first = true
-
-        blogs.forEach { blog ->
-            if (blog.topic != previousTopic) {
-                if (first)
-                    first = false
-                else {
-                    menuItems.add(
-                        MenuItem(
-                            blog.langCode, msg("topic." + blog.topic),
-                            "#" + blog.topic, blog.topic, true
-                        )
-                    )
-                }
-                previousTopic = blog.topic
-            }
-            menuItems.add(MenuItem(blog.langCode, blog.subject, blog.segment, blog.topic, false))
-        }
-        logger.debug("Menu fetched")
-        return menuItems
+        return getMenuItems(blogs)
     }
 
     // Return documents stored in the file system directly
     fun getDocs(
-        docs: Array<Doc>,
+        docs: Array<MenuItem>,
         languageCode: String
     ): List<MenuItem> {
         val usedCode = validProjectLanguageCode(languageCode)
-        val documents = docs.filter { (it.topic.language.code == usedCode) }
+        val documents = docs.filter { (it.langCode == usedCode) }
+        return getMenuItems(documents)
+    }
+
+    // Return documents stored in the file system directly
+    fun getMenuItems(menuItemOrig: List<MenuItem>
+    ): List<MenuItem> {
 
         val menuItems = mutableListOf<MenuItem>()
         var previousTopic = ""
         var first = true
 
-        documents.forEach { doc ->
+        menuItemOrig.forEach { doc ->
 
-            if (doc.topic.topicKey != previousTopic) {
+            if (doc.topicKey != previousTopic) {
                 if (first)
                     first = false
                 else {
                     menuItems.add(
                         MenuItem(
-                            doc.topic.language.code, msg("topic." + doc.topic.topicKey),
-                            "#" + doc.topic.topicKey, doc.topic.topicKey, true
+                            doc.langCode, "#" + doc.topicKey, msg("topic." + doc.topicKey), doc.topicKey, true, true
                         )
                     )
                 }
-                previousTopic = doc.topic.topicKey
+                previousTopic = doc.topicKey
             }
-            menuItems.add(MenuItem(doc.topic.language.code, doc.subject, doc.segment, doc.topic.topicKey, false))
+            menuItems.add(MenuItem(doc.langCode, doc.segment, doc.topicKey, doc.subject))
         }
 
         return menuItems
     }
 
-
     data class BlogParams(
         val blog: BlogDTO?,
-        // val locale: Locale,
         val oldLangCode: String?,
         val usedLangCode: String,
         val action: String,

@@ -1,5 +1,6 @@
 package com.techreier.edrops.util
 
+import com.techreier.edrops.dto.MenuItem
 import com.vladsch.flexmark.ast.Link
 import com.vladsch.flexmark.ext.autolink.AutolinkExtension
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
@@ -103,10 +104,10 @@ fun sanitize(html: String): String {
 }
 
 //Must do it this way with classLoader and streams to be able to read files in Docker and locally
-fun markdownToHtml(doc: Doc, subDir: String=""): String {
-    val lc = if (doc.langcode_ext) "_" + doc.topic.language.code else ""
+fun markdownToHtml(menuItem: MenuItem, subDir: String=""): String {
+    val lc = if (menuItem.langCodeExt) "_" + menuItem.langCode else ""
     val classLoader = object {}.javaClass.classLoader
-    val fileName = "static/markdown/" + subDir + "/" + doc.segment + lc + MARKDOWN_EXT
+    val fileName = "static/markdown/" + subDir + "/" + menuItem.segment + lc + MARKDOWN_EXT
     val inputStream = classLoader.getResourceAsStream(fileName)
     return markdownToHtml(
         inputStream?.bufferedReader().use { it?.readText() ?: "$fileName not found" }, true)

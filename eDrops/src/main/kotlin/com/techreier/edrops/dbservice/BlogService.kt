@@ -3,7 +3,7 @@ package com.techreier.edrops.dbservice
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.dto.BlogDTO
-import com.techreier.edrops.dto.MenuItemDTO
+import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.dto.toDTO
 import com.techreier.edrops.repository.BlogRepository
 import org.springframework.stereotype.Service
@@ -49,7 +49,7 @@ class BlogService(
 
     fun readMenu(
         languageCode: String,
-    ): List<MenuItemDTO> {
+    ): List<MenuItem> {
         logger.info("Read menu from blog with language: $languageCode")
         return blogRepo.getMenuItems(languageCode)
     }

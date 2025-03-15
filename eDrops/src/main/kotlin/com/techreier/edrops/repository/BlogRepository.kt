@@ -2,7 +2,7 @@ package com.techreier.edrops.repository
 
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.dto.BlogLanguageDTO
-import com.techreier.edrops.dto.MenuItemDTO
+import com.techreier.edrops.dto.MenuItem
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -40,14 +40,13 @@ interface BlogRepository : JpaRepository<Blog, Long> {
         segment: String,
     ): Blog?
 
-    //TODO evaluate later if all attributes really is needed
     @Query(
-        "SELECT new com.techreier.edrops.dto.MenuItemDTO(b.topic.language.code, b.subject, b.segment, b.topic.topicKey) " +
+        "SELECT new com.techreier.edrops.dto.MenuItem(b.topic.language.code, b.segment,  b.topic.topicKey, b.subject, true, false) " +
             " FROM Blog b WHERE b.topic.language.code = :languageCode ORDER BY b.topic.pos, b.pos",
     )
     fun getMenuItems(
         languageCode: String
-    ): List<MenuItemDTO>
+    ): List<MenuItem>
 
     // Assumption: Only one owner. TODO Check for not saving blogs that returns duplicates here. Will crash here.
     @Query(
