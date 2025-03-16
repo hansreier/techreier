@@ -9,14 +9,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 top = false
             }
             if (!top) {
-                item.classList.add("topic")
+                item.classList.add("firstTopicDown")
                 let expandable = sessionStorage.getItem(item.dataset.id + ".expandable")
                 let collapsed = sessionStorage.getItem(item.dataset.id + ".collapsed")
                 console.log("id", item.dataset.id,
                     "collapsed: ", sessionStorage.getItem(item.dataset.id + ".collapsed"),
                     "expandable: ", sessionStorage.getItem(item.dataset.id + ".expandable"))
                 if (item.dataset.topic === "true") {
-
                     if (expandable === "true" || (expandable == null)) {
                         item.classList.add("expandable")
                     } else {

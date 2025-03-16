@@ -138,7 +138,7 @@ header {
 	padding-bottom: 0.2rem;
 	padding-left: 1rem;
 	margin: 0;
-	background-color: yellow;
+	background-color: Gold;
 	border-style: solid;
 	border-width: 0 0 1px;
     overflow: hidden;
@@ -404,9 +404,9 @@ img:hover::after {
 }
 
 
-	/* Add a black background color to the top navigation */
+/* Add a black background color to the top navigation */
 .navbar {
-	background-color: #333;
+	background-color: dimgray;
 	overflow: hidden;
 }
 
@@ -488,11 +488,11 @@ img:hover::after {
 }
 
 /* Style for collapsible menu items */
-.dropdown-item.topic {
+.dropdown-item[data-topic="false"].firstTopicDown:not(.collapsed) {
 }
 
-/* Style for not collapsible meny items */
-.dropdown-item:not(.topic) {
+/* Style for menu items before first topic */
+.dropdown-item:not(.firstTopicDown) {
 }
 
 /* Style for the topic to expand */
@@ -502,8 +502,8 @@ img:hover::after {
 
 .dropdown-item[data-topic="true"].expandable::after {
 	content: "+";
+	margin-left: 0.5rem;
 	font-weight: bold;
-	margin-left: 0.5em;
 }
 
 /* style for the topic to collapse */
@@ -512,9 +512,9 @@ img:hover::after {
 }
 
 .dropdown-item[data-topic="true"]:not(.expandable)::after {
-	content: "-";
+	content: "−";
+	margin-left: 0.5rem;
 	font-weight: bold;
-	margin-left: 0.5em;
 }
 
 /* Validation error text */
