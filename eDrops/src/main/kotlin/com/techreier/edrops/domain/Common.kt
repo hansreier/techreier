@@ -4,6 +4,8 @@ const val NORWEGIAN = "Norwegian"
 const val ENGLISH = "English"
 const val NB = "nb"
 const val EN = "en"
+const val DEFAULT_LANGCODE = EN
+
 const val TOPIC_DEFAULT = "default"
 const val TOPIC_CODING = "coding"
 const val TOPIC_ENERGY = "energy"

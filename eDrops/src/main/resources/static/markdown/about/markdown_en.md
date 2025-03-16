@@ -59,9 +59,9 @@ The title attribute of image is also removed, if I do not tell the sanitizer to 
 Examples of links:  
 [Link to home](../home_en.md)  
 [Link to about electrical power](../elpower_en.md)  
-[Link to tech](tech.md)  
+[Link to tech](tech_en)  
 [Link to internal Bottom headline](#bottom-headline)  
-[Link to tech how to headline](tech.md#how-to-make-a-text-based-website-without-coding-html)  
+[Link to tech how to headline](tech_en#how-to-make-a-text-based-website-without-coding-html)  
 [Link to default blog](../blogs)  
 [Link to environment blog](../blogs/env)  
 [Link to energy blog](../blogs/energy). Test of failure, no English energy blog.  With Norwegian set as language: OK.  

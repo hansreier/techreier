@@ -1,5 +1,6 @@
 package com.techreier.edrops.util
 
+import com.techreier.edrops.domain.DEFAULT_LANGCODE
 import com.techreier.edrops.dto.MenuItem
 import com.vladsch.flexmark.ast.Link
 import com.vladsch.flexmark.ext.autolink.AutolinkExtension
@@ -21,7 +22,7 @@ import java.util.*
 
 private val logger = LoggerFactory.getLogger("markdownToHtml")
 
-private val headers = arrayOf("h1","h2","h3","h4","h5","h6")
+private val headers = arrayOf("h1", "h2", "h3", "h4", "h5", "h6")
 
 var visitor: NodeVisitor = NodeVisitor(
     VisitHandler(Link::class.java) { link: Link -> visit(link) }
@@ -34,17 +35,17 @@ fun visit(link: Link) {
     visitor.visitChildren(link)
 }
 
-private fun replaceFileLinks(origPath: String):String {
+private fun replaceFileLinks(origPath: String): String {
     if (origPath.contains(".md")) {
         val segment = origPath.substringAfterLast("#", "")
         val path = origPath.substringBeforeLast("#")
             .replace(".md", "")
             .replaceAfterLast("_", "")
             .replace("_", "")
-            .replace("/home","/") //home page no subpath
-        val newPath =  if (segment.isEmpty()) path else "$path#$segment"
+            .replace("/home", "/") //home page no subpath
+        val newPath = if (segment.isEmpty()) path else "$path#$segment"
         logger.debug("Visitor - Link path replaced: $origPath to: $newPath")
-        return  newPath
+        return newPath
     } else return origPath
 }
 
@@ -59,7 +60,9 @@ fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
                 AutolinkExtension.create(),
                 TablesExtension.create(),
                 StrikethroughExtension.create(),
-                TaskListExtension.create()))
+                TaskListExtension.create()
+            )
+        )
 
     options.set(TablesExtension.COLUMN_SPANS, false)
         .set(TablesExtension.MIN_HEADER_ROWS, 1)
@@ -80,8 +83,7 @@ fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
     val document: Node = parser.parse(markdown)
     visitor.visit(document)
     val html = renderer.render(document)
-    return if (sanitizer) sanitize(html) else
-    {
+    return if (sanitizer) sanitize(html) else {
         logger.warn("Sanitizer turned off, use just for testing")
         html
     }
@@ -103,16 +105,35 @@ fun sanitize(html: String): String {
     return policy.sanitize(html)
 }
 
-//Must do it this way with classLoader and streams to be able to read files in Docker and locally
-fun markdownToHtml(menuItem: MenuItem, subDir: String=""): String {
-    val lc = if (menuItem.multilingual) "_" + menuItem.langCode else ""
+// Must do it this way with classLoader and streams to be able to read files in Docker and locally
+// This implementation read file with file name constructed from segment and selected language code
+// If not found it will look up a file named by default language code instead.
+// What this means is that if Norwegian is selected, some text can be presented in English instead if not found.
+fun markdownToHtml(menuItem: MenuItem, subDir: String = ""): InlineHtml {
+    var warning = false
     val classLoader = object {}.javaClass.classLoader
-    val fileName = "static/markdown" + subDir + "/" + menuItem.segment + lc + MARKDOWN_EXT
+    val prefix = "static/markdown$subDir/${menuItem.segment}_"
+    val fileName = prefix + menuItem.langCode + MARKDOWN_EXT
     val inputStream = classLoader.getResourceAsStream(fileName)
-    return markdownToHtml(
-        inputStream?.bufferedReader().use { it?.readText() ?: "$fileName not found" }, true)
+    val markdown = inputStream?.bufferedReader().use { file ->
+        file?.readText() ?: run {
+            if (DEFAULT_LANGCODE != menuItem.langCode) {
+                warning = true
+                val defaultFileName = prefix + DEFAULT_LANGCODE + MARKDOWN_EXT
+                val defaultInputStream = classLoader.getResourceAsStream(defaultFileName)
+                defaultInputStream?.bufferedReader().use { defaultFile ->
+                    defaultFile?.readText() ?: run {
+                        warning = false
+                        "$fileName and $defaultFileName not found"
+                    }
+                }
+            } else "$fileName not found"
+        }
+    }
+
+    return InlineHtml(markdownToHtml(markdown, true), warning)
 }
 
-
+data class InlineHtml(val markdown: String, val warning: Boolean)
 
 

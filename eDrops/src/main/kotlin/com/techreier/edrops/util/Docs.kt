@@ -24,7 +24,7 @@ object Docs {
     )
     val views =
         arrayOf(
-            MenuItem("ai2084", c.defaultNo, "AI paranoia", false),
+            MenuItem("ai2084", c.defaultNo, "AI paranoia"),
             MenuItem("homeoffice", c.defaultNo, "Om hjemmekontor"),
             MenuItem("homeoffice", c.defaultEn, "About home office"),
             MenuItem("energy", c.energyNo, "Energi i Norge"),
@@ -33,10 +33,10 @@ object Docs {
             MenuItem("elpower", c.energyEn, "Electrical power in Norway"),
             MenuItem("manifest", c.energyNo, "Strøm manifest"),
             MenuItem("manifest", c.energyEn, "Electrical power manifest"),
-            MenuItem("elprice", c.energyNo, "Strøm(pris)krisen", false),
-            MenuItem("elcrazy", c.energyNo, "To år med elgalskap", false),
-            MenuItem("ringsaker", c.energyNo, "Kraft og hytter i Ringsaker", false),
-            MenuItem("windpower", c.energyNo, "Myter om vindkraft", false),
+            MenuItem("elprice", c.energyNo, "Strøm(pris)krisen"),
+            MenuItem("elcrazy", c.energyNo, "To år med elgalskap"),
+            MenuItem("ringsaker", c.energyNo, "Kraft og hytter i Ringsaker"),
+            MenuItem("windpower", c.energyNo, "Myter om vindkraft"),
             MenuItem("energylinks", c.energyNo, "Energi linker"),
             MenuItem("energylinks", c.energyEn, "Energy links")
         )
@@ -47,24 +47,24 @@ object Docs {
             MenuItem("reier", c.defaultEn, "Me"),
             MenuItem("links", c.defaultNo, "Mine linker"),
             MenuItem("links", c.defaultEn, "My links"),
-            MenuItem("hosting", c.codingNo, "Mitt web hotell", false),
-            MenuItem("hosting", c.codingEn, "My web host", false),
+            MenuItem("hosting", c.codingNo, "Mitt web hotell"),
+            MenuItem("hosting", c.codingEn, "My web host"),
             MenuItem("website", c.codingNo, "Nettsted"),
             MenuItem("website", c.codingEn, "Website"),
-            MenuItem("readme", c.codingNo, "Prosjektet", false),
-            MenuItem("readme", c.codingEn, "Project", false),
-            MenuItem("tech", c.codingNo, "Teknologi", false),
-            MenuItem("tech", c.codingEn, "Technology", false),
+            MenuItem("readme", c.codingNo, "Prosjektet"),
+            MenuItem("readme", c.codingEn, "Project"),
+            MenuItem("tech", c.codingNo, "Teknologi"),
+            MenuItem("tech", c.codingEn, "Technology"),
             MenuItem("maintainable", c.codingNo, "Vedlikeholdbarhet"),
             MenuItem("maintainable", c.codingEn, "Maintainability"),
             MenuItem("greenit", c.codingNo, "Grønn IKT"),
             MenuItem("greenit", c.codingEn, "Green ICT"),
             MenuItem("greencode", c.codingNo, "Grønn koding"),
             MenuItem("greencode", c.codingEn, "Green coding"),
-            MenuItem("markdown", c.codingNo, "Markdown", false),
-            MenuItem("markdown", c.codingEn, "Markdown", false),
-            MenuItem("databases", c.codingNo, "Databaser", false),
-            MenuItem("databases", c.codingEn, "Databases", false),
+            MenuItem("markdown", c.codingNo, "Markdown"),
+            MenuItem("markdown", c.codingEn, "Markdown"),
+            MenuItem("databases", c.codingNo, "Databaser"),
+            MenuItem("databases", c.codingEn, "Databases"),
             MenuItem("responsive", c.codingNo, "Responsivt design"),
             MenuItem("responsive", c.codingEn, "Responsive design")
         )
@@ -98,8 +98,8 @@ object Docs {
                 }
             }
         }
-        return DocIndex(docIndex, error,  menuItems[docIndex].multilingual )
+        return DocIndex(docIndex, error )
     }
 
-    data class DocIndex(val index: Int, val error: Boolean, val multilingual: Boolean)
+    data class DocIndex(val index: Int, val error: Boolean)
 }

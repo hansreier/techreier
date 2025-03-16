@@ -226,13 +226,8 @@ abstract class Base(
             if (menuItem.topicKey != previousTopic) {
                 if (previousTopic.isNotEmpty()) {
                     menuItems.add(
-                        MenuItem(
-                            menuItem.langCode,
-                            "#${menuItem.topicKey}",
-                            menuItem.topicKey,
-                            msg("topic.${menuItem.topicKey}"),
-                            true,
-                            true
+                        MenuItem(menuItem.langCode, "#${menuItem.topicKey}", menuItem.topicKey,
+                            msg("topic.${menuItem.topicKey}"), true
                         )
                     )
                 }

@@ -30,10 +30,11 @@ class Home(context: Context ) : Base(context) {
         val docIndex = getDocIndex(Docs.home, blogParams.oldLangCode, blogParams.usedLangCode)
 
         if (docIndex.index >= 0 ) {
+
             val doc = Docs.home[docIndex.index]
-            val docText: String = markdownToHtml(doc)
             model.addAttribute("doc", doc)
-            model.addAttribute("docText", docText)
+            model.addAttribute("docText", markdownToHtml(doc, HOME_DIR).markdown)
+
         } else {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }
@@ -73,12 +74,12 @@ class Home(context: Context ) : Base(context) {
                 model.addAttribute("docLangCode", blogParams.oldLangCode)
             }
         }
-        val doc = views[docIndex.index]
-        if (docIndex.multilingual)model.addAttribute("warning", "blogOtherLanguage")
 
-        val docText: String = markdownToHtml(doc, HOME_DIR)
+        val doc = views[docIndex.index]
+        val inlineHtml =  markdownToHtml(doc, HOME_DIR)
+        if (inlineHtml.warning) model.addAttribute("warning", "blogOtherLanguage")
         model.addAttribute("doc", doc)
-        model.addAttribute("docText", docText)
+        model.addAttribute("docText", inlineHtml.markdown)
         return HOME
     }
 

@@ -86,7 +86,7 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
 
         if (docIndex.index >= 0 ) {
             val doc = Docs.collatz[docIndex.index]
-            val docText: String = markdownToHtml(doc, COLLATZ_DIR)
+            val docText: String = markdownToHtml(doc, COLLATZ_DIR).markdown
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)
         }
