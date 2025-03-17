@@ -214,7 +214,8 @@ abstract class Base(
 
     // Function assumes menu items (blogs) to be sorted by Topic position and MenuItem position.
     // If desired topics is added to the menu with items underneath it
-    // TOPIC_ITEMS_MINIMUM desides this criteria.
+    // TOPIC_ITEMS_MINIMUM decides this criteria.
+    // TODO Method is suitable for unit test
     private fun getMenuItems(
         menuItemOrig: List<MenuItem>, topicsItemsMinimum: Int
     ): List<MenuItem> {
@@ -250,7 +251,7 @@ abstract class Base(
                 previousTopic = menuItem.topicKey
             }
 
-            if (count > 0) { // Move menuItems up if topic is not added to menu
+            if (count > 0) { // Move menu item up if topic is not added to menu
                 menuItems.add(endPos, menuItem)
                 endPos++
                 count--
