@@ -12,6 +12,8 @@ const val TOPIC_ENERGY = "energy"
 const val TOPIC_ENVIRONMENT = "env"
 const val TOPIC_SPORT = "sport"
 
+const val TOPIC_ITEMS_MINIMUM = 10 //Minimum number of items within a topic sub menu
+
 class Common {
     val norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
     val english: LanguageCode = LanguageCode(ENGLISH, EN)

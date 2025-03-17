@@ -4,9 +4,7 @@ import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.LanguageCode
-import com.techreier.edrops.domain.TOPIC_DEFAULT
-import com.techreier.edrops.domain.Topic
+import com.techreier.edrops.domain.*
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.util.Docs.about
@@ -201,7 +199,7 @@ abstract class Base(
     private fun fetchMenuFromDb(langCode: String): List<MenuItem> {
         logger.debug("Fetch menu items by langCode: $langCode")
         val blogs = ctx.blogService.readMenu(langCode)
-        return getMenuItems(blogs)
+        return getMenuItems(blogs, TOPIC_ITEMS_MINIMUM)
     }
 
     // Fetch menu items from documents stored on disk
@@ -211,29 +209,54 @@ abstract class Base(
     ): List<MenuItem> {
         val usedCode = validProjectLanguageCode(languageCode)
         val documents = docs.filter { (it.langCode == usedCode) }
-        return getMenuItems(documents)
+        return getMenuItems(documents, TOPIC_ITEMS_MINIMUM)
     }
 
+    // Function assumes menu items (blogs) to be sorted by Topic position and MenuItem position.
+    // If desired topics is added to the menu with items underneath it
+    // TOPIC_ITEMS_MINIMUM desides this criteria.
     private fun getMenuItems(
-        menuItemOrig: List<MenuItem>,
+        menuItemOrig: List<MenuItem>, topicsItemsMinimum: Int
     ): List<MenuItem> {
 
         val menuItems = mutableListOf<MenuItem>()
         var previousTopic = ""
+        var endPos = 0
+        val size = menuItemOrig.size
+        var count = 0
 
-        menuItemOrig.forEach { menuItem ->
+        menuItemOrig.forEachIndexed { index, menuItem ->
 
             if (menuItem.topicKey != previousTopic) {
                 if (previousTopic.isNotEmpty()) {
-                    menuItems.add(
-                        MenuItem(menuItem.langCode, "#${menuItem.topicKey}", menuItem.topicKey,
-                            msg("topic.${menuItem.topicKey}"), true
+                    if (endPos == 0) endPos = menuItems.size
+
+                    var pos = index
+                    val firstPos = pos
+                    do {
+                        pos++
+                    } while ((pos < size) && (menuItemOrig[pos].topicKey == menuItem.topicKey) )
+                    count = pos - firstPos
+                    if (count >= topicsItemsMinimum) { // Eventually add topic to menu
+                        count = 0
+                        menuItems.add(
+                            MenuItem(
+                                menuItem.langCode, "#${menuItem.topicKey}", menuItem.topicKey,
+                                msg("topic.${menuItem.topicKey}"), true
+                            )
                         )
-                    )
+                    }
                 }
                 previousTopic = menuItem.topicKey
             }
-            menuItems.add(menuItem)
+
+            if (count > 0) { // Move menuItems up if topic is not added to menu
+                menuItems.add(endPos, menuItem)
+                endPos++
+                count--
+            } else {
+                menuItems.add(menuItem)
+            }
         }
 
         return menuItems
