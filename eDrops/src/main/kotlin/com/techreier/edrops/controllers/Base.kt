@@ -199,7 +199,7 @@ abstract class Base(
     private fun fetchMenuFromDb(langCode: String): List<MenuItem> {
         logger.debug("Fetch menu items by langCode: $langCode")
         val blogs = ctx.blogService.readMenu(langCode)
-        return getMenuItems(blogs, TOPIC_ITEMS_MINIMUM)
+        return getMenuItems(blogs, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE)
     }
 
     // Fetch menu items from documents stored on disk
@@ -209,7 +209,7 @@ abstract class Base(
     ): List<MenuItem> {
         val usedCode = validProjectLanguageCode(languageCode)
         val documents = docs.filter { (it.langCode == usedCode) }
-        return getMenuItems(documents, TOPIC_ITEMS_MINIMUM)
+        return getMenuItems(documents, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE)
     }
 
     // Function assumes menu items (blogs) to be sorted by Topic position and MenuItem position.
@@ -217,18 +217,19 @@ abstract class Base(
     // TOPIC_ITEMS_MINIMUM decides this criteria.
     // TODO Method is suitable for unit test
     private fun getMenuItems(
-        menuItemOrig: List<MenuItem>, topicsItemsMinimum: Int
+        menuItemOrig: List<MenuItem>, submenuMinItems: Int, menuSplitSize: Int
     ): List<MenuItem> {
 
         val menuItems = mutableListOf<MenuItem>()
         var previousTopic = ""
         var endPos = 0
         val size = menuItemOrig.size
+        val split = size >= menuSplitSize
         var count = 0
 
         menuItemOrig.forEachIndexed { index, menuItem ->
 
-            if (menuItem.topicKey != previousTopic) {
+            if ((menuItem.topicKey != previousTopic) && split) {
                 if (previousTopic.isNotEmpty()) {
                     if (endPos == 0) endPos = menuItems.size
 
@@ -238,7 +239,7 @@ abstract class Base(
                         pos++
                     } while ((pos < size) && (menuItemOrig[pos].topicKey == menuItem.topicKey) )
                     count = pos - firstPos
-                    if (count >= topicsItemsMinimum) { // Eventually add topic to menu
+                    if (count >= submenuMinItems) { // Eventually add topic to menu
                         count = 0
                         menuItems.add(
                             MenuItem(
