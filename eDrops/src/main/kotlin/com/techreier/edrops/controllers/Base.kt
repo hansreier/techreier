@@ -9,6 +9,8 @@ import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.views
+import com.techreier.edrops.util.getMenuItems
+import com.techreier.edrops.util.msg
 import com.techreier.edrops.util.validProjectLanguageCode
 import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
@@ -88,7 +90,8 @@ abstract class Base(
         key: String,
         defaultFieldValue: String? = null,
     ) {
-        addError(FieldError(form, field, defaultFieldValue, true, null, null, msg("error.$key")))
+        addError(FieldError(form, field, defaultFieldValue, true, null, null,
+            msg(ctx.messageSource,"error.$key")))
     }
 
     protected fun checkSegment(
@@ -146,16 +149,10 @@ abstract class Base(
         }
     }
 
-    // Return language dependent message from any key
-    protected fun msg(key: String): String {
-        val locale = LocaleContextHolder.getLocale()
-        return ctx.messageSource.getMessage(key, null, "??$key??", locale) as String
-    }
-
     // Return a formatted string of datetime given a format selected in language file by locale
     // It was planned to be used, but is not. Not tested: What happens if datetime.format is undefined.
     protected fun datetime(dateTime: ZonedDateTime): String {
-        val formatter = DateTimeFormatter.ofPattern(msg("datetime.format"))
+        val formatter = DateTimeFormatter.ofPattern(msg(ctx.messageSource,"datetime.format"))
         return dateTime.format(formatter)
     }
 
@@ -167,7 +164,7 @@ abstract class Base(
         key: String,
         bindingResult: BindingResult,
     ) {
-        val errorMessage = msg("error.$key") + if (e.message.isNullOrBlank()) "" else ": ${e.message}"
+        val errorMessage = msg(ctx.messageSource, "error.$key") + if (e.message.isNullOrBlank()) "" else ": ${e.message}"
         logger.warn("${e.javaClass}: $errorMessage")
         bindingResult.reject("key", errorMessage)
     }
@@ -189,7 +186,7 @@ abstract class Base(
         val topics = ctx.genService.readTopics(languageCode)
         topics.forEach { topic ->
             if (topic.text.isNullOrBlank()) {
-                topic.text = msg("topic." + topic.topicKey)
+                topic.text = msg(ctx.messageSource,"topic." + topic.topicKey)
             }
         }
         return topics
@@ -199,7 +196,7 @@ abstract class Base(
     private fun fetchMenuFromDb(langCode: String): List<MenuItem> {
         logger.debug("Fetch menu items by langCode: $langCode")
         val blogs = ctx.blogService.readMenu(langCode)
-        return getMenuItems(blogs, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE)
+        return getMenuItems(blogs, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE, ctx.messageSource)
     }
 
     // Fetch menu items from documents stored on disk
@@ -209,60 +206,9 @@ abstract class Base(
     ): List<MenuItem> {
         val usedCode = validProjectLanguageCode(languageCode)
         val documents = docs.filter { (it.langCode == usedCode) }
-        return getMenuItems(documents, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE)
+        return getMenuItems(documents, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE,  ctx.messageSource)
     }
 
-    // Function assumes menu items (blogs) to be sorted by Topic position and MenuItem position.
-    // If desired topics is added to the menu with items underneath it
-    // TOPIC_ITEMS_MINIMUM decides this criteria.
-    // TODO Method is suitable for unit test
-    private fun getMenuItems(
-        menuItemOrig: List<MenuItem>, submenuMinItems: Int, menuSplitSize: Int
-    ): List<MenuItem> {
-
-        val menuItems = mutableListOf<MenuItem>()
-        var previousTopic = ""
-        var endPos = 0
-        val size = menuItemOrig.size
-        val split = size >= menuSplitSize
-        var count = 0
-
-        menuItemOrig.forEachIndexed { index, menuItem ->
-
-            if ((menuItem.topicKey != previousTopic) && split) {
-                if (previousTopic.isNotEmpty()) {
-                    if (endPos == 0) endPos = menuItems.size
-
-                    var pos = index
-                    val firstPos = pos
-                    do {
-                        pos++
-                    } while ((pos < size) && (menuItemOrig[pos].topicKey == menuItem.topicKey) )
-                    count = pos - firstPos
-                    if (count >= submenuMinItems) { // Eventually add topic to menu
-                        count = 0
-                        menuItems.add(
-                            MenuItem(
-                                menuItem.langCode, "#${menuItem.topicKey}", menuItem.topicKey,
-                                msg("topic.${menuItem.topicKey}"), true
-                            )
-                        )
-                    }
-                }
-                previousTopic = menuItem.topicKey
-            }
-
-            if (count > 0) { // Move menu item up if topic is not added to menu
-                menuItems.add(endPos, menuItem)
-                endPos++
-                count--
-            } else {
-                menuItems.add(menuItem)
-            }
-        }
-
-        return menuItems
-    }
 
     data class BlogParams(
         val blog: BlogDTO?,
