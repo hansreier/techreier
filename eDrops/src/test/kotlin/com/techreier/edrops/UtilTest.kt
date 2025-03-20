@@ -20,7 +20,7 @@ class UtilTest {
     }
 
     @Test
-    fun getNotModifiedMenuItemsTest() {
+    fun getMenuItemsWithTooSmallMenuToSplitTest() {
         val origMenuItems = Docs.about.asList().filter { doc -> doc.langCode == NB}
         val menuSplitSize = origMenuItems.size + 5
         val menuItems = getMenuItems( origMenuItems, menuSplitSize +1 ,1, messageSource)
@@ -29,11 +29,19 @@ class UtilTest {
     }
 
     @Test
-    fun getMenuItemsWithTopicTest() {
+    fun getMenuItemsWithTopicLargeMenuTest() {
         val origMenuItems = Docs.about.asList().filter { doc -> doc.langCode == NB}
         val menuItems = getMenuItems( origMenuItems, 0 ,0, messageSource)
         assertEquals(origMenuItems.size + 1, menuItems.size)
         assertEquals(1, menuItems.count { menuItem -> menuItem.isTopic})
+    }
+
+    @Test
+    fun getMenuItemsWithTopicTooSmallSubmenuTest() {
+        val origMenuItems = Docs.about.asList().filter { doc -> doc.langCode == NB}
+        val menuItems = getMenuItems( origMenuItems, 0 ,15, messageSource)
+        assertEquals(origMenuItems.size, menuItems.size)
+        assertEquals(0, menuItems.count { menuItem -> menuItem.isTopic})
     }
 
 
