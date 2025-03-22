@@ -66,7 +66,10 @@ object Docs {
             MenuItem("databases", c.codingNo, "Databaser"),
             MenuItem("databases", c.codingEn, "Databases"),
             MenuItem("responsive", c.codingNo, "Responsivt design"),
-            MenuItem("responsive", c.codingEn, "Responsive design")
+            MenuItem("responsive", c.codingEn, "Responsive design"),
+            MenuItem("gui", c.codingNo, "GUI design og implementasjon"),
+            MenuItem("gui", c.codingEn, "GUI design and implementation"),
+
         )
 
     val collatz =
