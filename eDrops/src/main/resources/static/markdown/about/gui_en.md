@@ -25,9 +25,15 @@ Recently I have made collapsable menus based on menu items (blogs) organized by 
 JavaScript was required. I wanted to keep the collapse state stored, so the user do not have to collapse and
 expand all the time. After some consideration, session storage on the browser was used for this. I first attempted a
 solution with topic selection at the top of the web page, beside the language selector, that would not require
-JavaScript. The solution worked, but the user interface after testing it was bad. This is not a very common
+JavaScript. The solution worked, but the user interface after testing itu was bad. This is not a very common
 and intuitive way of solving the problem of too large drop down menus and unorganized content.
-It confused me and would confuse the potential readers even more. 
+It confused me and would confuse the potential readers even more.  
+
+A consequence of using session storage and not local storage, 
+is that the menu collapsable state is kept within the same tab in the browser, but not when using a
+new tab. The problem with local storage is that you actually need to clean the storage sometimes, else you can
+end up in an unpredictable state. So if the state gets of sync (e,g. when adding or changing menu items),
+it is just to open a new tab window.
 
 I think that the current solution will be good enough for a very long time.
 
