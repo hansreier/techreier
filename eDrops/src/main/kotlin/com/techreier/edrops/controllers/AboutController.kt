@@ -44,7 +44,7 @@ class About(context: Context) : Base(context) {
         val inlineHtml =  markdownToHtml(doc, ABOUT_DIR)
         if (inlineHtml.warning) model.addAttribute("warning", "blogOtherLanguage")
         model.addAttribute("doc", doc)
-        model.addAttribute("docText", inlineHtml.markdown)
+        model.addAttribute("docText", inlineHtml.html)
         return ABOUT
     }
 

@@ -33,7 +33,7 @@ class Home(context: Context ) : Base(context) {
 
             val doc = Docs.home[docIndex.index]
             model.addAttribute("doc", doc)
-            model.addAttribute("docText", markdownToHtml(doc, HOME_DIR).markdown)
+            model.addAttribute("docText", markdownToHtml(doc, HOME_DIR).html)
 
         } else {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
@@ -79,7 +79,7 @@ class Home(context: Context ) : Base(context) {
         val inlineHtml =  markdownToHtml(doc, HOME_DIR)
         if (inlineHtml.warning) model.addAttribute("warning", "blogOtherLanguage")
         model.addAttribute("doc", doc)
-        model.addAttribute("docText", inlineHtml.markdown)
+        model.addAttribute("docText", inlineHtml.html)
         return HOME
     }
 

@@ -109,20 +109,23 @@ fun sanitize(html: String): String {
 // If not found it will look up a file named by default language code instead.
 // What this means is that if Norwegian is selected, some text can be presented in English instead if not found.
 fun markdownToHtml(menuItem: MenuItem, subDir: String = ""): InlineHtml {
-    logger.debug("markdown to html, menuItem key: ${menuItem.topicKey}, subDir: $subDir")
+    logger.info("${menuItem}, subDir: $subDir")
     var warning = false
     val classLoader = object {}.javaClass.classLoader
     val prefix = "static/markdown$subDir/${menuItem.segment}_"
     val fileName = prefix + menuItem.langCode + MARKDOWN_EXT
     val inputStream = classLoader.getResourceAsStream(fileName)
+    var langCode = menuItem.langCode
     val markdown = inputStream?.bufferedReader().use { file ->
         file?.readText() ?: run {
             if (DEFAULT_LANGCODE != menuItem.langCode) {
                 warning = true
+                langCode = DEFAULT_LANGCODE
                 val defaultFileName = prefix + DEFAULT_LANGCODE + MARKDOWN_EXT
                 val defaultInputStream = classLoader.getResourceAsStream(defaultFileName)
                 defaultInputStream?.bufferedReader().use { defaultFile ->
                     defaultFile?.readText() ?: run {
+                        langCode = ""
                         warning = false
                         "$fileName and $defaultFileName not found"
                     }
@@ -131,9 +134,9 @@ fun markdownToHtml(menuItem: MenuItem, subDir: String = ""): InlineHtml {
         }
     }
 
-    return InlineHtml(markdownToHtml(markdown, true), warning)
+    return InlineHtml(markdownToHtml(markdown, true), langCode, warning)
 }
 
-data class InlineHtml(val markdown: String, val warning: Boolean)
+data class InlineHtml(val html: String, val langCode: String, val warning: Boolean)
 
 
