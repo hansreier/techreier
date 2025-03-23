@@ -24,7 +24,7 @@ fun timeStamp(utc: String): ZonedDateTime =  ZonedDateTime.parse(utc).truncatedT
 fun buildVersion(utc: String?, short: Boolean = true): String {
     try {
         return utc?.let { DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else DATETIME_PATTERN).format(timeStamp(utc)) }
-            ?: throw DateTimeParseException("No timestamp to parse","",0)
+            ?: throw DateTimeParseException("No timestamp to parse to generate build version","",0)
     } catch (ex: DateTimeParseException) {
         logger.warn("${ex.message} returning empty string")
         return ""
