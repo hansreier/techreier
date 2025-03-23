@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoUnit
 
-private val logger = LoggerFactory.getLogger("util")
+private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 
 // Return curent Zoned time
 fun timeStamp(): ZonedDateTime = ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS)

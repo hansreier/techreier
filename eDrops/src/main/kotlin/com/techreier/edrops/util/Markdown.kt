@@ -19,7 +19,7 @@ import org.owasp.html.HtmlPolicyBuilder
 import org.owasp.html.Sanitizers
 import org.slf4j.LoggerFactory
 
-private val logger = LoggerFactory.getLogger("markdownToHtml")
+private val logger = LoggerFactory.getLogger("com.techreier.edrops.util.markdownToHtml")
 
 private val headers = arrayOf("h1", "h2", "h3", "h4", "h5", "h6")
 
@@ -109,7 +109,7 @@ fun sanitize(html: String): String {
 // If not found it will look up a file named by default language code instead.
 // What this means is that if Norwegian is selected, some text can be presented in English instead if not found.
 fun markdownToHtml(menuItem: MenuItem, subDir: String = ""): InlineHtml {
-    logger.info("${menuItem}, subDir: $subDir")
+    logger.debug("{}, subDir: {}", menuItem, subDir)
     var warning = false
     val classLoader = object {}.javaClass.classLoader
     val prefix = "static/markdown$subDir/${menuItem.segment}_"
