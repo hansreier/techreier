@@ -1,14 +1,33 @@
 package com.techreier.edrops.util
 
 import com.techreier.edrops.dto.MenuItem
+import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoUnit
 
-// Return current zoned time
+private val logger = LoggerFactory.getLogger("util")
+
+// Return curent Zoned time
 fun timeStamp(): ZonedDateTime = ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS)
+
+// Return  time from UTC
+fun timeStamp(utc: String): ZonedDateTime =  ZonedDateTime.parse(utc).truncatedTo(ChronoUnit.SECONDS)
+
+// return tima from UTC as String for display, including empty string if exception
+fun timeStampAsString(utc: String?): String {
+    try {
+        return utc?.let { DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").format(timeStamp(utc)) }
+            ?: throw DateTimeParseException("No timestamp to parse","",0)
+    } catch (ex: DateTimeParseException) {
+        logger.warn("${ex.message} returning empty string")
+        return ""
+    }
+}
 
 // Return valid language code actually used in this project based on rule
 // If language code does not exist return default (english)

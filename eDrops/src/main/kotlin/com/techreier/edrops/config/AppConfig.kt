@@ -1,5 +1,6 @@
 package com.techreier.edrops.config
 
+import com.techreier.edrops.util.timeStampAsString
 import jakarta.validation.constraints.NotNull
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -32,6 +33,8 @@ class AppConfig {
     lateinit var user: String
 
     var auth: Boolean = true
+
+    val buildTime = timeStampAsString(System.getenv("BUILD_TIME"))
 
     @Bean
     fun restClient(): RestClient = RestClient.create()

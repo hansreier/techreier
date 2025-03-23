@@ -155,6 +155,9 @@
 							<!--jvmFlag>-Dspring.profiles.active=mariadb-dockerized</jvmFlag-->
 							<jvmFlag>-Dspring.profiles.active=h2-prod</jvmFlag>
 						</jvmFlags>
+						<environment>
+							<BUILD_TIME>${maven.build.timestamp}</BUILD_TIME>
+						</environment>
 						<!--environment>
 							<DB_PASSWORD>Password</DB_PASSWORD>
 						</environment-->

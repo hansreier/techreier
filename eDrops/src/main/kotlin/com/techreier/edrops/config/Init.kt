@@ -17,7 +17,11 @@ class Init(
     appConfig: AppConfig,
 ) {
     init {
-        logger.info("App name: ${appConfig.appname}")
+        logger.info("App name: ${appConfig.appname} build date: ${appConfig.buildTime} admin user: ${appConfig.user}")
+        if (!appConfig.auth) {
+            logger.warn("Admin user auth is off, turn on and redeploy if production")
+        }
+
         if (ownerRepo.count() == 0L) {
             val common = Common()
             val blogData = BlogData(appConfig, common)

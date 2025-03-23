@@ -13,12 +13,11 @@ import com.vladsch.flexmark.util.ast.Node
 import com.vladsch.flexmark.util.ast.NodeVisitor
 import com.vladsch.flexmark.util.ast.VisitHandler
 import com.vladsch.flexmark.util.data.MutableDataSet
+import com.vladsch.flexmark.util.misc.Extension
 import com.vladsch.flexmark.util.sequence.BasedSequence
 import org.owasp.html.HtmlPolicyBuilder
 import org.owasp.html.Sanitizers
 import org.slf4j.LoggerFactory
-import java.util.*
-
 
 private val logger = LoggerFactory.getLogger("markdownToHtml")
 
@@ -52,11 +51,11 @@ private fun replaceFileLinks(origPath: String): String {
 // Flexmark implementation of commonmark standardwith Github flovour
 // https://github.com/vsch/flexmark-java/issues/92
 fun markdownToHtml(markdown: String, sanitizer: Boolean): String {
-    logger.debug("markdown to html")
+    logger.debug("markdown to html, sanitizer: $sanitizer")
     val options = MutableDataSet()
         .set(
             com.vladsch.flexmark.parser.Parser.EXTENSIONS,
-            Arrays.asList<com.vladsch.flexmark.util.misc.Extension>(
+            listOf<Extension>(
                 AutolinkExtension.create(),
                 TablesExtension.create(),
                 StrikethroughExtension.create(),
@@ -110,6 +109,7 @@ fun sanitize(html: String): String {
 // If not found it will look up a file named by default language code instead.
 // What this means is that if Norwegian is selected, some text can be presented in English instead if not found.
 fun markdownToHtml(menuItem: MenuItem, subDir: String = ""): InlineHtml {
+    logger.debug("markdown to html, menuItem key: ${menuItem.topicKey}, subDir: $subDir")
     var warning = false
     val classLoader = object {}.javaClass.classLoader
     val prefix = "static/markdown$subDir/${menuItem.segment}_"

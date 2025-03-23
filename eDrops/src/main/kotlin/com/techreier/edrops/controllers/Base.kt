@@ -78,6 +78,7 @@ abstract class Base(
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
+        model.addAttribute("buildTimeStamp", ctx.appConfig.buildTime)
         return BlogParams(blog, oldLangCode, usedLangcode, action, topicKey)
     }
 
