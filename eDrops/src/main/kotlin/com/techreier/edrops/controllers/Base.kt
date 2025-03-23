@@ -9,6 +9,7 @@ import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.views
+import com.techreier.edrops.util.buildVersion
 import com.techreier.edrops.util.getMenuItems
 import com.techreier.edrops.util.msg
 import com.techreier.edrops.util.validProjectLanguageCode
@@ -78,7 +79,7 @@ abstract class Base(
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
-        model.addAttribute("buildTimeStamp", ctx.appConfig.buildTime)
+        model.addAttribute("buildDate", buildVersion(ctx.appConfig.buildTime))
         return BlogParams(blog, oldLangCode, usedLangcode, action, topicKey)
     }
 

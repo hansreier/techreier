@@ -45,26 +45,32 @@ class UtilTest {
 
 
     @Test
-    fun timeStampFromIso8601() {
-        val timeStamp = timeStampAsString( "2025-03-22T18:36:08Z")
+    fun buildVersionFromIso8601Test() {
+        val timeStamp = buildVersion( "2025-03-22T18:36:08Z", false)
         Assertions.assertEquals("22.03.2025 18:36:08", timeStamp)
     }
 
     @Test
+    fun buildShortVersionFromIso8601Test() {
+        val timeStamp = buildVersion( "2025-03-22T18:36:08Z", true)
+        Assertions.assertEquals("22.03.2025", timeStamp)
+    }
+
+    @Test
     fun invalidTimeStamp() {
-        val timeStamp = timeStampAsString("2025-03-22T18:36:08")
+        val timeStamp = buildVersion("2025-03-22T18:36:08", false)
         Assertions.assertEquals("", timeStamp)
     }
 
     @Test
     fun emptyTimeStamp() {
-        val timeStamp = timeStampAsString("")
+        val timeStamp = buildVersion("")
         Assertions.assertEquals("", timeStamp)
     }
 
     @Test
     fun nullTimeStamp() {
-        val timeStamp = timeStampAsString(null)
+        val timeStamp = buildVersion(null)
         Assertions.assertEquals("", timeStamp)
     }
 

@@ -11,6 +11,8 @@ import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoUnit
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
+private const val DATE_PATTERN = "dd.MM.yyyy"
+private const val DATETIME_PATTERN = "dd.MM.yyyy HH:mm:ss"
 
 // Return curent Zoned time
 fun timeStamp(): ZonedDateTime = ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS)
@@ -18,10 +20,10 @@ fun timeStamp(): ZonedDateTime = ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(C
 // Return  time from UTC
 fun timeStamp(utc: String): ZonedDateTime =  ZonedDateTime.parse(utc).truncatedTo(ChronoUnit.SECONDS)
 
-// return tima from UTC as String for display, including empty string if exception
-fun timeStampAsString(utc: String?): String {
+// return built version as datetime or date
+fun buildVersion(utc: String?, short: Boolean = true): String {
     try {
-        return utc?.let { DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").format(timeStamp(utc)) }
+        return utc?.let { DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else DATETIME_PATTERN).format(timeStamp(utc)) }
             ?: throw DateTimeParseException("No timestamp to parse","",0)
     } catch (ex: DateTimeParseException) {
         logger.warn("${ex.message} returning empty string")

@@ -5,6 +5,7 @@ import com.techreier.edrops.domain.Common
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.LanguageRepository
 import com.techreier.edrops.repository.TopicRepository
+import com.techreier.edrops.util.buildVersion
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 
@@ -17,7 +18,8 @@ class Init(
     appConfig: AppConfig,
 ) {
     init {
-        logger.info("App name: ${appConfig.appname} build date: ${appConfig.buildTime} admin user: ${appConfig.user}")
+        val buildVersion = buildVersion(appConfig.buildTime, false)
+        logger.info("App name: ${appConfig.appname} built: ${buildVersion}")
         if (!appConfig.auth) {
             logger.warn("Admin user auth is off, turn on and redeploy if production")
         }

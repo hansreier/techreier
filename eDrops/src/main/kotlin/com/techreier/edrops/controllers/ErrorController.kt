@@ -1,6 +1,8 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.util.buildVersion
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,6 +32,8 @@ class ErrorController
         ErrorController {
         @Autowired
         lateinit var messageSource: MessageSource
+        @Autowired
+        lateinit var appConfig: AppConfig
 
         @RequestMapping("/error")
         fun handleError(
@@ -55,6 +59,7 @@ class ErrorController
             model.addAllAttributes(errAttributes)
             model["message"] = improveNoMsgAvail(msg, locale, response.status)
             model["path"] = decodeURLEncodedPath(path)
+            model["appversion"] = "${appConfig.appname} ${buildVersion(appConfig.buildTime, true)}"
             return "error"
         }
 

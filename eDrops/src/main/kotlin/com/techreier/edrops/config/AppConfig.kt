@@ -1,6 +1,5 @@
 package com.techreier.edrops.config
 
-import com.techreier.edrops.util.timeStampAsString
 import jakarta.validation.constraints.NotNull
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -15,6 +14,7 @@ const val MAX_TITLE_SIZE = 50
 const val MAX_SUMMARY_SIZE = 400
 const val MAX_CODE_SIZE = 15
 const val MAX_USERNAME_SIZE = 60
+const val VERSION = "ver"
 
 // This way of reading app properties is more flexible and easier than using @Value in Kotlin
 // Disadvantage: Have to inject this always
@@ -34,7 +34,7 @@ class AppConfig {
 
     var auth: Boolean = true
 
-    val buildTime = timeStampAsString(System.getenv("BUILD_TIME"))
+     val buildTime = System.getenv("BUILD_TIME")
 
     @Bean
     fun restClient(): RestClient = RestClient.create()
