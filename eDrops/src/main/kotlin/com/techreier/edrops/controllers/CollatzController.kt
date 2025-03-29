@@ -37,7 +37,7 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
         }
-        return COLLATZ
+        return "collatz"
     }
 
     @PostMapping
@@ -73,7 +73,7 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
 
         redirectAttributes.addFlashAttribute("collatz", collatz)
         redirectAttributes.addFlashAttribute("result", result)
-        return "redirect:/$COLLATZ_DIR"
+        return "redirect:$COLLATZ_DIR"
     }
 
     private fun prepare(
