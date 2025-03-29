@@ -12,13 +12,13 @@
 <div layout:fragment="content">
     <h2 th:text="#{login}"/>
     <form th:action="@{/login}" th:object="${user}" th:method="post">
-        <div class="container" id="loginform">
-            <div class="form-row">
+        <div class="input-form" id="loginform">
+            <div class="input-row">
                 <label th:for="username" th:text="#{username}"></label>
                 <input type="text" id="username" th:field="*{username}">
                 <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
             </div>
-            <div class="form-row">
+            <div class="input-row">
                 <div id="password-container">
                     <label th:for="password" th:text="#{password}"></label>
                     <span id="togglePassword" onclick="visible()" style="cursor: pointer;">👁️</span>

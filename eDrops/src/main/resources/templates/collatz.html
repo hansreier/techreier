@@ -13,7 +13,7 @@
         <div th:utext="${docText}"></div><br>
     </div>
     <form th:action="@{/collatz}" th:object="${collatz}" th:method="post">
-        <div class="form-row">
+        <div class="input-row">
             <label th:for="seed" th:text="#{collatzSeed}"></label>
             <input type="text" id="seed" th:field="*{seed}" maxLength="18">
             <span class="error" th:if="${#fields.hasErrors('seed')}" th:errors="*{seed}"></span>
