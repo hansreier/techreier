@@ -274,7 +274,7 @@ img:hover::after {
 	}
 }
 
-#inputfields {
+.input-form {
 	display: grid;
 	grid-template-columns: 1fr;
 	flex-direction: column;
@@ -283,7 +283,7 @@ img:hover::after {
 	color: black;
 }
 
-#inputfields textarea {
+.input-form textarea {
 	resize: vertical;
 	min-height: 100px;
 }
@@ -354,29 +354,6 @@ img:hover::after {
 	margin: 0;
 }
 
-#topic {
-	display: flex;
-	align-items: center;
-	color: green;
-	margin: 0;
-	padding: 0;
-	height: 1rem;
-}
-
-#topicLabel {
-	font-size: 1rem;
-	margin-top: 0;
-	margin-bottom: 0;
-	margin-right: 0.5rem;
-}
-
-#topicSelect {
-	font-size: 1rem;
-	border: 1px solid black;
-	width: auto;
-	margin: 0;
-}
-
 #headline {
 	display: flex;
 	align-items: center;
@@ -384,7 +361,7 @@ img:hover::after {
 	gap: 0;
 }
 
-#statusline {
+.statusline {
 	display: flex;
 	align-items: center;
 	gap: 1.5rem;

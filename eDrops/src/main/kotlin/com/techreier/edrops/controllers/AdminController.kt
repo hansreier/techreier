@@ -3,6 +3,7 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.forms.BlogEntryForm
+import com.techreier.edrops.forms.BlogForm
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
@@ -38,6 +39,20 @@ class Admin(context: Context) : Base(context) {
             model.addAttribute("changed", null)
             model.addAttribute("blogEntryForm", blogEntryForm)
         }
+
+        // Set blog related fields
+        val blogForm =
+            BlogForm(
+                blogParams.blog.id,
+                blogParams.blog.segment,
+                blogParams.blog.topicKey,
+                blogParams.blog.subject,
+                blogParams.blog.about
+            )
+        model.addAttribute("changed", blogParams.blog.changed)
+        model.addAttribute("blogForm", blogForm)
+
+
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
         logger.info("getting GUI with blogEntries")

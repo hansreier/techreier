@@ -80,7 +80,7 @@ abstract class Base(
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
         model.addAttribute("buildDate", buildVersion(ctx.appConfig.buildTime))
-        return BlogParams(blog, oldLangCode, usedLangcode, action, topicKey)
+        return BlogParams(blog, oldLangCode, usedLangcode, action, topicKey, topics)
     }
 
     // Extension function to simplify implementation of adding field error
@@ -218,6 +218,7 @@ abstract class Base(
         val usedLangCode: String,
         val action: String,
         val topicKey: String,
+        val topics: List<Topic>
     )
 
     companion object

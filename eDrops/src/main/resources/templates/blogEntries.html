@@ -14,6 +14,58 @@
             <button type="submit" th:text="#{create}" name="action" th:value="create"></button>
         </form>
     </div>
+
+    <div th:if="${blogEntryForm == null}">
+        <form id="blogForm" th:action="@{${path}}" th:object="${blogForm}" th:method="post">
+            <div class="input-form">
+                <div class="input-row">
+                    <label th:for="blogSegment" th:text="segment"></label>
+                    <input type="text" id="blogSegment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}" th:title="#{tip.segment}">
+                    <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
+                </div>
+
+
+                <div class="input-row">
+                    <label th:for="topicSelect" th:text="#{topic}"></label>
+                    <select id="topicSelect" name="topicKey" onchange="topic.submit();">
+                        <option id="topicOption" th:each="topic : ${topics}"
+                            th:value="${topic.topicKey}" th:text="${topic.topicKey}"
+                            th:selected="${topic.topicKey eq topicKey}"></option>
+                    </select>
+                </div>
+
+                <div class="input-row">
+                    <label th:for="topic" th:text="#{topic}"></label>
+                    <input type="text" id="topic" th:field="*{topic}" th:attr="maxLength=${maxTitleSize}">
+                    <span class="error" th:if="${#fields.hasErrors('topic')}" th:errors="*{topic}"></span>
+                </div>
+
+                <div class="input-row">
+                    <label th:for="about" th:text="#{about}"></label>
+                    <textarea id="about" th:field="*{about}" th:attr="maxLength=${maxSummarySize}"></textarea>
+                </div>
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:value="${blog.id}" name="blogId">
+                <input type="hidden" th:value="${changed}" name="changed">
+            </div>
+            <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
+            <button type="submit" th:text="#{delete}" name="action" th:value="delete"></button>
+            <button type="submit" th:text="#{saveCreate}" name="action" th:value="saveCreate"></button>
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+            </div>
+            <div class = "statusline" th:if="${changed != null} ">
+                <div class="outputfield">
+                    <p th:text="#{changed} +  ':'"></p>
+                    <p th:text="${#temporals.format(changed, #messages.msg('datetime.format'))}"></p>
+                </div>
+                <div class="outputfield">
+                    <p th:text="#{id} + ':'"></p>
+                    <p th:text="${blogForm.id}"></p>
+                </div>
+            </div>
+        </form>
+    </div>
     <div>
         <table id="blogentries">
             <thead>
@@ -37,10 +89,10 @@
     </div>
     <div th:if="${blogEntryForm != null}">
         <form id="blogentryform" th:action="@{${path}}" th:object="${blogEntryForm}" th:method="post">
-            <div id="inputfields" class="container">
+            <div class="input-form">
                 <div class="input-row">
-                    <label th:for="segment" th:text="segment"></label>
-                    <input type="text" id="segment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}" th:title="#{tip.segment}">
+                    <label th:for="blogEntrySegment" th:text="segment"></label>
+                    <input type="text" id="blogEntrySegment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}" th:title="#{tip.segment}">
                     <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
                 </div>
                 <div class="input-row">
@@ -62,7 +114,7 @@
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
             </div>
-            <div id = "statusline" th:if="${changed != null} ">
+            <div class = "statusline" th:if="${changed != null} ">
                 <div class="outputfield">
                     <p th:text="#{changed} +  ':'"></p>
                     <p th:text="${#temporals.format(changed, #messages.msg('datetime.format'))}"></p>
