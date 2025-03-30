@@ -28,7 +28,7 @@
                     <label th:text="#{topic}" th:for="topicDropDown"></label>
                     <select id="topicDropDown" th:field="*{topicKey}">
                         <option th:each="topic : ${topics}"
-                            th:value="${topic.topicKey}" th:text="${topic.topicKey}"></option>
+                            th:value="${topic.topicKey}" th:text="${topic.text}"></option>
                     </select>
                 </div>
                 <div class="input-row">
