@@ -14,7 +14,7 @@ class Blog(
 
     @TimeZoneStorage(TimeZoneStorageType.NORMALIZE_UTC)
     @Column(nullable = false, columnDefinition ="timestamp(0)")
-    val changed: ZonedDateTime,
+    var changed: ZonedDateTime,
 
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
     var segment: String,

@@ -34,10 +34,9 @@ class BlogEntryService(
                         foundBlog,
                         blogEntryForm.id,
                     )
-                if (blog.blogEntries.any { (it.segment == blogEntryForm.segment) && it.id != blogEntryForm.id }) {
+                if (blog.blogEntries.any { (it.segment == blogEntryForm.segment) && (it.id != blogEntryForm.id) }) {
                     throw DuplicateSegmentException("Segment: ${blogEntryForm.segment} is duplicate in blog ${blog.segment}")
                 }
-
                 blogEntryRepo.save(blogEntry)
             }
                 ?: throw ParentBlogException("Blogentry ${blogEntryForm.segment} not saved, cannot read parent blog with id: $blogId")

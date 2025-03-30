@@ -1,6 +1,7 @@
 package com.techreier.edrops.config
 
 import com.techreier.edrops.domain.BlogData
+import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.domain.Common
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.LanguageRepository
@@ -8,6 +9,8 @@ import com.techreier.edrops.repository.TopicRepository
 import com.techreier.edrops.util.buildVersion
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
+
+lateinit var  blogAdmin:BlogOwner
 
 @Configuration
 @Profile("!test")
@@ -29,7 +32,8 @@ class Init(
             val blogData = BlogData(appConfig, common)
             languageRepo.saveAll(common.languages)
             topicRepo.saveAll(common.topics)
-            ownerRepo.save(blogData.blogOwner)
+            val blogOwner = ownerRepo.save(blogData.blogOwner)
+            blogAdmin = blogOwner
             logger.info("Initialized with data")
         } else {
             logger.info("Initial data was already there, skipping")

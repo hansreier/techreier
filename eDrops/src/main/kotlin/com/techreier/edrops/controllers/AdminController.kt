@@ -2,8 +2,10 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
+import com.techreier.edrops.config.blogAdmin
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogService
+import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.forms.BlogEntryForm
@@ -13,10 +15,13 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.dao.DataAccessException
+import org.springframework.http.HttpStatus
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.time.ZonedDateTime
 
@@ -25,7 +30,8 @@ const val ADMIN_DIR = "/$ADMIN"
 
 @Controller
 @RequestMapping(ADMIN_DIR)
-class Admin(val context: Context, private val blogService: BlogService) : Base(context) {
+class Admin(val context: Context,
+            private val blogService: BlogService) : Base(context) {
 
     @GetMapping("/{segment}")
     fun allBlogEntries(
@@ -86,23 +92,29 @@ class Admin(val context: Context, private val blogService: BlogService) : Base(c
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
+        @AuthenticationPrincipal owner: Owner?
     ): String {
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blog: path: $path action:  $action blogid: $blogId")
+        val blogOwner = owner?.user ?: run {
+            // TODO is this the best action, alternative return error message in the current screen
+            if (context.appConfig.auth)
+                throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "not authorized for save action"))
+            else blogAdmin
+        }
         if (action == "save" || action == "saveCreate") {
             checkSegment(blogForm.segment, "blogForm", "segment", bindingResult)
             checkStringSize(blogForm.subject, MAX_TITLE_SIZE, "blogForm", "subject", bindingResult, 1)
             checkStringSize(blogForm.about, MAX_SUMMARY_SIZE, "blogForm", "about", bindingResult)
             if (bindingResult.hasErrors()) {
-                //TODO field subject er tomt. Hvorfor.
                 prepare(model, request, response, segment, changed)
                 return "blogEntries"
             }
             val langCode = (context.httpSession.getAttribute("langcode") as String?) ?:
                 validProjectLanguageCode(LocaleContextHolder.getLocale().language)
             try {
-                blogService.save(blogId, blogForm, langCode)
+                blogService.save(blogId, blogForm, langCode, blogOwner)
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException -> handleRecoverableError(e, "dbSave", bindingResult)
@@ -113,8 +125,8 @@ class Admin(val context: Context, private val blogService: BlogService) : Base(c
                 prepare(model, request, response, segment, changed)
                 return "blogEntries"
             }
-
-            val newPath = "$ADMIN_DIR/$segment${if (action == "save") "/${blogForm.segment}" else ""}"
+            //TODO verify path
+            val newPath = "$ADMIN_DIR/${if (action == "save") blogForm.segment else ""}"
             return "redirect:$newPath"
         }
         if (action == "create") {

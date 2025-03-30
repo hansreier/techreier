@@ -2,6 +2,8 @@ package com.techreier.edrops.dbservice
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.domain.BlogEntry
+import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.dto.toDTO
@@ -40,7 +42,10 @@ class BlogService(
         // This prevents annoying use of error page or redirect to home page, can fail if e.g. expired session.
         val blogLanguageDTO =
             blogRepo.getBlogWithLanguageCode(segment, langCode)
-                ?: (if (oldLangCode != null && oldLangCode != langCode) blogRepo.getBlogWithLanguageCode(segment, oldLangCode) else null)
+                ?: (if (oldLangCode != null && oldLangCode != langCode) blogRepo.getBlogWithLanguageCode(
+                    segment,
+                    oldLangCode
+                ) else null)
                 ?: return null
 
         val blog =
@@ -62,7 +67,8 @@ class BlogService(
     fun save(
         blogId: Long?,
         blogForm: BlogForm,
-        langCode: String
+        langCode: String,
+        blogOwner: BlogOwner
     ) {
         logger.info("Saving blog with id: ${blogForm.id} segment: ${blogForm.segment} blogId: $blogId")
         blogId?.let {
@@ -72,25 +78,29 @@ class BlogService(
                     ?.let { topic -> blog.topic = topic }
                     ?: logger.warn("Topic with key: ${blogForm.topicKey} and languageCode: $langCode not found")
             }
-            blog?.let { foundBlog ->
-                val blog =
-                    Blog(
-                        ZonedDateTime.now(),
-                        blogForm.segment,
-                        blog.topic,
-                        blogForm.position,
-                        blogForm.subject,
-                        blogForm.about,
-                        blog.blogEntries,
-                        blog.blogOwner,
-                    )
-                val blogOwner =  blog.blogOwner //TODO is all blogs fetched this way??
-                if (blogOwner.blogs.any { (it.segment == blogForm.segment) && it.id != blogForm.id }) {
-                    throw DuplicateSegmentException("Segment: ${blogForm.segment} is duplicate in blog ${blog.segment}")
-                }
-
-                blogRepo.save(blog)
+            val newBlog =  blog?.let {
+                it.changed = ZonedDateTime.now()
+                it.segment = blogForm.segment
+                it.pos = blogForm.position
+                it.subject = blogForm.subject
+                it.about = blogForm.about
+            } ?: Blog(
+                ZonedDateTime.now(),
+                blogForm.segment,
+                blog.topic,
+                blogForm.position,
+                blogForm.subject,
+                blogForm.about,
+                mutableListOf<BlogEntry>(),
+                blogOwner
+            )
+            val foundBlogOwner = blog.blogOwner
+            if (foundBlogOwner.blogs.any {
+                (it.segment == blogForm.segment) && (it.id != blogForm.id) && (it.topic.language.code == langCode)
+            }) {
+                throw DuplicateSegmentException("Segment: ${blogForm.segment} is duplicate for owner ${foundBlogOwner.firstName} ${foundBlogOwner.lastName}")
             }
+            blogRepo.save(blog)
         }
     }
 
