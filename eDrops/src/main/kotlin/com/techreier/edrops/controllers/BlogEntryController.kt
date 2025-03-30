@@ -57,7 +57,9 @@ class BlogEntryController(
         return "blogEntries"
     }
 
-    @PostMapping(value = ["/{segment}/{subsegment}", "/{segment}"])
+    // TODO Removed one of the paths due to collision. Consequence?
+    // @PostMapping(value = ["/{segment}/{subsegment}", "/{segment}"])
+    @PostMapping(value = ["/{segment}/{subsegment}"])
     fun action(
         redirectAttributes: RedirectAttributes,
         @ModelAttribute blogEntryForm: BlogEntryForm,

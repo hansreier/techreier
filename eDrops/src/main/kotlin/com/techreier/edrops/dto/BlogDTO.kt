@@ -13,7 +13,7 @@ data class BlogDTO(
         return BlogForm(
             id = this.id,
             segment = this.segment,
-            topic = this.topicKey,
+            topicKey = this.topicKey,
             subject = this.subject,
             about = this.about
         )

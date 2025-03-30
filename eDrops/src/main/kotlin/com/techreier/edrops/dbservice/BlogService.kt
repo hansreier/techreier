@@ -5,14 +5,19 @@ import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.dto.toDTO
+import com.techreier.edrops.exceptions.DuplicateSegmentException
+import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.repository.BlogRepository
+import com.techreier.edrops.repository.TopicRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.ZonedDateTime
 
 @Service
 @Transactional
 class BlogService(
     private val blogRepo: BlogRepository,
+    private val topicRepo: TopicRepository,
 ) {
     // TODO not used. Consider removing
     fun readBlog(blogId: Long?): Blog? {
@@ -52,5 +57,51 @@ class BlogService(
     ): List<MenuItem> {
         logger.info("Read menu from blog with language: $languageCode")
         return blogRepo.getMenuItems(languageCode)
+    }
+
+    fun save(
+        blogId: Long?,
+        blogForm: BlogForm,
+        langCode: String
+    ) {
+        logger.info("Saving blog with id: ${blogForm.id} segment: ${blogForm.segment} blogId: $blogId")
+        blogId?.let {
+            val blog = blogRepo.findById(blogId).orElse(null)
+            if ((blog.topic.topicKey != blogForm.topicKey) || blog.topic.language.code != langCode) {
+                topicRepo.findFirstByTopicKeyAndLanguageCode(blogForm.topicKey, langCode).orElse(null)
+                    ?.let { topic -> blog.topic = topic }
+                    ?: logger.warn("Topic with key: ${blogForm.topicKey} and languageCode: $langCode not found")
+            }
+            blog?.let { foundBlog ->
+                val blog =
+                    Blog(
+                        ZonedDateTime.now(),
+                        blogForm.segment,
+                        blog.topic,
+                        blogForm.position,
+                        blogForm.subject,
+                        blogForm.about,
+                        blog.blogEntries,
+                        blog.blogOwner,
+                    )
+                val blogOwner =  blog.blogOwner //TODO is all blogs fetched this way??
+                if (blogOwner.blogs.any { (it.segment == blogForm.segment) && it.id != blogForm.id }) {
+                    throw DuplicateSegmentException("Segment: ${blogForm.segment} is duplicate in blog ${blog.segment}")
+                }
+
+                blogRepo.save(blog)
+            }
+        }
+    }
+
+    // TODO Verify: I think this does cascade delete without even asking
+    fun delete(
+        blogId: Long?,
+        blogForm: BlogForm,
+    ) {
+        logger.info("Deleting blog with id: ${blogForm.id} segment: ${blogForm.segment} blogId: $blogId")
+        blogForm.id?.let { id ->
+            blogRepo.deleteById(id)
+        } ?: logger.error("Blog not deleted, no id")
     }
 }
