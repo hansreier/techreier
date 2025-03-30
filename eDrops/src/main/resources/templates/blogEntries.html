@@ -36,6 +36,11 @@
                     <input type="number" id="position" th:field="*{position}" step="1">
                     <span class="error" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></span>
                 </div>
+                <div class="input-row">
+                    <label th:for="subject" th:text="#{subject}"></label>
+                    <input type="text" id="subject" th:field="*{subject}" th:attr="maxLength=${maxTitleSize}">
+                    <span class="error" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></span>
+                </div>
 
                 <div class="input-row">
                     <label th:for="about" th:text="#{about}"></label>

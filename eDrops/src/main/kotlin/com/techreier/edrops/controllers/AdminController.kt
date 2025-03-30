@@ -6,7 +6,6 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.exceptions.DuplicateSegmentException
-import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogEntryForm
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.util.validProjectLanguageCode
@@ -106,7 +105,7 @@ class Admin(val context: Context, private val blogService: BlogService) : Base(c
                 blogService.save(blogId, blogForm, langCode)
             } catch (e: Exception) {
                 when (e) {
-                    is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
+                    is DataAccessException -> handleRecoverableError(e, "dbSave", bindingResult)
                     is DuplicateSegmentException ->
                         bindingResult.addFieldError("blogEntryForm", "segment", "duplicate", blogForm.segment)
                     else -> throw e
@@ -140,10 +139,10 @@ class Admin(val context: Context, private val blogService: BlogService) : Base(c
         changed: ZonedDateTime?,
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment, true)
-        logger.info("Prepare allBlogEntries Fetch blog entries with: $blogParams")
+        logger.info("Prepare fetch blog entries with: $blogParams")
 
         model.addAttribute("blog", blogParams.blog)
-        model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
+        model.addAttribute("linkPath", ADMIN_DIR)
         model.addAttribute("changed", changed)
         logger.info("prepared)")
     }
