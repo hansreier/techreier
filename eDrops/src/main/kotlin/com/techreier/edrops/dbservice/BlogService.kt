@@ -78,12 +78,13 @@ class BlogService(
                     ?.let { topic -> blog.topic = topic }
                     ?: logger.warn("Topic with key: ${blogForm.topicKey} and languageCode: $langCode not found")
             }
-            val newBlog =  blog?.let {
+            val newBlog =  blog?.let { //TODO expression looks strange
                 it.changed = ZonedDateTime.now()
                 it.segment = blogForm.segment
                 it.pos = blogForm.position
                 it.subject = blogForm.subject
                 it.about = blogForm.about
+                it
             } ?: Blog(
                 ZonedDateTime.now(),
                 blogForm.segment,
@@ -100,7 +101,7 @@ class BlogService(
             }) {
                 throw DuplicateSegmentException("Segment: ${blogForm.segment} is duplicate for owner ${foundBlogOwner.firstName} ${foundBlogOwner.lastName}")
             }
-            blogRepo.save(blog)
+            blogRepo.save(newBlog)
         }
     }
 
