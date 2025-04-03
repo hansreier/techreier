@@ -56,8 +56,8 @@ abstract class Base(
         val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
 
         // Only for controllers where it is relevant to call DB, else segment is omitted
-        val blog = segment?.let { ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, entries) }
-
+        val blog = if (segment == NEW_SEGMENT) null else
+            segment?.let { ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, entries) }
         ctx.httpSession.setAttribute("langcode", blog?.langCodeFound ?: usedLangcode)
 
         val topics = fetchTopics(usedLangcode)

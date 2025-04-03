@@ -7,7 +7,6 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.exceptions.DuplicateSegmentException
-import com.techreier.edrops.forms.BlogEntryForm
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.util.validProjectLanguageCode
 import jakarta.servlet.http.HttpServletRequest
@@ -42,22 +41,24 @@ class Admin(val context: Context,
     ): String {
         val blogParams = fetchBlogParams(model, request, response, segment, true)
 
-        if (blogParams.blog == null) {
-            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-            return "redirect:/$HOME_DIR"
-        }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
+
         if (blogParams.action == "create" || blogParams.action == "saveCreate") {
-            logger.info("getting GUI with new blogEntry")
-            val blogEntryForm = BlogEntryForm(null, "", "", "")
+            logger.info("getting GUI with new blog")
+            val blogForm = BlogForm(null, "", "", 0)
             model.addAttribute("changed", null)
-            model.addAttribute("blogEntryForm", blogEntryForm)
+            model.addAttribute("blogForm", blogForm)
+        } else {
+            if (blogParams.blog == null) {
+                redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+                return "redirect:/$HOME_DIR"
+            }
+            model.addAttribute("changed", blogParams.blog.changed)
+            model.addAttribute("blogForm", blogParams.blog.toForm())
+            model.addAttribute("blog", blogParams.blog)
         }
 
         // Set blog related fields
-        model.addAttribute("changed", blogParams.blog.changed)
-        model.addAttribute("blogForm", blogParams.blog.toForm())
-        model.addAttribute("blog", blogParams.blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
         logger.info("getting GUI with blogEntries")
         return "blogEntries"
@@ -125,7 +126,7 @@ class Admin(val context: Context,
                 return "blogEntries"
             }
             //TODO verify path
-            val newPath = "$ADMIN_DIR/${if (action == "save") blogForm.segment else "/$NEW_SEGMENT"}"
+            val newPath = "$ADMIN_DIR/${if (action == "save") blogForm.segment else NEW_SEGMENT}"
             return "redirect:$newPath"
         }
         if (action == "create") {
