@@ -25,6 +25,8 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+const val NEW_SEGMENT = "_"
+
 abstract class Base(
     private val ctx: Context,
 ) : ServletContextAware {

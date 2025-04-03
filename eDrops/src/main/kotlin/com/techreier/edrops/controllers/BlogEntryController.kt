@@ -42,23 +42,29 @@ class BlogEntryController(
         }
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
 
-        val selectedBlogEntry = select(subsegment, blogParams.blog)
-        if (selectedBlogEntry == null) {
-            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-            return "redirect:/$HOME_DIR"
+        if (subsegment == NEW_SEGMENT) {
+            val blogEntryForm = BlogEntryForm(null,"","","")
+            model.addAttribute("blogEntryForm", blogEntryForm)
+        } else {
+            val selectedBlogEntry = select(subsegment, blogParams.blog)
+            if (selectedBlogEntry == null) {
+                redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+                return "redirect:/$HOME_DIR"
+            }
+
+            logger.info("getting GUI with blogEntry. ${selectedBlogEntry.title}")
+            model.addAttribute("changed", selectedBlogEntry.changed)
+            model.addAttribute("blogEntryForm", selectedBlogEntry.toForm())
         }
 
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
 
-        logger.info("getting GUI with blogEntry. ${selectedBlogEntry.title}")
-        model.addAttribute("changed", selectedBlogEntry.changed)
-        model.addAttribute("blogEntryForm", selectedBlogEntry.toForm())
         return "blogEntries"
     }
 
     // TODO Removed one of the paths due to collision. Consequence?
-    // @PostMapping(value = ["/{segment}/{subsegment}", "/{segment}"])
+    //  @PostMapping(value = ["/{segment}/{subsegment}", "/{segment}"])
     @PostMapping(value = ["/{segment}/{subsegment}"])
     fun action(
         redirectAttributes: RedirectAttributes,
@@ -92,17 +98,18 @@ class BlogEntryController(
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
                     is DuplicateSegmentException ->
                         bindingResult.addFieldError("blogEntryForm", "segment", "duplicate", blogEntryForm.segment)
+
                     else -> throw e
                 }
                 prepare(model, request, response, segment, changed)
                 return "blogEntries"
             }
 
-            val newPath = "$ADMIN_DIR/$segment${if (action == "save") "/${blogEntryForm.segment}" else ""}"
+            val newPath = "$ADMIN_DIR/$segment${if (action == "save") "/${blogEntryForm.segment}" else "/$NEW_SEGMENT"}"
             return "redirect:$newPath"
         }
         if (action == "create") {
-            return "redirect:$ADMIN_DIR/$segment"
+            return "redirect:$ADMIN_DIR/$segment/$NEW_SEGMENT"
         } else {
             try {
                 blogEntryService.delete(blogId, blogEntryForm)
@@ -136,7 +143,7 @@ class BlogEntryController(
         blog: BlogDTO?,
     ) = blog?.blogEntries?.let { blogEntries ->
         var index: Int
-        val no = subsegment.toIntOrNull()
+        val no = subsegment.toIntOrNull() //Allow for number to be entered in path
         no?.let {
             index =
                 if (it > blogEntries.size) {

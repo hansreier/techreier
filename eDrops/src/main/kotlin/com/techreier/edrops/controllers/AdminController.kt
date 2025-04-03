@@ -6,7 +6,6 @@ import com.techreier.edrops.config.blogAdmin
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.domain.Owner
-import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.forms.BlogEntryForm
 import com.techreier.edrops.forms.BlogForm
@@ -126,11 +125,11 @@ class Admin(val context: Context,
                 return "blogEntries"
             }
             //TODO verify path
-            val newPath = "$ADMIN_DIR/${if (action == "save") blogForm.segment else ""}"
+            val newPath = "$ADMIN_DIR/${if (action == "save") blogForm.segment else "/$NEW_SEGMENT"}"
             return "redirect:$newPath"
         }
         if (action == "create") {
-            return "redirect:$ADMIN_DIR/$segment"
+            return "redirect:$ADMIN_DIR/$segment/$NEW_SEGMENT"
         } else {
             try {
                 blogService.delete(blogId, blogForm)
@@ -158,27 +157,6 @@ class Admin(val context: Context,
         model.addAttribute("changed", changed)
         logger.info("prepared)")
     }
-
-    //TODO never used, why?
-    private fun select(
-        subsegment: String,
-        blog: BlogDTO?,
-    ) = blog?.blogEntries?.let { blogEntries ->
-        var index: Int
-        val no = subsegment.toIntOrNull()
-        no?.let {
-            index =
-                if (it > blogEntries.size) {
-                    blogEntries.size - 1
-                } else if (it <= 0) {
-                    0
-                } else {
-                    it - 1
-                }
-            blogEntries[index]
-        } ?: blogEntries.find { it.segment == subsegment }
-    }
-
 
     @PostMapping
     fun getBlogAdmin(
