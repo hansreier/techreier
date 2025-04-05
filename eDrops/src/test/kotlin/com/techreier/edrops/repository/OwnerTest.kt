@@ -18,14 +18,14 @@ class OwnerTest : TestBase() {
     @Test
     fun `cascade delete test`() {
         logger.info("starting transactional test")
-        val blogEntrySaved = entryRepo.findByIdOrNull(blogEntryId)
-        assertThat(blogEntrySaved?.id).isEqualTo(blogEntryId)
+        val blogPostSaved = postRepo.findByIdOrNull(blogPostId)
+        assertThat(blogPostSaved?.id).isEqualTo(blogPostId)
         ownerRepo.delete(blogOwner)
         logger.info("Reier Deleted")
         val blogDeleted = blogRepo.findByIdOrNull(blog.id)
         assertThat(blogDeleted).isNull()
-        val blogEntryDeleted = entryRepo.findByIdOrNull(blogEntryId)
-        assertThat(blogEntryDeleted).isNull()
+        val blogPostDeleted = postRepo.findByIdOrNull(blogPostId)
+        assertThat(blogPostDeleted).isNull()
         logger.info("completed")
        // ownerRepo.flush()
     }
@@ -41,8 +41,8 @@ class OwnerTest : TestBase() {
         assertThat(noOfBlogs).isEqualTo(blogs.size)
         blogs.forEach {
             logger.info("my blog: $it")
-            it.blogEntries.forEach {
-                logger.info("my blogentry: $it")
+            it.blogPosts.forEach {
+                logger.info("my blogpost: $it")
             }
         }
 
@@ -60,7 +60,7 @@ class OwnerTest : TestBase() {
         logger.info("populate start")
         val queryBlog = entityManager.createQuery(
             "SELECT DISTINCT b FROM Blog b"
-                    + " INNER JOIN FETCH b.blogEntries"
+                    + " INNER JOIN FETCH b.blogPosts"
                     + " WHERE b.blogOwner = ?1 "
         )
         //setHint(QueryHints.PASS_DISTINCT_THROUGH, false) not required hibernate 6 (default)
@@ -85,14 +85,14 @@ class OwnerTest : TestBase() {
         logger.info("starting read all test")
         entityManager.clear()
         val owner = ownerRepo.findByIdOrNull(blogOwner.id!!)
-        logger.info("owner: $owner $owner?.blogEntries?.size}")
+        logger.info("owner: $owner $owner?.blogPosts?.size}")
         assertThat(owner?.blogs?.size).isEqualTo(noOfBlogs)
         val blogs = owner?.blogs
         logger.info("my blogs: $blogs")
         blogs?.forEach {
             logger.info("my blog: $it")
-            it.blogEntries.forEach {
-                logger.info("my blogentry: $it")
+            it.blogPosts.forEach {
+                logger.info("my blogPost: $it")
             }
         }
 
@@ -106,19 +106,19 @@ class OwnerTest : TestBase() {
         entityManager.clear()
         logger.info("saved")
         val owner: BlogOwner? = blogOwner.id?.let { ownerRepo.findById(it) }?.orElse(null)
-        logger.info("owner: $owner $owner?.blogEntries?.size}")
+        logger.info("owner: $owner $owner?.blogPosts?.size}")
         assertThat(owner?.blogs?.size).isEqualTo(noOfBlogs)
         val blogs = owner?.blogs
         logger.info("my blogs: $blogs")
         var count = 0
         blogs?.forEach {
             logger.info("my blog: $it")
-            it.blogEntries.forEach {
-                logger.info("my blogentry: $it")
+            it.blogPosts.forEach {
+                logger.info("my blogPost: $it")
                 count++
             }
         }
-        assertThat(count).isEqualTo(noOfBlogEntries)
+        assertThat(count).isEqualTo(noOfBlogPosts)
     }
 
 
@@ -134,14 +134,14 @@ class OwnerTest : TestBase() {
         val blogGraph: Subgraph<Blog> = entityGraph.addSubgraph("blogs")
         val topicGraph: Subgraph<Topic> = blogGraph.addSubgraph("topic")
         topicGraph.addAttributeNodes("language")
-        blogGraph.addAttributeNodes("blogEntries")
+        blogGraph.addAttributeNodes("blogPosts")
         val hints: MutableMap<String, Any> = HashMap()
         hints["javax.persistence.loadgraph"] = entityGraph //Fetchgraph or loadgraph (uses defaults)
         logger.info("saved")
         val blogOwner = entityManager.find(BlogOwner::class.java, blogOwner.id, hints)
         logger.info(
             "Blog language: ${blogOwner.blogs.first().topic.language} owner: ${blogOwner.id}" + "" +
-                    " entries: ${blogOwner.blogs.first().blogEntries}"
+                    "posts: ${blogOwner.blogs.first().blogPosts}"
         )
     }
 }

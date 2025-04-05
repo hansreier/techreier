@@ -2,7 +2,7 @@ package com.techreier.edrops.dbservice
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
-import com.techreier.edrops.domain.BlogEntry
+import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
@@ -28,7 +28,7 @@ class BlogService(
         logger.info("Read blog")
         // Does not fetch JPA annotations
         // val blog = blogRepo.findByIdOrNull(blogId)
-        return blogId?.let { blogRepo.findWithEntriesById(it).orElse(null) }
+        return blogId?.let { blogRepo.findWithPostsById(it).orElse(null) }
     }
 
     // Read corrent blog based on segment,language code. Assumption: One owner
@@ -36,9 +36,9 @@ class BlogService(
         segment: String,
         oldLangCode: String?,
         langCode: String,
-        entries: Boolean = false,
+        posts: Boolean = false,
     ): BlogDTO? {
-        logger.info("Read blog old LangCode: $oldLangCode langCode: $langCode, segment $segment, entries? $entries")
+        logger.info("Read blog old LangCode: $oldLangCode langCode: $langCode, segment $segment, posts? $posts")
 
         // If blog is not found with current language, use the previous language code if different
         // This prevents annoying use of error page or redirect to home page, can fail if e.g. expired session.
@@ -51,8 +51,8 @@ class BlogService(
                 ?: return null
 
         val blog: Blog? = (
-                if (entries) {
-                    blogRepo.findWithEntriesById(blogLanguageDTO.id).orElse(null)
+                if (posts) {
+                    blogRepo.findWithPostsById(blogLanguageDTO.id).orElse(null)
                 } else {
                     blogRepo.findById(blogLanguageDTO.id).orElse(null)
                 }) ?: throw ResponseStatusException(
@@ -60,7 +60,7 @@ class BlogService(
             "Blog with id ${blogLanguageDTO.id} not found"
         )
 
-        return blog!!.toDTO(langCode, entries)
+        return blog!!.toDTO(langCode, posts)
     }
 
     fun readMenu(
@@ -100,7 +100,7 @@ class BlogService(
                 blogForm.position,
                 blogForm.subject,
                 blogForm.about,
-                mutableListOf<BlogEntry>(), blogOwner
+                mutableListOf<BlogPost>(), blogOwner
             )
 
         val owner = blog.blogOwner

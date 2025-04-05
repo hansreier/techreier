@@ -22,7 +22,7 @@ class BlogText(
     // And not mandatory BlogTexts create other problems...
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    var blogEntry: BlogEntry,
+    var blogPost: BlogPost,
 
     @Id
     val id: Long? = null

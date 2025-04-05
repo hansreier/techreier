@@ -14,21 +14,21 @@ import java.util.*
 @Repository
 interface BlogRepository : JpaRepository<Blog, Long> {
     // add hoc entity graph https://www.baeldung.com/spring-data-jpa-named-entity-graphs
-    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogEntries"])
+    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogPosts"])
     override fun findAll(): MutableList<Blog>
 
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     override fun findById(id: Long): Optional<Blog>
 
-    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogEntries"])
-    fun findWithEntriesById(id: Long): Optional<Blog>
+    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogPosts"])
+    fun findWithPostsById(id: Long): Optional<Blog>
 
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCode(languageCode: String): MutableSet<Blog>
 
     // TODO Not really used any more. Consider removing.
-    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogEntries"])
-    fun findWithEntriesByTopicLanguageCodeAndSegment(
+    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogPosts"])
+    fun findWithPostsByTopicLanguageCodeAndSegment(
         languageCode: String,
         segment: String,
     ): Blog?

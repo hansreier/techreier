@@ -73,7 +73,7 @@ class About(context: Context) : Base(context) {
     }
 
     @PostMapping
-    fun getEntry(segment: String): String {
+    fun getPost(segment: String): String {
         logger.info("About controller redirect")
         return "redirect:$ABOUT_DIR/$segment"
     }

@@ -15,7 +15,7 @@
         </form>
     </div>
 
-    <div th:if="${blogEntryForm == null}">
+    <div th:if="${blogPostForm == null}">
         <form id="blogForm" th:action="@{${path}}" th:object="${blogForm}" th:method="post">
             <div class="input-form">
                 <div class="input-row">
@@ -70,32 +70,32 @@
         </form>
     </div>
     <div>
-        <table id="blogentries">
+        <table id="blogposts">
             <thead>
                 <tr>
                     <th th:text="#{id}"></th>
                     <th th:text="#{segment}"></th>
                     <th th:text="#{title}"></th>
-                    <th class= "blogentries-time" th:text="#{changed}"></th>
+                    <th class= "blogposts-time" th:text="#{changed}"></th>
                 </tr>
             </thead>
             <tbody>
-            <tr th:each="blogEntry : ${blog.blogEntries}">
-                <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${blogEntry.id}"></a></td>
-                <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${blogEntry.segment}"></a></td>
-                <td><a th:href="@{${linkPath + blogEntry.segment}}" th:text="${blogEntry.title}"></a></td>
-                <td class="blogentries-time"><a th:href="@{${linkPath + blogEntry.segment}}"
-                       th:text="${#temporals.format(blogEntry.changed, #messages.msg('datetime.format'))}"></a></td>
+            <tr th:each="blogPost : ${blog.blogPosts}">
+                <td><a th:href="@{${linkPath + blogPost.segment}}" th:text="${blogPost.id}"></a></td>
+                <td><a th:href="@{${linkPath + blogPost.segment}}" th:text="${blogPost.segment}"></a></td>
+                <td><a th:href="@{${linkPath + blogPost.segment}}" th:text="${blogPost.title}"></a></td>
+                <td class="blogposts-time"><a th:href="@{${linkPath + blogPost.segment}}"
+                       th:text="${#temporals.format(blogPost.changed, #messages.msg('datetime.format'))}"></a></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div th:if="${blogEntryForm != null}">
-        <form id="blogentryform" th:action="@{${path}}" th:object="${blogEntryForm}" th:method="post">
+    <div th:if="${blogPostForm != null}">
+        <form id="blogPostform" th:action="@{${path}}" th:object="${blogPostForm}" th:method="post">
             <div class="input-form">
                 <div class="input-row">
-                    <label th:for="blogEntrySegment" th:text="segment"></label>
-                    <input type="text" id="blogEntrySegment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}" th:title="#{tip.segment}">
+                    <label th:for="blogPostSegment" th:text="segment"></label>
+                    <input type="text" id="blogPostSegment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}" th:title="#{tip.segment}">
                     <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
                 </div>
                 <div class="input-row">
@@ -125,7 +125,7 @@
                 </div>
                 <div class="outputfield">
                     <p th:text="#{id} + ':'"></p>
-                    <p th:text="${blogEntryForm.id}"></p>
+                    <p th:text="${blogPostForm.id}"></p>
                 </div>
             </div>
         </form>

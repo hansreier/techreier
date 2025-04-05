@@ -45,7 +45,7 @@ discussing this.
 
 This website is really a technology prototype. If you find some strange text or menu items pointing
 to nowhere, it just is not completed yet. Functionality will be added when I feel like it.
-If you are interested in how the site was made, I have another entry explaining it.
+If you are interested in how the site was made, I have another post explaining it.
 
 ### How to make a text based website without coding HTML
 

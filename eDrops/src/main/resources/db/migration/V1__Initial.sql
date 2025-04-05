@@ -11,7 +11,7 @@ CREATE TABLE blog
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
-CREATE TABLE blog_entry
+CREATE TABLE blog_post
 (
     blog_id BIGINT       NOT NULL,
     changed TIMESTAMP(0) NULL,
@@ -42,10 +42,10 @@ CREATE TABLE blog_owner
 
 CREATE TABLE blog_text
 (
-    blog_entry_id BIGINT       NOT NULL,
+    blog_post_id BIGINT       NOT NULL,
     changed       TIMESTAMP(0) NULL,
     text          TEXT         NOT NULL,
-    PRIMARY KEY (blog_entry_id)
+    PRIMARY KEY (blog_post_id)
 ) ENGINE = InnoDB;
 
 CREATE TABLE language_code
@@ -78,15 +78,15 @@ ALTER TABLE blog
         FOREIGN KEY (topic)
             REFERENCES topic (id);
 
-ALTER TABLE blog_entry
-    ADD CONSTRAINT fk_blog_entry_blog
+ALTER TABLE blog_post
+    ADD CONSTRAINT fk_blog_post_blog
         FOREIGN KEY (blog_id)
             REFERENCES blog (id);
 
 ALTER TABLE blog_text
-    ADD CONSTRAINT fk_blog_text_blog_entry
-        FOREIGN KEY (blog_entry_id)
-            REFERENCES blog_entry (id);
+    ADD CONSTRAINT fk_blog_text_blog_post
+        FOREIGN KEY (blog_post_id)
+            REFERENCES blog_post (id);
 
 ALTER TABLE topic
     ADD CONSTRAINT fk_topic_language_code

@@ -7,11 +7,11 @@ import java.time.ZonedDateTime
 data class BlogDTO(
     val id: Long?, val topicKey: String, val topicText: String?, val langCodeFound: String, val langCodeWanted: String,
     val changed: ZonedDateTime, val segment: String,
-    val subject: String, val about: String, val blogEntries: List<BlogEntryDTO>,
+    val subject: String, val about: String, val blogPosts: List<BlogPostDTO>,
 ) {
     // new empty instance creation
     constructor(langCode: String) : this(
-        null, "", null, langCode, langCode, ZonedDateTime.now(), "", "", "", listOf<BlogEntryDTO>()
+        null, "", null, langCode, langCode, ZonedDateTime.now(), "", "", "", listOf<BlogPostDTO>()
     )
 
     fun toForm(): BlogForm {
@@ -26,7 +26,7 @@ data class BlogDTO(
 
 }
 
-fun Blog.toDTO(langCodeWanted: String? = null, entries: Boolean = true): BlogDTO {
+fun Blog.toDTO(langCodeWanted: String? = null, posts: Boolean = true): BlogDTO {
     return BlogDTO(
         id = this.id,
         topicKey = this.topic.topicKey,
@@ -37,7 +37,7 @@ fun Blog.toDTO(langCodeWanted: String? = null, entries: Boolean = true): BlogDTO
         segment = this.segment,
         subject = this.subject,
         about = this.about,
-        blogEntries = if (entries) this.blogEntries.map { it.toDTO() } else emptyList<BlogEntryDTO>()
+        blogPosts = if (posts) this.blogPosts.map { it.toDTO() } else emptyList<BlogPostDTO>()
     )
 }
 

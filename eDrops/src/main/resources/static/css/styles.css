@@ -235,57 +235,57 @@ img:hover::after {
 	transition: background-color 0.3s;
 }
 
-#blogentries {
+#blogposts {
 	border-collapse: collapse;
 	cursor: pointer;
 	width: 100%;
 }
 
-#blogentries th {
+#blogposts th {
 	padding: 4px 0;
 	text-align: left;
 	background-color: #04AA6D;
 	color: white;
 }
 
-#blogentries td, #blogentries th {
+#blogposts td, #blogposts th {
 	border: 2px solid #ddd;
 	padding: 8px 4px;
 	margin: 0;
 }
 
-#blogentries tr:nth-child(even){background-color: #f2f2f2;}
-#blogentries tr:nth-child(odd){background-color: yellow;}
+#blogposts tr:nth-child(even){background-color: #f2f2f2;}
+#blogposts tr:nth-child(odd){background-color: yellow;}
 
-#blogentries tr:hover {background-color: #ddd;}
+#blogposts tr:hover {background-color: #ddd;}
 
-#blogentries a {
+#blogposts a {
 	text-decoration: none;
 	color: inherit;
 }
 
-#blogentryform {
+#blogpostform {
 	width: 100%;
 }
 
-/* No text wrapping for blogentries table */
-#blogentries {
+/* No text wrapping for blogposts table */
+#blogposts {
 	white-space: nowrap;
 }
 
-/* Remove timestamp row in blogentries table for space on mobile phones */
+/* Remove timestamp row in blogposts table for space on mobile phones */
 @media (max-width: 768px) {
-	.blogentries-time {
+	.blogposts-time {
 		display: none;
 	}
-	#blogentries {
+	#blogposts {
 		white-space: normal;
 	}
 }
 
 /* still wrap if mobile phone / small size */
 @media (max-width: 768px) {
-	#blogentries {
+	#blogposts {
 		white-space: normal;
 	}
 }

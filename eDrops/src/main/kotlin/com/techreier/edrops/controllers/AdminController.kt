@@ -32,7 +32,7 @@ class Admin(val context: Context,
             private val blogService: BlogService) : Base(context) {
 
     @GetMapping("/{segment}")
-    fun allBlogEntries(
+    fun allBlogPosts(
         @PathVariable segment: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -41,7 +41,7 @@ class Admin(val context: Context,
     ): String {
         val blogParams = fetchBlogParams(model, request, response, segment, true)
 
-        logger.info("allBlogEntries Fetch blog entries with: $blogParams")
+        logger.info("allBlogPosts Fetch blog posts with: $blogParams")
 
         if (blogParams.blog == null) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
@@ -53,8 +53,8 @@ class Admin(val context: Context,
         model.addAttribute("blogForm", blogParams.blog.toForm())
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
-        logger.info("getting GUI with blogEntries")
-        return "blogEntries"
+        logger.info("getting GUI with blogPosts")
+        return "blogPosts"
     }
 
     @GetMapping
@@ -102,7 +102,7 @@ class Admin(val context: Context,
             checkStringSize(blogForm.about, MAX_SUMMARY_SIZE, "blogForm", "about", bindingResult)
             if (bindingResult.hasErrors()) {
                 prepare(model, request, response, segment, changed)
-                return "blogEntries"
+                return "blogPosts"
             }
             val langCode = (context.httpSession.getAttribute("langcode") as String?) ?:
                 validProjectLanguageCode(LocaleContextHolder.getLocale().language)
@@ -112,11 +112,11 @@ class Admin(val context: Context,
                 when (e) {
                     is DataAccessException -> handleRecoverableError(e, "dbSave", bindingResult)
                     is DuplicateSegmentException ->
-                        bindingResult.addFieldError("blogEntryForm", "segment", "duplicate", blogForm.segment)
+                        bindingResult.addFieldError("blogPostForm", "segment", "duplicate", blogForm.segment)
                     else -> throw e
                 }
                 prepare(model, request, response, segment, changed)
-                return "blogEntries"
+                return "blogPosts"
             }
 
             val newPath = "$ADMIN_DIR/${if (action == "save") blogForm.segment else NEW_SEGMENT}"
@@ -130,7 +130,7 @@ class Admin(val context: Context,
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
                 prepare(model, request, response, segment, changed)
-                return "blogEntries"
+                return "blogPosts"
             }
             return "redirect:$ADMIN_DIR/$segment"
         }
@@ -144,7 +144,7 @@ class Admin(val context: Context,
         changed: ZonedDateTime?,
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment, true)
-        logger.info("Prepare fetch blog entries with: $blogParams")
+        logger.info("Prepare fetch blog posts with: $blogParams")
 
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("linkPath", ADMIN_DIR)

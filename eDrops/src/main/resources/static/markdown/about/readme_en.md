@@ -130,7 +130,7 @@ Note: Spring Security uses a cookie by default for user and login information an
 
 Storing state in the URL path. It seems like a strange idea... What it means is to store some state in path variables,
 not query parameters since query parameters usually only used for GET. I have used the path to identify which
-blog and blog entry the user is looking at. E.g. 
+blog and blog post the user is looking at. E.g. 
 ````
 https://techreier/blog/petters/cat/feeding
 https://techreier/blog/env/weather  (username is skipped for default admin user)
@@ -138,7 +138,7 @@ https://techreier/blog/env/weather  (username is skipped for default admin user)
 - blog refers to blogs tab in main menu.
 - petters refer to the unique username that created the blog.
 - env refers to a blog identified with unique identifier env.
-- weather refers to a blog entry with unique identifier weather. 
+- weather refers to a blog post with unique identifier weather. 
 
 Note: the identifiers must conform with allowed naming rules used for an url segment.
 I do not use them as id in the database, but it could. I think it is better to use sequential numbers
@@ -171,7 +171,7 @@ I really have to do this. Summary is a text containing HTML from an editor. Usin
 instead of text renders the included HTML as HTML and not text.
 
 ```
-<div th:utext="${blogEntry.summary}"></div><br><br>
+<div th:utext="${blogPost.summary}"></div><br><br>
 ```
 
 What I will try to do to avoid Cross Site Scripting XSS, is to check the XML before injecting it into the web page.

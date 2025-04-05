@@ -33,7 +33,7 @@ class Blog(
     var about: String,
 
     @OneToMany(mappedBy = "blog", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var blogEntries: MutableList<BlogEntry>,
+    var blogPosts: MutableList<BlogPost>,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "blog_owner_id", nullable = false)

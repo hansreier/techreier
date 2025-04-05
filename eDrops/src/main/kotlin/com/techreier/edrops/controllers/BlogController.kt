@@ -36,7 +36,7 @@ class Blog(context: Context) : Base(context) {
                 return "redirect:/$HOME_DIR"
             }
         }
-        logger.info("allBlogEntries Fetch blog entries with: $blogParams and summary")
+        logger.info("allBlogPosts Fetch blog posts with: $blogParams and summary")
         model.addAttribute("blog", blogParams.blog)
         return "blogSummaries"
     }

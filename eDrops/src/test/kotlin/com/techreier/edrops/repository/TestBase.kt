@@ -12,7 +12,7 @@ abstract class TestBase {
     lateinit var entityManager: EntityManager
 
     @Autowired
-    lateinit var entryRepo: BlogEntryRepository
+    lateinit var postRepo: BlogPostRepository
 
     @Autowired
     lateinit var blogRepo: BlogRepository
@@ -35,10 +35,10 @@ abstract class TestBase {
     lateinit var blogOwner: BlogOwner
     lateinit var common: Common
     lateinit var blog: Blog
-    lateinit var blogEntry: BlogEntry
+    lateinit var blogPost: BlogPost
     var blogId: Long = 0
-    var blogEntryId: Long = 0
-    var noOfBlogEntries: Int = 0
+    var blogPostId: Long = 0
+    var noOfBlogPosts: Int = 0
     var noOfBlogs: Int = 0
 
     @BeforeEach
@@ -51,9 +51,9 @@ abstract class TestBase {
         blogOwner = ownerRepo.save(blogData.blogOwner)
         blog = blogOwner.blogs.first { it.segment == BSEG_ENVIRONMENT }
         blogId = blog.id!!
-        blogEntry = blog.blogEntries.first { it.segment == ESEG_SUSTAINABILITY }
-        blogEntryId = blog.blogEntries.first { it.segment == ESEG_SUSTAINABILITY }.id!!
-        noOfBlogEntries = blogOwner.blogs.sumOf { it.blogEntries.size }
+        blogPost = blog.blogPosts.first { it.segment == ESEG_SUSTAINABILITY }
+        blogPostId = blog.blogPosts.first { it.segment == ESEG_SUSTAINABILITY }.id!!
+        noOfBlogPosts = blogOwner.blogs.sumOf { it.blogPosts.size }
         noOfBlogs = blogOwner.blogs.size
         entityManager.flush()
     }
@@ -63,7 +63,7 @@ abstract class TestBase {
         logger.info("CleanUp start")
         entityManager.clear()
         entityManager.createQuery("DELETE FROM BlogText").executeUpdate()
-        entityManager.createQuery("DELETE FROM BlogEntry").executeUpdate()
+        entityManager.createQuery("DELETE FROM BlogPost").executeUpdate()
         entityManager.createQuery("DELETE FROM Blog").executeUpdate()
         entityManager.createQuery("DELETE FROM BlogOwner").executeUpdate()
         entityManager.createQuery("DELETE FROM Topic").executeUpdate()

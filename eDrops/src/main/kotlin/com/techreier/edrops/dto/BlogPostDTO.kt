@@ -1,18 +1,18 @@
 package com.techreier.edrops.dto
 
-import com.techreier.edrops.domain.BlogEntry
-import com.techreier.edrops.forms.BlogEntryForm
+import com.techreier.edrops.domain.BlogPost
+import com.techreier.edrops.forms.BlogPostForm
 import java.time.ZonedDateTime
 
-data class BlogEntryDTO(
+data class BlogPostDTO(
     val id: Long?,
     val changed: ZonedDateTime?,
     val segment: String,
     var title: String,
     val summary: String,
 ) {
-    fun toForm(): BlogEntryForm {
-        return BlogEntryForm(
+    fun toForm(): BlogPostForm {
+        return BlogPostForm(
             id = this.id,
             segment = this.segment,
             title = this.title,
@@ -21,8 +21,8 @@ data class BlogEntryDTO(
     }
 }
 
-fun BlogEntry.toDTO(): BlogEntryDTO {
-    return BlogEntryDTO(
+fun BlogPost.toDTO(): BlogPostDTO {
+    return BlogPostDTO(
         id = this.id,
         changed = this.changed,
         segment = this.segment,

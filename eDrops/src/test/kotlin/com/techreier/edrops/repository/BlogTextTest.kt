@@ -21,10 +21,10 @@ class BlogTextTest : TestBase() {
     @Test
     fun `basic CRUD checks`() {
         logger.info("Basic crud test")
-        blogEntryId.let { //Just cannot use save here with partly persisted entities (change in Spring Boot 3.4).
-            entityManager.persist(BlogText(timeStamp(), SUMMARY_1X1, blogEntry, it))
+        blogPostId.let { //Just cannot use save here with partly persisted entities (change in Spring Boot 3.4).
+            entityManager.persist(BlogText(timeStamp(), SUMMARY_1X1, blogPost, it))
         }
-        val blogTextFound = blogTextRepo.findByIdOrNull(blogEntryId)
+        val blogTextFound = blogTextRepo.findByIdOrNull(blogPostId)
         assertThat(blogTextFound).isNotNull
         assertThat(blogTextFound?.text).isEqualTo(SUMMARY_1X1)
         blogTextFound?.text = SUMMARY_1X2

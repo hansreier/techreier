@@ -44,7 +44,7 @@ abstract class Base(
         request: HttpServletRequest,
         response: HttpServletResponse,
         segment: String? = null,
-        entries: Boolean = false,
+        posts: Boolean = false,
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("auth", ctx.appConfig.auth)
@@ -59,7 +59,7 @@ abstract class Base(
         val blog = if (segment == NEW_SEGMENT)
             BlogDTO(usedLangcode)
         else
-            segment?.let { ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, entries) }
+            segment?.let { ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, posts) }
         ctx.httpSession.setAttribute("langcode", blog?.langCodeFound ?: usedLangcode)
 
         val topics = fetchTopics(usedLangcode)

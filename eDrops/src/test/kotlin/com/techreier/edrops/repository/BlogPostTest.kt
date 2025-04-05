@@ -1,10 +1,12 @@
 package com.techreier.edrops.repository
 
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.BlogEntry
+import com.techreier.edrops.dbservice.BlogPostService
+import com.techreier.edrops.domain.BlogPost
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 import java.time.ZoneOffset
@@ -13,38 +15,40 @@ import java.time.temporal.ChronoUnit
 
 @SpringBootTest
 @Transactional
-class BlogEntryTest : TestBase() {
+class BlogPostTest : TestBase() {
+
+    @Autowired
+    private lateinit var blogPostService: BlogPostService
 
     @Test
     fun `basic CRUD checks`() {
         logger.info("Basic crud test start create")
-        var blogEntry1 = BlogEntry(
+        var blogPostService1 = BlogPost(
             ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS),
             "Katt", "Pus", "Min katt er huskatt", blog
         )
-        blogEntry1 = entryRepo.saveAndFlush(blogEntry1)
-        blog.blogEntries.add(blogEntry1)
-        assertNotNull(blogEntry1)
-        assertNotNull(blogEntry1.id)
-        val blogEntry1id = blogEntry1.id!!
+        blogPostService1 = postRepo.saveAndFlush(blogPostService1)
+        blog.blogPosts.add(blogPostService1)
+        assertNotNull(blogPostService1)
+        assertNotNull(blogPostService1.id)
+        val blogPost1id = blogPostService1.id!!
         entityManager.clear()
         logger.info("Basic crud test start read")
-        val blogEntry2: BlogEntry? = entryRepo.findById(blogEntry1id).orElse(null)
-        assertNotNull(blogEntry2)
-        assertNotNull(blogEntry2!!.id)
-        assertEquals(blogEntry1.changed, blogEntry2.changed)
-        //   assertThat(blogEntry2).usingRecursiveComparison().isEqualTo(blogEntry1)
+        val blogPost2: BlogPost? = postRepo.findById(blogPost1id).orElse(null)
+        assertNotNull(blogPost2)
+        assertNotNull(blogPost2!!.id)
+        assertEquals(blogPostService1.changed, blogPost2.changed)
         logger.info("Basic crud test start update")
-        blogEntry1.title = "Pusur"
-        entryRepo.save(blogEntry1)
-        val blogList = entryRepo.findByTitle("Pusur")
+        blogPostService1.title = "Pusur"
+        postRepo.save(blogPostService1)
+        val blogList = postRepo.findByTitle("Pusur")
         assertThat(blogList.size).isEqualTo(1)
         assertNotNull(blogList[0])
         assertNotNull(blogList[0].id)
         assertEquals("Pusur", blogList[0].title)
         logger.info("Basic crud test start delete")
-        entryRepo.delete(blogEntry1)
-        val notFound: BlogEntry? = entryRepo.findById(blogEntry1id).orElse(null)
+        postRepo.delete(blogPostService1)
+        val notFound: BlogPost? = postRepo.findById(blogPost1id).orElse(null)
         assertNull(notFound)
     }
 }

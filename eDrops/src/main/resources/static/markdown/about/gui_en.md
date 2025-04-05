@@ -74,7 +74,7 @@ I have avoided using a lot of URL query parameters (lang can be used).
 If I allow users to enter blogs I have to add another level. Not implemented yet.
 
 ````
-www.techreier.com/userid/blog/blogentry
+www.techreier.com/userid/blog/blogpost
 ````
 Userid is dropped in the current implementation.
 
@@ -83,7 +83,7 @@ Userid is dropped in the current implementation.
 The current solution focuses mostly on a read only GUI with no login.  
 
 To be able to enter blogs in a database centric system, I have to include admin GUI (included login) to be able to
-administrate and enter blogs and blog-entries. And this is not a simple task, actually about 50% of the system.
+administrate and enter blogs and blog posts. And this is not a simple task, actually about 50% of the system.
 Currently, markdown blogs including images are stored on the file system. I am gradually changing this to store it in 
 the database. Some of the blogs I still will want to store in the file system, so I will not remove this functionality.
 

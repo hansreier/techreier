@@ -45,17 +45,17 @@ class BlogTest : TestBase() {
     fun `cascade delete test`() {
         logger.info("starting cascade delete test")
         val blog1 = blogOwner.blogs.first()
-        val blogEntry1 = blog1.blogEntries.first()
-        val blogEntry1id = blogEntry1.id!!
-        assertNotNull(blogEntry1)
-        logger.info("blogEntry: $blogEntry1")
-        val blogEntrySaved: BlogEntry? = entryRepo.findById(blogEntry1id).orElse(null)
-        assertNotNull(blogEntrySaved)
-        assertThat(blogEntrySaved!!.id).isEqualTo(blogEntry1id)
+        val blogPost1 = blog1.blogPosts.first()
+        val blogPost1id = blogPost1.id!!
+        assertNotNull(blogPost1)
+        logger.info("blogPost: $blogPost1")
+        val blogPostSaved: BlogPost? = postRepo.findById(blogPost1id).orElse(null)
+        assertNotNull(blogPostSaved)
+        assertThat(blogPostSaved!!.id).isEqualTo(blogPost1id)
         blogRepo.delete(blog1)
         logger.info("Deleted")
-        val blogEntryDeleted: BlogEntry? = entryRepo.findById(blogEntry1id).orElse(null)
-        assertThat(blogEntryDeleted).isNull()
+        val blogPostDeleted: BlogPost? = postRepo.findById(blogPost1id).orElse(null)
+        assertThat(blogPostDeleted).isNull()
         logger.info("completed")
     }
 
@@ -63,7 +63,7 @@ class BlogTest : TestBase() {
     fun `read blog with JPQL`() {
         logger.info("starting transactional test")
         val query =
-            entityManager.createQuery("SELECT DISTINCT b FROM Blog b INNER JOIN FETCH b.blogEntries WHERE b.subject = ?1 ")
+            entityManager.createQuery("SELECT DISTINCT b FROM Blog b INNER JOIN FETCH b.blogPosts WHERE b.subject = ?1 ")
         val blog = query.setParameter(1, SUBJECT1).singleResult as Blog
         logger.info("blog: $blog")
         assertThat(blog.topic.language.language).isEqualTo(NORWEGIAN)
@@ -78,7 +78,7 @@ class BlogTest : TestBase() {
         assertThat(blog1!!.topic.language.code).isEqualTo(NB)
         assertThat(blog1.topic.language.language).isEqualTo(NORWEGIAN)
         assertThat(blog1.segment).isEqualTo(BSEG_ENVIRONMENT)
-        logger.info("blog: $blog1 ${blog1.blogEntries.size}")
+        logger.info("blog: $blog1 ${blog1.blogPosts.size}")
     }
 
     // Using JPQL more efficient, only one SQL statement
@@ -90,8 +90,8 @@ class BlogTest : TestBase() {
         logger.info("blogs: $blogs noOfBlogs: ${blogs.size}")
         assertThat(blogs.size).isEqualTo(noOfBlogs)
         blogs.forEach {
-            val entries = it.blogEntries
-            logger.info("my entries: $entries")
+            val posts = it.blogPosts
+            logger.info("my posts: $posts")
         }
     }
 
@@ -104,13 +104,13 @@ class BlogTest : TestBase() {
         val topicGraph: Subgraph<Topic> = entityGraph.addSubgraph("topic")
         topicGraph.addAttributeNodes("language")
         entityGraph.addAttributeNodes("blogOwner")
-        entityGraph.addAttributeNodes("blogEntries")
+        entityGraph.addAttributeNodes("blogPosts")
         val hints: MutableMap<String, Any> = HashMap()
         hints["javax.persistence.fetchgraph"] = entityGraph
         logger.info("saved")
         val blog2 = entityManager.find(Blog::class.java, blog1?.id, hints)
-        assertThat(blog2?.blogEntries?.size).isEqualTo(blog1?.blogEntries?.size)
-        logger.info("Blog language: ${blog2.topic.language.language} owner: ${blog2.blogOwner.id} entries: ${blog2.blogEntries}")
+        assertThat(blog2?.blogPosts?.size).isEqualTo(blog1?.blogPosts?.size)
+        logger.info("Blog language: ${blog2.topic.language.language} owner: ${blog2.blogOwner.id} posts: ${blog2.blogPosts}")
     }
 
     @Test

@@ -10,7 +10,7 @@ import java.time.ZonedDateTime
 
 //https://www.baeldung.com/kotlin/jpa
 @Entity
-class BlogEntry(
+class BlogPost(
 
     @TimeZoneStorage(TimeZoneStorageType.NORMALIZE_UTC)
     @Column(columnDefinition = "timestamp(0)")

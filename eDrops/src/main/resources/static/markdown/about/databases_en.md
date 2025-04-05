@@ -110,7 +110,7 @@ Verify and eventuelly change port number
 ## Order of clearing tables
 
 - BLOG_TEXT (can be done in any order)
-- BLOG_ENTRY
+- BLOG_POST
 - BLOG
 - BLOG_OWNER
 - LANGUAGE_CODE

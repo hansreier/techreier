@@ -84,7 +84,7 @@ class Home(context: Context ) : Base(context) {
     }
 
     @PostMapping
-    fun getEntry(segment: String): String {
+    fun getPost(segment: String): String {
         logger.info("Redirect to home")
         return "redirect:$HOME_DIR/$segment"
     }

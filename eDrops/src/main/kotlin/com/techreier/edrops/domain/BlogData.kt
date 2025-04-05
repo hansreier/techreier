@@ -100,11 +100,11 @@ class BlogData(
     private val datetime3x1 = timestamp("01.01.2025 08:04:12")
     private val datetime3x2 = timestamp("01.02.2025 08:04:12")
 
-    private val blogEntries1 = mutableListOf<BlogEntry>()
-    private val blogEntries1e = mutableListOf<BlogEntry>()
-    private val blogEntries2 = mutableListOf<BlogEntry>()
-    private val blogEntries3 = mutableListOf<BlogEntry>()
-    private val blogEntries3e = mutableListOf<BlogEntry>()
+    private val blogPosts1 = mutableListOf<BlogPost>()
+    private val blogPosts1e = mutableListOf<BlogPost>()
+    private val blogPosts2 = mutableListOf<BlogPost>()
+    private val blogPosts3 = mutableListOf<BlogPost>()
+    private val blogPosts3e = mutableListOf<BlogPost>()
     private val blogList = mutableSetOf<Blog>()
 
     val blogOwner: BlogOwner =
@@ -124,32 +124,32 @@ class BlogData(
             blogList,
         )
 
-    // Note: Adding duplicate entries will result in unique result exception when reading the blog.
+    // Note: Adding duplicate posts will result in unique result exception when reading the blog.
     // The problem is how to recover without risking recursion.
     // A redirect to homepage with a warning message added is one possibility.
     // The problem is that have to check for type of DB error, a general type of DB failure should not return to homepage
     // since even the menu uses the database.
     // TODO: Must at least be taken care of in save blog GUI. Using an array or list here could allow for adding check
-    private val blog1 = Blog(datetime1, BSEG_ENVIRONMENT, common.defaultNo, 2, SUBJECT1, ABOUT1, blogEntries1, blogOwner)
-    private val blog1e = Blog(datetimeb1, BSEG_ENVIRONMENT, common.defaultEn, 2, SUBJECT1E, ABOUT1E, blogEntries1e, blogOwner)
-    private val blog2 = Blog(datetimeb2, BSEG_ENERGY, common.energyNo, 2, SUBJECT2, ABOUT2, blogEntries2, blogOwner)
-    private val blog3 = Blog(datetime1, BSEG_CODING, common.codingNo, 2, SUBJECT3, ABOUT3, blogEntries3, blogOwner)
-    private val blog3e = Blog(datetimeb1, BSEG_CODING, common.codingEn, 2, SUBJECT3E, ABOUT3E, blogEntries3e, blogOwner)
+    private val blog1 = Blog(datetime1, BSEG_ENVIRONMENT, common.defaultNo, 2, SUBJECT1, ABOUT1, blogPosts1, blogOwner)
+    private val blog1e = Blog(datetimeb1, BSEG_ENVIRONMENT, common.defaultEn, 2, SUBJECT1E, ABOUT1E, blogPosts1e, blogOwner)
+    private val blog2 = Blog(datetimeb2, BSEG_ENERGY, common.energyNo, 2, SUBJECT2, ABOUT2, blogPosts2, blogOwner)
+    private val blog3 = Blog(datetime1, BSEG_CODING, common.codingNo, 2, SUBJECT3, ABOUT3, blogPosts3, blogOwner)
+    private val blog3e = Blog(datetimeb1, BSEG_CODING, common.codingEn, 2, SUBJECT3E, ABOUT3E, blogPosts3e, blogOwner)
 
-    private val blogEntry1x1 = BlogEntry(datetime1, ESEG_SUSTAINABILITY, TITLE_1X1, SUMMARY_1X1, blog1)
-    private val blogEntry1x2 = BlogEntry(datetime2, ESEG_WEATHER, TITLE_1X2, SUMMARY_1X2, blog1)
-    private val blogEntry1x3 = BlogEntry(datetime3, ESEG_NATURE, TITLE_1X3, SUMMARY_1X3, blog1)
-    private val blogEntry1x1e = BlogEntry(datetime1, ESEG_SUSTAINABILITY, TITLE_1X1E, SUMMARY_1X1E, blog1e)
-    private val blogEntry1x2e = BlogEntry(datetime2, ESEG_WEATHER, TITLE_1X2E, SUMMARY_1X2E, blog1e)
-    private val blogEntry1x3e = BlogEntry(datetime3, ESEG_NATURE, TITLE_1X3E, SUMMARY_1X3E, blog1e)
+    private val blogPost1x1 = BlogPost(datetime1, ESEG_SUSTAINABILITY, TITLE_1X1, SUMMARY_1X1, blog1)
+    private val blogPost1x2 = BlogPost(datetime2, ESEG_WEATHER, TITLE_1X2, SUMMARY_1X2, blog1)
+    private val blogPost1x3 = BlogPost(datetime3, ESEG_NATURE, TITLE_1X3, SUMMARY_1X3, blog1)
+    private val blogPost1x1e = BlogPost(datetime1, ESEG_SUSTAINABILITY, TITLE_1X1E, SUMMARY_1X1E, blog1e)
+    private val blogPost1x2e = BlogPost(datetime2, ESEG_WEATHER, TITLE_1X2E, SUMMARY_1X2E, blog1e)
+    private val blogPost1x3e = BlogPost(datetime3, ESEG_NATURE, TITLE_1X3E, SUMMARY_1X3E, blog1e)
 
-    private val blogEntry2x1 = BlogEntry(datetime2x1, BSEG_ENERGY, TITLE_2X1, SUMMARY_2X1, blog2)
-    private val blogEntry2x2 = BlogEntry(datetime2x2, ESEG_ELPOWER, TITLE_2X2, SUMMARY_2X2, blog2)
+    private val blogPost2x1 = BlogPost(datetime2x1, BSEG_ENERGY, TITLE_2X1, SUMMARY_2X1, blog2)
+    private val blogPost2x2 = BlogPost(datetime2x2, ESEG_ELPOWER, TITLE_2X2, SUMMARY_2X2, blog2)
 
-    private val blogEntry3x1 = BlogEntry(datetime3x1, ESEG_SPRING_BOOT, TITLE_3X1, SUMMARY_3X1, blog3)
-    private val blogEntry3x2 = BlogEntry(datetime3x2, ESEG_HIBERNATE, TITLE_3X2, SUMMARY_3X2, blog3)
-    private val blogEntry3x1e = BlogEntry(datetime3x1, ESEG_SPRING_BOOT, TITLE_3X1E, SUMMARY_3X1E, blog3e)
-    private val blogEntry3x2e = BlogEntry(datetime3x2, ESEG_HIBERNATE, TITLE_3X2E, SUMMARY_3X2E, blog3e)
+    private val blogPost3x1 = BlogPost(datetime3x1, ESEG_SPRING_BOOT, TITLE_3X1, SUMMARY_3X1, blog3)
+    private val blogPost3x2 = BlogPost(datetime3x2, ESEG_HIBERNATE, TITLE_3X2, SUMMARY_3X2, blog3)
+    private val blogPost3x1e = BlogPost(datetime3x1, ESEG_SPRING_BOOT, TITLE_3X1E, SUMMARY_3X1E, blog3e)
+    private val blogPost3x2e = BlogPost(datetime3x2, ESEG_HIBERNATE, TITLE_3X2E, SUMMARY_3X2E, blog3e)
 
     init {
         initialize()
@@ -164,32 +164,32 @@ class BlogData(
         blogOwner.blogs.add(blog3)
         blogOwner.blogs.add(blog3e)
 
-        blogEntries1.clear()
-        blog1.blogEntries = blogEntries1
-        blog1.blogEntries.add(blogEntry1x1)
-        blog1.blogEntries.add(blogEntry1x2)
-        blog1.blogEntries.add(blogEntry1x3)
+        blogPosts1.clear()
+        blog1.blogPosts = blogPosts1
+        blog1.blogPosts.add(blogPost1x1)
+        blog1.blogPosts.add(blogPost1x2)
+        blog1.blogPosts.add(blogPost1x3)
 
-        blogEntries1e.clear()
-        blog1e.blogEntries = blogEntries1e
-        blog1e.blogEntries.add(blogEntry1x1e)
-        blog1e.blogEntries.add(blogEntry1x2e)
-        blog1e.blogEntries.add(blogEntry1x3e)
+        blogPosts1e.clear()
+        blog1e.blogPosts = blogPosts1e
+        blog1e.blogPosts.add(blogPost1x1e)
+        blog1e.blogPosts.add(blogPost1x2e)
+        blog1e.blogPosts.add(blogPost1x3e)
 
-        blogEntries2.clear()
-        blog2.blogEntries = blogEntries2
-        blog2.blogEntries.add(blogEntry2x1)
-        blog2.blogEntries.add(blogEntry2x2)
+        blogPosts2.clear()
+        blog2.blogPosts = blogPosts2
+        blog2.blogPosts.add(blogPost2x1)
+        blog2.blogPosts.add(blogPost2x2)
 
-        blogEntries3.clear()
-        blog3.blogEntries = blogEntries3
-        blog3.blogEntries.add(blogEntry3x1)
-        blog3.blogEntries.add(blogEntry3x2)
+        blogPosts3.clear()
+        blog3.blogPosts = blogPosts3
+        blog3.blogPosts.add(blogPost3x1)
+        blog3.blogPosts.add(blogPost3x2)
 
-        blogEntries3e.clear()
-        blog3e.blogEntries = blogEntries3e
-        blog3e.blogEntries.add(blogEntry3x1e)
-        blog3e.blogEntries.add(blogEntry3x2e)
+        blogPosts3e.clear()
+        blog3e.blogPosts = blogPosts3e
+        blog3e.blogPosts.add(blogPost3x1e)
+        blog3e.blogPosts.add(blogPost3x2e)
     }
 
     private fun timestamp(datetime: String): ZonedDateTime {
