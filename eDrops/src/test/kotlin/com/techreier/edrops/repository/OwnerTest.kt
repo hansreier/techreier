@@ -105,7 +105,7 @@ class OwnerTest : TestBase() {
         logger.info("starting read all test")
         entityManager.clear()
         logger.info("saved")
-        val owner = blogOwner.id?.let { ownerRepo.findById(it) }?.orElse(null)
+        val owner: BlogOwner? = blogOwner.id?.let { ownerRepo.findById(it) }?.orElse(null)
         logger.info("owner: $owner $owner?.blogEntries?.size}")
         assertThat(owner?.blogs?.size).isEqualTo(noOfBlogs)
         val blogs = owner?.blogs

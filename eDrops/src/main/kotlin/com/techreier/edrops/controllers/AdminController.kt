@@ -43,22 +43,15 @@ class Admin(val context: Context,
 
         logger.info("allBlogEntries Fetch blog entries with: $blogParams")
 
-        if (blogParams.action == "create" || blogParams.action == "saveCreate") {
-            logger.info("getting GUI with new blog")
-            val blogForm = BlogForm(null, "", "", 0)
-            model.addAttribute("changed", null)
-            model.addAttribute("blogForm", blogForm)
-        } else {
-            if (blogParams.blog == null) {
-                redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-                return "redirect:/$HOME_DIR"
-            }
-            model.addAttribute("changed", blogParams.blog.changed)
-            model.addAttribute("blogForm", blogParams.blog.toForm())
-            model.addAttribute("blog", blogParams.blog)
+        if (blogParams.blog == null) {
+            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+            return "redirect:/$HOME_DIR"
         }
 
         // Set blog related fields
+        model.addAttribute("changed", blogParams.blog.changed)
+        model.addAttribute("blogForm", blogParams.blog.toForm())
+        model.addAttribute("blog", blogParams.blog)
         model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
         logger.info("getting GUI with blogEntries")
         return "blogEntries"

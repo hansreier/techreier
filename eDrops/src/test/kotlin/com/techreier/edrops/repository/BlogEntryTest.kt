@@ -29,9 +29,9 @@ class BlogEntryTest : TestBase() {
         val blogEntry1id = blogEntry1.id!!
         entityManager.clear()
         logger.info("Basic crud test start read")
-        val blogEntry2 = entryRepo.findById(blogEntry1id).orElse(null)
+        val blogEntry2: BlogEntry? = entryRepo.findById(blogEntry1id).orElse(null)
         assertNotNull(blogEntry2)
-        assertNotNull(blogEntry2.id)
+        assertNotNull(blogEntry2!!.id)
         assertEquals(blogEntry1.changed, blogEntry2.changed)
         //   assertThat(blogEntry2).usingRecursiveComparison().isEqualTo(blogEntry1)
         logger.info("Basic crud test start update")

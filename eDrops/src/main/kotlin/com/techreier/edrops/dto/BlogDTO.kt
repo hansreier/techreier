@@ -9,6 +9,11 @@ data class BlogDTO(
     val changed: ZonedDateTime, val segment: String,
     val subject: String, val about: String, val blogEntries: List<BlogEntryDTO>,
 ) {
+    // new empty instance creation
+    constructor(langCode: String) : this(
+        null, "", null, langCode, langCode, ZonedDateTime.now(), "", "", "", listOf<BlogEntryDTO>()
+    )
+
     fun toForm(): BlogForm {
         return BlogForm(
             id = this.id,

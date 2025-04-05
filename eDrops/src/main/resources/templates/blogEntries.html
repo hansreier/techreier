@@ -39,12 +39,13 @@
                 <div class="input-row">
                     <label th:for="subject" th:text="#{subject}"></label>
                     <input type="text" id="subject" th:field="*{subject}" th:attr="maxLength=${maxTitleSize}">
-                    <span class="error" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></span>
+                    <span class="error" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></span>
                 </div>
 
                 <div class="input-row">
                     <label th:for="about" th:text="#{about}"></label>
                     <textarea id="about" th:field="*{about}" th:attr="maxLength=${maxSummarySize}"></textarea>
+                    <span class="error" th:if="${#fields.hasErrors('about')}" th:errors="*{about}"></span>
                 </div>
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:value="${blog.id}" name="blogId">
@@ -105,6 +106,7 @@
                  <div class="input-row">
                     <label th:for="summary" th:text="#{summary}"></label>
                     <textarea id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"></textarea>
+                     <span class="error" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></span>
                 </div>
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:value="${blog.id}" name="blogId">

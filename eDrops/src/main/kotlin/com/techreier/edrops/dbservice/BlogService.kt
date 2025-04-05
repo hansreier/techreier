@@ -11,8 +11,10 @@ import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.TopicRepository
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.server.ResponseStatusException
 import java.time.ZonedDateTime
 
 @Service
@@ -48,13 +50,17 @@ class BlogService(
                 ) else null)
                 ?: return null
 
-        val blog =
-            if (entries) {
-                blogRepo.findWithEntriesById(blogLanguageDTO.id).orElse(null)
-            } else {
-                blogRepo.findById(blogLanguageDTO.id).orElse(null)
-            }
-        return blog.toDTO(langCode, entries)
+        val blog: Blog? = (
+                if (entries) {
+                    blogRepo.findWithEntriesById(blogLanguageDTO.id).orElse(null)
+                } else {
+                    blogRepo.findById(blogLanguageDTO.id).orElse(null)
+                }) ?: throw ResponseStatusException(
+            HttpStatus.NOT_FOUND,
+            "Blog with id ${blogLanguageDTO.id} not found"
+        )
+
+        return blog!!.toDTO(langCode, entries)
     }
 
     fun readMenu(
@@ -68,41 +74,42 @@ class BlogService(
         blogId: Long?,
         blogForm: BlogForm,
         langCode: String,
-        blogOwner: BlogOwner
+        blogOwner: BlogOwner,
     ) {
         logger.info("Saving blog with id: ${blogForm.id} segment: ${blogForm.segment} blogId: $blogId")
-        blogId?.let {
-            val blog = blogRepo.findById(blogId).orElse(null)
-            if ((blog.topic.topicKey != blogForm.topicKey) || blog.topic.language.code != langCode) {
-                topicRepo.findFirstByTopicKeyAndLanguageCode(blogForm.topicKey, langCode).orElse(null)
-                    ?.let { topic -> blog.topic = topic }
-                    ?: logger.warn("Topic with key: ${blogForm.topicKey} and languageCode: $langCode not found")
-            }
-            val newBlog =  blog?.let { //TODO expression looks strange
-                it.changed = ZonedDateTime.now()
-                it.segment = blogForm.segment
-                it.pos = blogForm.position
-                it.subject = blogForm.subject
-                it.about = blogForm.about
-                it
+        val blog: Blog =
+            blogId?.let {
+                val foundBlog: Blog? = blogRepo.findById(it).orElse(null)
+                    ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Blog with id $it not found")
+                if ((foundBlog!!.topic.topicKey != blogForm.topicKey) || foundBlog.topic.language.code != langCode) {
+                    topicRepo.findFirstByTopicKeyAndLanguageCode(blogForm.topicKey, langCode).orElse(null)
+                        ?.let { topic -> foundBlog.topic = topic }
+                        ?: logger.warn("Topic with key: ${blogForm.topicKey} and languageCode: $langCode not found")
+                }
+                foundBlog.changed = ZonedDateTime.now()
+                foundBlog.segment = blogForm.segment
+                foundBlog.pos = blogForm.position
+                foundBlog.subject = blogForm.subject
+                foundBlog.about = blogForm.about
+                foundBlog
             } ?: Blog(
                 ZonedDateTime.now(),
                 blogForm.segment,
-                blog.topic,
+                topicRepo.findFirstByTopicKeyAndLanguageCode(blogForm.topicKey, langCode).orElse(null)
+                    ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Topic ${blogForm.topicKey} not found"),
                 blogForm.position,
                 blogForm.subject,
                 blogForm.about,
-                mutableListOf<BlogEntry>(),
-                blogOwner
+                mutableListOf<BlogEntry>(), blogOwner
             )
-            val foundBlogOwner = blog.blogOwner
-            if (foundBlogOwner.blogs.any {
+
+        val owner = blog.blogOwner
+        if (owner.blogs.any {
                 (it.segment == blogForm.segment) && (it.id != blogForm.id) && (it.topic.language.code == langCode)
             }) {
-                throw DuplicateSegmentException("Segment: ${blogForm.segment} is duplicate for owner ${foundBlogOwner.firstName} ${foundBlogOwner.lastName}")
-            }
-            blogRepo.save(newBlog)
+            throw DuplicateSegmentException("Segment: ${blogForm.segment} is duplicate for owner ${owner.firstName} ${owner.lastName}")
         }
+        blogRepo.save(blog)
     }
 
     // TODO Verify: I think this does cascade delete without even asking

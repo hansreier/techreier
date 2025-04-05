@@ -29,9 +29,9 @@ class BlogTest : TestBase() {
     fun `read with findById`() {
         logger.info("starting read with findById")
         entityManager.clear()
-        val blog1 = blogRepo.findById(blogId).orElse(null)
+        val blog1: Blog? = blogRepo.findById(blogId).orElse(null)
         assertNotNull(blog1)
-        assertEquals(this.blog.id, blog1.id)
+        assertEquals(this.blog.id, blog1!!.id)
         logger.info("blog: $blog1")
     }
 
@@ -49,11 +49,12 @@ class BlogTest : TestBase() {
         val blogEntry1id = blogEntry1.id!!
         assertNotNull(blogEntry1)
         logger.info("blogEntry: $blogEntry1")
-        val blogEntrySaved = entryRepo.findById(blogEntry1id).orElse(null)
-        assertThat(blogEntrySaved.id).isEqualTo(blogEntry1id)
+        val blogEntrySaved: BlogEntry? = entryRepo.findById(blogEntry1id).orElse(null)
+        assertNotNull(blogEntrySaved)
+        assertThat(blogEntrySaved!!.id).isEqualTo(blogEntry1id)
         blogRepo.delete(blog1)
         logger.info("Deleted")
-        val blogEntryDeleted = entryRepo.findById(blogEntry1id).orElse(null)
+        val blogEntryDeleted: BlogEntry? = entryRepo.findById(blogEntry1id).orElse(null)
         assertThat(blogEntryDeleted).isNull()
         logger.info("completed")
     }

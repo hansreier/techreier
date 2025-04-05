@@ -1,6 +1,7 @@
 package com.techreier.edrops.dbservice
 
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogEntry
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.exceptions.ParentBlogException
@@ -23,23 +24,23 @@ class BlogEntryService(
     ) {
         logger.info("Saving blogEntry with id: ${blogEntryForm.id} segment: ${blogEntryForm.segment} blogId: $blogId")
         blogId?.let {
-            val blog = blogRepo.findById(blogId).orElse(null)
-            blog?.let { foundBlog ->
-                val blogEntry =
-                    BlogEntry(
-                        ZonedDateTime.now(),
-                        blogEntryForm.segment,
-                        blogEntryForm.title,
-                        blogEntryForm.summary,
-                        foundBlog,
-                        blogEntryForm.id,
-                    )
-                if (blog.blogEntries.any { (it.segment == blogEntryForm.segment) && (it.id != blogEntryForm.id) }) {
-                    throw DuplicateSegmentException("Segment: ${blogEntryForm.segment} is duplicate in blog ${blog.segment}")
-                }
-                blogEntryRepo.save(blogEntry)
-            }
+            val blog: Blog? = blogRepo.findById(blogId).orElse(null)
                 ?: throw ParentBlogException("Blogentry ${blogEntryForm.segment} not saved, cannot read parent blog with id: $blogId")
+
+            val blogEntry =
+                BlogEntry(
+                    ZonedDateTime.now(),
+                    blogEntryForm.segment,
+                    blogEntryForm.title,
+                    blogEntryForm.summary,
+                    blog!!,
+                    blogEntryForm.id
+                )
+            if (blog.blogEntries.any { (it.segment == blogEntryForm.segment) && (it.id != blogEntryForm.id) }) {
+                throw DuplicateSegmentException("Segment: ${blogEntryForm.segment} is duplicate in blog ${blog.segment}")
+            }
+
+            blogEntryRepo.save(blogEntry)
         } ?: throw ParentBlogException("Blogentry ${blogEntryForm.segment} not saved, parent blog is detached")
     }
 
