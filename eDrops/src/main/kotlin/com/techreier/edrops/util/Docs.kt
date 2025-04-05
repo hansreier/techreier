@@ -9,10 +9,7 @@ const val MARKDOWN_EXT = ".md"
  * No database needed for rendering docs saved as markdown files.
  * Documents read directly from disk.
  * Documents are fetch from drop down menu
- * TODO: Enable usage of multiple drop down menus
  * The segment is the file name without extension
- * If no value of subject, segment is used to pick up text in resource
- * Language is part of file name if ext is set to true
  */
 object Docs {
     val c =

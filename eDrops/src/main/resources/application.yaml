@@ -24,7 +24,7 @@ logging:
     com.techreier.edrops: INFO
     org.hibernate: INFO
     org.hibernate.orm.jdbc.bind: INFO
-    org.hibernate.SQL: INFO
+    org.hibernate.SQL: DEBUG
   pattern:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
 spring:

@@ -118,7 +118,7 @@ class Admin(val context: Context,
                 prepare(model, request, response, segment, changed)
                 return "blogEntries"
             }
-            //TODO verify path
+
             val newPath = "$ADMIN_DIR/${if (action == "save") blogForm.segment else NEW_SEGMENT}"
             return "redirect:$newPath"
         }
