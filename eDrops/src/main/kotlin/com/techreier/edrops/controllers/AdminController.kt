@@ -117,7 +117,7 @@ class Admin(val ctx: Context,
                 when (e) {
                     is DataAccessException -> handleRecoverableError(e, "dbSave", bindingResult)
                     is DuplicateSegmentException ->
-                        bindingResult.addFieldError("blogForm", "segment", "duplicate",  ctx.messageSource, blogForm.segment)
+                        bindingResult.addFieldError("segment", "duplicate",  ctx.messageSource, blogForm.segment)
                     else -> throw e
                 }
                 prepare(model, request, response, segment, changed)

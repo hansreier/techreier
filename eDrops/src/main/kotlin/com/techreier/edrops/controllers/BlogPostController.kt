@@ -100,7 +100,7 @@ class BlogPostController(
                 when (e) {
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
                     is DuplicateSegmentException ->
-                        bindingResult.addFieldError("blogPostForm", "segment", "duplicate", ctx.messageSource, blogPostForm.segment)
+                        bindingResult.addFieldError( "segment", "duplicate", ctx.messageSource, blogPostForm.segment)
 
                     else -> throw e
                 }

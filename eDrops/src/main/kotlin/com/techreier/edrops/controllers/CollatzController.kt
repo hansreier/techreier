@@ -56,11 +56,11 @@ class Collatz(val ctx: Context, val collatzService: CollatzService) : Base(ctx) 
         //TODO move to general validation function
         seedNo?.let {
             if (it <= 0) {
-                bindingResult.addFieldError("collatz", "seed", "zeroOrNegativeError", ctx.messageSource,  collatz.seed)
+                bindingResult.addFieldError( "seed", "zeroOrNegativeError", ctx.messageSource,  collatz.seed)
             } else {
                 result = collatzService.collatz(it)
             }
-        } ?: bindingResult.addFieldError("collatz", "seed", "noLongError", ctx.messageSource, collatz.seed)
+        } ?: bindingResult.addFieldError( "seed", "noLongError", ctx.messageSource, collatz.seed)
 
         if (bindingResult.hasErrors()) {
             logger.info("warn collatz seed input error: $collatz")

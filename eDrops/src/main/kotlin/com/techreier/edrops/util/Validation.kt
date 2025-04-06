@@ -19,24 +19,24 @@ fun checkStringSize(
     val form = bindingResult.objectName
     if (value.isNullOrBlank()) {
         if (minSize == 1) {
-            bindingResult.addFieldError(form, field, "empty", messageSource, value)
+            bindingResult.addFieldError(field, "empty", messageSource, value)
         }
         return
     }
     if (value.length > maxSize) {
         logger.info("$form $field: ${value.length} is longer than the allowed size: $maxSize")
-        bindingResult.addFieldError(form, field, "maxSize", messageSource, value)
+        bindingResult.addFieldError( field, "maxSize", messageSource, value)
         return
     }
     if (value.length < minSize) {
         logger.info("$form $field: ${value.length} is shorter than the minimum size: $minSize")
-        bindingResult.addFieldError(form, field, "minSize", messageSource,  value)
+        bindingResult.addFieldError( field, "minSize", messageSource,  value)
         return
     }
     val byteSize = value.toByteArray(Charsets.UTF_8).size
     if (byteSize > maxSize) {
         logger.info("$form $field: $byteSize (checked for multibyte) is longer than the allowed size: $maxSize")
-        bindingResult.addFieldError(form, field, "maxSizeM", messageSource, value)
+        bindingResult.addFieldError( field, "maxSizeM", messageSource, value)
     }
 }
 
@@ -51,30 +51,29 @@ fun checkSegment(
 
     if (value.isNullOrBlank()) {
         logger.info("$form $field: used in URL and cannot be empty")
-        bindingResult.addFieldError(form, field, "empty", messageSource, value)
+        bindingResult.addFieldError(field, "empty", messageSource, value)
         return
     }
     if (value.length > MAX_SEGMENT_SIZE) {
         logger.info("$form $field: ${value.length} is longer than the allowed size: $MAX_SEGMENT_SIZE")
-        bindingResult.addFieldError(form, field, "maxSize", messageSource, value)
+        bindingResult.addFieldError(field, "maxSize", messageSource, value)
         return
     }
     if (!value.matches(regex)) {
         logger.info("$form $field: used in URL, use lower case and no special characters ")
-        bindingResult.addFieldError(form, field, "segment", messageSource, value)
+        bindingResult.addFieldError(field, "segment", messageSource, value)
     }
 }
 
 //TODO not completed
 fun checkInt(
     value: String?,
-    form: String,
     field: String,
     bindingResult: BindingResult,
     messageSource: MessageSource, required: Boolean = true, default: Int = 0): Int {
     if (value.isNullOrBlank()) {
         if (required) {
-            bindingResult.addFieldError(form, field, "empty", messageSource, value)
+            bindingResult.addFieldError(field, "empty", messageSource, value)
             return default
         }
     }
@@ -85,12 +84,11 @@ fun checkInt(
 // Normally a default value should be added, but not required
 // (The simplified FieldError constructor with 3 arguments did not allow for default value)
 fun BindingResult.addFieldError(
-    form: String,
     field: String,
     key: String,
     messageSource: MessageSource,
     defaultFieldValue: String? = null,
 ) {
-    addError(FieldError(form, field, defaultFieldValue, true, null, null,
+    addError(FieldError(this.objectName, field, defaultFieldValue, true, null, null,
         msg(messageSource,"error.$key")))
 }
