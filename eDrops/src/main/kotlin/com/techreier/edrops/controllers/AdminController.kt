@@ -8,6 +8,9 @@ import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.forms.BlogForm
+import com.techreier.edrops.util.addFieldError
+import com.techreier.edrops.util.checkSegment
+import com.techreier.edrops.util.checkStringSize
 import com.techreier.edrops.util.validProjectLanguageCode
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -28,8 +31,8 @@ const val ADMIN_DIR = "/$ADMIN"
 
 @Controller
 @RequestMapping(ADMIN_DIR)
-class Admin(val context: Context,
-            private val blogService: BlogService) : Base(context) {
+class Admin(val ctx: Context,
+            private val blogService: BlogService) : Base(ctx) {
 
     @GetMapping("/{segment}")
     fun allBlogPosts(
@@ -89,22 +92,24 @@ class Admin(val context: Context,
     ): String {
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
-        logger.info("blog: path: $path action:  $action blogid: $blogId")
+        //TODO check and use objectName in code.
+        logger.info("blog: path: $path action:  $action blogid: $blogId formName: ${bindingResult.objectName}")
         val blogOwner = owner?.user ?: run {
             // TODO is this the best action, alternative return error message in the current screen
-            if (context.appConfig.auth)
+            if (ctx.appConfig.auth)
                 throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "not authorized for save action"))
             else blogAdmin
         }
+
         if (action == "save" || action == "saveCreate") {
-            checkSegment(blogForm.segment, "blogForm", "segment", bindingResult)
-            checkStringSize(blogForm.subject, MAX_TITLE_SIZE, "blogForm", "subject", bindingResult, 1)
-            checkStringSize(blogForm.about, MAX_SUMMARY_SIZE, "blogForm", "about", bindingResult)
+            checkSegment(blogForm.segment, "segment", ctx.messageSource, bindingResult)
+            checkStringSize(blogForm.subject, MAX_TITLE_SIZE,  "subject", ctx.messageSource, bindingResult, 1)
+            checkStringSize(blogForm.about, MAX_SUMMARY_SIZE,  "about", ctx.messageSource, bindingResult)
             if (bindingResult.hasErrors()) {
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"
             }
-            val langCode = (context.httpSession.getAttribute("langcode") as String?) ?:
+            val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
                 validProjectLanguageCode(LocaleContextHolder.getLocale().language)
             try {
                 blogService.save(blogId, blogForm, langCode, blogOwner)
@@ -112,17 +117,16 @@ class Admin(val context: Context,
                 when (e) {
                     is DataAccessException -> handleRecoverableError(e, "dbSave", bindingResult)
                     is DuplicateSegmentException ->
-                        bindingResult.addFieldError("blogPostForm", "segment", "duplicate", blogForm.segment)
+                        bindingResult.addFieldError("blogForm", "segment", "duplicate",  ctx.messageSource, blogForm.segment)
                     else -> throw e
                 }
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"
             }
-
             val newPath = "$ADMIN_DIR/${if (action == "save") blogForm.segment else NEW_SEGMENT}"
             return "redirect:$newPath"
         }
-        if (action == "create") {
+        if (action == "createPost") {
             return "redirect:$ADMIN_DIR/$segment/$NEW_SEGMENT"
         } else {
             try {

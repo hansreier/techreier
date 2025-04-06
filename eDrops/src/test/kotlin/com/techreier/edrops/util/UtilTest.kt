@@ -76,7 +76,7 @@ class UtilTest {
 
 
     // Messagesource is redefined so not fetched from disk
-    private val messageSource = object : MessageSource {
+    val messageSource = object : MessageSource {
         override fun getMessage(code: String, args: Array<out Any>?, defaultMessage: String?, locale: Locale): String {
             return code + "." + locale.language
         }

@@ -8,6 +8,9 @@ import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
+import com.techreier.edrops.util.addFieldError
+import com.techreier.edrops.util.checkSegment
+import com.techreier.edrops.util.checkStringSize
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.dao.DataAccessException
@@ -21,9 +24,9 @@ import java.time.ZonedDateTime
 @Controller
 @RequestMapping(ADMIN_DIR)
 class BlogPostController(
-    context: Context,
+    val ctx: Context,
     private val blogPostService: BlogPostService,
-) : Base(context) {
+) : Base(ctx) {
 
     @GetMapping("/{segment}/{subsegment}")
     fun blogPost(
@@ -83,9 +86,9 @@ class BlogPostController(
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blog Post: path: $path action:  $action blogid: $blogId")
         if (action == "save" || action == "saveCreate") {
-            checkSegment(blogPostForm.segment, "blogPostForm", "segment", bindingResult)
-            checkStringSize(blogPostForm.title, MAX_TITLE_SIZE, "blogPostForm", "title", bindingResult, 1)
-            checkStringSize(blogPostForm.summary, MAX_SUMMARY_SIZE, "blogPostForm", "summary", bindingResult)
+            checkSegment(blogPostForm.segment,  "segment", ctx.messageSource, bindingResult)
+            checkStringSize(blogPostForm.title, MAX_TITLE_SIZE,  "title", ctx.messageSource, bindingResult, 1)
+            checkStringSize(blogPostForm.summary, MAX_SUMMARY_SIZE, "summary", ctx.messageSource, bindingResult)
             if (bindingResult.hasErrors()) {
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"
@@ -97,7 +100,7 @@ class BlogPostController(
                 when (e) {
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
                     is DuplicateSegmentException ->
-                        bindingResult.addFieldError("blogPostForm", "segment", "duplicate", blogPostForm.segment)
+                        bindingResult.addFieldError("blogPostForm", "segment", "duplicate", ctx.messageSource, blogPostForm.segment)
 
                     else -> throw e
                 }
@@ -108,7 +111,7 @@ class BlogPostController(
             val newPath = "$ADMIN_DIR/$segment${if (action == "save") "/${blogPostForm.segment}" else "/$NEW_SEGMENT"}"
             return "redirect:$newPath"
         }
-        if (action == "create") {
+        if (action == "createPost") {
             return "redirect:$ADMIN_DIR/$segment/$NEW_SEGMENT"
         } else {
             try {

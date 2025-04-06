@@ -5,6 +5,7 @@ import com.techreier.edrops.service.CollatzResult
 import com.techreier.edrops.service.CollatzService
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.DocIndex
+import com.techreier.edrops.util.addFieldError
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -21,7 +22,7 @@ const val COLLATZ_DIR = "/$COLLATZ"
 
 @Controller
 @RequestMapping(COLLATZ_DIR)
-class Collatz(context: Context, val collatzService: CollatzService) : Base(context) {
+class Collatz(val ctx: Context, val collatzService: CollatzService) : Base(ctx) {
     @GetMapping
     fun collatz(
         request: HttpServletRequest,
@@ -52,13 +53,14 @@ class Collatz(context: Context, val collatzService: CollatzService) : Base(conte
         logger.info("calculate collatz sequence")
         val seedNo = collatz.seed.toLongOrNull()
         var result: CollatzResult? = null
+        //TODO move to general validation function
         seedNo?.let {
             if (it <= 0) {
-                bindingResult.addFieldError("collatz", "seed", "zeroOrNegativeError", collatz.seed)
+                bindingResult.addFieldError("collatz", "seed", "zeroOrNegativeError", ctx.messageSource,  collatz.seed)
             } else {
                 result = collatzService.collatz(it)
             }
-        } ?: bindingResult.addFieldError("collatz", "seed", "noLongError", collatz.seed)
+        } ?: bindingResult.addFieldError("collatz", "seed", "noLongError", ctx.messageSource, collatz.seed)
 
         if (bindingResult.hasErrors()) {
             logger.info("warn collatz seed input error: $collatz")

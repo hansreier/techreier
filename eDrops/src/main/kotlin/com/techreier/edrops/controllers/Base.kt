@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
-import org.springframework.validation.FieldError
 import org.springframework.web.context.ServletContextAware
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -85,74 +84,6 @@ abstract class Base(
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
         model.addAttribute("buildDate", buildVersion(ctx.appConfig.buildTime))
         return BlogParams(blog, oldLangCode, usedLangcode, action, topicKey, topics)
-    }
-
-    // Extension function to simplify implementation of adding field error
-    // Normally a default value should be added, but not required
-    // (The simplified FieldError constructor with 3 arguments did not allow for default value)
-    fun BindingResult.addFieldError(
-        form: String,
-        field: String,
-        key: String,
-        defaultFieldValue: String? = null,
-    ) {
-        addError(FieldError(form, field, defaultFieldValue, true, null, null,
-            msg(ctx.messageSource,"error.$key")))
-    }
-
-    protected fun checkSegment(
-        value: String?,
-        form: String,
-        field: String,
-        bindingResult: BindingResult,
-    ) {
-        val regex = "^[a-z](?:[a-z0-9-]*[a-z0-9])?$".toRegex()
-
-        if (value.isNullOrBlank()) {
-            logger.info("$form $field: used in URL and cannot be empty")
-            bindingResult.addFieldError(form, field, "empty", value)
-            return
-        }
-        if (value.length > MAX_SEGMENT_SIZE) {
-            logger.info("$form $field: ${value.length} is longer than the allowed size: $MAX_SEGMENT_SIZE")
-            bindingResult.addFieldError(form, field, "maxSize", value)
-            return
-        }
-        if (!value.matches(regex)) {
-            logger.info("$form $field: used in URL, use lower case and no special characters ")
-            bindingResult.addFieldError(form, field, "segment", value)
-        }
-    }
-
-    protected fun checkStringSize(
-        value: String?,
-        maxSize: Int,
-        form: String,
-        field: String,
-        bindingResult: BindingResult,
-        minSize: Int = 0,
-    ) {
-        if (value.isNullOrBlank()) {
-            if (minSize == 1) {
-                bindingResult.addFieldError(form, field, "empty", value)
-            }
-            return
-        }
-        if (value.length > maxSize) {
-            logger.info("$form $field: ${value.length} is longer than the allowed size: $maxSize")
-            bindingResult.addFieldError(form, field, "maxSize", value)
-            return
-        }
-        if (value.length < minSize) {
-            logger.info("$form $field: ${value.length} is shorter than the minimum size: $minSize")
-            bindingResult.addFieldError(form, field, "minSize", value)
-            return
-        }
-        val byteSize = value.toByteArray(Charsets.UTF_8).size
-        if (byteSize > maxSize) {
-            logger.info("$form $field: $byteSize (checked for multibyte) is longer than the allowed size: $maxSize")
-            bindingResult.addFieldError(form, field, "maxSizeM", value)
-        }
     }
 
     // Return a formatted string of datetime given a format selected in language file by locale
