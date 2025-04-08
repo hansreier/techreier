@@ -87,7 +87,7 @@ fun getMenuItems(menuItemOrig: List<MenuItem>, submenuMinItems: Int, menuSplitSi
     return menuItems
 }
 
-fun msg(messageSource: MessageSource, key: String): String {
+fun msg(messageSource: MessageSource, key: String, args: Array<Any>? = null): String {
     val locale = LocaleContextHolder.getLocale()
-    return messageSource.getMessage(key, null, "??$key??", locale) as String
+    return messageSource.getMessage(key, args, "??$key??", locale) as String
 }

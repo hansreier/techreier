@@ -30,7 +30,7 @@ fun checkStringSize(
     }
     if (value.length < minSize) {
         logger.info("$form $field: ${value.length} is shorter than the minimum size: $minSize")
-        bindingResult.addFieldError( field, "minSize", messageSource,  value)
+        bindingResult.addFieldError( field, "minSize", messageSource, value)
         return
     }
     val byteSize = value.toByteArray(Charsets.UTF_8).size
@@ -65,19 +65,44 @@ fun checkSegment(
     }
 }
 
-//TODO not completed
 fun checkInt(
     value: String?,
     field: String,
     bindingResult: BindingResult,
-    messageSource: MessageSource, required: Boolean = true, default: Int = 0): Int {
+    messageSource: MessageSource, minValue: Int? = null, required: Boolean = true): Int? {
     if (value.isNullOrBlank()) {
-        if (required) {
-            bindingResult.addFieldError(field, "empty", messageSource, value)
-            return default
-        }
+        if (required)
+            bindingResult.addFieldError(field, "empty", messageSource)
+        return null
+    } else {
+        val result = value.toIntOrNull()
+        if (result == null)
+            bindingResult.addFieldError(field, "noInteger", messageSource, value)
+        else
+            if ((minValue != null) && (result < minValue))
+                bindingResult.addFieldError(field, "lessThan", messageSource, value, arrayOf(minValue) )
+        return result
     }
-    return 33
+}
+
+fun checkLong(
+    value: String?,
+    field: String,
+    bindingResult: BindingResult,
+    messageSource: MessageSource, minValue: Long? = null, required: Boolean = true): Long? {
+    if (value.isNullOrBlank()) {
+        if (required)
+            bindingResult.addFieldError(field, "empty", messageSource)
+        return null
+    } else {
+        val result = value.toLongOrNull()
+        if (result == null)
+            bindingResult.addFieldError(field, "noInteger", messageSource, value)
+        else
+            if ((minValue != null) && (result < minValue))
+                bindingResult.addFieldError(field, "lessThan", messageSource, value, arrayOf(minValue) )
+        return result
+    }
 }
 
 // Extension function to simplify implementation of adding field error
@@ -88,7 +113,8 @@ fun BindingResult.addFieldError(
     key: String,
     messageSource: MessageSource,
     defaultFieldValue: String? = null,
+    args: Array<Any>? = null,
 ) {
     addError(FieldError(this.objectName, field, defaultFieldValue, true, null, null,
-        msg(messageSource,"error.$key")))
+        msg(messageSource,"error.$key", args)))
 }

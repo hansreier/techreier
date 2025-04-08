@@ -1,11 +1,11 @@
 package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.service.CollatzResult
+
 import com.techreier.edrops.service.CollatzService
 import com.techreier.edrops.util.Docs
 import com.techreier.edrops.util.Docs.DocIndex
-import com.techreier.edrops.util.addFieldError
+import com.techreier.edrops.util.checkLong
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -51,16 +51,9 @@ class Collatz(val ctx: Context, val collatzService: CollatzService) : Base(ctx) 
         model: Model,
     ): String {
         logger.info("calculate collatz sequence")
-        val seedNo = collatz.seed.toLongOrNull()
-        var result: CollatzResult? = null
-        //TODO move to general validation function
-        seedNo?.let {
-            if (it <= 0) {
-                bindingResult.addFieldError( "seed", "zeroOrNegativeError", ctx.messageSource,  collatz.seed)
-            } else {
-                result = collatzService.collatz(it)
-            }
-        } ?: bindingResult.addFieldError( "seed", "noLongError", ctx.messageSource, collatz.seed)
+
+        val seedNo = checkLong(collatz.seed,"seed", bindingResult, ctx.messageSource, 1   )
+        val result = seedNo?.let { collatzService.collatz(it) }
 
         if (bindingResult.hasErrors()) {
             logger.info("warn collatz seed input error: $collatz")
