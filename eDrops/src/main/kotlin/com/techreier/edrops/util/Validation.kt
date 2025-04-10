@@ -2,9 +2,9 @@ package com.techreier.edrops.util
 
 import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import org.slf4j.LoggerFactory
+import org.springframework.context.MessageSource
 import org.springframework.validation.BindingResult
 import org.springframework.validation.FieldError
-import org.springframework.context.MessageSource
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 
@@ -25,18 +25,18 @@ fun checkStringSize(
     }
     if (value.length > maxSize) {
         logger.info("$form $field: ${value.length} is longer than the allowed size: $maxSize")
-        bindingResult.addFieldError( field, "maxSize", messageSource, value)
+        bindingResult.addFieldError(field, "maxSize", messageSource, value)
         return
     }
     if (value.length < minSize) {
         logger.info("$form $field: ${value.length} is shorter than the minimum size: $minSize")
-        bindingResult.addFieldError( field, "minSize", messageSource, value)
+        bindingResult.addFieldError(field, "minSize", messageSource, value)
         return
     }
     val byteSize = value.toByteArray(Charsets.UTF_8).size
     if (byteSize > maxSize) {
         logger.info("$form $field: $byteSize (checked for multibyte) is longer than the allowed size: $maxSize")
-        bindingResult.addFieldError( field, "maxSizeM", messageSource, value)
+        bindingResult.addFieldError(field, "maxSizeM", messageSource, value)
     }
 }
 
@@ -69,7 +69,8 @@ fun checkInt(
     value: String?,
     field: String,
     bindingResult: BindingResult,
-    messageSource: MessageSource, minValue: Int? = null, required: Boolean = true): Int? {
+    messageSource: MessageSource, minValue: Int? = null, maxValue: Int? = null, required: Boolean = true
+): Int? {
     if (value.isNullOrBlank()) {
         if (required)
             bindingResult.addFieldError(field, "empty", messageSource)
@@ -78,9 +79,10 @@ fun checkInt(
         val result = value.toIntOrNull()
         if (result == null)
             bindingResult.addFieldError(field, "noInteger", messageSource, value)
-        else
-            if ((minValue != null) && (result < minValue))
-                bindingResult.addFieldError(field, "lessThan", messageSource, value, arrayOf(minValue) )
+        else if ((minValue != null) && (result < minValue))
+                bindingResult.addFieldError(field, "lessThan", messageSource, value, arrayOf(minValue))
+        else if ((maxValue != null) && (result > maxValue))
+                    bindingResult.addFieldError(field, "greaterThan", messageSource, value, arrayOf(maxValue))
         return result
     }
 }
@@ -89,7 +91,8 @@ fun checkLong(
     value: String?,
     field: String,
     bindingResult: BindingResult,
-    messageSource: MessageSource, minValue: Long? = null, required: Boolean = true): Long? {
+    messageSource: MessageSource, minValue: Long? = null, maxValue: Long? = null, required: Boolean = true
+): Long? {
     if (value.isNullOrBlank()) {
         if (required)
             bindingResult.addFieldError(field, "empty", messageSource)
@@ -98,9 +101,10 @@ fun checkLong(
         val result = value.toLongOrNull()
         if (result == null)
             bindingResult.addFieldError(field, "noInteger", messageSource, value)
-        else
-            if ((minValue != null) && (result < minValue))
-                bindingResult.addFieldError(field, "lessThan", messageSource, value, arrayOf(minValue) )
+        else if ((minValue != null) && (result < minValue))
+                bindingResult.addFieldError(field, "lessThan", messageSource, value, arrayOf(minValue))
+        else if ((maxValue != null) && (result > maxValue))
+                    bindingResult.addFieldError(field, "greaterThan", messageSource, value, arrayOf(maxValue))
         return result
     }
 }
@@ -115,6 +119,10 @@ fun BindingResult.addFieldError(
     defaultFieldValue: String? = null,
     args: Array<Any>? = null,
 ) {
-    addError(FieldError(this.objectName, field, defaultFieldValue, true, null, null,
-        msg(messageSource,"error.$key", args)))
+    addError(
+        FieldError(
+            this.objectName, field, defaultFieldValue, true, null, null,
+            msg(messageSource, "error.$key", args)
+        )
+    )
 }
