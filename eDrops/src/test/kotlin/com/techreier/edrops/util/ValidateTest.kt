@@ -17,7 +17,7 @@ class ValidateTest {
     fun validStringBySize() {
         val target = Form(FORM)
         val bindingResult = BeanPropertyBindingResult(target, "myForm")
-        checkStringSize("hei", 30,  FIELD, MessageSourceMock, bindingResult)
+        checkStringSize("hei", 30,  FIELD, bindingResult, MessageSourceMock)
         assertFalse(bindingResult.hasErrors())
     }
 
@@ -26,7 +26,7 @@ class ValidateTest {
         LocaleContextHolder.setLocale(Locale.forLanguageTag("no"))
         val target = Form(FORM)
         val bindingResult = BeanPropertyBindingResult(target, "testForm")
-        checkStringSize("hei", 2,  FIELD, MessageSourceMock, bindingResult)
+        checkStringSize("hei", 2,  FIELD, bindingResult, MessageSourceMock)
         assertTrue(bindingResult.hasErrors())
         assertEquals("error.maxSize.no", bindingResult.getFieldError(FIELD)?.defaultMessage)
         logger.info(bindingResult.getFieldError(FIELD)?.objectName)

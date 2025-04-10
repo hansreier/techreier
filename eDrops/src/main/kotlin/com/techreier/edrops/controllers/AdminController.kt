@@ -8,10 +8,7 @@ import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.forms.BlogForm
-import com.techreier.edrops.util.addFieldError
-import com.techreier.edrops.util.checkSegment
-import com.techreier.edrops.util.checkStringSize
-import com.techreier.edrops.util.validProjectLanguageCode
+import com.techreier.edrops.util.*
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.i18n.LocaleContextHolder
@@ -103,8 +100,9 @@ class Admin(val ctx: Context,
 
         if (action == "save" || action == "saveCreate") {
             checkSegment(blogForm.segment, "segment", ctx.messageSource, bindingResult)
-            checkStringSize(blogForm.subject, MAX_TITLE_SIZE,  "subject", ctx.messageSource, bindingResult, 1)
-            checkStringSize(blogForm.about, MAX_SUMMARY_SIZE,  "about", ctx.messageSource, bindingResult)
+            checkStringSize(blogForm.subject, MAX_TITLE_SIZE,  "subject", bindingResult, ctx.messageSource, 1)
+            checkStringSize(blogForm.about, MAX_SUMMARY_SIZE,  "about", bindingResult, ctx.messageSource)
+            checkInt(blogForm.position,"position", bindingResult, ctx.messageSource, -1000,1000)
             if (bindingResult.hasErrors()) {
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"

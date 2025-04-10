@@ -12,8 +12,8 @@ fun checkStringSize(
     value: String?,
     maxSize: Int,
     field: String,
-    messageSource: MessageSource,
     bindingResult: BindingResult,
+    messageSource: MessageSource,
     minSize: Int = 0,
 ) {
     val form = bindingResult.objectName

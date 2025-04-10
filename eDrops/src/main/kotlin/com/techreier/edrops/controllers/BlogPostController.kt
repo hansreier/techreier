@@ -87,8 +87,8 @@ class BlogPostController(
         logger.info("blog Post: path: $path action:  $action blogid: $blogId")
         if (action == "save" || action == "saveCreate") {
             checkSegment(blogPostForm.segment,  "segment", ctx.messageSource, bindingResult)
-            checkStringSize(blogPostForm.title, MAX_TITLE_SIZE,  "title", ctx.messageSource, bindingResult, 1)
-            checkStringSize(blogPostForm.summary, MAX_SUMMARY_SIZE, "summary", ctx.messageSource, bindingResult)
+            checkStringSize(blogPostForm.title, MAX_TITLE_SIZE,  "title", bindingResult, ctx.messageSource, 1)
+            checkStringSize(blogPostForm.summary, MAX_SUMMARY_SIZE, "summary", bindingResult,  ctx.messageSource)
             if (bindingResult.hasErrors()) {
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"
