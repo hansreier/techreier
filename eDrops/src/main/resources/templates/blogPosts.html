@@ -30,7 +30,7 @@
                 </div>
                 <div class="input-row">
                     <label th:for="position" th:text="#{position}"></label>
-                    <input type="number" id="position" th:field="*{position}" step="1">
+                    <input type="text" id="position" th:field="*{position}" step="1">
                     <span class="error" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></span>
                 </div>
                 <div class="input-row">

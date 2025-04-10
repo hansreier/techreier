@@ -6,38 +6,33 @@ import java.time.ZonedDateTime
 
 data class BlogDTO(
     val id: Long?, val topicKey: String, val topicText: String?, val langCodeFound: String, val langCodeWanted: String,
-    val changed: ZonedDateTime, val segment: String,
+    val changed: ZonedDateTime, val segment: String, val pos: Int,
     val subject: String, val about: String, val blogPosts: List<BlogPostDTO>,
 ) {
     // new empty instance creation
     constructor(langCode: String) : this(
-        null, "", null, langCode, langCode, ZonedDateTime.now(), "", "", "", listOf<BlogPostDTO>()
+        null, "", null, langCode, langCode, ZonedDateTime.now(), "", 0, "", "", listOf<BlogPostDTO>()
     )
 
     fun toForm(): BlogForm {
-        return BlogForm(
-            id = this.id,
-            segment = this.segment,
-            topicKey = this.topicKey,
-            subject = this.subject,
-            about = this.about
-        )
+        return BlogForm(this.id, this.segment, this.topicKey, this.pos.toString(), this.subject, this.about)
     }
 
 }
 
 fun Blog.toDTO(langCodeWanted: String? = null, posts: Boolean = true): BlogDTO {
     return BlogDTO(
-        id = this.id,
-        topicKey = this.topic.topicKey,
-        topicText = this.topic.text,
-        langCodeFound = this.topic.language.code,
-        langCodeWanted = langCodeWanted ?: this.topic.language.code,
-        changed = this.changed,
-        segment = this.segment,
-        subject = this.subject,
-        about = this.about,
-        blogPosts = if (posts) this.blogPosts.map { it.toDTO() } else emptyList<BlogPostDTO>()
+        this.id,
+        this.topic.topicKey,
+        this.topic.text,
+        this.topic.language.code,
+        langCodeWanted ?: this.topic.language.code,
+        this.changed,
+        this.segment,
+        this.pos,
+        this.subject,
+        this.about,
+        if (posts) this.blogPosts.map { it.toDTO() } else emptyList()
     )
 }
 

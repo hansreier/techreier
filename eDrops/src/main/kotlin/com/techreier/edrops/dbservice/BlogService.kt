@@ -50,6 +50,7 @@ class BlogService(
                 ) else null)
                 ?: return null
 
+        //TODO fix this warning
         val blog: Blog? = (
                 if (posts) {
                     blogRepo.findWithPostsById(blogLanguageDTO.id).orElse(null)
@@ -88,7 +89,7 @@ class BlogService(
                 }
                 foundBlog.changed = ZonedDateTime.now()
                 foundBlog.segment = blogForm.segment
-                foundBlog.pos = blogForm.position
+                foundBlog.pos = blogForm.position.toIntOrNull()?: 0
                 foundBlog.subject = blogForm.subject
                 foundBlog.about = blogForm.about
                 foundBlog
@@ -97,7 +98,7 @@ class BlogService(
                 blogForm.segment,
                 topicRepo.findFirstByTopicKeyAndLanguageCode(blogForm.topicKey, langCode).orElse(null)
                     ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Topic ${blogForm.topicKey} not found"),
-                blogForm.position,
+                blogForm.position.toIntOrNull() ?: 0,
                 blogForm.subject,
                 blogForm.about,
                 mutableListOf<BlogPost>(), blogOwner
