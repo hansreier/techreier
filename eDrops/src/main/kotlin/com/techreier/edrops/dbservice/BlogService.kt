@@ -31,7 +31,7 @@ class BlogService(
         return blogId?.let { blogRepo.findWithPostsById(it).orElse(null) }
     }
 
-    // Read corrent blog based on segment,language code. Assumption: One owner
+    // Read current blog based on segment,language code. Assumption: One owner
     fun readBlog(
         segment: String,
         oldLangCode: String?,

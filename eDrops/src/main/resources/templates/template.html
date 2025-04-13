@@ -100,6 +100,7 @@
                         <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                     </form>
                 </div>
+                <a th:href="@{/admin/{segment}(segment=${newSegment})}"  class="dropdown-item" th:text="#{newBlog}"></a>
                 <form th:action="@{/admin}" th:method="post">
                     <button class=dropdown-item name="result" type="submit"
                             th:each="item: ${menu}"

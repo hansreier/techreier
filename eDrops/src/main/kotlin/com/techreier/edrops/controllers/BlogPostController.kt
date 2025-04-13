@@ -46,7 +46,7 @@ class BlogPostController(
         logger.info("allBlogPosts Fetch blog posts with: $blogParams")
 
         if (subsegment == NEW_SEGMENT) {
-            val blogPostForm = BlogPostForm(null,"","","")
+            val blogPostForm = BlogPostForm()
             model.addAttribute("blogPostForm", blogPostForm)
         } else {
             val selectedBlogPost = select(subsegment, blogParams.blog)

@@ -38,7 +38,6 @@ fun validProjectLanguageCode(languageCode: String): String = if (languageCode in
 // Function assumes menu items (blogs) to be sorted by Topic position and MenuItem position.
 // If desired topics is added to the menu with items underneath it
 // TOPIC_ITEMS_MINIMUM decides this criteria.
-// TODO Method is suitable for unit test
 fun getMenuItems(menuItemOrig: List<MenuItem>, submenuMinItems: Int, menuSplitSize: Int,
                  messageSource: MessageSource
 ): List<MenuItem> {

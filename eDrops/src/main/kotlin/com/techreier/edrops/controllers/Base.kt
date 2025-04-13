@@ -24,7 +24,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-const val NEW_SEGMENT = "_"
+const val NEW_SEGMENT = "_new"
 
 abstract class Base(
     private val ctx: Context,
@@ -54,11 +54,18 @@ abstract class Base(
         ctx.sessionLocaleResolver.setLocale(request, response, locale)
         val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
 
-        // Only for controllers where it is relevant to call DB, else segment is omitted
-        val blog = if (segment == NEW_SEGMENT)
+        // If segment is blank og new, do not read database
+        val blog = if (segment == NEW_SEGMENT) {
+            model.addAttribute("blogHeadline", msg(ctx.messageSource, "newBlog"))
             BlogDTO(usedLangcode)
-        else
-            segment?.let { ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, posts) }
+        }
+        else {
+            model.addAttribute("blogHeadline", )
+            val foundBlog = segment?.let { ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, posts) }
+            model.addAttribute("blogHeadline", foundBlog?.subject)
+            foundBlog
+        }
+
         ctx.httpSession.setAttribute("langcode", blog?.langCodeFound ?: usedLangcode)
 
         val topics = fetchTopics(usedLangcode)
@@ -77,6 +84,7 @@ abstract class Base(
         model.addAttribute("topics", topics)
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
+        model.addAttribute("newSegment", NEW_SEGMENT)
         model.addAttribute("path", path)
         model.addAttribute("menu", fetchMenuFromDb(usedLangcode))
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)

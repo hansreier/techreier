@@ -48,6 +48,12 @@ class Admin(val ctx: Context,
             return "redirect:/$HOME_DIR"
         }
 
+        if (segment == NEW_SEGMENT) {
+            val blogForm = BlogForm()
+            model.addAttribute("title",msg(ctx.messageSource,"newBLog"))
+            model.addAttribute("blogForm", blogForm)
+        }
+
         // Set blog related fields
         model.addAttribute("changed", blogParams.blog.changed)
         model.addAttribute("blogForm", blogParams.blog.toForm())
