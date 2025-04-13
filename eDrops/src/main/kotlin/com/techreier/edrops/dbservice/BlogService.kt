@@ -2,12 +2,11 @@ package com.techreier.edrops.dbservice
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
-import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.domain.BlogOwner
+import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.dto.toDTO
-import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.TopicRepository
@@ -33,10 +32,7 @@ class BlogService(
 
     // Read current blog based on segment,language code. Assumption: One owner
     fun readBlog(
-        segment: String,
-        oldLangCode: String?,
-        langCode: String,
-        posts: Boolean = false,
+        segment: String, oldLangCode: String?, langCode: String, posts: Boolean = false,
     ): BlogDTO? {
         logger.info("Read blog old LangCode: $oldLangCode langCode: $langCode, segment $segment, posts? $posts")
 
@@ -64,18 +60,13 @@ class BlogService(
         return blog!!.toDTO(langCode, posts)
     }
 
-    fun readMenu(
-        languageCode: String,
-    ): List<MenuItem> {
+    fun readMenu(languageCode: String): List<MenuItem> {
         logger.info("Read menu from blog with language: $languageCode")
         return blogRepo.getMenuItems(languageCode)
     }
 
     fun save(
-        blogId: Long?,
-        blogForm: BlogForm,
-        langCode: String,
-        blogOwner: BlogOwner,
+        blogId: Long?, blogForm: BlogForm, langCode: String, blogOwner: BlogOwner,
     ) {
         logger.info("Saving blog with id: ${blogForm.id} segment: ${blogForm.segment} blogId: $blogId")
         val blog: Blog =
@@ -89,7 +80,7 @@ class BlogService(
                 }
                 foundBlog.changed = ZonedDateTime.now()
                 foundBlog.segment = blogForm.segment
-                foundBlog.pos = blogForm.position.toIntOrNull()?: 0
+                foundBlog.pos = blogForm.position.toIntOrNull() ?: 0
                 foundBlog.subject = blogForm.subject
                 foundBlog.about = blogForm.about
                 foundBlog
@@ -104,23 +95,17 @@ class BlogService(
                 mutableListOf<BlogPost>(), blogOwner
             )
 
-        val owner = blog.blogOwner
-        if (owner.blogs.any {
-                (it.segment == blogForm.segment) && (it.id != blogForm.id) && (it.topic.language.code == langCode)
-            }) {
-            throw DuplicateSegmentException("Segment: ${blogForm.segment} is duplicate for owner ${owner.firstName} ${owner.lastName}")
-        }
         blogRepo.save(blog)
     }
 
-    // TODO Verify: I think this does cascade delete without even asking
-    fun delete(
-        blogId: Long?,
-        blogForm: BlogForm,
-    ) {
+    fun delete(blogId: Long?, blogForm: BlogForm) {
         logger.info("Deleting blog with id: ${blogForm.id} segment: ${blogForm.segment} blogId: $blogId")
         blogForm.id?.let { id ->
             blogRepo.deleteById(id)
         } ?: logger.error("Blog not deleted, no id")
+    }
+
+    fun exists(segment: String, blogOwnerId: Long, languageCode: String) : Boolean {
+        return blogRepo.findBlogIds(segment, blogOwnerId, languageCode).isNotEmpty()
     }
 }

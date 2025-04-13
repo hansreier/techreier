@@ -28,33 +28,28 @@ interface BlogRepository : JpaRepository<Blog, Long> {
 
     // TODO Not really used any more. Consider removing.
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogPosts"])
-    fun findWithPostsByTopicLanguageCodeAndSegment(
-        languageCode: String,
-        segment: String,
-    ): Blog?
+    fun findWithPostsByTopicLanguageCodeAndSegment(languageCode: String, segment: String): Blog?
 
     // TODO Not really used any more except in test. Consider removing.
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
-    fun findByTopicLanguageCodeAndSegment(
-        languageCode: String,
-        segment: String,
-    ): Blog?
+    fun findByTopicLanguageCodeAndSegment(languageCode: String, segment: String): Blog?
 
     @Query(
         "SELECT new com.techreier.edrops.dto.MenuItem(b.topic.language.code, b.segment,  b.topic.topicKey, b.subject, false) " +
-            " FROM Blog b WHERE b.topic.language.code = :languageCode ORDER BY b.topic.pos, b.pos",
+                " FROM Blog b WHERE b.topic.language.code = :languageCode ORDER BY b.topic.pos, b.pos",
     )
-    fun getMenuItems(
-        languageCode: String
-    ): List<MenuItem>
+    fun getMenuItems(languageCode: String): List<MenuItem>
 
     // Assumption: Only one owner. TODO Check for not saving blogs that returns duplicates here. Will crash here.
     @Query(
         "SELECT new com.techreier.edrops.dto.BlogLanguageDTO(b.id, b.topic.language.code) " +
-            " FROM Blog b WHERE b.segment = :segment AND b.topic.language.code = :languageCode",
+                " FROM Blog b WHERE b.segment = :segment AND b.topic.language.code = :languageCode",
     )
-    fun getBlogWithLanguageCode(
-        segment: String,
-        languageCode: String,
-    ): BlogLanguageDTO?
+    fun getBlogWithLanguageCode(segment: String, languageCode: String): BlogLanguageDTO?
+
+    @Query(
+        "SELECT b.id FROM Blog b " +
+                "WHERE b.segment = :segment AND b.blogOwner.id = :blogOwnerId AND b.topic.language.code = :languageCode"
+    )
+    fun findBlogIds(segment: String, blogOwnerId: Long, languageCode: String): List<Int>
 }

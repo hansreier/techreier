@@ -45,24 +45,26 @@ fun checkSegment(
     field: String,
     messageSource: MessageSource,
     bindingResult: BindingResult,
-) {
+): Boolean {
     val form = bindingResult.objectName
     val regex = "^[a-z](?:[a-z0-9-]*[a-z0-9])?$".toRegex()
 
     if (value.isNullOrBlank()) {
         logger.info("$form $field: used in URL and cannot be empty")
         bindingResult.addFieldError(field, "empty", messageSource, value)
-        return
+        return false
     }
     if (value.length > MAX_SEGMENT_SIZE) {
         logger.info("$form $field: ${value.length} is longer than the allowed size: $MAX_SEGMENT_SIZE")
         bindingResult.addFieldError(field, "maxSize", messageSource, value)
-        return
+        return false
     }
     if (!value.matches(regex)) {
         logger.info("$form $field: used in URL, use lower case and no special characters ")
         bindingResult.addFieldError(field, "segment", messageSource, value)
+        return false
     }
+    return true
 }
 
 fun checkInt(

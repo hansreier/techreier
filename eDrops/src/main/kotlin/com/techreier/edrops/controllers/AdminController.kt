@@ -6,7 +6,6 @@ import com.techreier.edrops.config.blogAdmin
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.domain.Owner
-import com.techreier.edrops.exceptions.DuplicateSegmentException
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.util.*
 import jakarta.servlet.http.HttpServletRequest
@@ -103,9 +102,16 @@ class Admin(val ctx: Context,
                 throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "not authorized for save action"))
             else blogAdmin
         }
+        blogOwner.id?: throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "No blogOwner exists"))
 
         if (action == "save" || action == "saveCreate") {
-            checkSegment(blogForm.segment, "segment", ctx.messageSource, bindingResult)
+            val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
+            validProjectLanguageCode(LocaleContextHolder.getLocale().language)
+            if (checkSegment(blogForm.segment, "segment", ctx.messageSource, bindingResult)) {
+                if (blogService.exists(blogForm.segment, blogOwner.id, langCode)) {
+                        bindingResult.addFieldError("segment", "duplicate",  ctx.messageSource, blogForm.segment)
+                }
+            }
             checkStringSize(blogForm.subject, MAX_TITLE_SIZE,  "subject", bindingResult, ctx.messageSource, 1)
             checkStringSize(blogForm.about, MAX_SUMMARY_SIZE,  "about", bindingResult, ctx.messageSource)
             checkInt(blogForm.position,"position", bindingResult, ctx.messageSource, -1000,1000)
@@ -113,15 +119,11 @@ class Admin(val ctx: Context,
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"
             }
-            val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
-                validProjectLanguageCode(LocaleContextHolder.getLocale().language)
             try {
                 blogService.save(blogId, blogForm, langCode, blogOwner)
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException -> handleRecoverableError(e, "dbSave", bindingResult)
-                    is DuplicateSegmentException ->
-                        bindingResult.addFieldError("segment", "duplicate",  ctx.messageSource, blogForm.segment)
                     else -> throw e
                 }
                 prepare(model, request, response, segment, changed)
