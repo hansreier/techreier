@@ -26,10 +26,6 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCode(languageCode: String): MutableSet<Blog>
 
-    // TODO Not really used any more. Consider removing.
-    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogPosts"])
-    fun findWithPostsByTopicLanguageCodeAndSegment(languageCode: String, segment: String): Blog?
-
     // TODO Not really used any more except in test. Consider removing.
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCodeAndSegment(languageCode: String, segment: String): Blog?
@@ -51,5 +47,5 @@ interface BlogRepository : JpaRepository<Blog, Long> {
         "SELECT b.id FROM Blog b " +
                 "WHERE b.segment = :segment AND b.blogOwner.id = :blogOwnerId AND b.topic.language.code = :languageCode"
     )
-    fun findBlogIds(segment: String, blogOwnerId: Long, languageCode: String): List<Int>
+    fun findBlogIds(segment: String, blogOwnerId: Long, languageCode: String): List<Long>
 }

@@ -15,7 +15,7 @@ const val BLOG_DIR = "/$BLOG"
 @Controller
 @RequestMapping(BLOG_DIR)
 @Validated
-class Blog(context: Context) : Base(context) {
+class BlogController(context: Context) : Base(context) {
 
     @GetMapping("/{segment}")
     fun allBlogTexts(

@@ -22,7 +22,6 @@ class BlogService(
     private val blogRepo: BlogRepository,
     private val topicRepo: TopicRepository,
 ) {
-    // TODO not used. Consider removing
     fun readBlog(blogId: Long?): Blog? {
         logger.info("Read blog")
         // Does not fetch JPA annotations
@@ -105,7 +104,7 @@ class BlogService(
         } ?: logger.error("Blog not deleted, no id")
     }
 
-    fun exists(segment: String, blogOwnerId: Long, languageCode: String) : Boolean {
-        return blogRepo.findBlogIds(segment, blogOwnerId, languageCode).isNotEmpty()
+    fun duplicate(segment: String, blogOwnerId: Long, languageCode: String, blogId: Long?) : Boolean {
+        return blogRepo.findBlogIds(segment, blogOwnerId, languageCode).any { it != blogId }
     }
 }

@@ -108,7 +108,7 @@ class Admin(val ctx: Context,
             val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
             validProjectLanguageCode(LocaleContextHolder.getLocale().language)
             if (checkSegment(blogForm.segment, "segment", ctx.messageSource, bindingResult)) {
-                if (blogService.exists(blogForm.segment, blogOwner.id, langCode)) {
+                if (blogService.duplicate(blogForm.segment, blogOwner.id, langCode, blogId)) {
                         bindingResult.addFieldError("segment", "duplicate",  ctx.messageSource, blogForm.segment)
                 }
             }
