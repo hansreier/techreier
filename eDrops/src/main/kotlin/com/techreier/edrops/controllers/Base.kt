@@ -44,6 +44,7 @@ abstract class Base(
         response: HttpServletResponse,
         segment: String? = null,
         posts: Boolean = false,
+        admin: Boolean = false
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("auth", ctx.appConfig.auth)
@@ -55,7 +56,7 @@ abstract class Base(
         val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
 
         // If segment is blank og new, do not read database
-        val blog = if (segment == NEW_SEGMENT) {
+        val blog = if ((segment == NEW_SEGMENT) && admin) {
             model.addAttribute("blogHeadline", msg(ctx.messageSource, "newBlog"))
             BlogDTO(usedLangcode)
         }

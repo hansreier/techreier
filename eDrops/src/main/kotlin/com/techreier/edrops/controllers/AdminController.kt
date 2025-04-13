@@ -39,7 +39,7 @@ class Admin(val ctx: Context,
         redirectAttributes: RedirectAttributes,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, segment, true, true)
 
         logger.info("allBlogPosts Fetch blog posts with: $blogParams")
 
@@ -70,7 +70,7 @@ class Admin(val ctx: Context,
         model: Model,
         redirectAttributes: RedirectAttributes
     ): String {
-        val blogParams = fetchBlogParams(model, request, response)
+        val blogParams = fetchBlogParams(model, request, response, null, false, true)
         val firstSegment = readFirstSegment(blogParams.usedLangCode)
         if (firstSegment == null) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
@@ -151,7 +151,7 @@ class Admin(val ctx: Context,
         segment: String,
         changed: ZonedDateTime?,
     ) {
-        val blogParams = fetchBlogParams(model, request, response, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, segment, true, true)
         logger.info("Prepare fetch blog posts with: $blogParams")
 
         model.addAttribute("blog", blogParams.blog)
