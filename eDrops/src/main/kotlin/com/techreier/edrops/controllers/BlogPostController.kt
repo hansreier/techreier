@@ -7,7 +7,6 @@ import com.techreier.edrops.dbservice.BlogPostService
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
-import com.techreier.edrops.util.addFieldError
 import com.techreier.edrops.util.checkId
 import com.techreier.edrops.util.checkSegment
 import com.techreier.edrops.util.checkStringSize
@@ -24,7 +23,7 @@ import java.time.ZonedDateTime
 @Controller
 @RequestMapping(ADMIN_DIR)
 class BlogPostController(
-    val ctx: Context,
+    ctx: Context,
     private val blogPostService: BlogPostService,
 ) : Base(ctx) {
 
@@ -85,15 +84,15 @@ class BlogPostController(
         logger.info("blog Post: path: $path action:  $action blogid: $blogId")
         if (action == "save" || action == "saveCreate") {
             checkId(blogId, bindingResult)
-            if ((blogId != null) && checkSegment(blogPostForm.segment, "segment", ctx.messageSource, bindingResult)) {
+            if ((blogId != null) && checkSegment(blogPostForm.segment, "segment",  bindingResult)) {
                 if (blogPostService.duplicate(blogPostForm.segment, blogId, blogPostForm.id)) {
-                    bindingResult.addFieldError("segment", "duplicate",  ctx.messageSource, blogPostForm.segment)
+                    bindingResult.rejectValue("segment", "error.duplicate", blogPostForm.segment)
                 }
             }
 
-            checkSegment(blogPostForm.segment,  "segment", ctx.messageSource, bindingResult)
-            checkStringSize(blogPostForm.title, MAX_TITLE_SIZE,  "title", bindingResult, ctx.messageSource, 1)
-            checkStringSize(blogPostForm.summary, MAX_SUMMARY_SIZE, "summary", bindingResult,  ctx.messageSource)
+            checkSegment(blogPostForm.segment,  "segment", bindingResult)
+            checkStringSize(blogPostForm.title, MAX_TITLE_SIZE,  "title", bindingResult, 1)
+            checkStringSize(blogPostForm.summary, MAX_SUMMARY_SIZE, "summary", bindingResult)
             if (bindingResult.hasErrors()) {
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"

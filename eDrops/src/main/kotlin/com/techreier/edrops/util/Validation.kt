@@ -2,9 +2,7 @@ package com.techreier.edrops.util
 
 import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import org.slf4j.LoggerFactory
-import org.springframework.context.MessageSource
 import org.springframework.validation.BindingResult
-import org.springframework.validation.FieldError
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 
@@ -13,37 +11,38 @@ fun checkStringSize(
     maxSize: Int,
     field: String,
     bindingResult: BindingResult,
-    messageSource: MessageSource,
     minSize: Int = 0,
-) {
+): Boolean {
     val form = bindingResult.objectName
     if (value.isNullOrBlank()) {
-        if (minSize == 1) {
-            bindingResult.addFieldError(field, "empty", messageSource, value)
+        if (minSize >= 1) {
+            bindingResult.rejectValue(field, "error.empty")
+            return false
         }
-        return
+        return true
     }
     if (value.length > maxSize) {
         logger.info("$form $field: ${value.length} is longer than the allowed size: $maxSize")
-        bindingResult.addFieldError(field, "maxSize", messageSource, value)
-        return
+        bindingResult.rejectValue(field,"error.maxSize", arrayOf(maxSize),  value)
+        return false
     }
     if (value.length < minSize) {
         logger.info("$form $field: ${value.length} is shorter than the minimum size: $minSize")
-        bindingResult.addFieldError(field, "minSize", messageSource, value)
-        return
+        bindingResult.rejectValue(field,"error.minSize", arrayOf(minSize),  value)
+        return false
     }
     val byteSize = value.toByteArray(Charsets.UTF_8).size
     if (byteSize > maxSize) {
         logger.info("$form $field: $byteSize (checked for multibyte) is longer than the allowed size: $maxSize")
-        bindingResult.addFieldError(field, "maxSizeM", messageSource, value)
+        bindingResult.rejectValue(field,"error.maxSizeM", arrayOf(maxSize),  value)
+        return false
     }
+    return true
 }
 
 fun checkSegment(
     value: String?,
     field: String,
-    messageSource: MessageSource,
     bindingResult: BindingResult,
 ): Boolean {
     val form = bindingResult.objectName
@@ -51,17 +50,17 @@ fun checkSegment(
 
     if (value.isNullOrBlank()) {
         logger.info("$form $field: used in URL and cannot be empty")
-        bindingResult.addFieldError(field, "empty", messageSource, value)
+        bindingResult.rejectValue(field, "error.empty")
         return false
     }
     if (value.length > MAX_SEGMENT_SIZE) {
         logger.info("$form $field: ${value.length} is longer than the allowed size: $MAX_SEGMENT_SIZE")
-        bindingResult.addFieldError(field, "maxSize", messageSource, value)
+        bindingResult.rejectValue(field,"error.maxSize", arrayOf(MAX_SEGMENT_SIZE),  value)
         return false
     }
     if (!value.matches(regex)) {
         logger.info("$form $field: used in URL, use lower case and no special characters ")
-        bindingResult.addFieldError(field, "segment", messageSource, value)
+        bindingResult.rejectValue(field, "error.segment", value)
         return false
     }
     return true
@@ -71,20 +70,20 @@ fun checkInt(
     value: String?,
     field: String,
     bindingResult: BindingResult,
-    messageSource: MessageSource, minValue: Int? = null, maxValue: Int? = null, required: Boolean = true,
+    minValue: Int? = null, maxValue: Int? = null, required: Boolean = true,
 ): Int? {
     if (value.isNullOrBlank()) {
         if (required)
-            bindingResult.addFieldError(field, "empty", messageSource)
+            bindingResult.rejectValue(field, "error.empty")
         return null
     } else {
         val result = value.toIntOrNull()
         if (result == null)
-            bindingResult.addFieldError(field, "noInteger", messageSource, value)
+            bindingResult.rejectValue(field,"error.noInteger")
         else if ((minValue != null) && (result < minValue))
-            bindingResult.addFieldError(field, "lessThan", messageSource, value, arrayOf(minValue))
+            bindingResult.rejectValue(field,"error.lessThan", arrayOf(minValue),  value)
         else if ((maxValue != null) && (result > maxValue))
-            bindingResult.addFieldError(field, "greaterThan", messageSource, value, arrayOf(maxValue))
+            bindingResult.rejectValue(field, "error.greaterThan", arrayOf(maxValue), value)
         return result
     }
 }
@@ -104,9 +103,9 @@ fun checkLong(
         if (result == null)
             bindingResult.rejectValue(field, "error.noInteger", value)
         else if ((minValue != null) && (result < minValue))
-            bindingResult.rejectValue(field, "error.lessThan")
+            bindingResult.rejectValue(field,"error.lessThan", arrayOf(minValue),  value)
         else if ((maxValue != null) && (result > maxValue))
-            bindingResult.rejectValue(field, "error.greaterThan", value)
+            bindingResult.rejectValue(field, "error.greaterThan", arrayOf(maxValue), value)
         return result
     }
 }
@@ -123,22 +122,5 @@ fun checkId(
     return true
 }
 
-// Extension function to simplify implementation of adding field error
-// Normally a default value should be added, but not required
-// (The simplified FieldError constructor with 3 arguments did not allow for default value)
-fun BindingResult.addFieldError(
-    field: String,
-    key: String,
-    messageSource: MessageSource,
-    defaultFieldValue: String? = null,
-    args: Array<Any>? = null,
-) {
-    addError(
-        FieldError(
-            this.objectName, field, defaultFieldValue, true, null, null,
-            msg(messageSource, "error.$key", args)
-        )
-    )
-}
 
 

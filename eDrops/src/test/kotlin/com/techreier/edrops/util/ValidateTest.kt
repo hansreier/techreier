@@ -1,37 +1,33 @@
 package com.techreier.edrops.util
 
-import com.techreier.edrops.config.logger
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
-import org.springframework.context.i18n.LocaleContextHolder
-import org.springframework.validation.BeanPropertyBindingResult
-import java.util.*
+import io.mockk.mockk
+import io.mockk.verify
 
-
-private const val FORM = "testForm"
-private const val FIELD = "field"
+import org.springframework.validation.BindingResult
 
 class ValidateTest {
 
     @Test
-    fun validStringBySize() {
-        val target = Form(FORM)
-        val bindingResult = BeanPropertyBindingResult(target, "myForm")
-        checkStringSize("hei", 30,  FIELD, bindingResult, MessageSourceMock)
-        assertFalse(bindingResult.hasErrors())
+    fun invalidStringTooLong() {
+        val bindingResult = mockk<BindingResult>(relaxed = true)
+
+        val ok = checkStringSize("toolong", 2, "title", bindingResult)
+
+        verify {
+            bindingResult.rejectValue("title", "error.maxSize", arrayOf(2), "toolong")
+        }
+        assertFalse(ok)
     }
 
     @Test
-    fun invalidStringBySize() {
-        LocaleContextHolder.setLocale(Locale.forLanguageTag("no"))
-        val target = Form(FORM)
-        val bindingResult = BeanPropertyBindingResult(target, "testForm")
-        checkStringSize("hei", 2,  FIELD, bindingResult, MessageSourceMock)
-        assertTrue(bindingResult.hasErrors())
-        assertEquals("error.maxSize.no", bindingResult.getFieldError(FIELD)?.defaultMessage)
-        logger.info(bindingResult.getFieldError(FIELD)?.objectName)
+    fun validStringBySize() {
+        val bindingResult = mockk<BindingResult>(relaxed = true)
+
+        val ok = checkStringSize("toolong", 10, "title", bindingResult)
+        assertTrue(ok)
     }
 
-    data class Form(val name: String)
 
 }

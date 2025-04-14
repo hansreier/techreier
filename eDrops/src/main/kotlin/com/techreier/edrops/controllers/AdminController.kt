@@ -107,14 +107,14 @@ class AdminController(val ctx: Context,
         if (action == "save" || action == "saveCreate") {
             val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
             validProjectLanguageCode(LocaleContextHolder.getLocale().language)
-            if (checkSegment(blogForm.segment, "segment", ctx.messageSource, bindingResult)) {
+            if (checkSegment(blogForm.segment, "segment",  bindingResult)) {
                 if (blogService.duplicate(blogForm.segment, blogOwner.id, langCode, blogId)) {
-                        bindingResult.addFieldError("segment", "duplicate",  ctx.messageSource, blogForm.segment)
+                        bindingResult.rejectValue("segment","error.duplicate", blogForm.segment)
                 }
             }
-            checkStringSize(blogForm.subject, MAX_TITLE_SIZE,  "subject", bindingResult, ctx.messageSource, 1)
-            checkStringSize(blogForm.about, MAX_SUMMARY_SIZE,  "about", bindingResult, ctx.messageSource)
-            checkInt(blogForm.position,"position", bindingResult, ctx.messageSource, -1000,1000)
+            checkStringSize(blogForm.subject, MAX_TITLE_SIZE,  "subject", bindingResult,  1)
+            checkStringSize(blogForm.about, MAX_SUMMARY_SIZE,  "about", bindingResult)
+            checkInt(blogForm.position,"position", bindingResult,  -1000,1000)
             if (bindingResult.hasErrors()) {
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"
