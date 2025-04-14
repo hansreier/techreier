@@ -1,10 +1,11 @@
 package com.techreier.edrops.dbservice
 
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogPost
+import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
+import com.techreier.edrops.repository.BlogRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.ZonedDateTime
@@ -13,12 +14,16 @@ import java.time.ZonedDateTime
 @Transactional
 class BlogPostService(
     private val blogPostRepo: BlogPostRepository,
+    private val blogRepo: BlogRepository,
 ) {
     fun save(
-        blog: Blog,
+        blogId: Long,
         blogPostForm: BlogPostForm,
     ) {
-        logger.info("Saving blogPost with id: ${blogPostForm.id} segment: ${blogPostForm.segment} blogId: $blog.blogId")
+        logger.info("Saving blogPost with id: ${blogPostForm.id} segment: ${blogPostForm.segment} blogId: $blogId")
+
+        val blog = blogRepo.findById(blogId).orElse(null)?.takeIf { it.id != null }
+            ?: throw ParentBlogException("Cannot use blog with id: $blogId — not found or detached")
 
         val blogPost =
             BlogPost(

@@ -22,7 +22,7 @@ const val COLLATZ_DIR = "/$COLLATZ"
 
 @Controller
 @RequestMapping(COLLATZ_DIR)
-class Collatz(val ctx: Context, val collatzService: CollatzService) : Base(ctx) {
+class Collatz(ctx: Context, val collatzService: CollatzService) : Base(ctx) {
     @GetMapping
     fun collatz(
         request: HttpServletRequest,
@@ -52,7 +52,7 @@ class Collatz(val ctx: Context, val collatzService: CollatzService) : Base(ctx) 
     ): String {
         logger.info("calculate collatz sequence")
 
-        val seedNo = checkLong(collatz.seed,"seed", bindingResult, ctx.messageSource, 1   )
+        val seedNo = checkLong(collatz.seed,"seed", bindingResult, 1   )
         val result = seedNo?.let { collatzService.collatz(it) }
 
         if (bindingResult.hasErrors()) {

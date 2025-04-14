@@ -71,7 +71,7 @@ fun checkInt(
     value: String?,
     field: String,
     bindingResult: BindingResult,
-    messageSource: MessageSource, minValue: Int? = null, maxValue: Int? = null, required: Boolean = true
+    messageSource: MessageSource, minValue: Int? = null, maxValue: Int? = null, required: Boolean = true,
 ): Int? {
     if (value.isNullOrBlank()) {
         if (required)
@@ -82,9 +82,9 @@ fun checkInt(
         if (result == null)
             bindingResult.addFieldError(field, "noInteger", messageSource, value)
         else if ((minValue != null) && (result < minValue))
-                bindingResult.addFieldError(field, "lessThan", messageSource, value, arrayOf(minValue))
+            bindingResult.addFieldError(field, "lessThan", messageSource, value, arrayOf(minValue))
         else if ((maxValue != null) && (result > maxValue))
-                    bindingResult.addFieldError(field, "greaterThan", messageSource, value, arrayOf(maxValue))
+            bindingResult.addFieldError(field, "greaterThan", messageSource, value, arrayOf(maxValue))
         return result
     }
 }
@@ -93,22 +93,34 @@ fun checkLong(
     value: String?,
     field: String,
     bindingResult: BindingResult,
-    messageSource: MessageSource, minValue: Long? = null, maxValue: Long? = null, required: Boolean = true
+    minValue: Long? = null, maxValue: Long? = null, required: Boolean = true,
 ): Long? {
     if (value.isNullOrBlank()) {
         if (required)
-            bindingResult.addFieldError(field, "empty", messageSource)
+            bindingResult.rejectValue(field, "error.empty")
         return null
     } else {
         val result = value.toLongOrNull()
         if (result == null)
-            bindingResult.addFieldError(field, "noInteger", messageSource, value)
+            bindingResult.rejectValue(field, "error.noInteger", value)
         else if ((minValue != null) && (result < minValue))
-                bindingResult.addFieldError(field, "lessThan", messageSource, value, arrayOf(minValue))
+            bindingResult.rejectValue(field, "error.lessThan")
         else if ((maxValue != null) && (result > maxValue))
-                    bindingResult.addFieldError(field, "greaterThan", messageSource, value, arrayOf(maxValue))
+            bindingResult.rejectValue(field, "error.greaterThan", value)
         return result
     }
+}
+
+fun checkId(
+    id: Long?,
+    bindingResult: BindingResult,
+): Boolean {
+    if (id == null) {
+        bindingResult.reject("error.noId")
+        logger.warn("the id is missing. Probably programming error ")
+        return false
+    }
+    return true
 }
 
 // Extension function to simplify implementation of adding field error
@@ -128,3 +140,5 @@ fun BindingResult.addFieldError(
         )
     )
 }
+
+

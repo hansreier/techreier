@@ -4,11 +4,11 @@ import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogPostService
-import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.util.addFieldError
+import com.techreier.edrops.util.checkId
 import com.techreier.edrops.util.checkSegment
 import com.techreier.edrops.util.checkStringSize
 import jakarta.servlet.http.HttpServletRequest
@@ -84,11 +84,9 @@ class BlogPostController(
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blog Post: path: $path action:  $action blogid: $blogId")
         if (action == "save" || action == "saveCreate") {
-            val blog: Blog = ctx.blogService.readBlog(blogId)
-                ?: throw ParentBlogException("BlogPost ${blogPostForm.segment} not saved, cannot read parent blog with id: $blogId")
-            blog.id ?:  throw ParentBlogException("BlogPost ${blogPostForm.segment} not saved, parent blog is detached: $blogId")
-            if (checkSegment(blogPostForm.segment, "segment", ctx.messageSource, bindingResult)) {
-                if (blogPostService.duplicate(blogPostForm.segment, blog.id, blogPostForm.id)) {
+            checkId(blogId, bindingResult)
+            if ((blogId != null) && checkSegment(blogPostForm.segment, "segment", ctx.messageSource, bindingResult)) {
+                if (blogPostService.duplicate(blogPostForm.segment, blogId, blogPostForm.id)) {
                     bindingResult.addFieldError("segment", "duplicate",  ctx.messageSource, blogPostForm.segment)
                 }
             }
@@ -102,7 +100,7 @@ class BlogPostController(
             }
 
             try {
-                blogPostService.save(blog, blogPostForm)
+                blogId?.let { blogPostService.save(it, blogPostForm)}
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
