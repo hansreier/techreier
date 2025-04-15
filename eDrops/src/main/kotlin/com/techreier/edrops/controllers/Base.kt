@@ -110,9 +110,8 @@ abstract class Base(
         key: String,
         bindingResult: BindingResult,
     ) {
-        val errorMessage = msg(ctx.messageSource, "error.$key") + if (e.message.isNullOrBlank()) "" else ": ${e.message}"
-        logger.warn("${e.javaClass}: $errorMessage")
-        bindingResult.reject("key", errorMessage)
+        logger.warn("${e.javaClass} key: error.$key ${e.message}")
+        bindingResult.reject("error.$key", arrayOf(e.message), "??error.$key?? ${e.message}")
     }
 
     protected fun readFirstSegment(languageCode: String): String? {

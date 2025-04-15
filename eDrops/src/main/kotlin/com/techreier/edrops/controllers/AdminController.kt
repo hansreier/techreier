@@ -141,7 +141,7 @@ class AdminController(val ctx: Context,
             try {
                 blogService.delete(blogId, blogForm)
             } catch (e: DataAccessException) {
-                handleRecoverableError(e, "dbDelete", bindingResult)
+                handleRecoverableError(e, "dbDeleteg", bindingResult)
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"
             }
