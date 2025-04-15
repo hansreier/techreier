@@ -12,7 +12,7 @@ import com.techreier.edrops.util.Docs.views
 import com.techreier.edrops.util.buildVersion
 import com.techreier.edrops.util.getMenuItems
 import com.techreier.edrops.util.msg
-import com.techreier.edrops.util.validProjectLanguageCode
+import com.techreier.edrops.util.getValidProjectLanguageCode
 import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -50,7 +50,7 @@ abstract class Base(
         model.addAttribute("auth", ctx.appConfig.auth)
         model.addAttribute("languages", fetchLanguages())
         val currentLangCode = LocaleContextHolder.getLocale().language
-        val usedLangcode = validProjectLanguageCode(currentLangCode)
+        val usedLangcode = getValidProjectLanguageCode(currentLangCode)
         val locale = Locale.of(usedLangcode)
         ctx.sessionLocaleResolver.setLocale(request, response, locale)
         val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
@@ -150,7 +150,7 @@ abstract class Base(
         docs: Array<MenuItem>,
         languageCode: String,
     ): List<MenuItem> {
-        val usedCode = validProjectLanguageCode(languageCode)
+        val usedCode = getValidProjectLanguageCode(languageCode)
         val documents = docs.filter { (it.langCode == usedCode) }
         return getMenuItems(documents, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE,  ctx.messageSource)
     }

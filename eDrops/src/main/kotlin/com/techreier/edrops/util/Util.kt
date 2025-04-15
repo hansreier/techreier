@@ -33,7 +33,7 @@ fun buildVersion(utc: String?, short: Boolean = true): String {
 
 // Return valid language code actually used in this project based on rule
 // If language code does not exist return default (english)
-fun validProjectLanguageCode(languageCode: String): String = if (languageCode in listOf("nn", "no", "nb")) "nb" else "en"
+fun getValidProjectLanguageCode(languageCode: String): String = if (languageCode in listOf("nn", "no", "nb")) "nb" else "en"
 
 // Function assumes menu items (blogs) to be sorted by Topic position and MenuItem position.
 // If desired topics is added to the menu with items underneath it

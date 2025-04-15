@@ -104,9 +104,9 @@ class AdminController(val ctx: Context,
         }
         blogOwner.id?: throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "No blogOwner exists"))
 
-        if (action == "save" || action == "saveCreate") {
+        if (action == "save" || action == "saveCreate" || action == "createPost") {
             val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
-            validProjectLanguageCode(LocaleContextHolder.getLocale().language)
+                getValidProjectLanguageCode(LocaleContextHolder.getLocale().language)
             if (checkSegment(blogForm.segment, "segment",  bindingResult)) {
                 if (blogService.duplicate(blogForm.segment, blogOwner.id, langCode, blogId)) {
                         bindingResult.rejectValue("segment","error.duplicate", blogForm.segment)
@@ -116,6 +116,7 @@ class AdminController(val ctx: Context,
             checkStringSize(blogForm.about, MAX_SUMMARY_SIZE,  "about", bindingResult)
             checkInt(blogForm.position,"position", bindingResult,  -1000,1000)
             if (bindingResult.hasErrors()) {
+                bindingResult.reject("error.saveBlog")
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"
             }
@@ -129,12 +130,14 @@ class AdminController(val ctx: Context,
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"
             }
+            if (action == "createPost") {
+                return "redirect:$ADMIN_DIR/$segment/$NEW_SEGMENT"
+            }
             val newPath = "$ADMIN_DIR/${if (action == "save") blogForm.segment else NEW_SEGMENT}"
             return "redirect:$newPath"
         }
-        if (action == "createPost") {
-            return "redirect:$ADMIN_DIR/$segment/$NEW_SEGMENT"
-        } else {
+
+        if (action =="delete") {
             try {
                 blogService.delete(blogId, blogForm)
             } catch (e: DataAccessException) {
@@ -144,6 +147,10 @@ class AdminController(val ctx: Context,
             }
             return "redirect:$ADMIN_DIR/$segment"
         }
+        // This should never really occur
+        bindingResult.reject("error.illegalAction")
+        prepare(model, request, response, segment, changed)
+        return "blogPosts"
     }
 
     private fun prepare(
