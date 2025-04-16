@@ -16,7 +16,7 @@
         <form id="blogForm" th:action="@{${path}}" th:object="${blogForm}" th:method="post">
             <div class="input-form">
                 <div class="input-row">
-                    <label th:for="blogSegment" th:text="segment"></label>
+                    <label th:for="blogSegment" th:text="#{segment}"></label>
                     <input type="text" id="blogSegment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}" th:title="#{tip.segment}">
                     <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
                 </div>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="input-row">
                     <label th:for="position" th:text="#{position}"></label>
-                    <input type="text" id="position" th:field="*{position}" step="1">
+                    <input type="text" id="position" th:field="*{position}" th:style="'width: calc(10ch);'" >
                     <span class="error" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></span>
                 </div>
                 <div class="input-row">
@@ -39,7 +39,7 @@
                     <span class="error" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></span>
                 </div>
 
-                <div class="input-row">
+                <div class="input-row full-width">
                     <label th:for="about" th:text="#{about}"></label>
                     <textarea id="about" th:field="*{about}" th:attr="maxLength=${maxSummarySize}"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('about')}" th:errors="*{about}"></span>
@@ -47,6 +47,14 @@
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:value="${blog.id}" name="blogId">
                 <input type="hidden" th:value="${changed}" name="changed">
+            </div>
+            <div class = "posts" th:if="${blog.blogPosts.size > 0} ">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" th:field="*{postLock}" checked="checked"/>
+                        <span th:text="#{postLock(${blog.blogPosts.size})}"></span>
+                    </label>
+                </div>
             </div>
             <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
             <button type="submit" th:text="#{delete}" name="action" th:value="delete"></button>
@@ -92,7 +100,7 @@
         <form id="blogPostform" th:action="@{${path}}" th:object="${blogPostForm}" th:method="post">
             <div class="input-form">
                 <div class="input-row">
-                    <label th:for="blogPostSegment" th:text="segment"></label>
+                    <label th:for="blogPostSegment" th:text="#{segment}"></label>
                     <input type="text" id="blogPostSegment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}" th:title="#{tip.segment}">
                     <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
                 </div>

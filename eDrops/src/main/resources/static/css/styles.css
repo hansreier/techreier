@@ -299,13 +299,27 @@ img:hover::after {
 	color: black;
 }
 
+/* Responsive layout: 2-column form on wider screens */
+@media (min-width: 700px) {
+	.input-form {
+		grid-template-columns: repeat(2, 1fr);
+		column-gap: 1rem;
+		row-gap: 0;
+	}
+
+	.input-row.full-width {
+		grid-column: span 2;
+	}
+}
+
 .input-form textarea {
 	resize: vertical;
 	min-height: 100px;
 }
 
 .input-row {
-	display: contents;
+	display: flex;
+	flex-direction: column;
 }
 
 #seed {
@@ -396,6 +410,12 @@ img:hover::after {
 .outputfield p {
 	margin: 0;
 	padding: 0;
+}
+
+.checkbox label {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
 }
 
 
