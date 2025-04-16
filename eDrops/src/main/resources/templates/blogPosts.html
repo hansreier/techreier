@@ -5,6 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
 <head>
     <title th:text="${blog.subject}">Blogs</title>
+    <script src="/js/disable.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -51,13 +52,13 @@
             <div class = "posts" th:if="${blog.blogPosts.size > 0} ">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" th:field="*{postLock}" checked="checked"/>
+                        <input id="postLock" type="checkbox" th:field="*{postLock}" checked="checked"/>
                         <span th:text="#{postLock(${blog.blogPosts.size})}"></span>
                     </label>
                 </div>
             </div>
             <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
-            <button type="submit" th:text="#{delete}" name="action" th:value="delete"></button>
+            <button type="submit" id="deleteButton" th:text="#{delete}" name="action" th:value="delete"></button>
             <button type="submit" th:text="#{saveCreate}" name="action" th:value="saveCreate"></button>
             <button type="submit" th:text="#{createPost}" name="action" th:value="createPost" th:disabled="${blog.id == null}"></button>
             <div th:if="${#fields.hasGlobalErrors()}">
