@@ -82,6 +82,9 @@ class BlogPostController(
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blog Post: path: $path action:  $action blogid: $blogId")
+        if (action == "blog") {
+            return "redirect:$ADMIN_DIR/$segment"
+        }
         if (action == "save" || action == "saveCreate") {
             checkId(blogId, bindingResult)
             if ((blogId != null) && checkSegment(blogPostForm.segment, "segment",  bindingResult)) {

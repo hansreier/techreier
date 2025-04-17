@@ -122,6 +122,7 @@
             <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
             <button type="submit" th:text="#{delete}" name="action" th:value="delete"></button>
             <button type="submit" th:text="#{saveCreate}" name="action" th:value="saveCreate"></button>
+            <button type="submit" th:text="#{blog}" name="action" th:value="blog"></button>
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
             </div>
