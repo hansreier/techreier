@@ -91,7 +91,10 @@ class BlogPostController(
         }
         if (action == "save" || action == "saveCreate") {
 
-            blogId ?: throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"BlogId is missing, probably programming error")
+            blogId ?: throw ResponseStatusException(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "BlogId is missing, probably programming error"
+            )
 
             if (checkSegment(blogPostForm.segment, "segment", bindingResult)) {
                 if (blogPostService.duplicate(blogPostForm.segment, blogId, blogPostForm.id)) {
@@ -104,6 +107,7 @@ class BlogPostController(
             checkStringSize(blogPostForm.summary, MAX_SUMMARY_SIZE, "summary", bindingResult)
 
             if (bindingResult.hasErrors()) {
+                bindingResult.reject("error.savePost")
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"
             }
@@ -122,9 +126,10 @@ class BlogPostController(
             val newPath = "$ADMIN_DIR/$segment${if (action == "save") "/${blogPostForm.segment}" else "/$NEW_SEGMENT"}"
             return "redirect:$newPath"
         }
+
         if (action == "createPost") {
             return "redirect:$ADMIN_DIR/$segment/$NEW_SEGMENT"
-        } else {
+        } else if (action == "deletePost") {
             try {
                 blogPostService.delete(blogId, blogPostForm)
             } catch (e: DataAccessException) {
@@ -134,6 +139,11 @@ class BlogPostController(
             }
             return "redirect:$ADMIN_DIR/$segment"
         }
+
+        // This should never really occur
+        bindingResult.reject("error.illegalAction")
+        prepare(model, request, response, segment, changed)
+        return "blogPosts"
     }
 
     private fun prepare(

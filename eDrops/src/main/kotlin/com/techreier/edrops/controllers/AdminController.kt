@@ -149,7 +149,6 @@ class AdminController(val ctx: Context,
                 return "blogPosts"
             }
             return "redirect:/$HOME_DIR"
-     //       return "redirect:$ADMIN_DIR/$segment"
         }
         // This should never really occur
         bindingResult.reject("error.illegalAction")
