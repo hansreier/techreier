@@ -5,7 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
 <head>
     <title th:text="${blog.subject}">Blogs</title>
-    <script src="/js/disable.js(v=${built})"></script>
+    <script th:src="@{/js/disable.js(v=${built})}"></script>
 </head>
 <body>
 <div layout:fragment="content">
