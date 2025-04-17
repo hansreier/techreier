@@ -299,8 +299,8 @@ img:hover::after {
 	color: black;
 }
 
-/* Responsive layout: 2-column form on wider screens */
-@media (min-width: 700px) {
+/* Responsive layout: 2-column form on wider screens, except for elements marked with full-width */
+@media (min-width: 768px) {
 	.input-form {
 		grid-template-columns: repeat(2, 1fr);
 		column-gap: 1rem;

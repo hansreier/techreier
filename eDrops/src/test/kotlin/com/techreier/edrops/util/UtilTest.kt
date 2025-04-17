@@ -2,6 +2,7 @@ package com.techreier.edrops.util
 
 import com.techreier.edrops.domain.NB
 import com.techreier.edrops.dto.MenuItem
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.context.MessageSource
@@ -47,7 +48,7 @@ class UtilTest {
     @Test
     fun buildVersionFromIso8601Test() {
         val timeStamp = buildVersion( "2025-03-22T18:36:08Z", false)
-        Assertions.assertEquals("22.03.2025 18:36:08", timeStamp)
+        Assertions.assertEquals("2503221836", timeStamp)
     }
 
     @Test
@@ -65,13 +66,15 @@ class UtilTest {
     @Test
     fun emptyTimeStamp() {
         val timeStamp = buildVersion("")
-        Assertions.assertEquals("", timeStamp)
+        assertThat(timeStamp).isNotNull()
+        assertThat(timeStamp).isNotEmpty()
     }
 
     @Test
     fun nullTimeStamp() {
         val timeStamp = buildVersion(null)
-        Assertions.assertEquals("", timeStamp)
+        assertThat(timeStamp).isNotNull()
+        assertThat(timeStamp).isNotEmpty()
     }
 
 

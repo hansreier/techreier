@@ -60,7 +60,7 @@ class BlogPostController(
         }
 
         model.addAttribute("blog", blogParams.blog)
-        model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
+        model.addAttribute("postPath", "$ADMIN_DIR/$segment/")
 
         return "blogPosts"
     }
@@ -137,7 +137,7 @@ class BlogPostController(
         logger.info("Prepare allBlogPosts Fetch blog posts with: $blogParams")
 
         model.addAttribute("blog", blogParams.blog)
-        model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
+        model.addAttribute("postPath", "$ADMIN_DIR/$segment/")
         model.addAttribute("changed", changed)
         logger.info("prepared)")
     }

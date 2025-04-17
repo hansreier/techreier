@@ -14,9 +14,9 @@
     </div>
     <div th:if="${doc.segment == 'responsive'}">
         <div id="deviceInfo" class="info"></div>
-        <script type="module" th:src="@{/js/deviceinfo.js}"></script>
-        <script type="module" th:if="${langCode == 'en'}" th:src="@{/js/deviceinfo_en.js}"></script>
-        <script type="module" th:if="${langCode != 'en'}" th:src="@{/js/deviceinfo_nb.js}"></script>
+        <script type="module" th:src="@{/js/deviceinfo.js(v=${built})}"></script>
+        <script type="module" th:if="${langCode == 'en'}" th:src="@{/js/deviceinfo_en.js(v=${built})}"></script>
+        <script type="module" th:if="${langCode != 'en'}" th:src="@{/js/deviceinfo_nb.js(v=${built})}"></script>
     </div>
 </div>
 </body>

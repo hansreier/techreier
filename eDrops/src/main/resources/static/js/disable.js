@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function toggleDeleteButton() {
         if (postLockCheckbox && deleteButton) {
-            deleteButton.disabled = !!postLockCheckbox.checked;
+         //   deleteButton.disabled = !!postLockCheckbox.checked;
         }
     }
 

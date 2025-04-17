@@ -12,34 +12,40 @@ import java.time.temporal.ChronoUnit
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 private const val DATE_PATTERN = "dd.MM.yyyy"
-private const val DATETIME_PATTERN = "dd.MM.yyyy HH:mm:ss"
+private const val TIMESTAMP_PATTERN = "yyMMddHHmm"
 
-// Return curent Zoned time
+// Return current Zoned time
 fun timeStamp(): ZonedDateTime = ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS)
 
 // Return  time from UTC
-fun timeStamp(utc: String): ZonedDateTime =  ZonedDateTime.parse(utc).truncatedTo(ChronoUnit.SECONDS)
+fun timeStamp(utc: String): ZonedDateTime = ZonedDateTime.parse(utc).truncatedTo(ChronoUnit.SECONDS)
 
-// return built version as datetime or date
+// Return built version as simple timestamp with minutes or date. If time is not there current time is used.
+// timestamp used for caching of frontend files, this is the reason for reversed format without separators.
 fun buildVersion(utc: String?, short: Boolean = true): String {
-    try {
-        return utc?.let { DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else DATETIME_PATTERN).format(timeStamp(utc)) }
-            ?: throw DateTimeParseException("No timestamp to parse to generate build version","",0)
+    return try {
+        if (utc.isNullOrBlank()) {
+            DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(timeStamp())
+        } else {
+            DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(timeStamp(utc))
+        }
     } catch (ex: DateTimeParseException) {
-        logger.warn("${ex.message} returning empty string")
-        return ""
+        logger.error("${ex.message} returning empty string")
+        ""
     }
 }
 
 // Return valid language code actually used in this project based on rule
 // If language code does not exist return default (english)
-fun getValidProjectLanguageCode(languageCode: String): String = if (languageCode in listOf("nn", "no", "nb")) "nb" else "en"
+fun getValidProjectLanguageCode(languageCode: String): String =
+    if (languageCode in listOf("nn", "no", "nb")) "nb" else "en"
 
 // Function assumes menu items (blogs) to be sorted by Topic position and MenuItem position.
 // If desired topics is added to the menu with items underneath it
 // TOPIC_ITEMS_MINIMUM decides this criteria.
-fun getMenuItems(menuItemOrig: List<MenuItem>, submenuMinItems: Int, menuSplitSize: Int,
-                 messageSource: MessageSource
+fun getMenuItems(
+    menuItemOrig: List<MenuItem>, submenuMinItems: Int, menuSplitSize: Int,
+    messageSource: MessageSource,
 ): List<MenuItem> {
 
     val menuItems = mutableListOf<MenuItem>()
@@ -59,7 +65,7 @@ fun getMenuItems(menuItemOrig: List<MenuItem>, submenuMinItems: Int, menuSplitSi
                 val firstPos = pos
                 do {
                     pos++
-                } while ((pos < size) && (menuItemOrig[pos].topicKey == menuItem.topicKey) )
+                } while ((pos < size) && (menuItemOrig[pos].topicKey == menuItem.topicKey))
                 count = pos - firstPos
                 if (count >= submenuMinItems) { // Eventually add topic to menu
                     count = 0

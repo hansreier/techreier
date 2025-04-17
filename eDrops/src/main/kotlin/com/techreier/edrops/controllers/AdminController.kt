@@ -48,16 +48,14 @@ class AdminController(val ctx: Context,
         }
 
         if (segment == NEW_SEGMENT) {
-            val blogForm = BlogForm()
             model.addAttribute("title",msg(ctx.messageSource,"newBLog"))
-            model.addAttribute("blogForm", blogForm)
         }
 
         // Set blog related fields
         model.addAttribute("changed", blogParams.blog.changed)
         model.addAttribute("blogForm", blogParams.blog.toForm())
         model.addAttribute("blog", blogParams.blog)
-        model.addAttribute("linkPath", "$ADMIN_DIR/$segment/")
+        model.addAttribute("postPath", "$ADMIN_DIR/$segment/")
         logger.info("getting GUI with blogPosts")
         return "blogPosts"
     }
@@ -138,6 +136,11 @@ class AdminController(val ctx: Context,
         }
 
         if (action =="delete") {
+            if (blogForm.postLock) {
+                bindingResult.reject("error.locked")
+                prepare(model, request, response, segment, changed)
+                return "blogPosts"
+            }
             try {
                 blogService.delete(blogId, blogForm)
             } catch (e: DataAccessException) {
@@ -145,7 +148,8 @@ class AdminController(val ctx: Context,
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"
             }
-            return "redirect:$ADMIN_DIR/$segment"
+            return "redirect:/$HOME_DIR"
+     //       return "redirect:$ADMIN_DIR/$segment"
         }
         // This should never really occur
         bindingResult.reject("error.illegalAction")
@@ -162,9 +166,8 @@ class AdminController(val ctx: Context,
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment, true, true)
         logger.info("Prepare fetch blog posts with: $blogParams")
-
         model.addAttribute("blog", blogParams.blog)
-        model.addAttribute("linkPath", ADMIN_DIR)
+        model.addAttribute("postPath", "$ADMIN_DIR/$segment/")
         model.addAttribute("changed", changed)
         logger.info("prepared)")
     }

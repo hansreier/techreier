@@ -5,7 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
 <head>
     <title th:text="${blog.subject}">Blogs</title>
-    <script src="/js/disable.js"></script>
+    <script src="/js/disable.js(v=${built})"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -52,7 +52,7 @@
             <div class = "posts" th:if="${blog.blogPosts.size > 0} ">
                 <div class="checkbox">
                     <label>
-                        <input id="postLock" type="checkbox" th:field="*{postLock}" checked="checked"/>
+                        <input id="postLock" type="checkbox" th:field="*{postLock}"/>
                         <span th:text="#{postLock(${blog.blogPosts.size})}"></span>
                     </label>
                 </div>
@@ -88,10 +88,10 @@
             </thead>
             <tbody>
             <tr th:each="blogPost : ${blog.blogPosts}">
-                <td><a th:href="@{${linkPath + blogPost.segment}}" th:text="${blogPost.id}"></a></td>
-                <td><a th:href="@{${linkPath + blogPost.segment}}" th:text="${blogPost.segment}"></a></td>
-                <td><a th:href="@{${linkPath + blogPost.segment}}" th:text="${blogPost.title}"></a></td>
-                <td class="blogposts-time"><a th:href="@{${linkPath + blogPost.segment}}"
+                <td><a th:href="@{${postPath + blogPost.segment}}" th:text="${blogPost.id}"></a></td>
+                <td><a th:href="@{${postPath + blogPost.segment}}" th:text="${blogPost.segment}"></a></td>
+                <td><a th:href="@{${postPath + blogPost.segment}}" th:text="${blogPost.title}"></a></td>
+                <td class="blogposts-time"><a th:href="@{${postPath + blogPost.segment}}"
                        th:text="${#temporals.format(blogPost.changed, #messages.msg('datetime.format'))}"></a></td>
             </tr>
             </tbody>
@@ -110,7 +110,7 @@
                     <input type="text" id="title" th:field="*{title}" th:attr="maxLength=${maxTitleSize}">
                     <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
                 </div>
-                 <div class="input-row">
+                 <div class="input-row full-width">
                     <label th:for="summary" th:text="#{summary}"></label>
                     <textarea id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"></textarea>
                      <span class="error" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></span>

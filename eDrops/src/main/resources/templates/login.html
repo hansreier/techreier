@@ -6,7 +6,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
 <head>
     <title th:text="#{title.login}">Login</title>
-    <script th:src="@{/js/visible.js}"></script>
+    <script th:src="@{/js/visible.js(v=${built})}"></script>
 </head>
 <body>
 <div layout:fragment="content">
