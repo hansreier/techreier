@@ -76,7 +76,7 @@
             </div>
         </form>
     </div>
-    <div>
+    <div th:if="${blog.blogPosts.size() > 0}">
         <table id="blogposts">
             <thead>
                 <tr>
