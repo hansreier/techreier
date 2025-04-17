@@ -110,17 +110,6 @@ fun checkLong(
     }
 }
 
-fun checkId(
-    id: Long?,
-    bindingResult: BindingResult,
-): Boolean {
-    if (id == null) {
-        bindingResult.reject("error.noId")
-        logger.warn("the id is missing. Probably programming error ")
-        return false
-    }
-    return true
-}
 
 
 

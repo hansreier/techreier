@@ -99,7 +99,7 @@
     </div>
     <div th:if="${blogPostForm != null}">
         <div id="postHeadline">
-            <h2 th:text="${blogPostForm.title}"/>
+            <h2 th:text="${postHeadline}"/>
         </div>
         <form id="blogPostform" th:action="@{${path}}" th:object="${blogPostForm}" th:method="post">
             <div class="input-form">

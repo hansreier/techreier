@@ -7,23 +7,25 @@ import com.techreier.edrops.dbservice.BlogPostService
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
-import com.techreier.edrops.util.checkId
 import com.techreier.edrops.util.checkSegment
 import com.techreier.edrops.util.checkStringSize
+import com.techreier.edrops.util.msg
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.dao.DataAccessException
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.time.ZonedDateTime
 
 @Controller
 @RequestMapping(ADMIN_DIR)
 class BlogPostController(
-    ctx: Context,
+    private val ctx: Context,
     private val blogPostService: BlogPostService,
 ) : Base(ctx) {
 
@@ -47,6 +49,7 @@ class BlogPostController(
         if (subsegment == NEW_SEGMENT) {
             val blogPostForm = BlogPostForm()
             model.addAttribute("blogPostForm", blogPostForm)
+            model.addAttribute("postHeadline", msg(ctx.messageSource, "newPost"))
         } else {
             val selectedBlogPost = select(subsegment, blogParams.blog)
             if (selectedBlogPost == null) {
@@ -55,6 +58,7 @@ class BlogPostController(
             }
 
             logger.info("getting GUI with blogPost. ${selectedBlogPost.title}")
+            model.addAttribute("postHeadline", selectedBlogPost.title)
             model.addAttribute("changed", selectedBlogPost.changed)
             model.addAttribute("blogPostForm", selectedBlogPost.toForm())
         }
@@ -77,7 +81,7 @@ class BlogPostController(
         bindingResult: BindingResult,
         request: HttpServletRequest,
         response: HttpServletResponse,
-        model: Model
+        model: Model,
     ): String {
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
@@ -86,23 +90,26 @@ class BlogPostController(
             return "redirect:$ADMIN_DIR/$segment"
         }
         if (action == "save" || action == "saveCreate") {
-            checkId(blogId, bindingResult)
-            if ((blogId != null) && checkSegment(blogPostForm.segment, "segment",  bindingResult)) {
+
+            blogId ?: throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"BlogId is missing, probably programming error")
+
+            if (checkSegment(blogPostForm.segment, "segment", bindingResult)) {
                 if (blogPostService.duplicate(blogPostForm.segment, blogId, blogPostForm.id)) {
                     bindingResult.rejectValue("segment", "error.duplicate", blogPostForm.segment)
                 }
             }
 
-            checkSegment(blogPostForm.segment,  "segment", bindingResult)
-            checkStringSize(blogPostForm.title, MAX_TITLE_SIZE,  "title", bindingResult, 1)
+            checkStringSize(blogPostForm.title, MAX_TITLE_SIZE, "title", bindingResult, 1)
+
             checkStringSize(blogPostForm.summary, MAX_SUMMARY_SIZE, "summary", bindingResult)
+
             if (bindingResult.hasErrors()) {
                 prepare(model, request, response, segment, changed)
                 return "blogPosts"
             }
 
             try {
-                blogId?.let { blogPostService.save(it, blogPostForm)}
+                blogPostService.save(blogId, blogPostForm)
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
