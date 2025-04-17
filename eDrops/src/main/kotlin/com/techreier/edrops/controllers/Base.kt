@@ -91,8 +91,12 @@ abstract class Base(
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
-        model.addAttribute("buildDate", buildVersion(ctx.appConfig.buildTime))
-        model.addAttribute("buildStamp", buildVersion(ctx.appConfig.buildTime, false))
+
+        val buildStamp =  buildVersion(ctx.appConfig.buildTime, false)
+        val buildInfo = ctx.appConfig.buildTime ?. let { buildVersion(ctx.appConfig.buildTime)} ?: buildStamp
+        model.addAttribute("buildInfo", buildInfo)
+        model.addAttribute("buildStamp", buildStamp)
+        ctx.appConfig.buildTime ?: model.addAttribute("buildMark", buildStamp)
         return BlogParams(blog, oldLangCode, usedLangcode, action, topicKey, topics)
     }
 
