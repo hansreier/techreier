@@ -35,7 +35,7 @@ class ErrorController
         @Autowired
         lateinit var appConfig: AppConfig
 
-        @RequestMapping("/error")
+        @RequestMapping("/, produces = [MediaType.TEXT_HTML_VALUE]")
         fun handleError(
             req: HttpServletRequest,
             request: WebRequest,

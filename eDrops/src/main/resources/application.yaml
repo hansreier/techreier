@@ -7,6 +7,7 @@ server:
   error:
     include-stacktrace: always
     include-exception: true
+    whitelabel.enabled: false
     path: /error
   #absolutely required to avoid tomcat picking up error before Spring error handling
   tomcat:
