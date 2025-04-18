@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html lang="en" th:lang="${langCode}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
+<head>
+    <title th:text="${blog.subject}">Blogs</title>
+    <script th:src="@{/js/disable.js(v=${built})}"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div id="headline">
+        <h2 th:text="${blogHeadline}"/>
+    </div>
+
+    <div th:if="${blogPostForm != null}">
+        <div id="postHeadline">
+            <h2 th:text="${postHeadline}"/>
+        </div>
+        <form id="blogPostform" th:action="@{${path}}" th:object="${blogPostForm}" th:method="post">
+            <div class="input-form">
+                <div class="input-row">
+                    <label th:for="blogPostSegment" th:text="#{segment}"></label>
+                    <input type="text" id="blogPostSegment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}"
+                           th:title="#{tip.segment}">
+                    <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
+                </div>
+                <div class="input-row">
+                    <label th:for="title" th:text="#{title}"></label>
+                    <input type="text" id="title" th:field="*{title}" th:attr="maxLength=${maxTitleSize}">
+                    <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+                </div>
+                <div class="input-row full-width">
+                    <label th:for="summary" th:text="#{summary}"></label>
+                    <textarea id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"></textarea>
+                    <span class="error" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></span>
+                </div>
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:value="${blog.id}" name="blogId">
+                <input type="hidden" th:value="${changed}" name="changed">
+            </div>
+            <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
+            <button type="submit" th:text="#{delete}" name="action" th:value="delete"></button>
+            <button type="submit" th:text="#{saveCreate}" name="action" th:value="saveCreate"></button>
+            <button type="submit" th:text="#{blog}" name="action" th:value="blog"></button>
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+            </div>
+            <div class="statusline" th:if="${changed != null} ">
+                <div class="outputfield">
+                    <p th:text="#{changed} +  ':'"></p>
+                    <p th:text="${#temporals.format(changed, #messages.msg('datetime.format'))}"></p>
+                </div>
+                <div class="outputfield">
+                    <p th:text="#{id} + ':'"></p>
+                    <p th:text="${blogPostForm.id}"></p>
+                </div>
+            </div>
+        </form>
+        <div layout:fragment="blogPosts">
+            <div th:insert="blogPosts :: blogPosts"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

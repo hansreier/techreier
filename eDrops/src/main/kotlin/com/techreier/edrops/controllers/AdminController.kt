@@ -57,7 +57,7 @@ class AdminController(val ctx: Context,
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("postPath", "$ADMIN_DIR/$segment/")
         logger.info("getting GUI with blogPosts")
-        return "blogPosts"
+        return "blogAdmin"
     }
 
     @GetMapping
@@ -117,7 +117,7 @@ class AdminController(val ctx: Context,
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.saveBlog")
                 prepare(model, request, response, segment, changed)
-                return "blogPosts"
+                return "blogAdmin"
             }
             try {
                 blogService.save(blogId, blogForm, langCode, blogOwner)
@@ -127,7 +127,7 @@ class AdminController(val ctx: Context,
                     else -> throw e
                 }
                 prepare(model, request, response, segment, changed)
-                return "blogPosts"
+                return "blogAdmin"
             }
             if (action == "createPost") {
                 return "redirect:$ADMIN_DIR/$segment/$NEW_SEGMENT"
@@ -140,21 +140,21 @@ class AdminController(val ctx: Context,
             if (blogForm.postLock) {
                 bindingResult.reject("error.locked")
                 prepare(model, request, response, segment, changed)
-                return "blogPosts"
+                return "blogAdmin"
             }
             try {
                 blogService.delete(blogId, blogForm)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDeleteg", bindingResult)
                 prepare(model, request, response, segment, changed)
-                return "blogPosts"
+                return "blogAdmin"
             }
             return "redirect:/$HOME_DIR"
         }
         // This should never really occur
         bindingResult.reject("error.illegalAction")
         prepare(model, request, response, segment, changed)
-        return "blogPosts"
+        return "blogAdmin"
     }
 
     private fun prepare(

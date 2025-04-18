@@ -66,7 +66,7 @@ class BlogPostController(
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("postPath", "$ADMIN_DIR/$segment/")
 
-        return "blogPosts"
+        return "blogPostAdmin"
     }
 
     @PostMapping(value = ["/{segment}/{subsegment}"])
@@ -109,7 +109,7 @@ class BlogPostController(
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.savePost")
                 prepare(model, request, response, segment, changed)
-                return "blogPosts"
+                return "blogPostAdmin"
             }
 
             try {
@@ -120,7 +120,7 @@ class BlogPostController(
                     else -> throw e
                 }
                 prepare(model, request, response, segment, changed)
-                return "blogPosts"
+                return "blogPostAdmin"
             }
 
             val newPath = "$ADMIN_DIR/$segment${if (action == "save") "/${blogPostForm.segment}" else "/$NEW_SEGMENT"}"
@@ -135,7 +135,7 @@ class BlogPostController(
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
                 prepare(model, request, response, segment, changed)
-                return "blogPosts"
+                return "blogPostAdmin"
             }
             return "redirect:$ADMIN_DIR/$segment"
         }
@@ -143,7 +143,7 @@ class BlogPostController(
         // This should never really occur
         bindingResult.reject("error.illegalAction")
         prepare(model, request, response, segment, changed)
-        return "blogPosts"
+        return "blogPostAdmin"
     }
 
     private fun prepare(

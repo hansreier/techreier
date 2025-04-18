@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html lang="en" th:lang="${langCode}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
+<head>
+    <title th:text="${blog.subject}">Blogs</title>
+    <script th:src="@{/js/disable.js(v=${built})}"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div id="headline">
+        <h2 th:text="${blogHeadline}"/>
+    </div>
+
+    <div th:if="${blogPostForm == null}">
+        <form id="blogForm" th:action="@{${path}}" th:object="${blogForm}" th:method="post">
+            <div class="input-form">
+                <div class="input-row">
+                    <label th:for="blogSegment" th:text="#{segment}"></label>
+                    <input type="text" id="blogSegment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}" th:title="#{tip.segment}">
+                    <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
+                </div>
+
+                <div class="input-row">
+                    <label th:text="#{topic}" th:for="topicDropDown"></label>
+                    <select id="topicDropDown" th:field="*{topicKey}">
+                        <option th:each="topic : ${topics}"
+                            th:value="${topic.topicKey}" th:text="${topic.text}"></option>
+                    </select>
+                </div>
+                <div class="input-row">
+                    <label th:for="position" th:text="#{position}"></label>
+                    <input type="text" id="position" th:field="*{position}" th:style="'width: calc(10ch);'" >
+                    <span class="error" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></span>
+                </div>
+                <div class="input-row">
+                    <label th:for="subject" th:text="#{subject}"></label>
+                    <input type="text" id="subject" th:field="*{subject}" th:attr="maxLength=${maxTitleSize}">
+                    <span class="error" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></span>
+                </div>
+
+                <div class="input-row full-width">
+                    <label th:for="about" th:text="#{about}"></label>
+                    <textarea id="about" th:field="*{about}" th:attr="maxLength=${maxSummarySize}"></textarea>
+                    <span class="error" th:if="${#fields.hasErrors('about')}" th:errors="*{about}"></span>
+                </div>
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:value="${blog.id}" name="blogId">
+                <input type="hidden" th:value="${changed}" name="changed">
+            </div>
+            <div class = "posts" th:if="${blog.blogPosts.size > 0} ">
+                <div class="checkbox">
+                    <label>
+                        <input id="postLock" type="checkbox" th:field="*{postLock}"/>
+                        <span th:text="#{postLock(${blog.blogPosts.size})}"></span>
+                    </label>
+                </div>
+            </div>
+            <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
+            <button type="submit" id="deleteButton" th:text="#{delete}" name="action" th:value="delete"></button>
+            <button type="submit" th:text="#{saveCreate}" name="action" th:value="saveCreate"></button>
+            <button type="submit" th:text="#{createPost}" name="action" th:value="createPost" th:disabled="${blog.id == null}"></button>
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+            </div>
+            <div class = "statusline" th:if="${changed != null} ">
+                <div class="outputfield">
+                    <p th:text="#{changed} +  ':'"></p>
+                    <p th:text="${#temporals.format(changed, #messages.msg('datetime.format'))}"></p>
+                </div>
+                <div class="outputfield">
+                    <p th:text="#{id} + ':'"></p>
+                    <p th:text="${blogForm.id}"></p>
+                </div>
+            </div>
+        </form>
+        <div layout:fragment="blogPosts">
+            <div th:insert="blogPosts :: blogPosts"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
