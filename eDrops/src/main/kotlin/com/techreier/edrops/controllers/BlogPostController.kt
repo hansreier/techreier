@@ -103,7 +103,7 @@ class BlogPostController(
             }
 
             checkStringSize(blogPostForm.title, MAX_TITLE_SIZE, "title", bindingResult, 1)
-
+            blogPostForm.title = blogPostForm.title.replaceFirstChar { it.uppercaseChar() }
             checkStringSize(blogPostForm.summary, MAX_SUMMARY_SIZE, "summary", bindingResult)
 
             if (bindingResult.hasErrors()) {

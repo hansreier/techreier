@@ -111,6 +111,7 @@ class AdminController(val ctx: Context,
                 }
             }
             checkStringSize(blogForm.subject, MAX_TITLE_SIZE,  "subject", bindingResult,  1)
+            blogForm.subject = blogForm.subject.replaceFirstChar { it.uppercaseChar() }
             checkStringSize(blogForm.about, MAX_SUMMARY_SIZE,  "about", bindingResult)
             checkInt(blogForm.position,"position", bindingResult,  -1000,1000)
             if (bindingResult.hasErrors()) {
