@@ -19,10 +19,10 @@
                 <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
             </div>
             <div class="input-row">
-                <div id="password-container">
-                    <label th:for="password" th:text="#{password}"></label>
-                    <span id="togglePassword" onclick="visible()" style="cursor: pointer;">👁️</span>
-                </div>
+                <label id="password-label" th:for="password">
+                    <span th:text="#{password}"></span>
+                    <span id="togglePassword" onclick="visible()" style="cursor: pointer; margin-left: 8px;">👁️</span>
+                </label>
                 <input type="password" id="password" name="password" th:field="*{password}">
                 <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
             </div>
