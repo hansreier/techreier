@@ -127,7 +127,7 @@ class BlogPostController(
             return "redirect:$newPath"
         }
 
-        if (action == "delete") {
+        if (action == "delete") { //TODO evaluate if should stay on this page if more posts left, a bit work
             try {
                 blogPostService.delete(blogId, blogPostForm)
             } catch (e: DataAccessException) {
