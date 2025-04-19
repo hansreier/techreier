@@ -9,15 +9,12 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div id="headline">
-        <h2 th:text="${blogHeadline}"/>
-    </div>
-
+    <h1 th:text="${blogHeadline}"/>
     <div th:if="${blogPostForm == null}">
         <form id="blogForm" th:action="@{${path}}" th:object="${blogForm}" th:method="post">
             <div class="input-form">
                 <div class="input-row">
-                    <label th:for="blogSegment" th:text="#{segment}"></label>
+                    <label th:for="blogSegment" th:text="#{blogSegment}"></label>
                     <input type="text" id="blogSegment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}" th:title="#{tip.segment}">
                     <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
                 </div>
@@ -41,7 +38,7 @@
                 </div>
 
                 <div class="input-row full-width">
-                    <label th:for="about" th:text="#{about}"></label>
+                    <label th:for="about" th:text="#{blogSummary}"></label>
                     <textarea id="about" th:field="*{about}" th:attr="maxLength=${maxSummarySize}"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('about')}" th:errors="*{about}"></span>
                 </div>
@@ -70,7 +67,7 @@
                     <p th:text="${#temporals.format(changed, #messages.msg('datetime.format'))}"></p>
                 </div>
                 <div class="outputfield">
-                    <p th:text="#{id} + ':'"></p>
+                    <p th:text="#{blogId} + ':'"></p>
                     <p th:text="${blogForm.id}"></p>
                 </div>
             </div>

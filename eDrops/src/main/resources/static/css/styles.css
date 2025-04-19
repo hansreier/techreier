@@ -36,8 +36,8 @@ body {
 	}
 }
 
-h1 { font-size: 2.0rem; }
-h2 { font-size: 1.6rem; }
+h1 { font-size: 1.8rem; color: darkgreen }
+h2 { font-size: 1.55rem; color: black }
 h3 { font-size: 1.3rem; }
 h4 { font-size: 1.2rem; }
 h5 { font-size: 1.1rem; }
@@ -56,14 +56,6 @@ p {
 	margin-top: 0;
 	padding: 0.5rem 5px;
 	margin-bottom: 0;
-}
-
-h1 {
-	color: red;
-}
-
-h2 {
-	color: green;
 }
 
 ul {
@@ -384,13 +376,6 @@ img:hover::after {
 	width: auto;
 	margin: 0;
 	padding: 0;
-}
-
-#headline {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 0;
 }
 
 .statusline {
