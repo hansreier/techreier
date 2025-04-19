@@ -102,7 +102,7 @@ class AdminController(val ctx: Context,
         }
         blogOwner.id?: throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "No blogOwner exists"))
 
-        if (action == "save" || action == "saveCreate" || action == "createPost") {
+        if (action == "save" || action == "create" || action == "createPost") {
             val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
                 getValidProjectLanguageCode(LocaleContextHolder.getLocale().language)
             if (checkSegment(blogForm.segment, "segment",  bindingResult)) {

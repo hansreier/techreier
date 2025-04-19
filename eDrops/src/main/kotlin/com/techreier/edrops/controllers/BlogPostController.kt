@@ -89,7 +89,7 @@ class BlogPostController(
         if (action == "blog") {
             return "redirect:$ADMIN_DIR/$segment"
         }
-        if (action == "save" || action == "saveCreate") {
+        if (action == "save" || action == "create") {
 
             blogId ?: throw ResponseStatusException(
                 HttpStatus.INTERNAL_SERVER_ERROR,
@@ -127,9 +127,7 @@ class BlogPostController(
             return "redirect:$newPath"
         }
 
-        if (action == "createPost") {
-            return "redirect:$ADMIN_DIR/$segment/$NEW_SEGMENT"
-        } else if (action == "deletePost") {
+        if (action == "delete") {
             try {
                 blogPostService.delete(blogId, blogPostForm)
             } catch (e: DataAccessException) {
