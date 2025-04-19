@@ -1,6 +1,5 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.logger
 import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.getDocIndex
 import com.techreier.edrops.util.markdownToHtml
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
@@ -72,9 +70,4 @@ class AboutController(context: Context) : Base(context) {
         return "redirect:$ABOUT_DIR/${doc.segment}"
     }
 
-    @PostMapping
-    fun getPost(segment: String): String {
-        logger.info("About controller redirect")
-        return "redirect:$ABOUT_DIR/$segment"
-    }
 }

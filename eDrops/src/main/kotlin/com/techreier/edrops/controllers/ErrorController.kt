@@ -12,6 +12,7 @@ import org.springframework.boot.web.servlet.error.ErrorAttributes
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -35,7 +36,7 @@ class ErrorController
         @Autowired
         lateinit var appConfig: AppConfig
 
-        @RequestMapping("/, produces = [MediaType.TEXT_HTML_VALUE]")
+    @RequestMapping("/error", produces = [MediaType.TEXT_HTML_VALUE])
         fun handleError(
             req: HttpServletRequest,
             request: WebRequest,

@@ -20,7 +20,7 @@ const val HOME_DIR = ""
 @Controller
 @RequestMapping()
 class HomeController(context: Context ) : Base(context) {
-    @GetMapping
+    @GetMapping("/")
     fun home(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -28,7 +28,6 @@ class HomeController(context: Context ) : Base(context) {
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
         val docIndex = getDocIndex(Docs.home, blogParams.oldLangCode, blogParams.usedLangCode)
-
         if (docIndex.index >= 0 ) {
 
             val doc = Docs.home[docIndex.index]
@@ -53,6 +52,7 @@ class HomeController(context: Context ) : Base(context) {
             Disallow: /admin/
             """.trimIndent()
         logger.debug("robots.txt handling rule:\n$rules")
+        logger.info("Reier ROBOTS")
         return rules
     }
 
@@ -81,11 +81,5 @@ class HomeController(context: Context ) : Base(context) {
         model.addAttribute("doc", doc)
         model.addAttribute("docText", inlineHtml.html)
         return HOME
-    }
-
-    @PostMapping
-    fun getPost(segment: String): String {
-        logger.info("Redirect to home")
-        return "redirect:$HOME_DIR/$segment"
     }
 }

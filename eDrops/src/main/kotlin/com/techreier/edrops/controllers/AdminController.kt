@@ -172,10 +172,4 @@ class AdminController(val ctx: Context,
         logger.info("prepared)")
     }
 
-    @PostMapping
-    fun getBlogAdmin(
-        result: String
-    ): String {
-        return "redirect:$ADMIN_DIR/${result}"
-    }
 }

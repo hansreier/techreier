@@ -58,11 +58,4 @@ class BlogController(context: Context) : Base(context) {
         return "redirect:$BLOG_DIR/$firstSegment"
     }
 
-    // Redirect to other blog from menu
-    @PostMapping
-    fun getBlog(
-        result: String,
-    ): String {
-        return "redirect:$BLOG_DIR/${result}"
-    }
 }

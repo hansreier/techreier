@@ -33,12 +33,13 @@ class WebSecurityConfig {
                 if (appConfig.auth) {
                     authorize("/admin/**", authenticated)
                 }
-                authorize("/**", permitAll)
-                //  authorize("/css/*", permitAll)
-                // authorize("/h2-console/**", permitAll)
-                //  authorize("/robots.txt", permitAll)
-                //  authorize("/favicon.ico", permitAll)
+                  authorize("/**", permitAll)
+               //   authorize("/css/*", permitAll)
+               //   authorize("/h2-console/**", permitAll)
+               //   authorize("/robots.txt", permitAll)
+               //   authorize("/favicon.ico", permitAll)
             }
+
             formLogin {
                 loginPage = "/login"
                 defaultSuccessUrl("/", true)
@@ -49,12 +50,11 @@ class WebSecurityConfig {
                 logoutSuccessUrl = "/login"
             }
             csrf {
-                ignoringRequestMatchers("/h2-console/**")
+                ignoringRequestMatchers("/favicon.ico","/h2-console/**")
             }
             headers {
                 frameOptions { sameOrigin = true } // Required for h2-console
             }
-
             sessionManagement {
                 invalidSessionUrl = "/"
                 sessionConcurrency {

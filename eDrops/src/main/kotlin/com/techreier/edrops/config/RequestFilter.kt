@@ -11,6 +11,8 @@ import jakarta.servlet.ServletResponse
 import jakarta.servlet.annotation.WebFilter
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletRequestWrapper
+import jakarta.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletResponseWrapper
 
 // Used for logging
 @WebFilter
@@ -24,11 +26,11 @@ class RequestFilter : Filter {
         response: ServletResponse,
         chain: FilterChain,
     ) {
-        // val res = HttpServletResponseWrapper(response as HttpServletResponse)
+        val res = HttpServletResponseWrapper(response as HttpServletResponse)
         val req = HttpServletRequestWrapper(request as HttpServletRequest)
-        logger.info("${req.method} ${req.servletPath} ${mem()}")
+        logger.info("${req.method} ${req.servletPath} ${mem()} referer: ${req.getHeader("Referer")}")
         chain.doFilter(request, response)
-
+        logger.info("${req.method} ${req.servletPath} ${mem()} respons: ${res.status}")
         /*Code removed, to be included in catch(e:Exception) block
          Sets error status to 400 Invalid request and types error directly in
          The problem is that it overrides the default error handling

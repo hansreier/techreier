@@ -13,7 +13,7 @@
     <meta name="robots" content="index, follow">
     <title>Reier</title>
     <link rel="stylesheet" th:href="@{/css/styles.css(v=${built})}">
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico(v=${built})">
+    <link th:href="@{/favicon.ico}" rel="icon" type="image/x-icon">
     <script th:src="@{/js/dropdown.js(v=${built})}"></script>
 </head>
 <body>
@@ -42,15 +42,12 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <form th:action="@{/}" th:method="post">
-                <button class=dropdown-item name="segment" type="submit"
-                        th:each="item: ${homeMenu}"
-                        th:value="${item.segment}"
-                        th:text="${item.subject} ? ${item.subject} : #{${item.segment}}"
-                        th:data-topic="${item.isTopic}"
-                        th:data-id="${item.segment + '-' + item.langCode}">
-                </button>
-            </form>
+            <a th:each="item : ${homeMenu}"
+               th:href="@{/{segment}(segment=${item.segment})}" class="dropdown-item"
+               th:text="${item.subject} ? ${item.subject} : #{${item.segment}}"
+               th:data-topic="${item.isTopic}"
+               th:data-id="${item.segment + '_' + item.langCode}">
+            </a>
         </div>
     </div>
     <div class="dropdown">
@@ -58,15 +55,12 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <form th:action="@{/about}" th:method="post">
-                <button class=dropdown-item name="segment" type="submit"
-                        th:each="item: ${aboutMenu}"
-                        th:value="${item.segment}"
-                        th:text="${item.subject} ? ${item.subject} : #{${item.segment}}"
-                        th:data-topic="${item.isTopic}"
-                        th:data-id="${item.segment + '_' + item.langCode}">
-                </button>
-            </form>
+            <a th:each="item : ${aboutMenu}"
+               th:href="@{/about/{segment}(segment=${item.segment})}" class="dropdown-item"
+               th:text="${item.subject} ? ${item.subject} : #{${item.segment}}"
+               th:data-topic="${item.isTopic}"
+               th:data-id="${item.segment + '_' + item.langCode}">
+            </a>
         </div>
     </div>
     <div class="dropdown">
@@ -75,15 +69,12 @@
         </button>
         <div class="dropdown-content">
             <a th:href="@{/collatz}" class="dropdown-item" th:text="#{collatz}"></a>
-            <form th:action="@{/blogs}" th:method="post">
-                <button class=dropdown-item type="submit" name="result"
-                        th:each="item: ${menu}"
-                        th:value="${item.segment}"
-                        th:text="${item.subject}"
-                        th:data-topic="${item.isTopic}"
-                        th:data-id="${item.segment + '.' + item.langCode}">
-                </button>
-            </form>
+            <a th:each="item : ${menu}"
+               th:href="@{/blogs/{segment}(segment=${item.segment})}" class="dropdown-item"
+               th:text="${item.subject}"
+               th:data-topic="${item.isTopic}"
+               th:data-id="${item.segment + '.' + item.langCode}">
+            </a>
         </div>
     </div>
     <div class="dropdown">
@@ -101,15 +92,12 @@
                         <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                     </form>
                 </div>
-                <form th:action="@{/admin}" th:method="post">
-                    <button class=dropdown-item name="result" type="submit"
-                            th:each="item: ${menu}"
-                            th:value="${item.segment}"
-                            th:text="${item.subject}"
-                            th:data-topic="${item.isTopic}"
-                            th:data-id="${item.segment + '+' + item.langCode}">
-                    </button>
-                </form>
+                <a th:each="item : ${menu}"
+                   th:href="@{/admin/{segment}(segment=${item.segment})}" class="dropdown-item"
+                   th:text="${item.subject}"
+                   th:data-topic="${item.isTopic}"
+                   th:data-id="${item.segment + '+' + item.langCode}">
+                </a>
             </div>
             <div th:if="${auth}">
                 <div sec:authorize="isAuthenticated()">
@@ -117,13 +105,10 @@
                     <form th:action="@{/logout}" th:method="post">
                         <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                     </form>
-                    <form th:action="@{/admin}" th:method="post">
-                        <button class=dropdown-item name="result" type="submit"
-                                th:each="item: ${menu}"
-                                th:value="${item.segment}"
-                                th:text="${item.subject}">
-                        </button>
-                    </form>
+                    <a th:each="item : ${menu}"
+                       th:href="@{admin/{segment}(segment=${item.segment})}" class="dropdown-item"
+                       th:text="${item.subject}">
+                    </a>
                 </div>
             </div>
         </div>
