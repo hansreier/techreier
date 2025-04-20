@@ -50,7 +50,7 @@ class WebSecurityConfig {
                 logoutSuccessUrl = "/login"
             }
             csrf {
-                ignoringRequestMatchers("/favicon.ico","/h2-console/**")
+                ignoringRequestMatchers("/h2-console/**")
             }
             headers {
                 frameOptions { sameOrigin = true } // Required for h2-console
