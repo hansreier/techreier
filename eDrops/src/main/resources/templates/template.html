@@ -106,7 +106,7 @@
                         <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                     </form>
                     <a th:each="item : ${menu}"
-                       th:href="@{admin/{segment}(segment=${item.segment})}" class="dropdown-item"
+                       th:href="@{/admin/{segment}(segment=${item.segment})}" class="dropdown-item"
                        th:text="${item.subject}">
                     </a>
                 </div>
@@ -130,7 +130,7 @@
     </section>
 </div>
 <footer>
-    <p th:text="'techreier &copy; Hans Reier Sigmond ' + ${buildInfo}"></p>
+    <p th:text="'&copy; Hans Reier Sigmond - ' + #{version} + ' ' + ${buildInfo}"></p>
 </footer>
 
 </body>

@@ -5,11 +5,14 @@ import com.techreier.edrops.dto.MenuItem
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
 import org.springframework.context.MessageSourceResolvable
 import java.util.Locale
 
 class UtilTest {
+
+    private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 
     @Test
     fun getEmptyMenuTest() {
@@ -44,11 +47,16 @@ class UtilTest {
         Assertions.assertEquals(0, menuItems.count { menuItem -> menuItem.isTopic })
     }
 
+    @Test
+    fun buildVersionFromIso8601WinterTest() {
+        val timeStamp = buildVersion( "2025-03-22T18:36:08Z", false)
+        Assertions.assertEquals("250322193608", timeStamp)
+    }
 
     @Test
-    fun buildVersionFromIso8601Test() {
-        val timeStamp = buildVersion( "2025-03-22T18:36:08Z", false)
-        Assertions.assertEquals("2503221836", timeStamp)
+    fun buildVersionFromIso8601SummerTest() {
+        val timeStamp = buildVersion( "2025-04-22T18:36:08Z", false)
+        Assertions.assertEquals("250422203608", timeStamp)
     }
 
     @Test
@@ -72,9 +80,10 @@ class UtilTest {
 
     @Test
     fun nullTimeStamp() {
-        val timeStamp = buildVersion(null)
+        val timeStamp = buildVersion(null, false)
         assertThat(timeStamp).isNotNull()
         assertThat(timeStamp).isNotEmpty()
+        logger.info("Current timestamp {}: {}", TIMESTAMP_PATTERN, timeStamp)
     }
 
 

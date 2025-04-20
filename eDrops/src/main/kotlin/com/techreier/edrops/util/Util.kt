@@ -4,6 +4,8 @@ import com.techreier.edrops.dto.MenuItem
 import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
+import java.time.Instant
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -11,8 +13,8 @@ import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoUnit
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
-private const val DATE_PATTERN = "dd.MM.yyyy"
-private const val TIMESTAMP_PATTERN = "yyMMddHHmm"
+const val DATE_PATTERN = "dd.MM.yyyy"
+const val TIMESTAMP_PATTERN = "yyMMddHHmmss"
 
 // Return current Zoned time
 fun timeStamp(): ZonedDateTime = ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS)
@@ -22,12 +24,14 @@ fun timeStamp(utc: String): ZonedDateTime = ZonedDateTime.parse(utc).truncatedTo
 
 // Return built version as simple timestamp with minutes or date. If time is not there current time is used.
 // timestamp used for caching of frontend files, this is the reason for reversed format without separators.
+// timestamp returnes is Oslo time.
 fun buildVersion(utc: String?, short: Boolean = true): String {
     return try {
         if (utc.isNullOrBlank()) {
             DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(timeStamp())
         } else {
-            DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(timeStamp(utc))
+            val osloTime = Instant.parse(utc).atZone(ZoneId.of("Europe/Oslo"))
+            DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(osloTime)
         }
     } catch (ex: DateTimeParseException) {
         logger.error("${ex.message} returning empty string")
@@ -92,6 +96,7 @@ fun getMenuItems(
     return menuItems
 }
 
+// Spring localized messages given messageSource, key and arguments
 fun msg(messageSource: MessageSource, key: String, args: Array<Any>? = null): String {
     val locale = LocaleContextHolder.getLocale()
     return messageSource.getMessage(key, args, "??$key??", locale) as String
