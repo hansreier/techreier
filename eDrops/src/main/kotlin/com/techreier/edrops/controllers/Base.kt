@@ -93,7 +93,7 @@ abstract class Base(
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
 
         val buildStamp =  buildVersion(ctx.appConfig.buildTime, false)
-        val buildInfo = ctx.appConfig.buildTime ?. let { buildVersion(ctx.appConfig.buildTime)} ?: buildStamp
+        val buildInfo = ctx.appConfig.buildTime ?. let { buildVersion(ctx.appConfig.buildTime, false)} ?: buildStamp
         model.addAttribute("buildInfo", buildInfo)
         model.addAttribute("buildStamp", buildStamp)
         ctx.appConfig.buildTime ?: model.addAttribute("buildMark", buildStamp)
