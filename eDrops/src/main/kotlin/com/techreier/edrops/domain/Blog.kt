@@ -12,6 +12,9 @@ import java.time.ZonedDateTime
 @Entity
 class Blog(
 
+    //TODO Correct, but consider using instant
+    //TODO presentation to user should really fetch timezone info from client with Javascript
+    //TODO current GUI is wrong (2 hours sommertime and 1 hour in Winter)
     @TimeZoneStorage(TimeZoneStorageType.NORMALIZE_UTC)
     @Column(nullable = false, columnDefinition ="timestamp(0)")
     var changed: ZonedDateTime,
