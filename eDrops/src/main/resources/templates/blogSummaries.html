@@ -3,15 +3,16 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
 <head>
-    <title th:text="${blog.subject}">Blogs</title>
+    <title class= "section" th:text="${blog.subject}">Blogs</title>
 </head>
 <body>
 <div layout:fragment="content">
     <h1 th:text="${blog.subject}"/>
+    <p class="section" th:text="${blog.about}"/>
     <div th:each="blogPost : ${blog.blogPosts}" class="title">
         <h2 th:text="${blogPost.title}"></h2>
-        <span class="section" th:text="${blogPost.summary}"></span><br><br>
-        <span th:text="${#temporals.format(blogPost.changed, #messages.msg('datetime.format'))}"></span>
+        <p class="section" th:text="${blogPost.summary}"></p>
+        <p th:text="${#temporals.format(blogPost.changed, #messages.msg('datetime.format'))}"></p>
     </div>
 </div>
 </body>
