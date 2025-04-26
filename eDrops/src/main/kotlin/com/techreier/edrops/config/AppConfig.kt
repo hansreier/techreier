@@ -14,6 +14,7 @@ const val MAX_TITLE_SIZE = 50
 const val MAX_SUMMARY_SIZE = 400
 const val MAX_CODE_SIZE = 15
 const val MAX_USERNAME_SIZE = 60
+const val DEFAULT_TIMEZONE = "Europe/Oslo"
 
 // This way of reading app properties is more flexible and easier than using @Value in Kotlin
 // Disadvantage: Have to inject this always

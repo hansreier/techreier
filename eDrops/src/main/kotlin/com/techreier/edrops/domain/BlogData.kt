@@ -1,10 +1,10 @@
 package com.techreier.edrops.domain
 
 import com.techreier.edrops.config.AppConfig
-import com.techreier.edrops.util.timeStamp
+import com.techreier.edrops.config.DEFAULT_TIMEZONE
+import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 // Predefined segments
@@ -90,6 +90,7 @@ class BlogData(
     appConfig: AppConfig,
     common: Common,
 ) {
+    private val blogOwnerCreated = timestamp("08.01.1963 12:00:00")
     private val datetimeb1 = timestamp("02.02.2024 13:01:24")
     private val datetimeb2 = timestamp("02.02.2024 13:05:03")
     private val datetime1 = timestamp("15.02.2024 15:05:30")
@@ -109,7 +110,7 @@ class BlogData(
 
     val blogOwner: BlogOwner =
         BlogOwner(
-            timeStamp(),
+            blogOwnerCreated,
             null,
             appConfig.user,
             appConfig.password,
@@ -192,8 +193,8 @@ class BlogData(
         blog3e.blogPosts.add(blogPost3x2e)
     }
 
-    private fun timestamp(datetime: String): ZonedDateTime {
+    private fun timestamp(datetime: String): Instant {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
-        return LocalDateTime.parse(datetime, formatter).atZone(ZoneOffset.UTC)
+        return LocalDateTime.parse(datetime, formatter).atZone(ZoneId.of(DEFAULT_TIMEZONE)).toInstant()
     }
 }

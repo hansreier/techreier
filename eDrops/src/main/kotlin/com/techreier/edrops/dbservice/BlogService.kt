@@ -14,7 +14,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ResponseStatusException
-import java.time.ZonedDateTime
+import java.time.Instant
+import java.time.ZoneId
 
 @Service
 @Transactional
@@ -31,7 +32,7 @@ class BlogService(
 
     // Read current blog based on segment,language code. Assumption: One owner
     fun readBlog(
-        segment: String, oldLangCode: String?, langCode: String, posts: Boolean = false,
+        segment: String, oldLangCode: String?, langCode: String, zoneId: ZoneId, posts: Boolean = false,
     ): BlogDTO? {
         logger.info("Read blog old LangCode: $oldLangCode langCode: $langCode, segment $segment, posts? $posts")
 
@@ -56,7 +57,7 @@ class BlogService(
             "Blog with id ${blogLanguageDTO.id} not found"
         )
 
-        return blog!!.toDTO(langCode, posts)
+        return blog!!.toDTO(zoneId, langCode, posts)
     }
 
     fun readMenu(languageCode: String): List<MenuItem> {
@@ -65,7 +66,7 @@ class BlogService(
     }
 
     fun save(
-        blogId: Long?, blogForm: BlogForm, langCode: String, blogOwner: BlogOwner,
+        blogId: Long?, blogForm: BlogForm, langCode: String, blogOwner: BlogOwner, timestamp: Instant
     ) {
         logger.info("Saving blog with id: ${blogForm.id} segment: ${blogForm.segment} blogId: $blogId")
         val blog: Blog =
@@ -77,14 +78,14 @@ class BlogService(
                         ?.let { topic -> foundBlog.topic = topic }
                         ?: logger.warn("Topic with key: ${blogForm.topicKey} and languageCode: $langCode not found")
                 }
-                foundBlog.changed = ZonedDateTime.now()
+                foundBlog.changed = timestamp
                 foundBlog.segment = blogForm.segment
                 foundBlog.pos = blogForm.position.toIntOrNull() ?: 0
                 foundBlog.subject = blogForm.subject
                 foundBlog.about = blogForm.about
                 foundBlog
             } ?: Blog(
-                ZonedDateTime.now(),
+                timestamp,
                 blogForm.segment,
                 topicRepo.findFirstByTopicKeyAndLanguageCode(blogForm.topicKey, langCode).orElse(null)
                     ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Topic ${blogForm.topicKey} not found"),

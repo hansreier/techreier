@@ -3,20 +3,16 @@ package com.techreier.edrops.domain
 import com.techreier.edrops.config.MAX_CODE_SIZE
 import com.techreier.edrops.config.MAX_USERNAME_SIZE
 import jakarta.persistence.*
-import org.hibernate.annotations.TimeZoneStorage
-import org.hibernate.annotations.TimeZoneStorageType
-import java.time.ZonedDateTime
+import java.time.Instant
 
 @Entity
 class BlogOwner(
 
-    @TimeZoneStorage(TimeZoneStorageType.NORMALIZE_UTC)
     @Column(nullable = false, columnDefinition ="timestamp(0)")
-    val created: ZonedDateTime,
+    val created: Instant,
 
-    @TimeZoneStorage(TimeZoneStorageType.NORMALIZE_UTC)
     @Column(columnDefinition ="timestamp(0)")
-    var changed: ZonedDateTime?,
+    var changed: Instant?,
 
     @Column(nullable = false, unique = true, length = MAX_USERNAME_SIZE)
     var username: String,

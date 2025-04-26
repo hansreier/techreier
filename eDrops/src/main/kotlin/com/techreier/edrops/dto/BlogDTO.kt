@@ -2,6 +2,7 @@ package com.techreier.edrops.dto
 
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.forms.BlogForm
+import java.time.ZoneId
 import java.time.ZonedDateTime
 
 data class BlogDTO(
@@ -21,19 +22,19 @@ data class BlogDTO(
     }
 }
 
-fun Blog.toDTO(langCodeWanted: String? = null, posts: Boolean = true): BlogDTO {
+fun Blog.toDTO(zoneId: ZoneId, langCodeWanted: String? = null, posts: Boolean = true): BlogDTO {
     return BlogDTO(
         this.id,
         this.topic.topicKey,
         this.topic.text,
         this.topic.language.code,
         langCodeWanted ?: this.topic.language.code,
-        this.changed,
+        this.changed.atZone(zoneId),
         this.segment,
         this.pos,
         this.subject,
         this.about,
-        if (posts) this.blogPosts.map { it.toDTO() } else emptyList()
+        if (posts) this.blogPosts.map { it.toDTO(zoneId) } else emptyList()
     )
 }
 

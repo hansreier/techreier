@@ -113,7 +113,7 @@ class BlogPostController(
             }
 
             try {
-                blogPostService.save(blogId, blogPostForm)
+                blogPostService.save(blogId, blogPostForm, now())
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)

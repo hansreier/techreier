@@ -53,6 +53,5 @@ document.addEventListener("DOMContentLoaded", function () {
                     nextElement = nextElement.nextElementSibling;
                 }
             });
-
         });
 });

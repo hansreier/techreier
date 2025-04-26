@@ -1,12 +1,12 @@
 package com.techreier.edrops.util
 
+import com.techreier.edrops.config.DEFAULT_TIMEZONE
 import com.techreier.edrops.dto.MenuItem
 import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import java.time.Instant
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -16,28 +16,25 @@ private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 const val DATE_PATTERN = "dd.MM.yyyy"
 const val TIMESTAMP_PATTERN = "yyMMddHHmmss"
 
-// Return current Zoned time
-fun timeStamp(): ZonedDateTime = ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS)
-
-// Return  time from UTC
-fun timeStamp(utc: String): ZonedDateTime = ZonedDateTime.parse(utc).truncatedTo(ChronoUnit.SECONDS)
-
 // Return built version as simple timestamp with minutes or date. If time is not there current time is used.
 // timestamp used for caching of frontend files, this is the reason for reversed format without separators.
 // timestamp returnes is Oslo time.
 fun buildVersion(utc: String?, short: Boolean = true): String {
     return try {
         if (utc.isNullOrBlank()) {
-            DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(timeStamp())
+            DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(timeStampDefaultTimezone())
         } else {
-            val osloTime = Instant.parse(utc).atZone(ZoneId.of("Europe/Oslo"))
-            DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(osloTime)
+            val defaultTime = Instant.parse(utc).atZone(ZoneId.of(DEFAULT_TIMEZONE))
+            DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(defaultTime)
         }
     } catch (ex: DateTimeParseException) {
         logger.error("${ex.message} returning empty string")
         ""
     }
 }
+
+//Only correct in default timezone, Norway. So only use in tests and for buildVersion
+fun timeStampDefaultTimezone(): ZonedDateTime = ZonedDateTime.now(ZoneId.of(DEFAULT_TIMEZONE)).truncatedTo(ChronoUnit.SECONDS)
 
 // Return valid language code actually used in this project based on rule
 // If language code does not exist return default (english)

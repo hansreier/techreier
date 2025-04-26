@@ -1,5 +1,6 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.DEFAULT_TIMEZONE
 import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
@@ -20,6 +21,8 @@ import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.web.context.ServletContextAware
+import java.time.Instant
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -62,7 +65,7 @@ abstract class Base(
         }
         else {
             model.addAttribute("blogHeadline", )
-            val foundBlog = segment?.let { ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, posts) }
+            val foundBlog = segment?.let { ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, timeZone(), posts) }
             model.addAttribute("blogHeadline", foundBlog?.subject)
             foundBlog
         }
@@ -125,6 +128,11 @@ abstract class Base(
             menuItems.first().segment
         } else null
     }
+
+    protected fun now(): Instant = ZonedDateTime.now(ctx.httpSession.getAttribute("timezone") as?  ZoneId
+        ?: ZoneId.of(DEFAULT_TIMEZONE)).toInstant()
+
+    protected fun timeZone(): ZoneId = ctx.httpSession.getAttribute("timezone") as? ZoneId ?: ZoneId.of(DEFAULT_TIMEZONE)
 
     private fun fetchLanguages(): MutableList<LanguageCode> {
         logger.debug("fetch languages from db")

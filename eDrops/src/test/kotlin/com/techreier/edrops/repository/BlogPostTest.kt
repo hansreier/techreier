@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.time.temporal.ChronoUnit
 
 @SpringBootTest
@@ -24,7 +23,9 @@ class BlogPostTest : TestBase() {
     fun `basic CRUD checks`() {
         logger.info("Basic crud test start create")
         var blogPostService1 = BlogPost(
-            ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS),
+            Instant.now().truncatedTo(ChronoUnit.SECONDS),
+
+           // ZonedDateTime.now(ZoneOffset.of(DEFAULT_TIMEZONE)).truncatedTo(ChronoUnit.SECONDS).toInstant(),
             "Katt", "Pus", "Min katt er huskatt", blog
         )
         blogPostService1 = postRepo.saveAndFlush(blogPostService1)

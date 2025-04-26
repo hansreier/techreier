@@ -4,7 +4,6 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.BlogText
 import com.techreier.edrops.domain.SUMMARY_1X1
 import com.techreier.edrops.domain.SUMMARY_1X2
-import com.techreier.edrops.util.timeStamp
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

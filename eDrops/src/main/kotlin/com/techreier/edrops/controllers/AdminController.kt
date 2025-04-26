@@ -120,7 +120,7 @@ class AdminController(val ctx: Context,
                 return "blogAdmin"
             }
             try {
-                blogService.save(blogId, blogForm, langCode, blogOwner)
+                blogService.save(blogId, blogForm, langCode, blogOwner, now())
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException -> handleRecoverableError(e, "dbSave", bindingResult)

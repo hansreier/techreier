@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @RestController
 @RequestMapping("timezone")
-class TimeZoneController {
+class TimezoneController {
 
     //Receive time zone from client
     @PostMapping
-    fun setTimeZone(@RequestBody body: Map<String, String>, session: HttpSession) {
+    fun setTimezone(@RequestBody body: Map<String, String>, session: HttpSession) {
         val timezone = body["timezone"]
         logger.info("Reier $timezone")
         timezone?.let {
-            session.setAttribute("userTimeZone", ZoneId.of(it))
+            session.setAttribute("timezone", ZoneId.of(it))
         }
     }
 }

@@ -4,17 +4,14 @@ import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import jakarta.persistence.*
-import org.hibernate.annotations.TimeZoneStorage
-import org.hibernate.annotations.TimeZoneStorageType
-import java.time.ZonedDateTime
+import java.time.Instant
 
 //https://www.baeldung.com/kotlin/jpa
 @Entity
 class BlogPost(
 
-    @TimeZoneStorage(TimeZoneStorageType.NORMALIZE_UTC)
     @Column(columnDefinition = "timestamp(0)")
-    var changed: ZonedDateTime?,
+    var changed: Instant?,
 
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
     var segment: String,

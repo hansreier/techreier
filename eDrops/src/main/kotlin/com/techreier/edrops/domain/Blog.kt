@@ -4,9 +4,7 @@ import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import jakarta.persistence.*
-import org.hibernate.annotations.TimeZoneStorage
-import org.hibernate.annotations.TimeZoneStorageType
-import java.time.ZonedDateTime
+import java.time.Instant
 
 //https://www.baeldung.com/kotlin/jpa
 @Entity
@@ -15,9 +13,8 @@ class Blog(
     //TODO Correct, but consider using instant
     //TODO presentation to user should really fetch timezone info from client with Javascript
     //TODO current GUI is wrong (2 hours sommertime and 1 hour in Winter)
-    @TimeZoneStorage(TimeZoneStorageType.NORMALIZE_UTC)
     @Column(nullable = false, columnDefinition ="timestamp(0)")
-    var changed: ZonedDateTime,
+    var changed: Instant,
 
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
     var segment: String,

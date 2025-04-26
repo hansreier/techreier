@@ -8,7 +8,7 @@ import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.ZonedDateTime
+import java.time.Instant
 
 @Service
 @Transactional
@@ -16,10 +16,7 @@ class BlogPostService(
     private val blogPostRepo: BlogPostRepository,
     private val blogRepo: BlogRepository,
 ) {
-    fun save(
-        blogId: Long,
-        blogPostForm: BlogPostForm,
-    ) {
+    fun save(blogId: Long, blogPostForm: BlogPostForm, timestamp: Instant) {
         logger.info("Saving blogPost with id: ${blogPostForm.id} segment: ${blogPostForm.segment} blogId: $blogId")
 
         val blog = blogRepo.findById(blogId).orElse(null)?.takeIf { it.id != null }
@@ -27,7 +24,7 @@ class BlogPostService(
 
         val blogPost =
             BlogPost(
-                ZonedDateTime.now(),
+                timestamp,
                 blogPostForm.segment,
                 blogPostForm.title,
                 blogPostForm.summary,
