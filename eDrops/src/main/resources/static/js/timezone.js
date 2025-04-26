@@ -9,7 +9,7 @@ window.addEventListener('load', function() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ timezone: timezone })
         })
-            .then(response => {
+            .then(() => {
                 sessionStorage.setItem('timezone', timezone);
             })
             .catch(error => {
