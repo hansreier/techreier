@@ -50,7 +50,7 @@ class WebSecurityConfig {
                 logoutSuccessUrl = "/login"
             }
             csrf {
-                ignoringRequestMatchers("/h2-console/**")
+                ignoringRequestMatchers("/h2-console/**","/timezone")
             }
             headers {
                 frameOptions { sameOrigin = true } // Required for h2-console

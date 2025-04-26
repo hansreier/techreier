@@ -148,7 +148,7 @@ spring:
     livereload.enabled: false
   web.resources.cache.period: 3600
   h2:
-    console.enabled: true
+    console.enabled: false
 
 ---
 spring:
