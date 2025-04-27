@@ -12,6 +12,8 @@ function displayDeviceInfo() {
         <p><strong>Font size:</strong> ${info.fontSize}</p>
         <p><strong>Font type:</strong> ${info.fontFamily}</p>
         <p><strong>Language:</strong> ${info.language}</p>
+        <p><strong>Time zone:</strong> ${info.timeZone}</p>
+        <p><strong>Time:</strong> ${info.currentTime}</p>
         <p><strong>Device info:</strong><br> ${info.userAgent}</p>
     `;
 }

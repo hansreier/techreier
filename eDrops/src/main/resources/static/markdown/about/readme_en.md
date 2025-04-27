@@ -114,12 +114,15 @@ As a start I have used some hidden fields, but have to be included in almost eve
 Too many hidden fields will usually mess up the code.
 One advantage with hidden fields, is that it does not matter if the session expires. 
 So actually I reverted to using hidden fields for some attributes. 
-But I will use session storage for blog searching and grouping
-attributes. Loosing this information will not force a return to the homepage anyhow.  
+But I will use session storage for blog searching and grouping attributes, 
+and for storing timezone information originating from client.
+
+Loosing this information will not force a return to the homepage anyhow.  
 
 Recently I have made collapsable menus based on menu items (blogs) organized by topics. To be efficient, 
 JavaScript was required. I wanted to keep the collapse state stored, so the user do not have to collapse and
 expand all the time. After some consideration, session storage on the browser was used for this. 
+In addition, I store timezone information in browser session storage.
 
 I have only one container running av Hostinger. This means that users will not be automatically switched to another node
 that easily can occur with several Kubernetes pods. Perhaps later I will store

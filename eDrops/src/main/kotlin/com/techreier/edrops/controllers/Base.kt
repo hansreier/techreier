@@ -58,7 +58,7 @@ abstract class Base(
         ctx.sessionLocaleResolver.setLocale(request, response, locale)
         val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
 
-        // If segment is blank og new, do not read database
+        // If segment is blank or new, do not read database
         val blog = if ((segment == NEW_SEGMENT) && admin) {
             model.addAttribute("blogHeadline", msg(ctx.messageSource, "newBlog"))
             BlogDTO(usedLangcode)

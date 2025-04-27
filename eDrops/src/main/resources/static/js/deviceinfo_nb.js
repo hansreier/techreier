@@ -11,7 +11,8 @@ function displayDeviceInfo() {
         <p><strong>Vindu høyde:</strong> ${info.viewportHeight}px</p>
         <p><strong>Font størrelse:</strong> ${info.fontSize}</p>
         <p><strong>Font type:</strong> ${info.fontFamily}</p>
-        <p><strong>Språk:</strong> ${info.language}</p>
+        <p><strong>Tidssone:</strong> ${info.timeZone}</p>
+        <p><strong>Tid:</strong> ${info.currentTime}</p>
         <p><strong>Enhet info:</strong><br> ${info.userAgent}</p>
     `;
 }

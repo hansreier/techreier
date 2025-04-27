@@ -44,11 +44,31 @@ Really very simple implemented, layout could have been improved.
 ### Clicking on links 
 
 Minimal Javascript is used. I have avoided the use of URL query parameters and transferring state in internal links.
-This keeps the code simple because I can use simple HTML links for everything (including in markdown).
+This keeps the code simple because I can use simple HTML links for everything (including in markdown)
+
+### Displaying date and time information
+
+Every blog and blog post have got a changed date and time. I could have made this simple and just viewed the timestamp in
+Norwegian time Europe/Oslo or UTC, but I wanted to do this properly. Time information is stored in UTC without timezone information.
+Timezone is not directly supported by MariaDB. The zone information is fetched from the client with Javascript and
+send to the server with a POST command. The user then will read the time in the local time zone.
+If this is incorrect, it is the user's responsibility.
+
+Both client session storage and server session storage is used for this.
+
+It is one exception, and it is time that is not user (blog) related. This is valid for logging and for
+displaying the build timestamp in Europe/Oslo time. The build timestamp can be seen at the bottom of the page:
+
+````
+version 250421152229 - Year 25 Month 04 Day 21 Hour 15  Minute 22 Second 29. 
+````
+Now you know what this cryptic number is. It is changed for every deploy to Docker.
 
 #### Other usage of Javascript
 
-To be decided, I guess I have to add more, perhaps a markdown editor. 
+Simple actions that do not need to contact the server, e.g. changing value in dropdown or hiding a field.
+
+Else, to be decided, I guess I have to add more, perhaps a markdown editor. 
 The responsive design web page uses some JavaScript, 
 just to demonstrate what information I can fetch for free from your device without you knowing it.
 I dropped reading position, since it requires special care.

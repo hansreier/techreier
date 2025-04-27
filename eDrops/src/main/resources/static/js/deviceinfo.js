@@ -9,7 +9,9 @@ export function deviceinfo() {
         userAgent: navigator.userAgent,
         language: navigator.language,
         fontSize: window.getComputedStyle(paragraph).getPropertyValue("font-size"),
-        fontFamily: window.getComputedStyle(paragraph).getPropertyValue("font-family")
+        fontFamily: window.getComputedStyle(paragraph).getPropertyValue("font-family"),
+        timeZone: sessionStorage.getItem("timezone"),
+        currentTime: new Date().toLocaleString()
     };
 }
 
