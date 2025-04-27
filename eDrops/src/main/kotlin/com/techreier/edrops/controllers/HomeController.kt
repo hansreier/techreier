@@ -52,7 +52,6 @@ class HomeController(context: Context ) : Base(context) {
             Disallow: /admin/
             """.trimIndent()
         logger.debug("robots.txt handling rule:\n$rules")
-        logger.info("Reier ROBOTS")
         return rules
     }
 

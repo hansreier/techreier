@@ -25,9 +25,9 @@ logging:
     com.techreier.edrops: INFO
     org.hibernate: INFO
     org.hibernate.orm.jdbc.bind: INFO
-    org.hibernate.SQL: DEBUG
+    org.hibernate.SQL: INFO
   pattern:
-    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    console: "%d{yyyy-MM-dd' 'HH:mm:ss.SS, UTC} [%thread] %-5level %logger{36} - %msg%n"
 spring:
   profiles:
     active: h2-prod
@@ -127,6 +127,16 @@ spring:
     console.enabled: true
 app:
   auth: false
+logging:
+  level:
+    root: INFO
+    org.springframework: WARN
+    org.springframework.security: WARN
+    org.apache.coyote.http11: INFO
+    com.techreier.edrops: INFO
+    org.hibernate: INFO
+    org.hibernate.orm.jdbc.bind: INFO
+    org.hibernate.SQL: INFO
 ---
 spring:
   config:
