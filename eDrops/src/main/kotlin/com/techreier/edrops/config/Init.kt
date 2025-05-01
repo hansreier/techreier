@@ -2,7 +2,7 @@ package com.techreier.edrops.config
 
 import com.techreier.edrops.domain.BlogData
 import com.techreier.edrops.domain.BlogOwner
-import com.techreier.edrops.domain.Common
+import com.techreier.edrops.domain.Base
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.LanguageRepository
 import com.techreier.edrops.repository.TopicRepository
@@ -28,10 +28,10 @@ class Init(
         }
 
         if (ownerRepo.count() == 0L) {
-            val common = Common()
-            val blogData = BlogData(appConfig, common)
-            languageRepo.saveAll(common.languages)
-            topicRepo.saveAll(common.topics)
+            val base = Base()
+            val blogData = BlogData(appConfig, base)
+            languageRepo.saveAll(base.languages)
+            topicRepo.saveAll(base.topics)
             val blogOwner = ownerRepo.save(blogData.blogOwner)
             blogAdmin = blogOwner
             logger.info("Initialized with data")

@@ -15,7 +15,7 @@ const val TOPIC_SPORT = "sport"
 const val SUBMENU_MIN_ITEMS = 2 //Minimum number of items within a topic sub menu
 const val MENU_SPLIT_SIZE = 10 //Minimum menu size before splitting
 
-class Common {
+class Base {
     val norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
     val english: LanguageCode = LanguageCode(ENGLISH, EN)
     val languages = listOf(norwegian, english)
@@ -28,6 +28,8 @@ class Common {
     val energyEn = Topic(TOPIC_ENERGY, english, 2)
     val sportNo = Topic(TOPIC_SPORT, norwegian, 3)
     val sportEn = Topic(TOPIC_SPORT, english, 3)
+    val politicsNo = Topic(TOPIC_CODING, norwegian, 4)
+    val politicsEn = Topic(TOPIC_CODING, english, 4)
 
-    val topics = listOf(defaultNo, defaultEn, codingNo, codingEn, energyNo, energyEn, sportNo, sportEn)
+    val topics = listOf(defaultNo, defaultEn, codingNo, codingEn, energyNo, energyEn, sportNo, sportEn,politicsNo, politicsEn)
 }

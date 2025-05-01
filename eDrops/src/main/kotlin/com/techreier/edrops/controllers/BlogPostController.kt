@@ -27,7 +27,7 @@ import java.time.ZonedDateTime
 class BlogPostController(
     private val ctx: Context,
     private val blogPostService: BlogPostService,
-) : Base(ctx) {
+) : BaseController(ctx) {
 
     @GetMapping("/{segment}/{subsegment}")
     fun blogPost(

@@ -29,7 +29,7 @@ import java.util.*
 
 const val NEW_SEGMENT = "_new"
 
-abstract class Base(
+abstract class BaseController(
     private val ctx: Context,
 ) : ServletContextAware {
     private var servletContext: ServletContext? = null

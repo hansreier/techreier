@@ -2,22 +2,24 @@ package com.techreier.edrops.domain
 
 import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.DEFAULT_TIMEZONE
+import com.techreier.edrops.exceptions.ParentBlogException
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 // Predefined segments
-const val BSEG_CODING = "coding"
-const val BSEG_ENVIRONMENT = "env"
-const val BSEG_ENERGY = "energy"
+const val B_CODING = "coding"
+const val B_ENVIRONMENT = "env"
+const val B_ENERGY = "energy"
+const val B_POLITICS = "politics"
 
-const val ESEG_ELPOWER = "elpower"
-const val ESEG_NATURE = "nature"
-const val ESEG_WEATHER = "weather"
-const val ESEG_SUSTAINABILITY = "sustainability"
-const val ESEG_HIBERNATE = "hibernate"
-const val ESEG_SPRING_BOOT = "springboot"
+const val P_ELPOWER = "elpower"
+const val P_NATURE = "nature"
+const val P_WEATHER = "weather"
+const val P_SUSTAINABILITY = "sustainability"
+const val P_HIBERNATE = "hibernate"
+const val P_SPRING_BOOT = "springboot"
 
 const val TITLE_1X1 = "Om bærekraft"
 const val TITLE_1X1E = "About sustainability"
@@ -37,12 +39,16 @@ const val SUBJECT1E = "Environmental issues"
 const val SUBJECT2 = "Energi saker"
 const val SUBJECT3 = "Programmerings saker"
 const val SUBJECT3E = "Programming stuff"
+const val SN_POLITICS = "Politikk"
+const val SE_POLITICS = "Politics"
 
 const val ABOUT1 = "Om natur, miljø og klima i Norge"
 const val ABOUT1E = "About nature, envirnoment and climate in Norway"
 const val ABOUT2 = "Om energi og elkraft i Norge"
 const val ABOUT3 = "Om koding"
 const val ABOUT3E = "About coding"
+const val AN_POLITICS = "Denne bloggen inneholder korte innlegg om politiske temaer, definisjoner, min tolkning og mine eksempler"
+const val AE_POLITICS = "This blog contains short tweets about political themes, definitions, my interpretation and my examples"
 
 const val SUMMARY_1X1 =
     "FN har 17 bærekraftmål der alle er like viktig "
@@ -52,15 +58,15 @@ const val SUMMARY_1X1E =
 
 const val SUMMARY_1X2 =
     "Først var det ikke snø. " +
-        "Så snødde det mye. " +
-        "Så kom det masse regn. " +
-        "Så ble det isglatt og iskaldt. #Snø"
+            "Så snødde det mye. " +
+            "Så kom det masse regn. " +
+            "Så ble det isglatt og iskaldt. #Snø"
 
 const val SUMMARY_1X2E =
     "At first no snow. " +
-        "Then it snowed a lot. " +
-        "Then a lot of rain poured down. " +
-        "Then it god icy and slippery and freezing cold. #Snø"
+            "Then it snowed a lot. " +
+            "Then a lot of rain poured down. " +
+            "Then it god icy and slippery and freezing cold. #Snø"
 
 const val SUMMARY_1X3 = "Jeg vil bevare  natur, ikke fylle dem med vindturbiner"
 
@@ -71,24 +77,48 @@ const val SUMMARY_2X2 = "Dette er min nye blogg om elkraftproduksjon uten vindtu
 
 const val SUMMARY_3X1 =
     "Fordelen med Spring Boot er at det er et solid og komplett DI rammeverk. " +
-        "Ulempen er at det er stort og at alle kode-konvensjonene må føges"
+            "Ulempen er at det er stort og at alle kode-konvensjonene må føges"
 
 const val SUMMARY_3X1E =
     "The advantage with Spring Boot is that it is a solid and complete DI rammeverk " +
-        "THe disadvantage is it size and that all code conventions must be followed"
+            "THe disadvantage is it size and that all code conventions must be followed"
 
 const val SUMMARY_3X2 =
     "Det er tydeligvis helt umulig med toveis relasjon for Hibernate på en til en relasjoner. " +
-        "Jeg har gitt opp å gjøre noe med det etter mange forsøk. #Hibernate"
+            "Jeg har gitt opp å gjøre noe med det etter mange forsøk. #Hibernate"
 
 const val SUMMARY_3X2E =
     "It is apparently impossible with a two way relation for Hibernate on a one to one relation. " +
-        "I have given up doing something about it after many attempts. #Hibernate"
+            "I have given up doing something about it after many attempts. #Hibernate"
+
+// Democracy blogPost
+const val P_DEMOCRACY = "democracy"
+const val TN_DEMOCRACY = "Demokrati"
+const val TE_DEMOCRACY = "Democracy"
+const val SN_DEMOCRACY =
+    "Et demokrati er et styresett der befolkningen har reell medbestemmelsesrett og folkeflertallet bestemmer, " +
+            " enten direkte eller indirekte. Det er ikke demokrati når politiske tiltak blir satt igang uten reell medbestemmelse. "
+const val SE_DEMOCRACY =
+    "Democracy is a model of governance in which the population has meaningful influence where the majority rules, " +
+            " either directly or indirectly. It is not a democracy when political decisions are implemented without genuine public involvement."
+
+// Symbol politics blogPost
+const val P_SYMPOLITICS = "symbol"
+const val TN_SYMPOLITICS = "Symbol politikk"
+const val TE_SYMPOLITICS = "Symbol politics"
+const val SN_SYMPOLITICS = "Symbolpolitikk er et politisk tiltak som i praksis ikke gir ønsket effekt," +
+        " fordi det enten ikke lar seg gjennomføre, fungerer dårlig, eller blir altfor kostbart. " +
+        " Eksempler kan være vindturbiner til havs, elektrifisering av Melkøya eller nullutslipps-soner i byer."
+
+const val SE_SYMPOLITICS = "A showpiece policy is a political measure that in practice does not achieve the intended effect," +
+        " because it either cannot be implemented, functions poorly, or becomes far too costly. " +
+        " Examples include offshore wind turbines, electrification of the Norwegian gas processing plant Melkøya," +
+        " or zero-emission zones in cities."
 
 // Initial populate table. Temporary. Move later back to test
 class BlogData(
     appConfig: AppConfig,
-    common: Common,
+    base: Base,
 ) {
     private val blogOwnerCreated = timestamp("08.01.1963 12:00:00")
     private val datetimeb1 = timestamp("02.02.2024 13:01:24")
@@ -100,12 +130,17 @@ class BlogData(
     private val datetime2x2 = timestamp("01.01.2025 08:04:12")
     private val datetime3x1 = timestamp("01.01.2025 08:04:12")
     private val datetime3x2 = timestamp("01.02.2025 08:04:12")
+    private val dtDemocracy = timestamp("30.04.2025 16:56:00")
+    private val dtSympolitics = timestamp("01.05.2025 13:00:00")
+
 
     private val blogPosts1 = mutableListOf<BlogPost>()
     private val blogPosts1e = mutableListOf<BlogPost>()
     private val blogPosts2 = mutableListOf<BlogPost>()
     private val blogPosts3 = mutableListOf<BlogPost>()
     private val blogPosts3e = mutableListOf<BlogPost>()
+    private val bpnPolitics = mutableListOf<BlogPost>()
+    private val bpePolitics = mutableListOf<BlogPost>()
     private val blogList = mutableSetOf<Blog>()
 
     val blogOwner: BlogOwner =
@@ -131,26 +166,36 @@ class BlogData(
     // The problem is that have to check for type of DB error, a general type of DB failure should not return to homepage
     // since even the menu uses the database.
     // TODO: Must at least be taken care of in save blog GUI. Using an array or list here could allow for adding check
-    private val blog1 = Blog(datetime1, BSEG_ENVIRONMENT, common.defaultNo, 2, SUBJECT1, ABOUT1, blogPosts1, blogOwner)
-    private val blog1e = Blog(datetimeb1, BSEG_ENVIRONMENT, common.defaultEn, 2, SUBJECT1E, ABOUT1E, blogPosts1e, blogOwner)
-    private val blog2 = Blog(datetimeb2, BSEG_ENERGY, common.energyNo, 2, SUBJECT2, ABOUT2, blogPosts2, blogOwner)
-    private val blog3 = Blog(datetime1, BSEG_CODING, common.codingNo, 2, SUBJECT3, ABOUT3, blogPosts3, blogOwner)
-    private val blog3e = Blog(datetimeb1, BSEG_CODING, common.codingEn, 2, SUBJECT3E, ABOUT3E, blogPosts3e, blogOwner)
+    private val blog1 = Blog(datetime1, B_ENVIRONMENT, base.defaultNo, 2, SUBJECT1, ABOUT1, blogPosts1, blogOwner)
+    private val blog1e = Blog(datetimeb1, B_ENVIRONMENT, base.defaultEn, 2, SUBJECT1E, ABOUT1E, blogPosts1e, blogOwner)
+    private val blog2 = Blog(datetimeb2, B_ENERGY, base.energyNo, 2, SUBJECT2, ABOUT2, blogPosts2, blogOwner)
+    private val blog3 = Blog(datetime1, B_CODING, base.codingNo, 2, SUBJECT3, ABOUT3, blogPosts3, blogOwner)
+    private val blog3e = Blog(datetimeb1, B_CODING, base.codingEn, 2, SUBJECT3E, ABOUT3E, blogPosts3e, blogOwner)
+    private val bnPolitics =
+        Blog(datetime1, B_POLITICS, base.codingNo, 3, SN_POLITICS, AN_POLITICS, bpnPolitics, blogOwner)
+    private val bePolitics =
+        Blog(datetime1, B_POLITICS, base.codingEn, 3, SE_POLITICS, AE_POLITICS, bpePolitics, blogOwner)
 
-    private val blogPost1x1 = BlogPost(datetime1, ESEG_SUSTAINABILITY, TITLE_1X1, SUMMARY_1X1, blog1)
-    private val blogPost1x2 = BlogPost(datetime2, ESEG_WEATHER, TITLE_1X2, SUMMARY_1X2, blog1)
-    private val blogPost1x3 = BlogPost(datetime3, ESEG_NATURE, TITLE_1X3, SUMMARY_1X3, blog1)
-    private val blogPost1x1e = BlogPost(datetime1, ESEG_SUSTAINABILITY, TITLE_1X1E, SUMMARY_1X1E, blog1e)
-    private val blogPost1x2e = BlogPost(datetime2, ESEG_WEATHER, TITLE_1X2E, SUMMARY_1X2E, blog1e)
-    private val blogPost1x3e = BlogPost(datetime3, ESEG_NATURE, TITLE_1X3E, SUMMARY_1X3E, blog1e)
+    private val blogPost1x1 = BlogPost(datetime1, P_SUSTAINABILITY, TITLE_1X1, SUMMARY_1X1, blog1)
+    private val blogPost1x2 = BlogPost(datetime2, P_WEATHER, TITLE_1X2, SUMMARY_1X2, blog1)
+    private val blogPost1x3 = BlogPost(datetime3, P_NATURE, TITLE_1X3, SUMMARY_1X3, blog1)
+    private val blogPost1x1e = BlogPost(datetime1, P_SUSTAINABILITY, TITLE_1X1E, SUMMARY_1X1E, blog1e)
+    private val blogPost1x2e = BlogPost(datetime2, P_WEATHER, TITLE_1X2E, SUMMARY_1X2E, blog1e)
+    private val blogPost1x3e = BlogPost(datetime3, P_NATURE, TITLE_1X3E, SUMMARY_1X3E, blog1e)
 
-    private val blogPost2x1 = BlogPost(datetime2x1, BSEG_ENERGY, TITLE_2X1, SUMMARY_2X1, blog2)
-    private val blogPost2x2 = BlogPost(datetime2x2, ESEG_ELPOWER, TITLE_2X2, SUMMARY_2X2, blog2)
+    private val blogPost2x1 = BlogPost(datetime2x1, B_ENERGY, TITLE_2X1, SUMMARY_2X1, blog2)
+    private val blogPost2x2 = BlogPost(datetime2x2, P_ELPOWER, TITLE_2X2, SUMMARY_2X2, blog2)
 
-    private val blogPost3x1 = BlogPost(datetime3x1, ESEG_SPRING_BOOT, TITLE_3X1, SUMMARY_3X1, blog3)
-    private val blogPost3x2 = BlogPost(datetime3x2, ESEG_HIBERNATE, TITLE_3X2, SUMMARY_3X2, blog3)
-    private val blogPost3x1e = BlogPost(datetime3x1, ESEG_SPRING_BOOT, TITLE_3X1E, SUMMARY_3X1E, blog3e)
-    private val blogPost3x2e = BlogPost(datetime3x2, ESEG_HIBERNATE, TITLE_3X2E, SUMMARY_3X2E, blog3e)
+    private val blogPost3x1 = BlogPost(datetime3x1, P_SPRING_BOOT, TITLE_3X1, SUMMARY_3X1, blog3)
+    private val blogPost3x2 = BlogPost(datetime3x2, P_HIBERNATE, TITLE_3X2, SUMMARY_3X2, blog3)
+    private val blogPost3x1e = BlogPost(datetime3x1, P_SPRING_BOOT, TITLE_3X1E, SUMMARY_3X1E, blog3e)
+    private val blogPost3x2e = BlogPost(datetime3x2, P_HIBERNATE, TITLE_3X2E, SUMMARY_3X2E, blog3e)
+
+    private val pnDemocracy = BlogPost(dtDemocracy, P_DEMOCRACY, TN_DEMOCRACY, SN_DEMOCRACY, bnPolitics)
+    private val peDemocracy = BlogPost(dtDemocracy, P_DEMOCRACY, TE_DEMOCRACY, SE_DEMOCRACY, bePolitics)
+    private val pnSymPolitics = BlogPost(dtSympolitics, P_SYMPOLITICS, TN_SYMPOLITICS, SN_SYMPOLITICS, bnPolitics)
+    private val peSymPolitics = BlogPost(dtSympolitics, P_SYMPOLITICS, TE_SYMPOLITICS, SE_SYMPOLITICS, bePolitics)
+
 
     init {
         initialize()
@@ -164,6 +209,8 @@ class BlogData(
         blogOwner.blogs.add(blog2)
         blogOwner.blogs.add(blog3)
         blogOwner.blogs.add(blog3e)
+        blogOwner.blogs.add(bnPolitics)
+        blogOwner.blogs.add(bePolitics)
 
         blogPosts1.clear()
         blog1.blogPosts = blogPosts1
@@ -191,10 +238,25 @@ class BlogData(
         blog3e.blogPosts = blogPosts3e
         blog3e.blogPosts.add(blogPost3x1e)
         blog3e.blogPosts.add(blogPost3x2e)
+
+        // Initialize politics
+        bnPolitics.addPosts(listOf(pnDemocracy, pnSymPolitics))
+        bePolitics.addPosts(listOf(peDemocracy, peSymPolitics))
     }
 
     private fun timestamp(datetime: String): Instant {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
         return LocalDateTime.parse(datetime, formatter).atZone(ZoneId.of(DEFAULT_TIMEZONE)).toInstant()
+    }
+
+    private fun Blog.addPosts(blogPosts: List<BlogPost>) {
+        this.blogPosts.clear()
+        blogPosts.forEach {
+            if (it.blog != this) throw ParentBlogException(
+                "trying to connect post ${it.segment} ${it.title}  " +
+                        "owned by ${it.blog.segment} ${it.blog.subject} with ${this.segment} ${this.subject}"
+            )
+            this.blogPosts.add(it)
+        }
     }
 }

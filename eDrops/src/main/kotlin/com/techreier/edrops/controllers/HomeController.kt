@@ -19,7 +19,7 @@ const val HOME_DIR = ""
 
 @Controller
 @RequestMapping()
-class HomeController(context: Context ) : Base(context) {
+class HomeController(context: Context ) : BaseController(context) {
     @GetMapping("/")
     fun home(
         request: HttpServletRequest,

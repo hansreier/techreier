@@ -17,7 +17,7 @@ const val ABOUT_DIR = "/$ABOUT"
 
 @Controller
 @RequestMapping(ABOUT_DIR)
-class AboutController(context: Context) : Base(context) {
+class AboutController(context: Context) : BaseController(context) {
 
     @GetMapping("/{segment}")
     fun content(

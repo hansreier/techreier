@@ -1,6 +1,6 @@
 package com.techreier.edrops.util
 
-import com.techreier.edrops.domain.Common
+import com.techreier.edrops.domain.Base
 import com.techreier.edrops.dto.MenuItem
 
 const val MARKDOWN_EXT = ".md"
@@ -13,7 +13,7 @@ const val MARKDOWN_EXT = ".md"
  */
 object Docs {
     val c =
-        Common()
+        Base()
     val home =
         arrayOf(
             MenuItem("home", c.defaultNo, "Hjem"),

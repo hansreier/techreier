@@ -36,7 +36,6 @@ abstract class TestBase {
     lateinit var appConfig: AppConfig
     lateinit var blogData: BlogData
     lateinit var blogOwner: BlogOwner
-    lateinit var common: Common
     lateinit var blog: Blog
     lateinit var blogPost: BlogPost
     var blogId: Long = 0
@@ -47,15 +46,15 @@ abstract class TestBase {
     @BeforeEach
     fun setup() {
         clean()
-        common = Common()
-        blogData = BlogData(appConfig, common)
-        languageRepo.saveAll(common.languages)
-        topicRepo.saveAll(common.topics)
+        val base = Base()
+        blogData = BlogData(appConfig, base)
+        languageRepo.saveAll(base.languages)
+        topicRepo.saveAll(base.topics)
         blogOwner = ownerRepo.save(blogData.blogOwner)
-        blog = blogOwner.blogs.first { it.segment == BSEG_ENVIRONMENT }
+        blog = blogOwner.blogs.first { it.segment == B_ENVIRONMENT }
         blogId = blog.id!!
-        blogPost = blog.blogPosts.first { it.segment == ESEG_SUSTAINABILITY }
-        blogPostId = blog.blogPosts.first { it.segment == ESEG_SUSTAINABILITY }.id!!
+        blogPost = blog.blogPosts.first { it.segment == P_SUSTAINABILITY }
+        blogPostId = blog.blogPosts.first { it.segment == P_SUSTAINABILITY }.id!!
         noOfBlogPosts = blogOwner.blogs.sumOf { it.blogPosts.size }
         noOfBlogs = blogOwner.blogs.size
         entityManager.flush()

@@ -16,7 +16,7 @@ const val LOGIN_DIR = "/$LOGIN"
 
 @Controller
 @RequestMapping(LOGIN_DIR)
-class LoginController(context: Context) : Base(context) {
+class LoginController(context: Context) : BaseController(context) {
     @GetMapping
     fun login(
         request: HttpServletRequest,
