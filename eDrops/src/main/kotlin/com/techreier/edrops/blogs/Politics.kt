@@ -20,15 +20,13 @@ object Politics : Blogs {
 
     override fun no(blogOwner: BlogOwner, topic: Topic): Blog {
         val blog = Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NO, mutableListOf(), blogOwner)
-        blog.addPost(Democracy.no(blog))
-        blog.addPost(SymbolPolitics.no(blog))
+        blog.addPosts(Democracy.no(blog), SymbolPolitics.no(blog))
         return blog
     }
 
     override fun en(blogOwner: BlogOwner, topic: Topic): Blog {
         val blog = Blog(timestamp, SEGMENT, topic, POS, SUBJECT_EN, ABOUT_EN, mutableListOf(), blogOwner)
-        blog.addPost(Democracy.en(blog))
-        blog.addPost(SymbolPolitics.en(blog))
+        blog.addPosts(Democracy.en(blog), SymbolPolitics.en(blog))
         return blog
     }
 
