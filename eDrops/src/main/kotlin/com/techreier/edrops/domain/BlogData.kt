@@ -107,8 +107,6 @@ class BlogData(
     private val blogPosts2 = mutableListOf<BlogPost>()
     private val blogPosts3 = mutableListOf<BlogPost>()
     private val blogPosts3e = mutableListOf<BlogPost>()
-    private val bpnPolitics = mutableListOf<BlogPost>()
-    private val bpePolitics = mutableListOf<BlogPost>()
     private val blogList = mutableSetOf<Blog>()
 
     val blogOwner: BlogOwner =
@@ -156,8 +154,8 @@ class BlogData(
     private val blogPost3x2e = BlogPost(datetime3x2, P_HIBERNATE, TITLE_3X2E, SUMMARY_3X2E, blog3e)
 
 
-    private val bnPolitics = Politics.no(blogOwner, base.codingNo, bpnPolitics)
-    private val bePolitics = Politics.en(blogOwner, base.codingEn, bpePolitics)
+    private val bnPolitics = Politics.no(blogOwner, base.codingNo)
+    private val bePolitics = Politics.en(blogOwner, base.codingEn)
 
     init {
         initialize()

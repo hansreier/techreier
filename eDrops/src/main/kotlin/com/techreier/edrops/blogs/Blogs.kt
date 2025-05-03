@@ -8,9 +8,9 @@ import com.techreier.edrops.exceptions.ParentBlogException
 
 interface Blogs {
 
-fun no(blog: BlogOwner, topic: Topic, blogPostList: MutableList<BlogPost>): Blog
+    fun no(blog: BlogOwner, topic: Topic): Blog
 
-fun en(blog: BlogOwner, topic: Topic, blogPostList: MutableList<BlogPost>): Blog
+    fun en(blog: BlogOwner, topic: Topic): Blog
 }
 
 fun Blog.addPosts(blogPosts: List<BlogPost>) {
@@ -22,4 +22,12 @@ fun Blog.addPosts(blogPosts: List<BlogPost>) {
         )
         this.blogPosts.add(it)
     }
+}
+
+fun Blog.addPost(blogPost: BlogPost) {
+    if (blogPost.blog != this) throw ParentBlogException(
+        "trying to connect post ${blogPost.segment} ${blogPost.title}  " +
+                "owned by ${blogPost.blog.segment} ${blogPost.blog.subject} with ${this.segment} ${this.subject}"
+    )
+    this.blogPosts.add(blogPost)
 }
