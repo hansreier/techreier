@@ -3,9 +3,6 @@ package com.techreier.edrops.domain
 import com.techreier.edrops.blogs.Politics
 import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.DEFAULT_TIMEZONE
-import com.techreier.edrops.exceptions.ParentBlogException
-import com.techreier.edrops.blogs.blogPosts.SymbolPolitics
-import com.techreier.edrops.blogs.blogPosts.Democracy
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -162,11 +159,6 @@ class BlogData(
     private val bnPolitics = Politics.no(blogOwner, base.codingNo, bpnPolitics)
     private val bePolitics = Politics.en(blogOwner, base.codingEn, bpePolitics)
 
-    private val pnDemocracy = Democracy.no(bnPolitics)
-    private val peDemocracy = Democracy.en(bePolitics)
-    private val pnSymPolitics = SymbolPolitics.no(bnPolitics)
-    private val peSymPolitics = SymbolPolitics.en(bePolitics)
-
     init {
         initialize()
     }
@@ -208,25 +200,10 @@ class BlogData(
         blog3e.blogPosts = blogPosts3e
         blog3e.blogPosts.add(blogPost3x1e)
         blog3e.blogPosts.add(blogPost3x2e)
-
-        // Initialize politics
-        bnPolitics.addPosts(listOf(pnDemocracy, pnSymPolitics))
-        bePolitics.addPosts(listOf(peDemocracy, peSymPolitics))
     }
 
     private fun timestamp(datetime: String): Instant {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
         return LocalDateTime.parse(datetime, formatter).atZone(ZoneId.of(DEFAULT_TIMEZONE)).toInstant()
-    }
-
-    private fun Blog.addPosts(blogPosts: List<BlogPost>) {
-        this.blogPosts.clear()
-        blogPosts.forEach {
-            if (it.blog != this) throw ParentBlogException(
-                "trying to connect post ${it.segment} ${it.title}  " +
-                        "owned by ${it.blog.segment} ${it.blog.subject} with ${this.segment} ${this.subject}"
-            )
-            this.blogPosts.add(it)
-        }
     }
 }

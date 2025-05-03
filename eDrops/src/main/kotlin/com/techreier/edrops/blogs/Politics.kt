@@ -1,12 +1,14 @@
 package com.techreier.edrops.blogs
 
+import com.techreier.edrops.blogs.blogPosts.Democracy
+import com.techreier.edrops.blogs.blogPosts.SymbolPolitics
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.util.timestamp
 
-object Politics: Blogs {
+object Politics : Blogs {
     val timestamp = timestamp("02.05.2025 15:56:00")
     const val SEGMENT = "politics"
     const val SUBJECT_NO = "Politikk"
@@ -17,9 +19,16 @@ object Politics: Blogs {
             "my interpretation and my examples"
     const val POS = 3
 
-    override fun no(blogOwner: BlogOwner, topic: Topic, blogPostList: MutableList<BlogPost>): Blog
-        = Blog(timestamp, SEGMENT, topic, POS , SUBJECT_NO, ABOUT_NO, blogPostList,  blogOwner)
+    override fun no(blogOwner: BlogOwner, topic: Topic, blogPostList: MutableList<BlogPost>): Blog {
+        val blog = Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NO, blogPostList, blogOwner)
+        blog.addPosts(listOf(Democracy.no(blog), SymbolPolitics.no(blog)))
+        return blog
+    }
 
-    override fun en(blogOwner: BlogOwner, topic: Topic, blogPostList: MutableList<BlogPost>): Blog
-        = Blog(timestamp, SEGMENT, topic, POS,  SUBJECT_EN, ABOUT_EN, blogPostList, blogOwner)
+    override fun en(blogOwner: BlogOwner, topic: Topic, blogPostList: MutableList<BlogPost>): Blog {
+        val blog = Blog(timestamp, SEGMENT, topic, POS, SUBJECT_EN, ABOUT_EN, blogPostList, blogOwner)
+        blog.addPosts(listOf(Democracy.en(blog), SymbolPolitics.en(blog)))
+        return blog
+    }
+
 }
