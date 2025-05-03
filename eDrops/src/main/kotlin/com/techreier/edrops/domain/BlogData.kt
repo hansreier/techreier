@@ -1,8 +1,11 @@
 package com.techreier.edrops.domain
 
+import com.techreier.edrops.blogs.Politics
 import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.DEFAULT_TIMEZONE
 import com.techreier.edrops.exceptions.ParentBlogException
+import com.techreier.edrops.blogs.blogPosts.SymbolPolitics
+import com.techreier.edrops.blogs.blogPosts.Democracy
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -12,7 +15,6 @@ import java.time.format.DateTimeFormatter
 const val B_CODING = "coding"
 const val B_ENVIRONMENT = "env"
 const val B_ENERGY = "energy"
-const val B_POLITICS = "politics"
 
 const val P_ELPOWER = "elpower"
 const val P_NATURE = "nature"
@@ -39,16 +41,12 @@ const val SUBJECT1E = "Environmental issues"
 const val SUBJECT2 = "Energi saker"
 const val SUBJECT3 = "Programmerings saker"
 const val SUBJECT3E = "Programming stuff"
-const val SN_POLITICS = "Politikk"
-const val SE_POLITICS = "Politics"
 
 const val ABOUT1 = "Om natur, miljø og klima i Norge"
 const val ABOUT1E = "About nature, envirnoment and climate in Norway"
 const val ABOUT2 = "Om energi og elkraft i Norge"
 const val ABOUT3 = "Om koding"
 const val ABOUT3E = "About coding"
-const val AN_POLITICS = "Denne bloggen inneholder korte innlegg om politiske temaer, definisjoner, min tolkning og mine eksempler"
-const val AE_POLITICS = "This blog contains short tweets about political themes, definitions, my interpretation and my examples"
 
 const val SUMMARY_1X1 =
     "FN har 17 bærekraftmål der alle er like viktig "
@@ -91,30 +89,6 @@ const val SUMMARY_3X2E =
     "It is apparently impossible with a two way relation for Hibernate on a one to one relation. " +
             "I have given up doing something about it after many attempts. #Hibernate"
 
-// Democracy blogPost
-const val P_DEMOCRACY = "democracy"
-const val TN_DEMOCRACY = "Demokrati"
-const val TE_DEMOCRACY = "Democracy"
-const val SN_DEMOCRACY =
-    "Et demokrati er et styresett der befolkningen har reell medbestemmelsesrett og folkeflertallet bestemmer, " +
-            " enten direkte eller indirekte. Det er ikke demokrati når politiske tiltak blir satt igang uten reell medbestemmelse. "
-const val SE_DEMOCRACY =
-    "Democracy is a model of governance in which the population has meaningful influence where the majority rules, " +
-            " either directly or indirectly. It is not a democracy when political decisions are implemented without genuine public involvement."
-
-// Symbol politics blogPost
-const val P_SYMPOLITICS = "symbol"
-const val TN_SYMPOLITICS = "Symbol politikk"
-const val TE_SYMPOLITICS = "Symbol politics"
-const val SN_SYMPOLITICS = "Symbolpolitikk er et politisk tiltak som i praksis ikke gir ønsket effekt," +
-        " fordi det enten ikke lar seg gjennomføre, fungerer dårlig, eller blir altfor kostbart. " +
-        " Eksempler kan være vindturbiner til havs, elektrifisering av Melkøya eller nullutslipps-soner i byer."
-
-const val SE_SYMPOLITICS = "A showpiece policy is a political measure that in practice does not achieve the intended effect," +
-        " because it either cannot be implemented, functions poorly, or becomes far too costly. " +
-        " Examples include offshore wind turbines, electrification of the Norwegian gas processing plant Melkøya," +
-        " or zero-emission zones in cities."
-
 // Initial populate table. Temporary. Move later back to test
 class BlogData(
     appConfig: AppConfig,
@@ -130,9 +104,6 @@ class BlogData(
     private val datetime2x2 = timestamp("01.01.2025 08:04:12")
     private val datetime3x1 = timestamp("01.01.2025 08:04:12")
     private val datetime3x2 = timestamp("01.02.2025 08:04:12")
-    private val dtDemocracy = timestamp("30.04.2025 16:56:00")
-    private val dtSympolitics = timestamp("01.05.2025 13:00:00")
-
 
     private val blogPosts1 = mutableListOf<BlogPost>()
     private val blogPosts1e = mutableListOf<BlogPost>()
@@ -171,10 +142,6 @@ class BlogData(
     private val blog2 = Blog(datetimeb2, B_ENERGY, base.energyNo, 2, SUBJECT2, ABOUT2, blogPosts2, blogOwner)
     private val blog3 = Blog(datetime1, B_CODING, base.codingNo, 2, SUBJECT3, ABOUT3, blogPosts3, blogOwner)
     private val blog3e = Blog(datetimeb1, B_CODING, base.codingEn, 2, SUBJECT3E, ABOUT3E, blogPosts3e, blogOwner)
-    private val bnPolitics =
-        Blog(datetime1, B_POLITICS, base.codingNo, 3, SN_POLITICS, AN_POLITICS, bpnPolitics, blogOwner)
-    private val bePolitics =
-        Blog(datetime1, B_POLITICS, base.codingEn, 3, SE_POLITICS, AE_POLITICS, bpePolitics, blogOwner)
 
     private val blogPost1x1 = BlogPost(datetime1, P_SUSTAINABILITY, TITLE_1X1, SUMMARY_1X1, blog1)
     private val blogPost1x2 = BlogPost(datetime2, P_WEATHER, TITLE_1X2, SUMMARY_1X2, blog1)
@@ -191,11 +158,14 @@ class BlogData(
     private val blogPost3x1e = BlogPost(datetime3x1, P_SPRING_BOOT, TITLE_3X1E, SUMMARY_3X1E, blog3e)
     private val blogPost3x2e = BlogPost(datetime3x2, P_HIBERNATE, TITLE_3X2E, SUMMARY_3X2E, blog3e)
 
-    private val pnDemocracy = BlogPost(dtDemocracy, P_DEMOCRACY, TN_DEMOCRACY, SN_DEMOCRACY, bnPolitics)
-    private val peDemocracy = BlogPost(dtDemocracy, P_DEMOCRACY, TE_DEMOCRACY, SE_DEMOCRACY, bePolitics)
-    private val pnSymPolitics = BlogPost(dtSympolitics, P_SYMPOLITICS, TN_SYMPOLITICS, SN_SYMPOLITICS, bnPolitics)
-    private val peSymPolitics = BlogPost(dtSympolitics, P_SYMPOLITICS, TE_SYMPOLITICS, SE_SYMPOLITICS, bePolitics)
 
+    private val bnPolitics = Politics.no(blogOwner, base.codingNo, bpnPolitics)
+    private val bePolitics = Politics.en(blogOwner, base.codingEn, bpePolitics)
+
+    private val pnDemocracy = Democracy.no(bnPolitics)
+    private val peDemocracy = Democracy.en(bePolitics)
+    private val pnSymPolitics = SymbolPolitics.no(bnPolitics)
+    private val peSymPolitics = SymbolPolitics.en(bePolitics)
 
     init {
         initialize()

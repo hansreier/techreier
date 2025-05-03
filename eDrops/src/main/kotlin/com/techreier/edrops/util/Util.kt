@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import java.time.Instant
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -97,4 +98,9 @@ fun getMenuItems(
 fun msg(messageSource: MessageSource, key: String, args: Array<Any>? = null): String {
     val locale = LocaleContextHolder.getLocale()
     return messageSource.getMessage(key, args, "??$key??", locale) as String
+}
+
+fun timestamp(datetime: String): Instant {
+    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+    return LocalDateTime.parse(datetime, formatter).atZone(ZoneId.of(DEFAULT_TIMEZONE)).toInstant()
 }
