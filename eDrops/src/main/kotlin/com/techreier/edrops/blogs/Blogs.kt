@@ -13,7 +13,7 @@ interface Blogs {
     fun en(blog: BlogOwner, topic: Topic): Blog
 }
 
-fun Blog.addPosts(vararg factories: (Blog) -> BlogPost) {
+fun Blog.addPosts(vararg factories: (Blog) -> BlogPost): Blog {
     this.blogPosts.clear()
     factories.forEach { factory ->
         val post = factory(this)
@@ -22,4 +22,5 @@ fun Blog.addPosts(vararg factories: (Blog) -> BlogPost) {
                     "owned by ${post.blog.segment} ${post.blog.subject} with ${this.segment} ${this.subject}")
         this.blogPosts.add(post)
     }
+    return this
 }
