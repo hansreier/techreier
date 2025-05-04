@@ -10,6 +10,7 @@ object EU: BlogPosts {
     const val SEGMENT = "EU"
     const val TITLE_NO = "EU"
     const val TITLE_EN = "EU"
+
     const val SUMMARY_NO = "EU er en sammenslutning av europeiske land som samarbeider om felles lover, marked, politikk og økonomi." +
             " EU-parlamentet er det folkevalgte organet, men unionen har et stort byråkrati i Brussel. " +
             "Har EU gått for langt i detaljstyring gjennom felles lovverk og energimarked, som ikke passer alle land med ulik geografi og kultur? " +
