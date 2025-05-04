@@ -13,13 +13,13 @@ interface Blogs {
     fun en(blog: BlogOwner, topic: Topic): Blog
 }
 
-fun Blog.addPosts(vararg blogPosts: BlogPost) {
+fun Blog.addPosts(vararg factories: (Blog) -> BlogPost) {
     this.blogPosts.clear()
-    blogPosts.forEach {
-        if (it.blog != this) throw ParentBlogException(
-            "trying to connect post ${it.segment} ${it.title}  " +
-                    "owned by ${it.blog.segment} ${it.blog.subject} with ${this.segment} ${this.subject}"
-        )
-        this.blogPosts.add(it)
+    factories.forEach { factory ->
+        val post = factory(this)
+        if (post.blog != this) throw ParentBlogException(
+            "trying to connect post ${post.segment} ${post.title}  " +
+                    "owned by ${post.blog.segment} ${post.blog.subject} with ${this.segment} ${this.subject}")
+        this.blogPosts.add(post)
     }
 }
