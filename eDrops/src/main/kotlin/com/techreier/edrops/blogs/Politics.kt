@@ -1,6 +1,7 @@
 package com.techreier.edrops.blogs
 
 import com.techreier.edrops.blogs.blogPosts.Democracy
+import com.techreier.edrops.blogs.blogPosts.EU
 import com.techreier.edrops.blogs.blogPosts.SymbolPolitics
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogOwner
@@ -21,9 +22,9 @@ object Politics : Blogs {
     override fun no
                 (blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NB, mutableListOf(), blogOwner)
-            .addPosts(Democracy::no, SymbolPolitics::no)
+            .addPosts(Democracy::no, SymbolPolitics::no, EU::no)
 
     override fun en(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_EN, ABOUT_EN, mutableListOf(), blogOwner)
-            .addPosts(Democracy::en, SymbolPolitics::en)
+            .addPosts(Democracy::en, SymbolPolitics::en, EU::en)
 }
