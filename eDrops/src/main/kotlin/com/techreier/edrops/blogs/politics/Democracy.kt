@@ -1,4 +1,4 @@
-package com.techreier.edrops.blogs.blogPosts
+package com.techreier.edrops.blogs.politics
 
 import com.techreier.edrops.blogs.BlogPosts
 import com.techreier.edrops.domain.Blog

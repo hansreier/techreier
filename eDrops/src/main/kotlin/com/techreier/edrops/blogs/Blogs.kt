@@ -8,9 +8,9 @@ import com.techreier.edrops.exceptions.ParentBlogException
 
 interface Blogs {
 
-    fun no(blog: BlogOwner, topic: Topic): Blog
+    fun no(blogOwner: BlogOwner, topic: Topic): Blog
 
-    fun en(blog: BlogOwner, topic: Topic): Blog
+    fun en(blogOwner: BlogOwner, topic: Topic): Blog
 }
 
 fun Blog.addPosts(vararg factories: (Blog) -> BlogPost): Blog {

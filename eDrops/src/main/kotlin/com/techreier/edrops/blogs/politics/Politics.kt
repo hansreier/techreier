@@ -1,8 +1,7 @@
-package com.techreier.edrops.blogs
+package com.techreier.edrops.blogs.politics
 
-import com.techreier.edrops.blogs.blogPosts.Democracy
-import com.techreier.edrops.blogs.blogPosts.EU
-import com.techreier.edrops.blogs.blogPosts.SymbolPolitics
+import com.techreier.edrops.blogs.Blogs
+import com.techreier.edrops.blogs.addPosts
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.domain.Topic

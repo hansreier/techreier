@@ -28,7 +28,7 @@ class BlogController(context: Context) : BaseController(context) {
         val blogParams = fetchBlogParams(model, request, response, segment, true)
         if (blogParams.blog == null) {
             logger.warn("Blog $segment is not found in language: ${blogParams.usedLangCode}")
-            readFirstSegment(blogParams.usedLangCode) ?. let {
+            readFirstSegment(blogParams.usedLangCode) ?. let { //TODO check why not reachable, should not be
                 redirectAttributes.addFlashAttribute("warning", "readFirstBlog")
                 return "redirect:$BLOG_DIR/$it"
             } ?: run {
