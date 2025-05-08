@@ -19,9 +19,14 @@ object Windpower: BlogPosts {
             "CO₂-utslipp kan være betydelige ved inngrep i karbonrike områder som myr."
 
 
-    const val SUMMARY_EN ="Democracy is a model of governance in which the population has meaningful influence where the majority rules, " +
-            " either directly or indirectly. It is not a democracy when political decisions are implemented without genuine public involvement."
-
+    const val SUMMARY_EN ="Wind power is a renewable but unstable energy source that cannot be adjusted to demand. " +
+            "Turbines are often built in windy natural areas. Excess wind can cause overproduction, " +
+            "leading to low prices or shutdowns, while calm weather means no production. " +
+            "Stable backup power is always needed. Onshore wind is cheap, but grid integration is costly. " +
+            "Offshore wind remains expensive.  " +
+            "The largest environmental impacts come from roads and power lines, " +
+            "along with noise and resource use during construction. " +
+            "CO₂ emissions can be significant when building on carbon-rich areas like peatlands."
     override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO, blog)
 
     override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN, blog)
