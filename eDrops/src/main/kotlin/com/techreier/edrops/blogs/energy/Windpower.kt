@@ -9,7 +9,7 @@ object Windpower: BlogPosts {
     val timestamp = timestamp("08.05.2025 16:00:00")
     const val SEGMENT = "windpower"
     const val TITLE_NO = "Vindkraft"
-    const val TITLE_EN = "Windpower"
+    const val TITLE_EN = "Wind power"
 
     const val SUMMARY_NO = "Vindkraft er en fornybar, men ustabil energikilde som ikke kan styres etter behov. " +
             "Den bygges ofte i naturområder med mye vind. Overproduksjon gir lav pris eller nedstenging, " +
