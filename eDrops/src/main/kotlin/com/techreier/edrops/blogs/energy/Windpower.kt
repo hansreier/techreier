@@ -6,7 +6,7 @@ import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.util.timestamp
 
 object Windpower: BlogPosts {
-    val timestamp = timestamp("08.05.2025 16:00:00")
+    val timestamp = timestamp("10.05.2025 16:00:00")
     const val SEGMENT = "windpower"
     const val TITLE_NO = "Vindkraft"
     const val TITLE_EN = "Wind power"
