@@ -18,7 +18,6 @@ object Windpower: BlogPosts {
             "De største naturinngrepene er tilførselsveier og kraftlinjer, i tillegg til støy og ressursbruk ved utbygging. " +
             "CO₂-utslipp kan være betydelige ved inngrep i karbonrike områder som myr."
 
-
     const val SUMMARY_EN ="Wind power is a renewable but unstable energy source that cannot be adjusted to demand. " +
             "Turbines are often built in windy natural areas. Excess wind can cause overproduction, " +
             "leading to low prices or shutdowns, while calm weather means no production. " +
@@ -27,6 +26,7 @@ object Windpower: BlogPosts {
             "The largest environmental impacts come from roads and power lines, " +
             "along with noise and resource use during construction. " +
             "CO₂ emissions can be significant when building on carbon-rich areas like peatlands."
+
     override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO, blog)
 
     override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN, blog)
