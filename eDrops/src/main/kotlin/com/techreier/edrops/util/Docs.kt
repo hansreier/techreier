@@ -34,6 +34,7 @@ object Docs {
             MenuItem("elcrazy", c.energyNo, "To år med elgalskap"),
             MenuItem("ringsaker", c.energyNo, "Kraft og hytter i Ringsaker"),
             MenuItem("windpower", c.energyNo, "Myter om vindkraft"),
+            MenuItem("elprod", c.energyNo, "Om elproduksjon og forbruk" ),
             MenuItem("energylinks", c.energyNo, "Energi linker"),
             MenuItem("energylinks", c.energyEn, "Energy links")
         )
