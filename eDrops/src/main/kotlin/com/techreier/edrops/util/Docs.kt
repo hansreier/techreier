@@ -26,6 +26,8 @@ object Docs {
             MenuItem("homeoffice", c.defaultEn, "About home office"),
             MenuItem("energy", c.energyNo, "Energi i Norge"),
             MenuItem("energy", c.energyEn, "Energy in Norway"),
+            MenuItem("energypath", c.energyNo, "Energi veikart"),
+            MenuItem("energypath", c.energyEn, "Energy roadmap"),
             MenuItem("elpower", c.energyNo, "Elkraft i Norge"),
             MenuItem("elpower", c.energyEn, "Electrical power in Norway"),
             MenuItem("manifest", c.energyNo, "Strøm manifest"),
