@@ -22,9 +22,9 @@ object Energy : Blogs {
 
     override fun no(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NB, mutableListOf(), blogOwner)
-            .addPosts(Windpower::no, Solarpower::no, Hydropower::no, Nuclearpower::no, Coalpower::no)
+            .addPosts(Windpower::no, Solarpower::no, Hydropower::no, Nuclearpower::no, Coalpower::no, Gaspower::no)
 
     override fun en(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_EN, ABOUT_EN, mutableListOf(), blogOwner)
-            .addPosts(Windpower::en, Solarpower::en, Hydropower::en, Nuclearpower::en, Coalpower::en)
+            .addPosts(Windpower::en, Solarpower::en, Hydropower::en, Nuclearpower::en, Coalpower::en, Gaspower::en)
 }
