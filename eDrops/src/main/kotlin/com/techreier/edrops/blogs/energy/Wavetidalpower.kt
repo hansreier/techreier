@@ -8,8 +8,8 @@ import com.techreier.edrops.util.timestamp
 object Wavetidalpower: BlogPosts {
     val timestamp = timestamp("18.05.2025 23:15:00")
     const val SEGMENT = "wavetidalpower"
-    const val TITLE_NO = "bølge & tidevanns-kraft"
-    const val TITLE_EN = "wave & tidal power"
+    const val TITLE_NO = "Bølge- & tidevanns-kraft"
+    const val TITLE_EN = "Wave & tidal power"
 
     const val SUMMARY_NO = "Bølgekraft har stort potensial og kan gi bedre stabilitet enn vindkraft, " +
             "særlig fordi bølger ofte varer lenger etter at vinden har løya. " +
