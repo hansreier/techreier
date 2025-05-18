@@ -14,17 +14,19 @@ object Energy : Blogs {
     const val SUBJECT_EN = "Energy"
     const val POS = 3
 
-    const val ABOUT_NB = "Denne bloggen inneholder korte innlegg om energi, definisjoner, " +
-            "min tolkning og eksempler"
+    const val ABOUT_NB = "Denne bloggen inneholder kort informasjon om vanlige kilder til elektrisitetsproduksjon. " +
+            "Innholdet er min tolkning og eksempler. Direkte bruk av energi utenfor strømnettet er ikke i fokus her."
 
-    const val ABOUT_EN = "This blog contains short tweets about energy, definitions, " +
-            "my interpretation and examples"
+    const val ABOUT_EN = "This blog contains brief information about common energy sources for electricity production. " +
+            "The content reflects my interpretation and examples. Direct use of energy outside the power grid is not the focus here."
 
     override fun no(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NB, mutableListOf(), blogOwner)
-            .addPosts(Windpower::no, Solarpower::no, Hydropower::no, Nuclearpower::no, Coalpower::no, Gaspower::no)
+            .addPosts(Windpower::no, Solarpower::no, Hydropower::no, Nuclearpower::no,
+                Coalpower::no, Gaspower::no, Dieselpower::no)
 
     override fun en(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_EN, ABOUT_EN, mutableListOf(), blogOwner)
-            .addPosts(Windpower::en, Solarpower::en, Hydropower::en, Nuclearpower::en, Coalpower::en, Gaspower::en)
+            .addPosts(Windpower::en, Solarpower::en, Hydropower::en, Nuclearpower::en,
+                Coalpower::en, Gaspower::en, Dieselpower::en)
 }
