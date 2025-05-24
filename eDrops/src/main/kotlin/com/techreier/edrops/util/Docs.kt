@@ -49,6 +49,8 @@ object Docs {
             MenuItem("links", c.defaultEn, "My links"),
             MenuItem("website", c.defaultNo, "Nettsted"),
             MenuItem("website", c.defaultEn, "Website"),
+            MenuItem("coderwanted", c.defaultNo, "Programmerer ønskes"),
+            MenuItem("coderwanted", c.defaultEn, "Programmer wanted"),
             MenuItem("hosting", c.codingNo, "Mitt web hotell"),
             MenuItem("hosting", c.codingEn, "My web host"),
             MenuItem("readme", c.codingNo, "Prosjektet"),
