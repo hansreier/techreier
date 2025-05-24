@@ -1,5 +1,3 @@
-## Code Expert wanted
-
 I’m looking for a DevSecOpsAiFullstackCloudDbaUxProgrammingArchitect for an exciting open source initiative.
 
 We need a versatile programmer who can cover many roles and help build innovative software from the ground up,  

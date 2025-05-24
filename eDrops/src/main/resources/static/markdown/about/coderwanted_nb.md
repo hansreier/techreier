@@ -1,5 +1,3 @@
-## Kodeekspert søkes
-
 Jeg søker en DevSecOpsAiFullstackCloudDbaUxProgrammerendeArkitekt til et spennende open source-initiativ.
 
 Vi trenger en allsidig programmerer som kan dekke mange roller og bidra til å bygge innovativ programvare fra bunnen av,
