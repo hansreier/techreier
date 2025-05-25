@@ -5,9 +5,9 @@ import com.techreier.edrops.controllers.ABOUT_DIR
 import com.techreier.edrops.controllers.HOME_DIR
 import com.techreier.edrops.data.EN
 import com.techreier.edrops.data.NB
-import com.techreier.edrops.util.Docs.about
-import com.techreier.edrops.util.Docs.getDocIndex
-import com.techreier.edrops.util.Docs.views
+import com.techreier.edrops.data.Docs.about
+import com.techreier.edrops.data.Docs.getDocIndex
+import com.techreier.edrops.data.Docs.views
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

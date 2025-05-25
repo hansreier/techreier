@@ -3,8 +3,8 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.config.logger
 
 import com.techreier.edrops.service.CollatzService
-import com.techreier.edrops.util.Docs
-import com.techreier.edrops.util.Docs.DocIndex
+import com.techreier.edrops.data.Docs
+import com.techreier.edrops.data.Docs.DocIndex
 import com.techreier.edrops.util.checkLong
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest

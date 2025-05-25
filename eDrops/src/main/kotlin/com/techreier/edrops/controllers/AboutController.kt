@@ -1,7 +1,7 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.util.Docs.about
-import com.techreier.edrops.util.Docs.getDocIndex
+import com.techreier.edrops.data.Docs.about
+import com.techreier.edrops.data.Docs.getDocIndex
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

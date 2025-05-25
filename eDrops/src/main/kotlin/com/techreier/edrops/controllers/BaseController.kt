@@ -11,8 +11,8 @@ import com.techreier.edrops.data.TOPIC_DEFAULT
 import com.techreier.edrops.domain.*
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
-import com.techreier.edrops.util.Docs.about
-import com.techreier.edrops.util.Docs.views
+import com.techreier.edrops.data.Docs.about
+import com.techreier.edrops.data.Docs.views
 import com.techreier.edrops.util.buildVersion
 import com.techreier.edrops.util.getMenuItems
 import com.techreier.edrops.util.msg

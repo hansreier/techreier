@@ -1,6 +1,5 @@
-package com.techreier.edrops.util
+package com.techreier.edrops.data
 
-import com.techreier.edrops.data.Base
 import com.techreier.edrops.dto.MenuItem
 
 const val MARKDOWN_EXT = ".md"
