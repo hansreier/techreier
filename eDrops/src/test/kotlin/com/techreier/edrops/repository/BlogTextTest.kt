@@ -23,6 +23,7 @@ class BlogTextTest : TestBase() {
         blogPostId.let { //Just cannot use save here with partly persisted entities (change in Spring Boot 3.4).
             entityManager.persist(BlogText(timeStamp(), SUMMARY_1X1, blogPost, it))
         }
+
         val blogTextFound = blogTextRepo.findByIdOrNull(blogPostId)
         assertThat(blogTextFound).isNotNull
         assertThat(blogTextFound?.text).isEqualTo(SUMMARY_1X1)

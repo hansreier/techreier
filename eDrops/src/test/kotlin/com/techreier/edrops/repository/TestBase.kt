@@ -1,5 +1,7 @@
 package com.techreier.edrops.repository
 
+import com.techreier.edrops.blogs.climatenv.Climatenv
+import com.techreier.edrops.blogs.climatenv.Green
 import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.*
@@ -51,10 +53,10 @@ abstract class TestBase {
         languageRepo.saveAll(base.languages)
         topicRepo.saveAll(base.topics)
         blogOwner = ownerRepo.save(blogData.blogOwner)
-        blog = blogOwner.blogs.first { it.segment == B_ENVIRONMENT }
+        blog = blogOwner.blogs.first { it.segment == Climatenv.SEGMENT }
         blogId = blog.id!!
-        blogPost = blog.blogPosts.first { it.segment == P_SUSTAINABILITY }
-        blogPostId = blog.blogPosts.first { it.segment == P_SUSTAINABILITY }.id!!
+        blogPost = blog.blogPosts.first { it.segment == Green.SEGMENT }
+        blogPostId = blogPost.id!!
         noOfBlogPosts = blogOwner.blogs.sumOf { it.blogPosts.size }
         noOfBlogs = blogOwner.blogs.size
         entityManager.flush()

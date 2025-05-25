@@ -1,5 +1,6 @@
 package com.techreier.edrops.repository
 
+import com.techreier.edrops.blogs.climatenv.Climatenv
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.*
 import jakarta.persistence.Subgraph
@@ -64,20 +65,22 @@ class BlogTest : TestBase() {
         logger.info("starting transactional test")
         val query =
             entityManager.createQuery("SELECT DISTINCT b FROM Blog b INNER JOIN FETCH b.blogPosts WHERE b.subject = ?1 ")
-        val blog = query.setParameter(1, SUBJECT1).singleResult as Blog
+        query.setParameter(1, Climatenv.SUBJECT_NO)
+        val blog = query.singleResult as Blog
+
         logger.info("blog: $blog")
         assertThat(blog.topic.language.language).isEqualTo(NORWEGIAN)
-        assertThat(blog.segment).isEqualTo(B_ENVIRONMENT)
+        assertThat(blog.segment).isEqualTo(Climatenv.SEGMENT)
     }
 
     @Test
     fun `read blog by language and segment`() {
         logger.info("starting read blog by language and segment")
-        val blog1 = blogRepo.findByTopicLanguageCodeAndSegment(NB, B_ENVIRONMENT)
+        val blog1 = blogRepo.findByTopicLanguageCodeAndSegment(NB, Climatenv.SEGMENT)
         assertThat(blog1).isNotNull
         assertThat(blog1!!.topic.language.code).isEqualTo(NB)
         assertThat(blog1.topic.language.language).isEqualTo(NORWEGIAN)
-        assertThat(blog1.segment).isEqualTo(B_ENVIRONMENT)
+        assertThat(blog1.segment).isEqualTo(Climatenv.SEGMENT)
         logger.info("blog: $blog1 ${blog1.blogPosts.size}")
     }
 
@@ -99,7 +102,7 @@ class BlogTest : TestBase() {
     @Test
     fun `read with manual entityGraph`() {
         logger.info("starting read all test")
-        val blog1 = blogRepo.findByTopicLanguageCodeAndSegment(NB, B_ENVIRONMENT)
+        val blog1 = blogRepo.findByTopicLanguageCodeAndSegment(NB, Climatenv.SEGMENT)
         val entityGraph = entityManager.createEntityGraph(Blog::class.java)
         val topicGraph: Subgraph<Topic> = entityGraph.addSubgraph("topic")
         topicGraph.addAttributeNodes("language")
