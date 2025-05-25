@@ -5,26 +5,19 @@ import com.techreier.edrops.blogs.coding.Coding
 import com.techreier.edrops.blogs.energy.Energy
 import com.techreier.edrops.blogs.politics.Politics
 import com.techreier.edrops.config.AppConfig
-import com.techreier.edrops.config.DEFAULT_TIMEZONE
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import com.techreier.edrops.util.timestamp
 
-const val SUMMARY_1X1 =
-    "FN har 17 bærekraftmål der alle er like viktig "
-
-
-const val SUMMARY_1X2 =
-    "Først var det ikke snø. " +
-            "Så snødde det mye. " +
-            "Så kom det masse regn. " +
-            "Så ble det isglatt og iskaldt. #Snø"
-
+private const val OWNER_FIRSTNAME = "Hans Reier"
+private const val OWNER_LASTNAME = "Sigmond"
+private const val OWNER_EMAIL = "reier.sigmond@gmail.com"
+private const val OWNER_PHONE="+4791668863"
+private const val OWNER_ADDRESS="Sløttvegen 17"
+private const val OWNER_ZIP="3290"
+private const val OWNER_LOCATION="Moelv"
 
 class BlogData(
     appConfig: AppConfig,
-    base: Base,
+    val base: Base,
 ) {
     private val blogOwnerCreated = timestamp("08.01.1963 12:00:00")
 
@@ -32,32 +25,10 @@ class BlogData(
 
     val blogOwner: BlogOwner =
         BlogOwner(
-            blogOwnerCreated,
-            null,
-            appConfig.user,
-            appConfig.password,
-            "Hans Reier",
-            "Sigmond",
-            "reier.sigmond@gmail.com",
-            "+4791668863",
-            "Sløttvegen 17",
-            "2390",
-            "Moelv",
-            "NO",
-            blogList,
+            blogOwnerCreated, null, appConfig.user, appConfig.password,
+           OWNER_FIRSTNAME, OWNER_LASTNAME, OWNER_EMAIL, OWNER_PHONE, OWNER_ADDRESS, OWNER_ZIP, OWNER_LOCATION, NB,
+            blogList
         )
-
-    private val bnCoding = Coding.no(blogOwner, base.codingNo)
-    private val beCoding = Coding.en(blogOwner, base.codingEn)
-
-    private val bnPolitics = Politics.no(blogOwner, base.politicsNo)
-    private val bePolitics = Politics.en(blogOwner, base.politicsEn)
-
-    private val bnEnergy = Energy.no(blogOwner, base.energyNo)
-    private val beEnergy = Energy.en(blogOwner, base.energyEn)
-
-    private val bnClimatenv = Climatenv.no(blogOwner, base.energyNo)
-    private val beClimatenv = Climatenv.en(blogOwner, base.energyEn)
 
     init {
         initialize()
@@ -66,18 +37,13 @@ class BlogData(
     private fun initialize() {
         blogList.clear()
         blogOwner.blogs = blogList
-        blogOwner.blogs.add(bnPolitics)
-        blogOwner.blogs.add(bePolitics)
-        blogOwner.blogs.add(bnEnergy)
-        blogOwner.blogs.add(beEnergy)
-        blogOwner.blogs.add(bnCoding)
-        blogOwner.blogs.add(beCoding)
-        blogOwner.blogs.add(bnClimatenv)
-        blogOwner.blogs.add(beClimatenv)
-    }
-
-    private fun timestamp(datetime: String): Instant {
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
-        return LocalDateTime.parse(datetime, formatter).atZone(ZoneId.of(DEFAULT_TIMEZONE)).toInstant()
+        blogOwner.blogs.add(Politics.no(blogOwner, base.politicsNo))
+        blogOwner.blogs.add(Politics.en(blogOwner, base.politicsEn))
+        blogOwner.blogs.add(Energy.no(blogOwner, base.energyNo))
+        blogOwner.blogs.add(Energy.en(blogOwner, base.energyEn))
+        blogOwner.blogs.add(Coding.no(blogOwner, base.codingNo))
+        blogOwner.blogs.add(Coding.en(blogOwner, base.codingEn))
+        blogOwner.blogs.add(Climatenv.no(blogOwner, base.energyNo))
+        blogOwner.blogs.add(Climatenv.en(blogOwner, base.energyEn))
     }
 }

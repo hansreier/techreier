@@ -9,7 +9,6 @@ const val DEFAULT_LANGCODE = EN
 const val TOPIC_DEFAULT = "default"
 const val TOPIC_CODING = "coding"
 const val TOPIC_ENERGY = "energy"
-const val TOPIC_ENVIRONMENT = "env"
 const val TOPIC_SPORT = "sport"
 
 const val SUBMENU_MIN_ITEMS = 2 //Minimum number of items within a topic sub menu
