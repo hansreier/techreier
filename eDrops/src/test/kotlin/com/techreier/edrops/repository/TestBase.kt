@@ -1,9 +1,11 @@
 package com.techreier.edrops.repository
 
-import com.techreier.edrops.blogs.climatenv.Climatenv
-import com.techreier.edrops.blogs.climatenv.Green
 import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.data.Base
+import com.techreier.edrops.data.Initial
+import com.techreier.edrops.data.blogs.climatenv.Climatenv
+import com.techreier.edrops.data.blogs.climatenv.Green
 import com.techreier.edrops.domain.*
 import jakarta.persistence.*
 import org.junit.jupiter.api.BeforeEach
@@ -36,7 +38,7 @@ abstract class TestBase {
 
     @Autowired
     lateinit var appConfig: AppConfig
-    lateinit var blogData: BlogData
+    lateinit var initial: Initial
     lateinit var blogOwner: BlogOwner
     lateinit var blog: Blog
     lateinit var blogPost: BlogPost
@@ -49,10 +51,10 @@ abstract class TestBase {
     fun setup() {
         clean()
         val base = Base()
-        blogData = BlogData(appConfig, base)
+        initial = Initial(appConfig, base)
         languageRepo.saveAll(base.languages)
         topicRepo.saveAll(base.topics)
-        blogOwner = ownerRepo.save(blogData.blogOwner)
+        blogOwner = ownerRepo.save(initial.blogOwner)
         blog = blogOwner.blogs.first { it.segment == Climatenv.SEGMENT }
         blogId = blog.id!!
         blogPost = blog.blogPosts.first { it.segment == Green.SEGMENT }

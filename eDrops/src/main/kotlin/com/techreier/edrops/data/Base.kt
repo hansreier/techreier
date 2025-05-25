@@ -1,4 +1,7 @@
-package com.techreier.edrops.domain
+package com.techreier.edrops.data
+
+import com.techreier.edrops.domain.LanguageCode
+import com.techreier.edrops.domain.Topic
 
 const val NORWEGIAN = "Norwegian"
 const val ENGLISH = "English"

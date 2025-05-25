@@ -1,7 +1,7 @@
-package com.techreier.edrops.blogs.coding
+package com.techreier.edrops.data.blogs.coding
 
-import com.techreier.edrops.blogs.Blogs
-import com.techreier.edrops.blogs.addPosts
+import com.techreier.edrops.data.blogs.Blogs
+import com.techreier.edrops.data.blogs.addPosts
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.domain.Topic

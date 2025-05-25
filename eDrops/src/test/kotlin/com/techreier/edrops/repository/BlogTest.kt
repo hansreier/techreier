@@ -1,7 +1,9 @@
 package com.techreier.edrops.repository
 
-import com.techreier.edrops.blogs.climatenv.Climatenv
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.data.NB
+import com.techreier.edrops.data.NORWEGIAN
+import com.techreier.edrops.data.blogs.climatenv.Climatenv
 import com.techreier.edrops.domain.*
 import jakarta.persistence.Subgraph
 import org.assertj.core.api.Assertions.assertThat

@@ -1,10 +1,12 @@
-package com.techreier.edrops.domain
+package com.techreier.edrops.data
 
-import com.techreier.edrops.blogs.climatenv.Climatenv
-import com.techreier.edrops.blogs.coding.Coding
-import com.techreier.edrops.blogs.energy.Energy
-import com.techreier.edrops.blogs.politics.Politics
 import com.techreier.edrops.config.AppConfig
+import com.techreier.edrops.data.blogs.climatenv.Climatenv
+import com.techreier.edrops.data.blogs.coding.Coding
+import com.techreier.edrops.data.blogs.energy.Energy
+import com.techreier.edrops.data.blogs.politics.Politics
+import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.util.timestamp
 
 private const val OWNER_FIRSTNAME = "Hans Reier"
@@ -15,7 +17,7 @@ private const val OWNER_ADDRESS="Sløttvegen 17"
 private const val OWNER_ZIP="3290"
 private const val OWNER_LOCATION="Moelv"
 
-class BlogData(
+class Initial(
     appConfig: AppConfig,
     val base: Base,
 ) {
@@ -26,7 +28,7 @@ class BlogData(
     val blogOwner: BlogOwner =
         BlogOwner(
             blogOwnerCreated, null, appConfig.user, appConfig.password,
-           OWNER_FIRSTNAME, OWNER_LASTNAME, OWNER_EMAIL, OWNER_PHONE, OWNER_ADDRESS, OWNER_ZIP, OWNER_LOCATION, NB,
+            OWNER_FIRSTNAME, OWNER_LASTNAME, OWNER_EMAIL, OWNER_PHONE, OWNER_ADDRESS, OWNER_ZIP, OWNER_LOCATION, NB,
             blogList
         )
 

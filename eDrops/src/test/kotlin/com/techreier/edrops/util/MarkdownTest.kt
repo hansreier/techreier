@@ -3,8 +3,8 @@ package com.techreier.edrops.util
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.controllers.ABOUT_DIR
 import com.techreier.edrops.controllers.HOME_DIR
-import com.techreier.edrops.domain.EN
-import com.techreier.edrops.domain.NB
+import com.techreier.edrops.data.EN
+import com.techreier.edrops.data.NB
 import com.techreier.edrops.util.Docs.about
 import com.techreier.edrops.util.Docs.getDocIndex
 import com.techreier.edrops.util.Docs.views

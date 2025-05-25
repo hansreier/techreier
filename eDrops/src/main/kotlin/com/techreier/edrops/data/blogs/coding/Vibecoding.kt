@@ -1,6 +1,6 @@
-package com.techreier.edrops.blogs.coding
+package com.techreier.edrops.data.blogs.coding
 
-import com.techreier.edrops.blogs.BlogPosts
+import com.techreier.edrops.data.blogs.BlogPosts
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.util.timestamp

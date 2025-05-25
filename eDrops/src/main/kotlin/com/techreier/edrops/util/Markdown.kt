@@ -1,6 +1,6 @@
 package com.techreier.edrops.util
 
-import com.techreier.edrops.domain.DEFAULT_LANGCODE
+import com.techreier.edrops.data.DEFAULT_LANGCODE
 import com.techreier.edrops.dto.MenuItem
 import com.vladsch.flexmark.ast.Link
 import com.vladsch.flexmark.ext.autolink.AutolinkExtension

@@ -1,6 +1,6 @@
 package com.techreier.edrops.util
 
-import com.techreier.edrops.domain.NB
+import com.techreier.edrops.data.NB
 import com.techreier.edrops.dto.MenuItem
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions

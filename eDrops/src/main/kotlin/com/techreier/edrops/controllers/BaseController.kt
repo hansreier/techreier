@@ -5,6 +5,9 @@ import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.data.MENU_SPLIT_SIZE
+import com.techreier.edrops.data.SUBMENU_MIN_ITEMS
+import com.techreier.edrops.data.TOPIC_DEFAULT
 import com.techreier.edrops.domain.*
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
