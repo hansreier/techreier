@@ -21,8 +21,7 @@ Mange organisasjoner fokuserer på to–tre mål – ofte klima og CO₂-utslipp
 Hvordan havnet vi her? Eller har bærekraftsrapportering blitt en floskelmaskin?
 """
 
-    const val SUMMARY_EN =
-        """
+    const val SUMMARY_EN = """
 Sustainability reporting means that companies report on environmental, 
 social, and governance (ESG) issues, based on the UN Sustainable Development Goals.
 In the EU and Norway, this is regulated by the CSRD (Corporate Sustainability Reporting Directive), 
