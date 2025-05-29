@@ -68,7 +68,9 @@ abstract class BaseController(
         }
         else {
             model.addAttribute("blogHeadline", )
-            val foundBlog = segment?.let { ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, timeZone(), posts) }
+            val foundBlog = segment?.let {
+                ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, timeZone(), posts, !admin)
+            }
             model.addAttribute("blogHeadline", foundBlog?.subject)
             foundBlog
         }

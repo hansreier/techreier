@@ -33,6 +33,7 @@ class BlogService(
     // Read current blog based on segment,language code. Assumption: One owner
     fun readBlog(
         segment: String, oldLangCode: String?, langCode: String, zoneId: ZoneId, posts: Boolean = false,
+            html: Boolean = false
     ): BlogDTO? {
         logger.info("Read blog old LangCode: $oldLangCode langCode: $langCode, segment $segment, posts? $posts")
 
@@ -46,7 +47,6 @@ class BlogService(
                 ) else null)
                 ?: return null
 
-        //TODO fix this warning
         val blog: Blog? = (
                 if (posts) {
                     blogRepo.findWithPostsById(blogLanguageDTO.id).orElse(null)
@@ -57,7 +57,7 @@ class BlogService(
             "Blog with id ${blogLanguageDTO.id} not found"
         )
 
-        return blog!!.toDTO(zoneId, langCode, posts)
+        return blog!!.toDTO(zoneId, langCode, posts, html)
     }
 
     fun readMenu(languageCode: String): List<MenuItem> {

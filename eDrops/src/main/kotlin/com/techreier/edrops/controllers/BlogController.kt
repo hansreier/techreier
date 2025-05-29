@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val BLOG = "blogs"
@@ -25,15 +27,17 @@ class BlogController(context: Context) : BaseController(context) {
         model: Model,
         redirectAttributes: RedirectAttributes
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, segment, true, false)
         if (blogParams.blog == null) {
             logger.warn("Blog $segment is not found in language: ${blogParams.usedLangCode}")
-            readFirstSegment(blogParams.usedLangCode) ?. let { //TODO check why not reachable, should not be
+
+            val firstSegment = readFirstSegment(blogParams.usedLangCode)
+            return if (firstSegment != null) {
                 redirectAttributes.addFlashAttribute("warning", "readFirstBlog")
-                return "redirect:$BLOG_DIR/$it"
-            } ?: run {
+                "redirect:$BLOG_DIR/$firstSegment"
+            } else {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-                return "redirect:/$HOME_DIR"
+                "redirect:/$HOME_DIR"
             }
         }
         logger.info("allBlogPosts Fetch blog posts with: $blogParams and summary")

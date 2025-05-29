@@ -29,7 +29,7 @@ class LoginController(context: Context) : BaseController(context) {
         model.addAttribute("loginError", loginError)
         val user = User()
         model.addAttribute("user", user)
-        fetchBlogParams(model, request, response)
+        fetchBlogParams(model, request, response, null, false, true)
         return LOGIN
     }
 

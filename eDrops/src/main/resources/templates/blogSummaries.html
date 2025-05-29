@@ -8,10 +8,10 @@
 <body>
 <div layout:fragment="content">
     <h1 th:text="${blog.subject}"/>
-    <p class="section" th:text="${blog.about}"/>
+    <div class="container" th:utext="${blog.about}"></div>
     <div th:each="blogPost : ${blog.blogPosts}" class="title">
         <h2 th:text="${blogPost.title}"></h2>
-        <p class="section" th:text="${blogPost.summary}"></p>
+        <div class="container" th:utext="${blogPost.summary}"></div>
         <p th:text="${#temporals.format(blogPost.changed, #messages.msg('datetime.format'))}"></p>
     </div>
 </div>
