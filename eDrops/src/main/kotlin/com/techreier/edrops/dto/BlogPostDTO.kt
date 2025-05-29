@@ -1,6 +1,5 @@
 package com.techreier.edrops.dto
 
-import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.util.markdownToHtml
@@ -25,7 +24,6 @@ data class BlogPostDTO(
 }
 
 fun BlogPost.toDTO(zoneId: ZoneId, html: Boolean = false): BlogPostDTO {
-    logger.info("Reier blogPost: $html")
     return BlogPostDTO(
         id = this.id,
         changed = this.changed?.atZone(zoneId),
