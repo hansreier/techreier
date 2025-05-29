@@ -11,21 +11,31 @@ object Sustainability : BlogPosts {
     const val TITLE_NO = "Bærekraft"
     const val TITLE_EN = "SustainabilityReporting"
 
-    const val SUMMARY_NO =
-        "Bærekraft handler om å dekke dagens menneskelige behov uten å undergrave naturens tålegrenser eller " +
-                "mulighetene for framtidige generasjoner. " +
-                "FN’s 17 bærekraftsmål kan deles inn i fem hovedkategorier: " +
-                "Mennesker (fattigdom, helse, utdanning), Miljø (natur, klima, ressurser), " +
-                "Velstand (energi, arbeidsliv, økonomi), Fred og rettferdighet, og Internasjonalt samarbeid. " +
-                "Denne typen gruppering gjør det lettere å se helheten – og konfliktene – mellom målene."
+    const val SUMMARY_NO = """
+Bærekraft handler om å dekke dagens menneskelige behov uten å undergrave naturens tålegrenser eller 
+mulighetene for framtidige generasjoner. 
+FN’s 17 bærekraftsmål kan deles inn i fem hovedkategorier: 
+- Mennesker (fattigdom, helse, utdanning), 
+- Miljø (natur, klima, ressurser), 
+- Velstand (energi, arbeidsliv, økonomi), 
+- Fred og rettferdighet
+- Internasjonalt samarbeid.  
 
-    const val SUMMARY_EN =
-        "SustainabilityReporting is about meeting the needs of the present without compromising the boundaries of nature or" +
-                " the ability of future generations to meet their own needs. " +
-                "The UN’s 17 SustainabilityReporting Development Goals can be grouped into five main categories: " +
-                "People (poverty, health, education), Environment (nature, climate, resources), " +
-                "Prosperity (energy, work, economy), Peace and justice, and International cooperation. " +
-                "This type of grouping helps clarify the bigger picture – and the potential conflicts – between the goals."
+Denne typen gruppering gjør det lettere å se helheten – og konfliktene – mellom målene.
+"""
+
+    const val SUMMARY_EN = """
+Sustainability is about meeting the needs of today's people without undermining the boundaries of nature or 
+the opportunities for future generations. 
+The UN’s 17 Sustainable Development Goals can be divided into five main categories: 
+- People (poverty, health, education), 
+- Environment (nature, climate, resources), 
+- Prosperity (energy, work, economy), 
+- Peace and justice, 
+- International cooperation.  
+
+This type of grouping makes it easier to see the bigger picture – and the conflicts – between the goals.
+"""
 
     override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO, blog)
 
