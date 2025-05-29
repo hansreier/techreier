@@ -38,7 +38,7 @@ class BlogPostController(
         redirectAttributes: RedirectAttributes,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, segment, true, true)
 
         if (blogParams.blog == null) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
