@@ -6,10 +6,10 @@ import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.util.timestamp
 
 object Sustainability : BlogPosts {
-    val timestamp = timestamp("12.05.2025 16:00:00")
+    val timestamp = timestamp("29.05.2025 12:00:00")
     const val SEGMENT = "sustainable"
     const val TITLE_NO = "Bærekraft"
-    const val TITLE_EN = "SustainabilityReporting"
+    const val TITLE_EN = "Sustainability"
 
     const val SUMMARY_NO = """
 Bærekraft handler om å dekke dagens menneskelige behov uten å undergrave naturens tålegrenser eller 
