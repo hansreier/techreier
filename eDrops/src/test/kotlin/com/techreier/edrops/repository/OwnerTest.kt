@@ -22,7 +22,7 @@ class OwnerTest : TestBase() {
         assertThat(blogPostSaved?.id).isEqualTo(blogPostId)
         ownerRepo.delete(blogOwner)
         logger.info("Reier Deleted")
-        val blogDeleted = blogRepo.findByIdOrNull(blog.id)
+        val blogDeleted = blogRepo.findByIdOrNull(blogId)
         assertThat(blogDeleted).isNull()
         val blogPostDeleted = postRepo.findByIdOrNull(blogPostId)
         assertThat(blogPostDeleted).isNull()

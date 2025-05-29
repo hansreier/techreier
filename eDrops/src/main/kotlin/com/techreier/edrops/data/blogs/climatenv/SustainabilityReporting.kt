@@ -12,7 +12,7 @@ object SustainabilityReporting : BlogPosts {
     const val TITLE_EN = "Sustainability reporting"
 
     const val SUMMARY_NO = """
-**Bærekraftsrapportering** betyr at selskaper rapporterer om miljømessige, 
+Bærekraftsrapportering betyr at selskaper rapporterer om miljømessige, 
 sosiale og styringsmessige forhold (ESG), med utgangspunkt i FNs bærekraftsmål.
 I EU og Norge er dette regulert av CSRD (Corporate Sustainability Reporting Directive), 
 som gjelder for store selskaper, med rapportering etter ESRS-standardene.
@@ -23,7 +23,7 @@ Hvordan havnet vi her? Eller har bærekraftsrapportering blitt en floskelmaskin?
 
     const val SUMMARY_EN =
         """
-**Sustainability reporting** means that companies report on environmental, 
+Sustainability reporting means that companies report on environmental, 
 social, and governance (ESG) issues, based on the UN Sustainable Development Goals.
 In the EU and Norway, this is regulated by the CSRD (Corporate Sustainability Reporting Directive), 
 which applies to large companies, requiring reporting according to the ESRS standards.
