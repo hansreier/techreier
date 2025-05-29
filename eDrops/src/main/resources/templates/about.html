@@ -9,9 +9,7 @@
 <body>
 <div layout:fragment="content">
     <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"/>
-    <div class="container">
-        <div th:utext="${docText}"></div>
-    </div>
+    <div class="container" th:utext="${docText}"></div>
     <div th:if="${doc.segment == 'responsive'}">
         <div id="deviceInfo" class="info"></div>
         <script type="module" th:src="@{/js/deviceinfo.js(v=${built})}"></script>
