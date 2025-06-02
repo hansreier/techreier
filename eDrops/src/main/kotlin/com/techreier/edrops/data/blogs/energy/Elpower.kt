@@ -10,8 +10,8 @@ import com.techreier.edrops.util.timestamp
 object Elpower : Blogs {
     val timestamp = timestamp("17.05.2025 07:00:00")
     const val SEGMENT = "elpower"
-    const val SUBJECT_NO = "Electrical power"
-    const val SUBJECT_EN = "Elkraft"
+    const val SUBJECT_NO = "Elkraft"
+    const val SUBJECT_EN = "Electrical power"
     const val POS = 3
 
     const val ABOUT_NB = "Denne bloggen inneholder kort informasjon om vanlige kilder til elektrisitetsproduksjon. " +
