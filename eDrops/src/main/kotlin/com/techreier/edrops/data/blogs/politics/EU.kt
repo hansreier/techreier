@@ -7,7 +7,7 @@ import com.techreier.edrops.util.timestamp
 
 object EU: BlogPosts {
     val timestamp = timestamp("30.04.2025 16:56:00")
-    const val SEGMENT = "EU"
+    const val SEGMENT = "eu"
     const val TITLE_NO = "EU"
     const val TITLE_EN = "EU"
 
