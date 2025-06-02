@@ -14,6 +14,13 @@ Det er en dobbeltbeskatning av arbeidende kapital. Fritaksgrensen er også så l
 mistepensjonister i det store byene som sitter på eiendom. Hvis ikke formueskatten fjernes helt,
 så bør fritaksgrensen økes kraftig.
 
+Oppstartsselskaper blir beskattet for fiktive verdier av en aksjebeholdning eller 
+immatrielle verdier. Det er såkalt formue som ikke kan tas ut i penger der og da.
+
+Et problem er at utenlands eide og store globale selskaper spesielt har lettere for å
+slippe unna beskatning. Dette fører i lengden til en utarming av Norsk næringsliv.
+Skattereglene her må ses på og blir faktisk sett på også.
+
 De fleste andre land har ikke formuesskatt. Det er ikke tilfeldig.  
 
 ## Hva med selskapsskatten?
@@ -48,8 +55,9 @@ Skatt må ikke straffe de løsningene vi faktisk trenger.
 Dette er et vanskelig punkt, fordi denne beskatningen har vært relativt lav i Norge.
 **Hovedprinsippet er at alle skal ha råd til egen bolig, noe som er mindre vanlig i mange andre land**.
 Forsøk på økt beskatning, har som regel fått store negative konsekvenser.
-Dette gjelder f.eks. skatteregler for de som leier ut, som i praksis har økt leieprisene i et allerede
-anstrengt marked. Det er et spørsmål om lave likningsverdier på hytter i historisk perspektiv har vært
+Dette gjelder f.eks. skatteregler for de som leier ut, 
+som i praksis har økt leieprisene i et allerede anstrengt marked.
+Det er et spørsmål om lave likningsverdier på hytter i historisk perspektiv har vært
 særlig smart. Halve fjellet er jo nedbygd og mye kapital er bundet der for å unngå annen skatt.
 Men det verste er å gjøre store endringer på en gang, det får som regel svært uheldige konsekvenser.  
 Teorien om at økt skatt på bolig gir lavere boligpriser, ser ikke ut til å stemme i pressområder.
@@ -98,10 +106,17 @@ det være en balanse mellom tiltak som gir reduksjon i utgifter på ett område 
 
 ## Skatteutvalget 2022
 
-Skatter blir kontinuerlig vurdert av ulike regjeringer. Sist gang et utvalg så på det var i 2022: 
-NOU 2022. Jeg er slett ikke enig i alt der. Les det. Men en god del ting har dette utvalget rett i.
+Skatteutvalget leverte sin siste omfattende vurdering av skattesystemet i 2022 (NOU 2022). 
+Jeg er slett ikke enig i alt der, les gjerne selv. 
 
----
+Skatteutvalget foreslo flere endringer for å gjøre skattesystemet enklere og mer rettferdig, 
+med vekt på økt likebehandling og bedre insentiver for næringsvirksomhet. 
+De foreslo blant annet en viss reduksjon i formuesskatten ved å øke bunnfradraget, 
+men terskelen er fortsatt lav og skatten rammer unødvendig hardt. 
+Forslag om økt boligbeskatning bør vurderes nøye, 
+da slike endringer kan få negative konsekvenser i pressområder.
+
+##
 
 Kort oppsummert:  
 
