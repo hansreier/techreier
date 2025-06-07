@@ -109,9 +109,8 @@ abstract class BaseController(
     }
 
     // Return a formatted string of datetime given a format selected in language file by locale
-    // It was planned to be used, but is not. Not tested: What happens if datetime.format is undefined.
     protected fun datetime(dateTime: ZonedDateTime): String {
-        val formatter = DateTimeFormatter.ofPattern(msg(ctx.messageSource,"datetime.format"))
+        val formatter = DateTimeFormatter.ofPattern(msg(ctx.messageSource,"format.datetime"))
         return dateTime.format(formatter)
     }
 

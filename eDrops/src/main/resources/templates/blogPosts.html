@@ -15,7 +15,7 @@
                 <td><a th:href="@{${postPath + blogPost.segment}}" th:text="${blogPost.segment}"></a></td>
                 <td><a th:href="@{${postPath + blogPost.segment}}" th:text="${blogPost.title}"></a></td>
                 <td class="blogposts-time"><a th:href="@{${postPath + blogPost.segment}}"
-                                              th:text="${#temporals.format(blogPost.changed, #messages.msg('datetime.format'))}"></a>
+                                              th:text="${#temporals.format(blogPost.changed, #messages.msg('format.datetime'))}"></a>
                 </td>
             </tr>
             </tbody>
