@@ -208,6 +208,10 @@ img:hover::after {
 	opacity: 0.9;
 }
 
+.date {
+	font-style: italic;
+}
+
 .warning {
 	color: blue;
 }
