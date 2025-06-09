@@ -10,7 +10,7 @@ Men skattene må være **rettferdige, forståelige og logiske**. Slik er det ikk
 Formuesskatten rammer norske eiere og bedrifter hardere enn utenlandske, 
 og svekker det norske eierskapet. Den beskatter verdier som ofte ikke gir inntekter, 
 som for eksempel maskiner, bygninger eller aksjer i bedrifter som allerede betaler selskapsskatt. 
-Det er en dobbeltbeskatning av arbeidende kapital. Fritaksgrensen er også så lav at den rammer
+Det er en dobbeltbeskatning av arbeidende kapital. Fritaksgrensen er så lav at den rammer
 mistepensjonister i det store byene som sitter på eiendom. Hvis ikke formueskatten fjernes helt,
 så bør fritaksgrensen økes kraftig.
 
