@@ -8,8 +8,8 @@ import com.techreier.edrops.util.timestamp
 object Vibecoding : BlogPosts {
     val timestamp = timestamp("12.05.2025 16:00:00")
     const val SEGMENT = "vibecoding"
-    const val TITLE_NO = "vibbe koding"
-    const val TITLE_EN = "vibe coding"
+    const val TITLE_NO = "Vibbe koding"
+    const val TITLE_EN = "Vibe coding"
 
     const val SUMMARY_NO =
         "Vibe-koding er å bruke AI til å lage kode med naturlig språk, så teste eller inspisere resultatet raskt," +

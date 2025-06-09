@@ -14,7 +14,7 @@ object Elpower : Blogs {
     const val SUBJECT_EN = "Electrical power"
     const val POS = 3
 
-    const val ABOUT_NB = "Denne bloggen inneholder kort informasjon om vanlige kilder til elektrisitetsproduksjon. " +
+    const val ABOUT_NO = "Denne bloggen inneholder kort informasjon om vanlige kilder til elektrisitetsproduksjon. " +
             "Innholdet er min tolkning og eksempler. Direkte bruk av energi utenfor strømnettet er ikke i fokus her."
 
     const val ABOUT_EN =
@@ -22,7 +22,7 @@ object Elpower : Blogs {
                 "The content reflects my interpretation and examples. Direct use of energy outside the power grid is not the focus here."
 
     override fun no(blogOwner: BlogOwner, topic: Topic) =
-        Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NB, mutableListOf(), blogOwner)
+        Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NO, mutableListOf(), blogOwner)
             .addPosts(
                 Twh::no, Windpower::no, Solarpower::no, Hydropower::no, Nuclearpower::no,
                 Coalpower::no, Gaspower::no, Dieselpower::no, Wavetidalpower::no, ThermalPower::no

@@ -14,14 +14,14 @@ object Politics : Blogs {
     const val SUBJECT_EN = "Politics"
     const val POS = 3
 
-    const val ABOUT_NB = "Denne bloggen inneholder korte innlegg om politiske temaer, definisjoner, " +
+    const val ABOUT_NO = "Denne bloggen inneholder korte innlegg om politiske temaer, definisjoner, " +
             "min tolkning og mine eksempler"
 
     const val ABOUT_EN = "This blog contains short tweets about political themes, definitions, " +
             "my interpretation and my examples"
 
     override fun no(blogOwner: BlogOwner, topic: Topic) =
-        Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NB, mutableListOf(), blogOwner)
+        Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NO, mutableListOf(), blogOwner)
             .addPosts(Democracy::no, SymbolPolitics::no, EU::no)
 
     override fun en(blogOwner: BlogOwner, topic: Topic) =
