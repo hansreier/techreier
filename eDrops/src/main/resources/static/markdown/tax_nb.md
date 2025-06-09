@@ -1,4 +1,4 @@
-# Om skatt – kort og forståelig
+# Skatt – kort og forståelig
 
 Det norske skattesystemet trenger en opprydning. 
 Jeg er ikke imot skatt, 
