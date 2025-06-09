@@ -76,7 +76,7 @@ men pendling i IT bransjen fungerer ikke slik.
 Og hvis jeg hadde hatt eget firma eller ansatt i et firma som betale for reise mot mindre lønn, 
 så hadde jeg i praksis fått fradraget.  
 
-Stortingsrepresentanter får gratis Stortingleilighet, mens jeg må betale på det private markedet, 
+Stortingsrepresentanter får gratis Stortingsleilighet, mens jeg må betale på det private markedet, 
 enten en hybel eller hotell. Etter 2 år så burde
 disse folka betale full markedspris på disse leilighetene, som er mer enn 30000 kr/måned.
 Jeg har ikke råd til dette på min lønn selvsagt og må nøye meg med noe mindre.
