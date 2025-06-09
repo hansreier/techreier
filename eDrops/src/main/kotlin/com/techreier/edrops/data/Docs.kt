@@ -23,6 +23,7 @@ object Docs {
             MenuItem("ai2084", c.defaultNo, "AI paranoia"),
             MenuItem("homeoffice", c.defaultNo, "Om hjemmekontor"),
             MenuItem("homeoffice", c.defaultEn, "About home office"),
+            MenuItem("tax", c.defaultNo,"Om skatt"),
             MenuItem("energy", c.energyNo, "Energi i Norge"),
             MenuItem("energy", c.energyEn, "Energy in Norway"),
             MenuItem("energypath", c.energyNo, "Energi veikart"),

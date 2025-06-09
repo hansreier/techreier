@@ -59,7 +59,7 @@ Dette gjelder f.eks. skatteregler for de som leier ut,
 som i praksis har økt leieprisene i et allerede anstrengt marked.
 Det er et spørsmål om lave likningsverdier på hytter i historisk perspektiv har vært
 særlig smart. Halve fjellet er jo nedbygd og mye kapital er bundet der for å unngå annen skatt.
-Men det verste er å gjøre store endringer på en gang, det får som regel svært uheldige konsekvenser.  
+Men det verste er å gjøre store endringer på en gang, det får som regel svært uheldige konsekvenser. 
 Teorien om at økt skatt på bolig gir lavere boligpriser, ser ikke ut til å stemme i pressområder.
 Dokumentavgiften bør endres til å bare omfatte reelle kostnader ved eiendomssalg.
 
@@ -70,8 +70,8 @@ fortsatt er for lite. Det tar ikke hensyn til faktiske kostnader som i mange til
 grunnlaget for fradrag. Dette gjelder for pendling med både tog og bil. Jeg pendler fra Moelv til
 Oslo. I fjor fikk jeg igjen ca 2000 kroner eller noe sånt for en reisekostnad i året på 40000.
 
-Fradrag for kost og losji er fjernet etter å måtte pendle til Oslo i mer enn 2 år (Av Høyre, og Ap har ikke
-rettet det opp.) Folk som flytter rundt på byggeplasser får da i praksis fradrag, 
+Fradrag for kost og losji er fjernet etter å måtte pendle til Oslo i mer enn 2 år (av Høyre, og Ap har ikke
+rettet det opp). Folk som flytter rundt på byggeplasser får da i praksis fradrag, 
 men pendling i IT bransjen fungerer ikke slik.
 Og hvis jeg hadde hatt eget firma eller ansatt i et firma som betale for reise mot mindre lønn, 
 så hadde jeg i praksis fått fradraget.  
@@ -89,19 +89,20 @@ I tillegg har det vært mye skattejuks med disse gratis leilighetene. De skulle 
 Avgiftsnivået er generelt svært høyt i Norge. I de siste 4 årene med Ap i regjering har folk flest
 fått stadig dårligere råd, noe som er en konsekvens av internasjonale konjunkturer, men også
 villet såkalt "grønn" politikk. Det politikere da skal være klar over er at de fleste avgifter
-angis prosentvis. Økte strøminntekter til offentlige selskaper gir også økte elgifter inbefalt.
+angis prosentvis. Økte strøminntekter til offentlige selskaper gir økte elavgifter inbefalt.
 Da hadde det vært rimelig om avgiftsprosenten hadde vært redusert. Tollsatser for å beskytte
-Norsk landbruk kan diskuteres og er like ille som de Mr Donald Trump truer med. Dette gir
-dyrere livsnødendig mat til norske forbrukere. Men Norsk landbruk i et hardt klima bør også beskyttes.
+Norsk landbruk kan diskuteres og er like høye som de nye tollsatsene Mr Donald Trump truer med. 
+Dette gir dyrere livsnødendig mat til norske forbrukere. 
+Men Norsk landbruk i et hardt klima bør beskyttes.
 Å redusere momssatsen på livsnødvenge varer hadde vært en ide. 
 
 ## Bruk av skatt og avgifter til å oppnå adferd
 
 Dette har vært mye brukt som virkemiddel i Norge. Redusert avgifter på elbiler er kanskje det beste eksemplet.
-Det som kan sier om dette er at dette er et positivt tiltak, mens mange andre er negative tiltake med skatte-
-og avgiftsøkninger. Er skatter og avgifter klart urimelige, vil mange lete etter smutthull (eller flytte fra Norge), 
-og det blir dårlig moral og politikerforakt. Hvis virkemidlene ovenfor næringslivet og privatpersoner bare
-består av skatte- og avgiftsøkninger, så blir det for meg helt feil. Som elbil historien viser, så må
+Det som kan sier om dette er at dette er et positivt tiltak, mens mange andre er negative tiltak med skatte-
+og avgiftsøkninger. Er skatter og avgifter klart urimelige, vil mange lete etter smutthull (eller flytte fra Norge). 
+Det blir dårlig moral og politikerforakt. Hvis virkemidlene ovenfor næringslivet og privatpersoner bare
+består av skatte- og avgiftsøkninger, så blir det for meg helt feil. Som elbil-historien viser, så må
 det være en balanse mellom tiltak som gir reduksjon i utgifter på ett område og økning i utgifter på et annet.
 
 ## Skatteutvalget 2022
