@@ -70,15 +70,16 @@ fortsatt er for lite. Det tar ikke hensyn til faktiske kostnader som i mange til
 grunnlaget for fradrag. Dette gjelder for pendling med både tog og bil. Jeg pendler fra Moelv til
 Oslo. I fjor fikk jeg igjen ca 2000 kroner eller noe sånt for en reisekostnad i året på 40000.
 
-Fradrag for kost og losji er fjernet etter å måtte pendle til Oslo i mer enn 2 år (av Høyre, og Ap har ikke
-rettet det opp). Folk som flytter rundt på byggeplasser får da i praksis fradrag, 
+Fradrag for kost og losji er fjernet etter å ha pendlet til Oslo i mer enn 2 år 
+(av Høyre, og Ap har ikke rettet det opp).
+Folk som flytter rundt på byggeplasser får da i praksis fradrag, 
 men pendling i IT bransjen fungerer ikke slik.
-Og hvis jeg hadde hatt eget firma eller ansatt i et firma som betale for reise mot mindre lønn, 
+Hvis jeg hadde hatt eget firma eller ansatt i et firma som betale for reise mot mindre lønn, 
 så hadde jeg i praksis fått fradraget.  
 
 Stortingsrepresentanter får gratis Stortingsleilighet, mens jeg må betale på det private markedet, 
 enten en hybel eller hotell. Etter 2 år så burde
-disse folka betale full markedspris på disse leilighetene, som er mer enn 30000 kr/måned.
+disse folka betale full markedspris på disse leilighetene, som er mer enn 30000 kr/måned...
 Jeg har ikke råd til dette på min lønn selvsagt og må nøye meg med noe mindre.
 I tillegg har det vært mye skattejuks med disse gratis leilighetene. De skulle skamme seg.
 
