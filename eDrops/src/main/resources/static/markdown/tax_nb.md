@@ -118,9 +118,7 @@ men terskelen er fortsatt lav og skatten rammer unødvendig hardt.
 Forslag om økt boligbeskatning bør vurderes nøye, 
 da slike endringer kan få negative konsekvenser i pressområder.
 
-##
-
-Kort oppsummert:  
+## Kort oppsummert 
 
 - Skatt er nødvendig, men må være rettferdig og logisk.
 - Fjern formuesskatten – den rammer feil og svekker norsk eierskap.
