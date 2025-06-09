@@ -21,7 +21,7 @@ fun Blog.addPosts(vararg factories: (Blog) -> BlogPost): Blog {
             "trying to connect post ${post.segment} ${post.title}  " +
                     "owned by ${post.blog.segment} ${post.blog.subject} with ${this.segment} ${this.subject}")
         this.blogPosts.add(post)
-        this.blogPosts.sortByDescending { it.changed }
     }
+    this.blogPosts.sortByDescending { it.changed }
     return this
 }
