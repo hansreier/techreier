@@ -9,7 +9,7 @@ object Co2quotas : BlogPosts {
     val timestamp = timestamp("14.06.2025 09:00:00")
     const val SEGMENT = "c02quotas"
     const val TITLE_NO = "CO₂-kvoter,  hokus pokus"
-    const val TITLE_EN = "CO₂-kvoter,  hocus pocus"
+    const val TITLE_EN = "CO₂-quotas,  hocus pocus"
 
     const val SUMMARY_NO = """
 Norge har høy CO₂-modenhet – omtrent 50–60 % av energiforbruket er uten utslipp. 
