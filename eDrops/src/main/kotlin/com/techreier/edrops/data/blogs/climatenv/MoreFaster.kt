@@ -5,9 +5,9 @@ import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.util.timestamp
 
-object Quicker : BlogPosts {
+object MoreFaster : BlogPosts {
     val timestamp = timestamp("12.05.2025 16:00:00")
-    const val SEGMENT = "faster"
+    const val SEGMENT = "morefaster"
     const val TITLE_NO = "Mer av alt - raskere"
     const val TITLE_EN = "More of everything - faster"
 
