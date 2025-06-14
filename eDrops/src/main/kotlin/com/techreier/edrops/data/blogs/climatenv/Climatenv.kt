@@ -33,9 +33,11 @@ object Climatenv : Blogs {
 
     override fun no(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NB, mutableListOf(), blogOwner)
-            .addPosts(Green::no, Sustainability::no, SustainabilityReporting::no, MoreFaster::no, Co2goal::no)
+            .addPosts(Green::no, Sustainability::no, SustainabilityReporting::no,
+                MoreFaster::no, Co2goal::no, Co2quotas::no)
 
     override fun en(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_EN, ABOUT_EN, mutableListOf(), blogOwner)
-            .addPosts(Green::en, Sustainability::en, SustainabilityReporting::en, MoreFaster::en, Co2goal::en)
+            .addPosts(Green::en, Sustainability::en, SustainabilityReporting::en,
+                MoreFaster::en, Co2goal::en, Co2quotas::en)
 }
