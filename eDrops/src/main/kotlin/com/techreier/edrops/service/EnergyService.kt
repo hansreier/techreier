@@ -5,6 +5,7 @@ import com.techreier.edrops.model.El
 import com.techreier.edrops.model.EnergyProduction
 import com.techreier.edrops.model.OilGas
 import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.DataFormatter
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.springframework.stereotype.Service
@@ -35,13 +36,13 @@ class EnergyService {
 
             for (row in sheet.drop(1)) {
                 val el = El(
-                    getYear(row.getCell(0)),
-                    water = int(row.getCell(2)),
-                    wind = int(row.getCell(3)),
-                    sun = int(row.getCell(4)),
-                    heat = int(row.getCell(5)),
-                    export = int(row.getCell(6)),
-                    import = int(row.getCell(7))
+                    year = row.getCell(0).asYear(),
+                    water = row.getCell(2).asInt(),
+                    wind = row.getCell(3).asInt(),
+                    sun =  row.getCell(4).asInt(),
+                    heat = row.getCell(5).asInt(),
+                    export = row.getCell(6).asInt(),
+                    import = row.getCell(7).asInt()
                 )
 
                 val eProdOld = energyProduction[el.year]
@@ -56,7 +57,6 @@ class EnergyService {
         } ?: logger.error("failed to open Excel Sheet from file: $SSB_FILENAME")
     }
 
-
     fun readFossilExcel() {
 
         val classLoader = object {}.javaClass.classLoader
@@ -68,13 +68,13 @@ class EnergyService {
 
             for (row in sheet.drop(3)) {
                 val fossil = OilGas(
-                    getYear(row.getCell(0)),
-                    oil = double(row.getCell(1)),
-                    condensate = double(row.getCell(2)),
-                    ngl = double(row.getCell(3)),
-                    gas = double(row.getCell(4)),
+                    year = row.getCell(0).asYear(),
+                    oil = row.getCell(1).asDouble(),
+                    condensate = row.getCell(2).asDouble(),
+                    ngl = row.getCell(3).asDouble(),
+                    gas = row.getCell(4).asDouble(),
                 )
-
+                logger.info("Fossil: $fossil")
                 val eProdOld = energyProduction[fossil.year]
                 var fossilTotal: Double? = null
                 if ((fossil.oil != null) || (fossil.ngl != null) || (fossil.gas != null)) {
@@ -93,22 +93,23 @@ class EnergyService {
 
     private fun twh(gwh: Int?): Double? = gwh?.toDouble()?.div(1000)
 
-    //Return int value from cell, if not int or empty null is returned
-    fun int(cell: Cell?): Int? {
-        if (cell == null) return null
-        val str = formatter.formatCellValue(cell).trim()
-        return str.toIntOrNull()
+    fun Cell?.asInt(): Int? {
+        return this?.let {
+            val str = DataFormatter().formatCellValue(it).trim()
+            str.toIntOrNull()
+        }
     }
 
-    //Return double value from cell, if not int or empty null is returned
-    fun double(cell: Cell?): Double? {
-        if (cell == null) return null
-        val str = formatter.formatCellValue(cell).trim()
-        return str.toDoubleOrNull()
+    fun Cell?.asDouble(): Double? {
+        return when {
+            this == null -> null
+            this.cellType == CellType.NUMERIC -> this.numericCellValue
+            else -> this.toString().replace(",", "").toDoubleOrNull()
+        }
     }
 
-    fun getYear(yearCell: Cell?): Int {
-        val year = yearCell?.let { formatter.formatCellValue(yearCell).trim() }
+    fun Cell?.asYear(): Int {
+        val year = this?.let { formatter.formatCellValue(this).trim() }
         val yearInt: Int = year?.toIntOrNull() ?: throw (NumberFormatException("Invalid year: $year"))
         if (yearInt < 1950 || yearInt > Year.now().value) throw (NumberFormatException("Too old or future year: $yearInt"))
         return yearInt
