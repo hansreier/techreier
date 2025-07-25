@@ -6,7 +6,7 @@ import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.util.timestamp
 
 object Twh : BlogPosts {
-    val timestamp = timestamp("01.01.2025 16:00:00")
+    val timestamp = timestamp("24.07.2025 16:00:00")
     const val SEGMENT = "twh"
     const val TITLE_NO = "Elkraft, definisjon og måleenheter"
     const val TITLE_EN = "Electrical power, definition and units"

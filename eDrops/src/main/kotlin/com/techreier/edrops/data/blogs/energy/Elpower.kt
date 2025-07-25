@@ -24,14 +24,14 @@ object Elpower : Blogs {
     override fun no(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NO, mutableListOf(), blogOwner)
             .addPosts(
-                Twh::no, Windpower::no, Solarpower::no, Hydropower::no, Nuclearpower::no,
+                Twh::no, NorwegianEnergyLaw::no, Windpower::no, Solarpower::no, Hydropower::no, Nuclearpower::no,
                 Coalpower::no, Gaspower::no, Dieselpower::no, Wavetidalpower::no, ThermalPower::no
             )
 
     override fun en(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_EN, ABOUT_EN, mutableListOf(), blogOwner)
             .addPosts(
-                Twh::no, Windpower::en, Solarpower::en, Hydropower::en, Nuclearpower::en,
+                Twh::en, NorwegianEnergyLaw::en, Windpower::en, Solarpower::en, Hydropower::en, Nuclearpower::en,
                 Coalpower::en, Gaspower::en, Dieselpower::en, Wavetidalpower::en, ThermalPower::en
             )
 }
