@@ -5,7 +5,7 @@ import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.util.timestamp
 
-object NorwegianEnergyLaw : BlogPosts {
+object EnergyLaw : BlogPosts {
     val timestamp = timestamp("25.07.2025 12:00:00")
     const val SEGMENT = "energylaw"
     const val TITLE_NO = "Energiloven (1990)"
@@ -29,7 +29,7 @@ take place in a socially rational manner,
 and that both public and private interests affected are taken into account.
 
 But does the law truly ensure this? Export from Norway cannot be limited until the situation is critical.  
-Electricity prices have become high and unstable, driven by variable wind and solar power and stronger market integration with Europe.  
+Electricity prices have become high and unstable, driven by variable wind and solar power and stronger market integration with Europe.
 Large price differences between regions distort competition and undermine public trust.
 """
 
