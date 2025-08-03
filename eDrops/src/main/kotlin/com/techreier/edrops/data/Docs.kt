@@ -71,6 +71,8 @@ object Docs {
             MenuItem("responsive", c.codingEn, "Responsive design"),
             MenuItem("gui", c.codingNo, "GUI design og implementasjon"),
             MenuItem("gui", c.codingEn, "GUI design and implementation"),
+            MenuItem("zerotrust", c.codingNo, "Zero Trust"),
+            MenuItem("zerotrust", c.codingEn, "Zero Trust"),
 
         )
 
