@@ -11,10 +11,10 @@ It’s no longer enough to trust what’s inside the wall. Instead, we trust no 
    Secured with Endpoint Protection, MDM, certificates, and registration.
 
 2. **Network (TCP/IP)**  
-   Segmentation, VPN, TLS, firewalls and IDS/IPS govern who and how.
+   Segmentation, VPN, TLS, firewalls and IDS/IPS govern who gets access and how.
 
 3. **Software Supply Chain**  
-   Securing what is installed and run from libraries to containers, through dependency scanning, CI/CD protection, and signing.
+   Securing of everything from libraries to containers, through dependency scanning, CI/CD protection, and signing.
 
 4. **Closed Services (internal APIs)**  
    Authentication (MFA, SSO, tokens), authorization, logging, and monitoring.
@@ -35,7 +35,7 @@ Security training is often more effective than excessive restrictions – it tea
 If Zero Trust means distrust from leadership, employees will lose trust in leadership.  
 
 From my experience as a developer, there’s too much focus on fine-grained access control and the principle of least privilege.
-It often results in blockers and time-wasters, for example when local development requires access to blocked websites.  
+It often results in unnecessary blockers and time-wasters, for example when local development requires access to blocked websites.  
 
 Keeping libraries up to date sounds simple, but it takes proper DevSecOps to work in practice.
 We spend a lot of time on updates for vulnerabilities that might not even affect us.

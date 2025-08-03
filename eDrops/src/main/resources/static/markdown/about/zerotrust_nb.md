@@ -12,10 +12,10 @@ men vi stoler ikke på noen. Aldri.
    Sikring med Endpoint Protection, MDM, sertifikater og registrering.
 
 2. **Nettverk (TCP/IP)**  
-   Segmentering, VPN, TLS, brannmurer og IDS/IPS styrer hvem og hvordan.
+   Segmentering, VPN, TLS, brannmurer og IDS/IPS styrer hvem som får tilgang og på hvilken måte.
 
 3. **Programvareforsyningskjeden (software supply chain)**  
-   Sikring av hva som installeres og kjøres fra biblioteker til containere, gjennom dependency-scanning, CI/CD-sikring og signering.
+   Sikring av alt fra biblioteker til containere, gjennom dependency-scanning, CI/CD-sikring og signering.
 
 4. **Lukkede tjenester (interne APIer)**  
    Autentisering (MFA, SSO, token), autorisasjon, logging og overvåkning.
@@ -35,7 +35,7 @@ Sikkerhetsopplæring er ofte bedre enn overdreven sperring, da lærer medarbeide
 Hvis Zero Trust betyr mistillit fra ledelsen, mister ansatte tilliten til ledelsen.  
 
 Fra mine erfaringer som utvikler legges det for mye vekt på detaljert tilgangskontroll og minste privilegiums-prinsipp.
-Det fører ofte til blokkeringer og tidstyver, for eksempel når lokal utvikling krever tilgang til sperrede nettsteder.  
+Det fører ofte til unødvendige blokkeringer og tidstyver, som når lokal utvikling krever tilgang til sperrede nettsteder.  
 
 Å holde biblioteker oppdatert høres enkelt ut, men krever god DevSecOps for å fungere i praksis.
 Vi bruker mye tid på oppdateringer for sikkerhetshull som kanskje ikke berører oss.
