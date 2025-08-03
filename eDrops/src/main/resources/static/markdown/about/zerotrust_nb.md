@@ -28,28 +28,28 @@ men vi stoler ikke på noen. Aldri.
 
 ### Konsekvenser
 
-Zero Trust-konseptet omfatter flere praktiske nivåer, 
-men det er lett å dra det for langt når alle disse lagene skal kontrolleres og sikres. 
-Resultat er byråkrati, ineffektivitet, dårlig samhandling, mistrivsel og lite innovasjon. 
-Sikkerhetsopplæring er ofte bedre enn overdreven sperring, da lærer medarbeidere å ta fornuftige vurderinger. 
-Hvis Zero Trust betyr mistillit fra ledelsen, mister ansatte tilliten til ledelsen.
+Zero Trust-konseptet omfatter flere praktiske nivåer,
+men det er lett å dra det for langt når alle disse lagene skal kontrolleres og sikres.
+Resultat er byråkrati, ineffektivitet, dårlig samhandling, mistrivsel og lite innovasjon.
+Sikkerhetsopplæring er ofte bedre enn overdreven sperring, da lærer medarbeidere å ta fornuftige vurderinger.
+Hvis Zero Trust betyr mistillit fra ledelsen, mister ansatte tilliten til ledelsen.  
 
-Fra mine erfaringer som utvikler legges det for mye vekt på detaljert tilgangskontroll og minste privilegiums-prinsipp. 
-Det fører ofte til blokkeringer og tidstyver, for eksempel når lokal utvikling krever tilgang til sperrede nettsteder.
+Fra mine erfaringer som utvikler legges det for mye vekt på detaljert tilgangskontroll og minste privilegiums-prinsipp.
+Det fører ofte til blokkeringer og tidstyver, for eksempel når lokal utvikling krever tilgang til sperrede nettsteder.  
 
-Å holde biblioteker oppdatert høres enkelt ut, men krever god DevSecOps for å fungere i praksis. 
-Vi bruker mye tid på oppdateringer for sikkerhetshull som kanskje ikke berører oss. 
-Samarbeidet mellom sikkerhet og utvikling fungerer sjelden godt; begge parter forstår for lite av hverandres hverdag.
+Å holde biblioteker oppdatert høres enkelt ut, men krever god DevSecOps for å fungere i praksis.
+Vi bruker mye tid på oppdateringer for sikkerhetshull som kanskje ikke berører oss.
+Samarbeidet mellom sikkerhet og utvikling fungerer sjelden godt; begge parter forstår for lite av hverandres hverdag.  
 
-Minste privilegium og Zero Trust krever en svært oppegående organisasjon for å administrere tilgang. 
-Hvis ikke risikerer vi et dårligere og dyrere system. 
-Et eget plattformteam med sikkerhetsfokus kan hjelpe, med noen få forhåndsdefinerte tilgangspakker for utviklere.
+Minste privilegium og Zero Trust krever en svært oppegående organisasjon for å administrere tilgang.
+Hvis ikke risikerer vi et dårligere og dyrere system.
+Et eget plattformteam med sikkerhetsfokus kan hjelpe, med noen få forhåndsdefinerte tilgangspakker for utviklere.  
 
-God sikkerhet koster mer og må planlegges inn fra starten sammen med testing. 
-Risikoanalyse bør gjøres slik at innsatsen settes inn der det teller. 
-Det er en kostnad før produksjonssetting og en større kostnad når noe går alvorlig galt. 
+God sikkerhet koster mer og må planlegges inn fra starten sammen med testing.
+Risikoanalyse bør gjøres slik at innsatsen settes inn der det teller.
+Det er en kostnad før produksjonssetting og en større kostnad når noe går alvorlig galt.
 Det verste er et system som ikke kan nås av brukerne.
-Uansett om årsak er overbelastning, nettverksfeil, hackerangrep, menneskelig svikt, feil tilgangskontroll eller utgåtte sertifikater.
+Uansett om årsak er overbelastning, nettverksfeil, hackerangrep, menneskelig svikt, feil tilgangskontroll eller utgåtte sertifikater.  
 
 ### Konklusjon
 
