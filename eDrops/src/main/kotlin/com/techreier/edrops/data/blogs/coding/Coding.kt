@@ -29,9 +29,9 @@ object Coding : Blogs {
 
     override fun no(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, SUMMARY_NO, mutableListOf(), blogOwner)
-            .addPosts(Vibecoding::no, Fullstack::no)
+            .addPosts(Vibecoding::no, Fullstack::no, ZeroTrust::no)
 
     override fun en(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_EN, SUMMARY_EN, mutableListOf(), blogOwner)
-            .addPosts(Vibecoding::en, Fullstack::en)
+            .addPosts(Vibecoding::en, Fullstack::en, ZeroTrust::en)
 }
