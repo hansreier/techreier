@@ -17,7 +17,7 @@ object ZeroTrust : BlogPosts {
 \- Jeg må rette opp i sikkerhetshull som ikke eksponeres i koden, bare for å få den godkjent.  
 \- Det jeg trenger, finnes dessverre på et nettsted som er sperret. 
         
-[Lenke til artikkel om Zero Trust og hvorfor dette skjer.]   
+[Les mer om Zero Trust og hvorfor dette skjer.](../about/zerotrust) 
 """
 
     const val SUMMARY_EN = """
@@ -26,7 +26,7 @@ object ZeroTrust : BlogPosts {
 \- I’m forced to patch security issues that aren’t exposed in the code, just to get approval.  
 \- And what I actually need is on a website that’s blocked.  
 
-[Link to article about Zero Trust and why this keeps happening.]
+[Read more about Zero Trust and why this happens.](../about/zerotrust) 
 """
 
     override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO, blog)
