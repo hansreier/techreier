@@ -43,7 +43,7 @@ class UtilTest {
     @Test
     fun getMenuItemsWithTopicTooSmallSubmenuTest() {
         val origMenuItems = Docs.about.asList().filter { doc -> doc.langCode == NB }
-        val menuItems = getMenuItems( origMenuItems, 0 ,15, messageSource)
+        val menuItems = getMenuItems( origMenuItems, 0 ,16, messageSource)
         Assertions.assertEquals(origMenuItems.size, menuItems.size)
         Assertions.assertEquals(0, menuItems.count { menuItem -> menuItem.isTopic })
     }
