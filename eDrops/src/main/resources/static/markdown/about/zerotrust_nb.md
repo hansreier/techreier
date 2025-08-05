@@ -47,9 +47,37 @@ Et eget plattformteam med sikkerhetsfokus kan hjelpe, med noen få forhåndsdefi
 
 God sikkerhet koster mer og må planlegges inn fra starten sammen med testing.
 Risikoanalyse bør gjøres slik at innsatsen settes inn der det teller.
-Det er en kostnad før produksjonssetting og en større kostnad når noe går alvorlig galt.
-Det verste er et system som ikke kan nås av brukerne.
-Uansett om årsak er overbelastning, nettverksfeil, hackerangrep, menneskelig svikt, feil tilgangskontroll eller utgåtte sertifikater.  
+Vi bør skille mellom
+- Lokal utviklingsmaskin: 
+- Felles testmiljø: Midt i mellom strengt.
+- Produksjon: Svært strenge krav er på sin plass.
+
+En problemstilling er om utviklere skal ha rot tilgang til egen maskin.
+Egen erfaring er dessverre at mye utviklingtid ofte går tapt har jeg ikke det.
+Installasjon av programvare er kanskje det største problemet.
+Det krever mye innsats og omtanke av felles IT hvis alt det som en utvikler trenger skal installeres felles.
+Hovedproblemet er om noen kan komme inn med rot tilgangen og skaffe seg tilgang til andre maskiner eller systemer.
+Jeg påstår at problemet i praksis er nesten like stort uten rot tilgang. 
+
+Men det er en kostnad før produksjonssetting og en større kostnad når noe går alvorlig galt.
+
+Det to alvorligste sikkerhetsrisikoen er
+- Et system som ikke kan nås av brukerne
+- Skjulte alvorlige feil som plutselig oppstår
+
+Årsak til feilet aksess kan være overbelastning, nettverksfeil, hackerangrep, menneskelig svikt, 
+feil tilgangskontroll eller utgåtte sertifikater. 
+Feilen kan også være relatert til mer omfattende sikkerhetsrutiner enn det som er håndterbart.
+
+Årsak til alvorlige feil kan være design eller kode feil, eller en plantet feil av en angriper.
+Mye av kan hindres med sikkerhetsfokus og kunnskap hos utviklere.
+Det er mye bedre med utviklere med OWASP og Zero Trust fokus på egen kode, 
+enn rigid Zero Trust anvendt på utviklerne som om de ikke er ansvarlige eller kan noe.
+Det å være klar over ulike injection pattern og WCAG er viktig (HTML-injection, SQL injection)
+Kode QA er svært viktig og fornuftig logging.
+Flere nivåer av sikkerhet gjør det vanskeligere for en angiper.
+Mye kan oppdages i test, unntakstester er viktig.
+En regresjonstest kan oppdage uønskede endringer i koden.
 
 ### Konklusjon
 
