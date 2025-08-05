@@ -22,9 +22,9 @@ object Politics : Blogs {
 
     override fun no(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NO, mutableListOf(), blogOwner)
-            .addPosts(Democracy::no, SymbolPolitics::no, EU::no)
+            .addPosts(Democracy::no, EnergyPolitics::no, SymbolPolitics::no, EU::no)
 
     override fun en(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_EN, ABOUT_EN, mutableListOf(), blogOwner)
-            .addPosts(Democracy::en, SymbolPolitics::en, EU::en)
+            .addPosts(Democracy::en, EnergyPolitics::en, SymbolPolitics::en, EU::en)
 }
