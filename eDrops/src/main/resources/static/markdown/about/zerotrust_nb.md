@@ -52,12 +52,10 @@ Vi bør skille mellom
 - Felles testmiljø: Midt i mellom strengt.
 - Produksjon: Svært strenge krav er på sin plass.
 
-En problemstilling er om utviklere skal ha rot tilgang til egen maskin.
-Egen erfaring er dessverre at mye utviklingtid ofte går tapt har jeg ikke det.
-Installasjon av programvare er kanskje det største problemet.
-Det krever mye innsats og omtanke av felles IT hvis alt det som en utvikler trenger skal installeres felles.
-Hovedproblemet er om noen kan komme inn med rot tilgangen og skaffe seg tilgang til andre maskiner eller systemer.
-Jeg påstår at problemet i praksis er nesten like stort uten rot tilgang. 
+En problemstilling er om utviklere skal ha root-tilgang på egen maskin.
+Uten rottilgang kan mye utviklingstid gå tapt, inkludert nødvendig installasjon av programvare.
+Risiko for misbruk ofte er nesten like stor uten rot tilgang.
+Lås uansett maskinen, så kan ikke angriper gjøre ugang via den lokale maskinen.
 
 Men det er en kostnad før produksjonssetting og en større kostnad når noe går alvorlig galt.
 
@@ -65,19 +63,13 @@ Det to alvorligste sikkerhetsrisikoen er
 - Et system som ikke kan nås av brukerne
 - Skjulte alvorlige feil som plutselig oppstår
 
-Årsak til feilet aksess kan være overbelastning, nettverksfeil, hackerangrep, menneskelig svikt, 
-feil tilgangskontroll eller utgåtte sertifikater. 
-Feilen kan også være relatert til mer omfattende sikkerhetsrutiner enn det som er håndterbart.
+Årsak til ikke nåbart system kan være svikt i sikkerhets- og drifts-rutiner som kan gi
+overbelastning, nettverksfeil, hackerangrep, feil med tilgangskontroll eller utgåtte sertifikater.
 
-Årsak til alvorlige feil kan være design eller kode feil, eller en plantet feil av en angriper.
-Mye av kan hindres med sikkerhetsfokus og kunnskap hos utviklere.
-Det er mye bedre med utviklere med OWASP og Zero Trust fokus på egen kode, 
-enn rigid Zero Trust anvendt på utviklerne som om de ikke er ansvarlige eller kan noe.
-Det å være klar over ulike injection pattern og WCAG er viktig (HTML-injection, SQL injection)
-Kode QA er svært viktig og fornuftig logging.
-Flere nivåer av sikkerhet gjør det vanskeligere for en angiper.
-Mye kan oppdages i test, unntakstester er viktig.
-En regresjonstest kan oppdage uønskede endringer i koden.
+Skjulte alvorlige feil kan skyldes feildesign eller dårlig kode, som kan utnyttes av en angriper.
+Utviklere bør ha sikkerhetsopplæring med fokus på OWASP og Zero Trust.
+Det å være klar over ulike injection pattern er essensielt, samt grundig QA, testing og logging.
+Dette er mye viktigere enn Zero Trust rettet mot utviklere i form av blokkeringer.
 
 ### Konklusjon
 
