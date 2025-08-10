@@ -17,10 +17,10 @@ men vi stoler ikke på noen. Aldri.
 3. **Programvareforsyningskjeden (software supply chain)**  
    Sikring av alt fra biblioteker til containere, gjennom dependency-scanning, CI/CD-sikring og signering.
 
-4. **Lukkede tjenester (interne APIer)**  
+4. **Interne tjenester (APIer)**  
    Autentisering (MFA, SSO, token), autorisasjon, logging og overvåkning.
 
-5. **Åpne tjenester (eksterne APIer, banker, nettsider)**  
+5. **Åpne tjenester (APIer, banker, nettsider)**  
    MFA, token, autorisasjon, samtykke, sikker tilkobling og overvåkning. Sikring både internt (egen organisasjon kan sperre) og eksternt.
 
 6. **Fysisk lokasjon (kontor, firma, land)**  
@@ -46,25 +46,27 @@ Hvis ikke risikerer vi et dårligere og dyrere system.
 Et eget plattformteam med sikkerhetsfokus kan hjelpe, med noen få forhåndsdefinerte tilgangspakker for utviklere.  
 
 God sikkerhet koster mer og må planlegges inn fra starten sammen med testing.
-Risikoanalyse bør gjøres slik at innsatsen settes inn der det teller.
-Vi bør skille mellom
-- Lokal utviklingsmaskin: 
-- Felles testmiljø: Midt i mellom strengt.
-- Produksjon: Svært strenge krav er på sin plass.
+Risikoanalyse bør gjøres slik at innsatsen settes inn der det teller.  
 
-En problemstilling er om utviklere skal ha root-tilgang på egen maskin.
-Uten rottilgang kan mye utviklingstid gå tapt, inkludert nødvendig installasjon av programvare.
+Sikkerhetskravene må tilpasses miljøet de gjelder for:
+- Lokale utviklingsmaskiner: Fleksible krav tilpasset utviklingsarbeidet.
+- Felles testmiljø: Strengere krav når systemer og testdata deles.
+- Produksjon: Svært strenge krav for å beskytte data og sikre stabil drift.
+
+Skal utviklere ha rot-tilgang på egen maskin?
+Uten rottilgang kan utviklingstid gå tapt. Oppdateringer droppes lettere, noe som svekker sikkerheten.
 Risiko for misbruk ofte er nesten like stor uten rot tilgang.
 Lås uansett maskinen, så kan ikke angriper gjøre ugang via den lokale maskinen.
 
 Men det er en kostnad før produksjonssetting og en større kostnad når noe går alvorlig galt.
 
-Det to alvorligste sikkerhetsrisikoen er
+Det to alvorligste sikkerhetsrisikoene er:
 - Et system som ikke kan nås av brukerne
 - Skjulte alvorlige feil som plutselig oppstår
 
 Årsak til ikke nåbart system kan være svikt i sikkerhets- og drifts-rutiner som kan gi
 overbelastning, nettverksfeil, hackerangrep, feil med tilgangskontroll eller utgåtte sertifikater.
+Merk at altfor rigide sikkerhetsregler noen ganger kan føre til utestengelser.  
 
 Skjulte alvorlige feil kan skyldes feildesign eller dårlig kode, som kan utnyttes av en angriper.
 Utviklere bør ha sikkerhetsopplæring med fokus på OWASP og Zero Trust.
