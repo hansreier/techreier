@@ -2,11 +2,10 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.logger
 
-import com.techreier.edrops.service.CollatzService
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
-import com.techreier.edrops.forms.CollatzForm
-import com.techreier.edrops.util.checkLong
+import com.techreier.edrops.forms.FractionForm
+import com.techreier.edrops.service.FractionService
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -18,59 +17,58 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
-const val COLLATZ = "collatz"
-const val COLLATZ_DIR = "/$COLLATZ"
+const val FRACTION = "fraction"
+const val FRACTION_DIR = "/$FRACTION"
 
 @Controller
-@RequestMapping(COLLATZ_DIR)
-class CollatzController(ctx: Context, val collatzService: CollatzService) : BaseController(ctx) {
+@RequestMapping(FRACTION_DIR)
+class Fraction(ctx: Context, val fractionService: FractionService) : BaseController(ctx) {
 
     @GetMapping
-    fun collatz(
+    fun fraction(
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
         redirectAttributes: RedirectAttributes
     ): String {
-        logger.info("Collatz page")
-        val collatzForm = model.getAttribute("collatz") ?: CollatzForm()
-        model.addAttribute("collatz", collatzForm)
+        logger.info("Fraction page")
+        val fractionForm = model.getAttribute("fraction") ?: FractionForm("","","") //TODO Reier correct or.
+        model.addAttribute("fraction", fractionForm)
         val docIndex = prepare(model, request, response)
         if (docIndex.error || docIndex.index < 0) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
         }
-        return "collatz"
+        return "fraction"
     }
 
     @PostMapping
     fun calculate(
         redirectAttributes: RedirectAttributes,
-        collatzForm: CollatzForm,
+        fractionForm: FractionForm,
         bindingResult: BindingResult,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        logger.info("calculate collatzForm sequence")
+        logger.info("calculate fraction")
 
-        val seedNo = checkLong(collatzForm.seed,"seed", bindingResult, 1   )
-        val result = seedNo?.let { collatzService.collatz(it) }
+        val fractionResult = fractionForm.validate(bindingResult) ?.let  { fractionService.fraction(it)}
 
         if (bindingResult.hasErrors()) {
-            logger.info("warn collatzForm seed input error: $collatzForm")
+            logger.info("warn fraction input error: $fractionForm")
             val docIndex = prepare(model, request, response)
             if (docIndex.index < 0) {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/$HOME_DIR"
             }
-            model.addAttribute("collatz", collatzForm)
-            return COLLATZ
+            model.addAttribute("fraction", fractionForm)
+            return FRACTION
         }
 
-        redirectAttributes.addFlashAttribute("collatz", collatzForm)
-        redirectAttributes.addFlashAttribute("result", result)
-        return "redirect:$COLLATZ_DIR"
+        redirectAttributes.addFlashAttribute("fraction", fractionForm)
+        redirectAttributes.addFlashAttribute("fractionResult", fractionResult)
+        return "redirect:$FRACTION_DIR"
     }
 
     private fun prepare(
@@ -79,14 +77,15 @@ class CollatzController(ctx: Context, val collatzService: CollatzService) : Base
         response: HttpServletResponse
     ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response)
-        val docIndex = Docs.getDocIndex(Docs.collatzForm, blogParams.oldLangCode, blogParams.usedLangCode, COLLATZ)
+        val docIndex = Docs.getDocIndex(Docs.fraction, blogParams.oldLangCode, blogParams.usedLangCode, FRACTION)
 
         if (docIndex.index >= 0 ) {
-            val doc = Docs.collatzForm[docIndex.index]
-            val docText: String = markdownToHtml(doc, COLLATZ_DIR).html
+            val doc = Docs.fraction[docIndex.index]
+            val docText: String = markdownToHtml(doc, FRACTION_DIR).html
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)
         }
         return docIndex
     }
+
 }

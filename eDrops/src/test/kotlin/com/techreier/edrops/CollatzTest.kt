@@ -6,8 +6,8 @@ private const val MIN_SIZE = 1L
 private const val MAX_SIZE = 300L
 private const val DISPLAY_SEQUENCE = true
 
-//Collatz Conjecture
-//Collatz formodning
+//CollatzForm Conjecture
+//CollatzForm formodning
 //https://www.quantamagazine.org/why-mathematicians-still-cant-solve-the-collatz-conjecture-20200922/
 //divide by two if result is integer else multiply by 3 and add one. Repeat.
 // 8 minutes. As many numbers as possible until you reach 1

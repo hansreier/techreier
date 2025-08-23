@@ -10,7 +10,7 @@
 <div layout:fragment="content">
     <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"/>
     <div class="container" th:utext="${docText}"></div><br>
-    <form th:action="@{/collatz}" th:object="${collatz}" th:method="post">
+    <form th:action="@{/collatzForm}" th:object="${collatzForm}" th:method="post">
         <div class="input-row">
             <label th:for="seed" th:text="#{collatzSeed}"></label>
             <input type="text" id="seed" th:field="*{seed}" maxLength="18">

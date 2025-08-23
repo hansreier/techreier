@@ -76,10 +76,16 @@ object Docs {
 
         )
 
-    val collatz =
+    val collatzForm =
         arrayOf(
-            MenuItem("collatz", c.defaultNo, "Collatz"),
-            MenuItem("collatz", c.defaultEn, "Collatz"),
+            MenuItem("collatz", c.defaultNo, "CollatzForm"),
+            MenuItem("collatz", c.defaultEn, "CollatzForm"),
+        )
+
+    val fraction =
+        arrayOf(
+            MenuItem("brøk", c.defaultNo, "Fraction"),
+            MenuItem("fraction", c.defaultEn, "Fraction"),
         )
 
     // Find the first Doc index that matches language code and eventually nonnull segment
