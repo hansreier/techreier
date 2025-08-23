@@ -76,10 +76,10 @@ object Docs {
 
         )
 
-    val collatzForm =
+    val collatz =
         arrayOf(
-            MenuItem("collatz", c.defaultNo, "CollatzForm"),
-            MenuItem("collatz", c.defaultEn, "CollatzForm"),
+            MenuItem("collatz", c.defaultNo, "Collatz"),
+            MenuItem("collatz", c.defaultEn, "Collatz")
         )
 
     val fraction =

@@ -33,8 +33,8 @@ class CollatzController(ctx: Context, val collatzService: CollatzService) : Base
         redirectAttributes: RedirectAttributes
     ): String {
         logger.info("Collatz page")
-        val collatzForm = model.getAttribute("collatz") ?: CollatzForm()
-        model.addAttribute("collatz", collatzForm)
+        val collatzForm = model.getAttribute("collatzForm") ?: CollatzForm()
+        model.addAttribute("collatzForm", collatzForm)
         val docIndex = prepare(model, request, response)
         if (docIndex.error || docIndex.index < 0) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
@@ -58,17 +58,17 @@ class CollatzController(ctx: Context, val collatzService: CollatzService) : Base
         val result = seedNo?.let { collatzService.collatz(it) }
 
         if (bindingResult.hasErrors()) {
-            logger.info("warn collatzForm seed input error: $collatzForm")
+            logger.info("warn collatz seed input error: $collatzForm")
             val docIndex = prepare(model, request, response)
             if (docIndex.index < 0) {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/$HOME_DIR"
             }
-            model.addAttribute("collatz", collatzForm)
+            model.addAttribute("collatzForm", collatzForm)
             return COLLATZ
         }
 
-        redirectAttributes.addFlashAttribute("collatz", collatzForm)
+        redirectAttributes.addFlashAttribute("collatzForm", collatzForm)
         redirectAttributes.addFlashAttribute("result", result)
         return "redirect:$COLLATZ_DIR"
     }
@@ -79,10 +79,10 @@ class CollatzController(ctx: Context, val collatzService: CollatzService) : Base
         response: HttpServletResponse
     ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response)
-        val docIndex = Docs.getDocIndex(Docs.collatzForm, blogParams.oldLangCode, blogParams.usedLangCode, COLLATZ)
+        val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.oldLangCode, blogParams.usedLangCode, COLLATZ)
 
         if (docIndex.index >= 0 ) {
-            val doc = Docs.collatzForm[docIndex.index]
+            val doc = Docs.collatz[docIndex.index]
             val docText: String = markdownToHtml(doc, COLLATZ_DIR).html
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)

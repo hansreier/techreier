@@ -69,7 +69,7 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <a th:href="@{/collatzForm}" class="dropdown-item" th:text="#{collatzForm}"></a>
+            <a th:href="@{/collatz}" class="dropdown-item" th:text="#{collatz}"></a>
             <a th:each="item : ${menu}"
                th:href="@{/blogs/{segment}(segment=${item.segment})}" class="dropdown-item"
                th:text="${item.subject}"
