@@ -110,6 +110,28 @@ fun checkLong(
     }
 }
 
+fun checkDouble(
+    value: String?,
+    field: String,
+    bindingResult: BindingResult,
+    minValue: Double? = null, maxValue:Double? = null, required: Boolean = true,
+): Double? {
+    if (value.isNullOrBlank()) {
+        if (required)
+            bindingResult.rejectValue(field, "error.empty")
+        return null
+    } else {
+        val result = value.toDoubleOrNull()
+        if (result == null)
+            bindingResult.rejectValue(field, "error.noLong", value)
+        else if ((minValue != null) && (result < minValue))
+            bindingResult.rejectValue(field,"error.lessThan", arrayOf(minValue),  value)
+        else if ((maxValue != null) && (result > maxValue))
+            bindingResult.rejectValue(field, "error.greaterThan", arrayOf(maxValue), value)
+        return result
+    }
+}
+
 
 
 
