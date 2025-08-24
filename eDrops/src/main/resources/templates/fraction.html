@@ -13,17 +13,17 @@
     <form th:action="@{/fraction}" th:object="${fractionForm}" th:method="post">
         <div class="input-row">
             <label th:for="decimalNumber" th:text="#{decimalNumber}"></label>
-            <input type="text" id="decimalNumber" th:field="*{decimalNumber}" maxLength="18">
+            <input type="text" id="decimalNumber" th:field="*{decimalNumber}" maxLength="22">
             <span class="error" th:if="${#fields.hasErrors('decimalNumber')}" th:errors="*{decimalNumber}"></span>
         </div>
         <div class="input-row">
             <label th:for="maxDeviation" th:text="#{maxDeviation}"></label>
-            <input type="text" id="maxDeviation" th:field="*{maxDeviation}" maxLength="18">
+            <input type="text" id="maxDeviation" th:field="*{maxDeviation}" maxLength="22">
             <span class="error" th:if="${#fields.hasErrors('maxDeviation')}" th:errors="*{maxDeviation}"></span>
         </div>
         <div class="input-row">
             <label th:for="maxDenominator" th:text="#{maxDenominator}"></label>
-            <input type="text" id="maxDenominator" th:field="*{maxDenominator}" maxLength="18">
+            <input type="text" id="maxDenominator" th:field="*{maxDenominator}" maxLength="22">
             <span class="error" th:if="${#fields.hasErrors('maxDenominator')}" th:errors="*{maxDenominator}"></span>
         </div>
         <button type="submit" th:text="#{calculate}"></button>

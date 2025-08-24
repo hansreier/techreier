@@ -101,7 +101,7 @@ fun checkLong(
     } else {
         val result = value.toLongOrNull()
         if (result == null)
-            bindingResult.rejectValue(field, "error.noInteger", value)
+            bindingResult.rejectValue(field, "error.noLong", value)
         else if ((minValue != null) && (result < minValue))
             bindingResult.rejectValue(field,"error.lessThan", arrayOf(minValue),  value)
         else if ((maxValue != null) && (result > maxValue))
@@ -123,7 +123,7 @@ fun checkDouble(
     } else {
         val result = value.toDoubleOrNull()
         if (result == null)
-            bindingResult.rejectValue(field, "error.noLong", value)
+            bindingResult.rejectValue(field, "error.noDouble", value)
         else if ((minValue != null) && (result < minValue))
             bindingResult.rejectValue(field,"error.lessThan", arrayOf(minValue),  value)
         else if ((maxValue != null) && (result > maxValue))

@@ -32,7 +32,7 @@ class Fraction(ctx: Context, val fractionService: FractionService) : BaseControl
         redirectAttributes: RedirectAttributes
     ): String {
         logger.info("Fraction page")
-        val fractionForm = model.getAttribute("fractionForm") ?: FractionForm("","","") //TODO Reier correct or.
+        val fractionForm = model.getAttribute("fractionForm") ?: FractionForm()
         model.addAttribute("fractionForm", fractionForm)
         val docIndex = prepare(model, request, response)
         if (docIndex.error || docIndex.index < 0) {

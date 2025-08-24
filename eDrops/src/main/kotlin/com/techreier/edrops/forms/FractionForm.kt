@@ -8,7 +8,7 @@ import com.techreier.edrops.util.checkLong
 import org.springframework.validation.BindingResult
 
 data class FractionForm(
-    var decimalNumber: String, var maxDeviation: String = MAX_DEVIATION.toString(),
+    var decimalNumber: String = kotlin.math.PI.toString(), var maxDeviation: String = MAX_DEVIATION.toString(),
     var maxDenominator: String = MAX_DENOMINATOR.toString(),
 ) {
     fun validate(bindingResult: BindingResult): FractionInput? {
