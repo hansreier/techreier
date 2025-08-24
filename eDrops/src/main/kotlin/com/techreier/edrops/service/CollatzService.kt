@@ -33,7 +33,7 @@ class CollatzService {
                 value = value * 3 + 1
             }
             if (i <= MAX_VIEW_ITERATIONS) {
-                sequence.append(" →")
+                sequence.append(" → ")
                 sequence.append(value)
             } else error = "error.sequenceTruncated"
         } while ((value != 1L))

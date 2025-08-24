@@ -18,7 +18,7 @@ class FractionServiceTest {
 
     @Test
     fun fractionTestPi() {
-        val fractionResult = fractionService.fraction(kotlin.math.PI, epsilon = 2e-3 )
+        val fractionResult = fractionService.fraction(kotlin.math.PI, maxDeviation = 2e-3 )
         assertNull(fractionResult.error)
         assertEquals(22,fractionResult.numerator)
         assertEquals(7,fractionResult.denominator)
@@ -27,7 +27,7 @@ class FractionServiceTest {
 
     @Test
     fun fractionTestPiAccurate() {
-        val fractionResult = fractionService.fraction(kotlin.math.PI, epsilon = 2e-6 )
+        val fractionResult = fractionService.fraction(kotlin.math.PI, maxDeviation = 2e-6 )
         assertNull(fractionResult.error)
         logger.info("$fractionResult")
     }
