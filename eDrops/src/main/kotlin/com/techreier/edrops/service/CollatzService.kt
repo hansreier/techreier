@@ -4,12 +4,15 @@ import com.techreier.edrops.config.logger
 import org.springframework.stereotype.Service
 import kotlin.Long.Companion.MAX_VALUE
 
-const val MAX_ITERATIONS = 5000
-const val MAX_VIEW_ITERATIONS = 1000L
-const val MAX_ITEM_VALUE = (MAX_VALUE / 3) - 1
-
 @Service
 class CollatzService {
+
+    companion object {
+        const val MAX_ITERATIONS = 5000
+        const val MAX_VIEW_ITERATIONS = 1000
+        const val MAX_ITEM_VALUE = (MAX_VALUE / 3) - 1
+    }
+
     // Return number of iterations and the resulting collatz sequence
     fun collatz(seed: Long): CollatzResult {
         val sequence = StringBuilder()

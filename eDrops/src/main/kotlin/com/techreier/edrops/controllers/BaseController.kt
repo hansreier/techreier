@@ -180,6 +180,4 @@ abstract class BaseController(
         val topicKey: String,
         val topics: List<Topic>
     )
-
-    companion object
 }

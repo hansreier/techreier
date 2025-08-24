@@ -7,6 +7,13 @@ import kotlin.math.abs
 @Service
 class FractionService {
 
+    companion object {
+        const val MAX_DEVIATION = 1e-6
+        const val MAX_DENOMINATOR = Long.MAX_VALUE
+        const val MAX_ITERATIONS = 500
+        const val MAX_VIEW_ITERATIONS = 50
+    }
+
     fun fraction(fractionInput: FractionInput): FractionResult {
         return fraction(fractionInput.decimalNumber, fractionInput.maxDeviation, fractionInput.maxDenominator)
     }
@@ -20,15 +27,17 @@ class FractionService {
     *
     * The stop criteria is max deviation and max denominator. The max number of iterations will in practice not be exceeded.
     */
-    fun fraction(decimalNumber: Double, maxDeviation: Double = 1e-6, maxDenominator: Long = Long.MAX_VALUE,
-                 maxIterations: Int = MAX_ITERATIONS): FractionResult {
+    fun fraction(
+        decimalNumber: Double, maxDeviation: Double = MAX_DEVIATION, maxDenominator: Long = MAX_DENOMINATOR,
+        maxIterations: Int = MAX_ITERATIONS,
+    ): FractionResult {
 
         var numerator = 1L
         var denominator = 0L
         var numeratorOld = 0L
         var denominatorOld = 1L
         var i = 0
-        var error : String? = null
+        var error: String? = null
         var value = decimalNumber
         val sequence = StringBuilder()
         logger.info("value $decimalNumber maxDeviation: $maxDeviation maxDenominator: $maxDenominator ")
@@ -76,8 +85,10 @@ class FractionService {
             logger.error("AritmeticException ${e.message}")
             error = "error.arithmetic"
         }
-        return FractionResult(numerator, denominator, deviation(decimalNumber, numerator, denominator), i,
-            sequence.toString(), error)
+        return FractionResult(
+            numerator, denominator, deviation(decimalNumber, numerator, denominator), i,
+            sequence.toString(), error
+        )
     }
 }
 
@@ -89,7 +100,7 @@ data class FractionInput(val decimalNumber: Double, val maxDeviation: Double, va
 
 data class FractionResult(
     val numerator: Long, val denominator: Long, val deviation: Double, val iterations: Int, val sequence: String,
-    val error: String?
+    val error: String?,
 )
 
 

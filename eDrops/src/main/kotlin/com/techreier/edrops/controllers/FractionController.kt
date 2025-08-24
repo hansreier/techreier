@@ -62,7 +62,7 @@ class Fraction(ctx: Context, val fractionService: FractionService) : BaseControl
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/$HOME_DIR"
             }
-            model.addAttribute("fraction", fractionForm)
+            model.addAttribute("fractionForm", fractionForm)
             return FRACTION
         }
 
