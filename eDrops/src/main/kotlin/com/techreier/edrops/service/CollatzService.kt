@@ -15,10 +15,11 @@ class CollatzService {
         val sequence = StringBuilder()
         sequence.append(seed)
         var value = seed
-        var iterations = 0
+        var i = 0
         var error : String? = null
         do {
-            if (iterations >= MAX_ITERATIONS) {
+            i++
+            if (i >= MAX_ITERATIONS) {
                 error = "error.maxIterations"
                 break
             }
@@ -31,14 +32,13 @@ class CollatzService {
                 }
                 value = value * 3 + 1
             }
-            if (iterations <= MAX_VIEW_ITERATIONS) {
-                sequence.append(" → ")
+            if (i <= MAX_VIEW_ITERATIONS) {
+                sequence.append(" →")
                 sequence.append(value)
             } else error = "error.sequenceTruncated"
-            iterations++
         } while ((value != 1L))
-        logger.info("Seed: $seed Iterations: $iterations ${error?: ""}")
-        return CollatzResult(iterations, sequence.toString(), error)
+        logger.info("Seed: $seed Iterations: $i ${error?: ""}")
+        return CollatzResult(i, sequence.toString(), error)
     }
 }
 

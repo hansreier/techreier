@@ -31,9 +31,9 @@ class Fraction(ctx: Context, val fractionService: FractionService) : BaseControl
         model: Model,
         redirectAttributes: RedirectAttributes
     ): String {
-        logger.info("Fraction page")
-        val fractionForm = model.getAttribute("fraction") ?: FractionForm("","","") //TODO Reier correct or.
-        model.addAttribute("fraction", fractionForm)
+        logger.info("FractionResult page")
+        val fractionForm = model.getAttribute("fractionForm") ?: FractionForm("","","") //TODO Reier correct or.
+        model.addAttribute("fractionForm", fractionForm)
         val docIndex = prepare(model, request, response)
         if (docIndex.error || docIndex.index < 0) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
