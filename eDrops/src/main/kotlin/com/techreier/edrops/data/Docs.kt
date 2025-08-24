@@ -84,8 +84,8 @@ object Docs {
 
     val fraction =
         arrayOf(
-            MenuItem("brøk", c.defaultNo, "FractionResult"),
-            MenuItem("fraction", c.defaultEn, "FractionResult"),
+            MenuItem("fraction", c.defaultNo, "Beste brøk"),
+            MenuItem("fraction", c.defaultEn, "Best fraction")
         )
 
     // Find the first Doc index that matches language code and eventually nonnull segment

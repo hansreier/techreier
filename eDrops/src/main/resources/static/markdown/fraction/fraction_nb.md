@@ -1,11 +1,14 @@
-## Collatz formodning
+## Calculating best fraction from a decimal number
 
-1. Velg et vilkårlig positivt helttall. 
-2. Hvis tallet er et partall, del tallet med 2. 
-3. Hvis tallet er et oddetall, gang tallet med 3 og pluss på 1. 
-4. Repeter prosessen til tallet ender på 1.
-5. Hvis du ikke får 1 som resultat skal du få en premie.  
+1. Velg et desimaltall.
+2. Sett inn maksimum verdi på nevner og maksumum avvik
+3. Funksjonen returerer brøken med taller og nevner som er nærmest til desimaltallet.
 
-Dette er et uløst matematisk problem, 
-fordi ingen hittil har bevist at dette stemmer. 
-Jeg har ingen ambisjon om å bevise det, men du kan hvis du vil.
+Algoritme for kjedebrøker brukes til beregningene.  
+
+Algoritmen kjører i sløyfe som avsluttes når:
+- Differansen mellom verdien på brøken og desimaltallet er mindre enn max avvik. 
+- Max verdi på nevner er overskredet (gir feilmelding)
+- Beregningsfeil. Kan oppstå hvis avvik settes til 0.0 (gir feilmelding)
+- Max antall tilatte iterasjoner er overskredet (usannsynlig, gir feilmelding)
+

@@ -16,6 +16,16 @@
             <input type="text" id="decimalNumber" th:field="*{decimalNumber}" maxLength="18">
             <span class="error" th:if="${#fields.hasErrors('decimalNumber')}" th:errors="*{decimalNumber}"></span>
         </div>
+        <div class="input-row">
+            <label th:for="maxDeviation" th:text="#{maxDeviation}"></label>
+            <input type="text" id="maxDeviation" th:field="*{maxDeviation}" maxLength="18">
+            <span class="error" th:if="${#fields.hasErrors('maxDeviation')}" th:errors="*{maxDeviation}"></span>
+        </div>
+        <!--div class="input-row">
+            <label th:for="maxDenuminator" th:text="#{maxDenuminator}"></label>
+            <input type="text" id="maxDenuminator" th:field="*{maxDenuminator}" maxLength="18">
+            <span class="error" th:if="${#fields.hasErrors('maxDenuminator')}" th:errors="*{maxDenuminator}"></span>
+        </div-->
         <button type="submit" th:text="#{calculate}"></button>
         <th:block th:if="${result}">
             <p class="error" th:if="${result.error != null }" th:text="#{${result.error}}"></p>
