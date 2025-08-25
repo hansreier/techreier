@@ -53,7 +53,7 @@ class Fraction(ctx: Context, val fractionService: FractionService) : BaseControl
     ): String {
         logger.info("calculate fraction")
 
-        val fractionResult = fractionForm.validate(bindingResult) ?.let  { fractionService.fraction(it)}
+        val result = fractionForm.validate(bindingResult) ?.let  { fractionService.fraction(it)}
 
         if (bindingResult.hasErrors()) {
             logger.info("warn fraction input error: $fractionForm")
@@ -67,7 +67,7 @@ class Fraction(ctx: Context, val fractionService: FractionService) : BaseControl
         }
 
         redirectAttributes.addFlashAttribute("fractionForm", fractionForm)
-        redirectAttributes.addFlashAttribute("fractionResult", fractionResult)
+        redirectAttributes.addFlashAttribute("result", result)
         return "redirect:$FRACTION_DIR"
     }
 
