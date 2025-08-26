@@ -533,6 +533,10 @@ img:hover::after {
 	font-style: italic;
 }
 
+.result-row {
+	padding: 0.1em 5px;
+}
+
 /* Button and direct link inherits differently, I got a lot of trouble with this.
    To define them separate seems to be the simplest */
 button.dropdown-item {

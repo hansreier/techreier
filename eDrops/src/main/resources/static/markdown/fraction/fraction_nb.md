@@ -1,4 +1,4 @@
-## Calculating best fraction from a decimal number
+## Å beregne beste brøk for et desimaltall
 
 1. Velg et desimaltall.
 2. Sett inn maksimum verdi på nevner og maksumum avvik
