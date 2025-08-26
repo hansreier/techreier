@@ -86,7 +86,8 @@ class FractionService {
             error = "error.arithmetic"
         }
         return FractionResult(
-            numerator, denominator, deviation(decimalNumber, numerator, denominator), i,
+            numerator, denominator,
+            String.format("%.5g", deviation(decimalNumber, numerator, denominator)), i,
             sequence.toString(), error
         )
     }
@@ -99,7 +100,7 @@ private fun deviation(decimalNumber: Double, numerator: Long, denominator: Long)
 data class FractionInput(val decimalNumber: Double, val maxDeviation: Double, val maxDenominator: Long)
 
 data class FractionResult(
-    val numerator: Long, val denominator: Long, val deviation: Double, val iterations: Int, val sequence: String,
+    val numerator: Long, val denominator: Long, val deviation: String, val iterations: Int, val sequence: String,
     val error: String?,
 )
 

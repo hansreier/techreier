@@ -323,6 +323,21 @@ img:hover::after {
 	margin-right: 4rem;
 }
 
+#decimalNumber {
+	width: 13rem;
+	margin-right: 4rem;
+}
+
+#maxDenominator {
+	width: 13rem;
+	margin-right: 4rem;
+}
+
+#maxDeviation {
+	width: 13rem;
+	margin-right: 4rem;
+}
+
 /* Specific formatting of header line  */
 
 .left-top {
