@@ -1,6 +1,7 @@
 package com.techreier.edrops.service
 
 import com.techreier.edrops.config.logger
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Service
 import kotlin.math.abs
 
@@ -68,7 +69,7 @@ class FractionService {
                 denominator = denominatorNew
                 logger.debug("numerator: $numeratorNew denominator: $denominatorNew value $value deviation $deviation")
                 if (i <= MAX_VIEW_ITERATIONS) {
-                    fractions.add(Fraction(numerator, denominator, String.format("%.5g", deviation)))
+                    fractions.add(Fraction(numerator, denominator, fmt(deviation)))
                 } else {
                     error = "error.sequenceTruncated"
                     break
@@ -85,26 +86,29 @@ class FractionService {
             error = "error.arithmetic"
         }
         return FractionResult(
-            numerator, denominator,
-            String.format("%.5g", deviation(decimalNumber, numerator, denominator)), i,
-            fractions, error
+            numerator, denominator, fmt(deviation(decimalNumber, numerator, denominator)), i, fractions, error
         )
     }
+
+    private fun fmt(value: Double): String {
+        val locale = LocaleContextHolder.getLocale()
+        val formatted = String.format(locale, "%.5g", value)
+        return formatted
+    }
+
+    private fun deviation(decimalNumber: Double, numerator: Long, denominator: Long) =
+        abs(decimalNumber - numerator.toDouble() / denominator)
 }
-
-private fun deviation(decimalNumber: Double, numerator: Long, denominator: Long) =
-    abs(decimalNumber - numerator.toDouble() / denominator)
-
 
 data class FractionInput(val decimalNumber: Double, val maxDeviation: Double, val maxDenominator: Long)
 
 data class FractionResult(
     val numerator: Long, val denominator: Long, val deviation: String, val iterations: Int,
-    val fractions: MutableList<Fraction>, val error: String?
+    val fractions: MutableList<Fraction>, val error: String?,
 )
 
 data class Fraction(
-    val numerator: Long, val denominator: Long, val deviation: String
+    val numerator: Long, val denominator: Long, val deviation: String,
 )
 
 
