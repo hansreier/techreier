@@ -32,7 +32,21 @@
             <p class="result-row" th:text="#{fraction} + ': ' + ${result.numerator} + ' / ' + ${result.denominator}"></p>
             <p class="result-row" th:text="#{deviation} + ': ' + ${result.deviation}"></p>
             <p class="result-row" th:text="#{iterations} + ': ' + ${result.iterations}"></p>
-            <p th:text="${result.sequence}"></p>
+            <table id="fractionTable">
+                <thead>
+                <tr>
+                    <th th:text="#{fraction}"></th>
+                    <th th:text="#{deviation}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="fraction : ${result.fractions}">
+                    <td th:text="${fraction.numerator} + ' / ' + ${fraction.denominator}"></td>
+                    <td th:text="${fraction.deviation}"></td>
+                </tr>
+                </tbody>
+            </table>
+
         </th:block>
     </form>
 </div>

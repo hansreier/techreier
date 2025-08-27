@@ -39,7 +39,7 @@ class FractionService {
         var i = 0
         var error: String? = null
         var value = decimalNumber
-        val sequence = StringBuilder()
+        val fractions: MutableList<Fraction> = mutableListOf()
         logger.info("value $decimalNumber maxDeviation: $maxDeviation maxDenominator: $maxDenominator ")
 
         try {
@@ -68,8 +68,7 @@ class FractionService {
                 denominator = denominatorNew
                 logger.debug("numerator: $numeratorNew denominator: $denominatorNew value $value deviation $deviation")
                 if (i <= MAX_VIEW_ITERATIONS) {
-                    if (i > 1) sequence.append(" → ")
-                    sequence.append("(${numerator}/${denominator}-${String.format("%.5g", deviation)})")
+                    fractions.add(Fraction(numerator, denominator, String.format("%.5g", deviation)))
                 } else {
                     error = "error.sequenceTruncated"
                     break
@@ -88,7 +87,7 @@ class FractionService {
         return FractionResult(
             numerator, denominator,
             String.format("%.5g", deviation(decimalNumber, numerator, denominator)), i,
-            sequence.toString(), error
+            fractions, error
         )
     }
 }
@@ -100,8 +99,12 @@ private fun deviation(decimalNumber: Double, numerator: Long, denominator: Long)
 data class FractionInput(val decimalNumber: Double, val maxDeviation: Double, val maxDenominator: Long)
 
 data class FractionResult(
-    val numerator: Long, val denominator: Long, val deviation: String, val iterations: Int, val sequence: String,
-    val error: String?,
+    val numerator: Long, val denominator: Long, val deviation: String, val iterations: Int,
+    val fractions: MutableList<Fraction>, val error: String?
+)
+
+data class Fraction(
+    val numerator: Long, val denominator: Long, val deviation: String
 )
 
 
