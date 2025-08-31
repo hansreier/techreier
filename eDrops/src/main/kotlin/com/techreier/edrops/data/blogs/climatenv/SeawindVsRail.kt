@@ -8,8 +8,8 @@ import com.techreier.edrops.util.timestamp
 object SeawindVsRail : BlogPosts {
     val timestamp = timestamp("31.08.2025 12:00:00")
     const val SEGMENT = "sustainable"
-    const val TITLE_NO = "Bærekraft: Jernbane vs Havvind"
-    const val TITLE_EN = "Sustainability: Rail vs Offshore Wind"
+    const val TITLE_NO = "Jernbane vs flytende havvind"
+    const val TITLE_EN = "Rail vs floating offshore wind"
 
     const val SUMMARY_NO = """
 I Norge er 2025 statsbudjettet på 35 mrd kroner for flytende havvind og 32,6 mrd kroner på jernbaneinfrastruktur.
