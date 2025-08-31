@@ -12,7 +12,7 @@ object SeawindVsRail : BlogPosts {
     const val TITLE_EN = "Sustainability: Rail vs Offshore Wind"
 
     const val SUMMARY_NO = """
-I Norge foreslås i 2025 å bruke 35 mrd kroner på flytende havvind og 32,6 mrd kroner på jernbaneinfrastruktur.
+I Norge er 2025 statsbudjettet på 35 mrd kroner for flytende havvind og 32,6 mrd kroner på jernbaneinfrastruktur.
 Flytende havvind vil produsere ca. 10 TWh/år. Jernbane frakter millioner av passasjerer og sparer energi sammenlignet med bil og fly,
 med en årlig CO2-besparelse på 140 000 tonn.
 
@@ -23,7 +23,7 @@ Et økt jernbanebudsjett forbedrer kapasitet, punktlighet og energisparing, mens
 """
 
     const val SUMMARY_EN = """
-In Norway, the 2025 budget proposes NOK 35 billion for floating offshore wind and NOK 32.6 billion for railway infrastructure.
+In Norway, the 2025 state budget is NOK 35 billion for floating offshore wind and NOK 32.6 billion for railway infrastructure.
 Floating offshore wind will produce about 10 TWh/year. Railways carry millions of passengers and save energy compared to car and air travel,
 with annual CO2 savings of around 140,000 tons.
 
