@@ -18,7 +18,7 @@ Dette målet er nå skjerpet til 75 %.
 Ekstrapolerer vi i henhold til tallene fra SSB, får vi 16,4 %.
 Og de tar ikke engang med skogen i regnskapet, men inkluderer CO₂-kvoter.
 
-***DETTE ER GALSKAP OG ØNSKETENKNING, SKAPT AV INKOMPETENTE POLITIKERE.***
+***Dette er galskap og ønsketenkning, skapt av inkompetente politikere.***
 """
 
     const val SUMMARY_EN = """
@@ -28,7 +28,7 @@ This target has now been tightened to 75%.
 If we extrapolate according to figures from Statistics Norway (SSB), we get 16.4%.
 And they don't even include the forest in the accounting, but include CO₂ quotas.
 
-***THIS IS MADNESS AND WISHFUL THINKING, CREATED BY INCOMPETENT POLITICIANS.***
+***This is maddnett and wishful thinking, crated by incompetent politicians.***
 """
 
     override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO, blog)

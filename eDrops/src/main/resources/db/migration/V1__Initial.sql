@@ -7,7 +7,7 @@ CREATE TABLE blog
     topic         BIGINT       NOT NULL,
     segment       VARCHAR(30)  NOT NULL,
     subject       VARCHAR(80)  NOT NULL,
-    about         VARCHAR(600) NOT NULL,
+    about         VARCHAR(1000) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
@@ -18,7 +18,7 @@ CREATE TABLE blog_post
     id      BIGINT       NOT NULL AUTO_INCREMENT,
     segment VARCHAR(30)  NOT NULL,
     title   VARCHAR(80)  NOT NULL,
-    summary VARCHAR(600) NOT NULL,
+    summary VARCHAR(1000) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 

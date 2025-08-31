@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.0</version>
+		<version>3.5.5</version>
 	</parent>
 
 	<properties>
@@ -21,7 +21,7 @@
 		<java.version>21</java.version>
 		<kotlin.version>2.1.20</kotlin.version>
 		<coroutines.version>1.10.1</coroutines.version>
-		<mariadb.version>3.5.2</mariadb.version>
+		<mariadb.version>3.5.5</mariadb.version>
 		<maven-failsafe-plugin.version>3.5.0</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>3.5.0</maven-surefire-plugin.version>
 		<kotlin.code.style>official</kotlin.code.style>
@@ -384,7 +384,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-test</artifactId>
+			<artifactId>kotlin-test-junit</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
