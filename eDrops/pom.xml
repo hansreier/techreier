@@ -31,7 +31,7 @@
 		<assertJ.version>3.27.3</assertJ.version>
 		<!-- fetched automagically-->
 		<h2.version>2.3.232</h2.version>
-		<flyway.version>11.4.1</flyway.version>
+		<flyway.version>11.11.2</flyway.version>
 		<flexmark.version>0.64.8</flexmark.version>
 		<!--esapi.version>2.5.2.0</esapi.version-->
 		<!--encoder.version>1.2.3</encoder.version-->
