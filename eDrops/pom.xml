@@ -20,7 +20,6 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>21</java.version>
 		<kotlin.version>2.2.10</kotlin.version>
-		<coroutines.version>1.10.2</coroutines.version>
 		<mariadb.version>3.5.5</mariadb.version>
 		<maven-failsafe-plugin.version>3.5.0</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>3.5.0</maven-surefire-plugin.version>
@@ -314,11 +313,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jetbrains.kotlinx</groupId>
-			<artifactId>kotlinx-coroutines-core</artifactId>
-			<version>${coroutines.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>nz.net.ultraq.thymeleaf</groupId>

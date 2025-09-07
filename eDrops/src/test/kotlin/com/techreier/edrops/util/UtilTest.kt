@@ -90,15 +90,15 @@ class UtilTest {
 
     // Messagesource is redefined so not fetched from disk
     val messageSource = object : MessageSource {
-        override fun getMessage(code: String, args: Array<out Any>?, defaultMessage: String?, locale: Locale): String {
-            return code + "." + locale.language
+        override fun getMessage(code: String, args: Array<out Any>?, defaultMessage: String?, locale: Locale?): String {
+            return code + "." + locale?.language
         }
 
-        override fun getMessage(code: String, args: Array<out Any>?, locale: Locale): String {
-            return code + "." + locale.language
+        override fun getMessage(code: String, args: Array<out Any>?, locale: Locale?): String {
+            return code + "." + locale?.language
         }
 
-        override fun getMessage(resolvable: MessageSourceResolvable, locale: Locale): String {
+        override fun getMessage(resolvable: MessageSourceResolvable, locale: Locale?): String {
             return resolvable.defaultMessage ?: resolvable.codes?.firstOrNull() ?: "??${resolvable.codes?.firstOrNull()}??"
         }
     }
