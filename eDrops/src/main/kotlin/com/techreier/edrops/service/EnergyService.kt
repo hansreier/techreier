@@ -99,8 +99,8 @@ class EnergyService {
                     heat = eProdOld?.heat,
                     oil = EnergySource.OIL.toDirectUseTWh(fossilTotalOil),
                     oilToEl = EnergySource.OIL.toElectricityTWh(fossilTotalOil),
-                    gas = EnergySource.NATURAL_GAS.toDirectUseTWh(fossil.gas),
-                    gasToEl = EnergySource.NATURAL_GAS.toElectricityTWh(fossil.gas)
+                    gas = EnergySource.GAS.toDirectUseTWh(fossil.gas),
+                    gasToEl = EnergySource.GAS.toElectricityTWh(fossil.gas)
                 )
                 energyProduction[fossil.year] = fossilProd
             }

@@ -1,5 +1,8 @@
 package com.techreier.edrops.service
 
+import com.techreier.edrops.util.msg
+import org.springframework.context.MessageSource
+
 // https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitet
 // https://www.norskpetroleum.no/fakta/historisk-produksjon/#arlig
 
@@ -15,7 +18,7 @@ enum class EnergySource(
     val directUseEfficiency: Double, // Efficiency when used directly (e.g., heating or cooking)
     val co2Factor: Double, // kg CO2 per boe
 ) {
-    NATURAL_GAS("gas",false, "Sm3", SM3_TO_BOE * BOE_TO_TWH, 0.50, 1.0, 336.0),
+    GAS("gas",false, "Sm3", SM3_TO_BOE * BOE_TO_TWH, 0.50, 1.0, 336.0),
     OIL("oil",false, "Sm3", SM3_TO_BOE * BOE_TO_TWH, 0.37, 1.0, 445.0),
     COAL("coal",false, "tonne", 0.00667, 0.35, 0.80, 2400.0),
     NUCLEAR("nuclear",false, "TWh", 1.0, 0.33, 1.0, 0.00),
@@ -33,5 +36,7 @@ enum class EnergySource(
     fun toDirectUseTWh(input: Double?): Double? =  input?.let {it * twhPerUnit * directUseEfficiency}
 
     fun tonnCo2PerTWh(): Double = (co2Factor / BOE_TO_TWH) / conversionEfficiency
+
+    fun name(m: MessageSource) = msg(m,"energy."+ this.key)
 
 }

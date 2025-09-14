@@ -25,14 +25,14 @@ const val ENERGY_PROD_DIR = "/$ENERGY_PROD"
 
 @Controller
 @RequestMapping(ENERGY_PROD_DIR)
-class EnergyProdController(ctx: Context, val energyService: EnergyService) : BaseController(ctx) {
+class EnergyProdController(val ctx: Context, val energyService: EnergyService) : BaseController(ctx) {
 
     @GetMapping
     fun energyProduction(
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
-        redirectAttributes: RedirectAttributes
+        redirectAttributes: RedirectAttributes,
     ): String {
         logger.info("Energy production page")
         val energyProdForm = model.getAttribute("energyProdForm") ?: EnergyProdForm()
@@ -58,12 +58,14 @@ class EnergyProdController(ctx: Context, val energyService: EnergyService) : Bas
     ): String {
         logger.info("fetch energy data")
 
-        val year = checkInt(energyProdForm.year,"year", bindingResult, 1   )
-        val result = energyService.energyProduction[year]
-        if (result == null) {
-            bindingResult.rejectValue("year", "error.noData")
-        }
+        val year = checkInt(energyProdForm.year, "year", bindingResult, 1)
+
+        val result = year?.let { energyService.energyProduction[it] }
+
         if (bindingResult.hasErrors() || result == null) {
+            if ((result == null) && (!bindingResult.hasErrors())) {
+                bindingResult.rejectValue("year", "error.noData")
+            }
             logger.info("warn energy production input error: $energyProdForm")
             val docIndex = prepare(model, request, response)
             if (docIndex.index < 0) {
@@ -75,19 +77,19 @@ class EnergyProdController(ctx: Context, val energyService: EnergyService) : Bas
         }
 
         redirectAttributes.addFlashAttribute("energyProdForm", energyProdForm)
-        redirectAttributes.addFlashAttribute("result", result.toDTO())
+        redirectAttributes.addFlashAttribute("result", result.toDTO(ctx.messageSource))
         return "redirect:$ENERGY_PROD_DIR"
     }
 
     private fun prepare(
         model: Model,
         request: HttpServletRequest,
-        response: HttpServletResponse
+        response: HttpServletResponse,
     ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response)
         val docIndex = Docs.getDocIndex(Docs.energyProd, blogParams.oldLangCode, blogParams.usedLangCode, ENERGY_PROD)
 
-        if (docIndex.index >= 0 ) {
+        if (docIndex.index >= 0) {
             val doc = Docs.energyProd[docIndex.index]
             val docText: String = markdownToHtml(doc, ENERGY_PROD_DIR).html
             model.addAttribute("doc", doc)
