@@ -58,7 +58,7 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
     ): String {
         logger.info("fetch energy data")
 
-        val year = checkInt(energyProdForm.year, "year", bindingResult, 1)
+        val year = checkInt(energyProdForm.year, "year", bindingResult, 2008, 2024)
 
         val energyProd = year?.let { energyService.energyProduction[it] }
 
