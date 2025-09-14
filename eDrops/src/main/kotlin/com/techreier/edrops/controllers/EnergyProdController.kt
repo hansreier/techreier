@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val ENERGY_PROD = "energyprod"
-
 const val ENERGY_PROD_DIR = "/$ENERGY_PROD"
+const val ENERGY_PROD_TEMPLATE ="energyProd"
 
 @Controller
 @RequestMapping(ENERGY_PROD_DIR)
@@ -73,7 +73,8 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
                 return "redirect:/$HOME_DIR"
             }
             model.addAttribute("energyProdForm", energyProdForm)
-            return "EnergyProd"
+            logger.info("before returning to energyprod")
+            return ENERGY_PROD_TEMPLATE
         }
 
         redirectAttributes.addFlashAttribute("energyProdForm", energyProdForm)
