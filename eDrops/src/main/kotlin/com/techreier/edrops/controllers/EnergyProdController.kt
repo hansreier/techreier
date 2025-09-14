@@ -44,7 +44,7 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
         }
-        return "energyProd"
+        return ENERGY_PROD_TEMPLATE
     }
 
     @PostMapping
