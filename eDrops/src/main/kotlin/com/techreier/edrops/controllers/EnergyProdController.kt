@@ -4,8 +4,10 @@ import com.techreier.edrops.config.logger
 
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
-import com.techreier.edrops.forms.FractionForm
-import com.techreier.edrops.service.FractionService
+import com.techreier.edrops.dto.toDTO
+import com.techreier.edrops.forms.EnergyProdForm
+import com.techreier.edrops.service.EnergyService
+import com.techreier.edrops.util.checkInt
 import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -17,57 +19,63 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
-const val FRACTION = "fraction"
-const val FRACTION_DIR = "/$FRACTION"
+const val ENERGY_PROD = "energyprod"
+
+const val ENERGY_PROD_DIR = "/$ENERGY_PROD"
 
 @Controller
-@RequestMapping(FRACTION_DIR)
-class FractionController(ctx: Context, val fractionService: FractionService) : BaseController(ctx) {
+@RequestMapping(ENERGY_PROD_DIR)
+class EnergyProdController(ctx: Context, val energyService: EnergyService) : BaseController(ctx) {
 
     @GetMapping
-    fun fraction(
+    fun energyProduction(
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
         redirectAttributes: RedirectAttributes
     ): String {
-        logger.info("Fraction page")
-        val fractionForm = model.getAttribute("fractionForm") ?: FractionForm()
-        model.addAttribute("fractionForm", fractionForm)
+        logger.info("Energy production page")
+        val energyProdForm = model.getAttribute("energyProdForm") ?: EnergyProdForm()
+        model.addAttribute("energyProdForm", energyProdForm)
+        val result = model.getAttribute("result")
+        logger.info("Resultat: $result")
         val docIndex = prepare(model, request, response)
         if (docIndex.error || docIndex.index < 0) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
         }
-        return "fraction"
+        return "energyProd"
     }
 
     @PostMapping
-    fun calculate(
+    fun fetch(
         redirectAttributes: RedirectAttributes,
-        fractionForm: FractionForm,
+        energyProdForm: EnergyProdForm,
         bindingResult: BindingResult,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
-        logger.info("calculate fraction")
+        logger.info("fetch energy data")
 
-        val result = fractionForm.validate(bindingResult) ?.let  { fractionService.fraction(it)}
-
-        if (bindingResult.hasErrors()) {
-            logger.info("warn fraction input error: $fractionForm")
+        val year = checkInt(energyProdForm.year,"year", bindingResult, 1   )
+        val result = energyService.energyProduction[year]
+        if (result == null) {
+            bindingResult.rejectValue("year", "error.noData")
+        }
+        if (bindingResult.hasErrors() || result == null) {
+            logger.info("warn energy production input error: $energyProdForm")
             val docIndex = prepare(model, request, response)
             if (docIndex.index < 0) {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/$HOME_DIR"
             }
-            model.addAttribute("fractionForm", fractionForm)
-            return FRACTION
+            model.addAttribute("energyProdForm", energyProdForm)
+            return ENERGY_PROD
         }
 
-        redirectAttributes.addFlashAttribute("fractionForm", fractionForm)
-        redirectAttributes.addFlashAttribute("result", result)
+        redirectAttributes.addFlashAttribute("energyProdForm", energyProdForm)
+        redirectAttributes.addFlashAttribute("result", result.toDTO())
         return "redirect:$ENERGY_PROD_DIR"
     }
 
@@ -77,10 +85,10 @@ class FractionController(ctx: Context, val fractionService: FractionService) : B
         response: HttpServletResponse
     ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response)
-        val docIndex = Docs.getDocIndex(Docs.fraction, blogParams.oldLangCode, blogParams.usedLangCode, FRACTION)
+        val docIndex = Docs.getDocIndex(Docs.energyProd, blogParams.oldLangCode, blogParams.usedLangCode, ENERGY_PROD)
 
         if (docIndex.index >= 0 ) {
-            val doc = Docs.fraction[docIndex.index]
+            val doc = Docs.energyProd[docIndex.index]
             val docText: String = markdownToHtml(doc, ENERGY_PROD_DIR).html
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)

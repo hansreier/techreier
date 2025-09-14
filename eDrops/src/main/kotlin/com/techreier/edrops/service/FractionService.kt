@@ -1,7 +1,7 @@
 package com.techreier.edrops.service
 
 import com.techreier.edrops.config.logger
-import org.springframework.context.i18n.LocaleContextHolder
+import com.techreier.edrops.util.float
 import org.springframework.stereotype.Service
 import kotlin.math.abs
 
@@ -69,7 +69,7 @@ class FractionService {
                 denominator = denominatorNew
                 logger.debug("numerator: $numeratorNew denominator: $denominatorNew value $value deviation $deviation")
                 if (i <= MAX_VIEW_ITERATIONS) {
-                    fractions.add(Fraction(numerator, denominator, fmt(deviation)))
+                    fractions.add(Fraction(numerator, denominator, deviation.float()))
                 } else {
                     error = "error.sequenceTruncated"
                     break
@@ -86,14 +86,8 @@ class FractionService {
             error = "error.arithmetic"
         }
         return FractionResult(
-            numerator, denominator, fmt(deviation(decimalNumber, numerator, denominator)), i, fractions, error
+            numerator, denominator, deviation(decimalNumber, numerator, denominator).float(), i, fractions, error
         )
-    }
-
-    private fun fmt(value: Double): String {
-        val locale = LocaleContextHolder.getLocale()
-        val formatted = String.format(locale, "%.5g", value)
-        return formatted
     }
 
     private fun deviation(decimalNumber: Double, numerator: Long, denominator: Long) =

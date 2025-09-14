@@ -25,6 +25,11 @@ class EnergyService {
     val energyProduction = mutableMapOf<Int, EnergyProduction>()
     val formatter = DataFormatter()
 
+    init {
+        readElExcel()
+        readFossilExcel()
+    }
+
     fun readElExcel() {
 
         val classLoader = object {}.javaClass.classLoader
@@ -51,7 +56,7 @@ class EnergyService {
                     year = el.year,
                     water = twh(el.water),
                     wind = twh(el.wind),
-                    sun = twh(el.sun),
+                    solar = twh(el.sun),
                     heat = twh(el.heat),
                     oil = eProdOld?.oil ?: 0.0,
                     oilToEl = eProdOld?.oilToEl ?: 0.0,
@@ -90,7 +95,7 @@ class EnergyService {
                     year  = fossil.year,
                     water = eProdOld?.water,
                     wind = eProdOld?.wind,
-                    sun = eProdOld?.sun,
+                    solar = eProdOld?.solar,
                     heat = eProdOld?.heat,
                     oil = EnergySource.OIL.toDirectUseTWh(fossilTotalOil),
                     oilToEl = EnergySource.OIL.toElectricityTWh(fossilTotalOil),

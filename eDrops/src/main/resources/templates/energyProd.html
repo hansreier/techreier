@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en" th:lang="${langCode}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
+<head>
+    <title>Energy production Norway</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"/>
+    <div class="container" th:utext="${docText}"></div><br>
+    <form th:action="@{/energyprod}" th:object="${energyProdForm}" th:method="post">
+        <div class="input-row">
+            <label th:for="year" th:text="#{year}"></label>
+            <input type="text" id="year" th:field="*{year}" maxLength="22">
+            <span class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+        </div>
+        <button type="submit" th:text="#{fetch}"></button>
+        <th:block th:if="${result}">
+            <table id="energyProdTable">
+                <thead>
+                <tr>
+                    <th th:text="#{energy.source}"></th>
+                    <th th:text="#{energy.value}"></th>
+                    <th th:text="#{energy.twh}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="energy : ${result}">
+                    <td th:text="${energy.source}"></td>
+                    <td th:text="${energy.value} + ' ' + ${energy.unit}"></td>
+                    <td th:text="${energy.twh}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </th:block>
+    </form>
+</div>
+</body>
+</html>

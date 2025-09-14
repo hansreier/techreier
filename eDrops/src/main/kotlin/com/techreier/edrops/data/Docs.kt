@@ -88,6 +88,12 @@ object Docs {
             MenuItem("fraction", c.defaultEn, "Best fraction")
         )
 
+    val energyProd =
+        arrayOf(
+            MenuItem("energyprod", c.defaultNo, "Energiproduksjon Norge"),
+            MenuItem("energyprod", c.defaultEn, "Energy prodution Norway")
+        )
+
     // Find the first Doc index that matches language code and eventually nonnull segment
     // If the languageCode is changed, it also checks against the old language code
     // Note: No check if language codes are valid in project context, because done earlier.

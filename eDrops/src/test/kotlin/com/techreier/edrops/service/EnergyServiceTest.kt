@@ -9,21 +9,13 @@ class EnergyServiceTest {
     private val energyService = EnergyService()
 
     @Test
-    fun elTest() {
-        energyService.readElExcel()
-        assertEquals(17, energyService.energyProduction.size)
-    }
-
-    @Test
     fun energyTest() {
-        energyService.readFossilExcel()
-        energyService.readElExcel()
         assertEquals(54, energyService.energyProduction.size)
         val ep2024 = energyService.energyProduction[2024]
         assertNotNull(ep2024)
         assertEquals(139.984, ep2024!!.water!!, 0.001)
         assertEquals(14.545, ep2024.wind!!, 0.001)
-        assertEquals(0.251, ep2024.sun!!, 0.001)
+        assertEquals(0.251, ep2024.solar!!, 0.001)
         assertEquals(2.357, ep2024.heat!!, 0.001)
         assertEquals(4479.2549, ep2024.oil!!, 0.001)
         assertEquals(1657.3243, ep2024.oilToEl!!, 0.001)

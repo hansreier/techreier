@@ -1,6 +1,9 @@
 package com.techreier.edrops.util
 
 import com.techreier.edrops.config.DEFAULT_TIMEZONE
+import com.techreier.edrops.config.DOUBLE_FIXED_PRECISION_DEFAULT
+import com.techreier.edrops.config.DOUBLE_FLOAT_PRECISION_DEFAULT
+import com.techreier.edrops.config.TWH_PRECISION_DEFAULT
 import com.techreier.edrops.dto.MenuItem
 import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
@@ -103,4 +106,17 @@ fun msg(messageSource: MessageSource, key: String, args: Array<Any>? = null): St
 fun timestamp(datetime: String): Instant {
     val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
     return LocalDateTime.parse(datetime, formatter).atZone(ZoneId.of(DEFAULT_TIMEZONE)).toInstant()
+}
+
+// Formatting functions
+fun Double?.twh(precision: Int = TWH_PRECISION_DEFAULT) = this.fixed(precision)
+
+fun Double?.fixed(precision: Int = DOUBLE_FIXED_PRECISION_DEFAULT): String {
+    val locale = LocaleContextHolder.getLocale()
+    return this ?.let { String.format(locale, "%.${precision}f", this)} ?: ""
+}
+
+fun Double?.float(precision: Int = DOUBLE_FLOAT_PRECISION_DEFAULT): String {
+    val locale = LocaleContextHolder.getLocale()
+    return this ?.let { String.format(locale, "%.${precision}g", this)} ?: ""
 }

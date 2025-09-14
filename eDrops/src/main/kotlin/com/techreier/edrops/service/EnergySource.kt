@@ -7,6 +7,7 @@ const val SM3_TO_BOE = 6.29 * 1_000_000 //Sm3 = Standard cubic metre, volume mea
 const val BOE_TO_TWH = 0.00000612 // 1 boe = ~6.12 GJ ≈ 0.0000017 TWh
 
 enum class EnergySource(
+    val key: String,
     val isRenewable: Boolean, // True if renewable energy source
     val energyUnit: String, // Unit of energy measurement (e.g., MJ, MWh, etc.)
     val twhPerUnit: Double, // TWh per energy unit
@@ -14,16 +15,16 @@ enum class EnergySource(
     val directUseEfficiency: Double, // Efficiency when used directly (e.g., heating or cooking)
     val co2Factor: Double, // kg CO2 per boe
 ) {
-    NATURAL_GAS(false, "Sm3", SM3_TO_BOE * BOE_TO_TWH, 0.50, 1.0, 336.0),
-    OIL(false, "Sm3", SM3_TO_BOE * BOE_TO_TWH, 0.37, 1.0, 445.0),
-    COAL(false, "tonne", 0.00667, 0.35, 0.80, 2400.0),
-    NUCLEAR(false, "TWh", 1.0, 0.33, 1.0, 0.00),
+    NATURAL_GAS("gas",false, "Sm3", SM3_TO_BOE * BOE_TO_TWH, 0.50, 1.0, 336.0),
+    OIL("oil",false, "Sm3", SM3_TO_BOE * BOE_TO_TWH, 0.37, 1.0, 445.0),
+    COAL("coal",false, "tonne", 0.00667, 0.35, 0.80, 2400.0),
+    NUCLEAR("nuclear",false, "TWh", 1.0, 0.33, 1.0, 0.00),
 
     // Renewable energy sources (no conversion needed, so set conversion efficiency to 1.0)
-    SOLAR(true, "TWh", 1.0, 1.0, 1.0, 0.0), // Solar energy typically converts directly with high efficiency
-    WIND(true, "TWh", 1.0, 1.0, 1.0, 0.0), // Wind energy directly produces electricity
-    WATER(true, "TWh", 1.0, 1.0, 1.0, 0.0); // Hydropower (direct energy production with high efficiency)
-
+    SOLAR("solar",true, "TWh", 1.0, 1.0, 1.0, 0.0), // Solar energy typically converts directly with high efficiency
+    WIND("wind",true, "TWh", 1.0, 1.0, 1.0, 0.0), // Wind energy directly produces electricity
+    WATER("water",true, "TWh", 1.0, 1.0, 1.0, 0.0), // Hydropower (direct energy production with high efficiency)
+    HEAT("heat", true,"TWh", 1.0, 1.0, 1.0, 0.0);
 
     // Calculate electricity production in TWh (for fossil and nuclear sources)
     fun toElectricityTWh(input: Double?): Double? = input?.let {it * twhPerUnit * conversionEfficiency}
