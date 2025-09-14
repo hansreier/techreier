@@ -73,7 +73,7 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
                 return "redirect:/$HOME_DIR"
             }
             model.addAttribute("energyProdForm", energyProdForm)
-            return ENERGY_PROD
+            return "EnergyProd"
         }
 
         redirectAttributes.addFlashAttribute("energyProdForm", energyProdForm)
