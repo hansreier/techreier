@@ -17,7 +17,7 @@
             <span class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
         </div>
         <button type="submit" th:text="#{fetch}"></button>
-        <th:block th:if="${result}">
+        <th:block th:if="${energyProd}">
             <table id="energyProdTable">
                 <thead>
                 <tr>
@@ -27,10 +27,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="energy : ${result}">
-                    <td th:text="${energy.source}"></td>
-                    <td th:text="${energy.value} + ' ' + ${energy.unit}"></td>
-                    <td th:text="${energy.twh}"></td>
+                <tr th:each="energy : ${energyProd}">
+                    <td id="energySource" th:text="${energy.source}"></td>
+                    <td id="energyValue" th:text="${energy.value} + ' ' + ${energy.unit}"></td>
+                    <td id="energyTwh" th:text="${energy.twh}"></td>
                 </tr>
                 </tbody>
             </table>

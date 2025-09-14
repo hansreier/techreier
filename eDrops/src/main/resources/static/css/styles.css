@@ -175,6 +175,14 @@ th, td {
 	width: 66.66%;
 }
 
+#energyValue {
+    text-align: right
+}
+
+#energyTwh {
+    text-align: right
+}
+
 header {
 	padding-top:0.4rem;
 	padding-bottom: 0.4rem;

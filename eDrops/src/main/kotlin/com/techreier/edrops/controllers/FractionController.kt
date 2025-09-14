@@ -68,7 +68,7 @@ class FractionController(ctx: Context, val fractionService: FractionService) : B
 
         redirectAttributes.addFlashAttribute("fractionForm", fractionForm)
         redirectAttributes.addFlashAttribute("result", result)
-        return "redirect:$ENERGY_PROD_DIR"
+        return "redirect:$FRACTION_DIR"
     }
 
     private fun prepare(

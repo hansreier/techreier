@@ -60,10 +60,10 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
 
         val year = checkInt(energyProdForm.year, "year", bindingResult, 1)
 
-        val result = year?.let { energyService.energyProduction[it] }
+        val energyProd = year?.let { energyService.energyProduction[it] }
 
-        if (bindingResult.hasErrors() || result == null) {
-            if ((result == null) && (!bindingResult.hasErrors())) {
+        if (bindingResult.hasErrors() || energyProd == null) {
+            if ((energyProd == null) && (!bindingResult.hasErrors())) {
                 bindingResult.rejectValue("year", "error.noData")
             }
             logger.info("warn energy production input error: $energyProdForm")
@@ -77,7 +77,7 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
         }
 
         redirectAttributes.addFlashAttribute("energyProdForm", energyProdForm)
-        redirectAttributes.addFlashAttribute("result", result.toDTO(ctx.messageSource))
+        redirectAttributes.addFlashAttribute("energyProd", energyProd.toDTO(ctx.messageSource))
         return "redirect:$ENERGY_PROD_DIR"
     }
 
