@@ -2,12 +2,18 @@ package com.techreier.edrops.model
 
 data class EnergyProduction(
     val year: Int,
-    val water: Double? = null,
-    val wind: Double? = null,
-    val solar: Double? = null,
-    val heat: Double? = null,
-    val oil: Double? = null,
-    val oilToEl: Double? = null,
-    val gas: Double? = null,
-    val gasToEl: Double? = null
+    val waterTWh: Double? = null,
+    val waterTJ: Double? = null,
+    val windTWh: Double? = null,
+    val windTJ: Double? = null,
+    val solarTWh: Double? = null,
+    val solarTJ: Double? = null,
+    val heatTWh: Double? = null,
+    val heatTJ: Double? = null,
+    val oilSm3: Double? = null,
+    val oilTWh: Double? = null,
+    val oilTJ: Double? = null,
+    val gasSm3: Double? = null,
+    val gasTWh: Double? = null,
+    val gasTJ: Double? = null
 )

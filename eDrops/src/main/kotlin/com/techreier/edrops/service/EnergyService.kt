@@ -46,26 +46,32 @@ class EnergyService {
                     for (row in sheet.drop(1)) {
                         val el = El(
                             year = row.getCell(0).asYear(),
-                            water = row.getCell(2).asInt(),
-                            wind = row.getCell(3).asInt(),
-                            sun = row.getCell(4).asInt(),
-                            heat = row.getCell(5).asInt(),
-                            export = row.getCell(6).asInt(),
-                            import = row.getCell(7).asInt()
+                            water = twh(row.getCell(2).asInt()),
+                            wind = twh(row.getCell(3).asInt()),
+                            solar = twh(row.getCell(4).asInt()),
+                            heat = twh(row.getCell(5).asInt()),
+                            export = twh(row.getCell(6).asInt()),
+                            import = twh(row.getCell(7).asInt())
                         )
 
                         val eProdOld = energyProduction[el.year]
 
                         val elProd = EnergyProduction(
                             year = el.year,
-                            water = twh(el.water),
-                            wind = twh(el.wind),
-                            solar = twh(el.sun),
-                            heat = twh(el.heat),
-                            oil = eProdOld?.oil ?: 0.0,
-                            oilToEl = eProdOld?.oilToEl ?: 0.0,
-                            gas = eProdOld?.gas ?: 0.0,
-                            gasToEl = eProdOld?.gasToEl ?: 0.0,
+                            waterTWh = el.water,
+                            waterTJ = EnergySource.WATER.toEnergyTJ(el.water),
+                            windTWh = el.wind,
+                            windTJ = EnergySource.WIND.toEnergyTJ(el.wind),
+                            solarTWh = el.solar,
+                            solarTJ = EnergySource.SOLAR.toEnergyTJ(el.solar),
+                            heatTWh = el.heat,
+                            heatTJ = EnergySource.HEAT.toEnergyTJ(el.heat),
+                            oilSm3 = eProdOld?.oilSm3 ?: 0.0,
+                            oilTWh = eProdOld?.oilTWh ?: 0.0,
+                            oilTJ = eProdOld?.oilTJ ?: 0.0,
+                            gasSm3 = eProdOld?.gasSm3 ?: 0.0,
+                            gasTWh = eProdOld?.gasTWh ?: 0.0,
+                            gasTJ = eProdOld?.gasTJ ?: 0.0,
                         )
                         energyProduction[el.year] = elProd
                     }
@@ -104,14 +110,20 @@ class EnergyService {
                         }
                         val fossilProd = EnergyProduction(
                             year = fossil.year,
-                            water = eProdOld?.water,
-                            wind = eProdOld?.wind,
-                            solar = eProdOld?.solar,
-                            heat = eProdOld?.heat,
-                            oil = EnergySource.OIL.toDirectUseTWh(fossilTotalOil),
-                            oilToEl = EnergySource.OIL.toElectricityTWh(fossilTotalOil),
-                            gas = EnergySource.GAS.toDirectUseTWh(fossil.gas),
-                            gasToEl = EnergySource.GAS.toElectricityTWh(fossil.gas)
+                            waterTWh = eProdOld?.waterTWh,
+                            waterTJ = eProdOld?.waterTJ,
+                            windTWh = eProdOld?.windTWh,
+                            windTJ = eProdOld?.windTJ,
+                            solarTWh = eProdOld?.solarTWh,
+                            solarTJ = eProdOld?.solarTJ,
+                            heatTWh = eProdOld?.heatTWh,
+                            heatTJ = eProdOld?.heatTJ,
+                            oilSm3 = fossilTotalOil,
+                            oilTWh = EnergySource.OIL.toElectricityTWh(fossilTotalOil),
+                            oilTJ = EnergySource.OIL.toEnergyTJ(fossilTotalOil),
+                            gasSm3 = fossil.gas,
+                            gasTWh = EnergySource.GAS.toElectricityTWh(fossil.gas),
+                            gasTJ = EnergySource.GAS.toEnergyTJ(fossil.gas),
                         )
                         energyProduction[fossil.year] = fossilProd
                     }

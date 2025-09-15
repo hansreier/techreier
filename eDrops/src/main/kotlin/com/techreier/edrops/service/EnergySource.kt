@@ -8,6 +8,7 @@ import org.springframework.context.MessageSource
 
 const val SM3_TO_BOE = 6.29 * 1_000_000 //Sm3 = Standard cubic metre, volume measures with pressure and temperature (15°C og 1 atm)
 const val BOE_TO_TWH = 0.00000612 // 1 boe = ~6.12 GJ ≈ 0.0000017 TWh
+const val TWH_TO_TJ = 3.6
 
 enum class EnergySource(
     val key: String,
@@ -34,6 +35,8 @@ enum class EnergySource(
 
     // Calculate direct energy use (e.g., for heating or cooking)
     fun toDirectUseTWh(input: Double?): Double? =  input?.let {it * twhPerUnit * directUseEfficiency}
+
+    fun toEnergyTJ(input: Double?): Double? = input?.let { it * twhPerUnit * directUseEfficiency * TWH_TO_TJ }
 
     fun tonnCo2PerTWh(): Double = (co2Factor / BOE_TO_TWH) / conversionEfficiency
 
