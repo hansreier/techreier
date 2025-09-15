@@ -3,7 +3,6 @@ package com.techreier.edrops.util
 import com.techreier.edrops.config.DEFAULT_TIMEZONE
 import com.techreier.edrops.config.DOUBLE_FIXED_PRECISION_DEFAULT
 import com.techreier.edrops.config.DOUBLE_FLOAT_PRECISION_DEFAULT
-import com.techreier.edrops.config.TWH_PRECISION_DEFAULT
 import com.techreier.edrops.dto.MenuItem
 import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
@@ -109,7 +108,6 @@ fun timestamp(datetime: String): Instant {
 }
 
 // Formatting functions
-fun Double?.twh(precision: Int = TWH_PRECISION_DEFAULT) = this.fixed(precision)
 
 fun Double?.fixed(precision: Int = DOUBLE_FIXED_PRECISION_DEFAULT): String {
     val locale = LocaleContextHolder.getLocale()

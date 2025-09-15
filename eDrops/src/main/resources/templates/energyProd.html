@@ -24,13 +24,15 @@
                     <th th:text="#{energy.source}"></th>
                     <th th:text="#{energy.value}"></th>
                     <th th:text="#{energy.twh}"></th>
+                    <th th:text="#{energy.tj}"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="energy : ${energyProd}">
                     <td id="energySource" th:text="${energy.source}"></td>
                     <td id="energyValue" th:text="${energy.value} + ' ' + ${energy.unit}"></td>
-                    <td id="energyTwh" th:text="${energy.twh}"></td>
+                    <td id="energyTWh" th:text="${energy.twh}"></td>
+                    <td id="energyTJ" th:text="${energy.tj}"></td>
                 </tr>
                 </tbody>
             </table>

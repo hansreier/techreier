@@ -179,7 +179,11 @@ th, td {
     text-align: right
 }
 
-#energyTwh {
+#energyTWh {
+    text-align: right
+}
+
+#energyTJ {
     text-align: right
 }
 
