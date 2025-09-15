@@ -73,7 +73,6 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
                 return "redirect:/$HOME_DIR"
             }
             model.addAttribute("energyProdForm", energyProdForm)
-            logger.info("before returning to energyprod")
             return ENERGY_PROD_TEMPLATE
         }
 
