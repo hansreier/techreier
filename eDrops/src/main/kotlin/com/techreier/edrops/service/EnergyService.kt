@@ -9,11 +9,12 @@ import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.DataFormatter
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.springframework.stereotype.Service
+import java.io.FileNotFoundException
 import java.time.Year
 
 const val SSB_FILE = "SsbEl.xlsx"
 const val NP_FILE = "NorskPetroleum.xlsx"
-const val ENERGY_DIR = "static/energydata/"
+const val ENERGY_DIR = "static/energyData/"
 const val SSB_FILENAME = ENERGY_DIR + SSB_FILE
 const val NP_FILENAME = ENERGY_DIR + NP_FILE
 
@@ -24,95 +25,112 @@ const val NP_FILENAME = ENERGY_DIR + NP_FILE
 class EnergyService {
     val energyProduction = mutableMapOf<Int, EnergyProduction>()
     val formatter = DataFormatter()
+    var error = false
 
     init {
         readElExcel()
         readFossilExcel()
+        if (error) {
+            energyProduction.clear()
+        }
     }
 
     fun readElExcel() {
+        try {
+            val classLoader = object {}.javaClass.classLoader
+            val inputStream = classLoader.getResourceAsStream(SSB_FILENAME)
 
-        val classLoader = object {}.javaClass.classLoader
-        val inputStream = classLoader.getResourceAsStream(SSB_FILENAME)
+            inputStream?.use { fis ->
+                WorkbookFactory.create(fis).use { workbook ->
+                    val sheet = workbook.getSheetAt(0)
+                    for (row in sheet.drop(1)) {
+                        val el = El(
+                            year = row.getCell(0).asYear(),
+                            water = row.getCell(2).asInt(),
+                            wind = row.getCell(3).asInt(),
+                            sun = row.getCell(4).asInt(),
+                            heat = row.getCell(5).asInt(),
+                            export = row.getCell(6).asInt(),
+                            import = row.getCell(7).asInt()
+                        )
 
-        inputStream?.use { fis ->
-            val workbook = WorkbookFactory.create(fis)
-            val sheet = workbook.getSheetAt(0)
+                        val eProdOld = energyProduction[el.year]
 
-            for (row in sheet.drop(1)) {
-                val el = El(
-                    year = row.getCell(0).asYear(),
-                    water = row.getCell(2).asInt(),
-                    wind = row.getCell(3).asInt(),
-                    sun =  row.getCell(4).asInt(),
-                    heat = row.getCell(5).asInt(),
-                    export = row.getCell(6).asInt(),
-                    import = row.getCell(7).asInt()
-                )
+                        val elProd = EnergyProduction(
+                            year = el.year,
+                            water = twh(el.water),
+                            wind = twh(el.wind),
+                            solar = twh(el.sun),
+                            heat = twh(el.heat),
+                            oil = eProdOld?.oil ?: 0.0,
+                            oilToEl = eProdOld?.oilToEl ?: 0.0,
+                            gas = eProdOld?.gas ?: 0.0,
+                            gasToEl = eProdOld?.gasToEl ?: 0.0,
+                        )
+                        energyProduction[el.year] = elProd
+                    }
+                }
 
-                val eProdOld = energyProduction[el.year]
+            } ?: throw (FileNotFoundException())
+            logger.info("SSB Excel sheet read successfully from: $SSB_FILENAME")
 
-                val elProd = EnergyProduction(
-                    year = el.year,
-                    water = twh(el.water),
-                    wind = twh(el.wind),
-                    solar = twh(el.sun),
-                    heat = twh(el.heat),
-                    oil = eProdOld?.oil ?: 0.0,
-                    oilToEl = eProdOld?.oilToEl ?: 0.0,
-                    gas = eProdOld?.gas ?: 0.0,
-                    gasToEl = eProdOld?.gasToEl ?: 0.0,
-                )
-                energyProduction[el.year] = elProd
-            }
-
-        } ?: logger.error("failed to open Excel Sheet from file: $SSB_FILENAME")
+        } catch (ex: Exception) {
+            logger.error("Error reading SSB  Excel Sheet $SSB_FILENAME", ex)
+            error = true
+        }
     }
 
     fun readFossilExcel() {
+        try {
+            val classLoader = object {}.javaClass.classLoader
+            val inputStream = classLoader.getResourceAsStream(NP_FILENAME)
 
-        val classLoader = object {}.javaClass.classLoader
-        val inputStream = classLoader.getResourceAsStream(NP_FILENAME)
+            inputStream?.use { fis ->
+                WorkbookFactory.create(fis).use { workbook ->
+                    val sheet = workbook.getSheetAt(0)
 
-        inputStream?.use { fis ->
-            val workbook = WorkbookFactory.create(fis)
-            val sheet = workbook.getSheetAt(0)
-
-            for (row in sheet.drop(3)) {
-                val fossil = OilGas(
-                    year = row.getCell(0).asYear(),
-                    oil = row.getCell(1).asDouble(),
-                    condensate = row.getCell(2).asDouble(),
-                    ngl = row.getCell(3).asDouble(),
-                    gas = row.getCell(4).asDouble(),
-                )
-                val eProdOld = energyProduction[fossil.year]
-                var fossilTotalOil: Double? = null
-                if ((fossil.oil != null) || (fossil.ngl != null) || (fossil.gas != null)) {
-                    fossilTotalOil = (fossil.oil ?: 0.0) + (fossil.condensate ?: 0.0) + (fossil.ngl ?: 0.0)
+                    for (row in sheet.drop(3)) {
+                        val fossil = OilGas(
+                            year = row.getCell(0).asYear(),
+                            oil = row.getCell(1).asDouble(),
+                            condensate = row.getCell(2).asDouble(),
+                            ngl = row.getCell(3).asDouble(),
+                            gas = row.getCell(4).asDouble(),
+                        )
+                        val eProdOld = energyProduction[fossil.year]
+                        var fossilTotalOil: Double? = null
+                        if ((fossil.oil != null) || (fossil.ngl != null) || (fossil.gas != null)) {
+                            fossilTotalOil = (fossil.oil ?: 0.0) + (fossil.condensate ?: 0.0) + (fossil.ngl ?: 0.0)
+                        }
+                        val fossilProd = EnergyProduction(
+                            year = fossil.year,
+                            water = eProdOld?.water,
+                            wind = eProdOld?.wind,
+                            solar = eProdOld?.solar,
+                            heat = eProdOld?.heat,
+                            oil = EnergySource.OIL.toDirectUseTWh(fossilTotalOil),
+                            oilToEl = EnergySource.OIL.toElectricityTWh(fossilTotalOil),
+                            gas = EnergySource.GAS.toDirectUseTWh(fossil.gas),
+                            gasToEl = EnergySource.GAS.toElectricityTWh(fossil.gas)
+                        )
+                        energyProduction[fossil.year] = fossilProd
+                    }
                 }
-                val fossilProd = EnergyProduction(
-                    year  = fossil.year,
-                    water = eProdOld?.water,
-                    wind = eProdOld?.wind,
-                    solar = eProdOld?.solar,
-                    heat = eProdOld?.heat,
-                    oil = EnergySource.OIL.toDirectUseTWh(fossilTotalOil),
-                    oilToEl = EnergySource.OIL.toElectricityTWh(fossilTotalOil),
-                    gas = EnergySource.GAS.toDirectUseTWh(fossil.gas),
-                    gasToEl = EnergySource.GAS.toElectricityTWh(fossil.gas)
-                )
-                energyProduction[fossil.year] = fossilProd
-            }
 
-        } ?: logger.error("failed to open Excel Sheet from file: $SSB_FILENAME")
+            } ?: throw (FileNotFoundException())
+            logger.info("Norwegian Petroleum Excel sheet read successfully from: $NP_FILENAME")
+
+        } catch (ex: Exception) {
+            logger.error("Error reading Norwegion Petroleum Excel Sheet $NP_FILENAME", ex)
+            error = true
+        }
     }
 
     private fun twh(gwh: Int?): Double? = gwh?.toDouble()?.div(1000)
 
     fun Cell?.asInt(): Int? {
         return this?.let {
-            val str = DataFormatter().formatCellValue(it).trim()
+            val str = formatter.formatCellValue(it).trim()
             str.toIntOrNull()
         }
     }
