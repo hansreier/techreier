@@ -29,12 +29,12 @@ fun EnergyProduction.toDTO(m: MessageSource): List<EnergyDTO> {
     )
 
     val oil = EnergyDTO(
-        OIL.name(m), this.oilSm3.fixed(), OIL.energyUnit,
+        OIL.name(m), this.oilMSm3.fixed(), OIL.energyUnit,
         this.oilTWh.fixed(), this.oilTJ.fixed(1)
     )
 
     val gas = EnergyDTO(
-        GAS.name(m), this.gasSm3.fixed(), GAS.energyUnit,
+        GAS.name(m), this.gasMSm3.fixed(), GAS.energyUnit,
         this.gasTWh.fixed(), this.gasTJ.fixed(1)
     )
 

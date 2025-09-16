@@ -10,10 +10,10 @@ data class EnergyProduction(
     val solarTJ: Double? = null,
     val heatTWh: Double? = null,
     val heatTJ: Double? = null,
-    val oilSm3: Double? = null,
+    val oilMSm3: Double? = null,
     val oilTWh: Double? = null,
     val oilTJ: Double? = null,
-    val gasSm3: Double? = null,
+    val gasMSm3: Double? = null,
     val gasTWh: Double? = null,
     val gasTJ: Double? = null
 )
