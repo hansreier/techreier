@@ -6,6 +6,6 @@ Kilder er
  
 SSBs tall er terra watt timer TWh direkte. 
 Norsk Petroleums tall er angitt i millioner standard kubikkmeter MSm3,
-som regnes om til potensiell el produksjon. Energimengde regnes i TJ terrajoule. 
+som regnes om til potensiell el produksjon.
 Den beste måten å sammenlikne er å bruke energimengde i terrajoule TJ.
 
