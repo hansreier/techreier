@@ -12,15 +12,15 @@
     <div class="container" th:utext="${docText}"></div><br>
     <form th:action="@{/energyprod}" th:object="${energyProdForm}" th:method="post">
         <div class="input-row">
-            <label th:for="energyYear" th:text="#{year}"></label>
+            <label id="energyLabel" th:for="energyYear" th:text="#{year}"></label>
             <div id="energyInput">
-                <input type="text" th:field="*{year}" maxLength="7">
+                <input  type="text" id="energyYear" th:field="*{year}" maxLength="7">
                 <button type="submit" th:text="#{fetch}"></button>
             </div>
             <span class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
         </div>
         <th:block th:if="${energyProd}">
-            <table id="energyProdTable">
+            <table id="energyTable">
                 <thead>
                 <tr>
                     <th th:text="#{energy.source}"></th>
