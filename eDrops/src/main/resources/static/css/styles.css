@@ -175,6 +175,18 @@ th, td {
 	width: 66.66%;
 }
 
+#energyInput button,
+#energiInput input {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#energyInput input {
+    width: 5rem;
+}
+
 #energyValue {
     text-align: right
 }
