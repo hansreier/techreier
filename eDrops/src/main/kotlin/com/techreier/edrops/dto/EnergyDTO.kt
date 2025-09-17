@@ -3,6 +3,7 @@ package com.techreier.edrops.dto
 import com.techreier.edrops.model.EnergyProduction
 import com.techreier.edrops.service.EnergySource.*
 import com.techreier.edrops.util.fixed
+import com.techreier.edrops.util.msg
 import org.springframework.context.MessageSource
 
 data class EnergyDTO(val source: String, val value: String, val unit: String, val twh: String, val tj: String)
@@ -28,6 +29,12 @@ fun EnergyProduction.toDTO(m: MessageSource): List<EnergyDTO> {
         this.heatTWh.fixed(), this.heatTJ.fixed(1)
     )
 
+    val elProd = EnergyDTO(
+        msg(m,"energy.elprod"), this.elProdTWh.fixed(), WATER.energyUnit,
+        this.elProdTWh.fixed(), this.elProdTJ.fixed(1)
+    )
+
+
     val oil = EnergyDTO(
         OIL.name(m), this.oilMSm3.fixed(), OIL.energyUnit,
         this.oilTWh.fixed(), this.oilTJ.fixed(1)
@@ -38,7 +45,7 @@ fun EnergyProduction.toDTO(m: MessageSource): List<EnergyDTO> {
         this.gasTWh.fixed(), this.gasTJ.fixed(1)
     )
 
-    val energyData = listOf(water, wind, solar, heat, oil, gas)
+    val energyData = listOf(water, wind, solar, heat, elProd, oil, gas)
     return energyData
 
 }

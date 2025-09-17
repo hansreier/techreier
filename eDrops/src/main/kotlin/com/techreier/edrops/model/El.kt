@@ -8,4 +8,5 @@ data class El(
     val heat: Double?,
     val import: Double?,
     val export: Double?,
+    val use: Double?
 )

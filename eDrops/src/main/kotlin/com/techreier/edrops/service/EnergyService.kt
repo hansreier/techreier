@@ -51,11 +51,12 @@ class EnergyService {
                             solar = twh(row.getCell(4).asInt()),
                             heat = twh(row.getCell(5).asInt()),
                             export = twh(row.getCell(6).asInt()),
-                            import = twh(row.getCell(7).asInt())
+                            import = twh(row.getCell(7).asInt()),
+                            use = twh(row.getCell(8).asInt())
                         )
 
                         val eProdOld = energyProduction[el.year]
-
+                        val elProdTwh = (el.water ?: 0.0) + (el.wind ?:0.0)  + (el.solar ?: 0.0) + (el.heat ?:0.0)
                         val elProd = EnergyProduction(
                             year = el.year,
                             waterTWh = el.water,
@@ -66,6 +67,8 @@ class EnergyService {
                             solarTJ = EnergySource.SOLAR.toEnergyTJ(el.solar),
                             heatTWh = el.heat,
                             heatTJ = EnergySource.HEAT.toEnergyTJ(el.heat),
+                            elProdTWh = elProdTwh,
+                            elProdTJ = EnergySource.WATER.toEnergyTJ(elProdTwh),
                             oilMSm3 = eProdOld?.oilMSm3 ?: 0.0,
                             oilTWh = eProdOld?.oilTWh ?: 0.0,
                             oilTJ = eProdOld?.oilTJ ?: 0.0,
@@ -118,6 +121,8 @@ class EnergyService {
                             solarTJ = eProdOld?.solarTJ,
                             heatTWh = eProdOld?.heatTWh,
                             heatTJ = eProdOld?.heatTJ,
+                            elProdTWh = eProdOld?.elProdTWh,
+                            elProdTJ = eProdOld?.elProdTJ,
                             oilMSm3 = fossilTotalOil,
                             oilTWh = EnergySource.OIL.toElectricityTWh(fossilTotalOil),
                             oilTJ = EnergySource.OIL.toEnergyTJ(fossilTotalOil),
