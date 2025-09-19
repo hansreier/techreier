@@ -1,5 +1,7 @@
 package com.techreier.edrops.model
 
+import com.techreier.edrops.service.EnergySource
+
 data class EnergyProduction(
     val year: Int,
     val waterTWh: Double? = null,
@@ -18,4 +20,16 @@ data class EnergyProduction(
     val gasMSm3: Double? = null,
     val gasTWh: Double? = null,
     val gasTJ: Double? = null
+)
+
+data class EnergyYear(
+    val year: Int,
+    val source: MutableList<EnergyValues>
+)
+
+data class EnergyValues(
+    val source: EnergySource,
+    val orig: Double?,
+    val twh: Double?,
+    val tj: Double?
 )

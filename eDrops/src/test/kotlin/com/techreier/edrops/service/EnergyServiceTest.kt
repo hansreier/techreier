@@ -28,4 +28,5 @@ class EnergyServiceTest {
         assertEquals(2429.7444, ep2024.gasTWh!!, 0.001)
         assertEquals(17494.160292, ep2024.gasTJ!!, 0.001)
     }
+
 }

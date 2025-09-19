@@ -1,6 +1,7 @@
 package com.techreier.edrops.dto
 
 import com.techreier.edrops.model.EnergyProduction
+import com.techreier.edrops.model.EnergyYear
 import com.techreier.edrops.service.EnergySource.*
 import com.techreier.edrops.util.fixed
 import com.techreier.edrops.util.msg
@@ -46,6 +47,22 @@ fun EnergyProduction.toDTO(m: MessageSource): List<EnergyDTO> {
     )
 
     val energyData = listOf(water, wind, solar, heat, elProd, oil, gas)
+    return energyData
+
+}
+
+fun EnergyYear.toDTO(m: MessageSource): List<EnergyDTO> {
+    val energyData = mutableListOf<EnergyDTO>()
+    this.source.forEach { energyValues ->
+        val energyDTO = EnergyDTO(
+            energyValues.source.name(m),
+            energyValues.orig.fixed(),
+            energyValues.source.energyUnit,
+            energyValues.twh.fixed(),
+            energyValues.tj.fixed(1))
+        energyData.add(energyDTO)
+    }
+
     return energyData
 
 }

@@ -60,7 +60,7 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
 
         val year = checkInt(energyProdForm.year, "year", bindingResult, 2008, 2024)
 
-        val energyProd = year?.let { energyService.energyProduction[it] }
+        val energyProd = year?.let { energyService.energyYears[it] }
 
         if (bindingResult.hasErrors() || energyProd == null) {
             if ((energyProd == null) && (!bindingResult.hasErrors())) {

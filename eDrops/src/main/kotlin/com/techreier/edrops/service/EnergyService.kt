@@ -3,6 +3,8 @@ package com.techreier.edrops.service
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.model.El
 import com.techreier.edrops.model.EnergyProduction
+import com.techreier.edrops.model.EnergyValues
+import com.techreier.edrops.model.EnergyYear
 import com.techreier.edrops.model.OilGas
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellType
@@ -24,6 +26,7 @@ const val NP_FILENAME = ENERGY_DIR + NP_FILE
 @Service
 class EnergyService {
     val energyProduction = mutableMapOf<Int, EnergyProduction>()
+    val energyYears = mutableMapOf<Int, EnergyYear>()
     val formatter = DataFormatter()
     var error = false
 
@@ -55,8 +58,110 @@ class EnergyService {
                             use = twh(row.getCell(8).asInt())
                         )
 
+                        val elProdTotal = (el.water ?: 0.0) + (el.wind ?: 0.0) + (el.solar ?: 0.0) + (el.heat ?: 0.0)
+
+                        val energyVals = listOf(
+                            EnergySource.WATER.values(el.water),
+                            EnergySource.WIND.values(el.wind),
+                            EnergySource.SOLAR.values(el.solar),
+                            EnergySource.HEAT.values(el.heat),
+                            EnergySource.EL.values(elProdTotal)
+                        )
+
+                        val energyYear = energyYears[el.year]
+                        val newEnergyVals = energyYear?.source ?: mutableListOf()
+                        newEnergyVals.addAll(energyVals)
+
+                        energyYears[el.year] = energyYear ?: EnergyYear(el.year, newEnergyVals)
+                    }
+                }
+
+            } ?: throw (FileNotFoundException())
+            logger.info("SSB Excel sheet read successfully from: $SSB_FILENAME")
+
+        } catch (ex: Exception) {
+            logger.error("Error reading SSB  Excel Sheet $SSB_FILENAME", ex)
+            error = true
+        }
+    }
+
+    fun readFossilExcel() {
+        try {
+            val classLoader = object {}.javaClass.classLoader
+            val inputStream = classLoader.getResourceAsStream(NP_FILENAME)
+
+            inputStream?.use { fis ->
+                WorkbookFactory.create(fis).use { workbook ->
+                    val sheet = workbook.getSheetAt(0)
+
+                    for (row in sheet.drop(3)) {
+
+                        val fossil = OilGas(
+                            year = row.getCell(0).asYear(),
+                            oil = row.getCell(1).asDouble(),
+                            condensate = row.getCell(2).asDouble(),
+                            ngl = row.getCell(3).asDouble(),
+                            gas = row.getCell(4).asDouble(),
+                        )
+
+                        var fossilTotalOil: Double? = null
+                        if ((fossil.oil != null) || (fossil.ngl != null) || (fossil.gas != null)) {
+                            fossilTotalOil = (fossil.oil ?: 0.0) + (fossil.condensate ?: 0.0) + (fossil.ngl ?: 0.0)
+                        }
+
+                        val fossilTotal = (EnergySource.OIL.toEnergyTJ(fossilTotalOil) ?: 0.0) +
+                                (EnergySource.GAS.toEnergyTJ(fossil.gas) ?: 0.0)
+
+                        val f= EnergySource.FOSSIL
+
+                        val energyVals = listOf(
+                            EnergySource.GAS.values(fossil.gas),
+                            EnergySource.OIL.values(fossilTotalOil),
+                            EnergyValues(EnergySource.FOSSIL, null, null, fossilTotal ),
+                        )
+
+                        val energyYear = energyYears[fossil.year]
+                        val newEnergyVals = energyYear?.source ?: mutableListOf()
+                        newEnergyVals.addAll(energyVals)
+
+                        energyYears[fossil.year] = energyYear ?: EnergyYear(fossil.year, newEnergyVals)
+
+                    }
+                }
+
+            } ?: throw (FileNotFoundException())
+            logger.info("Norwegian Petroleum Excel sheet read successfully from: $NP_FILENAME")
+
+        } catch (ex: Exception) {
+            logger.error("Error reading Norwegion Petroleum Excel Sheet $NP_FILENAME", ex)
+            error = true
+        }
+    }
+
+    fun readElExcel2() {
+        try {
+            val classLoader = object {}.javaClass.classLoader
+            val inputStream = classLoader.getResourceAsStream(SSB_FILENAME)
+
+            inputStream?.use { fis ->
+                WorkbookFactory.create(fis).use { workbook ->
+                    val sheet = workbook.getSheetAt(0)
+                    for (row in sheet.drop(1)) {
+                        val el = El(
+                            year = row.getCell(0).asYear(),
+                            water = twh(row.getCell(2).asInt()),
+                            wind = twh(row.getCell(3).asInt()),
+                            solar = twh(row.getCell(4).asInt()),
+                            heat = twh(row.getCell(5).asInt()),
+                            export = twh(row.getCell(6).asInt()),
+                            import = twh(row.getCell(7).asInt()),
+                            use = twh(row.getCell(8).asInt())
+                        )
+
                         val eProdOld = energyProduction[el.year]
-                        val elProdTwh = (el.water ?: 0.0) + (el.wind ?:0.0)  + (el.solar ?: 0.0) + (el.heat ?:0.0)
+                        val elProdTwh = (el.water ?: 0.0) + (el.wind ?: 0.0) + (el.solar ?: 0.0) + (el.heat ?: 0.0)
+
+
                         val elProd = EnergyProduction(
                             year = el.year,
                             waterTWh = el.water,
@@ -89,7 +194,7 @@ class EnergyService {
         }
     }
 
-    fun readFossilExcel() {
+    fun readFossilExcel2() {
         try {
             val classLoader = object {}.javaClass.classLoader
             val inputStream = classLoader.getResourceAsStream(NP_FILENAME)
@@ -142,6 +247,7 @@ class EnergyService {
             error = true
         }
     }
+
 
     private fun twh(gwh: Int?): Double? = gwh?.toDouble()?.div(1000)
 

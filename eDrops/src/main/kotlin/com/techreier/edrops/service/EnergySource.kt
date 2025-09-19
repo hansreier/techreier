@@ -1,5 +1,6 @@
 package com.techreier.edrops.service
 
+import com.techreier.edrops.model.EnergyValues
 import com.techreier.edrops.util.msg
 import org.springframework.context.MessageSource
 
@@ -22,13 +23,15 @@ enum class EnergySource(
     GAS("gas",false, "MSm3", SM3_TO_BOE * BOE_TO_TWH, 0.50, 1.0, 336.0),
     OIL("oil",false, "MSm3", SM3_TO_BOE * BOE_TO_TWH, 0.37, 1.0, 445.0),
     COAL("coal",false, "tonne", 0.00667, 0.35, 0.80, 2400.0),
+    FOSSIL("fossil", false,"",0.0, 0.0, 0.0, 0.0),
     NUCLEAR("nuclear",false, "TWh", 1.0, 0.33, 1.0, 0.00),
 
     // Renewable energy sources (no conversion needed, so set conversion efficiency to 1.0)
     SOLAR("solar",true, "TWh", 1.0, 1.0, 1.0, 0.0), // Solar energy typically converts directly with high efficiency
     WIND("wind",true, "TWh", 1.0, 1.0, 1.0, 0.0), // Wind energy directly produces electricity
     WATER("water",true, "TWh", 1.0, 1.0, 1.0, 0.0), // Hydropower (direct energy production with high efficiency)
-    HEAT("heat", true,"TWh", 1.0, 1.0, 1.0, 0.0);
+    HEAT("heat", true,"TWh", 1.0, 1.0, 1.0, 0.0),
+    EL("el", true,"TWh", 1.0, 1.0, 1.0, 0.0);
 
     // Calculate electricity production in TWh (for fossil and nuclear sources)
     fun toElectricityTWh(input: Double?): Double? = input?.let {it * twhPerUnit * conversionEfficiency}
@@ -37,6 +40,8 @@ enum class EnergySource(
     fun toDirectUseTWh(input: Double?): Double? =  input?.let {it * twhPerUnit * directUseEfficiency}
 
     fun toEnergyTJ(input: Double?): Double? = input?.let { it * twhPerUnit * directUseEfficiency * TWH_TO_TJ }
+
+    fun values(input: Double?): EnergyValues = EnergyValues(this, input, toElectricityTWh(input), toEnergyTJ(input) )
 
     fun tonnCo2PerTWh(): Double = (co2Factor / BOE_TO_TWH) / conversionEfficiency
 
