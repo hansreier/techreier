@@ -4,7 +4,7 @@ import com.techreier.edrops.config.logger
 
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
-import com.techreier.edrops.dto.toDTO
+import com.techreier.edrops.dto.toDTOs
 import com.techreier.edrops.forms.EnergyProdForm
 import com.techreier.edrops.service.EnergyService
 import com.techreier.edrops.util.checkInt
@@ -60,10 +60,10 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
 
         val year = checkInt(energyProdForm.year, "year", bindingResult, 2008, 2024)
 
-        val energyProd = year?.let { energyService.energyYears[it] }
+        val energyValues = year?.let { energyService.energyYears[it] ?: mutableListOf() } ?: mutableListOf()
 
-        if (bindingResult.hasErrors() || energyProd == null) {
-            if ((energyProd == null) && (!bindingResult.hasErrors())) {
+        if (bindingResult.hasErrors() || energyValues.isEmpty()) {
+            if ((energyValues.isEmpty()) && (!bindingResult.hasErrors())) {
                 bindingResult.rejectValue("year", "error.noData")
             }
             logger.info("warn energy production input error: $energyProdForm")
@@ -75,9 +75,8 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
             model.addAttribute("energyProdForm", energyProdForm)
             return ENERGY_PROD_TEMPLATE
         }
-
         redirectAttributes.addFlashAttribute("energyProdForm", energyProdForm)
-        redirectAttributes.addFlashAttribute("energyProd", energyProd.toDTO(ctx.messageSource))
+        redirectAttributes.addFlashAttribute("energyProd", energyValues.toDTOs(ctx.messageSource))
         return "redirect:$ENERGY_PROD_DIR"
     }
 
