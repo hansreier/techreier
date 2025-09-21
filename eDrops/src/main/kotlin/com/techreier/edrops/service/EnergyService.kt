@@ -112,7 +112,7 @@ class EnergyService {
                         val energyValues = listOf(
                             EnergySource.GAS.values(fossil.gas),
                             EnergySource.OIL.values(fossilTotalOil),
-                            EnergyValues(EnergySource.FOSSIL, null, null, fossilTotalTJ),
+                            EnergySource.FOSSIL.values(tj = fossilTotalTJ)
                         )
 
                         val energyYear = energyYears[fossil.year]

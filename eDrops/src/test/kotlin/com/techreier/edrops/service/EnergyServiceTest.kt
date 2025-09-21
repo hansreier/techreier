@@ -16,7 +16,7 @@ class EnergyServiceTest {
     private val ep2024 = service.energyYears[2024]
 
     @Test
-    fun energyTest2() {
+    fun energyTest() {
         assertEquals(139.984, value(EnergySource.WATER).twh ?: 0.0, 0.001)
         assertEquals(54, service.energyYears.count())
         assertNotNull(ep2024)
