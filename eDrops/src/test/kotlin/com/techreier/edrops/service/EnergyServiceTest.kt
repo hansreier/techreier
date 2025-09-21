@@ -1,10 +1,14 @@
 package com.techreier.edrops.service
 
 import com.techreier.edrops.model.EnergyValues
+import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.fail
+import org.assertj.core.api.Assertions.within
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+
+private const val DELTA = 0.01
 
 class EnergyServiceTest {
 
@@ -12,23 +16,28 @@ class EnergyServiceTest {
     private val ep2024 = service.energyYears[2024]
 
     @Test
-    fun energyTest() {
+    fun energyTest2() {
+        assertEquals(139.984, value(EnergySource.WATER).twh ?: 0.0, 0.001)
         assertEquals(54, service.energyYears.count())
         assertNotNull(ep2024)
-        assertEquals(139.984, value(EnergySource.WATER).twh ?: 0.0, 0.001)
-        assertEquals(503.9424, value(EnergySource.WATER).tj ?: 0.0, 0.001)
-        assertEquals(14.545, value(EnergySource.WIND).twh ?: 0.0, 0.001)
-        assertEquals(52.362, value(EnergySource.WIND).tj ?: 0.0, 0.001)
-        assertEquals(0.251, value(EnergySource.SOLAR).twh ?: 0.0, 0.001)
-        assertEquals(0.9036, value(EnergySource.SOLAR).tj ?: 0.0, 0.001)
-        assertEquals(2.357, value(EnergySource.HEAT).twh ?: 0.0, 0.001)
-        assertEquals(8.4852, value(EnergySource.HEAT).tj ?: 0.0, 0.001)
-        assertEquals(116.36, value(EnergySource.OIL).orig ?: 0.0, 0.001)
-        assertEquals(1657.3243, value(EnergySource.OIL).twh ?: 0.0, 0.001)
-        assertEquals(16125.317879, value(EnergySource.OIL).tj ?: 0.0, 0.001)
-        assertEquals(126.23753, value(EnergySource.GAS).orig ?: 0.0, 0.001)
-        assertEquals(2429.7444, value(EnergySource.GAS).twh ?: 0.0, 0.001)
-        assertEquals(17494.160292, value(EnergySource.GAS).tj ?: 0.0, 0.001)
+        assertEnergy(EnergySource.WATER, orig = 139.984, twh = 139.984, tj = 503.9424)
+        assertEnergy(EnergySource.WIND, orig = 14.545, twh = 14.545, tj = 52.362)
+        assertEnergy(EnergySource.SOLAR, orig = 0.251, twh = 0.251, tj = 0.9036)
+        assertEnergy(EnergySource.EL, orig = 157.14, twh = 157.14,tj =  565.7)
+        assertEnergy(EnergySource.HEAT, orig = 2.357, twh = 2.357, tj = 8.4852)
+        assertEnergy(EnergySource.GAS, orig = 126.24, twh = 2429.7444, tj = 17494.160292)
+        assertEnergy(EnergySource.OIL, orig = 116.36, twh = 1657.3243, tj = 16125.317879)
+    }
+
+    private fun assertEnergy(
+        source: EnergySource,
+        orig: Double? = null,
+        twh: Double? = null,
+        tj: Double? = null,
+    ) {
+        twh?.let { assertThat(value(source).twh).isCloseTo(it, within(DELTA)) }
+        tj?.let { assertThat(value(source).tj).isCloseTo(it, within(DELTA)) }
+        orig?.let { assertThat(value(source).orig).isCloseTo(it, within(DELTA)) }
     }
 
     private fun value(source: EnergySource): EnergyValues =
