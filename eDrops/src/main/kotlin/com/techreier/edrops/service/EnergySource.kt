@@ -35,7 +35,10 @@ enum class EnergySource(
     WATER("water", true, "TWh", STD, STD, STD, 0.0), // Hydropower (direct energy production with high efficiency)
     HEAT("heat", true, "TWh", STD, STD, STD, 0.0),
     EL_PROD("elProd", true, "TWh", STD, STD, STD, 0.0),
-    EL_USE("elUse", true, "TWh", STD, STD, STD, 0.0);
+    EL_USE("elUse", true, "TWh", STD, STD, STD, 0.0),
+    EL_IMPORT("elImport", true, "TWh", STD, STD, STD, 0.0),
+    EL_EXPORT("elExport", true, "TWh", STD, STD, STD, 0.0);
+
 
     // Calculate electricity production in TWh (for fossil and nuclear sources)
     fun toElectricityTWh(input: Double?): Double? {
