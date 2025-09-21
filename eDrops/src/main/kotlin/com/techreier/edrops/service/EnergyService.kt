@@ -50,8 +50,8 @@ class EnergyService {
                             wind = twh(row.getCell(3).asInt()),
                             solar = twh(row.getCell(4).asInt()),
                             heat = twh(row.getCell(5).asInt()),
-                            export = twh(row.getCell(6).asInt()),
-                            import = twh(row.getCell(7).asInt()),
+                            import = twh(row.getCell(6).asInt()),
+                            export = twh(row.getCell(7).asInt()),
                             use = twh(row.getCell(8).asInt())
                         )
 
