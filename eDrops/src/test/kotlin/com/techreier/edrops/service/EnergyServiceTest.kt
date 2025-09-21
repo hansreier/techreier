@@ -23,7 +23,7 @@ class EnergyServiceTest {
         assertEnergy(EnergySource.WATER, orig = 139.984, twh = 139.984, tj = 503.9424)
         assertEnergy(EnergySource.WIND, orig = 14.545, twh = 14.545, tj = 52.362)
         assertEnergy(EnergySource.SOLAR, orig = 0.251, twh = 0.251, tj = 0.9036)
-        assertEnergy(EnergySource.EL, orig = 157.14, twh = 157.14,tj =  565.7)
+        assertEnergy(EnergySource.EL_PROD, orig = 157.14, twh = 157.14,tj =  565.7)
         assertEnergy(EnergySource.HEAT, orig = 2.357, twh = 2.357, tj = 8.4852)
         assertEnergy(EnergySource.GAS, orig = 126.24, twh = 2429.7444, tj = 17494.160292)
         assertEnergy(EnergySource.OIL, orig = 116.36, twh = 1657.3243, tj = 16125.317879)

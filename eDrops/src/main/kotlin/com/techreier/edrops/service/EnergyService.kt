@@ -62,7 +62,8 @@ class EnergyService {
                             EnergySource.WIND.values(el.wind),
                             EnergySource.SOLAR.values(el.solar),
                             EnergySource.HEAT.values(el.heat),
-                            EnergySource.EL.values(elProdTotal)
+                            EnergySource.EL_PROD.values(elProdTotal),
+                            EnergySource.EL_USE.values(el.use)
                         )
 
                         val energyYear = energyYears[el.year]
