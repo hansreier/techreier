@@ -205,16 +205,16 @@ th, td {
 }
 
 #energyTable th:nth-child(1),
-#energyTable td:nth-child(1) { width: 20%; }
+#energyTable td:nth-child(1) { width: 24%; }
 
 #energyTable th:nth-child(2),
 #energyTable td:nth-child(2) { width: 32%; }
 
 #energyTable th:nth-child(3),
-#energyTable td:nth-child(3) { width: 24%; }
+#energyTable td:nth-child(3) { width: 22%; }
 
 #energyTable th:nth-child(4),
-#energyTable td:nth-child(4) { width: 24%; }
+#energyTable td:nth-child(4) { width: 22%; }
 
 header {
 	padding-top:0.4rem;
