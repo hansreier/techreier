@@ -88,10 +88,10 @@ object Docs {
             MenuItem("fraction", c.defaultEn, "Best fraction")
         )
 
-    val energyProd =
+    val energy =
         arrayOf(
-            MenuItem("energyprod", c.defaultNo, "Energiproduksjon Norge"),
-            MenuItem("energyprod", c.defaultEn, "Energy prodution Norway")
+            MenuItem("energy", c.defaultNo, "Energidata for Norge"),
+            MenuItem("energy", c.defaultEn, "Energy data for Norway")
         )
 
     // Find the first Doc index that matches language code and eventually nonnull segment

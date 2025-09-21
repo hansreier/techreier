@@ -1,5 +1,5 @@
 package com.techreier.edrops.forms
 
-data class EnergyProdForm(
+data class EnergyForm(
     var year: String = "2024"
 )

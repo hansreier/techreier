@@ -5,7 +5,7 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
 import com.techreier.edrops.dto.toDTOs
-import com.techreier.edrops.forms.EnergyProdForm
+import com.techreier.edrops.forms.EnergyForm
 import com.techreier.edrops.service.EnergyService
 import com.techreier.edrops.util.checkInt
 import com.techreier.edrops.util.markdownToHtml
@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
-const val ENERGY_PROD = "energyprod"
-const val ENERGY_PROD_DIR = "/$ENERGY_PROD"
-const val ENERGY_PROD_TEMPLATE ="energyProd"
+const val ENERGY = "energy"
+const val ENERGY_DIR = "/$ENERGY"
+const val ENERGY_TEMPLATE ="energyProd"
 
 @Controller
-@RequestMapping(ENERGY_PROD_DIR)
-class EnergyProdController(val ctx: Context, val energyService: EnergyService) : BaseController(ctx) {
+@RequestMapping(ENERGY_DIR)
+class EnergyController(val ctx: Context, val energyService: EnergyService) : BaseController(ctx) {
 
     @GetMapping
     fun energyProduction(
@@ -34,9 +34,9 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
         model: Model,
         redirectAttributes: RedirectAttributes,
     ): String {
-        logger.info("Energy production page")
-        val energyProdForm = model.getAttribute("energyProdForm") ?: EnergyProdForm()
-        model.addAttribute("energyProdForm", energyProdForm)
+        logger.info("Energy page")
+        val energyForm = model.getAttribute("energyForm") ?: EnergyForm()
+        model.addAttribute("energyForm", energyForm)
         val result = model.getAttribute("result")
         logger.info("Resultat: $result")
         val docIndex = prepare(model, request, response)
@@ -44,13 +44,13 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
         }
-        return ENERGY_PROD_TEMPLATE
+        return ENERGY_TEMPLATE
     }
 
     @PostMapping
     fun fetch(
         redirectAttributes: RedirectAttributes,
-        energyProdForm: EnergyProdForm,
+        energyForm: EnergyForm,
         bindingResult: BindingResult,
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -58,7 +58,7 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
     ): String {
         logger.info("fetch energy data")
 
-        val year = checkInt(energyProdForm.year, "year", bindingResult, 2008, 2024)
+        val year = checkInt(energyForm.year, "year", bindingResult, 2008, 2024)
 
         val energyValues = year?.let { energyService.energyYears[it] ?: mutableListOf() } ?: mutableListOf()
 
@@ -66,18 +66,18 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
             if ((energyValues.isEmpty()) && (!bindingResult.hasErrors())) {
                 bindingResult.rejectValue("year", "error.noData")
             }
-            logger.info("warn energy production input error: $energyProdForm")
+            logger.info("warn energy production input error: $energyForm")
             val docIndex = prepare(model, request, response)
             if (docIndex.index < 0) {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/$HOME_DIR"
             }
-            model.addAttribute("energyProdForm", energyProdForm)
-            return ENERGY_PROD_TEMPLATE
+            model.addAttribute("energyProdForm", energyForm)
+            return ENERGY_TEMPLATE
         }
-        redirectAttributes.addFlashAttribute("energyProdForm", energyProdForm)
+        redirectAttributes.addFlashAttribute("energyProdForm", energyForm)
         redirectAttributes.addFlashAttribute("energyProd", energyValues.toDTOs(ctx.messageSource))
-        return "redirect:$ENERGY_PROD_DIR"
+        return "redirect:$ENERGY_DIR"
     }
 
     private fun prepare(
@@ -86,11 +86,11 @@ class EnergyProdController(val ctx: Context, val energyService: EnergyService) :
         response: HttpServletResponse,
     ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response)
-        val docIndex = Docs.getDocIndex(Docs.energyProd, blogParams.oldLangCode, blogParams.usedLangCode, ENERGY_PROD)
+        val docIndex = Docs.getDocIndex(Docs.energy, blogParams.oldLangCode, blogParams.usedLangCode, ENERGY)
 
         if (docIndex.index >= 0) {
-            val doc = Docs.energyProd[docIndex.index]
-            val docText: String = markdownToHtml(doc, ENERGY_PROD_DIR).html
+            val doc = Docs.energy[docIndex.index]
+            val docText: String = markdownToHtml(doc, ENERGY_DIR).html
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)
         }
