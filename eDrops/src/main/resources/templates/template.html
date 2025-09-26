@@ -71,7 +71,7 @@
         <div class="dropdown-content">
             <a th:href="@{/collatz}" class="dropdown-item" th:text="#{collatz}"></a>
             <a th:href="@{/fraction}" class="dropdown-item" th:text="#{fraction}"></a>
-            <a th:href="@{/energy}" class="dropdown-item" th:text="#{energy.prod}"></a>
+            <a th:href="@{/energydata}" class="dropdown-item" th:text="#{energy.prod}"></a>
             <a th:each="item : ${menu}"
                th:href="@{/blogs/{segment}(segment=${item.segment})}" class="dropdown-item"
                th:text="${item.subject}"

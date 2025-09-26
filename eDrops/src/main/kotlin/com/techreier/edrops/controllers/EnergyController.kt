@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
-const val ENERGY = "energy"
-const val ENERGY_DIR = "/$ENERGY"
-const val ENERGY_TEMPLATE ="energyProd"
+const val ENERGYDATA = "energydata"
+const val ENERGYDATA_DIR = "/$ENERGYDATA"
+const val ENERGYDATA_TEMPLATE ="energyProd"
 
 @Controller
-@RequestMapping(ENERGY_DIR)
+@RequestMapping(ENERGYDATA_DIR)
 class EnergyController(val ctx: Context, val energyService: EnergyService) : BaseController(ctx) {
 
     @GetMapping
@@ -34,8 +34,10 @@ class EnergyController(val ctx: Context, val energyService: EnergyService) : Bas
         model: Model,
         redirectAttributes: RedirectAttributes,
     ): String {
-        logger.info("Energy page")
-        val energyForm = model.getAttribute("energyForm") ?: EnergyForm()
+        logger.info("EnergyData page")
+        val energyForm = model.getAttribute ("energyForm") as EnergyForm? ?: EnergyForm()
+        val energyValues = energyService.energyYears[energyForm.year.toIntOrNull()] ?: mutableListOf()
+        model.addAttribute("energyProd", energyValues.toDTOs(ctx.messageSource))
         model.addAttribute("energyForm", energyForm)
         val result = model.getAttribute("result")
         logger.info("Resultat: $result")
@@ -44,7 +46,7 @@ class EnergyController(val ctx: Context, val energyService: EnergyService) : Bas
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
         }
-        return ENERGY_TEMPLATE
+        return ENERGYDATA_TEMPLATE
     }
 
     @PostMapping
@@ -58,26 +60,20 @@ class EnergyController(val ctx: Context, val energyService: EnergyService) : Bas
     ): String {
         logger.info("fetch energy data")
 
-        val year = checkInt(energyForm.year, "year", bindingResult, 2008, 2024)
+        checkInt(energyForm.year, "year", bindingResult, 2008, 2024)
 
-        val energyValues = year?.let { energyService.energyYears[it] ?: mutableListOf() } ?: mutableListOf()
-
-        if (bindingResult.hasErrors() || energyValues.isEmpty()) {
-            if ((energyValues.isEmpty()) && (!bindingResult.hasErrors())) {
-                bindingResult.rejectValue("year", "error.noData")
-            }
+        if (bindingResult.hasErrors() ) {
             logger.info("warn energy production input error: $energyForm")
             val docIndex = prepare(model, request, response)
             if (docIndex.index < 0) {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/$HOME_DIR"
             }
-            model.addAttribute("energyProdForm", energyForm)
-            return ENERGY_TEMPLATE
+            model.addAttribute("energyForm", energyForm)
+            return ENERGYDATA_TEMPLATE
         }
-        redirectAttributes.addFlashAttribute("energyProdForm", energyForm)
-        redirectAttributes.addFlashAttribute("energyProd", energyValues.toDTOs(ctx.messageSource))
-        return "redirect:$ENERGY_DIR"
+        redirectAttributes.addFlashAttribute("energyForm", energyForm)
+        return "redirect:$ENERGYDATA_DIR"
     }
 
     private fun prepare(
@@ -86,11 +82,11 @@ class EnergyController(val ctx: Context, val energyService: EnergyService) : Bas
         response: HttpServletResponse,
     ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response)
-        val docIndex = Docs.getDocIndex(Docs.energy, blogParams.oldLangCode, blogParams.usedLangCode, ENERGY)
+        val docIndex = Docs.getDocIndex(Docs.energy, blogParams.oldLangCode, blogParams.usedLangCode, ENERGYDATA)
 
         if (docIndex.index >= 0) {
             val doc = Docs.energy[docIndex.index]
-            val docText: String = markdownToHtml(doc, ENERGY_DIR).html
+            val docText: String = markdownToHtml(doc, ENERGYDATA_DIR).html
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)
         }

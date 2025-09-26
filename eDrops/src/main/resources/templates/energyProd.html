@@ -10,7 +10,7 @@
 <div layout:fragment="content">
     <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"/>
     <div class="container" th:utext="${docText}"></div><br>
-    <form th:action="@{/energy}" th:object="${energyForm}" th:method="post">
+    <form th:action="@{/energydata}" th:object="${energyForm}" th:method="post">
         <div class="input-row">
             <label id="energyLabel" th:for="energyYear" th:text="#{year}"></label>
             <div id="energyInput">
