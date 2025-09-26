@@ -19,7 +19,7 @@
             </div>
             <span class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
         </div>
-        <th:block th:if="${energyProd}">
+        <th:block th:if="${energyData}">
             <table id="energyTable">
                 <thead>
                 <tr>
@@ -30,7 +30,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="energy : ${energyProd}">
+                <tr th:each="energy : ${energyData}">
                     <td id="energySource" th:text="${energy.source}"></td>
                     <td id="energyValue" th:text="${energy.value} + ' ' + ${energy.unit}"></td>
                     <td id="energyTWh" th:text="${energy.twh}"></td>

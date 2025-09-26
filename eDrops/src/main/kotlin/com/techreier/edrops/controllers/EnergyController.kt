@@ -21,14 +21,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val ENERGYDATA = "energydata"
 const val ENERGYDATA_DIR = "/$ENERGYDATA"
-const val ENERGYDATA_TEMPLATE ="energyProd"
+const val ENERGYDATA_TEMPLATE ="energyData"
 
 @Controller
 @RequestMapping(ENERGYDATA_DIR)
 class EnergyController(val ctx: Context, val energyService: EnergyService) : BaseController(ctx) {
 
     @GetMapping
-    fun energyProduction(
+    fun energyData(
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
@@ -37,7 +37,7 @@ class EnergyController(val ctx: Context, val energyService: EnergyService) : Bas
         logger.info("EnergyData page")
         val energyForm = model.getAttribute ("energyForm") as EnergyForm? ?: EnergyForm()
         val energyValues = energyService.energyYears[energyForm.year.toIntOrNull()] ?: mutableListOf()
-        model.addAttribute("energyProd", energyValues.toDTOs(ctx.messageSource))
+        model.addAttribute("energyData", energyValues.toDTOs(ctx.messageSource))
         model.addAttribute("energyForm", energyForm)
         val result = model.getAttribute("result")
         logger.info("Resultat: $result")
