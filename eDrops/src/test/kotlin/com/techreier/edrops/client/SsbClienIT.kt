@@ -4,7 +4,7 @@ import com.techreier.edrops.config.logger
 import org.junit.jupiter.api.Test
 import org.springframework.web.client.RestClient
 
-class SsbClientTestIT {
+class SsbClienIT {
 
     private val restClient = RestClient.create()
 
