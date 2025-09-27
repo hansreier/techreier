@@ -8,4 +8,6 @@ SSBs tall er terawatt timer TWh direkte.
 Norsk Petroleums tall er angitt i millioner standard kubikkmeter MSm3,
 som regnes om til potensiell el produksjon.
 Den beste måten å sammenlikne er å bruke energimengde i petajoule PJ.
+Fossile produksjonsdata kan også hentes fra SSB,
+som gir 10% lavere verdier i PJ, pga. metodikken for beregninger.
 

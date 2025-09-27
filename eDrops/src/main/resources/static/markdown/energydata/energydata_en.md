@@ -8,3 +8,5 @@ Statistics Norway provide electricity data directly in terawatts hour TWh.
 Norwegian Petroleum data is in millions standard cubic meter MSm3,
 and converted into potential electricity production.
 The best way to compare is to use energy amounts in petajoules PJ.
+Fossil production data from Statistics Norway can also be used,
+that gives 10% lower values in PJ, due to their calculation methodology.
