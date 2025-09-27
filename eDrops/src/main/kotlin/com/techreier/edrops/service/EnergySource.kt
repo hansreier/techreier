@@ -8,9 +8,8 @@ import org.springframework.context.MessageSource
 // https://www.norskpetroleum.no/fakta/historisk-produksjon/#arlig
 
 private const val STD = 1.0
-private const val SM3_TO_BOE =
-    6.29 * 1_000_000 //Sm3 = Standard cubic metre, volume measures with pressure and temperature (15°C og 1 atm)
-private const val BOE_TO_TWH = 0.00000612 // 1 boe = ~6.12 GJ ≈ 0.0000017 TWh
+private const val SM3_TO_BOE = 0.006289 * 1_000_000 //Sm3 = Standard cubic metre, volume measures with pressure and temperature (15°C og 1 atm)
+private const val BOE_TO_TWH = 0.0017 // 1 boe = ~6.12 GJ ≈ 0.0000017 TWh
 private const val TWH_TO_PJ = 3.6
 
 enum class EnergySource(
