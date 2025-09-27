@@ -26,7 +26,7 @@
                     <th th:text="#{energy.source}"></th>
                     <th th:text="#{energy.value}"></th>
                     <th th:text="#{energy.twh}"></th>
-                    <th th:text="#{energy.tj}"></th>
+                    <th th:text="#{energy.pj}"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,7 +34,7 @@
                     <td id="energySource" th:text="${energy.source}"></td>
                     <td id="energyValue" th:text="${energy.value} + ' ' + ${energy.unit}"></td>
                     <td id="energyTWh" th:text="${energy.twh}"></td>
-                    <td id="energyTJ" th:text="${energy.tj}"></td>
+                    <td id="energyPJ" th:text="${energy.pj}"></td>
                 </tr>
                 </tbody>
             </table>

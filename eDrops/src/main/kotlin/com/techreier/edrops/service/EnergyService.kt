@@ -109,13 +109,13 @@ class EnergyService {
                             fossilTotalOil = (fossil.oil ?: 0.0) + (fossil.condensate ?: 0.0) + (fossil.ngl ?: 0.0)
                         }
 
-                        val fossilTotalTJ = (EnergySource.OIL.toEnergyTJ(fossilTotalOil) ?: 0.0) +
-                                (EnergySource.GAS.toEnergyTJ(fossil.gas) ?: 0.0)
+                        val fossilTotalPJ = (EnergySource.OIL.toEnergyPJ(fossilTotalOil) ?: 0.0) +
+                                (EnergySource.GAS.toEnergyPJ(fossil.gas) ?: 0.0)
 
                         val energyValues = listOf(
                             EnergySource.GAS.values(fossil.gas),
                             EnergySource.OIL.values(fossilTotalOil),
-                            EnergySource.FOSSIL.values(tj = fossilTotalTJ)
+                            EnergySource.FOSSIL.values(pj = fossilTotalPJ)
                         )
 
                         val energyYear = energyYears[fossil.year]

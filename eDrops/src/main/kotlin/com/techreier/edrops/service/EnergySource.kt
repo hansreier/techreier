@@ -11,7 +11,7 @@ private const val STD = 1.0
 private const val SM3_TO_BOE =
     6.29 * 1_000_000 //Sm3 = Standard cubic metre, volume measures with pressure and temperature (15°C og 1 atm)
 private const val BOE_TO_TWH = 0.00000612 // 1 boe = ~6.12 GJ ≈ 0.0000017 TWh
-private const val TWH_TO_TJ = 3.6
+private const val TWH_TO_PJ = 3.6
 
 enum class EnergySource(
     val key: String,
@@ -52,15 +52,15 @@ enum class EnergySource(
         return input * twhPerUnit * directUseEfficiency
     }
 
-    fun toEnergyTJ(input: Double?): Double? {
+    fun toEnergyPJ(input: Double?): Double? {
         if (input == null || twhPerUnit == null || directUseEfficiency == null) return null
-        return input * twhPerUnit * directUseEfficiency * TWH_TO_TJ
+        return input * twhPerUnit * directUseEfficiency * TWH_TO_PJ
     }
 
-    fun values(orig: Double? = null, twh: Double? = null, tj: Double? = null) = EnergyValues(
+    fun values(orig: Double? = null, twh: Double? = null, pj: Double? = null) = EnergyValues(
         this, orig,
         twh ?: toElectricityTWh(orig),
-        tj ?: toEnergyTJ(orig)
+        pj ?: toEnergyPJ(orig)
     )
 
     fun tonnCo2PerTWh(): Double? {
