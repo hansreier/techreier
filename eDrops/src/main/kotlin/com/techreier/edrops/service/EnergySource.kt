@@ -26,7 +26,7 @@ enum class EnergySource(
     GAS("gas", false, "MSm3", SM3_TO_BOE * BOE_TO_TWH, 0.50, 1.0, 336.0),
     OIL("oil", false, "MSm3", SM3_TO_BOE * BOE_TO_TWH, 0.37, 1.0, 445.0),
     COAL("coal", false, "tonne", 0.00667, 0.35, 0.80, 2400.0),
-    FOSSIL("fossilProd", false, "Terajoule", null, null, null, null),
+    FOSSIL("fossilProd", false, "Petajoule", null, null, null, null),
     NUCLEAR("nuclear", false, "TWh", 1.0, 0.33, 1.0, 0.00),
 
     // Renewable energy sources (no conversion needed, so set conversion efficiency to 1.0)
