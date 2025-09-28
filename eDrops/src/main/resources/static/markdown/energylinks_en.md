@@ -2,17 +2,21 @@
 
 The list focuses mostly on energy issues related to electric power in Norway, and will be expanded.
 
-| Link                                | Comment                                              |
-|-------------------------------------|------------------------------------------------------|
-| [European energy policy sucks](https://www.linkedin.com/pulse/european-energy-policy-kills-competitiveness-without-any-emblemsv%25C3%25A5g-ah39f/?trackingId=J%2B12DFDCTvCmNHZqb4bhxA%3D%3D) | Jan Emblemsvåg  (LinkedIn)                           |
-| [El crisis in Sweden](https://www.youtube.com/watch?v=0Oh_w5KrEVc) | Jan Blomgren (You Tube). Partly valid for Norway     |
-| [LCOE misleading](https://medium.com/@marhje/why-lcoe-is-not-a-good-metric-for-renewables-82e16c3f7c3b) | Martin Hjelmeland                                    |
-| [LCOE hidden costs](https://enodatech.com/news-insight/the-hidden-costs-of-delivered-renewable-energy) | Hidden costs for wind- and sun- power                |
-| [NVE](https://www.nve.no/english/)  | The Norwegian Water Resources and Energy Directorate |
-| [Energy law](https://lovdata.no/dokument/NL/lov/1990-06-29-50) | The Norwegian energy law of 1990 (In Norwegian)      |
+| Link                                                                                    | Comment                                                         |
+|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| [European energy policy sucks](https://www.linkedin.com/pulse/european-energy-policy-kills-competitiveness-without-any-emblemsv%25C3%25A5g-ah39f/?trackingId=J%2B12DFDCTvCmNHZqb4bhxA%3D%3D) | Jan Emblemsvåg  (LinkedIn)                                      |
+| [El crisis in Sweden](https://www.youtube.com/watch?v=0Oh_w5KrEVc)                      | Jan Blomgren (You Tube). Partly valid for Norway                |
+| [LCOE misleading](https://medium.com/@marhje/why-lcoe-is-not-a-good-metric-for-renewables-82e16c3f7c3b) | Martin Hjelmeland                                               |
+| [LCOE hidden costs](https://enodatech.com/news-insight/the-hidden-costs-of-delivered-renewable-energy) | Hidden costs for wind- and sun- power                           |
+| [NVE](https://www.nve.no/english/)                                                      | The Norwegian Water Resources and Energy Directorate            |
+| [Norwegian Petroleum](https://www.norskpetroleum.no/en/facts/historical-production)| Norwegian Petroleum Directorate: Production data of oil and gas |
+| [SSB](https://www.ssb.no/en/energi-og-industri/energi/statistikk/produksjon-og-forbruk-av-energi-energibalanse-og-energiregnskap) | Statistics Norway official energy data   |                       
+| [Energy law](https://lovdata.no/dokument/NL/lov/1990-06-29-50)                          | The Norwegian energy law of 1990 (In Norwegian)                 |
 
-NVE publishes a lot of statistics about electricity production and consumption in Norway. 
-Regrettably, very little is written in English, so I have not linked to it.
+NVE, SSB and Norwegian Petroleum publishes a lot of statistics about energy, 
+including electricity production and consumption in Norway. 
+Data can be downloaded through public APIs, or as Excel sheets / CSV lists.
+Regrettably, pages referring to energy data is not always written in English.
 Below is a short summary of NVEs forecast for electric power production and consumption 
 from the 2021 long term power marked analysis report (numbers in paranthesis) 
 and the newer 2023 rapport. All numbers are in TWh.
@@ -30,4 +34,5 @@ Increased consumption mainly is caused by so-called green debatable renewable pr
 data centers, transport, and other power-intensive industries. 
 Nuclear power is not considered at all for 2040 in Norway, a mistake in my view.
 I fear that revised forecasts will force more environmental destruction in Norway.
+
 

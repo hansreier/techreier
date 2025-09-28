@@ -97,6 +97,7 @@ denne visjonen, ville det garantert ha gått fullstendig galt.
 
 Se også  
 [Elkraft i Norge](elpower_nb.md)  
+[Energidata for Norge](energydata_nb.md)  
 [Strøm manifest](manifest_nb.md)  
 [Strøm(pris)krisen](elprice_nb)  
 [To år med elgalskap](elcrazy_nb)  

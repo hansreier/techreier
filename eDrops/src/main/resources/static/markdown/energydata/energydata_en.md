@@ -1,8 +1,8 @@
 ## Norway’s production, consumption, import and export of energy.
 
 Sources:
-[Statistics Norway (SSB)](https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitet) and
-[Norwegian Petroleum Directorate](https://www.norskpetroleum.no/fakta/historisk-produksjon/#arlig).  
+[Statistics Norway (SSB)](https://www.ssb.no/en/energi-og-industri/energi/statistikk/produksjon-og-forbruk-av-energi-energibalanse-og-energiregnskap) and 
+[Norwegian Petroleum Directorate](https://www.norskpetroleum.no/en/facts/historical-production).
 
 Statistics Norway provide electricity data directly in terawatts hour TWh.
 Norwegian Petroleum data is in millions standard cubic meter MSm3,

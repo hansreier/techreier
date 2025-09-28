@@ -2,33 +2,33 @@
 
 Listen fokuserer mest på energi referanser relatert til elektrisk kraft i Norge og vil bli utvidet etterhvert. 
 
-| Lenke                                                                | Kommentar                                                                        |
-|----------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| [Europeisk energipolitikk suger](https://www.linkedin.com/pulse/european-energy-policy-kills-competitiveness-without-any-emblemsv%25C3%25A5g-ah39f/?trackingId=J%2B12DFDCTvCmNHZqb4bhxA%3D%3D) | Jan Emblemsvåg  (LinkedIn)                                                       | 
-| [El krisen Sverige](https://www.youtube.com/watch?v=0Oh_w5KrEVc)     | Jan Blomgren (You Tube). Mye av dette gjelder Norge også                         |
-| [Energi og natur](https://energiognatur.no/energipolitikk-pa-naturens-premisser/) | Tidskrift om energi og natur.                                                    | 
-| [Energi og natur, vindkraft](https://energiognatur.no/vindkraft-og-kostnader-i-norge/) | Jan Emblemsvåg. Vindkraft og kostnader i Norge                                   |
-| [Energi og klima](https://energiognatur.no/energipolitikk-pa-naturens-premisser/) | Tidskrift om energi og klima                                                     |
-| [Energipolitisk.no](https://energipolitisk.no/kontakt)               | Svein Roar Brunbergs artikler & bok                                              |
-| [Energiloven 1990](https://lovdata.no/dokument/NL/lov/1990-06-29-50) | Produksjon, omforming, overføring, omsetning, fordeling og bruk av energi|
-| [Tekna, uregulerbar kraft](https://www.tekna.no/fag-og-nettverk/energi/energibloggen/uregulerbar-kraft--en-utfordring-for-kraftsystemet/) | Tekna video: Uregulerbar kraft - en utfordring for kraftsystemet                 |
-| [Motvind](https://motvind.org/energi-2/)                             | Om vindturbiner og energipolitikk generelt                                       |
-| [Fornybar Norge](https://www.fornybarnorge.no/)                      | Fornybarnæringens talerør                                                        |
-| [Naturvernforbundet](https://naturvernforbundet.no/laer-mer/vind-og-vannkraft/) | Om vind og vannkraft                                                             |
-| [Klimavenner for kjernekraft](https://klimavenner.no/billig-strom/ ) | Organisasjonens nettsider                                                        |  
-| [NVE vindkraft](https://www.nve.no/energi/energisystem/vindkraft/)   | Mye informasjon, relativt objektivt                                              |
-| [NVE analyser og statistikk](https://www.nve.no/energi/analyser-og-statistikk/) | Analyser og statistikk generelt om energi                                        |
-| [NVE magasinstatistikk](https://www.nve.no/energi/analyser-og-statistikk/magasinstatistikk/) | Vannkraft , statistikk                                                           |
-| [NVE prognoser 2023-2040](https://www.nve.no/energi/analyser-og-statistikk/langsiktig-kraftmarkedsanalyse/langsiktig-kraftmarkedsanalyse-2023/) | Langsiktig kraftsmarkedsanalyse                                                  |
-| [NVE LCOE sammenlikning](https://www.nve.no/energi/analyser-og-statistikk/kostnader-for-kraftproduksjon/) | LCOE Offisielle tall                                                             | 
-| [LCOE villedende](https://medium.com/@marhje/why-lcoe-is-not-a-good-metric-for-renewables-82e16c3f7c3b) | Av Martin Hjelmeland                                                             |
-| [LCOE skjulte kostnader](https://enodatech.com/news-insight/the-hidden-costs-of-delivered-renewable-energy) | Skjulte kostnader for vind og sol                                                |
-| [Fornybar subsidie galskap](https://www.minerva.no/energi-fornybar-energi-hoyre/hoyre-ma-utvikle-en-energipolitikk-som-ikke-baserer-seg-pa-subsidier/455730) | Gjelder også Ap. Innlegg i Minerva, Espen Nordhus                                | 
-| [Universitetsavisa om vindkraft](https://www.universitetsavisa.no/tag/vindkraft) | Om vindkraft, diverse artikler, forskere ikke helt enige                         |
-| [Universitetsavisa om bærekraft](https://www.universitetsavisa.no/asgeir-tomasgard-det-gronne-skiftet-edgar-hertwich/det-gronne-skiftet-er-ikke-baerekraftig/188708) | Det grønne skiftet er ikke bærekraftig, Geir Hasnes                              |
-| [Vindkraftsupplysningen](https://vindkraftsupplysningen.se)          | Et kritisk blikk på vindkraft i Sverige og EU                                    |
-
-  
+| Lenke                                                                               | Kommentar                                                   |
+|-------------------------------------------------------------------------------------|-------------------------------------------------------------|
+| [Europeisk energipolitikk suger](https://www.linkedin.com/pulse/european-energy-policy-kills-competitiveness-without-any-emblemsv%25C3%25A5g-ah39f/?trackingId=J%2B12DFDCTvCmNHZqb4bhxA%3D%3D) | Jan Emblemsvåg  (LinkedIn)                                  | 
+| [El krisen Sverige](https://www.youtube.com/watch?v=0Oh_w5KrEVc)                    | Jan Blomgren (You Tube). Mye av dette gjelder Norge også    |
+| [Energi og natur](https://energiognatur.no/energipolitikk-pa-naturens-premisser/)   | Tidskrift om energi og natur.                               | 
+| [Energi og natur, vindkraft](https://energiognatur.no/vindkraft-og-kostnader-i-norge/) | Jan Emblemsvåg. Vindkraft og kostnader i Norge              |
+| [Energi og klima](https://energiognatur.no/energipolitikk-pa-naturens-premisser/)   | Tidskrift om energi og klima                                |
+| [Energipolitisk.no](https://energipolitisk.no/kontakt)                              | Svein Roar Brunbergs artikler & bok                         |
+| [Energiloven 1990](https://lovdata.no/dokument/NL/lov/1990-06-29-50)                | Produksjon, omforming, overføring, omsetning, fordeling og bruk av energi |
+| [Tekna, uregulerbar kraft](https://www.tekna.no/fag-og-nettverk/energi/energibloggen/uregulerbar-kraft--en-utfordring-for-kraftsystemet/) | Tekna video: Uregulerbar kraft - en utfordring for kraftsystemet |
+| [Motvind](https://motvind.org/energi-2/)                                            | Om vindturbiner og energipolitikk generelt                  |
+| [Fornybar Norge](https://www.fornybarnorge.no/)                                     | Fornybarnæringens talerør                                   |
+| [Naturvernforbundet](https://naturvernforbundet.no/laer-mer/vind-og-vannkraft/)     | Om vind og vannkra                                          |
+| [Klimavenner for kjernekraft](https://klimavenner.no/billig-strom/ )                | Organisasjonens nettsider                                   |  
+| [Norsk Petroleum](https://www.norskpetroleum.no/fakta/historisk-produksjon/#arlig)  | Norsk Petroleum Directorat: Produksjonsdata for olje og gass|
+| [NVE vindkraft](https://www.nve.no/energi/energisystem/vindkraft/)                  | Mye informasjon, relativt objektivt                         |
+| [NVE analyser og statistikk](https://www.nve.no/energi/analyser-og-statistikk/)     | Analyser og statistikk generelt om energi                   |
+| [NVE magasinstatistikk](https://www.nve.no/energi/analyser-og-statistikk/magasinstatistikk/) | Vannkraft , statistikk                                      |
+| [NVE prognoser 2023-2040](https://www.nve.no/energi/analyser-og-statistikk/langsiktig-kraftmarkedsanalyse/langsiktig-kraftmarkedsanalyse-2023/) | Langsiktig kraftsmarkedsanalyse                             |
+| [NVE LCOE sammenlikning](https://www.nve.no/energi/analyser-og-statistikk/kostnader-for-kraftproduksjon/) | LCOE Offisielle tall                                        | 
+| [LCOE villedende](https://medium.com/@marhje/why-lcoe-is-not-a-good-metric-for-renewables-82e16c3f7c3b) | Av Martin Hjelmeland                                        |
+| [LCOE skjulte kostnader](https://enodatech.com/news-insight/the-hidden-costs-of-delivered-renewable-energy) | Skjulte kostnader for vind og sol                           |
+| [Fornybar subsidie galskap](https://www.minerva.no/energi-fornybar-energi-hoyre/hoyre-ma-utvikle-en-energipolitikk-som-ikke-baserer-seg-pa-subsidier/455730) | Gjelder også Ap. Innlegg i Minerva, Espen Nordhus           | 
+| [SSB](https://www.ssb.no/energi-og-industri/energi)                                 | Statistisk Sentralbyrås offisielle energidata               | 
+| [Universitetsavisa om vindkraft](https://www.universitetsavisa.no/tag/vindkraft)    | Om vindkraft, diverse artikler, forskere ikke helt enige    |
+| [Universitetsavisa om bærekraft](https://www.universitetsavisa.no/asgeir-tomasgard-det-gronne-skiftet-edgar-hertwich/det-gronne-skiftet-er-ikke-baerekraftig/188708) | Det grønne skiftet er ikke bærekraftig, Geir Hasnes         |
+| [Vindkraftsupplysningen](https://vindkraftsupplysningen.se)                         | Et kritisk blikk på vindkraft i Sverige og EU               |  
 
 Noe jeg vil anbefale er først å se artiklene til Jan Emblemsvåg, deretter Jan Blomgrens video.
 Energi og Natur er Motvind sitt tidskrift, men Energi og Klima er tilknyttet Norsk Klimastiftelse.
@@ -87,11 +87,15 @@ For flere detaljer, se rapporten.
 Kjernekraft er overhode ikke tatt med for 2040.
 Jeg er redd at reviderte prognoser vil tvinge fram mer naturødeleggelse.
 
-
 ### Se også høringssvar fra NVE - NOU 2023-3. 
 
 Den er ganske kritisk til energikommisjonen og spesielt realismen i konklusjonene.
 Det enkelste er bare å google denne. Ligger på regjeringen.no.
+
+### Se også mine kilder for energidata
+
+Dette er først og fremst SSB, NVE og Norsk Petroleuam. Det går an å viderebehandle data ved å enten produsere
+regneark eller bruke APIer direkte. Se linker lenger opp. 
 
 
 
