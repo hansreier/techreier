@@ -1,4 +1,4 @@
-## Norges produksjon, forbruk, import og eksport av energi.
+## Norges produksjon, forbruk, import og eksport av energi
 
 Kilder er 
 [SSB](https://www.ssb.no/energi-og-industri/energi/statistikk/elektrisitet) og

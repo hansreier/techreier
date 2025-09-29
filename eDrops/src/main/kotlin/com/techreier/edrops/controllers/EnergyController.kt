@@ -20,8 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val ENERGYDATA = "energydata"
+const val ENERGY_REMARK = "energyremark"
 const val ENERGYDATA_DIR = "/$ENERGYDATA"
-const val ENERGYDATA_TEMPLATE ="energyData"
+const val ENERGYDATA_TEMPLATE = "energyData"
 
 @Controller
 @RequestMapping(ENERGYDATA_DIR)
@@ -35,7 +36,7 @@ class EnergyController(val ctx: Context, val energyService: EnergyService) : Bas
         redirectAttributes: RedirectAttributes,
     ): String {
         logger.info("EnergyData page")
-        val energyForm = model.getAttribute ("energyForm") as EnergyForm? ?: EnergyForm()
+        val energyForm = model.getAttribute("energyForm") as EnergyForm? ?: EnergyForm()
         val energyValues = energyService.energyYears[energyForm.year.toIntOrNull()] ?: mutableListOf()
         model.addAttribute("energyData", energyValues.toDTOs(ctx.messageSource))
         model.addAttribute("energyForm", energyForm)
@@ -62,7 +63,7 @@ class EnergyController(val ctx: Context, val energyService: EnergyService) : Bas
 
         checkInt(energyForm.year, "year", bindingResult, 2008, 2024)
 
-        if (bindingResult.hasErrors() ) {
+        if (bindingResult.hasErrors()) {
             logger.info("warn energy production input error: $energyForm")
             val docIndex = prepare(model, request, response)
             if (docIndex.index < 0) {
@@ -90,6 +91,15 @@ class EnergyController(val ctx: Context, val energyService: EnergyService) : Bas
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)
         }
+
+        val docIndex2 = Docs.getDocIndex(Docs.energy, blogParams.oldLangCode, blogParams.usedLangCode, ENERGY_REMARK)
+
+        if (docIndex2.index >= 0) {
+            val doc2 = Docs.energy[docIndex2.index]
+            val docText2: String = markdownToHtml(doc2, ENERGYDATA_DIR).html
+            model.addAttribute("docText2", docText2)
+        }
+
         return docIndex
     }
 

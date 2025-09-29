@@ -91,7 +91,9 @@ object Docs {
     val energy =
         arrayOf(
             MenuItem("energydata", c.defaultNo, "Energidata for Norge"),
-            MenuItem("energydata", c.defaultEn, "Energy data for Norway")
+            MenuItem("energydata", c.defaultEn, "Energy data for Norway"),
+            MenuItem("energyremark", c.defaultNo, ""),
+            MenuItem("energyremark", c.defaultEn, "")
         )
 
     // Find the first Doc index that matches language code and eventually nonnull segment

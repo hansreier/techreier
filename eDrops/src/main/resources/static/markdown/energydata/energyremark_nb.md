@@ -1,4 +1,4 @@
-## Kommentarer til datagrunnlaget.
+## Kommentarer til datagrunnlaget
 
 Energien fra olje og gass i Nordsjøen er 16 ganger større enn vår el-produksjon. Det meste går til eksport. 
 Skal fossil energi erstattes med fornybart, må produksjonen økes voldsomt.

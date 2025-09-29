@@ -1,4 +1,4 @@
-## Norway’s production, consumption, import and export of energy.
+## Norway’s production, consumption, import and export of energy
 
 Sources:
 [Statistics Norway (SSB)](https://www.ssb.no/en/energi-og-industri/energi/statistikk/produksjon-og-forbruk-av-energi-energibalanse-og-energiregnskap) and 
