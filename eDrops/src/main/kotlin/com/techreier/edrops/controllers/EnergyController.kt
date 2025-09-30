@@ -83,24 +83,24 @@ class EnergyController(val ctx: Context, val energyService: EnergyService) : Bas
         response: HttpServletResponse,
     ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response)
-        val docIndex = Docs.getDocIndex(Docs.energy, blogParams.oldLangCode, blogParams.usedLangCode, ENERGYDATA)
+        val docPreIndex = Docs.getDocIndex(Docs.energy, blogParams.oldLangCode, blogParams.usedLangCode, ENERGYDATA)
 
-        if (docIndex.index >= 0) {
-            val doc = Docs.energy[docIndex.index]
+        if (docPreIndex.index >= 0) {
+            val doc = Docs.energy[docPreIndex.index]
             val docText: String = markdownToHtml(doc, ENERGYDATA_DIR).html
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)
         }
 
-        val docIndex2 = Docs.getDocIndex(Docs.energy, blogParams.oldLangCode, blogParams.usedLangCode, ENERGY_REMARK)
+        val docPostIndex = Docs.getDocIndex(Docs.energy, blogParams.oldLangCode, blogParams.usedLangCode, ENERGY_REMARK)
 
-        if (docIndex2.index >= 0) {
-            val doc2 = Docs.energy[docIndex2.index]
+        if (docPostIndex.index >= 0) {
+            val doc2 = Docs.energy[docPostIndex.index]
             val docText2: String = markdownToHtml(doc2, ENERGYDATA_DIR).html
             model.addAttribute("docText2", docText2)
         }
 
-        return docIndex
+        return docPreIndex
     }
 
 }
