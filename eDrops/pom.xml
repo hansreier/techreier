@@ -30,7 +30,7 @@
 		<assertJ.version>3.27.6</assertJ.version>
 		<!-- fetched automagically-->
 		<h2.version>2.4.240</h2.version>
-		<flyway.version>11.11.2</flyway.version>
+		<flyway.version>11.13.2</flyway.version>
 		<flexmark.version>0.64.8</flexmark.version>
 		<sanitizer.version>20240325.1</sanitizer.version>
 		<apache-poi.version>5.4.1</apache-poi.version>
