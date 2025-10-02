@@ -12,24 +12,24 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.5</version>
+		<version>3.5.6</version>
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>21</java.version>
-		<kotlin.version>2.2.10</kotlin.version>
+		<kotlin.version>2.2.20</kotlin.version>
 		<mariadb.version>3.5.5</mariadb.version>
 		<maven-failsafe-plugin.version>3.5.0</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>3.5.0</maven-surefire-plugin.version>
 		<kotlin.code.style>official</kotlin.code.style>
 		<kotlin.compiler.jvmTarget>21</kotlin.compiler.jvmTarget>
-		<junit-jupiter.version>5.13.4</junit-jupiter.version>
+		<junit-jupiter.version>6.0.0</junit-jupiter.version>
 		<mockk.version>1.14.5</mockk.version>
 		<assertJ.version>3.27.4</assertJ.version>
 		<!-- fetched automagically-->
-		<h2.version>2.3.232</h2.version>
+		<h2.version>2.4.240</h2.version>
 		<flyway.version>11.11.2</flyway.version>
 		<flexmark.version>0.64.8</flexmark.version>
 		<!--esapi.version>2.5.2.0</esapi.version-->
