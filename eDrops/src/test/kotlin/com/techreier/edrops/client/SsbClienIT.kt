@@ -15,4 +15,10 @@ class SsbClienIT {
         val json = ssbClient.fetchEnergyData()
         logger.info(json)
     }
+
+    @Test
+    fun ssbClientTest2() {
+        val json = ssbClient.fetchEnergyData2()
+        logger.info(json)
+    }
 }
