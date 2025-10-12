@@ -81,7 +81,7 @@ class FractionController(ctx: Context, val fractionService: FractionService) : B
 
         if (docIndex.index >= 0 ) {
             val doc = Docs.fraction[docIndex.index]
-            val docText: String = markdownToHtml(doc, ENERGYDATA_DIR).html
+            val docText: String = markdownToHtml(doc, FRACTION_DIR).html
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)
         }
