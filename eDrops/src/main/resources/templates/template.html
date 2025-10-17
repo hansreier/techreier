@@ -25,12 +25,17 @@
     </div>
     <div class="right-top">
         <form id="language" th:action="@{/language}" th:method="post">
-            <label id="languageLabel" th:text="language" for="languageSelect"></label>
-            <select id="languageSelect" name="languageCode" onchange="language.submit();">
-                <option id="languageOption" th:each="language : ${languages}"
-                        th:value="${language.code}" th:text="${language.language} + ' ' + ${language.code}"
-                        th:selected="${language.code eq langCode}"></option>
-            </select>
+            <label id="languageLabel" th:text="language"></label>
+
+            <div id="language-selector">
+                <label class= "language-option" th:each="language : ${languages}">
+                    <input type="radio" name="languageCode"
+                           th:value="${language.code}"
+                           th:checked="${language.code eq langCode}"
+                           onchange="this.form.submit();" />
+                    <span th:text="${#strings.toUpperCase(language.code)}"></span>
+                </label>
+            </div>
             <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
             <input type="hidden" th:value="${path}" name="path">
         </form>

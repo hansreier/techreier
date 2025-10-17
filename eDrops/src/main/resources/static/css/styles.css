@@ -472,6 +472,25 @@ img:hover::after {
 	padding: 0;
 }
 
+#language-selector {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    color: darkslategrey;
+    white-space: nowrap;
+}
+
+.language-option input[type="radio"] {
+    margin: 0 0.2rem 0 0.2rem;
+    vertical-align: middle;
+}
+
 .statusline {
 	display: flex;
 	align-items: center;
