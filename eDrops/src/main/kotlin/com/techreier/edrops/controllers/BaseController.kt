@@ -179,7 +179,7 @@ abstract class BaseController(
         val topicKey: String,
         val topics: List<Topic>,
     ) {
-        override fun toString() = "action=$action, key=$topicKey, lang=$oldLangCode=>$usedLangCode, segment=" + blog?.segment
+        override fun toString() = "action=$action, key=$topicKey, lang=$oldLangCode=>$usedLangCode, segment=${blog?.segment}"
     }
 
 }
