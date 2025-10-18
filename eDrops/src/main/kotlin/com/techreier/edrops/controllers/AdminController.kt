@@ -40,7 +40,7 @@ class AdminController(val ctx: Context,
     ): String {
         val blogParams = fetchBlogParams(model, request, response, segment, true, true)
 
-        logger.info("allBlogPosts Fetch blog posts with: $blogParams")
+        logger.info("Fetch blog posts: $blogParams")
 
         if (blogParams.blog == null) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")

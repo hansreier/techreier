@@ -1,22 +1,19 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.DEFAULT_TIMEZONE
-import com.techreier.edrops.config.MAX_SEGMENT_SIZE
-import com.techreier.edrops.config.MAX_SUMMARY_SIZE
-import com.techreier.edrops.config.MAX_TITLE_SIZE
-import com.techreier.edrops.config.logger
+import com.techreier.edrops.config.*
+import com.techreier.edrops.data.Docs.about
+import com.techreier.edrops.data.Docs.views
 import com.techreier.edrops.data.MENU_SPLIT_SIZE
 import com.techreier.edrops.data.SUBMENU_MIN_ITEMS
 import com.techreier.edrops.data.TOPIC_DEFAULT
-import com.techreier.edrops.domain.*
+import com.techreier.edrops.domain.LanguageCode
+import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
-import com.techreier.edrops.data.Docs.about
-import com.techreier.edrops.data.Docs.views
 import com.techreier.edrops.util.buildVersion
 import com.techreier.edrops.util.getMenuItems
-import com.techreier.edrops.util.msg
 import com.techreier.edrops.util.getValidProjectLanguageCode
+import com.techreier.edrops.util.msg
 import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -50,7 +47,7 @@ abstract class BaseController(
         response: HttpServletResponse,
         segment: String? = null,
         posts: Boolean = false,
-        admin: Boolean = false
+        admin: Boolean = false,
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("auth", ctx.appConfig.auth)
@@ -65,9 +62,8 @@ abstract class BaseController(
         val blog = if ((segment == NEW_SEGMENT) && admin) {
             model.addAttribute("blogHeadline", msg(ctx.messageSource, "newBlog"))
             BlogDTO(usedLangcode)
-        }
-        else {
-            model.addAttribute("blogHeadline", )
+        } else {
+            model.addAttribute("blogHeadline")
             val foundBlog = segment?.let {
                 ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, timeZone(), posts, !admin)
             }
@@ -100,8 +96,8 @@ abstract class BaseController(
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
 
-        val buildStamp =  buildVersion(ctx.appConfig.buildTime, false)
-        val buildInfo = ctx.appConfig.buildTime ?. let { buildVersion(ctx.appConfig.buildTime, false)} ?: buildStamp
+        val buildStamp = buildVersion(ctx.appConfig.buildTime, false)
+        val buildInfo = ctx.appConfig.buildTime?.let { buildVersion(ctx.appConfig.buildTime, false) } ?: buildStamp
         model.addAttribute("buildInfo", buildInfo)
         model.addAttribute("buildStamp", buildStamp)
         ctx.appConfig.buildTime ?: model.addAttribute("buildMark", buildStamp)
@@ -110,7 +106,7 @@ abstract class BaseController(
 
     // Return a formatted string of datetime given a format selected in language file by locale
     protected fun datetime(dateTime: ZonedDateTime): String {
-        val formatter = DateTimeFormatter.ofPattern(msg(ctx.messageSource,"format.datetime"))
+        val formatter = DateTimeFormatter.ofPattern(msg(ctx.messageSource, "format.datetime"))
         return dateTime.format(formatter)
     }
 
@@ -133,10 +129,13 @@ abstract class BaseController(
         } else null
     }
 
-    protected fun now(): Instant = ZonedDateTime.now(ctx.httpSession.getAttribute("timezone") as?  ZoneId
-        ?: ZoneId.of(DEFAULT_TIMEZONE)).toInstant()
+    protected fun now(): Instant = ZonedDateTime.now(
+        ctx.httpSession.getAttribute("timezone") as? ZoneId
+            ?: ZoneId.of(DEFAULT_TIMEZONE)
+    ).toInstant()
 
-    protected fun timeZone(): ZoneId = ctx.httpSession.getAttribute("timezone") as? ZoneId ?: ZoneId.of(DEFAULT_TIMEZONE)
+    protected fun timeZone(): ZoneId =
+        ctx.httpSession.getAttribute("timezone") as? ZoneId ?: ZoneId.of(DEFAULT_TIMEZONE)
 
     private fun fetchLanguages(): MutableList<LanguageCode> {
         logger.debug("fetch languages from db")
@@ -148,7 +147,7 @@ abstract class BaseController(
         val topics = ctx.genService.readTopics(languageCode)
         topics.forEach { topic ->
             if (topic.text.isNullOrBlank()) {
-                topic.text = msg(ctx.messageSource,"topic." + topic.topicKey)
+                topic.text = msg(ctx.messageSource, "topic." + topic.topicKey)
             }
         }
         return topics
@@ -168,7 +167,7 @@ abstract class BaseController(
     ): List<MenuItem> {
         val usedCode = getValidProjectLanguageCode(languageCode)
         val documents = docs.filter { (it.langCode == usedCode) }
-        return getMenuItems(documents, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE,  ctx.messageSource)
+        return getMenuItems(documents, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE, ctx.messageSource)
     }
 
 
@@ -178,6 +177,9 @@ abstract class BaseController(
         val usedLangCode: String,
         val action: String,
         val topicKey: String,
-        val topics: List<Topic>
-    )
+        val topics: List<Topic>,
+    ) {
+        override fun toString() = "action=$action, key=$topicKey, lang=$oldLangCode=>$usedLangCode, segment=" + blog?.segment
+    }
+
 }

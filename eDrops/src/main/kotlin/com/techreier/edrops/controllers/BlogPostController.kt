@@ -44,7 +44,7 @@ class BlogPostController(
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
         }
-        logger.info("allBlogPosts Fetch blog posts with: $blogParams")
+        logger.info("Fetch blog posts: $blogParams")
 
         if (subsegment == NEW_SEGMENT) {
             val blogPostForm = BlogPostForm()

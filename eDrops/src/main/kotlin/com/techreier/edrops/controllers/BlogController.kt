@@ -40,7 +40,7 @@ class BlogController(context: Context) : BaseController(context) {
                 "redirect:/$HOME_DIR"
             }
         }
-        logger.info("allBlogPosts Fetch blog posts with: $blogParams and summary")
+        logger.info("Fetch blog posts (including summary): $blogParams")
         model.addAttribute("blog", blogParams.blog)
         return "blogSummaries"
     }
