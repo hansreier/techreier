@@ -36,7 +36,7 @@ class AppConfig {
 
     var auth: Boolean = true
 
-     val buildTime = System.getenv("BUILD_TIME")
+     val buildTime: String? = System.getenv("BUILD_TIME")
 
     @Bean
     fun restClient(): RestClient = RestClient.create()

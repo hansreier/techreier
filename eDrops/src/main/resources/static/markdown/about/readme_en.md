@@ -154,7 +154,6 @@ The path is always shared with the server, so no problem it is state.
 A lang query parameter can be added to adjust language. This is according to conventions for web apps.
 But it is not state. Spring stores internally language in the session as state.
 
-
 ## Security
 
 I plan to use Spring security for login and other security issues. It seems to be the simplest option in a
@@ -356,6 +355,13 @@ favicon.ico file is created e.g. by
 https://www.favicon.cc/
 
 robots.txt file for web crawlers is created
+
+Caching of css is tricky, mobile phones is the worst, since cache very seldom is cleared.
+- local development. Clear cache for any change
+- production. Clear cache for users only if new version of the deployed code.  
+
+This is done by versioning the .css file when required.
+Refer to the bottom line in app with display of current version.
 
 ## Slutt
 

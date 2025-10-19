@@ -95,12 +95,10 @@ abstract class BaseController(
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
-
-        val buildStamp = buildVersion(ctx.appConfig.buildTime, false)
-        val buildInfo = ctx.appConfig.buildTime?.let { buildVersion(ctx.appConfig.buildTime, false) } ?: buildStamp
-        model.addAttribute("buildInfo", buildInfo)
-        model.addAttribute("buildStamp", buildStamp)
-        ctx.appConfig.buildTime ?: model.addAttribute("buildMark", buildStamp)
+        // Build time if existing or current time. Forcing clear of css cache. Value in GUI at bottom.
+        // Current time should only be used for selected local profiles, refer to BuildTimeValidation.kt
+        val built = buildVersion(ctx.appConfig.buildTime, false)
+        model.addAttribute("built", built)
         return BlogParams(blog, oldLangCode, usedLangcode, action, topicKey, topics)
     }
 
