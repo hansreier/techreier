@@ -356,11 +356,12 @@ https://www.favicon.cc/
 
 robots.txt file for web crawlers is created
 
-Caching of css and javascript is tricky, mobile phones is worst, since cache very seldom is cleared.
-- local development. Clear cache for any change
-- production. Clear cache for users only if new version of the deployed code.  
+Caching of css and JavaScript is tricky, mobile phones is worst, since cache very seldom is cleared.
+- local development. Clear cache for any change.
+- production. Clear cache for users only if new version of the deployed code.
+- Spring is set to do this each hour as a backup.
 
-This is done by versioning the .css file when required.
+This is done by versioning the .css and JavaScript files when required.
 Refer to the bottom line in app with display of current version.
 
 ## Slutt
