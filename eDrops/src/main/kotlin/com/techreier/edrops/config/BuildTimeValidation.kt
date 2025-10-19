@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 
 @Configuration
-@Profile("!local & !local-mariadb & !h2")
+@Profile("!local & !local-mariadb & !h2 & !test")
 class BuildTimeValidation {
 
     @Autowired
