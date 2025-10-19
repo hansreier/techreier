@@ -356,7 +356,7 @@ https://www.favicon.cc/
 
 robots.txt file for web crawlers is created
 
-Caching of css is tricky, mobile phones is the worst, since cache very seldom is cleared.
+Caching of css and javascript is tricky, mobile phones is worst, since cache very seldom is cleared.
 - local development. Clear cache for any change
 - production. Clear cache for users only if new version of the deployed code.  
 
