@@ -73,6 +73,8 @@ object Docs {
             MenuItem("gui", c.codingEn, "GUI design and implementation"),
             MenuItem("zerotrust", c.codingNo, "Zero Trust"),
             MenuItem("zerotrust", c.codingEn, "Zero Trust"),
+            MenuItem("backup", c.codingNo, "Jottacloud"),
+            MenuItem("backup", c.codingEn, "Jottacloud"),
 
         )
 

@@ -34,6 +34,24 @@ set up everything on the server myself. After some search I decided to try Hosti
 The result was some manual work to set up the VPS, using mostly automated processes, and manageable. 
 Since I used Cyberpanel, there is not that much need to actually log into the VPS server and perform Linux commands.
 
+### About Cyberpanel
+
+I have found that Cyberpanel really is set up for simpler web development with PHP. A lot of functionality
+there I simply do not use. But Cyberpanel is free and have a big community behind it. The only complaint is that
+it nags me to set up a Cyberpanel backup service. This is a paid service, but not required since
+I use a JottaCloud account for backup. The disadvantage is that unless copied to archive, only stored in 30 days.
+
+My primary use of Cyberpanel:
+
+- SSL and reverse proxy and Let's Encrypt
+- Manual simple administration of Docker containers (fetched from DockerHub)
+- MariaDB database admin including PhpMyAdmin (Cyberpanel controls the root user)
+
+One question is how to use Docker Compose with Cyberpanel. This I have not tested, but should be
+possible. But with just a few containers it really is no need for automating the CI/CD pipeline.
+The main advantage of Cyberpanel in my project is really simple setup of SSL and database administration.
+I have still not found anything better to use. Compared with the Azure portal I have used at work it is a blessing to use.
+
 ### To onboard my app
 
 How I did it is briefly described here:
@@ -125,7 +143,6 @@ Alternativ solutions I did not try:
 Cloud payment models look a bit complex and unpredictable to me.
 Overall I am satisfied with the solution well suited for a small private project.
 Using e.g. Azure I risk to pay 5 times more than the current cost, when the trial period expires.
-And it is not only an estimate, I have checked with other developers on similar projects.
-What I have not done yet is installing MariaDb on the VPS.  
+And it is not only an estimate, I have checked with other developers on similar projects. 
 
-Preliminary solution uses H2.
+Preliminary solution uses H2, final solution will use MariaDB. Jottacloud will be used for backup.  

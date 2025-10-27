@@ -46,11 +46,44 @@ correctly required a lot of effort.
 To store a lot of huge text documents including pictures in regular relational tables is not really advisable.
 Direct text search in a lot of huge documents requires special care. A better approach would be to use
 another kind of storage designed for documents and text search. The structured metadata could still
-be stored in relational DB. This approach was used in Peppol Project, where Amazon S3 was used. But
+be stored in relational DB. This approach was used in a project at work, where Amazon S3 was used. But
 the use case was different, since no advanced text search was required. I have professionally tried
 Oracle Text for this purpose. Since this is a blog system, we really do not need huge document sizes.
-To make it simple I plan to use internal file system for my initial blogs and a table in MariaDb to store
-the majority of the blogs.
+
+To make it simple I planned to  use the internal file system for my initial blogs and a table in MariaDb to store
+the majority of the blogs. I have used tables to store metadata about the blog text, including summary text.
+In 2024 I added the possibility to store the blogs in the database, as an alternative. In addition,
+a simple GUI was required to enter the blog structure and blog text. I have gradually added this to the system.
+Before adding this GUI it was no need for any user administration. So Spring Security and very simple login
+is set up to be able to enter blogs directly in the GUI.  
+
+So far late i 2025 H2 in memory is simply used for production. 
+This means that blogs is not really stored permanently in production. 
+I have set up some initial data in the blog system quite simply using Kotlin,
+that uses the database to store both the blogs itself and the metadata.
+This is to prepare for the final step where the blogs and metadata are stored in the Maria DB database instead,
+and GUI is used to feed all the blogs with most of the metadata into the database.
+
+The blog system is language independent, but for simplicity I have restricted it to store blogs in English
+and in Norwegian "Bokmål". No GUI is yet made for the concept of a blog owner and possibility to select
+the blog owners wanted languages. The development philosophy has been to have a working website on
+internet all the time and develop it gradually, so a lot of possible functionality is left for future development.
+The intention is not to compete with other blog systems out there, including Facebook. 
+The vision is to produce text blogs, not blogs with a lot of media content and advanced graphics.  
+
+The system supports adding pictures to the blogs stored directly on the file system, linking to it
+and viewing pictures directly in the blogs. So far it is set up to store pictures within the Docker container.
+This will very soon be changed to store most of the pictures on the VPS in a directory suited for it.
+
+### Adding backup to the system
+
+So far GitHub is backup of both code, metadata and blogs. I have late 2025 started to add backups
+on the VPS for the MariaDB database. The backup will be stored on Jottacloud, using the Jottacloud Cli
+for Linux (Ubuntu). I start with adding daily backup of the databae tables and contents, and will probably
+for simplicity use Jottacloud's sync folder for images stored in the file system. Currently backup is in the
+proof of concept state. I will switch from H2 to Mariadb in production as soon as I get this completed.
+
+
 
 ### Producing HTML GUI efficiently
 
