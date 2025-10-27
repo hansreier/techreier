@@ -7,7 +7,7 @@ import com.techreier.edrops.data.blogs.energy.Elpower
 import com.techreier.edrops.data.blogs.politics.Politics
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogOwner
-import com.techreier.edrops.util.timestamp
+import java.time.Instant
 
 private const val OWNER_FIRSTNAME = "Hans Reier"
 private const val OWNER_LASTNAME = "Sigmond"
@@ -21,7 +21,7 @@ class Initial(
     appConfig: AppConfig,
     val base: Base,
 ) {
-    private val blogOwnerCreated = timestamp("08.01.1963 12:00:00")
+    private val blogOwnerCreated = Instant.now()
 
     private val blogList = mutableSetOf<Blog>()
 
