@@ -64,7 +64,7 @@
             <div class = "statusline" th:if="${changed != null} ">
                 <div class="outputfield">
                     <p th:text="#{changed} +  ':'"></p>
-                    <p th:text="${#temporals.format(changed, #messages.msg('format.datetime'))}"></p>
+                    <p th:text="${changed}"></p>
                 </div>
                 <div class="outputfield">
                     <p th:text="#{blogId} + ':'"></p>

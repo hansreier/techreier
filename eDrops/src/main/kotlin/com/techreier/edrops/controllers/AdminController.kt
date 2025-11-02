@@ -20,7 +20,6 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import java.time.ZonedDateTime
 
 const val ADMIN = "admin"
 const val ADMIN_DIR = "/$ADMIN"
@@ -52,7 +51,7 @@ class AdminController(val ctx: Context,
         }
 
         // Set blog related fields
-        model.addAttribute("changed", blogParams.blog.changed)
+        model.addAttribute("changed", blogParams.blog.changedText)
         model.addAttribute("blogForm", blogParams.blog.toForm())
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("postPath", "$ADMIN_DIR/$segment/")
@@ -83,7 +82,7 @@ class AdminController(val ctx: Context,
         @PathVariable segment: String,
         action: String,
         blogId: Long?,
-        changed: ZonedDateTime?,
+        changed: String,
         bindingResult: BindingResult,
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -94,12 +93,12 @@ class AdminController(val ctx: Context,
         redirectAttributes.addFlashAttribute("action", action)
         //TODO check and use objectName in code.
         logger.info("blog: path: $path action:  $action blogid: $blogId formName: ${bindingResult.objectName}")
-        val blogOwner = owner?.user ?: run {
+        val blogOwner = owner?.user ?:
             // TODO is this the best action, alternative return error message in the current screen
             if (ctx.appConfig.auth)
                 throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "not authorized for save action"))
             else blogAdmin
-        }
+
         blogOwner.id?: throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "No blogOwner exists"))
 
         if (action == "save" || action == "create" || action == "createPost") {
@@ -162,7 +161,7 @@ class AdminController(val ctx: Context,
         request: HttpServletRequest,
         response: HttpServletResponse,
         segment: String,
-        changed: ZonedDateTime?,
+        changed: String,
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment, true, true)
         logger.info("Prepare fetch blog posts with: $blogParams")

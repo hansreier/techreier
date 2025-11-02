@@ -20,7 +20,6 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import java.time.ZonedDateTime
 
 @Controller
 @RequestMapping(ADMIN_DIR)
@@ -59,7 +58,7 @@ class BlogPostController(
 
             logger.info("getting GUI with blogPost. ${selectedBlogPost.title}")
             model.addAttribute("postHeadline", selectedBlogPost.title)
-            model.addAttribute("changed", selectedBlogPost.changed)
+            model.addAttribute("changed", (selectedBlogPost.changedText))
             model.addAttribute("blogPostForm", selectedBlogPost.toForm())
         }
 
@@ -77,7 +76,7 @@ class BlogPostController(
         @PathVariable subsegment: String?,
         action: String,
         blogId: Long?,
-        changed: ZonedDateTime?,
+        changed: String,
         bindingResult: BindingResult,
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -149,7 +148,7 @@ class BlogPostController(
         request: HttpServletRequest,
         response: HttpServletResponse,
         segment: String,
-        changed: ZonedDateTime?,
+        changed: String,
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment, true)
         logger.info("Prepare allBlogPosts Fetch blog posts with: $blogParams")

@@ -12,7 +12,7 @@
     <div th:each="blogPost : ${blog.blogPosts}" class="title">
         <h2 th:text="${blogPost.title}"></h2>
         <div class="container" th:utext="${blogPost.summary}"></div>
-        <p class="date" th:text="${#temporals.format(blogPost.changed, #messages.msg('format.date'))}"></p>
+        <p class="date" th:text="${blogPost.changedText}"></p>
     </div>
 </div>
 </body>

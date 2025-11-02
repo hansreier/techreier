@@ -10,6 +10,7 @@ import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
+import com.techreier.edrops.dto.toDTO
 import com.techreier.edrops.util.buildVersion
 import com.techreier.edrops.util.getMenuItems
 import com.techreier.edrops.util.getValidProjectLanguageCode
@@ -24,7 +25,6 @@ import org.springframework.web.context.ServletContextAware
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 const val NEW_SEGMENT = "_new"
@@ -55,9 +55,8 @@ abstract class BaseController(
         val currentLangCode = LocaleContextHolder.getLocale().language
         val usedLangcode = getValidProjectLanguageCode(currentLangCode)
         val locale = Locale.of(usedLangcode)
-        ctx.sessionLocaleResolver.setLocale(request, response, locale)
+        ctx.sessionLocaleResolver.setLocale(request, response, locale) //Set locale to allowed projectLocale
         val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
-
         // If segment is blank or new, do not read database
         val blog = if ((segment == NEW_SEGMENT) && admin) {
             model.addAttribute("blogHeadline", msg(ctx.messageSource, "newBlog"))
@@ -65,10 +64,19 @@ abstract class BaseController(
         } else {
             model.addAttribute("blogHeadline")
             val foundBlog = segment?.let {
-                ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, timeZone(), posts, !admin)
+                ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, posts)
             }
-            model.addAttribute("blogHeadline", foundBlog?.subject)
-            foundBlog
+            foundBlog?.let {
+                val blogLangCode = foundBlog.topic.language.code
+                val locale = Locale.of(blogLangCode)
+                ctx.sessionLocaleResolver.setLocale(request, response, locale) //Required sometimes
+                foundBlog.toDTO(
+                    timeZone(),
+                    msg(ctx.messageSource, "format.datetime"),
+                    msg(ctx.messageSource, "format.date"),
+                    blogLangCode, posts, !admin
+                )
+            }
         }
 
         ctx.httpSession.setAttribute("langcode", blog?.langCodeFound ?: usedLangcode)
@@ -82,6 +90,7 @@ abstract class BaseController(
             }
 
         val action = (model.getAttribute("action") ?: "") as String
+        model.addAttribute("blogHeadLine", blog?.subject ?: "")
         model.addAttribute("homeMenu", fetchMenuFromDisk(views, usedLangcode))
         model.addAttribute("aboutMenu", fetchMenuFromDisk(about, usedLangcode))
         model.addAttribute("langCode", usedLangcode)
@@ -102,11 +111,13 @@ abstract class BaseController(
         return BlogParams(blog, oldLangCode, usedLangcode, action, topicKey, topics)
     }
 
-    // Return a formatted string of datetime given a format selected in language file by locale
-    protected fun datetime(dateTime: ZonedDateTime): String {
-        val formatter = DateTimeFormatter.ofPattern(msg(ctx.messageSource, "format.datetime"))
-        return dateTime.format(formatter)
-    }
+    //Current time in Europe / Oslo time
+    protected fun now(): Instant = ZonedDateTime.now(timeZone()).toInstant()
+
+    //Time zone in Europe / Oslo time
+    protected fun timeZone(): ZoneId =
+        ctx.httpSession.getAttribute("timezone") as? ZoneId
+            ?: ZoneId.of(DEFAULT_TIMEZONE)
 
     // Logg and handle a general recoverable error to be presented in Thymeleaf
     // Note: Stacktrace not logged, should it?
@@ -126,14 +137,6 @@ abstract class BaseController(
             menuItems.first().segment
         } else null
     }
-
-    protected fun now(): Instant = ZonedDateTime.now(
-        ctx.httpSession.getAttribute("timezone") as? ZoneId
-            ?: ZoneId.of(DEFAULT_TIMEZONE)
-    ).toInstant()
-
-    protected fun timeZone(): ZoneId =
-        ctx.httpSession.getAttribute("timezone") as? ZoneId ?: ZoneId.of(DEFAULT_TIMEZONE)
 
     private fun fetchLanguages(): MutableList<LanguageCode> {
         logger.debug("fetch languages from db")
@@ -168,7 +171,6 @@ abstract class BaseController(
         return getMenuItems(documents, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE, ctx.messageSource)
     }
 
-
     data class BlogParams(
         val blog: BlogDTO?,
         val oldLangCode: String?,
@@ -177,7 +179,8 @@ abstract class BaseController(
         val topicKey: String,
         val topics: List<Topic>,
     ) {
-        override fun toString() = "action=$action, key=$topicKey, lang=$oldLangCode=>$usedLangCode, segment=${blog?.segment}"
+        override fun toString() =
+            "action=$action, key=$topicKey, lang=$oldLangCode=>$usedLangCode, segment=${blog?.segment}"
     }
 
 }

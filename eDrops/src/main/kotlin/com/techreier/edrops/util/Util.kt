@@ -25,7 +25,7 @@ const val TIMESTAMP_PATTERN = "yyMMddHHmmss"
 fun buildVersion(utc: String?, short: Boolean = true): String {
     return try {
         if (utc.isNullOrBlank()) {
-            DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(timeStampDefaultTimezone())
+            DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(timestampDefaultTimezone())
         } else {
             val defaultTime = Instant.parse(utc).atZone(ZoneId.of(DEFAULT_TIMEZONE))
             DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(defaultTime)
@@ -37,12 +37,43 @@ fun buildVersion(utc: String?, short: Boolean = true): String {
 }
 
 //Only correct in default timezone, Norway. So only use in tests and for buildVersion
-fun timeStampDefaultTimezone(): ZonedDateTime = ZonedDateTime.now(ZoneId.of(DEFAULT_TIMEZONE)).truncatedTo(ChronoUnit.SECONDS)
+fun timestampDefaultTimezone(): ZonedDateTime = ZonedDateTime.now(ZoneId.of(DEFAULT_TIMEZONE)).truncatedTo(ChronoUnit.SECONDS)
+
+fun timestamp(datetime: String): Instant {
+    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+    return LocalDateTime.parse(datetime, formatter).atZone(ZoneId.of(DEFAULT_TIMEZONE)).toInstant()
+}
 
 // Return valid language code actually used in this project based on rule
 // If language code does not exist return default (english)
 fun getValidProjectLanguageCode(languageCode: String): String =
     if (languageCode in listOf("nn", "no", "nb")) "nb" else "en"
+
+
+// Spring localized messages given messageSource, key and arguments
+fun msg(messageSource: MessageSource, key: String, args: Array<Any>? = null): String {
+    val locale = LocaleContextHolder.getLocale()
+    return messageSource.getMessage(key, args, "??$key??", locale) as String
+}
+
+// Formatting functions
+
+// Return a formatted String of date given a pattern
+fun ZonedDateTime?.text(datePattern: String): String {
+    val locale = LocaleContextHolder.getLocale()
+    val formatter = DateTimeFormatter.ofPattern(datePattern, locale)
+    return this?.format(formatter) ?: ""
+}
+
+fun Double?.fixed(precision: Int = DOUBLE_FIXED_PRECISION_DEFAULT): String {
+    val locale = LocaleContextHolder.getLocale()
+    return this ?.let { String.format(locale, "%.${precision}f", this)} ?: ""
+}
+
+fun Double?.float(precision: Int = DOUBLE_FLOAT_PRECISION_DEFAULT): String {
+    val locale = LocaleContextHolder.getLocale()
+    return this ?.let { String.format(locale, "%.${precision}g", this)} ?: ""
+}
 
 // Function assumes menu items (blogs) to be sorted by Topic position and MenuItem position.
 // If desired topics is added to the menu with items underneath it
@@ -94,27 +125,4 @@ fun getMenuItems(
     }
 
     return menuItems
-}
-
-// Spring localized messages given messageSource, key and arguments
-fun msg(messageSource: MessageSource, key: String, args: Array<Any>? = null): String {
-    val locale = LocaleContextHolder.getLocale()
-    return messageSource.getMessage(key, args, "??$key??", locale) as String
-}
-
-fun timestamp(datetime: String): Instant {
-    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
-    return LocalDateTime.parse(datetime, formatter).atZone(ZoneId.of(DEFAULT_TIMEZONE)).toInstant()
-}
-
-// Formatting functions
-
-fun Double?.fixed(precision: Int = DOUBLE_FIXED_PRECISION_DEFAULT): String {
-    val locale = LocaleContextHolder.getLocale()
-    return this ?.let { String.format(locale, "%.${precision}f", this)} ?: ""
-}
-
-fun Double?.float(precision: Int = DOUBLE_FLOAT_PRECISION_DEFAULT): String {
-    val locale = LocaleContextHolder.getLocale()
-    return this ?.let { String.format(locale, "%.${precision}g", this)} ?: ""
 }
