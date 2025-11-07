@@ -10,9 +10,6 @@ import com.techreier.edrops.domain.*
 import jakarta.persistence.*
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
 
 abstract class TestBase {
     @PersistenceContext
@@ -78,6 +75,4 @@ abstract class TestBase {
         entityManager.clear()
         logger.info("cleanup end")
     }
-
-    protected fun timeStamp(): ZonedDateTime = ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS)
 }

@@ -2,13 +2,13 @@
 package com.techreier.edrops.domain
 
 import jakarta.persistence.*
-import java.time.ZonedDateTime
+import java.time.Instant
 
 @Entity
 class BlogText(
 
     @Column(columnDefinition ="timestamp(0)")
-    var changed: ZonedDateTime?,
+    var changed: Instant?,
 
     @Column(nullable = false, columnDefinition ="TEXT")
     var text: String,

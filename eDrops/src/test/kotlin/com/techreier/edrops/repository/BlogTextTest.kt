@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 
 // TODO Consider where to put the test data, since BlogText in practice is not used yet.
@@ -32,7 +34,7 @@ class BlogTextTest : TestBase() {
     fun `basic CRUD checks`() {
         logger.info("Basic crud test")
         blogPostId.let { //Just cannot use save here with partly persisted entities (change in Spring Boot 3.4).
-            entityManager.persist(BlogText(timeStamp(), BLOGTEXT_1, blogPost, it))
+            entityManager.persist(BlogText(Instant.now().truncatedTo(ChronoUnit.SECONDS), BLOGTEXT_1, blogPost, it))
         }
 
         val blogTextFound = blogTextRepo.findByIdOrNull(blogPostId)
