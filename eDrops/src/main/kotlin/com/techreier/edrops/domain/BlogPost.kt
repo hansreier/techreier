@@ -11,7 +11,7 @@ import java.time.Instant
 class BlogPost(
 
     @Column(columnDefinition = "timestamp(0)")
-    var changed: Instant?,
+    var changed: Instant,
 
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
     var segment: String,
@@ -30,5 +30,14 @@ class BlogPost(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?=null
 ) {
+
+    fun copyAttributes(other: BlogPost): BlogPost {
+        this.changed = other.changed
+        this.segment = other.segment
+        this.title = other.title
+        this.summary = other.summary
+        return this
+    }
+
     override fun toString() = "id: $id blog: $blog changed: $changed text: $title"
 }

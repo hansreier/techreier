@@ -40,6 +40,18 @@ class Blog(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?=null,
 ) {
+
+    fun copyAttributes(other: Blog): Blog {
+        this.changed = other.changed
+        this.segment = other.segment
+        this.topic = other.topic
+        this.pos = other.pos
+        this.subject = other.subject
+        this.about = other.about
+        return this
+    }
+
+
     override fun toString() = "id: $id segment: $segment subject: $subject" +
             "topic: ${topic.text} blogOwner: $blogOwner changed: $changed"
 }

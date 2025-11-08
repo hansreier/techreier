@@ -7,7 +7,7 @@ import com.techreier.edrops.util.timestamp
 
 object SeawindVsRail : BlogPosts {
     val timestamp = timestamp("31.08.2025 12:00:00")
-    const val SEGMENT = "sustainable"
+    const val SEGMENT = "seawindvsrail"
     const val TITLE_NO = "Jernbane vs flytende havvind"
     const val TITLE_EN = "Rail vs floating offshore wind"
 

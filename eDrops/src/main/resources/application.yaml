@@ -24,8 +24,8 @@ logging:
     org.apache.coyote.http11: INFO
     com.techreier.edrops: INFO
     org.hibernate: INFO
-    org.hibernate.orm.jdbc.bind: INFO
-    org.hibernate.SQL: INFO
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.hibernate.SQL: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd' 'HH:mm:ss.SS, UTC} [%thread] %-5level %logger{36} - %msg%n"
 spring:

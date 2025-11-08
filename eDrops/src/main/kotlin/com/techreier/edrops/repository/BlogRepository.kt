@@ -26,7 +26,6 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCode(languageCode: String): MutableSet<Blog>
 
-    // TODO Not really used any more except in test. Consider removing.
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCodeAndSegment(languageCode: String, segment: String): Blog?
 

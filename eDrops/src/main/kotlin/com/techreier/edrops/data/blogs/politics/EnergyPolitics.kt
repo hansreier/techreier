@@ -7,7 +7,7 @@ import com.techreier.edrops.util.timestamp
 
 object EnergyPolitics: BlogPosts {
     val timestamp = timestamp("30.04.2025 16:56:00")
-    const val SEGMENT = "energyPoliics"
+    const val SEGMENT = "energy"
     const val TITLE_NO = "Energi politikk"
     const val TITLE_EN = "Energy politics"
 
