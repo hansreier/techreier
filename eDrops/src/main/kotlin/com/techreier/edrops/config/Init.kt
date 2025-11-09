@@ -7,6 +7,7 @@ import com.techreier.edrops.repository.*
 import com.techreier.edrops.util.buildVersion
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
+import org.springframework.dao.DuplicateKeyException
 
 lateinit var blogAdmin: BlogOwner
 
@@ -42,28 +43,32 @@ class Init(
                 ?: throw IllegalStateException("Initial blog owner not found")
             blogAdmin = blogOwner
             initial.blogOwner.blogs.forEach { blog ->
-                val existingBlog = blogRepo.findByTopicLanguageCodeAndSegment(blog.topic.language.code, blog.segment)
-                if (existingBlog == null) {
+                val existingBlogs = blogRepo.findByTopicLanguageCodeAndSegment(blog.topic.language.code, blog.segment)
+                if (existingBlogs.isEmpty()) {
                     blogRepo.save(blog)
-                } else {
-                    blog.blogPosts.forEach { post ->
-                        val existingPost = blogPostRepo.findByBlogAndSegment(existingBlog, post.segment)
-                        if (existingPost == null) {
-                            post.blog = existingBlog
-                            blogPostRepo.save(post)
-                        } else {
-                            if (post.changed > existingPost.changed) {
-                                blogPostRepo.save(existingPost.copyAttributes(post))
-                            }
-                        }
+                } else if (existingBlogs.size > 1) {
+                    throw DuplicateKeyException("Duplicate blog ids: " + existingBlogs.map { it.id })
+                }
 
+                blog.blogPosts.forEach { post ->
+                    val existingPosts = blogPostRepo.findByBlogAndSegment(existingBlogs[0], post.segment)
+                    if (existingPosts.isEmpty()) {
+                        post.blog = existingBlogs[0]
+                        blogPostRepo.save(post)
+                    } else if (existingPosts.size > 1) {
+                        throw DuplicateKeyException("Duplicate blogpost ids: " + existingPosts.map { it.id })
                     }
-                    if ((blog.changed > existingBlog.changed)) {
-                        blogRepo.save(existingBlog.copyAttributes(blog))
+                    if (post.changed > existingPosts[0].changed) {
+                        blogPostRepo.save(existingPosts[0].copyAttributes(post))
                     }
                 }
+
+                if ((blog.changed > existingBlogs[0].changed)) {
+                    blogRepo.save(existingBlogs[0].copyAttributes(blog))
+                }
             }
-            logger.info("Completed init")
         }
+        logger.info("Completed init")
     }
 }
+

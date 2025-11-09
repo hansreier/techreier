@@ -11,8 +11,7 @@ interface BlogPostRepository : JpaRepository<BlogPost, Long> {
 
   fun findByTitle(text: String): List<BlogPost>
 
-  // TODO functions are really identical
-  fun findByBlogAndSegment(blog: Blog, segment: String): BlogPost?
+  fun findByBlogAndSegment(blog: Blog, segment: String): List<BlogPost>
 
   @Query("SELECT b.id FROM BlogPost b WHERE b.segment = :segment AND b.blog.id = :blogId")
   fun findBlogPostIds(segment: String, blogId: Long): List<Long>
