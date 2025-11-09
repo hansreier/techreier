@@ -78,12 +78,12 @@ class BlogTest : TestBase() {
     @Test
     fun `read blog by language and segment`() {
         logger.info("starting read blog by language and segment")
-        val blog1 = blogRepo.findByTopicLanguageCodeAndSegment(NB, Climatenv.SEGMENT)
-        assertThat(blog1).isNotNull
-        assertThat(blog1!!.topic.language.code).isEqualTo(NB)
-        assertThat(blog1.topic.language.language).isEqualTo(NORWEGIAN)
-        assertThat(blog1.segment).isEqualTo(Climatenv.SEGMENT)
-        logger.info("blog: $blog1 ${blog1.blogPosts.size}")
+        val blogList = blogRepo.findByTopicLanguageCodeAndSegment(NB, Climatenv.SEGMENT)
+        assertThat(blogList.size).isEqualTo(1)
+        assertThat(blogList[0].topic.language.code).isEqualTo(NB)
+        assertThat(blogList[0].topic.language.language).isEqualTo(NORWEGIAN)
+        assertThat(blogList[0].segment).isEqualTo(Climatenv.SEGMENT)
+        logger.info("blog: $blogList ${blogList[0].blogPosts.size}")
     }
 
     // Using JPQL more efficient, only one SQL statement
@@ -91,6 +91,7 @@ class BlogTest : TestBase() {
     @Test
     fun `read all with findAll`() {
         logger.info("starting read all test")
+
         val blogs = blogRepo.findAll()
         logger.info("blogs: $blogs noOfBlogs: ${blogs.size}")
         assertThat(blogs.size).isEqualTo(noOfBlogs)
@@ -104,7 +105,8 @@ class BlogTest : TestBase() {
     @Test
     fun `read with manual entityGraph`() {
         logger.info("starting read all test")
-        val blog1 = blogRepo.findByTopicLanguageCodeAndSegment(NB, Climatenv.SEGMENT)
+        val blogList = blogRepo.findByTopicLanguageCodeAndSegment(NB, Climatenv.SEGMENT)
+        assertThat(blogList.size).isEqualTo(1)
         val entityGraph = entityManager.createEntityGraph(Blog::class.java)
         val topicGraph: Subgraph<Topic> = entityGraph.addSubgraph("topic")
         topicGraph.addAttributeNodes("language")
@@ -113,8 +115,8 @@ class BlogTest : TestBase() {
         val hints: MutableMap<String, Any> = HashMap()
         hints["javax.persistence.fetchgraph"] = entityGraph
         logger.info("saved")
-        val blog2 = entityManager.find(Blog::class.java, blog1?.id, hints)
-        assertThat(blog2?.blogPosts?.size).isEqualTo(blog1?.blogPosts?.size)
+        val blog2 = entityManager.find(Blog::class.java, blogList[0].id, hints)
+        assertThat(blog2?.blogPosts?.size).isEqualTo(blogList[0].blogPosts.size)
         logger.info("Blog language: ${blog2.topic.language.language} owner: ${blog2.blogOwner.id} posts: ${blog2.blogPosts}")
     }
 
