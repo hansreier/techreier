@@ -52,6 +52,6 @@ class Blog(
     }
 
 
-    override fun toString() = "id: $id segment: $segment subject: $subject" +
-            "topic: ${topic.text} blogOwner: $blogOwner changed: $changed"
+    override fun toString() = "id: $id segment: $segment subject: $subject " +
+            "topic: ${topic.topicKey} ${topic.language.code} blogOwner: $blogOwner changed: $changed"
 }

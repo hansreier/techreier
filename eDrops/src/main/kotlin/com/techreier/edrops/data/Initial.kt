@@ -7,6 +7,7 @@ import com.techreier.edrops.data.blogs.energy.Elpower
 import com.techreier.edrops.data.blogs.politics.Politics
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogOwner
+import com.techreier.edrops.util.checkDuplicates
 import java.time.Instant
 
 private const val OWNER_FIRSTNAME = "Hans Reier"
@@ -38,14 +39,16 @@ class Initial(
 
     private fun initialize() {
         blogList.clear()
+        blogList.add(Politics.no(blogOwner, base.politicsNo))
+        blogList.add(Politics.en(blogOwner, base.politicsEn))
+        blogList.add(Elpower.no(blogOwner, base.energyNo))
+        blogList.add(Elpower.en(blogOwner, base.energyEn))
+        blogList.add(Coding.no(blogOwner, base.codingNo))
+        blogList.add(Coding.en(blogOwner, base.codingEn))
+        blogList.add(Climatenv.no(blogOwner, base.energyNo))
+        blogList.add(Climatenv.en(blogOwner, base.energyEn))
+        blogList.checkDuplicates  { it.segment to it.topic.language.code}
+        blogList.forEach { blog -> blog.blogPosts.checkDuplicates { it.segment } }
         blogOwner.blogs = blogList
-        blogOwner.blogs.add(Politics.no(blogOwner, base.politicsNo))
-        blogOwner.blogs.add(Politics.en(blogOwner, base.politicsEn))
-        blogOwner.blogs.add(Elpower.no(blogOwner, base.energyNo))
-        blogOwner.blogs.add(Elpower.en(blogOwner, base.energyEn))
-        blogOwner.blogs.add(Coding.no(blogOwner, base.codingNo))
-        blogOwner.blogs.add(Coding.en(blogOwner, base.codingEn))
-        blogOwner.blogs.add(Climatenv.no(blogOwner, base.energyNo))
-        blogOwner.blogs.add(Climatenv.en(blogOwner, base.energyEn))
     }
 }

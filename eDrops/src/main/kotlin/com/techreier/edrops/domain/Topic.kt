@@ -5,7 +5,7 @@ import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import jakarta.persistence.*
 
-// @Table(uniqueConstraints = [UniqueConstraint(columnNames = ["topic", "language"])])
+@Table(uniqueConstraints = [UniqueConstraint(columnNames = ["topic_key", "language_code"])])
 @Entity
 class Topic(
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)

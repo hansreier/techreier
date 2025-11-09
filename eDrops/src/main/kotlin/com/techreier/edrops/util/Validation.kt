@@ -3,6 +3,7 @@ package com.techreier.edrops.util
 import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import org.slf4j.LoggerFactory
 import org.springframework.validation.BindingResult
+import org.springframework.dao.DuplicateKeyException
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 
@@ -129,6 +130,15 @@ fun checkDouble(
         else if ((maxValue != null) && (result > maxValue))
             bindingResult.rejectValue(field, "error.greaterThan", arrayOf(maxValue), value)
         return result
+    }
+}
+
+// To check for uniqueness of combined attributes in a list of objects (One, Pair, Triple, More: Use data class)
+// Pair example: blogList.checkDuplicates { it.segment to it.topic.language.code}
+fun <T, K> Iterable<T>.checkDuplicates(keySelector: (T) -> K) {
+    val duplicates = this.groupBy(keySelector).filterValues { it.size > 1 }
+    if (duplicates.isNotEmpty()) {
+        throw DuplicateKeyException("Duplicate items detected: ${duplicates.keys}")
     }
 }
 

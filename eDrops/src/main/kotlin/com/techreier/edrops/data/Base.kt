@@ -2,6 +2,7 @@ package com.techreier.edrops.data
 
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Topic
+import com.techreier.edrops.util.checkDuplicates
 
 const val NORWEGIAN = "Norwegian"
 const val ENGLISH = "English"
@@ -13,6 +14,7 @@ const val TOPIC_DEFAULT = "default"
 const val TOPIC_CODING = "coding"
 const val TOPIC_ENERGY = "energy"
 const val TOPIC_SPORT = "sport"
+const val TOPIC_POLITICS = "politics"
 
 const val SUBMENU_MIN_ITEMS = 2 //Minimum number of items within a topic sub menu
 const val MENU_SPLIT_SIZE = 10 //Minimum menu size before splitting
@@ -30,8 +32,14 @@ class Base {
     val energyEn = Topic(TOPIC_ENERGY, english, 2)
     val sportNo = Topic(TOPIC_SPORT, norwegian, 3)
     val sportEn = Topic(TOPIC_SPORT, english, 3)
-    val politicsNo = Topic(TOPIC_CODING, norwegian, 4)
-    val politicsEn = Topic(TOPIC_CODING, english, 4)
+    val politicsNo = Topic(TOPIC_POLITICS, norwegian, 4)
+    val politicsEn = Topic(TOPIC_POLITICS, english, 4)
 
-    val topics = listOf(defaultNo, defaultEn, codingNo, codingEn, energyNo, energyEn, sportNo, sportEn,politicsNo, politicsEn)
+    val topics = listOf(defaultNo, defaultEn, codingNo, codingEn, energyNo, energyEn,
+        sportNo, sportEn,politicsNo, politicsEn)
+
+    init {
+        topics.checkDuplicates { it.topicKey to it.language.code  }
+    }
+
 }
