@@ -2,8 +2,6 @@ package com.techreier.edrops.config
 
 import com.techreier.edrops.data.Base
 import com.techreier.edrops.data.Initial
-import com.techreier.edrops.dbservice.LanguageService
-import com.techreier.edrops.dbservice.TopicService
 import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.repository.*
 import com.techreier.edrops.util.buildVersion
@@ -15,11 +13,11 @@ lateinit var blogAdmin: BlogOwner
 @Configuration
 @Profile("!test")
 class Init(
-    languageService: LanguageService,
+    languageRepo: LanguageRepository,
     ownerRepo: BlogOwnerRepository,
     blogRepo: BlogRepository,
     blogPostRepo: BlogPostRepository,
-    topicService: TopicService,
+    topicRepo: TopicRepository,
     appConfig: AppConfig,
 ) {
     init {
@@ -34,8 +32,8 @@ class Init(
 
         if (ownerRepo.count() == 0L) {
             logger.info("Initialize empty database with data")
-            languageService.saveAll(base.languages)
-            topicService.saveAll(base.topics)
+            languageRepo.saveAll(base.languages)
+            topicRepo.saveAll(base.topics)
             val blogOwner = ownerRepo.save(initial.blogOwner)
             blogAdmin = blogOwner
         } else {
@@ -65,7 +63,7 @@ class Init(
                     }
                 }
             }
-        logger.info("Completed init")
+            logger.info("Completed init")
         }
     }
 }
