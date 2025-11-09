@@ -48,6 +48,16 @@ A dedicated platform team with a security focus can help, with a few predefined 
 Good security costs more and must be planned from the start, alongside testing.
 Risk analysis should be carried out so that efforts are focused where they matter most.  
 
+Classification of Confidential Information:
+
+- Public / Open Information – Information that can be freely shared.
+- Internal / Limited Information – For internal use; low risk if disclosed.
+- Confidential Information (subject to GDPR or business-critical)
+- Strictly Confidential (subject to GDPR or business-critical, e.g., health information)
+- Top Secret (subject to GDPR and handled under security regulations)
+
+Very strict access control must be enforced for all information classified as Confidential or higher.
+
 Security requirements must be adapted to the environment:
 - Local development machines: Flexible requirements tailored to development work.
 - Shared test environment: Stricter requirements when systems and test data are shared.
@@ -57,6 +67,12 @@ Should developers have root access on their own machine?
 Without root access, valuable development time can be lost. Updates are more likely to be skipped, which weakens security.
 The risk of misuse is often nearly as high without root access.
 Always lock your machine to prevent attackers from causing harm locally.  
+
+Security procedures are often introduced early, with too little dialogue with the people who actually use the systems.
+If security procedures become too cumbersome, 
+there is a significant risk that someone will bypass the rules by moving business-critical code and data to unsecured machines.
+Project time pressure can be a direct cause, not just the fault of the developers. 
+Time pressure can increase under rigid security procedures, which paradoxically can result in worse and less secure code.
 
 There is a cost before production deployment and a much larger cost when something goes seriously wrong.
 

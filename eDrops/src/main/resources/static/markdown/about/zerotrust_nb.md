@@ -35,7 +35,7 @@ Sikkerhetsopplæring er ofte bedre enn overdreven sperring, da lærer medarbeide
 Hvis Zero Trust betyr mistillit fra ledelsen, mister ansatte tilliten til ledelsen.  
 
 Fra mine erfaringer som utvikler legges det for mye vekt på detaljert tilgangskontroll og minste privilegiums-prinsipp.
-Det fører ofte til unødvendige blokkeringer og tidstyver, som når lokal utvikling krever tilgang til sperrede nettsteder.  
+Det fører ofte til unødvendige blokkeringer og tidstyver, som når lokal utvikling krever tilgang til sperrede nettsteder.
 
 Å holde biblioteker oppdatert høres enkelt ut, men krever god DevSecOps for å fungere i praksis.
 Vi bruker mye tid på oppdateringer for sikkerhetshull som kanskje ikke berører oss.
@@ -48,15 +48,31 @@ Et eget plattformteam med sikkerhetsfokus kan hjelpe, med noen få forhåndsdefi
 God sikkerhet koster mer og må planlegges inn fra starten sammen med testing.
 Risikoanalyse bør gjøres slik at innsatsen settes inn der det teller.  
 
+Grader av konfidensiell informasjon:
+- Åpen / offentlig informasjon
+- Intern / begrenset informasjon
+- Fortrolig informasjon (GDPR eller forretningskritisk)
+- Strengt fortrolig (GDPR elle forretningskrisk, f.eks. helseopplysninger)
+- Strengt hemmelig (GDPR og håndteres i sikkerhetsloven)
+
+Det må være veldig streng tilgangskontroll på alt som er fortrolig og oppover.
+
 Sikkerhetskravene må tilpasses miljøet de gjelder for:
-- Lokale utviklingsmaskiner: Fleksible krav tilpasset utviklingsarbeidet.
-- Felles testmiljø: Strengere krav når systemer og testdata deles.
-- Produksjon: Svært strenge krav for å beskytte data og sikre stabil drift.
+- Lokale utviklingsmaskiner: Fleksible krav tilpasset utviklingsarbeidet (syntetiske data)
+- Felles testmiljø: Strengere krav når systemer og testdata deles (syntetiske eller anonymiserte data)
+- Produksjon: Svært strenge og detaljert tilgangskontroll for å beskytte data og sikre stabil drift.
 
 Skal utviklere ha rot-tilgang på egen maskin?
 Uten rottilgang kan utviklingstid gå tapt. Oppdateringer droppes lettere, noe som svekker sikkerheten.
 Risiko for misbruk ofte er nesten like stor uten rot tilgang.
 Lås uansett maskinen, så kan ikke angriper gjøre ugang via den lokale maskinen.
+
+Sikkerets prosedyrer introduseres ofte tidlig, med for lite dialog med de som bruker systemene.
+Hvis sikkerhetsrutiner blir for omstendelige, er det en stor fare
+for at noen omgår reglene ved å flytte forretningskritisk kode og data over på usikrede maskiner.
+Tidspress i prosjekter kan være en direkte årsak, ikke bare skyld på utviklerne.
+Tidspresset kan øke ved rigide sikkerhetsrutiner, 
+som paradoksalt nok kan føre til dårligere og mindre sikker kode.
 
 Men det er en kostnad før produksjonssetting og en større kostnad når noe går alvorlig galt.
 
