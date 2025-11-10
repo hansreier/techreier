@@ -2,9 +2,9 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
-import com.techreier.edrops.config.blogAdmin
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogService
+import com.techreier.edrops.dbservice.InitService
 import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.util.*
@@ -27,7 +27,8 @@ const val ADMIN_DIR = "/$ADMIN"
 @Controller
 @RequestMapping(ADMIN_DIR)
 class AdminController(val ctx: Context,
-            private val blogService: BlogService) : BaseController(ctx) {
+            private val blogService: BlogService, private val initService: InitService
+) : BaseController(ctx) {
 
     @GetMapping("/{segment}")
     fun allBlogPosts(
@@ -97,7 +98,7 @@ class AdminController(val ctx: Context,
             // TODO is this the best action, alternative return error message in the current screen
             if (ctx.appConfig.auth)
                 throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "not authorized for save action"))
-            else blogAdmin
+            else initService.blogAdmin
 
         blogOwner.id?: throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "No blogOwner exists"))
 
