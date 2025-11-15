@@ -49,7 +49,8 @@ class InitService(
                         blogPostRepo.save(existingPosts[0].copyAttributes(post))
                     }
                 }
-
+                logger.info("new blog: $blog")
+                logger.info("old blog: ${existingBlogs[0]}")
                 if ((blog.changed > existingBlogs[0].changed)) {
                     blogRepo.save(existingBlogs[0].copyAttributes(blog))
                 }

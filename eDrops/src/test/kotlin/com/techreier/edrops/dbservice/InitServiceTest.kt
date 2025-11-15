@@ -11,7 +11,9 @@ import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.LanguageRepository
 import com.techreier.edrops.repository.TopicRepository
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.within
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertThrows
@@ -20,6 +22,9 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.transaction.annotation.Transactional
+import java.time.Duration
+import java.time.temporal.ChronoUnit
+import kotlin.test.DefaultAsserter.fail
 
 @SpringBootTest
 @Transactional
@@ -77,6 +82,40 @@ class InitServiceTest {
     }
 
     // TODO Tests that confirms what the latest record inserted is used  need to be added
+
+    @Test
+    fun happyOverwriteDBTest() {
+        // Save initial data
+        val initial = Initial(appConfig)
+        languageRepo.saveAll(initial.base.languages)
+        topicRepo.saveAll(initial.base.topics)
+        val blogOwner = blogOwnerRepo.save(initial.blogOwner)
+
+        val blogIdFirst = blogOwner.blogs.first().id ?: fail("first id not found")
+        val blogIdLast = blogOwner.blogs.last().id ?: fail("last id not found")
+        val blogChangedLast = blogOwner.blogs.last().changed
+        assertNotEquals(blogIdFirst, blogIdLast,"only one blog is wrong")
+
+        //Change first and last blog and perform initial save of data
+        val owner = initial.blogOwner
+        val first = owner.blogs.first()
+        first.changed = first.changed.plus(Duration.ofDays(1))
+        first.pos = Int.MIN_VALUE
+        val last = owner.blogs.last()
+        last.changed = last.changed.minus(Duration.ofDays(1))
+        last.pos = Int.MAX_VALUE
+        initService.saveInitialData(initial)
+
+        val blogFirst = blogRepo.findById(blogIdFirst).orElse(null)?: fail("id not found")
+        assertNotNull(blogFirst)
+        assertThat(blogFirst.changed).isCloseTo(first.changed, within(5, ChronoUnit.SECONDS))
+        assertEquals(Int.MIN_VALUE, blogFirst.pos)
+
+        val blogLast = blogRepo.findById(blogIdLast).orElse(null)?: fail("id not found")
+        assertThat(blogLast.changed).isCloseTo(blogChangedLast, within(5, ChronoUnit.SECONDS))
+        assertNotEquals(Int.MAX_VALUE, blogLast.pos)
+
+    }
 
     @Test
     fun uniqueTopicLanguageCodeTest() {
