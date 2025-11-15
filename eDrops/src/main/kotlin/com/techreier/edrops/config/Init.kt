@@ -1,6 +1,5 @@
 package com.techreier.edrops.config
 
-import com.techreier.edrops.data.Base
 import com.techreier.edrops.data.Initial
 import com.techreier.edrops.dbservice.InitService
 import com.techreier.edrops.util.buildVersion
@@ -19,8 +18,7 @@ class Init(
         if (!appConfig.auth) {
             logger.warn("Admin user auth is off, turn on and redeploy if production")
         }
-        val base = Base()
-        val initial = Initial(appConfig, base)
+        val initial = Initial(appConfig)
         initService.saveInitialData(initial)
     }
 }

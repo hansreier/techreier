@@ -2,7 +2,6 @@ package com.techreier.edrops.repository
 
 import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.data.Base
 import com.techreier.edrops.data.Initial
 import com.techreier.edrops.data.blogs.climatenv.Climatenv
 import com.techreier.edrops.data.blogs.climatenv.Green
@@ -47,10 +46,9 @@ abstract class TestBase {
     @BeforeEach
     fun setup() {
         clean()
-        val base = Base()
-        initial = Initial(appConfig, base)
-        languageRepo.saveAll(base.languages)
-        topicRepo.saveAll(base.topics)
+        initial = Initial(appConfig)
+        languageRepo.saveAll(initial.base.languages)
+        topicRepo.saveAll(initial.base.topics)
         blogOwner = ownerRepo.save(initial.blogOwner)
         blog = blogOwner.blogs.first { it.segment == Climatenv.SEGMENT }
         blogId = blog.id!!

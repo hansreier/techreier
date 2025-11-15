@@ -19,6 +19,7 @@ const val TOPIC_POLITICS = "politics"
 const val SUBMENU_MIN_ITEMS = 2 //Minimum number of items within a topic sub menu
 const val MENU_SPLIT_SIZE = 10 //Minimum menu size before splitting
 
+// Initialize languages and topics
 class Base {
     val norwegian: LanguageCode = LanguageCode(NORWEGIAN, NB)
     val english: LanguageCode = LanguageCode(ENGLISH, EN)

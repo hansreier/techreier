@@ -19,11 +19,10 @@ private const val OWNER_ZIP="3290"
 private const val OWNER_LOCATION="Moelv"
 
 class Initial(
-    appConfig: AppConfig,
-    val base: Base,
+    appConfig: AppConfig
 ) {
+    val base = Base()
     private val blogOwnerCreated = Instant.now()
-
     private val blogList = mutableSetOf<Blog>()
 
     val blogOwner: BlogOwner =
