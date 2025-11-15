@@ -39,5 +39,5 @@ class BlogPost(
         return this
     }
 
-    override fun toString() = "id: $id blog: $blog changed: $changed text: $title"
+    override fun toString() = "id=$id blog=($blog) changed=$changed title=$title"
 }

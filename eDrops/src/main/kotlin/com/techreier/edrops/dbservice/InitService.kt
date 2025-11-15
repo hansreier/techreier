@@ -52,6 +52,7 @@ class InitService(
                 logger.info("new blog: $blog")
                 logger.info("old blog: ${existingBlogs[0]}")
                 if ((blog.changed > existingBlogs[0].changed)) {
+                    logger.info("data is changed")
                     blogRepo.save(existingBlogs[0].copyAttributes(blog))
                 }
             }

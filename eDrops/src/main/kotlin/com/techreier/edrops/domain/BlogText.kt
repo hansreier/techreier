@@ -24,5 +24,5 @@ class BlogText(
     @Id
     val id: Long? = null
 ) {
-    override fun toString() = "id: $id"
+    override fun toString() = "id=$id"
 }

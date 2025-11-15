@@ -25,5 +25,5 @@ class Topic(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 ) {
-    override fun toString() = "key: $topicKey topic: $text language: ${language.language} id: $id"
+    override fun toString() = "key=$topicKey language=${language.language} id=$id"
 }

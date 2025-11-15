@@ -15,5 +15,5 @@ class LanguageCode(
     val code: String
 
 ) {
-    override fun toString() = "language: $language code: $code"
+    override fun toString() = "language=$language code=$code"
 }

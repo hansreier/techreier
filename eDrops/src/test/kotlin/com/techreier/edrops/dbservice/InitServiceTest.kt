@@ -98,6 +98,7 @@ class InitServiceTest {
 
         //Change first and last blog and perform initial save of data
         val owner = initial.blogOwner
+    //    val owner = blogOwner
         val first = owner.blogs.first()
         first.changed = first.changed.plus(Duration.ofDays(1))
         first.pos = Int.MIN_VALUE
@@ -105,6 +106,7 @@ class InitServiceTest {
         last.changed = last.changed.minus(Duration.ofDays(1))
         last.pos = Int.MAX_VALUE
         initService.saveInitialData(initial)
+        val ow = blogOwnerRepo.findBlogOwnerByUsername("Reier")
 
         val blogFirst = blogRepo.findById(blogIdFirst).orElse(null)?: fail("id not found")
         assertNotNull(blogFirst)

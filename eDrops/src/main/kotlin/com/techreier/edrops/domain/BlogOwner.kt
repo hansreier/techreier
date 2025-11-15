@@ -53,5 +53,5 @@ class BlogOwner(
     val id: Long? = null
 
 ) {
-    override fun toString() = "id: $id created: $created changed: $changed name: $firstName $lastName"
+    override fun toString() = "id=$id name=$firstName $lastName"
 }
