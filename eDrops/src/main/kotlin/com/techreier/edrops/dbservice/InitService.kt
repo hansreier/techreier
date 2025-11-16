@@ -4,6 +4,7 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Initial
 import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.repository.*
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Service
 
@@ -53,7 +54,10 @@ class InitService(
                 logger.info("old blog: ${existingBlogs[0]}")
                 if ((blog.changed > existingBlogs[0].changed)) {
                     logger.info("data is changed")
-                    blogRepo.save(existingBlogs[0].copyAttributes(blog))
+                    val topic = topicRepo.findByTopicKeyAndLanguageCode(blog.topic.topicKey, blog.topic.language.code).
+                        orElseThrow { DataIntegrityViolationException("topic ${blog.topic.topicKey} not found") }
+                    existingBlogs[0].topic = topic
+                    existingBlogs[0].copyAttributes(blog)
                 }
             }
         }

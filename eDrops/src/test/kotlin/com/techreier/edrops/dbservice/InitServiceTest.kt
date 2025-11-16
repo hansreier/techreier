@@ -70,11 +70,12 @@ class InitServiceTest {
     @Test
     fun happyInitializedDBTest() {
         val initial = Initial(appConfig)
+        val clone = Initial(appConfig)
         languageRepo.saveAll(initial.base.languages)
         topicRepo.saveAll(initial.base.topics)
         blogOwnerRepo.save(initial.blogOwner)
-        val owner = initial.blogOwner.username
-        initService.saveInitialData(initial)
+        val owner = clone.blogOwner.username
+        initService.saveInitialData(clone)
         val blogOwner = blogOwnerRepo.findBlogOwnerByUsername(owner)
         assertNotNull(blogOwner)
         assertEquals("Sigmond", blogOwner.lastName)
@@ -85,7 +86,8 @@ class InitServiceTest {
 
     @Test
     fun happyOverwriteDBTest() {
-        // Save initial data
+
+        // initialize database
         val initial = Initial(appConfig)
         languageRepo.saveAll(initial.base.languages)
         topicRepo.saveAll(initial.base.topics)
@@ -96,17 +98,16 @@ class InitServiceTest {
         val blogChangedLast = blogOwner.blogs.last().changed
         assertNotEquals(blogIdFirst, blogIdLast,"only one blog is wrong")
 
-        //Change first and last blog and perform initial save of data
-        val owner = initial.blogOwner
-    //    val owner = blogOwner
+        // change a clone (first and last blog) and save
+        val clone = Initial(appConfig)
+        val owner = clone.blogOwner
         val first = owner.blogs.first()
         first.changed = first.changed.plus(Duration.ofDays(1))
         first.pos = Int.MIN_VALUE
         val last = owner.blogs.last()
         last.changed = last.changed.minus(Duration.ofDays(1))
         last.pos = Int.MAX_VALUE
-        initService.saveInitialData(initial)
-        val ow = blogOwnerRepo.findBlogOwnerByUsername("Reier")
+        initService.saveInitialData(clone)
 
         val blogFirst = blogRepo.findById(blogIdFirst).orElse(null)?: fail("id not found")
         assertNotNull(blogFirst)
@@ -122,27 +123,28 @@ class InitServiceTest {
     @Test
     fun uniqueTopicLanguageCodeTest() {
         val initial = Initial(appConfig)
+        val clone = Initial(appConfig)
         languageRepo.saveAll(initial.base.languages)
 
         val topic = Topic(TOPIC_DEFAULT, initial.base.norwegian, 0)
 
         topicRepo.save(topic)
         assertThrows<DataIntegrityViolationException> {
-            initService.saveInitialData(initial)
+            initService.saveInitialData(clone)
         }
     }
 
     @Test
     fun duplicateBlogSegmentTest() {
         val initial = Initial(appConfig)
+        val clone = Initial(appConfig)
         languageRepo.saveAll(initial.base.languages)
         topicRepo.saveAll(initial.base.topics)
         blogOwnerRepo.save(initial.blogOwner)
         val first = initial.blogOwner.blogs.first()
-        val duplicate = initial.blogOwner.blogs.last().copyAttributes(first)
-        blogRepo.save(duplicate)
+        initial.blogOwner.blogs.last().copyAttributes(first)
         val e = assertThrows<DuplicateKeyException> {
-            initService.saveInitialData(initial)
+            initService.saveInitialData(clone)
         }
         assertThat(e.message).contains("Duplicate blog")
     }
@@ -150,14 +152,14 @@ class InitServiceTest {
     @Test
     fun duplicateBlogPostSegmentTest() {
         val initial = Initial(appConfig)
+        val clone = Initial(appConfig)
         languageRepo.saveAll(initial.base.languages)
         topicRepo.saveAll(initial.base.topics)
         blogOwnerRepo.save(initial.blogOwner)
         val first = initial.blogOwner.blogs.first().blogPosts.first()
-        val duplicate = initial.blogOwner.blogs.first().blogPosts.last().copyAttributes(first)
-        blogPostRepo.save(duplicate)
+        initial.blogOwner.blogs.first().blogPosts.last().copyAttributes(first)
         val e = assertThrows<DuplicateKeyException> {
-            initService.saveInitialData(initial)
+            initService.saveInitialData(clone)
         }
         assertThat(e.message).contains("Duplicate blogpost")
     }

@@ -13,5 +13,5 @@ interface TopicRepository : JpaRepository<Topic, Long> {
     fun findAllByLanguageCodeOrderByPos(languageCode: String): MutableList<Topic>
 
     @EntityGraph(attributePaths = ["language"])
-    fun findFirstByTopicKeyAndLanguageCode(topicKey: String, languageCode: String): Optional<Topic>
+    fun findByTopicKeyAndLanguageCode(topicKey: String, languageCode: String): Optional<Topic>
 }

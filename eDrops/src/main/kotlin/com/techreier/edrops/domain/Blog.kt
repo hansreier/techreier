@@ -44,13 +44,11 @@ class Blog(
     fun copyAttributes(other: Blog): Blog {
         this.changed = other.changed
         this.segment = other.segment
-        this.topic = other.topic
         this.pos = other.pos
         this.subject = other.subject
         this.about = other.about
         return this
     }
-
 
     override fun toString() = "id=$id segment=$segment subject=$subject " +
             "topic=($topic) pos=$pos blogOwner=($blogOwner) changed=$changed"
