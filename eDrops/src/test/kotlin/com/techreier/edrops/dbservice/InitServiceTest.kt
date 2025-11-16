@@ -85,7 +85,7 @@ class InitServiceTest {
     // TODO Tests that confirms what the latest record inserted is used  need to be added
 
     @Test
-    fun happyOverwriteDBTest() {
+    fun happyMergeDBTest() {
 
         // initialize database
         val initial = Initial(appConfig)
@@ -93,30 +93,52 @@ class InitServiceTest {
         topicRepo.saveAll(initial.base.topics)
         val blogOwner = blogOwnerRepo.save(initial.blogOwner)
 
-        val blogIdFirst = blogOwner.blogs.first().id ?: fail("first id not found")
-        val blogIdLast = blogOwner.blogs.last().id ?: fail("last id not found")
+        val blogIdFirst = blogOwner.blogs.first().id ?: fail("first blog id not found")
+        val blogIdLast = blogOwner.blogs.last().id ?: fail("last blog id not found")
         val blogChangedLast = blogOwner.blogs.last().changed
         assertNotEquals(blogIdFirst, blogIdLast,"only one blog is wrong")
 
-        // change a clone (first and last blog) and save
+        blogOwner.blogs
+        val secondBlog = blogOwner.blogs.iterator().next()
+        val postIdFirst = secondBlog.blogPosts.first().id ?: fail("first blogpost id not found")
+        val postIdLast = secondBlog.blogPosts.last().id ?: fail("last blog post id not found")
+        val postChangedLast = secondBlog.blogPosts.last().changed
+        assertNotEquals(postIdFirst, postIdLast,"only one blog post is wrong")
+
+        // change a clone, first and last blog,  and first and last blog post in the first blog
         val clone = Initial(appConfig)
         val owner = clone.blogOwner
-        val first = owner.blogs.first()
-        first.changed = first.changed.plus(Duration.ofDays(1))
-        first.pos = Int.MIN_VALUE
-        val last = owner.blogs.last()
-        last.changed = last.changed.minus(Duration.ofDays(1))
-        last.pos = Int.MAX_VALUE
+        val firstBlog = owner.blogs.first()
+        firstBlog.changed = firstBlog.changed.plus(Duration.ofDays(1))
+        firstBlog.pos = Int.MIN_VALUE
+        val lastBlog = owner.blogs.last()
+        lastBlog.changed = lastBlog.changed.minus(Duration.ofDays(1))
+        lastBlog.pos = Int.MAX_VALUE
+
+        val firstPost = secondBlog.blogPosts.first()
+        firstPost.changed = firstPost.changed.plus(Duration.ofDays(1))
+        firstPost.title += "#ChangedFirst"
+        val lastPost = firstBlog.blogPosts.last()
+        lastPost.changed = lastPost.changed.minus(Duration.ofDays(1))
+        lastPost.title += "#ChangedLast"
+
         initService.saveInitialData(clone)
 
-        val blogFirst = blogRepo.findById(blogIdFirst).orElse(null)?: fail("id not found")
-        assertNotNull(blogFirst)
-        assertThat(blogFirst.changed).isCloseTo(first.changed, within(5, ChronoUnit.SECONDS))
+        val blogFirst = blogRepo.findById(blogIdFirst).orElse(null)?: fail("blog id not found")
+        assertThat(blogFirst.changed).isCloseTo(firstBlog.changed, within(5, ChronoUnit.SECONDS))
         assertEquals(Int.MIN_VALUE, blogFirst.pos)
 
-        val blogLast = blogRepo.findById(blogIdLast).orElse(null)?: fail("id not found")
+        val blogLast = blogRepo.findById(blogIdLast).orElse(null)?: fail("blog id not found")
         assertThat(blogLast.changed).isCloseTo(blogChangedLast, within(5, ChronoUnit.SECONDS))
         assertNotEquals(Int.MAX_VALUE, blogLast.pos)
+
+        val postFirst = blogPostRepo.findById(postIdFirst).orElse(null)?: fail("blog post id not found")
+        assertThat(postFirst.changed).isCloseTo(firstPost.changed, within(5, ChronoUnit.SECONDS))
+        assertEquals(firstPost.title, postFirst.title)
+
+        val postLast = blogPostRepo.findById(postIdLast).orElse(null)?: fail("blog post id not found")
+        assertThat(postLast.changed).isCloseTo(postChangedLast, within(5, ChronoUnit.SECONDS))
+        assertNotEquals(lastPost.title, postLast.title)
 
     }
 
