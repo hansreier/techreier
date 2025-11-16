@@ -57,7 +57,7 @@ class InitServiceTest {
     }
 
     @Test
-    fun happyEmptyDBTest() {
+    fun emptyDBTest() {
         val initial = Initial(appConfig)
         val owner = initial.blogOwner.username
         initService.saveInitialData(initial)
@@ -68,7 +68,7 @@ class InitServiceTest {
     }
 
     @Test
-    fun happyInitializedDBTest() {
+    fun mergeDBNoChangesTest() {
         val initial = Initial(appConfig)
         val clone = Initial(appConfig)
         languageRepo.saveAll(initial.base.languages)
@@ -82,10 +82,8 @@ class InitServiceTest {
         assertEquals("reier.sigmond@gmail.com", blogOwner.eMail)
     }
 
-    // TODO Tests that confirms what the latest record inserted is used  need to be added
-
     @Test
-    fun happyMergeDBTest() {
+    fun mergeDBWithChangesTest() {
 
         // initialize database
         val initial = Initial(appConfig)
@@ -93,19 +91,22 @@ class InitServiceTest {
         topicRepo.saveAll(initial.base.topics)
         val blogOwner = blogOwnerRepo.save(initial.blogOwner)
 
+        assertThat(blogOwner.blogs.size).isGreaterThan(2)
         val blogIdFirst = blogOwner.blogs.first().id ?: fail("first blog id not found")
         val blogIdLast = blogOwner.blogs.last().id ?: fail("last blog id not found")
-        val blogChangedLast = blogOwner.blogs.last().changed
+        val blogTimestampLast = blogOwner.blogs.last().changed
+        val blogPosLast = blogOwner.blogs.last().pos
         assertNotEquals(blogIdFirst, blogIdLast,"only one blog is wrong")
 
-        blogOwner.blogs
         val secondBlog = blogOwner.blogs.iterator().next()
+        assertThat(secondBlog.blogPosts.size).isGreaterThan(1)
         val postIdFirst = secondBlog.blogPosts.first().id ?: fail("first blogpost id not found")
         val postIdLast = secondBlog.blogPosts.last().id ?: fail("last blog post id not found")
-        val postChangedLast = secondBlog.blogPosts.last().changed
+        val postTimestampLast = secondBlog.blogPosts.last().changed
+        val postTitleLast = secondBlog.blogPosts.last().title
         assertNotEquals(postIdFirst, postIdLast,"only one blog post is wrong")
 
-        // change a clone, first and last blog,  and first and last blog post in the first blog
+        // Change a clone: First and last blog,  and first and last blog post in the second blog
         val clone = Initial(appConfig)
         val owner = clone.blogOwner
         val firstBlog = owner.blogs.first()
@@ -118,27 +119,32 @@ class InitServiceTest {
         val firstPost = secondBlog.blogPosts.first()
         firstPost.changed = firstPost.changed.plus(Duration.ofDays(1))
         firstPost.title += "#ChangedFirst"
-        val lastPost = firstBlog.blogPosts.last()
+        val lastPost = secondBlog.blogPosts.last()
         lastPost.changed = lastPost.changed.minus(Duration.ofDays(1))
         lastPost.title += "#ChangedLast"
 
+        //Save initial transient data just like when starting the server
         initService.saveInitialData(clone)
 
+        //First blog changed because data was changed after current timestamp in DB
         val blogFirst = blogRepo.findById(blogIdFirst).orElse(null)?: fail("blog id not found")
         assertThat(blogFirst.changed).isCloseTo(firstBlog.changed, within(5, ChronoUnit.SECONDS))
         assertEquals(Int.MIN_VALUE, blogFirst.pos)
 
+        //Last blog not changed because data was changed before  current timestamp in DB
         val blogLast = blogRepo.findById(blogIdLast).orElse(null)?: fail("blog id not found")
-        assertThat(blogLast.changed).isCloseTo(blogChangedLast, within(5, ChronoUnit.SECONDS))
-        assertNotEquals(Int.MAX_VALUE, blogLast.pos)
+        assertThat(blogLast.changed).isCloseTo(blogTimestampLast, within(5, ChronoUnit.SECONDS))
+        assertEquals(blogPosLast, blogLast.pos)
 
+        //First post changed because data was changed after current timestamp in DB
         val postFirst = blogPostRepo.findById(postIdFirst).orElse(null)?: fail("blog post id not found")
         assertThat(postFirst.changed).isCloseTo(firstPost.changed, within(5, ChronoUnit.SECONDS))
         assertEquals(firstPost.title, postFirst.title)
 
+        //First post not changed because data was changed before current timestamp in DB
         val postLast = blogPostRepo.findById(postIdLast).orElse(null)?: fail("blog post id not found")
-        assertThat(postLast.changed).isCloseTo(postChangedLast, within(5, ChronoUnit.SECONDS))
-        assertNotEquals(lastPost.title, postLast.title)
+        assertThat(postLast.changed).isCloseTo(postTimestampLast, within(5, ChronoUnit.SECONDS))
+        assertEquals(postTitleLast, postLast.title)
 
     }
 
