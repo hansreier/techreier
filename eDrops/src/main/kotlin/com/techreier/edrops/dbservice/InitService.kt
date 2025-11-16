@@ -52,9 +52,9 @@ class InitService(
                         blogPostRepo.save(existingPosts[0].copyAttributes(post))
                     }
                 }
-                logger.info("new blog: $blog")
-                logger.info("old blog: ${existingBlogs[0]}")
                 if ((blog.changed > existingBlogs[0].changed)) {
+                    logger.info("new blog: $blog")
+                    logger.info("old blog: ${existingBlogs[0]}")
                     val topic = topicRepo.findByTopicKeyAndLanguageCode(blog.topic.topicKey, blog.topic.language.code)
                         ?: throw DataIntegrityViolationException("topic ${blog.topic.topicKey} not found")
                     existingBlogs[0].topic = topic
