@@ -67,7 +67,7 @@ class BlogService(
                 val foundBlog: Blog = blogRepo.findById(it).orElse(null)
                     ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Blog with id $it not found")
                 if ((foundBlog.topic.topicKey != blogForm.topicKey) || foundBlog.topic.language.code != langCode) {
-                    topicRepo.findByTopicKeyAndLanguageCode(blogForm.topicKey, langCode).orElse(null)
+                    topicRepo.findByTopicKeyAndLanguageCode(blogForm.topicKey, langCode)
                         ?.let { topic -> foundBlog.topic = topic }
                         ?: logger.warn("Topic with key: ${blogForm.topicKey} and languageCode: $langCode not found")
                 }
@@ -80,7 +80,7 @@ class BlogService(
             } ?: Blog(
                 timestamp,
                 blogForm.segment,
-                topicRepo.findByTopicKeyAndLanguageCode(blogForm.topicKey, langCode).orElse(null)
+                topicRepo.findByTopicKeyAndLanguageCode(blogForm.topicKey, langCode)
                     ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Topic ${blogForm.topicKey} not found"),
                 blogForm.position.toIntOrNull() ?: 0,
                 blogForm.subject,
