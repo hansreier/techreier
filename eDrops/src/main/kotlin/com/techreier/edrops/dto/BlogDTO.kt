@@ -30,7 +30,6 @@ data class BlogDTO(
 fun Blog.toDTO(zoneId: ZoneId, datetimePattern: String, datePattern: String, langCodeWanted: String? = null,
                posts: Boolean = true, html: Boolean = false): BlogDTO {
     val changed = this.changed.atZone(zoneId)
-    logger.info("Reier datetimePattern: $datetimePattern datePattern: $datePattern")
     return BlogDTO(
         this.id,
         this.topic.topicKey,
