@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.time.ZoneId
-import com.techreier.edrops.config.logger
 import org.springframework.web.bind.annotation.RequestMapping
 
 @RestController
@@ -16,7 +15,6 @@ class TimezoneController {
     @PostMapping
     fun setTimezone(@RequestBody body: Map<String, String>, session: HttpSession) {
         val timezone = body["timezone"]
-        logger.info("Reier $timezone")
         timezone?.let {
             session.setAttribute("timezone", ZoneId.of(it))
         }

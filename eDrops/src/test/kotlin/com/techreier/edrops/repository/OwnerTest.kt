@@ -21,7 +21,7 @@ class OwnerTest : TestBase() {
         val blogPostSaved = postRepo.findByIdOrNull(blogPostId)
         assertThat(blogPostSaved?.id).isEqualTo(blogPostId)
         ownerRepo.delete(blogOwner)
-        logger.info("Reier Deleted")
+        logger.info("deleted")
         val blogDeleted = blogRepo.findByIdOrNull(blogId)
         assertThat(blogDeleted).isNull()
         val blogPostDeleted = postRepo.findByIdOrNull(blogPostId)
