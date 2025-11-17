@@ -4,6 +4,7 @@ import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Initial
 import com.techreier.edrops.repository.BlogOwnerRepository
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
@@ -40,6 +41,7 @@ class InitServiceSimpleTest {
         assertNotNull(blogOwner)
         assertEquals("Sigmond", blogOwner.lastName)
         assertEquals("reier.sigmond@gmail.com", blogOwner.eMail)
+        assertThat(blogOwner.blogs.first().blogPosts.count()).isGreaterThan(0)
     }
 
 }
