@@ -62,6 +62,9 @@ create table topic (
 alter table blog_owner
     add constraint uk_blog_owner_username unique (username);
 
+alter table topic
+    add constraint uk_topic_topic_key_language_code unique (topic_key, language_code);
+
 alter table blog
     add constraint fk_blog_blog_owner
         foreign key (blog_owner_id)

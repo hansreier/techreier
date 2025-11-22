@@ -8,7 +8,7 @@ import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.util.timestamp
 
 object Politics : Blogs {
-    val timestamp = timestamp("02.05.2025 15:56:00")
+    val timestamp = timestamp("22.11.2025 15:56:00")
     const val SEGMENT = "politics"
     const val SUBJECT_NO = "Politikk"
     const val SUBJECT_EN = "Politics"
@@ -22,9 +22,9 @@ object Politics : Blogs {
 
     override fun no(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_NO, ABOUT_NO, mutableListOf(), blogOwner)
-            .addPosts(Democracy::no, EnergyPolitics::no, SymbolPolitics::no, EU::no)
+            .addPosts(Democracy::no, EnergyPolitics::no, SymbolPolitics::no, EU::no, WealthTax::no)
 
     override fun en(blogOwner: BlogOwner, topic: Topic) =
         Blog(timestamp, SEGMENT, topic, POS, SUBJECT_EN, ABOUT_EN, mutableListOf(), blogOwner)
-            .addPosts(Democracy::en, EnergyPolitics::en, SymbolPolitics::en, EU::en)
+            .addPosts(Democracy::en, EnergyPolitics::en, SymbolPolitics::en, EU::en, WealthTax::en)
 }
