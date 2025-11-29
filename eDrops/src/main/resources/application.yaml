@@ -127,8 +127,6 @@ spring:
     livereload.enabled: true
     restart.enabled: true
   web.resources.cache.period: 3600
-  h2:
-    console.enabled: true
 app:
   auth: false
 logging:
@@ -161,8 +159,6 @@ spring:
   devtools:
     livereload.enabled: false
   web.resources.cache.period: 3600
-  h2:
-    console.enabled: false
 
 ---
 spring:
@@ -181,8 +177,6 @@ spring:
     password: sa
   thymeleaf.cache: true
   web.resources.cache.period: 3600
-  h2:
-    console.enabled: true
 
 ---
 spring:
