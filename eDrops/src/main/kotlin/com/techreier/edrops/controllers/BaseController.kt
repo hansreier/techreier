@@ -128,7 +128,9 @@ abstract class BaseController(
         bindingResult: BindingResult,
     ) {
         logger.warn("${e.javaClass} key: error.$key ${e.message}")
-        bindingResult.reject("error.$key", arrayOf(e.message), "??error.$key?? ${e.message}")
+
+        val args: Array<out Any> = arrayOf(e.message?: "")
+        bindingResult.reject("error.$key", args, "??error.$key?? ${e.message}")
     }
 
     protected fun readFirstSegment(languageCode: String): String? {

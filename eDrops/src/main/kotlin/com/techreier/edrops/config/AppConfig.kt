@@ -1,6 +1,7 @@
 package com.techreier.edrops.config
 
 import jakarta.validation.constraints.NotNull
+import org.springframework.boot.autoconfigure.web.ErrorProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -40,4 +41,7 @@ class AppConfig {
 
     @Bean
     fun restClient(): RestClient = RestClient.create()
+
+    @Bean
+    fun errorProperties(): ErrorProperties = ErrorProperties()
 }

@@ -61,7 +61,6 @@ spring:
 # cache false and period 0 required for development instant change
   thymeleaf:
     cache: true
-    enabled: true
     encoding: UTF-8
     mode: HTML
   web.resources.cache.period: 3600

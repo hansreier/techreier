@@ -2,10 +2,10 @@ package com.techreier.edrops.config
 
 import org.hibernate.boot.model.naming.Identifier
 import org.hibernate.boot.model.naming.ImplicitForeignKeyNameSource
+import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
 import org.hibernate.boot.model.naming.ImplicitUniqueKeyNameSource
-import org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
 
-class MyImplicitNamingStrategy : SpringImplicitNamingStrategy() {
+class MyImplicitNamingStrategy : ImplicitNamingStrategyJpaCompliantImpl() {
 
     // Set foreign key name based on child parent relation
     // References column can default to the id of the parent, if that case there is no referencedColumns

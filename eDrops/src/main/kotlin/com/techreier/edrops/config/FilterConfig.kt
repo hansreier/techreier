@@ -10,7 +10,7 @@ class FilterConfig {
     fun requestFilter(): FilterRegistrationBean<RequestFilter> {
         logger.info("Inside filterConfig")
         val registrationBean = FilterRegistrationBean<RequestFilter>()
-        registrationBean.filter = RequestFilter()
+        registrationBean.setFilter(RequestFilter())
         registrationBean.addUrlPatterns("/*")
         registrationBean.order = Int.MIN_VALUE
         return registrationBean
