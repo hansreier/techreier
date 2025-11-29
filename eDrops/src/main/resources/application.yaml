@@ -4,11 +4,6 @@ app:
   password: $2a$10$RXI.HV1eFSTCsHlDFFkHlO37yjw4qM4XS6I57gP2upV46lDi0ZFTa
   auth: true
 server:
-  error:
-    include-stacktrace: always
-    include-exception: true
-    whitelabel.enabled: false
-    path: /error
   #absolutely required to avoid tomcat picking up error before Spring error handling
   tomcat:
     relaxed-path-chars: \,{,},|,^,`
@@ -16,6 +11,16 @@ server:
   #only embedded Tomcat setting, ignored if war file is deployed to tomcat
   port: 8080
 #  port: 8443
+
+spring:
+  web:
+    error:
+      include-stacktrace: always
+      include-exception: true
+      whitelabel.enabled: false
+      path: /error
+
+
 logging:
   level:
     root: INFO
@@ -28,6 +33,8 @@ logging:
     org.hibernate.SQL: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd' 'HH:mm:ss.SS, UTC} [%thread] %-5level %logger{36} - %msg%n"
+
+---
 spring:
   profiles:
     active: h2-prod
@@ -89,8 +96,6 @@ spring:
   devtools:
     livereload.enabled: true
   web.resources.cache.period: 3600
-  h2:
-    console.enabled: true
 logging:
   level:
     root: INFO
