@@ -46,7 +46,7 @@ spring:
     fallback-to-system-locale: true
     encoding: UTF-8
   flyway:
-    enabled: false
+    enabled: true
     baseline-on-migrate: true
   jpa:
     defer-datasource-initialization: false
@@ -145,7 +145,7 @@ spring:
     activate:
       on-profile: h2-prod
   flyway:
-      enabled: false
+      enabled: true
   jpa:
     defer-datasource-initialization: false
     properties:
@@ -166,7 +166,7 @@ spring:
     activate:
       on-profile: h2-disk
   flyway:
-    enabled: false
+    enabled: true
   jpa:
     defer-datasource-initialization: false
     properties:
@@ -184,7 +184,7 @@ spring:
     activate:
       on-profile: local-mariadb
   flyway:
-    enabled: false
+    enabled: true
   jpa:
     defer-datasource-initialization: false
     properties:
@@ -200,7 +200,7 @@ spring:
     activate:
       on-profile: docker-mariadb
   flyway:
-    enabled: false
+    enabled: true
   jpa:
     defer-datasource-initialization: false
     properties:
@@ -219,7 +219,7 @@ spring:
     activate:
       on-profile: mariadb-dockerized
   flyway:
-    enabled: false
+    enabled: true
   jpa:
     defer-datasource-initialization: false
     properties:
@@ -237,7 +237,7 @@ spring:
     activate:
       on-profile: global-mariadb
   flyway:
-    enabled: false
+    enabled: true
   jpa:
     defer-datasource-initialization: false
     properties:
