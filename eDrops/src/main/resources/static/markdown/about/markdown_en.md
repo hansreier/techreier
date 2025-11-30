@@ -54,6 +54,9 @@ is removed by the sanitizer, if I do not allow the <p> tag and align attribute w
 configuring the sanitizer.
 The title attribute of image is also removed, if I do not tell the sanitizer to keep it.
 
+**NOTE I will try JSoup instead, because it is more actively maintained.**
+A new security risk is detected with the latest Owasp sanitizer.
+
 ### Examples
 
 Examples of links:  
