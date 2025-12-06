@@ -8,7 +8,7 @@ import java.time.Instant
 class BlogText(
 
     @Column(columnDefinition ="timestamp(0)")
-    var changed: Instant?,
+    var changed: Instant,
 
     @Column(nullable = false, columnDefinition ="TEXT")
     var text: String,

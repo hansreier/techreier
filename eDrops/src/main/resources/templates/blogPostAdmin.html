@@ -30,6 +30,11 @@
                     <textarea id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></span>
                 </div>
+                <div class="input-row full-width">
+                    <label th:for="blogPost" th:text="#{blogPost}"></label>
+                    <textarea id="blogPost" th:field="*{content}"></textarea>
+                    <span class="error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
+                </div>
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:value="${blog.id}" name="blogId">
                 <input type="hidden" th:value="${changed}" name="changed">

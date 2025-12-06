@@ -10,6 +10,7 @@ import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.util.checkSegment
 import com.techreier.edrops.util.checkStringSize
 import com.techreier.edrops.util.msg
+import com.techreier.edrops.util.text
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.dao.DataAccessException
@@ -55,11 +56,15 @@ class BlogPostController(
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/$HOME_DIR"
             }
-
             logger.info("getting GUI with blogPost. ${selectedBlogPost.title}")
+            val blogText = blogPostService.getBlogText(selectedBlogPost.id)
+            val content = blogText?.text
+            val contentChanged = blogText?.changed
+                ?.atZone(timeZone())?.text(msg(ctx.messageSource, "format.date")) ?: ""
             model.addAttribute("postHeadline", selectedBlogPost.title)
-            model.addAttribute("changed", (selectedBlogPost.changedText))
-            model.addAttribute("blogPostForm", selectedBlogPost.toForm())
+            model.addAttribute("changed", (selectedBlogPost.changedString))
+            model.addAttribute("contentChanged", contentChanged)
+            model.addAttribute("blogPostForm", selectedBlogPost.toForm(content))
         }
 
         model.addAttribute("blog", blogParams.blog)

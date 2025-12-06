@@ -10,23 +10,24 @@ import java.time.ZonedDateTime
 data class BlogPostDTO(
     val id: Long?,
     val changed: ZonedDateTime?,
-    val changedText: String,
+    val changedString: String,
     val segment: String,
     var title: String,
     val summary: String,
 ) {
-    fun toForm(): BlogPostForm {
+    fun toForm(content: String?): BlogPostForm {
         return BlogPostForm(
             id = this.id,
             segment = this.segment,
             title = this.title,
-            summary = this.summary
+            summary = this.summary,
+            content = content?: ""
         )
     }
 }
 
 fun BlogPost.toDTO(zoneId: ZoneId, datePattern: String, html: Boolean = false): BlogPostDTO {
-    val changed = this.changed?.atZone(zoneId)
+    val changed = this.changed.atZone(zoneId)
     return BlogPostDTO(
         id = this.id,
         changed = changed, changed.text(datePattern),
