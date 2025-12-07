@@ -8,7 +8,7 @@ import com.techreier.edrops.util.strip
 import com.techreier.edrops.util.timestamp
 
 object ZeroTrust : BlogPosts {
-    val timestamp = timestamp("08.03.2025 16:00:00")
+    val timestamp = timestamp("01.12.2025 16:00:00")
     const val SEGMENT = "zerotrust"
     const val TITLE_NO = "Zero trust - Når sikkerhet blir et problem i seg selv."
     const val TITLE_EN = "Zero trust - When security in itself becomes a problem."
