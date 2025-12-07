@@ -29,7 +29,7 @@ create table blog_owner (
 
 create table blog_post (
                            blog_id bigint not null,
-                           changed timestamp(0) null,
+                           changed timestamp(0) not null,
                            id bigint not null auto_increment,
                            segment varchar(30) not null,
                            title varchar(80) not null,
@@ -39,7 +39,7 @@ create table blog_post (
 
 create table blog_text (
                            blog_post_id bigint not null,
-                           changed timestamp(0) null,
+                           changed timestamp(0) not null,
                            text TEXT not null,
                            primary key (blog_post_id)
 ) engine=InnoDB;

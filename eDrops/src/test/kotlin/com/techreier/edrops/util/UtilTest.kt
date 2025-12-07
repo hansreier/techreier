@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
 import org.springframework.context.MessageSourceResolvable
-import java.util.Locale
+import java.util.*
 
 class UtilTest {
 
@@ -19,7 +19,7 @@ class UtilTest {
     fun getEmptyMenuTest() {
         val origMenuItems = listOf<MenuItem>()
         val menuSplitSize = origMenuItems.size + 5
-        val menuItems = getMenuItems( origMenuItems, menuSplitSize +1 ,1, messageSource)
+        val menuItems = getMenuItems(origMenuItems, menuSplitSize + 1, 1, messageSource)
         Assertions.assertEquals(0, menuItems.size)
     }
 
@@ -27,7 +27,7 @@ class UtilTest {
     fun getMenuItemsWithTooSmallMenuToSplitTest() {
         val origMenuItems = Docs.about.asList().filter { doc -> doc.langCode == NB }
         val menuSplitSize = origMenuItems.size + 5
-        val menuItems = getMenuItems( origMenuItems, menuSplitSize +1 ,1, messageSource)
+        val menuItems = getMenuItems(origMenuItems, menuSplitSize + 1, 1, messageSource)
         Assertions.assertEquals(origMenuItems.size, menuItems.size)
         Assertions.assertEquals(0, menuItems.count { menuItem -> menuItem.isTopic })
     }
@@ -35,7 +35,7 @@ class UtilTest {
     @Test
     fun getMenuItemsWithTopicLargeMenuTest() {
         val origMenuItems = Docs.about.asList().filter { doc -> doc.langCode == NB }
-        val menuItems = getMenuItems( origMenuItems, 0 ,0, messageSource)
+        val menuItems = getMenuItems(origMenuItems, 0, 0, messageSource)
         Assertions.assertEquals(origMenuItems.size + 1, menuItems.size)
         Assertions.assertEquals(1, menuItems.count { menuItem -> menuItem.isTopic })
     }
@@ -43,26 +43,26 @@ class UtilTest {
     @Test
     fun getMenuItemsWithTopicTooSmallSubmenuTest() {
         val origMenuItems = Docs.about.asList().filter { doc -> doc.langCode == NB }
-        val menuItems = getMenuItems( origMenuItems, 0 ,17, messageSource)
+        val menuItems = getMenuItems(origMenuItems, 0, 17, messageSource)
         Assertions.assertEquals(origMenuItems.size, menuItems.size)
         Assertions.assertEquals(0, menuItems.count { menuItem -> menuItem.isTopic })
     }
 
     @Test
     fun buildVersionFromIso8601WinterTest() {
-        val timeStamp = buildVersion( "2025-03-22T18:36:08Z", false)
+        val timeStamp = buildVersion("2025-03-22T18:36:08Z", false)
         Assertions.assertEquals("250322193608", timeStamp)
     }
 
     @Test
     fun buildVersionFromIso8601SummerTest() {
-        val timeStamp = buildVersion( "2025-04-22T18:36:08Z", false)
+        val timeStamp = buildVersion("2025-04-22T18:36:08Z", false)
         Assertions.assertEquals("250422203608", timeStamp)
     }
 
     @Test
     fun buildShortVersionFromIso8601Test() {
-        val timeStamp = buildVersion( "2025-03-22T18:36:08Z", true)
+        val timeStamp = buildVersion("2025-03-22T18:36:08Z", true)
         Assertions.assertEquals("22.03.2025", timeStamp)
     }
 
@@ -99,7 +99,9 @@ class UtilTest {
         }
 
         override fun getMessage(resolvable: MessageSourceResolvable, locale: Locale?): String {
-            return resolvable.defaultMessage ?: resolvable.codes?.firstOrNull() ?: "??${resolvable.codes?.firstOrNull()}??"
+            return resolvable.defaultMessage ?: resolvable.codes?.firstOrNull()
+            ?: "??${resolvable.codes?.firstOrNull()}??"
         }
     }
+
 }
