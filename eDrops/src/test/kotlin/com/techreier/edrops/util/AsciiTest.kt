@@ -12,7 +12,7 @@ class AsciiTest {
     @Test
     fun asciiMarkdownTest() {
         val output = asciiToTable(
-            source = ZeroTrust.SUMMARY_NO,
+            source = ZeroTrust.SUMMARY_NO.strip(),
             presenter  = ::asciiMarkdown
         )
         logger.info("\n${output}")
@@ -21,7 +21,7 @@ class AsciiTest {
     @Test
     fun asciiLogTest() {
         val output = asciiToTable(
-            source = ZeroTrust.SUMMARY_NO,
+            source = ZeroTrust.SUMMARY_NO.strip(),
             presenter = ::asciiLog
         )
         logger.info("\n${output}")

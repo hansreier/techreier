@@ -75,6 +75,12 @@ fun Double?.float(precision: Int = DOUBLE_FLOAT_PRECISION_DEFAULT): String {
     return this ?.let { String.format(locale, "%.${precision}g", this)} ?: ""
 }
 
+fun String.strip(): String {
+    val result = this.replaceFirst('\n'.toString(),"")
+    return result
+}
+
+
 // Function assumes menu items (blogs) to be sorted by Topic position and MenuItem position.
 // If desired topics is added to the menu with items underneath it
 // TOPIC_ITEMS_MINIMUM decides this criteria.
