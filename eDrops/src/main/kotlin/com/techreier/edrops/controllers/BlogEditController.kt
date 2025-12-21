@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
-const val ADMIN = "admin"
-const val ADMIN_DIR = "/$ADMIN"
+const val EDIT = "edit"
+const val BLOG_EDIT_DIR = "/$EDIT"
 
 @Controller
-@RequestMapping(ADMIN_DIR)
-class AdminController(val ctx: Context,
-            private val blogService: BlogService, private val initService: InitService
+@RequestMapping(BLOG_EDIT_DIR)
+class BlogEditController(val ctx: Context,
+                         private val blogService: BlogService, private val initService: InitService
 ) : BaseController(ctx) {
 
     @GetMapping("/{segment}")
@@ -55,9 +55,9 @@ class AdminController(val ctx: Context,
         model.addAttribute("changed", blogParams.blog.changedText)
         model.addAttribute("blogForm", blogParams.blog.toForm())
         model.addAttribute("blog", blogParams.blog)
-        model.addAttribute("postPath", "$ADMIN_DIR/$segment/")
+        model.addAttribute("postPath", "$BLOG_EDIT_DIR/$segment/")
         logger.info("getting GUI with blogPosts")
-        return "blogAdmin"
+        return "blogEdit"
     }
 
     @GetMapping
@@ -73,7 +73,7 @@ class AdminController(val ctx: Context,
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
         }
-        return "redirect:$ADMIN_DIR/$firstSegment"
+        return "redirect:$BLOG_EDIT_DIR/$firstSegment"
     }
 
     @PostMapping(value = ["/{segment}"])
@@ -117,7 +117,7 @@ class AdminController(val ctx: Context,
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.saveBlog")
                 prepare(model, request, response, segment, changed)
-                return "blogAdmin"
+                return "blogEdit"
             }
             try {
                 blogService.save(blogId, blogForm, langCode, blogOwner, now())
@@ -127,12 +127,12 @@ class AdminController(val ctx: Context,
                     else -> throw e
                 }
                 prepare(model, request, response, segment, changed)
-                return "blogAdmin"
+                return "blogEdit"
             }
             if (action == "createPost") {
-                return "redirect:$ADMIN_DIR/$segment/$NEW_SEGMENT"
+                return "redirect:$BLOG_EDIT_DIR/$segment/$NEW_SEGMENT"
             }
-            val newPath = "$ADMIN_DIR/${if (action == "save") blogForm.segment else NEW_SEGMENT}"
+            val newPath = "$BLOG_EDIT_DIR/${if (action == "save") blogForm.segment else NEW_SEGMENT}"
             return "redirect:$newPath"
         }
 
@@ -140,21 +140,21 @@ class AdminController(val ctx: Context,
             if (blogForm.postLock) {
                 bindingResult.reject("error.locked")
                 prepare(model, request, response, segment, changed)
-                return "blogAdmin"
+                return "blogEdit"
             }
             try {
                 blogService.delete(blogId, blogForm)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
                 prepare(model, request, response, segment, changed)
-                return "blogAdmin"
+                return "blogEdit"
             }
             return "redirect:/$HOME_DIR"
         }
         // This should never really occur
         bindingResult.reject("error.illegalAction")
         prepare(model, request, response, segment, changed)
-        return "blogAdmin"
+        return "blogEdit"
     }
 
     private fun prepare(
@@ -167,7 +167,7 @@ class AdminController(val ctx: Context,
         val blogParams = fetchBlogParams(model, request, response, segment, true, true)
         logger.info("Prepare fetch blog posts with: $blogParams")
         model.addAttribute("blog", blogParams.blog)
-        model.addAttribute("postPath", "$ADMIN_DIR/$segment/")
+        model.addAttribute("postPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
         logger.info("prepared)")
     }

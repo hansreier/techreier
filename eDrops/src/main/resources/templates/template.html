@@ -94,14 +94,14 @@
                 <a th:href="@{/login}" class="dropdown-item" th:text="#{login}"></a>
             </div>
             <div th:if="!${auth}">
-                <a th:href="@{/admin/{segment}(segment=${newSegment})}"  class="dropdown-item" th:text="#{newBlog}"></a>
+                <a th:href="@{/edit/{segment}(segment=${newSegment})}"  class="dropdown-item" th:text="#{newBlog}"></a>
                 <div sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" th:method="post">
                         <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                     </form>
                 </div>
                 <a th:each="item : ${menu}"
-                   th:href="@{/admin/{segment}(segment=${item.segment})}" class="dropdown-item"
+                   th:href="@{/edit/{segment}(segment=${item.segment})}" class="dropdown-item"
                    th:text="${item.subject}"
                    th:data-topic="${item.isTopic}"
                    th:data-id="${item.segment + '+' + item.langCode}">
@@ -109,12 +109,12 @@
             </div>
             <div th:if="${auth}">
                 <div sec:authorize="isAuthenticated()">
-                    <a th:href="@{/admin/{segment}(segment=${newSegment})}"  class="dropdown-item" th:text="#{newBlog}"></a>
+                    <a th:href="@{/edit/{segment}(segment=${newSegment})}"  class="dropdown-item" th:text="#{newBlog}"></a>
                     <form th:action="@{/logout}" th:method="post">
                         <button class=dropdown-item type="submit" th:text="#{logout}"></button>
                     </form>
                     <a th:each="item : ${menu}"
-                       th:href="@{/admin/{segment}(segment=${item.segment})}" class="dropdown-item"
+                       th:href="@{/edit/{segment}(segment=${item.segment})}" class="dropdown-item"
                        th:text="${item.subject}">
                     </a>
                 </div>

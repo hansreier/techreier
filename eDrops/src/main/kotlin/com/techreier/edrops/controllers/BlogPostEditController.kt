@@ -23,8 +23,8 @@ import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
-@RequestMapping(ADMIN_DIR)
-class BlogPostController(
+@RequestMapping(BLOG_EDIT_DIR)
+class BlogPostEditController(
     private val ctx: Context,
     private val blogPostService: BlogPostService,
 ) : BaseController(ctx) {
@@ -68,9 +68,9 @@ class BlogPostController(
         }
 
         model.addAttribute("blog", blogParams.blog)
-        model.addAttribute("postPath", "$ADMIN_DIR/$segment/")
+        model.addAttribute("postPath", "$BLOG_EDIT_DIR/$segment/")
 
-        return "blogPostAdmin"
+        return "blogPostEdit"
     }
 
     @PostMapping(value = ["/{segment}/{subsegment}"])
@@ -91,7 +91,7 @@ class BlogPostController(
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blog Post: path: $path action:  $action blogid: $blogId")
         if (action == "blog") {
-            return "redirect:$ADMIN_DIR/$segment"
+            return "redirect:$BLOG_EDIT_DIR/$segment"
         }
         if (action == "save" || action == "create") {
 
@@ -113,7 +113,7 @@ class BlogPostController(
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.savePost")
                 prepare(model, request, response, segment, changed)
-                return "blogPostAdmin"
+                return "blogPostEdit"
             }
 
             try {
@@ -124,10 +124,10 @@ class BlogPostController(
                     else -> throw e
                 }
                 prepare(model, request, response, segment, changed)
-                return "blogPostAdmin"
+                return "blogPostEdit"
             }
 
-            val newPath = "$ADMIN_DIR/$segment${if (action == "save") "/${blogPostForm.segment}" else "/$NEW_SEGMENT"}"
+            val newPath = "$BLOG_EDIT_DIR/$segment${if (action == "save") "/${blogPostForm.segment}" else "/$NEW_SEGMENT"}"
             return "redirect:$newPath"
         }
 
@@ -137,15 +137,15 @@ class BlogPostController(
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
                 prepare(model, request, response, segment, changed)
-                return "blogPostAdmin"
+                return "blogPostEdit"
             }
-            return "redirect:$ADMIN_DIR/$segment"
+            return "redirect:$BLOG_EDIT_DIR/$segment"
         }
 
         // This should never really occur
         bindingResult.reject("error.illegalAction")
         prepare(model, request, response, segment, changed)
-        return "blogPostAdmin"
+        return "blogPostEdit"
     }
 
     private fun prepare(
@@ -159,7 +159,7 @@ class BlogPostController(
         logger.info("Prepare allBlogPosts Fetch blog posts with: $blogParams")
 
         model.addAttribute("blog", blogParams.blog)
-        model.addAttribute("postPath", "$ADMIN_DIR/$segment/")
+        model.addAttribute("postPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
         logger.info("prepared)")
     }
