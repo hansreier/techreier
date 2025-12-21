@@ -58,8 +58,8 @@ class BlogPostService(
     ) {
         logger.info("Deleting blogPost with id: ${blogPostForm.id} segment: ${blogPostForm.segment} blogId: $blogId")
         blogPostForm.id?.let { id ->
-            blogPostRepo.deleteById(id)
             blogTextRepo.deleteById(id)
+            blogPostRepo.deleteById(id)
         } ?: logger.error("BlogPost not deleted, no id")
     }
 
