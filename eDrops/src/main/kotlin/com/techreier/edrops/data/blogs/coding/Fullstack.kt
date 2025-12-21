@@ -1,16 +1,11 @@
 package com.techreier.edrops.data.blogs.coding
 
 import com.techreier.edrops.data.blogs.BlogPosts
-import com.techreier.edrops.data.blogs.Blogs
-import com.techreier.edrops.data.blogs.addPosts
-import com.techreier.edrops.data.blogs.coding.Vibecoding.SUMMARY_EN
-import com.techreier.edrops.data.blogs.coding.Vibecoding.SUMMARY_NO
-import com.techreier.edrops.data.blogs.coding.Vibecoding.TITLE_EN
-import com.techreier.edrops.data.blogs.coding.Vibecoding.TITLE_NO
+
 import com.techreier.edrops.domain.Blog
-import com.techreier.edrops.domain.BlogOwner
+
 import com.techreier.edrops.domain.BlogPost
-import com.techreier.edrops.domain.Topic
+import com.techreier.edrops.util.strip
 import com.techreier.edrops.util.timestamp
 
 object Fullstack : BlogPosts {
@@ -29,8 +24,8 @@ object Fullstack : BlogPosts {
             "but in reality he knows little about everything. Fullstack didn't really exist " +
             "before the web split all development into a frontend and a backend part."
 
-    override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO, blog)
+    override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO.strip(), blog)
 
-    override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN, blog)
+    override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN.strip(), blog)
 
 }

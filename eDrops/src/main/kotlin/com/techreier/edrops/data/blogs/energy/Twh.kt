@@ -3,6 +3,7 @@ package com.techreier.edrops.data.blogs.energy
 import com.techreier.edrops.data.blogs.BlogPosts
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogPost
+import com.techreier.edrops.util.strip
 import com.techreier.edrops.util.timestamp
 
 object Twh : BlogPosts {
@@ -29,7 +30,7 @@ In a normal year like 2022, Norway used about 150 TWh, while production was slig
 The surplus is exported to other countries.
 """
 
-    override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO, blog)
+    override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO.strip(), blog)
 
-    override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN, blog)
+    override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN.strip(), blog)
 }

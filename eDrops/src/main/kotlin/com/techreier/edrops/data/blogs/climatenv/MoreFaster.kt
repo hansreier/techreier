@@ -3,6 +3,7 @@ package com.techreier.edrops.data.blogs.climatenv
 import com.techreier.edrops.data.blogs.BlogPosts
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogPost
+import com.techreier.edrops.util.strip
 import com.techreier.edrops.util.timestamp
 
 object MoreFaster : BlogPosts {
@@ -47,7 +48,7 @@ Anyone who's worked on IT projects knows this kind of thinking ruins everything.
 This is exactly the mindset that created the nature and climate crisis in the first place.
 """
 
-    override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO, blog)
+    override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO.strip(), blog)
 
-    override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN, blog)
+    override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN.strip(), blog)
 }

@@ -3,6 +3,7 @@ package com.techreier.edrops.data.blogs.energy
 import com.techreier.edrops.data.blogs.BlogPosts
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogPost
+import com.techreier.edrops.util.strip
 import com.techreier.edrops.util.timestamp
 
 object Nuclearpower: BlogPosts {
@@ -23,7 +24,7 @@ object Nuclearpower: BlogPosts {
             "Drawbacks include high costs, long construction time, risk of accidents, and challenges with radioactive waste. " +
             "New technologies may offer safer and more sustainable solutions, but are not yet widely deployed."
 
-    override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO, blog)
+    override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO.strip(), blog)
 
-    override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN, blog)
+    override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN.strip(), blog)
 }
