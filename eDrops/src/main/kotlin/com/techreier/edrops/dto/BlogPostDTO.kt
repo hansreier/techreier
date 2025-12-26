@@ -37,6 +37,6 @@ fun BlogPost.toDTO(zoneId: ZoneId, datePattern: String, html: Boolean = false, b
         segment = this.segment,
         title = this.title,
         summary = if (html) markdownToHtml(this.summary, true) else this.summary,
-        blogText = blogText?.toDTO(zoneId, datePattern)
+        blogText = blogText?.toDTO(zoneId, datePattern, html)
     )
 }

@@ -7,14 +7,11 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container" th:utext="${blogpost.summary}"></div>
-    <div class="container" th:utext="${blogtext}"></div>
-    <p class="date" th:text="${blogPost.changedString}"></p>
-    <div th:each="blogPost : ${blogText}" class="title">
-        <h2 th:text="${blogPost.title}"></h2>
-        <div class="container" th:utext="${blogPost.summary}"></div>
-        <p class="date" th:text="${blogPost.changedString}"></p>
+    <div class="container" th:utext="${blogPost.summary}"></div>
+    <div th:if="${blogPost.blogText}">
+        <div class="container" th:utext="${blogPost.blogText.text}"></div>
     </div>
+    <p class="date" th:text="${blogPost.changedString}"></p>
 </div>
 </body>
 </html>
