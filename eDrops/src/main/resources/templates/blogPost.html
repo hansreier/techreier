@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html lang="en" th:lang="${langCode}" xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
+<head>
+    <title class= "section" th:text="${blogPost.title}">Blogs</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container" th:utext="${blogpost.summary}"></div>
+    <div class="container" th:utext="${blogtext}"></div>
+    <p class="date" th:text="${blogPost.changedString}"></p>
+    <div th:each="blogPost : ${blogText}" class="title">
+        <h2 th:text="${blogPost.title}"></h2>
+        <div class="container" th:utext="${blogPost.summary}"></div>
+        <p class="date" th:text="${blogPost.changedString}"></p>
+    </div>
+</div>
+</body>
+</html>

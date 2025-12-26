@@ -4,13 +4,12 @@ import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogPostService
-import com.techreier.edrops.dto.BlogDTO
+import com.techreier.edrops.dto.toDTO
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.util.checkSegment
 import com.techreier.edrops.util.checkStringSize
 import com.techreier.edrops.util.msg
-import com.techreier.edrops.util.text
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.dao.DataAccessException
@@ -38,7 +37,7 @@ class BlogPostEditController(
         redirectAttributes: RedirectAttributes,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, segment, true, true)
+        val blogParams = fetchBlogParams(model, request, response, segment, false, true)
 
         if (blogParams.blog == null) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
@@ -51,20 +50,21 @@ class BlogPostEditController(
             model.addAttribute("blogPostForm", blogPostForm)
             model.addAttribute("postHeadline", msg(ctx.messageSource, "newPost"))
         } else {
-            val selectedBlogPost = select(subsegment, blogParams.blog)
-            if (selectedBlogPost == null) {
+            val (blogPost, blogText) = blogPostService.readBlogPost(blogParams.blog.id, subsegment)
+            if (blogPost == null) {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/$HOME_DIR"
             }
-            logger.info("getting GUI with blogPost. ${selectedBlogPost.title}")
-            val blogText = blogPostService.getBlogText(selectedBlogPost.id)
-            val content = blogText?.text
-            val contentChanged = blogText?.changed
-                ?.atZone(timeZone())?.text(msg(ctx.messageSource, "format.date")) ?: ""
-            model.addAttribute("postHeadline", selectedBlogPost.title)
-            model.addAttribute("changed", (selectedBlogPost.changedString))
+
+            val datePattern = msg(ctx.messageSource, "format.datetime")
+            val blogPostDto = blogPost.toDTO(timeZone(), datePattern, false, blogText)
+
+            logger.info("getting GUI with blogPost. ${blogPost.title}")
+            val contentChanged = blogPostDto.blogText?.changedString ?: ""
+            model.addAttribute("postHeadline", blogPostDto.title)
+            model.addAttribute("changed", (blogPostDto.changedString))
             model.addAttribute("contentChanged", contentChanged)
-            model.addAttribute("blogPostForm", selectedBlogPost.toForm(content))
+            model.addAttribute("blogPostForm", blogPostDto.toForm())
         }
 
         model.addAttribute("blog", blogParams.blog)
@@ -127,7 +127,8 @@ class BlogPostEditController(
                 return "blogPostEdit"
             }
 
-            val newPath = "$BLOG_EDIT_DIR/$segment${if (action == "save") "/${blogPostForm.segment}" else "/$NEW_SEGMENT"}"
+            val newPath =
+                "$BLOG_EDIT_DIR/$segment${if (action == "save") "/${blogPostForm.segment}" else "/$NEW_SEGMENT"}"
             return "redirect:$newPath"
         }
 
@@ -164,23 +165,5 @@ class BlogPostEditController(
         logger.info("prepared)")
     }
 
-    private fun select(
-        subsegment: String,
-        blog: BlogDTO?,
-    ) = blog?.blogPosts?.let { blogPosts ->
-        var index: Int
-        val no = subsegment.toIntOrNull() //Allow for number to be entered in path
-        no?.let {
-            index =
-                if (it > blogPosts.size) {
-                    blogPosts.size - 1
-                } else if (it <= 0) {
-                    0
-                } else {
-                    it - 1
-                }
-            blogPosts[index]
-        } ?: blogPosts.find { it.segment == subsegment }
-    }
 }
 

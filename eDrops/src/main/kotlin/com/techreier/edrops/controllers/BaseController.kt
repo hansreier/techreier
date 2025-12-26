@@ -62,14 +62,18 @@ abstract class BaseController(
             model.addAttribute("blogHeadline", msg(ctx.messageSource, "newBlog"))
             BlogDTO(usedLangcode)
         } else {
-            model.addAttribute("blogHeadline")
+            model.addAttribute("blogHeadline", "")
             val foundBlog = segment?.let {
                 ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, posts)
             }
-            foundBlog?.let {
+            if (foundBlog == null) {
+                model.addAttribute("blogHeadline", msg(ctx.messageSource, "noBlog"))
+                null
+            } else {
                 val blogLangCode = foundBlog.topic.language.code
                 val locale = Locale.of(blogLangCode)
                 ctx.sessionLocaleResolver.setLocale(request, response, locale) //Required sometimes
+                model.addAttribute("blogHeadline", foundBlog.subject)
                 foundBlog.toDTO(
                     timeZone(),
                     msg(ctx.messageSource, "format.datetime"),
@@ -129,7 +133,7 @@ abstract class BaseController(
     ) {
         logger.warn("${e.javaClass} key: error.$key ${e.message}")
 
-        val args: Array<out Any> = arrayOf(e.message?: "")
+        val args: Array<out Any> = arrayOf(e.message ?: "")
         bindingResult.reject("error.$key", args, "??error.$key?? ${e.message}")
     }
 

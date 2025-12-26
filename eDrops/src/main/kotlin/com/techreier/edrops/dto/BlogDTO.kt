@@ -1,6 +1,5 @@
 package com.techreier.edrops.dto
 
-import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.util.markdownToHtml
@@ -21,27 +20,31 @@ data class BlogDTO(
     )
 
     fun toForm(): BlogForm {
-        return BlogForm(this.id, this.segment, this.topicKey,
+        return BlogForm(
+            this.id, this.segment, this.topicKey,
             this.pos.toString(), this.subject, this.about, this.blogPosts.isNotEmpty()
         )
     }
 }
 
-fun Blog.toDTO(zoneId: ZoneId, datetimePattern: String, datePattern: String, langCodeWanted: String? = null,
-               posts: Boolean = true, html: Boolean = false): BlogDTO {
+fun Blog.toDTO(
+    zoneId: ZoneId, datetimePattern: String, datePattern: String, langCodeWanted: String? = null,
+    posts: Boolean = true, html: Boolean = false,
+): BlogDTO {
     val changed = this.changed.atZone(zoneId)
     return BlogDTO(
         this.id,
         this.topic.topicKey,
-        this.topic.text,
-        this.topic.language.code,
-        langCodeWanted ?: this.topic.language.code,
-        changed, changed.text(datetimePattern),
-        this.segment,
-        this.pos,
-        this.subject,
-        if (html) markdownToHtml(this.about, true) else this.about,
-        if (posts) this.blogPosts.map { it.toDTO(zoneId, datePattern, html) } else emptyList()
+        topicText = this.topic.text,
+        langCodeFound = this.topic.language.code,
+        langCodeWanted = langCodeWanted ?: this.topic.language.code,
+        changed = changed,
+        changedText = changed.text(datetimePattern),
+        segment = this.segment,
+        pos = this.pos,
+        subject = this.subject,
+        about = if (html) markdownToHtml(this.about, true) else this.about,
+        blogPosts = if (posts) this.blogPosts.map { it.toDTO(zoneId, datePattern, html) } else emptyList()
     )
 }
 

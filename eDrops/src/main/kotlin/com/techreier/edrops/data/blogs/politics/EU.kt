@@ -3,6 +3,7 @@ package com.techreier.edrops.data.blogs.politics
 import com.techreier.edrops.data.blogs.BlogPosts
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogPost
+import com.techreier.edrops.util.strip
 import com.techreier.edrops.util.timestamp
 
 object EU: BlogPosts {
@@ -21,8 +22,8 @@ object EU: BlogPosts {
             "Has the EU gone too far in detailed regulation through shared laws and energy market, " +
             "not suited to countries with different geography and cultures? It has helped maintain stability after World War II"
 
-    override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO, blog)
+    override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO.strip(), blog)
 
-    override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN, blog)
+    override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN.strip(), blog)
 
 }

@@ -9,8 +9,11 @@ import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.BlogTextRepository
 import org.apache.commons.lang3.StringUtils.trim
+import org.springframework.dao.DuplicateKeyException
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.server.ResponseStatusException
 import java.time.Instant
 
 @Service
@@ -63,11 +66,18 @@ class BlogPostService(
         } ?: logger.error("BlogPost not deleted, no id")
     }
 
-    fun getBlogText(blogPostId: Long?): BlogText? {
-        val blogText = blogPostId?.let {
-            blogTextRepo.findById(blogPostId).orElse(null)?.takeIf { it.id != null }
+    fun readBlogPost(blogId: Long?, segment: String): Pair<BlogPost?, BlogText?> {
+        blogId?: throw ResponseStatusException(HttpStatus.NOT_FOUND,
+            "Blog with no id for blogPost segment: $segment")
+        val posts = blogPostRepo.findByBlogIdAndSegment(blogId, segment   )
+        if (posts.size > 1) {
+            throw DuplicateKeyException("Duplicate blogpost ids: " + posts.map { it.id })
         }
-        return blogText
+        val blogPost = if (posts.isNotEmpty()) posts.first() else null
+        val blogText = blogPost?.id?.let { post ->
+            blogTextRepo.findById(post).orElse(null)?.takeIf { it.id != null }
+        }
+        return Pair(blogPost, blogText)
     }
 
     fun duplicate(segment: String, blogId: Long, blogPostId: Long?): Boolean {

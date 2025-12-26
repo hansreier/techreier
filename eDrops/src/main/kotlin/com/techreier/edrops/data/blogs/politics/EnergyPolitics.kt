@@ -3,6 +3,7 @@ package com.techreier.edrops.data.blogs.politics
 import com.techreier.edrops.data.blogs.BlogPosts
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogPost
+import com.techreier.edrops.util.strip
 import com.techreier.edrops.util.timestamp
 
 object EnergyPolitics: BlogPosts {
@@ -31,8 +32,8 @@ Nuclear power is necessary internationally and should also be considered in Norw
 Claims of an impending power shortage in Norway are greatly exaggerated.
 """
 
-    override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO, blog)
+    override fun no(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_NO, SUMMARY_NO.strip(), blog)
 
-    override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN, blog)
+    override fun en(blog: Blog): BlogPost = BlogPost(timestamp, SEGMENT, TITLE_EN, SUMMARY_EN.strip(), blog)
 
 }

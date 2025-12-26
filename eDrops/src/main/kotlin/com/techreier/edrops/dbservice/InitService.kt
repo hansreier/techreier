@@ -6,7 +6,9 @@ import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.repository.*
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.DuplicateKeyException
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 
 @Service
 class InitService(
@@ -37,9 +39,11 @@ class InitService(
                 } else if (existingBlogs.size > 1) {
                     throw DuplicateKeyException("Duplicate blog ids: " + existingBlogs.map { it.id })
                 }
-
+                val blogId = existingBlogs[0].id ?: throw ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Blog ID kan ikke være null"
+                )
                 blog.blogPosts.forEach { post ->
-                    val existingPosts = blogPostRepo.findByBlogAndSegment(existingBlogs[0], post.segment)
+                    val existingPosts = blogPostRepo.findByBlogIdAndSegment(blogId, post.segment)
                     if (existingPosts.isEmpty()) {
                         post.blog = existingBlogs[0]
                         blogPostRepo.save(post)
