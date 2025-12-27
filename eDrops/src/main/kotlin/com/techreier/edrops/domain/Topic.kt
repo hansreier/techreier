@@ -7,7 +7,7 @@ import jakarta.persistence.*
 
 @Table(uniqueConstraints = [UniqueConstraint(columnNames = ["topic_key", "language_code"])])
 @Entity
-class Topic(
+open class Topic(
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
     val topicKey: String,
 

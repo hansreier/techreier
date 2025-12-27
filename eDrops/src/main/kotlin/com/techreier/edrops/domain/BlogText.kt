@@ -5,7 +5,7 @@ import jakarta.persistence.*
 import java.time.Instant
 
 @Entity
-class BlogText(
+open class BlogText(
 
     @Column(columnDefinition ="timestamp(0)")
     var changed: Instant,

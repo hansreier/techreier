@@ -8,7 +8,7 @@ import java.time.Instant
 
 //https://www.baeldung.com/kotlin/jpa
 @Entity
-class BlogPost(
+open class BlogPost(
 
     @Column(columnDefinition = "timestamp(0)")
     var changed: Instant,
