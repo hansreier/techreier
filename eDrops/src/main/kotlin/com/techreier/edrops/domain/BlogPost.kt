@@ -8,9 +8,9 @@ import java.time.Instant
 
 //https://www.baeldung.com/kotlin/jpa
 @Entity
-open class BlogPost(
+class BlogPost(
 
-    @Column(columnDefinition = "timestamp(0)")
+    @Column(nullable = false, columnDefinition = "timestamp(0)")
     var changed: Instant,
 
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
@@ -28,11 +28,25 @@ open class BlogPost(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long?=null
+    val id: Long?=null,
+
+    @Column( columnDefinition = "timestamp(0)", nullable = false, updatable = false)
+    var created: Instant = Instant.now(),
 ) {
+
+    constructor(
+        timestamp: Instant,
+        segment: String,
+        title: String,
+        summary: String,
+        blog: Blog
+    ) : this(timestamp, segment, title, summary, blog, null) {
+        this.created = timestamp
+    }
 
     fun copyAttributes(other: BlogPost): BlogPost {
         this.changed = other.changed
+        this.created = other.created
         this.segment = other.segment
         this.title = other.title
         this.summary = other.summary

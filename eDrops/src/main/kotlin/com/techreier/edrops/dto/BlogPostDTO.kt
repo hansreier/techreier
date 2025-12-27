@@ -12,6 +12,8 @@ data class BlogPostDTO(
     val id: Long?,
     val changed: ZonedDateTime?,
     val changedString: String,
+    val created: ZonedDateTime?,
+    val createdString: String,
     val segment: String,
     var title: String,
     val summary: String,
@@ -30,10 +32,13 @@ data class BlogPostDTO(
 
 fun BlogPost.toDTO(zoneId: ZoneId, datePattern: String, html: Boolean = false, blogText: BlogText? = null): BlogPostDTO {
     val changed = this.changed.atZone(zoneId)
+    val created = this.created.atZone(zoneId)
     return BlogPostDTO(
         id = this.id,
         changed = changed,
         changedString = changed.text(datePattern),
+        created = created,
+        createdString = created.text(datePattern),
         segment = this.segment,
         title = this.title,
         summary = if (html) markdownToHtml(this.summary, true) else this.summary,

@@ -62,6 +62,7 @@ class BlogPostEditController(
             logger.info("getting GUI with blogPost. ${blogPost.title}")
             val contentChanged = blogPostDto.blogText?.changedString ?: ""
             model.addAttribute("postHeadline", blogPostDto.title)
+            model.addAttribute("created", (blogPostDto.createdString))
             model.addAttribute("changed", (blogPostDto.changedString))
             model.addAttribute("contentChanged", contentChanged)
             model.addAttribute("blogPostForm", blogPostDto.toForm())

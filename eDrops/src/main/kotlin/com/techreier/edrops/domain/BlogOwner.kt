@@ -6,7 +6,7 @@ import jakarta.persistence.*
 import java.time.Instant
 
 @Entity
-open class BlogOwner(
+class BlogOwner(
 
     @Column(nullable = false, columnDefinition ="timestamp(0)")
     val created: Instant,

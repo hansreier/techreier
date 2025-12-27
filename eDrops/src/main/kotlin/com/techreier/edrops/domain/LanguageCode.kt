@@ -5,7 +5,7 @@ import com.techreier.edrops.config.MAX_CODE_SIZE
 import jakarta.persistence.*
 
 @Entity
-open class LanguageCode(
+class LanguageCode(
 
     @Column(nullable = false)
     var language: String,

@@ -29,6 +29,7 @@ create table blog_owner (
 
 create table blog_post (
                            blog_id bigint not null,
+                           created timestamp(0) not null,
                            changed timestamp(0) not null,
                            id bigint not null auto_increment,
                            segment varchar(30) not null,
