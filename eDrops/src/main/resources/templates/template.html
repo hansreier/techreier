@@ -78,7 +78,7 @@
             <a th:href="@{/fraction}" class="dropdown-item" th:text="#{fraction}"></a>
             <a th:href="@{/energydata}" class="dropdown-item" th:text="#{energy.data}"></a>
             <a th:each="item : ${menu}"
-               th:href="@{/blogs/{segment}(segment=${item.segment})}" class="dropdown-item"
+               th:href="@{/blog/{segment}(segment=${item.segment})}" class="dropdown-item"
                th:text="${item.subject}"
                th:data-topic="${item.isTopic}"
                th:data-id="${item.segment + '.' + item.langCode}">

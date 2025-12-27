@@ -307,6 +307,18 @@ img:hover::after {
 	transition: background-color 0.3s;
 }
 
+/* flexbox with date and link to blog */
+#blog-reference {
+    display: flex;
+    align-items: baseline; /* Aligns text by the bottom of the letters */
+    gap: 15px;             /* Adds space between the date and the link */
+}
+
+#date {
+    margin: 0;
+    font-style: italic;
+}
+
 #blogposts {
 	border-collapse: collapse;
 	cursor: pointer;
