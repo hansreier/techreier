@@ -4,7 +4,6 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.getDocIndex
 import com.techreier.edrops.data.Docs.views
-import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
@@ -19,7 +18,7 @@ const val HOME_DIR = ""
 
 @Controller
 @RequestMapping()
-class HomeController(context: Context ) : BaseController(context) {
+class HomeController(ctx: Context ) : BaseController(ctx) {
     @GetMapping("/")
     fun home(
         request: HttpServletRequest,
@@ -32,7 +31,8 @@ class HomeController(context: Context ) : BaseController(context) {
 
             val doc = Docs.home[docIndex.index]
             model.addAttribute("doc", doc)
-            model.addAttribute("docText", markdownToHtml(doc, HOME_DIR).html)
+            model.addAttribute("docText",
+                markdown.toHtml(doc, HOME_DIR).html)
 
         } else {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
@@ -75,7 +75,7 @@ class HomeController(context: Context ) : BaseController(context) {
         }
 
         val doc = views[docIndex.index]
-        val inlineHtml =  markdownToHtml(doc, HOME_DIR)
+        val inlineHtml =  markdown.toHtml(doc, HOME_DIR)
         if (inlineHtml.warning) model.addAttribute("warning", "blogOtherLanguage")
         model.addAttribute("doc", doc)
         model.addAttribute("docText", inlineHtml.html)

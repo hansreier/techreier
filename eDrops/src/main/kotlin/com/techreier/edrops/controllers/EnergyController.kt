@@ -8,7 +8,6 @@ import com.techreier.edrops.dto.toDTOs
 import com.techreier.edrops.forms.EnergyForm
 import com.techreier.edrops.service.EnergyService
 import com.techreier.edrops.util.checkInt
-import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
@@ -26,7 +25,7 @@ const val ENERGYDATA_TEMPLATE = "energyData"
 
 @Controller
 @RequestMapping(ENERGYDATA_DIR)
-class EnergyController(val ctx: Context, val energyService: EnergyService) : BaseController(ctx) {
+class EnergyController(private val ctx: Context, private val energyService: EnergyService) : BaseController(ctx) {
 
     @GetMapping
     fun energyData(
@@ -84,10 +83,9 @@ class EnergyController(val ctx: Context, val energyService: EnergyService) : Bas
     ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response)
         val docPreIndex = Docs.getDocIndex(Docs.energy, blogParams.oldLangCode, blogParams.usedLangCode, ENERGYDATA)
-
         if (docPreIndex.index >= 0) {
             val doc = Docs.energy[docPreIndex.index]
-            val docText: String = markdownToHtml(doc, ENERGYDATA_DIR).html
+            val docText: String = markdown.toHtml(doc, ENERGYDATA_DIR).html
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)
         }
@@ -96,7 +94,7 @@ class EnergyController(val ctx: Context, val energyService: EnergyService) : Bas
 
         if (docPostIndex.index >= 0) {
             val doc2 = Docs.energy[docPostIndex.index]
-            val docText2: String = markdownToHtml(doc2, ENERGYDATA_DIR).html
+            val docText2: String = markdown.toHtml(doc2, ENERGYDATA_DIR).html
             model.addAttribute("docText2", docText2)
         }
 

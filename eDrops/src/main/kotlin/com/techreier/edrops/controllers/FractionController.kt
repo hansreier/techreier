@@ -6,7 +6,6 @@ import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
 import com.techreier.edrops.forms.FractionForm
 import com.techreier.edrops.service.FractionService
-import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
@@ -22,7 +21,8 @@ const val FRACTION_DIR = "/$FRACTION"
 
 @Controller
 @RequestMapping(FRACTION_DIR)
-class FractionController(ctx: Context, val fractionService: FractionService) : BaseController(ctx) {
+class FractionController(ctx: Context,
+                         private val fractionService: FractionService) : BaseController(ctx) {
 
     @GetMapping
     fun fraction(
@@ -81,7 +81,7 @@ class FractionController(ctx: Context, val fractionService: FractionService) : B
 
         if (docIndex.index >= 0 ) {
             val doc = Docs.fraction[docIndex.index]
-            val docText: String = markdownToHtml(doc, FRACTION_DIR).html
+            val docText: String = markdown.toHtml(doc, FRACTION_DIR).html
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)
         }

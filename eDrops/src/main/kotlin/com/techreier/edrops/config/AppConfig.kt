@@ -17,7 +17,8 @@ const val MAX_CODE_SIZE = 20
 const val MAX_USERNAME_SIZE = 40
 const val DEFAULT_TIMEZONE = "Europe/Oslo"
 const val DOUBLE_FLOAT_PRECISION_DEFAULT = 5
-const val DOUBLE_FIXED_PRECISION_DEFAULT = 2
+const val DOUBLE_FIXED_PRECISION_DEFAULT = 24
+const val MEDIA_URL_PATH="/media"
 
 // This way of reading app properties is more flexible and easier than using @Value in Kotlin
 // Disadvantage: Have to inject this always
@@ -35,9 +36,12 @@ class AppConfig {
     @NotNull(message = "Missing admin user")
     lateinit var user: String
 
+    @NotNull(message = "Missing path for media files")
+    lateinit var mediaPath: String
+
     var auth: Boolean = true
 
-     val buildTime: String? = System.getenv("BUILD_TIME")
+    val buildTime: String? = System.getenv("BUILD_TIME")
 
     @Bean
     fun restClient(): RestClient = RestClient.create()

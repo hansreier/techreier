@@ -27,17 +27,22 @@ This is a simple and limited Blog system.
 Unsecure
 """
 
+private const val MEDIA_PATH = "mediaPath"
+
 class MarkdownTest {
+
+    private val  markdown = Markdown(MEDIA_PATH)
+
     @Test
     fun `from secure markdown to html`() {
-        val html = markdownToHtml(SECURE, true)
+        val html = markdown.toHtml(SECURE, true)
         logger.debug(html)
         assertThat(html).contains("<p>Secure</p>", "<h2 ")
     }
 
     @Test
     fun `from unsecure markdown to html`() {
-        val html = markdownToHtml(UNSECURE, true)
+        val html = markdown.toHtml(UNSECURE, true)
         logger.debug(html)
         assertThat(html).doesNotContain("<script>")
         assertThat(html).contains("<p>Unsecure</p>", "<h2 ")
@@ -48,7 +53,7 @@ class MarkdownTest {
         val docIndex = getDocIndex(about, NB, NB, "reier")
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
-        val inlineHtml = markdownToHtml(doc, ABOUT_DIR)
+        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
         logger.debug("Html: \n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("Reier")
         assertEquals(NB, inlineHtml.langCode)
@@ -60,7 +65,7 @@ class MarkdownTest {
         val docIndex = getDocIndex(about, EN, EN, "reier")
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
-        val inlineHtml = markdownToHtml(doc, ABOUT_DIR)
+        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
         logger.debug("html:\n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("Reier")
         assertEquals(EN, inlineHtml.langCode)
@@ -72,23 +77,25 @@ class MarkdownTest {
         val docIndex = getDocIndex(about, NB, NB, "tech")
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
-        val inlineHtml = markdownToHtml(doc, ABOUT_DIR)
+        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
         logger.debug("Html: \n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("Technological")
         assertEquals(EN, inlineHtml.langCode)
         assertTrue(inlineHtml.warning)
     }
 
+    //Todo add more here for new type of link
     @Test
     fun `markdown to html link and image - detailed verification`() {
         val docIndex = getDocIndex(about, EN, EN, "markdown")
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
-        val inlineHtml = markdownToHtml(doc, ABOUT_DIR)
+        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
         logger.debug("Html: \n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("""<a href="https://openai.com/blog/chatgpt""")
         assertThat(inlineHtml.html).contains("""<a href="../blogs/energy""")
-        assertThat(inlineHtml.html).contains("""<img src="../../images/pas.jpg" alt="PerSeter" title="Per Seter""")
+        assertThat(inlineHtml.html).contains("""<img src="../../images/pas.jpg" alt="My mascot PerSeter" title="Per Seter""")
+        assertThat(inlineHtml.html).contains("mediaPath/cherries.jpg")
         assertEquals(EN, inlineHtml.langCode)
         assertFalse(inlineHtml.warning)
     }
@@ -99,7 +106,7 @@ class MarkdownTest {
         assertThat(docIndex.index).isGreaterThan(-1)
         assertTrue(docIndex.error)
         val doc = views[docIndex.index]
-        val inlineHtml = markdownToHtml(doc, HOME_DIR)
+        val inlineHtml = markdown.toHtml(doc, HOME_DIR)
         logger.debug("Html: \n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("Ringsaker")
         assertEquals(NB, inlineHtml.langCode)

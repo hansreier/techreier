@@ -7,7 +7,6 @@ import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
 import com.techreier.edrops.forms.CollatzForm
 import com.techreier.edrops.util.checkLong
-import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
@@ -23,7 +22,8 @@ const val COLLATZ_DIR = "/$COLLATZ"
 
 @Controller
 @RequestMapping(COLLATZ_DIR)
-class CollatzController(ctx: Context, val collatzService: CollatzService) : BaseController(ctx) {
+class CollatzController(ctx: Context,
+                        private val collatzService: CollatzService) : BaseController(ctx) {
 
     @GetMapping
     fun collatz(
@@ -83,7 +83,7 @@ class CollatzController(ctx: Context, val collatzService: CollatzService) : Base
 
         if (docIndex.index >= 0 ) {
             val doc = Docs.collatz[docIndex.index]
-            val docText: String = markdownToHtml(doc, COLLATZ_DIR).html
+            val docText: String = markdown.toHtml(doc, COLLATZ_DIR).html
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)
         }

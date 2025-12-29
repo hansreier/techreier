@@ -11,6 +11,7 @@ import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.dto.toDTO
+import com.techreier.edrops.util.Markdown
 import com.techreier.edrops.util.buildVersion
 import com.techreier.edrops.util.getMenuItems
 import com.techreier.edrops.util.getValidProjectLanguageCode
@@ -33,6 +34,7 @@ abstract class BaseController(
     private val ctx: Context,
 ) : ServletContextAware {
     private var servletContext: ServletContext? = null
+    protected val markdown: Markdown = Markdown(ctx.appConfig.mediaPath)
 
     override fun setServletContext(servletContext: ServletContext) {
         this.servletContext = servletContext
@@ -78,6 +80,7 @@ abstract class BaseController(
                     timeZone(),
                     msg(ctx.messageSource, "format.datetime"),
                     msg(ctx.messageSource, "format.date"),
+                    Markdown(ctx.appConfig.mediaPath),
                     blogLangCode, posts, !admin
                 )
             }

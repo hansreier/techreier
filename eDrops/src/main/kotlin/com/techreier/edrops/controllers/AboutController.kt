@@ -2,7 +2,6 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.data.Docs.about
 import com.techreier.edrops.data.Docs.getDocIndex
-import com.techreier.edrops.util.markdownToHtml
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
@@ -17,7 +16,7 @@ const val ABOUT_DIR = "/$ABOUT"
 
 @Controller
 @RequestMapping(ABOUT_DIR)
-class AboutController(context: Context) : BaseController(context) {
+class AboutController(ctx: Context) : BaseController(ctx) {
 
     @GetMapping("/{segment}")
     fun content(
@@ -39,7 +38,7 @@ class AboutController(context: Context) : BaseController(context) {
         }
 
         val doc = about[docIndex.index]
-        val inlineHtml =  markdownToHtml(doc, ABOUT_DIR)
+        val inlineHtml =  markdown.toHtml(doc, ABOUT_DIR)
         if (inlineHtml.warning) model.addAttribute("warning", "blogOtherLanguage")
         model.addAttribute("doc", doc)
         model.addAttribute("docText", inlineHtml.html)

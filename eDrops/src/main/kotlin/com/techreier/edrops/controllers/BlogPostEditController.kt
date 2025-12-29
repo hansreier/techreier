@@ -57,7 +57,7 @@ class BlogPostEditController(
             }
 
             val datePattern = msg(ctx.messageSource, "format.datetime")
-            val blogPostDto = blogPost.toDTO(timeZone(), datePattern, false, blogText)
+            val blogPostDto = blogPost.toDTO(timeZone(), datePattern, markdown,false, blogText)
 
             logger.info("getting GUI with blogPost. ${blogPost.title}")
             val contentChanged = blogPostDto.blogText?.changedString ?: ""

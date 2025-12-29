@@ -2,6 +2,7 @@ app:
   appname: ${APP_NAME:edrops}
   user: ${USER:Reier}
   password: ${PASSWORD:Passord}
+  media-path: file:/var/media
 
 spring:
   profiles:

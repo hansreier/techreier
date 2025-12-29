@@ -2,7 +2,7 @@ package com.techreier.edrops.dto
 
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.forms.BlogForm
-import com.techreier.edrops.util.markdownToHtml
+import com.techreier.edrops.util.Markdown
 import com.techreier.edrops.util.text
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -28,7 +28,7 @@ data class BlogDTO(
 }
 
 fun Blog.toDTO(
-    zoneId: ZoneId, datetimePattern: String, datePattern: String, langCodeWanted: String? = null,
+    zoneId: ZoneId, datetimePattern: String, datePattern: String, markdown: Markdown, langCodeWanted: String? = null,
     posts: Boolean = true, html: Boolean = false,
 ): BlogDTO {
     val changed = this.changed.atZone(zoneId)
@@ -43,8 +43,8 @@ fun Blog.toDTO(
         segment = this.segment,
         pos = this.pos,
         subject = this.subject,
-        about = if (html) markdownToHtml(this.about, true) else this.about,
-        blogPosts = if (posts) this.blogPosts.map { it.toDTO(zoneId, datePattern, html) } else emptyList()
+        about = if (html) markdown.toHtml(this.about, true) else this.about,
+        blogPosts = if (posts) this.blogPosts.map { it.toDTO(zoneId, datePattern, markdown, html) } else emptyList()
     )
 }
 
