@@ -3,7 +3,7 @@ app:
   user: Reier
   password: $2a$10$RXI.HV1eFSTCsHlDFFkHlO37yjw4qM4XS6I57gP2upV46lDi0ZFTa
   auth: true
-  media-path: file:/var/media
+  media-path: "/mediafiles/"
 server:
   #absolutely required to avoid tomcat picking up error before Spring error handling
   tomcat:

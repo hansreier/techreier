@@ -142,7 +142,11 @@
 						</jvmFlags>
 						<environment>
 							<BUILD_TIME>${maven.build.timestamp}</BUILD_TIME>
+                            <MEDIA_PATH>/mediafiles</MEDIA_PATH>
 						</environment>
+                        <volumes>
+                            <volume>/mediafiles</volume>
+                        </volumes>
 						<!--environment>
 							<DB_PASSWORD>Password</DB_PASSWORD>
 						</environment-->
