@@ -1,5 +1,6 @@
 package com.techreier.edrops.util
 
+import com.techreier.edrops.config.MEDIA_URL_PATH
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.controllers.ABOUT_DIR
 import com.techreier.edrops.controllers.HOME_DIR
@@ -27,11 +28,9 @@ This is a simple and limited Blog system.
 Unsecure
 """
 
-private const val MEDIA_PATH = "mediaPath"
-
 class MarkdownTest {
 
-    private val  markdown = Markdown(MEDIA_PATH)
+    private val  markdown = Markdown()
 
     @Test
     fun `from secure markdown to html`() {
@@ -95,7 +94,7 @@ class MarkdownTest {
         assertThat(inlineHtml.html).contains("""<a href="https://openai.com/blog/chatgpt""")
         assertThat(inlineHtml.html).contains("""<a href="../blogs/energy""")
         assertThat(inlineHtml.html).contains("""<img src="../../images/pas.jpg" alt="My mascot PerSeter" title="Per Seter""")
-        assertThat(inlineHtml.html).contains("mediaPath/cherries.jpg")
+        assertThat(inlineHtml.html).contains("$MEDIA_URL_PATH/cherries.jpg")
         assertEquals(EN, inlineHtml.langCode)
         assertFalse(inlineHtml.warning)
     }

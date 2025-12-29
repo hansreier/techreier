@@ -22,7 +22,7 @@ import com.vladsch.flexmark.util.sequence.BasedSequence
 import org.owasp.html.HtmlPolicyBuilder
 import org.owasp.html.Sanitizers
 
-class Markdown(private val mediaPath: String) {
+class Markdown() {
 
     private val headers = arrayOf("h1", "h2", "h3", "h4", "h5", "h6")
 
@@ -34,15 +34,12 @@ class Markdown(private val mediaPath: String) {
     // Visitor pattern, replace url path in md files
     // https://github.com/vsch/flexmark-java/blob/master/flexmark-java-samples/src/com/vladsch/flexmark/java/samples/FormatterWithMods.java
     fun visitLink(link: Link) {
-        logger.info("original link: $link")
         link.url = BasedSequence.of(replaceFileLinks(link.url.toString()))
         visitor.visitChildren(link)
     }
 
     fun visitImage(image: Image) {
-        logger.info("original image: $image")
         image.url = BasedSequence.of(replaceImageLinks(image.url.toString()))
-        logger.info("imageUrl $image.url")
         visitor.visitChildren(image)
     }
 
@@ -62,8 +59,8 @@ class Markdown(private val mediaPath: String) {
 
     private fun replaceImageLinks(origPath: String): String {
         if (!origPath.startsWith("..")) {
-            val newPath =  "$MEDIA_URL_PATH/$origPath"
-            logger.info("Visitor - image path replaced: $origPath to: $newPath")
+            val newPath = "$MEDIA_URL_PATH/$origPath"
+            logger.debug("Visitor - image path replaced: $origPath to: $newPath")
             return newPath
         } else return origPath
     }
@@ -102,11 +99,10 @@ class Markdown(private val mediaPath: String) {
         val document: Node = parser.parse(markdown)
         visitor.visit(document)
         val html = renderer.render(document)
-        return html //Todo change  ba
-     //   return if (sanitizer) sanitize(html) else {
-     //       logger.warn("Sanitizer turned off, use just for testing")
-     //       html
-     //   }
+        return if (sanitizer) sanitize(html) else {
+            logger.warn("Sanitizer turned off, use just for testing")
+            html
+        }
     }
 
     // https://owasp.org/www-project-java-html-sanitizer/

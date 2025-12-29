@@ -34,7 +34,7 @@ abstract class BaseController(
     private val ctx: Context,
 ) : ServletContextAware {
     private var servletContext: ServletContext? = null
-    protected val markdown: Markdown = Markdown(ctx.appConfig.mediaPath)
+    protected val markdown: Markdown = Markdown()
 
     override fun setServletContext(servletContext: ServletContext) {
         this.servletContext = servletContext
@@ -80,7 +80,7 @@ abstract class BaseController(
                     timeZone(),
                     msg(ctx.messageSource, "format.datetime"),
                     msg(ctx.messageSource, "format.date"),
-                    Markdown(ctx.appConfig.mediaPath),
+                    Markdown(),
                     blogLangCode, posts, !admin
                 )
             }
