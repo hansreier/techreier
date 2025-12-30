@@ -291,6 +291,16 @@ Docker manages my files somewhere. This is not wanted behaviour.
 
 C:\media is the local source on my PC. The destination is /mediafiles.
 
+| Where |     Local Source | Destination | Comment            |
+|-------|-----------------:|-------------|--------------------|
+| Local |         C:\media | /mediafiles | PCs local harddisk | 
+| VPS   | /root/mediafiles | /mediafiles | Revered order Cyberpanel | 
+
+Often the /user/ catalog is recommended. /root/* is used for Jottacloud sync on my VPS.
+I cannot use /media. This catalog is already used on many Docker preinstalled images.
+Note that the url path is e.g. this: https://techreier.com/media/cherries.jpg
+or in subdirectories of /media.  
+
 #### Docker database connections
 
 The environment variable DB_PASSWORD is used and need to be entered when
