@@ -84,7 +84,6 @@ for simplicity use Jottacloud's sync folder for images stored in the file system
 proof of concept state. I will switch from H2 to Mariadb in production as soon as I get this completed.
 
 
-
 ### Producing HTML GUI efficiently
 
 Thymeleaf is used for server side rendering HTML pages. For simplicity
@@ -218,7 +217,7 @@ that later.
 
 ### Docker
 
-Generates .jar to deploy on Docker container
+Generate .jar to deploy on Docker container
 Can generate .war to deploy on Tomcat (change pom)
 
 To deploy to docker container:  
@@ -239,6 +238,8 @@ no dockerfile.
 
 - mvn spring-boot:build-image (maven-compile-plugin)
 
+#### Authentication and security
+
 Credential helper:
 
 Wincred is downloaded to store credentials when logging into dockerhub.
@@ -257,7 +258,7 @@ https://github.com/docker/docker-credential-helpers/releases
 
 2 Factor Authentication can be set up on Dockerhub. Not done yet.
 
-to login to docker with user name and password:
+to login to Docker with user name and password:
 
 docker login registry-1.docker.io  
 First successful login stores password in Windows Credentials Manager.  
@@ -281,6 +282,24 @@ This is impossible using Credential Manager directly.
 }
 ```
 
+#### Docker volumes
+
+This is needed for storing media data like images locally or on the VPS.
+I have used a volume called mediafiles for this. In practice this is a
+bind mount (I call it blind mount) directly to my harddisk. An ordinary mount will mean that
+Docker manages my files somewhere. This is not wanted behaviour.
+
+C:\media is the local source on my PC. The destination is /mediafiles.
+
+#### Docker database connections
+
+The environment variable DB_PASSWORD is used and need to be entered when
+starting the docker Container. The MariaDB database on my VPS is managed by Cyberpanel,
+and stored directly on the VPS file system and not in a Docker container.
+Using MariaDB Docker images are usually stupid, involves deletion risk and is not required.
+I have tested it locally, but even locally I have installed MariaDB in the normal way,
+not on a Docker Image.  
+
 ## Development
 
 Make sure that Facets are set correctly in project settings in Intellij
@@ -301,7 +320,7 @@ User the Build Project button in Intellij. The browser preview in Intellij
 does not show Thymeleaf tags, so not very useful. So you have to start the
 server.
 
-Add the Chrome LiveReload plugin.
+Add the Chrome LiveReload plugin (latest: Discontinued)
 
 Note: Still have to press the Intellij Build button, but no browser refresh is required.
 

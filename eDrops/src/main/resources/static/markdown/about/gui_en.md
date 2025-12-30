@@ -5,14 +5,14 @@
 I want to keep the user interface clean, old-fashioned and simple with not clutter, but still efficient.
 So fancy fonts, icons, animation effects and so on you will not find here.
 The use of backend rendering and Thymeleaf forces me to keep it simple to be maintainable.
-It is nothing wrong with e.g. React and fancy GUI libraries. I am just not a focused front end developer and
+It is nothing wrong with e.g. React and fancy GUI libraries. I am not a focused front end developer and
 decided not to use it. If you inspect my web pages, it is very clean HTML5.
 
 ### My GUI design and programming tools
 
 This is very simple: A web browser with inspect mode, Intellij, Spring MVC, Thymeleaf, HTML and some CSS.
 
-### The use of the ugly beast, Javascript
+### The use of the ugly beast, JavaScript
 
 Still this is unavoidable, but I have kept this at a minimum.
 
@@ -41,22 +41,22 @@ I think that the current solution will be good enough for a very long time.
 
 Really very simple implemented, layout could have been improved.
 
-### Clicking on links 
+#### Clicking on links 
 
-Minimal Javascript is used. I have avoided the use of URL query parameters and transferring state in internal links.
+Minimal JavaScript is used. I have avoided the use of URL query parameters and transferring state in internal links.
 This keeps the code simple because I can use simple HTML links for everything (including in markdown)
 
 ### Displaying date and time information
 
 Every blog and blog post have got a changed date and time. I could have made this simple and just viewed the timestamp in
 Norwegian time Europe/Oslo or UTC, but I wanted to do this properly. Time information is stored in UTC without timezone information.
-Timezone is not directly supported by MariaDB. The zone information is fetched from the client with Javascript and
+Timezone is not directly supported by MariaDB. The zone information is fetched from the client with JavaScript and
 send to the server with a POST command. The user then will read the time in the local time zone.
 If this is incorrect, it is the user's responsibility.
 
-Both client session storage and server session storage is used for this.
+Both client session storage and server session storage are used for this.
 
-It is one exception, and it is time that is not user (blog) related. This is valid for logging and for
+One exception, and it is time that is not user (blog) related. This is valid for logging and for
 displaying the build timestamp in Europe/Oslo time. The build timestamp can be seen at the bottom of the page:
 
 ````
@@ -64,11 +64,11 @@ version 250421152229 - Year 25 Month 04 Day 21 Hour 15  Minute 22 Second 29.
 ````
 Now you know what this cryptic number is. It is changed for every deploy to Docker.
 
-#### Other usage of Javascript
+#### Other usage of JavaScript
 
 Simple actions that do not need to contact the server, e.g. changing value in dropdown or hiding a field.
 
-Else, to be decided, I guess I have to add more, perhaps a markdown editor. 
+Else, to be decided, I can add more, perhaps for graphs or a markdown editor.
 The responsive design web page uses some JavaScript, 
 just to demonstrate what information I can fetch for free from your device without you knowing it.
 I dropped reading position, since it requires special care.
@@ -103,40 +103,50 @@ Userid is dropped in the current implementation.
 The current solution focuses mostly on a read only GUI with no login.  
 
 To be able to enter blogs in a database centric system, I have to include admin GUI (included login) to be able to
-administrate and enter blogs and blog posts. And this is not a simple task, actually about 50% of the system.
-Currently, markdown blogs including images are stored on the file system. I am gradually changing this to store it in 
-the database. Some of the blogs I still will want to store in the file system, so I will not remove this functionality.
+administrate and enter blogs and blog posts. And this is not a simple task, actually about 30% of the system.
+Markdown are stored on the file system in Docker or in the database. Some of the permanent text are stored on files,
+the rest are stored in database. Images are stored directly on the VPS server, some are stored in the Docker container.
 
 I have used Intellij as the markdown editor. This is not practical when storing blogs and images in a database.
-I have already used  a Markdown parser (CommonMark based), but I also need a Markdown editor. 
-The simplest way of doing this is just using an HTML text input field,
+I have already used  a Markdown parser (Flexmark), but I also need a Markdown editor. 
+The simplest way of doing this is using an HTML text input field,
 parsing the result on the server and using a separate window to present the result.
-It is a question of styling, editor buttons and special characters like emojis.
+It is a question of styling, maybe editor buttons and special characters like emojis.
+The simplest improvement is using a Tooltip for help.
 
-The more advanced solution uses Javascript, perhaps I just will use some open source library.
-And this (including the scaling problem) is why I will keep this as a one user system for a long time.
+A more advanced solution uses JavaScript, perhaps I will use some open source library.
+This, including the scaling problem, is why I will keep this as a one user system for a long time.
 Imagine commercial blog sites: I just cannot and will not compete with it. This system is really designed for
-one or a few selected admin users.
+one or a few selected admin users and a small VPS.
 
 ### Thymeleaf, HTML5 and JavaScript in practice.
 
-Yes, it probably is faster to develop simple web pages with Spring MVC, HTML5 and Thymeleaf
+It probably is faster to develop simple content based web pages with Spring MVC, HTML5 and Thymeleaf
 than using React, TypeScript and HTML5 and REST endpoints. At least for a backend developer...
-The most problematic parts are some cryptic and difficult syntax. 
-This applies to all parts of this simple tech stack, it is a bit low level. My advice is to take care
-when organizing code based on this stack. With proper organizing and layering the code base are more maintainable.
+I have tried React at work (employer policies), with a minimal Node server for authorization.
+The most problematic part of React is a lot of configuration, error handling and state management.   
+
+Thymeleaf involves some cryptic and difficult syntax, and the GUI programming is a bit low level. 
+My advice is to take care when organizing code based on this stack. 
+With proper organizing and layering the code base are more maintainable.
 I have used inheritance for controllers, a basic template for all pages, and fragments for the specific page contents.
 It is really very simple; for every round-trip, you have to obtain all code and data from the server, including the
 entire menu system. I have considered Htmx, but have really not yet seen any advantage in partial load of the pages.
 
-With just a small part of it being JavaScript, TypeScript is really no option.
+Some low level JavaScript is unavoidable, e.g. for multi level menus. TypeScript is no option here.
 My experience is that the GUI parts are more work than I initially thought.
-But is the GUI is kept relatively simple, this tech stack is a valid choice.
+If the GUI is kept relatively simple, this tech stack is a valid choice.
 
-To set up really advanced GUI, like pageable and sortable tables can be a challenge. But do I need it?  
+CSS and styling is an important part of the system. I have used plain CSS and taken advantage of CSS inheritance.
+With React it is common with individual CSS styling for GUI components. In a small project with just a few
+developers plain simple global CSS is manageable. I use AI support for proper CSS. In some ways
+this replaces the need of CSS libraries. It has also helped me with JavaScript.
+
+To set up really advanced GUI, like pageable and sortable tables and animations can be a challenge. But do I need it?  
 
 I have previously developed Windows GUI using Delphi RAD tool.
 Whatever you do, this is 3 times faster than developing any Web GUI, regardless of tech stack used.
-But to get this out on the internet, I really would not recommend.  
+If you use React, you can double the developer time compared to using Thymeleaf.
+But to use Delphi for web developement, I really would not recommend.  
 
 

@@ -96,6 +96,11 @@ Example of embedded images in markdown, stored on volume outside the Docker cont
 
 ![Cherries in my garden](cherries.jpg "Cherries in my garden")
 
+There is no difference in syntax for the two methods.
+I use a Flexmark Visitor pattern to be able to detect where the images are stored.
+I have not yet made any GUI for uploading images, 
+so an upload or syncronization tool is required to the VPS (e.g. Jottacloud).  
+
 ### Example headline 
 
 The contents should be visible by clicking on internal page link above
