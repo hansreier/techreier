@@ -92,7 +92,7 @@ Example of embedded image in markdown, stored in the Docker container.
 
 ![My mascot PerSeter](../../images/pas.jpg "Per Seter")
 
-Example of embedded images in markdown, stored on volume outside the Docker container
+Example of embedded images in markdown, stored on volume (bind mount) outside the Docker container
 
 ![Cherries in my garden](cherries.jpg "Cherries in my garden")
 
