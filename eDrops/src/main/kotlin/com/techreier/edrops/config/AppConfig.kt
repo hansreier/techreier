@@ -17,7 +17,7 @@ const val MAX_CODE_SIZE = 20
 const val MAX_USERNAME_SIZE = 40
 const val DEFAULT_TIMEZONE = "Europe/Oslo"
 const val DOUBLE_FLOAT_PRECISION_DEFAULT = 5
-const val DOUBLE_FIXED_PRECISION_DEFAULT = 24
+const val DOUBLE_FIXED_PRECISION_DEFAULT = 2
 const val MEDIA_URL_PATH="/media"
 
 // This way of reading app properties is more flexible and easier than using @Value in Kotlin
