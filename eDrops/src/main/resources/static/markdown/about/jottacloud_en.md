@@ -126,7 +126,8 @@ systemctl status db-backup.timer //shows current timer status
 journalctl -u db-backup.timer -xe //shows detailed log message for the timer
 
 // SERVICE commands:
-systemctl status jottad-custom.service //check status of the jottad service
+systemctl status jottad-custom.service /
+/check status of the jottad service
 systemctl status mariadb //check status of the mariadb service
 systemctl start jottad-custom.service //manually start the jottad service
 systemctl start db-backup.service //manually start the backup service
@@ -147,7 +148,7 @@ sudo jotta-cli archive db_backups --remote testkatalog2/backup //entire catalog
 sudo jotta-cli archive dbbackup.sh //one file, contents written by default to techreier folder in archive
 ````
 
-### Jottacloud automated archiving
+### Automated archiving
 
 The purpose of this is to set up a permanent backup. 
 The Jottacloud backup service does not handle this since all backups are deleted
@@ -168,6 +169,22 @@ The archive is never deleted, so have to delete files there manuelly.
 
 ### Defining the sync service
 
-I plan to set this up for images, so the docker container can fetch this as a mounted volume. Not done.
+Jottacloud file syncronization is based on a sync root location. All directories within this root are synced if not spesified.
+This setup is natural when syncing personal archived between PCs. The setup is bad when setting up sync to the VPS, 
+because I need only sync the relevant media files (images mostly) and not all the files.
+To fix this Jottacloud has introduced the possibility of a selective sync service where folders can be excluded.
+The problem with this is that folders need to be excluded, not included.
+I have a lot of personal synced folders. I had to exclude them one by one.
+If I add a new folder to sync on the PC, I usually will exclude in on the VPS.
+[Jottacloud sync utility](https://docs.jottacloud.com/en/articles/5859533-using-the-sync-folder-with-jottacloud-cli) explains this.
 
+````
+sudo jotta-cli sync setup --root /jottosync // Set up sync on VPS on a sync root.
+sudo jotta-cli sync stop
+sudo jotta-cli sync start
+sudo jotta-cli selective list //list folders excluded from syncronization
+sudo jotta-cli selective add "folder"  //add folder to exclusion
+sudo jotta-cli selective rem "folder"  //remove folder from exclusion
+````
 
+My website have no GUI for adding images to the blogs. At present this is the only way (or can use WinScp).
