@@ -106,6 +106,19 @@ To connect from container to db-service on the host:
 This only works using Docker Desktop. Docker Desktop cannot be run in Host mode, only in Brigde Mode (default).
 Verify and eventuelly change port number
 
+### Installing MariaDB on the VPS using Cyberpanel
+
+With the Cyberpanel GUI we create the database tech_edrops with the user tech_edrops.
+
+But this is not enough. A user must be created specifically for the Docker internal network.
+Note that could have used just a wild card here and not started with IP address. Approach below is safer.
+
+```
+CREATE USER 'tech_edrops'@'172.17.%' IDENTIFIED BY 'YOUR_PASSWORD_HERE';
+GRANT CREATE, ALTER, DROP, INDEX, INSERT, UPDATE, DELETE, SELECT, SHOW VIEW ON tech_edrops.* TO 'tech_edrops'@'172.17.%';
+FLUSH PRIVILEGES;
+```
+
 
 ## Order of clearing tables
 

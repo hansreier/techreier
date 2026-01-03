@@ -138,7 +138,7 @@
 						<jvmFlags>
 							<!--jvmFlag>-Dspring.profiles.active=docker-mariadb</jvmFlag-->
 							<!--jvmFlag>-Dspring.profiles.active=mariadb-dockerized</jvmFlag-->
-							<jvmFlag>-Dspring.profiles.active=h2-prod</jvmFlag>
+							<jvmFlag>-Dspring.profiles.active=prod</jvmFlag>
 						</jvmFlags>
 						<environment>
 							<BUILD_TIME>${maven.build.timestamp}</BUILD_TIME>

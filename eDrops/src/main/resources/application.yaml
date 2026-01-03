@@ -166,6 +166,27 @@ spring:
 spring:
   config:
     activate:
+      on-profile: prod
+  flyway:
+    enabled: true
+  jpa:
+    defer-datasource-initialization: false
+    properties:
+      hibernate.show_sql: false
+  datasource:
+    url: jdbc:mariadb://172.17.0.1:3306/tech_edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: tech_edrops
+    password: ${DB_PASSWORD}
+  thymeleaf:
+    cache: true
+  devtools:
+    livereload.enabled: false
+  web.resources.cache.period: 3600
+
+---
+spring:
+  config:
+    activate:
       on-profile: h2-disk
   flyway:
     enabled: true
@@ -174,9 +195,9 @@ spring:
     properties:
       hibernate.show_sql: false
   datasource:
-    url: jdbc:h2:file:C:/h2/edrops;MODE=MYSQL
-    username: sa
-    password: sa
+    url: jdbc:mariadb://host.docker.internal:3307/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: dbuser
+    password: ${DB_PASSWORD}
   thymeleaf.cache: true
   web.resources.cache.period: 3600
 
