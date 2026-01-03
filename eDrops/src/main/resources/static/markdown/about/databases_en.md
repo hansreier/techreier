@@ -119,6 +119,25 @@ GRANT CREATE, ALTER, DROP, INDEX, INSERT, UPDATE, DELETE, SELECT, SHOW VIEW ON t
 FLUSH PRIVILEGES;
 ```
 
+And you have to check the MariaDb character set.
+
+```
+SELECT @@character_set_database, @@collation_database;
+```
+
+If the result is utf8mb3, it is wrong! Alter database to use the correct character set before flyway creates the tables.
+If the tables exist, delete them (refer to next section).
+
+```
+ALTER DATABASE tech_edrops CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+```
+Start the container! Final check for all individual tables:
+
+```
+SELECT table_name, table_collation 
+FROM information_schema.tables 
+WHERE table_schema = 'tech_edrops';
+```
 
 ## Order of clearing tables
 
@@ -126,5 +145,6 @@ FLUSH PRIVILEGES;
 - BLOG_POST
 - BLOG
 - BLOG_OWNER
+- TOPIC
 - LANGUAGE_CODE
 - FLYWAY_SCHEMA_HISTORY (If existing)
