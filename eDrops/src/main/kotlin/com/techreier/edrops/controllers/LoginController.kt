@@ -24,9 +24,12 @@ class LoginController(context: Context) : BaseController(context) {
         model: Model,
     ): String {
         logger.info("Returning login page")
-        val loginError = request.session.getAttribute("loginError") as String?
-        request.session.setAttribute("loginError", null)
-        model.addAttribute("loginError", loginError)
+        val session = request.getSession(false)
+        val loginError =session?.getAttribute("loginError") as String?
+        if (loginError != null) {
+            model.addAttribute("loginError", loginError)
+            session.removeAttribute("loginError")
+        }
         val user = User()
         model.addAttribute("user", user)
         fetchBlogParams(model, request, response, null, false, true)
