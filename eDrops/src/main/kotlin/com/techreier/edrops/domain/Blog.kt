@@ -10,7 +10,7 @@ import java.time.Instant
 @Entity
 class Blog(
 
-    @Column(nullable = false, columnDefinition ="timestamp(0)")
+    @Column(nullable = false, columnDefinition ="datetime(0)")
     var changed: Instant,
 
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)

@@ -525,7 +525,7 @@ img:hover::after {
 	padding: 0;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 550px) {
     #created-date {
         display: none;
     }

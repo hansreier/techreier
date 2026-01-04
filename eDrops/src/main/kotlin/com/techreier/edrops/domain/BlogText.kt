@@ -7,7 +7,7 @@ import java.time.Instant
 @Entity
 class BlogText(
 
-    @Column(columnDefinition ="timestamp(0)")
+    @Column(columnDefinition ="datetime(0)")
     var changed: Instant,
 
     @Column(nullable = false, columnDefinition ="TEXT")

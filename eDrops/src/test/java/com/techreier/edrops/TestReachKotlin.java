@@ -20,7 +20,7 @@ public class TestReachKotlin {
         Set<Blog> blogList = new HashSet<>();
 
         BlogOwner blogOwner = new BlogOwner(Instant.now(),
-                null, "Reier", "Passord",
+                Instant.now(), "Reier", "Passord",
                 "Reier", "Sigmond",
                 "reier.sigmond@gmail.com", "91668863", "Sløttvegen 17",
                 "2390", "Moelv", "NO", blogList, 1L);

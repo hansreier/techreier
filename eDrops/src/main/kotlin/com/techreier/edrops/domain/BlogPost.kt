@@ -10,7 +10,7 @@ import java.time.Instant
 @Entity
 class BlogPost(
 
-    @Column(nullable = false, columnDefinition = "timestamp(0)")
+    @Column(nullable = false, columnDefinition = "datetime(0)")
     var changed: Instant,
 
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
@@ -30,7 +30,7 @@ class BlogPost(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?=null,
 
-    @Column( columnDefinition = "timestamp(0)", nullable = false, updatable = false)
+    @Column( columnDefinition = "datetime(0)", nullable = false, updatable = false)
     var created: Instant = Instant.now(),
 ) {
 

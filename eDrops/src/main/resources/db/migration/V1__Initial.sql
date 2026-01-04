@@ -1,92 +1,98 @@
-create table blog (
-                      pos integer not null,
-                      blog_owner_id bigint not null,
-                      changed timestamp(0) not null,
-                      id bigint not null auto_increment,
-                      topic bigint not null,
-                      segment varchar(30) not null,
-                      subject varchar(80) not null,
-                      about varchar(1000) not null,
-                      primary key (id)
-) engine=InnoDB;
+CREATE TABLE blog
+(
+    pos           integer       NOT NULL,
+    blog_owner_id bigint        NOT NULL,
+    changed       datetime(0)   NOT NULL,
+    id            bigint        NOT NULL AUTO_INCREMENT,
+    topic         bigint        NOT NULL,
+    segment       varchar(30)   NOT NULL,
+    subject       varchar(80)   NOT NULL,
+    about         varchar(1000) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
 
-create table blog_owner (
-                            changed timestamp(0) null,
-                            created timestamp(0) not null,
-                            id bigint not null auto_increment,
-                            country_code varchar(20) not null,
-                            zip_code varchar(20) not null,
-                            username varchar(40) not null,
-                            address varchar(255) not null,
-                            e_mail varchar(255) not null,
-                            first_name varchar(255) not null,
-                            last_name varchar(255) not null,
-                            location varchar(255) not null,
-                            password varchar(255),
-                            phones varchar(255) not null,
-                            primary key (id)
-) engine=InnoDB;
+CREATE TABLE blog_owner
+(
+    changed      datetime(0)  NOT NULL,
+    created      datetime(0)  NOT NULL,
+    id           bigint       NOT NULL AUTO_INCREMENT,
+    country_code varchar(20)  NOT NULL,
+    zip_code     varchar(20)  NOT NULL,
+    username     varchar(40)  NOT NULL,
+    address      varchar(255) NOT NULL,
+    e_mail       varchar(255) NOT NULL,
+    first_name   varchar(255) NOT NULL,
+    last_name    varchar(255) NOT NULL,
+    location     varchar(255) NOT NULL,
+    password     varchar(255),
+    phones       varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
 
-create table blog_post (
-                           blog_id bigint not null,
-                           created timestamp(0) not null,
-                           changed timestamp(0) not null,
-                           id bigint not null auto_increment,
-                           segment varchar(30) not null,
-                           title varchar(80) not null,
-                           summary varchar(1000) not null,
-                           primary key (id)
-) engine=InnoDB;
+CREATE TABLE blog_post
+(
+    blog_id bigint        NOT NULL,
+    changed datetime(0)   NOT NULL,
+    created datetime(0)   NOT NULL,
+    id      bigint        NOT NULL AUTO_INCREMENT,
+    segment varchar(30)   NOT NULL,
+    title   varchar(80)   NOT NULL,
+    summary varchar(1000) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
 
-create table blog_text (
-                           blog_post_id bigint not null,
-                           changed timestamp(0) not null,
-                           text TEXT not null,
-                           primary key (blog_post_id)
-) engine=InnoDB;
+CREATE TABLE blog_text
+(
+    blog_post_id bigint NOT NULL,
+    changed      datetime(0),
+    text         TEXT   NOT NULL,
+    PRIMARY KEY (blog_post_id)
+) ENGINE = InnoDB;
 
-create table language_code (
-                               code varchar(20) not null,
-                               language varchar(255) not null,
-                               primary key (code)
-) engine=InnoDB;
+CREATE TABLE language_code
+(
+    code     varchar(20)  NOT NULL,
+    language varchar(255) NOT NULL,
+    PRIMARY KEY (code)
+) ENGINE = InnoDB;
 
-create table topic (
-                       pos integer not null,
-                       id bigint not null auto_increment,
-                       language_code varchar(20) not null,
-                       topic_key varchar(30) not null,
-                       text varchar(80),
-                       primary key (id)
-) engine=InnoDB;
+CREATE TABLE topic
+(
+    pos           integer     NOT NULL,
+    id            bigint      NOT NULL AUTO_INCREMENT,
+    language_code varchar(20) NOT NULL,
+    topic_key     varchar(30) NOT NULL,
+    text          varchar(80),
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
 
-alter table blog_owner
-    add constraint uk_blog_owner_username unique (username);
+ALTER TABLE IF EXISTS blog_owner
+    ADD CONSTRAINT uk_blog_owner_username UNIQUE (username);
 
-alter table topic
-    add constraint uk_topic_topic_key_language_code unique (topic_key, language_code);
+ALTER TABLE IF EXISTS topic
+    ADD CONSTRAINT uk_topic_topic_key_language_code UNIQUE (topic_key, language_code);
 
-alter table blog
-    add constraint fk_blog_blog_owner
-        foreign key (blog_owner_id)
-            references blog_owner (id);
+ALTER TABLE IF EXISTS blog
+    ADD CONSTRAINT fk_blog_blog_owner
+        FOREIGN KEY (blog_owner_id)
+            REFERENCES blog_owner (id);
 
-alter table blog
-    add constraint fk_blog_topic
-        foreign key (topic)
-            references topic (id);
+ALTER TABLE IF EXISTS blog
+    ADD CONSTRAINT fk_blog_topic
+        FOREIGN KEY (topic)
+            REFERENCES topic (id);
 
-alter table blog_post
-    add constraint fk_blog_post_blog
-        foreign key (blog_id)
-            references blog (id);
+ALTER TABLE IF EXISTS blog_post
+    ADD CONSTRAINT fk_blog_post_blog
+        FOREIGN KEY (blog_id)
+            REFERENCES blog (id);
 
-alter table blog_text
-    add constraint fk_blog_text_blog_post
-        foreign key (blog_post_id)
-            references blog_post (id);
+ALTER TABLE IF EXISTS blog_text
+    ADD CONSTRAINT fk_blog_text_blog_post
+        FOREIGN KEY (blog_post_id)
+            REFERENCES blog_post (id);
 
-alter table topic
-    add constraint fk_topic_language_code
-        foreign key (language_code)
-            references language_code (code);
+ALTER TABLE IF EXISTS topic
+    ADD CONSTRAINT fk_topic_language_code
+        FOREIGN KEY (language_code)
+            REFERENCES language_code (code);

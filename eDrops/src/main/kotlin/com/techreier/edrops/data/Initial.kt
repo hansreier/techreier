@@ -27,7 +27,7 @@ class Initial(
 
     val blogOwner: BlogOwner =
         BlogOwner(
-            blogOwnerCreated, null, appConfig.user, appConfig.password,
+            blogOwnerCreated, blogOwnerCreated, appConfig.user, appConfig.password,
             OWNER_FIRSTNAME, OWNER_LASTNAME, OWNER_EMAIL, OWNER_PHONE, OWNER_ADDRESS, OWNER_ZIP, OWNER_LOCATION, NB,
             blogList
         )

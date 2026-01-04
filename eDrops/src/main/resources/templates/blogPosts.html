@@ -14,8 +14,7 @@
                 <td><a th:href="@{${postPath + blogPost.segment}}" th:text="${blogPost.id}"></a></td>
                 <td><a th:href="@{${postPath + blogPost.segment}}" th:text="${blogPost.segment}"></a></td>
                 <td><a th:href="@{${postPath + blogPost.segment}}" th:text="${blogPost.title}"></a></td>
-                <td class="blogposts-time"><a th:href="@{${postPath + blogPost.segment}}"
-                                              th:text="${changed}"></a>
+                <td class="blogposts-time"><a th:href="@{${postPath + blogPost.segment}}"  th:text="${blogPost.changedString}"></a>
                 </td>
             </tr>
             </tbody>

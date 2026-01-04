@@ -8,11 +8,11 @@ import java.time.Instant
 @Entity
 class BlogOwner(
 
-    @Column(nullable = false, columnDefinition ="timestamp(0)")
+    @Column(nullable = false, columnDefinition ="datetime(0)")
     val created: Instant,
 
-    @Column(columnDefinition ="timestamp(0)")
-    var changed: Instant?,
+    @Column(columnDefinition ="datetime(0)")
+    var changed: Instant,
 
     @Column(nullable = false, unique = true, length = MAX_USERNAME_SIZE)
     var username: String,
