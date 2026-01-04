@@ -3,6 +3,7 @@ package com.techreier.edrops.dbservice
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Initial
 import com.techreier.edrops.domain.BlogOwner
+import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.repository.*
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.DuplicateKeyException
@@ -30,6 +31,14 @@ class InitService(
             blogOwner = ownerRepo.save(initial.blogOwner)
         } else {
             logger.info("Updating database with changed initial data")
+            initial.base.topics.forEach { topic ->
+                val existingTopic: Topic? = topicRepo.findByTopicKeyAndLanguageCode(topic.topicKey, topic.language.code)
+                if (existingTopic != null) {
+                    existingTopic.copyAttributes(topic)
+                } else {
+                    logger.info("new topic ${topic}")
+                    topicRepo.save(topic) }
+            }
             blogOwner = ownerRepo.findBlogOwnerByUsername(initial.blogOwner.username)
                 ?: throw IllegalStateException("Initial blog owner not found")
             initial.blogOwner.blogs.forEach { blog ->

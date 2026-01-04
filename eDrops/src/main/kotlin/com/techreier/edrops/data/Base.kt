@@ -36,7 +36,7 @@ class Base {
     val politicsNo = Topic(TOPIC_POLITICS, norwegian, 4)
     val politicsEn = Topic(TOPIC_POLITICS, english, 4)
 
-    val topics = listOf(defaultNo, defaultEn, codingNo, codingEn, energyNo, energyEn,
+    val topics = mutableListOf(defaultNo, defaultEn, codingNo, codingEn, energyNo, energyEn,
         sportNo, sportEn,politicsNo, politicsEn)
 
     init {

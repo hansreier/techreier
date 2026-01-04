@@ -25,5 +25,13 @@ class Topic(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 ) {
+
+    fun copyAttributes(other: Topic): Topic {
+        this.language = other.language
+        this.pos = other.pos
+        this.text = other.text
+        return this
+    }
+
     override fun toString() = "key=$topicKey language=${language.language} id=$id"
 }

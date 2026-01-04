@@ -84,6 +84,10 @@ class InitServiceTest : TestBase() {
         lastPost.changed = lastPost.changed.minus(Duration.ofDays(1))
         lastPost.title += "#ChangedLast"
 
+        val topics = clone.base.topics
+        topics.addLast(Topic("Dummy", initial.base.norwegian))
+        topics.addLast(Topic("Dummy", initial.base.english))
+        topics.first().text = "Dummy"
         //Save initial transient data just like when starting the server
         initService.saveInitialData(clone)
 
@@ -106,6 +110,15 @@ class InitServiceTest : TestBase() {
         val postLast = postRepo.findById(postIdLast).orElse(null) ?: fail("blog post id not found")
         assertThat(postLast.changed).isCloseTo(postTimestampLast, within(5, ChronoUnit.SECONDS))
         assertEquals(postTitleLast, postLast.title)
+
+        //Check changes in topics list
+        val dummyTopicNo = topicRepo.findByTopicKeyAndLanguageCode("Dummy", initial.base.norwegian.code)
+        val dummyTopicEn = topicRepo.findByTopicKeyAndLanguageCode("Dummy", initial.base.english.code)
+        val firstTopic: Topic = topicRepo.findById(1).orElse(null)
+        assertNotNull(firstTopic)
+        assertEquals("Dummy",firstTopic.text)
+        assertNotNull(dummyTopicNo)
+        assertNotNull(dummyTopicEn)
 
     }
 

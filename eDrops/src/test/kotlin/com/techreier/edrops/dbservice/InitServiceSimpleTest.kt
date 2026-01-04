@@ -4,6 +4,7 @@ import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Initial
 import com.techreier.edrops.repository.BlogOwnerRepository
+import com.techreier.edrops.repository.TopicRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -26,6 +27,9 @@ class InitServiceSimpleTest {
     @Autowired
     lateinit var ownerRepo: BlogOwnerRepository
 
+    @Autowired
+    lateinit var topicRepo: TopicRepository
+
     @Test
     fun checkSpringConttext() {
         logger.info("Spring Context OK")
@@ -42,6 +46,7 @@ class InitServiceSimpleTest {
         assertEquals("Sigmond", blogOwner.lastName)
         assertEquals("reier.sigmond@gmail.com", blogOwner.eMail)
         assertThat(blogOwner.blogs.first().blogPosts.count()).isGreaterThan(0)
+        assertEquals(initial.base.topics.size.toLong(), topicRepo.count())
     }
 
 }
