@@ -11,6 +11,6 @@ class MediaConfig(private val appconfig: AppConfig) : WebMvcConfigurer {
         registry.addResourceHandler("$MEDIA_URL_PATH/**")
             .addResourceLocations(appconfig.mediaPath)
 
-        logger.info("MediaConfig: Mapper /media/** til ${appconfig.mediaPath}")
+        logger.info("MediaConfig: Mapping /media/** to ${appconfig.mediaPath}")
     }
 }

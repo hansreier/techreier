@@ -38,6 +38,19 @@ I have used the Jottacloud Ubuntu recipe.
 You need a [token](https://www.jottacloud.com/web/secure) to log in the first time
 You have to name the backup device, I have called it techreier.
 
+### Defining a backup user on MariaDb
+
+It is recommended to create a dedicated user for this. 
+I have called this user jotta_backup. This is a global db user that can be used
+for backup of more than one databae on the vps.  
+
+````
+CREATE USER IF NOT EXISTS 'jotta_backup'@'localhost' IDENTIFIED BY 'SecretPasswprd';
+GRANT SELECT, LOCK TABLES, TRIGGER, PROCESS, SHOW VIEW ON *.* TO 'jotta_backup'@'localhost';
+FLUSH PRIVILEGES;
+````
+The user is used by backup- and archiving- scripts on the VPS.  
+
 ### Defining the backup service
 
 The system and service manager for Linux is used (systemd).
@@ -153,6 +166,13 @@ sudo jotta-cli archive dbbackup.sh //one file, contents written by default to te
 The purpose of this is to set up a permanent backup. 
 The Jottacloud backup service does not handle this since all backups are deleted
 after 30 days and then moved to trash folder to be kept for another 30 days. 
+Testing shows that backups are moved to trash and deleted more often than this.
+Possible reasons are a Jottacloud internal script run every month, not every day,
+or deleted files on the server are automatically moved to trash by the Jotta api.
+I do not like this, it is bad backup design for db-backups.
+To compensate for this bad practice I have changed the archiving rule to be every monday, not every month.
+I keep a week of daily backup copies internally on the VPS. 
+This is a compromize not to use too much space for backups on the VPS.
 The method is the same as above, but to set up a db-archive.service and db-archive.timer.
 The service triggers /root/dbarchive.sh.  
 
