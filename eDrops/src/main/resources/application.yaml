@@ -216,6 +216,9 @@ spring:
     url: jdbc:mariadb://localhost:3307/edrops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: dbuser
     password: ${DB_PASSWORD}
+app:
+  auth: false
+  media-path: "file:C:/media/"
 
 ---
 spring:
