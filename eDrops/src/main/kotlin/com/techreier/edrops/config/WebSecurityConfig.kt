@@ -43,8 +43,7 @@ class WebSecurityConfig {
             formLogin {
                 loginPage = "/login"
                 defaultSuccessUrl("/", true)
-                failureUrl = "/login"
-                authenticationFailureHandler = authFailureHandler()
+                authenticationFailureHandler = AuthFailureHandler(LOGIN_DIR)
             }
             logout {
                 logoutSuccessUrl = "/login"
@@ -69,6 +68,4 @@ class WebSecurityConfig {
     @Bean
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
-    @Bean
-    fun authFailureHandler(): AuthenticationFailureHandler = AuthFailureHandler(LOGIN_DIR)
 }
