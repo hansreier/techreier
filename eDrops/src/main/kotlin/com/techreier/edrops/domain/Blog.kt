@@ -30,6 +30,7 @@ class Blog(
     var about: String,
 
     @OneToMany(mappedBy = "blog", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OrderBy("changed DESC")
     var blogPosts: MutableList<BlogPost>,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
