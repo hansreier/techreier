@@ -109,6 +109,15 @@ textarea {
 	line-height: 1.5;
 }
 
+textarea[readonly] {
+    background-color: #f0f0f0;
+    cursor: default;
+    outline: none;
+    padding-left: 0.3rem;
+    padding-top: 0.2rem;
+    line-height: 1.5;
+}
+
 table {
 	width: 100%;
 	table-layout: auto;

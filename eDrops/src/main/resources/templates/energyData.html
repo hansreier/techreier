@@ -15,7 +15,7 @@
             <label id="energyLabel" th:for="energyYear" th:text="#{year}"></label>
             <div id="energyInput">
                 <input  type="text" id="energyYear" th:field="*{year}" maxLength="7">
-                <button type="submit" th:text="#{fetch}"></button>
+                <button type="submit" th:text="#{action.fetch}"></button>
             </div>
             <span class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
         </div>

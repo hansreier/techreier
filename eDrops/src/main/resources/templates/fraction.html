@@ -26,7 +26,7 @@
             <input type="text" id="maxDenominator" th:field="*{maxDenominator}" maxLength="22">
             <span class="error" th:if="${#fields.hasErrors('maxDenominator')}" th:errors="*{maxDenominator}"></span>
         </div>
-        <button type="submit" th:text="#{calculate}"></button>
+        <button type="submit" th:text="#{action.calculate}"></button>
         <th:block th:if="${result}">
             <p class="error" th:if="${result.error != null }" th:text="#{${result.error}}"></p>
             <p class="result-row" th:text="#{fraction} + ': ' + ${result.numerator} + ' / ' + ${result.denominator}"></p>

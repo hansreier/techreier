@@ -10,7 +10,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h1 th:text="#{login}"/>
+    <h1 th:text="#{action.login}"/>
     <form th:action="@{/login}" th:object="${user}" th:method="post">
         <div class="input-form" id="loginform">
             <div class="input-row">
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div sec:authorize="!isAuthenticated()">
-            <button type="submit" th:text="#{login}"></button>
+            <button type="submit" th:text="#{action.login}"></button>
         </div>
         <div sec:authorize="isAuthenticated()">
             <p>Authenticated</p>

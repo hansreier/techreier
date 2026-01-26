@@ -77,11 +77,11 @@ abstract class BaseController(
                 ctx.sessionLocaleResolver.setLocale(request, response, locale) //Required sometimes
                 model.addAttribute("blogHeadline", foundBlog.subject)
                 foundBlog.toDTO(
-                    timeZone(),
-                    msg(ctx.messageSource, "format.datetime"),
-                    msg(ctx.messageSource, "format.date"),
+                    zoneId = timeZone(),
+                    datetimePattern = msg(ctx.messageSource, "format.datetime"),
+                    datePattern = msg(ctx.messageSource, "format.date"),
                     Markdown(),
-                    blogLangCode, posts, !admin
+                    langCodeWanted =blogLangCode, posts, !admin
                 )
             }
         }
@@ -97,6 +97,7 @@ abstract class BaseController(
             }
 
         val action = (model.getAttribute("action") ?: "") as String
+        model.addAttribute("html", true) //TODO Reier not hard code
         model.addAttribute("blogHeadLine", blog?.subject ?: "")
         model.addAttribute("homeMenu", fetchMenuFromDisk(views, usedLangcode))
         model.addAttribute("aboutMenu", fetchMenuFromDisk(about, usedLangcode))

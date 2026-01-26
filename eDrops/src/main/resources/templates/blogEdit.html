@@ -55,9 +55,10 @@
                 </div>
             </div>
             <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
-            <button type="submit" id="deleteButton" th:text="#{delete}" name="action" th:value="delete"></button>
-            <button type="submit" th:text="#{create}" name="action" th:value="create"></button>
-            <button type="submit" th:text="#{createPost}" name="action" th:value="createPost" th:disabled="${blog.id == null}"></button>
+            <button type="submit" id="deleteButton" th:text="#{action.delete}" name="action" th:value="delete"></button>
+            <button type="submit" th:text="#{action.createBlog}" name="action" th:value="create"></button>
+            <button type="submit" th:text="#{action.createPost}" name="action" th:value="createPost" th:disabled="${blog.id == null}"></button>
+            <button type="submit" th:text="#{action.viewMode}" name="action" th:value="viewMode"></button>
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
             </div>

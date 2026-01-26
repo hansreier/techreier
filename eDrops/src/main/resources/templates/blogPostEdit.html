@@ -27,7 +27,7 @@
                 </div>
                 <div class="input-row full-width">
                     <label th:for="summary" th:text="#{postSummary}"></label>
-                    <textarea id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"></textarea>
+                    <textarea id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}" th:readonly="${html}"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></span>
                 </div>
                 <div class="input-row full-width">
@@ -39,10 +39,11 @@
                 <input type="hidden" th:value="${blog.id}" name="blogId">
                 <input type="hidden" th:value="${changed}" name="changed">
             </div>
-            <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
-            <button type="submit" th:text="#{delete}" name="action" th:value="delete"></button>
-            <button type="submit" th:text="#{create}" name="action" th:value="create"></button>
+            <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
+            <button type="submit" th:text="#{action.delete}" name="action" th:value="delete"></button>
+            <button type="submit" th:text="#{action.createPost}" name="action" th:value="create"></button>
             <button type="submit" th:text="#{blog}" name="action" th:value="blog"></button>
+            <button type="submit" th:text="#{action.viewMode}" name="action" th:value="viewMode"></button>
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
             </div>
