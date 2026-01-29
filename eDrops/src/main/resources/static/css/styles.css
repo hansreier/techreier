@@ -390,6 +390,16 @@ img:hover::after {
 	}
 }
 
+.view-wrapper {
+    grid-column: span 2;
+}
+
+.view {
+    padding: 0.5rem 0;
+    margin-bottom: 0.75rem;
+    background: #fff7cc;
+}
+
 .input-form {
 	display: grid;
 	grid-template-columns: 1fr;

@@ -7,6 +7,7 @@ import com.techreier.edrops.dbservice.BlogPostService
 import com.techreier.edrops.dto.toDTO
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
+import com.techreier.edrops.util.Markdown
 import com.techreier.edrops.util.checkSegment
 import com.techreier.edrops.util.checkStringSize
 import com.techreier.edrops.util.msg
@@ -142,6 +143,22 @@ class BlogPostEditController(
                 return "blogPostEdit"
             }
             return "redirect:$BLOG_EDIT_DIR/$segment"
+        }
+
+        if (action == "view") {
+
+            if (!blogPostForm.summary.isBlank()) {
+                val summary = Markdown().toHtml(blogPostForm.summary, true)
+                model.addAttribute("summary", summary)
+            }
+
+            if (!blogPostForm.content.isBlank()) {
+                val content = Markdown().toHtml(blogPostForm.content, true)
+                model.addAttribute("content", content)
+            }
+
+            prepare(model, request, response, segment, changed)
+            return "blogPostEdit"
         }
 
         // This should never really occur

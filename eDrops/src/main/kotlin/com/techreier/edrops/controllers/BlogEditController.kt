@@ -26,8 +26,9 @@ const val BLOG_EDIT_DIR = "/$EDIT"
 
 @Controller
 @RequestMapping(BLOG_EDIT_DIR)
-class BlogEditController(val ctx: Context,
-                         private val blogService: BlogService, private val initService: InitService
+class BlogEditController(
+    val ctx: Context,
+    private val blogService: BlogService, private val initService: InitService,
 ) : BaseController(ctx) {
 
     @GetMapping("/{segment}")
@@ -65,7 +66,7 @@ class BlogEditController(val ctx: Context,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
-        redirectAttributes: RedirectAttributes
+        redirectAttributes: RedirectAttributes,
     ): String {
         val blogParams = fetchBlogParams(model, request, response, null, false, true)
         val firstSegment = readFirstSegment(blogParams.usedLangCode)
@@ -88,7 +89,7 @@ class BlogEditController(val ctx: Context,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
-        @AuthenticationPrincipal owner: Owner?
+        @AuthenticationPrincipal owner: Owner?,
     ): String {
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
@@ -152,9 +153,10 @@ class BlogEditController(val ctx: Context,
             return "redirect:/$HOME_DIR"
         }
         if (action == "view") {
-            model.addAttribute("grep","hansen")
-            val about = Markdown().toHtml(blogForm.about, true)
-            model.addAttribute("about",  about)
+            if (!blogForm.about.isBlank()) {
+                val about = Markdown().toHtml(blogForm.about, true)
+                model.addAttribute("about", about)
+            }
             prepare(model, request, response, segment, changed)
             return "blogEdit"
         }
@@ -170,7 +172,7 @@ class BlogEditController(val ctx: Context,
         request: HttpServletRequest,
         response: HttpServletResponse,
         segment: String,
-        changed: String
+        changed: String,
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment, true, true)
 

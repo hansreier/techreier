@@ -41,7 +41,12 @@
                     <textarea id="about" th:field="*{about}" th:attr="maxLength=${maxSummarySize}"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('about')}" th:errors="*{about}"></span>
                 </div>
-                <div class="container" th:utext="${about}"></div>
+                <div  class="view-wrapper" th:if="${about != null}">
+                    <div class="view" th:utext="${about}"></div>
+                </div>
+                <div  class="view-wrapper" th:if="${about != null}">
+                    <p>gaga</p>
+                </div>
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:value="${blog.id}" name="blogId">
                 <input type="hidden" th:value="${changed}" name="changed">
