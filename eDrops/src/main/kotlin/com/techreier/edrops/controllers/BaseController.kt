@@ -49,7 +49,7 @@ abstract class BaseController(
         response: HttpServletResponse,
         segment: String? = null,
         posts: Boolean = false,
-        admin: Boolean = false,
+        admin: Boolean = false
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("auth", ctx.appConfig.auth)

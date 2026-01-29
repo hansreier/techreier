@@ -151,9 +151,17 @@ class BlogEditController(val ctx: Context,
             }
             return "redirect:/$HOME_DIR"
         }
+        if (action == "view") {
+            model.addAttribute("grep","hansen")
+            val about = Markdown().toHtml(blogForm.about, true)
+            model.addAttribute("about",  about)
+            prepare(model, request, response, segment, changed)
+            return "blogEdit"
+        }
         // This should never really occur
         bindingResult.reject("error.illegalAction")
         prepare(model, request, response, segment, changed)
+
         return "blogEdit"
     }
 
@@ -162,9 +170,10 @@ class BlogEditController(val ctx: Context,
         request: HttpServletRequest,
         response: HttpServletResponse,
         segment: String,
-        changed: String,
+        changed: String
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment, true, true)
+
         logger.info("Prepare fetch blog posts with: $blogParams")
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("postPath", "$BLOG_EDIT_DIR/$segment/")
