@@ -9,10 +9,15 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h1 th:text="${blogHeadline}"/>
     <div th:if="${blogPostForm != null}">
-        <h2 th:text="${postHeadline}"/>
         <form id="blogPostform" th:action="@{${path}}" th:object="${blogPostForm}" th:method="post">
+            <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
+            <button type="submit" th:text="#{action.delete}" name="action" th:value="delete"></button>
+            <button type="submit" th:text="#{action.createPost}" name="action" th:value="create"></button>
+            <button type="submit" th:text="#{blog}" name="action" th:value="blog"></button>
+            <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
+            <h1 th:text="${blogHeadline}"/>
+            <h2 th:text="${postHeadline}"/>
             <div class="input-form">
                 <div class="input-row">
                     <label th:for="blogPostSegment" th:text="#{postSegment}"></label>
