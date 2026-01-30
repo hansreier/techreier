@@ -80,7 +80,7 @@ class BlogEditController(
     @PostMapping(value = ["/{segment}"])
     fun action(
         redirectAttributes: RedirectAttributes,
-        @ModelAttribute blogForm: BlogForm,
+        @ModelAttribute form: BlogForm,
         @PathVariable segment: String,
         action: String,
         blogId: Long?,
@@ -106,22 +106,22 @@ class BlogEditController(
         if (action == "save" || action == "create" || action == "createPost") {
             val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
                 getValidProjectLanguageCode(LocaleContextHolder.getLocale().language)
-            if (checkSegment(blogForm.segment, "segment",  bindingResult)) {
-                if (blogService.duplicate(blogForm.segment, blogOwner.id, langCode, blogId)) {
-                        bindingResult.rejectValue("segment","error.duplicate", blogForm.segment)
+            if (checkSegment(form.segment, "segment",  bindingResult)) {
+                if (blogService.duplicate(form.segment, blogOwner.id, langCode, blogId)) {
+                        bindingResult.rejectValue("segment","error.duplicate", form.segment)
                 }
             }
-            checkStringSize(blogForm.subject, MAX_TITLE_SIZE,  "subject", bindingResult,  1)
-            blogForm.subject = blogForm.subject.replaceFirstChar { it.uppercaseChar() }
-            checkStringSize(blogForm.about, MAX_SUMMARY_SIZE,  "about", bindingResult)
-            checkInt(blogForm.position,"position", bindingResult,  -1000,1000)
+            checkStringSize(form.subject, MAX_TITLE_SIZE,  "subject", bindingResult,  1)
+            form.subject = form.subject.replaceFirstChar { it.uppercaseChar() }
+            checkStringSize(form.about, MAX_SUMMARY_SIZE,  "about", bindingResult)
+            checkInt(form.position,"position", bindingResult,  -1000,1000)
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.saveBlog")
                 prepare(model, request, response, segment, changed)
                 return "blogEdit"
             }
             try {
-                blogService.save(blogId, blogForm, langCode, blogOwner, now())
+                blogService.save(blogId, form, langCode, blogOwner, now())
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException -> handleRecoverableError(e, "dbSave", bindingResult)
@@ -133,18 +133,18 @@ class BlogEditController(
             if (action == "createPost") {
                 return "redirect:$BLOG_EDIT_DIR/$segment/$NEW_SEGMENT"
             }
-            val newPath = "$BLOG_EDIT_DIR/${if (action == "save") blogForm.segment else NEW_SEGMENT}"
+            val newPath = "$BLOG_EDIT_DIR/${if (action == "save") form.segment else NEW_SEGMENT}"
             return "redirect:$newPath"
         }
 
         if (action =="delete") {
-            if (blogForm.postLock) {
+            if (form.postLock) {
                 bindingResult.reject("error.locked")
                 prepare(model, request, response, segment, changed)
                 return "blogEdit"
             }
             try {
-                blogService.delete(blogId, blogForm)
+                blogService.delete(blogId, form)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
                 prepare(model, request, response, segment, changed)
@@ -153,8 +153,8 @@ class BlogEditController(
             return "redirect:/$HOME_DIR"
         }
         if (action == "view") {
-            if (!blogForm.about.isBlank()) {
-                val about = Markdown().toHtml(blogForm.about, true)
+            if (!form.about.isBlank()) {
+                val about = Markdown().toHtml(form.about, true)
                 model.addAttribute("about", about)
             }
             prepare(model, request, response, segment, changed)

@@ -78,7 +78,7 @@ class BlogPostEditController(
     @PostMapping(value = ["/{segment}/{subsegment}"])
     fun action(
         redirectAttributes: RedirectAttributes,
-        @ModelAttribute blogPostForm: BlogPostForm,
+        @ModelAttribute form: BlogPostForm,
         @PathVariable segment: String,
         @PathVariable subsegment: String?,
         action: String,
@@ -102,15 +102,15 @@ class BlogPostEditController(
                 "BlogId is missing, probably programming error"
             )
 
-            if (checkSegment(blogPostForm.segment, "segment", bindingResult)) {
-                if (blogPostService.duplicate(blogPostForm.segment, blogId, blogPostForm.id)) {
-                    bindingResult.rejectValue("segment", "error.duplicate", blogPostForm.segment)
+            if (checkSegment(form.segment, "segment", bindingResult)) {
+                if (blogPostService.duplicate(form.segment, blogId, form.id)) {
+                    bindingResult.rejectValue("segment", "error.duplicate", form.segment)
                 }
             }
 
-            checkStringSize(blogPostForm.title, MAX_TITLE_SIZE, "title", bindingResult, 1)
-            blogPostForm.title = blogPostForm.title.replaceFirstChar { it.uppercaseChar() }
-            checkStringSize(blogPostForm.summary, MAX_SUMMARY_SIZE, "summary", bindingResult)
+            checkStringSize(form.title, MAX_TITLE_SIZE, "title", bindingResult, 1)
+            form.title = form.title.replaceFirstChar { it.uppercaseChar() }
+            checkStringSize(form.summary, MAX_SUMMARY_SIZE, "summary", bindingResult)
 
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.savePost")
@@ -119,7 +119,7 @@ class BlogPostEditController(
             }
 
             try {
-                blogPostService.save(blogId, blogPostForm, now())
+                blogPostService.save(blogId, form, now())
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
@@ -130,13 +130,13 @@ class BlogPostEditController(
             }
 
             val newPath =
-                "$BLOG_EDIT_DIR/$segment${if (action == "save") "/${blogPostForm.segment}" else "/$NEW_SEGMENT"}"
+                "$BLOG_EDIT_DIR/$segment${if (action == "save") "/${form.segment}" else "/$NEW_SEGMENT"}"
             return "redirect:$newPath"
         }
 
         if (action == "delete") { //TODO evaluate if should stay on this page if more posts left, a bit work
             try {
-                blogPostService.delete(blogId, blogPostForm)
+                blogPostService.delete(blogId, form)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
                 prepare(model, request, response, segment, changed)
@@ -146,14 +146,15 @@ class BlogPostEditController(
         }
 
         if (action == "view") {
-
-            if (!blogPostForm.summary.isBlank()) {
-                val summary = Markdown().toHtml(blogPostForm.summary, true)
+            logger.info("Form focus: ${form.focus}")
+            form.focus.isBlank()
+            if ((!form.summary.isBlank()) && ((form.focus.isEmpty()) || (form.focus.equals("s")))) {
+                val summary = Markdown().toHtml(form.summary, true)
                 model.addAttribute("summary", summary)
             }
 
-            if (!blogPostForm.content.isBlank()) {
-                val content = Markdown().toHtml(blogPostForm.content, true)
+            if ((!form.content.isBlank()) && ((form.focus.isEmpty()) || (form.focus.equals("c")))) {
+                val content = Markdown().toHtml(form.content, true)
                 model.addAttribute("content", content)
             }
 

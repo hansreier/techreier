@@ -32,7 +32,8 @@
                 </div>
                 <div class="input-row full-width">
                     <label th:for="summary" th:text="#{postSummary}"></label>
-                    <textarea id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"></textarea>
+                    <textarea id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"
+                              onfocus="document.getElementById('focus').value='s'"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></span>
                 </div>
                 <div  class="view-wrapper" th:if="${summary != null}">
@@ -40,7 +41,8 @@
                 </div>
                 <div class="input-row full-width">
                     <label th:for="blogPost" th:text="#{blogPost}"></label>
-                    <textarea id="blogPost" th:field="*{content}"></textarea>
+                    <textarea id="blogPost" th:field="*{content}"
+                              onfocus="document.getElementById('focus').value='c'"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
                 </div>
                 <div class="view-wrapper" th:if="${content != null}">
@@ -49,6 +51,7 @@
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:value="${blog.id}" name="blogId">
                 <input type="hidden" th:value="${changed}" name="changed">
+                <input type="hidden" id="focus" value="" name="focus">
             </div>
             <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
             <button type="submit" th:text="#{action.delete}" name="action" th:value="delete"></button>
