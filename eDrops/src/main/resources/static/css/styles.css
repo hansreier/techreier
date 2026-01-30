@@ -323,6 +323,28 @@ img:hover::after {
 	transition: background-color 0.3s;
 }
 
+.buttons-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.button {
+    width: auto;
+    padding: 6px 12px;
+    cursor: pointer;
+    border: 2px solid #888;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+
 /* flexbox with date and link to blog */
 #blog-reference {
     display: flex;
@@ -753,6 +775,10 @@ a.dropdown-item:hover {
 
 #reier {
 	background-color: green;
+}
+
+#summary {
+    height: 20vh;
 }
 
 #blogPost {

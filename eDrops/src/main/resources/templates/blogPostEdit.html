@@ -11,11 +11,13 @@
 <div layout:fragment="content">
     <div th:if="${blogPostForm != null}">
         <form id="blogPostform" th:action="@{${path}}" th:object="${blogPostForm}" th:method="post">
-            <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
-            <button type="submit" th:text="#{action.delete}" name="action" th:value="delete"></button>
-            <button type="submit" th:text="#{action.createPost}" name="action" th:value="create"></button>
-            <button type="submit" th:text="#{blog}" name="action" th:value="blog"></button>
-            <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
+            <div class="buttons-row">
+                <button type="submit" class="button" th:text="#{action.save}" name="action" th:value="save"></button>
+                <button type="submit" class="button" th:text="#{action.delete}" name="action" th:value="delete"></button>
+                <button type="submit" class="button" th:text="#{action.createPost}" name="action" th:value="create"></button>
+                <button type="submit" class="button" th:text="#{blog}" name="action" th:value="blog"></button>
+                <button type="submit" class="button" th:text="#{action.viewMode}" name="action" th:value="view"></button>
+            </div>
             <h1 th:text="${blogHeadline}"/>
             <h2 th:text="${postHeadline}"/>
             <div class="input-form">
@@ -36,8 +38,10 @@
                               onfocus="document.getElementById('focus').value='s'"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></span>
                 </div>
-                <div  class="view-wrapper" th:if="${summary != null}">
-                    <div class="view" th:utext="${summary}"></div>
+                <div class="input-row full-width" th:if="${summary != null}">
+                    <div class="view-wrapper">
+                        <div class="view" th:utext="${summary}"></div>
+                    </div>
                 </div>
                 <div class="input-row full-width">
                     <label th:for="blogPost" th:text="#{blogPost}"></label>
@@ -45,19 +49,29 @@
                               onfocus="document.getElementById('focus').value='c'"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
                 </div>
-                <div class="view-wrapper" th:if="${content != null}">
-                    <div class="view" th:utext="${content}"></div>
+                <div class="input-row full-width">
+                    <div class="buttons-row">
+                        <button type="submit" class="button" th:text="#{action.save}" name="action"
+                                th:value="save"></button>
+                        <button type="submit" class="button" th:text="#{action.delete}" name="action"
+                                th:value="delete"></button>
+                        <button type="submit" class="button" th:text="#{action.createPost}" name="action"
+                                th:value="create"></button>
+                        <button type="submit" class="button" th:text="#{blog}" name="action" th:value="blog"></button>
+                        <button type="submit" class="button" th:text="#{action.viewMode}" name="action"
+                                th:value="view"></button>
+                    </div>
+                </div>
+                <div class="input-row full-width" th:if="${content != null}">
+                    <div class="view-wrapper">
+                        <div class="view" th:utext="${content}"></div>
+                    </div>
                 </div>
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:value="${blog.id}" name="blogId">
                 <input type="hidden" th:value="${changed}" name="changed">
                 <input type="hidden" id="focus" value="" name="focus">
             </div>
-            <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
-            <button type="submit" th:text="#{action.delete}" name="action" th:value="delete"></button>
-            <button type="submit" th:text="#{action.createPost}" name="action" th:value="create"></button>
-            <button type="submit" th:text="#{blog}" name="action" th:value="blog"></button>
-            <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
             </div>
