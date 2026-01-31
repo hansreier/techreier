@@ -148,12 +148,12 @@ class BlogPostEditController(
         if (action == "view") {
             logger.info("Form focus: ${form.focus}")
             form.focus.isBlank()
-            if ((!form.summary.isBlank()) && ((form.focus.isEmpty()) || (form.focus.equals("s")))) {
+            if (!form.summary.isBlank() && (form.focus.isEmpty() || form.focus.equals("s"))) {
                 val summary = Markdown().toHtml(form.summary, true)
                 model.addAttribute("summary", summary)
             }
 
-            if ((!form.content.isBlank()) && ((form.focus.isEmpty()) || (form.focus.equals("c")))) {
+            if (!form.content.isBlank() && (form.focus.isEmpty() || form.focus.equals("c"))) {
                 val content = Markdown().toHtml(form.content, true)
                 model.addAttribute("content", content)
             }
