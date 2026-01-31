@@ -47,9 +47,19 @@ p, ul, ol, a {
 	font-size: 1rem;
 }
 
+
 button {
 	font-size: 1.1rem;
 	margin: 0.5rem 0.5rem;
+}
+
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-top: 2px;
+    margin-bottom: 5px;
+    width: 100%;
 }
 
 p {
@@ -322,28 +332,6 @@ img:hover::after {
 	font-weight: bold;
 	transition: background-color 0.3s;
 }
-
-.buttons-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-.button {
-    width: auto;
-    padding: 6px 12px;
-    cursor: pointer;
-    border: 2px solid #888;
-    background-color: #f0f0f0;
-    border-radius: 3px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2;
-}
-
 
 /* flexbox with date and link to blog */
 #blog-reference {

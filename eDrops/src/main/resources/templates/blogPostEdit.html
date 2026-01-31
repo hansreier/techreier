@@ -11,12 +11,12 @@
 <div layout:fragment="content">
     <div th:if="${blogPostForm != null}">
         <form id="blogPostform" th:action="@{${path}}" th:object="${blogPostForm}" th:method="post">
-            <div class="buttons-row">
-                <button type="submit" class="button" th:text="#{action.save}" name="action" th:value="save"></button>
-                <button type="submit" class="button" th:text="#{action.delete}" name="action" th:value="delete"></button>
-                <button type="submit" class="button" th:text="#{action.createPost}" name="action" th:value="create"></button>
-                <button type="submit" class="button" th:text="#{blog}" name="action" th:value="blog"></button>
-                <button type="submit" class="button" th:text="#{action.viewMode}" name="action" th:value="view"></button>
+            <div class="button-row">
+                <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
+                <button type="submit" th:text="#{action.delete}" name="action" th:value="delete"></button>
+                <button type="submit" th:text="#{action.createPost}" name="action" th:value="create"></button>
+                <button type="submit" th:text="#{blog}" name="action" th:value="blog"></button>
+                <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
             </div>
             <h1 th:text="${blogHeadline}"/>
             <h2 th:text="${postHeadline}"/>
@@ -50,16 +50,12 @@
                     <span class="error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
                 </div>
                 <div class="input-row full-width">
-                    <div class="buttons-row">
-                        <button type="submit" class="button" th:text="#{action.save}" name="action"
-                                th:value="save"></button>
-                        <button type="submit" class="button" th:text="#{action.delete}" name="action"
-                                th:value="delete"></button>
-                        <button type="submit" class="button" th:text="#{action.createPost}" name="action"
-                                th:value="create"></button>
-                        <button type="submit" class="button" th:text="#{blog}" name="action" th:value="blog"></button>
-                        <button type="submit" class="button" th:text="#{action.viewMode}" name="action"
-                                th:value="view"></button>
+                    <div class="button-row">
+                        <button type="submit"  th:text="#{action.save}" name="action" th:value="save"></button>
+                        <button type="submit"  th:text="#{action.delete}" name="action" th:value="delete"></button>
+                        <button type="submit"  th:text="#{action.createPost}" name="action" th:value="create"></button>
+                        <button type="submit"  th:text="#{blog}" name="action" th:value="blog"></button>
+                        <button type="submit"  th:text="#{action.viewMode}" name="action" th:value="view"></button>
                     </div>
                 </div>
                 <div class="input-row full-width" th:if="${content != null}">
