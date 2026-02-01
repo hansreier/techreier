@@ -46,7 +46,7 @@
                 <div class="input-row full-width">
                     <div class="button-row">
                         <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
-                        <button type="submit" id="deleteButton" th:text="#{action.delete}" name="action"
+                        <button type="submit" class="deleteButton" th:text="#{action.delete}" name="action"
                                 th:value="delete"></button>
                         <button type="submit" th:text="#{action.createBlog}" name="action" th:value="create"></button>
                         <button type="submit" th:text="#{action.createPost}" name="action" th:value="createPost"
@@ -67,7 +67,7 @@
             <div class="posts" th:if="${blog.blogPosts.size > 0} ">
                 <div class="checkbox">
                     <label>
-                        <input id="postLock" type="checkbox" th:field="*{postLock}"/>
+                        <input class="postLock" type="checkbox" th:field="*{postLock}"/>
                         <span th:text="#{postLock(${blog.blogPosts.size})}"></span>
                     </label>
                 </div>

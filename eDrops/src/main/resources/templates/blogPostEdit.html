@@ -13,7 +13,12 @@
         <form id="blogPostform" th:action="@{${path}}" th:object="${blogPostForm}" th:method="post">
             <div class="button-row">
                 <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
-                <button type="submit" th:text="#{action.delete}" name="action" th:value="delete"></button>
+                <div class="checkbox">
+                    <label class="checkbox-container">
+                        <input class="postLock" type="checkbox" th:field="*{postLock}"/>
+                    </label>
+                </div>
+                <button type="submit" class="deleteButton" th:text="#{action.delete}" name="action" th:value="delete"></button>
                 <button type="submit" th:text="#{action.createPost}" name="action" th:value="create"></button>
                 <button type="submit" th:text="#{action.back}" name="action" th:value="blog"></button>
                 <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
@@ -51,11 +56,16 @@
                 </div>
                 <div class="input-row full-width">
                     <div class="button-row">
-                        <button type="submit"  th:text="#{action.save}" name="action" th:value="save"></button>
-                        <button type="submit"  th:text="#{action.delete}" name="action" th:value="delete"></button>
-                        <button type="submit"  th:text="#{action.createPost}" name="action" th:value="create"></button>
-                        <button type="submit"  th:text="#{action.back}" name="action" th:value="blog"></button>
-                        <button type="submit"  th:text="#{action.viewMode}" name="action" th:value="view"></button>
+                        <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
+                        <div class="checkbox">
+                            <label>
+                                <input class="postLock" type="checkbox" th:field="*{postLock}"/>
+                            </label>
+                        </div>
+                        <button type="submit" class="deleteButton" th:text="#{action.delete}" name="action" th:value="delete"></button>
+                        <button type="submit" th:text="#{action.createPost}" name="action" th:value="create"></button>
+                        <button type="submit" th:text="#{action.back}" name="action" th:value="blog"></button>
+                        <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
                     </div>
                 </div>
                 <div class="input-row full-width" th:if="${content != null}">

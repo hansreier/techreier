@@ -1,11 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const deleteButton = document.getElementById('deleteButton');
-    const postLockCheckbox = document.getElementById('postLock');
+    const checks = document.querySelectorAll('.postLock');
+    const buttons = document.querySelectorAll('.deleteButton');
 
-    if (postLockCheckbox && deleteButton) {
-        deleteButton.disabled = postLockCheckbox.checked;
-        postLockCheckbox.addEventListener('change', function () {
-            deleteButton.disabled = postLockCheckbox.checked;
+    const updateAll = (isChecked) => {
+        checks.forEach(c => c.checked = isChecked);
+        buttons.forEach(b => b.disabled = isChecked);
+    };
+
+    checks.forEach(check => {
+        if (check.checked) updateAll(true);
+
+        check.addEventListener('change', (e) => {
+            updateAll(e.target.checked);
         });
-    }
+    });
 });
