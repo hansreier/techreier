@@ -15,7 +15,8 @@
             <div class="input-form">
                 <div class="input-row">
                     <label th:for="blogSegment" th:text="#{blogSegment}"></label>
-                    <input type="text" id="blogSegment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}" th:title="#{tip.segment}">
+                    <input type="text" id="blogSegment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}"
+                           th:title="#{tip.segment}">
                     <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
                 </div>
 
@@ -23,12 +24,12 @@
                     <label th:text="#{topic}" th:for="topicDropDown"></label>
                     <select id="topicDropDown" th:field="*{topicKey}">
                         <option th:each="topic : ${topics}"
-                            th:value="${topic.topicKey}" th:text="${topic.text}"></option>
+                                th:value="${topic.topicKey}" th:text="${topic.text}"></option>
                     </select>
                 </div>
                 <div class="input-row">
                     <label th:for="position" th:text="#{position}"></label>
-                    <input type="text" id="position" th:field="*{position}" th:style="'width: calc(10ch);'" >
+                    <input type="text" id="position" th:field="*{position}" th:style="'width: calc(10ch);'">
                     <span class="error" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></span>
                 </div>
                 <div class="input-row">
@@ -38,20 +39,29 @@
                 </div>
                 <div class="input-row full-width">
                     <label th:for="about" th:text="#{blogSummary}"></label>
-                    <textarea id="about" th:field="*{about}" th:attr="maxLength=${maxSummarySize}"></textarea>
+                    <textarea id="about" class="summary" th:field="*{about}" th:attr="maxLength=${maxSummarySize}"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('about')}" th:errors="*{about}"></span>
                 </div>
-                <div  class="view-wrapper" th:if="${about != null}">
-                    <div class="view" th:utext="${about}"></div>
+                <div class="input-row full-width">
+                    <div class="button-row">
+                        <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
+                        <button type="submit" id="deleteButton" th:text="#{action.delete}" name="action"
+                                th:value="delete"></button>
+                        <button type="submit" th:text="#{action.createBlog}" name="action" th:value="create"></button>
+                        <button type="submit" th:text="#{action.createPost}" name="action" th:value="createPost"
+                                th:disabled="${blog.id == null}"></button>
+                        <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
+                    </div>
                 </div>
-                <div  class="view-wrapper" th:if="${about != null}">
-                    <p>gaga</p>
+                <div class="view-wrapper" th:if="${about != null}">
+                    <div class="view" th:utext="${about}"></div>
                 </div>
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:value="${blog.id}" name="blogId">
                 <input type="hidden" th:value="${changed}" name="changed">
+                <input type="hidden" th:field="*{preview}">
             </div>
-            <div class = "posts" th:if="${blog.blogPosts.size > 0} ">
+            <div class="posts" th:if="${blog.blogPosts.size > 0} ">
                 <div class="checkbox">
                     <label>
                         <input id="postLock" type="checkbox" th:field="*{postLock}"/>
@@ -59,17 +69,10 @@
                     </label>
                 </div>
             </div>
-            <div class="button-row">
-                <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
-                <button type="submit" id="deleteButton" th:text="#{action.delete}" name="action" th:value="delete"></button>
-                <button type="submit" th:text="#{action.createBlog}" name="action" th:value="create"></button>
-                <button type="submit" th:text="#{action.createPost}" name="action" th:value="createPost" th:disabled="${blog.id == null}"></button>
-                <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
-            </div>
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
             </div>
-            <div class = "statusline" th:if="${changed != null} ">
+            <div class="statusline" th:if="${changed != null} ">
                 <div class="outputfield">
                     <p th:text="#{changed} +  ':'"></p>
                     <p th:text="${changed}"></p>

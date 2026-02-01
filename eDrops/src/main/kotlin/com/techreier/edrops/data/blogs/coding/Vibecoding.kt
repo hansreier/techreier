@@ -13,7 +13,7 @@ object Vibecoding : BlogPosts {
     const val TITLE_EN = "Vibe coding"
 
     const val SUMMARY_NO =
-        "Vibe-koding er å bruke AI til å lage kode med naturlig språk, så teste eller inspisere resultatet raskt," +
+        "Vibbe-koding er å bruke AI til å lage kode med naturlig språk, så teste eller inspisere resultatet raskt," +
                 " og be AI-en forbedre det; om og om igjen til det blir perfekt." +
                 " I teorien erstatter dette programmerere, og hvem som helst kan gjøre det." +
                 " Noen AI-verktøy passer bedre til denne stilen, som Cursor" +

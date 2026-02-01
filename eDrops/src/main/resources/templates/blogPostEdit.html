@@ -15,7 +15,7 @@
                 <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
                 <button type="submit" th:text="#{action.delete}" name="action" th:value="delete"></button>
                 <button type="submit" th:text="#{action.createPost}" name="action" th:value="create"></button>
-                <button type="submit" th:text="#{blog}" name="action" th:value="blog"></button>
+                <button type="submit" th:text="#{action.back}" name="action" th:value="blog"></button>
                 <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
             </div>
             <h1 th:text="${blogHeadline}"/>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="input-row full-width">
                     <label th:for="summary" th:text="#{postSummary}"></label>
-                    <textarea id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"
+                    <textarea class="summary" id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"
                               onfocus="document.getElementById('focus').value='s'"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></span>
                 </div>
@@ -54,7 +54,7 @@
                         <button type="submit"  th:text="#{action.save}" name="action" th:value="save"></button>
                         <button type="submit"  th:text="#{action.delete}" name="action" th:value="delete"></button>
                         <button type="submit"  th:text="#{action.createPost}" name="action" th:value="create"></button>
-                        <button type="submit"  th:text="#{blog}" name="action" th:value="blog"></button>
+                        <button type="submit"  th:text="#{action.back}" name="action" th:value="blog"></button>
                         <button type="submit"  th:text="#{action.viewMode}" name="action" th:value="view"></button>
                     </div>
                 </div>

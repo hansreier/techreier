@@ -153,9 +153,14 @@ class BlogEditController(
             return "redirect:/$HOME_DIR"
         }
         if (action == "view") {
-            if (!form.about.isBlank()) {
-                val about = Markdown().toHtml(form.about, true)
-                model.addAttribute("about", about)
+            if (form.preview.isEmpty()) {
+                if (!form.about.isBlank()) {
+                    val about = Markdown().toHtml(form.about, true)
+                    model.addAttribute("about", about)
+                    form.preview = "x"
+                }
+            } else {
+                form.preview = ""
             }
             prepare(model, request, response, segment, changed)
             return "blogEdit"
