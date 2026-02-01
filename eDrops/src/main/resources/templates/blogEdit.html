@@ -39,7 +39,8 @@
                 </div>
                 <div class="input-row full-width">
                     <label th:for="about" th:text="#{blogSummary}"></label>
-                    <textarea id="about" class="summary" th:field="*{about}" th:attr="maxLength=${maxSummarySize}"></textarea>
+                    <textarea id="about" class="summary" th:field="*{about}"
+                              th:attr="maxLength=${maxSummarySize}"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('about')}" th:errors="*{about}"></span>
                 </div>
                 <div class="input-row full-width">
@@ -53,8 +54,10 @@
                         <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
                     </div>
                 </div>
-                <div class="view-wrapper" th:if="${about != null}">
-                    <div class="view" th:utext="${about}"></div>
+                <div class="input-row full-width" th:if="${about != null}">
+                    <div class="view-wrapper">
+                        <div class="view" th:utext="${about}"></div>
+                    </div>
                 </div>
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:value="${blog.id}" name="blogId">
