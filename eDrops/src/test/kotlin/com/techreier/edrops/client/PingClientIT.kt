@@ -14,8 +14,13 @@ class PingClientIT {
 
     @Test
     fun `skal kalle ping på kjørende server`() {
-        // Forventer at serveren kjører på den URL-en som er konfigurert i PingClient
         val respons = pingClient.ping()
         assertEquals(PONG_TEXT, respons)
+    }
+
+    @Test
+    fun `skal kalle ping med parameter på kjørende server`() {
+        val respons = pingClient.ping("Reier")
+        assertEquals("$PONG_TEXT: Reier", respons)
     }
 }

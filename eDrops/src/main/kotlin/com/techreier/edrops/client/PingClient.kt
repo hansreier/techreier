@@ -13,11 +13,16 @@ class PingClient(
         .build()
 
 
-    fun ping(): String? {
-        val result = restClient.get()
-            .uri("/api/ping")
+    fun ping(text: String? = null): String? {
+        return restClient.get()
+            .uri { uriBuilder ->
+                val builder = uriBuilder.path("/api/ping")
+                if (text != null) {
+                    builder.queryParam("input", text)
+                }
+                builder.build()
+            }
             .retrieve()
             .body<String>()
-        return result
     }
 }
