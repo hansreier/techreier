@@ -1,5 +1,6 @@
 package com.techreier.edrops.endpoints
 
+import com.techreier.edrops.config.PONG_TEXT
 import com.techreier.edrops.config.logger
 import org.springframework.context.annotation.Profile
 import org.springframework.web.bind.annotation.GetMapping
@@ -13,7 +14,7 @@ class PingController {
 
     @GetMapping("/ping")
     fun ping(): String {
-        logger.info("pong from TechReier")
-        return "pong from TechReier"
+        logger.info(PONG_TEXT)
+        return PONG_TEXT
     }
 }

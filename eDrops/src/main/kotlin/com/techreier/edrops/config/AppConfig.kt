@@ -19,6 +19,7 @@ const val DEFAULT_TIMEZONE = "Europe/Oslo"
 const val DOUBLE_FLOAT_PRECISION_DEFAULT = 5
 const val DOUBLE_FIXED_PRECISION_DEFAULT = 2
 const val MEDIA_URL_PATH="/media"
+const val PONG_TEXT="Pong from TechReier"
 
 // This way of reading app properties is more flexible and easier than using @Value in Kotlin
 // Disadvantage: Have to inject this always

@@ -27,6 +27,9 @@ logging:
     root: INFO
     org.springframework: WARN
     org.springframework.security: WARN
+    org.springframework.web: DEBUG
+    org.springframework.web.client.RestClient: DEBUG
+    org.apache.hc.client5.http: DEBUG
     org.apache.coyote.http11: INFO
     com.techreier.edrops: INFO
     org.hibernate: INFO
@@ -136,11 +139,15 @@ logging:
     root: INFO
     org.springframework: WARN
     org.springframework.security: WARN
+    org.springframework.web: DEBUG
+    org.springframework.web.client.RestClient: DEBUG
+    org.apache.hc.client5.http: DEBUG
     org.apache.coyote.http11: INFO
     com.techreier.edrops: INFO
     org.hibernate: INFO
     org.hibernate.orm.jdbc.bind: INFO
     org.hibernate.SQL: INFO
+
 ---
 spring:
   config:
