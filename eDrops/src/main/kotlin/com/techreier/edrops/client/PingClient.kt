@@ -13,5 +13,5 @@ class PingClient(builder: RestClient.Builder) {
 
     fun ping(text: String): String? =
         restClient.get().uri { it.path("/api/ping").queryParam("input", text).build() }
-            .retrieve().body(String::class.java)
+            .retrieve().body<String>()
 }
