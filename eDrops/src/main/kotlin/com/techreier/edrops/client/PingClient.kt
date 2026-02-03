@@ -2,27 +2,15 @@ package com.techreier.edrops.client
 
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
-import org.springframework.web.client.body
 
 @Component
-class PingClient(
-    restClientBuilder: RestClient.Builder
-) {
-    private val restClient = restClientBuilder
-        .baseUrl("http://localhost:8080")
-        .build()
+class PingClient(builder: RestClient.Builder) {
+    private val restClient = builder.build()
 
+    fun ping(): String? =
+        restClient.get().uri("/api/ping").retrieve().body(String::class.java)
 
-    fun ping(text: String? = null): String? {
-        return restClient.get()
-            .uri { uriBuilder ->
-                val builder = uriBuilder.path("/api/ping")
-                if (text != null) {
-                    builder.queryParam("input", text)
-                }
-                builder.build()
-            }
-            .retrieve()
-            .body<String>()
-    }
+    fun ping(text: String): String? =
+        restClient.get().uri { it.path("/api/ping").queryParam("input", text).build() }
+            .retrieve().body(String::class.java)
 }

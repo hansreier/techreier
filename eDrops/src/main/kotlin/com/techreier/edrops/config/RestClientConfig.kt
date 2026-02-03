@@ -1,19 +1,18 @@
 package com.techreier.edrops.config
 
+import org.springframework.boot.restclient.RestClientCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.client.RestClient
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 
 @Configuration
 class RestClientConfig {
 
     @Bean
-    fun restClientBuilder(): RestClient.Builder {
-        return RestClient.builder()
-            .requestInterceptor { request, body, execution ->
-                val response = execution.execute(request, body)
-                response
-            }
+    fun restClientCustomizer(): RestClientCustomizer {
+        return RestClientCustomizer { builder ->
+            builder.requestFactory(HttpComponentsClientHttpRequestFactory())
+                .baseUrl("http://localhost:8080")
+        }
     }
-
 }
