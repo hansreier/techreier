@@ -32,6 +32,7 @@ class BlogPostService(
         val blogPost =
             BlogPost(
                 timestamp,
+                blogPostForm.state.name,
                 blogPostForm.segment,
                 blogPostForm.title,
                 blogPostForm.summary,
@@ -51,7 +52,7 @@ class BlogPostService(
             }
         } else {
             if (content.isNotEmpty())
-                blogTextRepo.save(BlogText(timestamp, content, blogPost))
+                blogTextRepo.save(BlogText(timestamp, blogPostForm.state.name,content, blogPost))
         }
     }
 

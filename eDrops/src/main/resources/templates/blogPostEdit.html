@@ -37,6 +37,12 @@
                     <input type="text" id="title" th:field="*{title}" th:attr="maxLength=${maxTitleSize}">
                     <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
                 </div>
+                <div class="input-row">
+                    <label for="state" id="stateLabel" th:text="#{postState}"></label>
+                    <select id="state" th:field="*{state}">
+                        <option th:each="states : ${postStates}" th:value="${states}" th:text="${states}"></option>
+                    </select>
+                </div>
                 <div class="input-row full-width">
                     <label th:for="summary" th:text="#{postSummary}"></label>
                     <textarea class="summary" id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"

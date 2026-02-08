@@ -43,8 +43,9 @@ class BlogPost(
         segment: String,
         title: String,
         summary: String,
-        blog: Blog
-    ) : this(timestamp, segment, title, summary, blog, null) {
+        blog: Blog,
+        state: String = PostState.PUBLISHED.name,
+    ) : this(timestamp, state, segment, title, summary, blog, null) {
         this.created = timestamp
     }
 

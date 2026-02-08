@@ -25,6 +25,7 @@ data class BlogPostDTO(
         return BlogPostForm(
             id = this.id,
             segment = this.segment,
+            state = this.state,
             title = this.title,
             summary = this.summary,
             content = this.blogText?.text ?:""
@@ -41,7 +42,7 @@ fun BlogPost.toDTO(zoneId: ZoneId, datePattern: String, markdown: Markdown, html
         changedString = changed.text(datePattern),
         created = created,
         createdString = created.text(datePattern),
-        state = state,
+        state = PostState.entries.find { it.name == this.state } ?: PostState.UNKNOWN,
         segment = this.segment,
         title = this.title,
         summary = if (html) markdown.toHtml(this.summary, true) else this.summary,

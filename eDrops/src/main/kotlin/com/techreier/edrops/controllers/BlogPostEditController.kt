@@ -4,6 +4,7 @@ import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogPostService
+import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.dto.toDTO
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
@@ -67,6 +68,7 @@ class BlogPostEditController(
             model.addAttribute("changed", (blogPostDto.changedString))
             model.addAttribute("contentChanged", contentChanged)
             model.addAttribute("blogPostForm", blogPostDto.toForm())
+            model.addAttribute("postStates", PostState.entries)
         }
 
         model.addAttribute("blog", blogParams.blog)
@@ -184,6 +186,7 @@ class BlogPostEditController(
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("postPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
+        model.addAttribute("postStates", PostState.entries)
         logger.info("prepared)")
     }
 
