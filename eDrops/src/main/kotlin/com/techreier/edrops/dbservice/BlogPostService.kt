@@ -69,6 +69,7 @@ class BlogPostService(
     }
 
     fun readBlogPost(blogId: Long?, segment: String, admin: Boolean): Pair<BlogPost?, BlogText?> {
+        logger.info("AdminRead: $admin")
         blogId?: throw ResponseStatusException(HttpStatus.NOT_FOUND,
             "Blog with no id for blogPost segment: $segment")
         val posts = if (admin) {

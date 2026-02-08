@@ -1,6 +1,7 @@
 package com.techreier.edrops.repository
 
 import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.dto.BlogLanguageDTO
 import com.techreier.edrops.dto.MenuItem
 import org.springframework.data.jpa.repository.EntityGraph
@@ -20,8 +21,23 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     override fun findById(id: Long): Optional<Blog>
 
+    //TODO Finner alle
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogPosts"])
     fun findWithPostsById(id: Long): Optional<Blog>
+
+    @Query("""
+    SELECT b FROM Blog b 
+    LEFT JOIN FETCH b.blogOwner 
+    LEFT JOIN FETCH b.topic t 
+    LEFT JOIN FETCH t.language 
+    LEFT JOIN FETCH b.blogPosts p 
+    WHERE b.id = :id 
+    AND (p IS NULL OR p.state = :state)
+""")
+    fun findWithPublishedPostsById(
+        id: Long,
+        state: String = PostState.PUBLISHED.name
+    ): Optional<Blog>
 
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCode(languageCode: String): MutableSet<Blog>

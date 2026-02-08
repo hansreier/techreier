@@ -20,15 +20,9 @@ class BlogService(
     private val blogRepo: BlogRepository,
     private val topicRepo: TopicRepository,
 ) {
-    fun readBlog(blogId: Long?): Blog? {
-        logger.info("Read blog")
-        // Does not fetch JPA annotations
-        // val blog = blogRepo.findByIdOrNull(blogId)
-        return blogId?.let { blogRepo.findWithPostsById(it).orElse(null) }
-    }
 
     // Read current blog based on segment,language code. Assumption: One owner
-    fun readBlog(segment: String, oldLangCode: String?, langCode: String, posts: Boolean = false): Blog? {
+    fun readBlog(segment: String, oldLangCode: String?, langCode: String, posts: Boolean = false, admin: Boolean = false): Blog? {
         logger.info("Read blog old LangCode: $oldLangCode langCode: $langCode, segment $segment, posts? $posts")
 
         // If blog is not found with current language, use the previous language code if different
@@ -43,7 +37,10 @@ class BlogService(
 
         val blog: Blog = (
                 if (posts) {
-                    blogRepo.findWithPostsById(blogLanguageDTO.id).orElse(null)
+                    if (admin)
+                        blogRepo.findWithPostsById(blogLanguageDTO.id).orElse(null)
+                    else
+                        blogRepo.findWithPublishedPostsById(blogLanguageDTO.id).orElse(null)
                 } else {
                     blogRepo.findById(blogLanguageDTO.id).orElse(null)
                 }) ?: throw ResponseStatusException(
