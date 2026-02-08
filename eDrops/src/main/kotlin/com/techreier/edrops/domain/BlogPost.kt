@@ -1,6 +1,7 @@
 package com.techreier.edrops.domain
 
 import com.techreier.edrops.config.MAX_SEGMENT_SIZE
+import com.techreier.edrops.config.MAX_STATE_SIZE
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import jakarta.persistence.*
@@ -12,6 +13,9 @@ class BlogPost(
 
     @Column(nullable = false, columnDefinition = "datetime(0)")
     var changed: Instant,
+
+    @Column(nullable = false, length = MAX_STATE_SIZE)
+    var state: String,
 
     @Column(nullable = false, length = MAX_SEGMENT_SIZE)
     var segment: String,
@@ -53,5 +57,5 @@ class BlogPost(
         return this
     }
 
-    override fun toString() = "id=$id blog=($blog) changed=$changed title=$title"
+    override fun toString() = "id=$id blog=$blog state=$state changed=$changed title=$title"
 }

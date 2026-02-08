@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.client.RestClient
 
 const val MAX_SEGMENT_SIZE = 30
+const val MAX_STATE_SIZE = 20
 const val MAX_TITLE_SIZE = 80
 const val MAX_SUMMARY_SIZE = 1000
 const val MAX_CODE_SIZE = 20

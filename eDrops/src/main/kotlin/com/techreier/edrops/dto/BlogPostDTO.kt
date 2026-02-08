@@ -2,6 +2,7 @@ package com.techreier.edrops.dto
 
 import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.domain.BlogText
+import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.util.Markdown
 import com.techreier.edrops.util.text
@@ -14,6 +15,7 @@ data class BlogPostDTO(
     val changedString: String,
     val created: ZonedDateTime?,
     val createdString: String,
+    val state: PostState,
     val segment: String,
     var title: String,
     val summary: String,
@@ -39,6 +41,7 @@ fun BlogPost.toDTO(zoneId: ZoneId, datePattern: String, markdown: Markdown, html
         changedString = changed.text(datePattern),
         created = created,
         createdString = created.text(datePattern),
+        state = state,
         segment = this.segment,
         title = this.title,
         summary = if (html) markdown.toHtml(this.summary, true) else this.summary,

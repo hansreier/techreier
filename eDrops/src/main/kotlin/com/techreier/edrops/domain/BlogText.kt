@@ -1,6 +1,7 @@
 
 package com.techreier.edrops.domain
 
+import com.techreier.edrops.config.MAX_STATE_SIZE
 import jakarta.persistence.*
 import java.time.Instant
 
@@ -9,6 +10,9 @@ class BlogText(
 
     @Column(columnDefinition ="datetime(0)")
     var changed: Instant,
+
+    @Column(nullable = false, length = MAX_STATE_SIZE)
+    var state: String,
 
     @Column(nullable = false, columnDefinition ="TEXT")
     var text: String,
@@ -24,5 +28,5 @@ class BlogText(
     @Id
     val id: Long? = null
 ) {
-    override fun toString() = "id=$id"
+    override fun toString() = "id=$id state=$state changed=$changed"
 }
