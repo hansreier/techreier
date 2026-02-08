@@ -2,6 +2,7 @@ package com.techreier.edrops.repository
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.BlogText
+import com.techreier.edrops.domain.PostState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -34,7 +35,8 @@ class BlogTextTest : TestBase() {
     fun `basic CRUD checks`() {
         logger.info("Basic crud test")
         blogPostId.let { //Just cannot use save here with partly persisted entities (change in Spring Boot 3.4).
-            entityManager.persist(BlogText(Instant.now().truncatedTo(ChronoUnit.SECONDS), BLOGTEXT_1, blogPost, it))
+            entityManager.persist(BlogText(Instant.now().truncatedTo(ChronoUnit.SECONDS),
+                PostState.PUBLISHED.name,  BLOGTEXT_1, blogPost, it))
         }
 
         val blogTextFound = blogTextRepo.findByIdOrNull(blogPostId)
