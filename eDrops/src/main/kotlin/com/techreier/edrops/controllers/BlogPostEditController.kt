@@ -47,6 +47,7 @@ class BlogPostEditController(
         }
         logger.info("Fetch blog posts: $blogParams")
 
+        model.addAttribute("postStates", PostState.entries)
         if (subsegment == NEW_SEGMENT) {
             val blogPostForm = BlogPostForm()
             model.addAttribute("blogPostForm", blogPostForm)
@@ -68,7 +69,6 @@ class BlogPostEditController(
             model.addAttribute("changed", (blogPostDto.changedString))
             model.addAttribute("contentChanged", contentChanged)
             model.addAttribute("blogPostForm", blogPostDto.toForm())
-            model.addAttribute("postStates", PostState.entries)
         }
 
         model.addAttribute("blog", blogParams.blog)

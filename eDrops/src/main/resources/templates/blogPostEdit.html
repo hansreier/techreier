@@ -40,7 +40,7 @@
                 <div class="input-row">
                     <label for="state" id="stateLabel" th:text="#{postState}"></label>
                     <select id="state" th:field="*{state}">
-                        <option th:each="states : ${postStates}" th:value="${states}" th:text="${states}"></option>
+                        <option th:each="state : ${postStates}" th:value="${state.name()}" th:text="${state}"></option>
                     </select>
                 </div>
                 <div class="input-row full-width">
