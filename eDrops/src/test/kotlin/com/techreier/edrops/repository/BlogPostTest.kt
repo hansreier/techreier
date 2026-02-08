@@ -3,6 +3,7 @@ package com.techreier.edrops.repository
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogPostService
 import com.techreier.edrops.domain.BlogPost
+import com.techreier.edrops.domain.PostState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -42,7 +43,7 @@ class BlogPostTest : TestBase() {
         logger.info("Basic crud test start update")
         blogPostService1.title = "Pusur"
         postRepo.save(blogPostService1)
-        val blogList = postRepo.findByTitle("Pusur")
+        val blogList = postRepo.findByTitle("Pusur", PostState.PUBLISHED.name)
         assertThat(blogList.size).isEqualTo(1)
         assertNotNull(blogList[0])
         assertNotNull(blogList[0].id)

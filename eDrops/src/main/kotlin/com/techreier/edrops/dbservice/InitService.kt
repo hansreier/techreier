@@ -3,6 +3,7 @@ package com.techreier.edrops.dbservice
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Initial
 import com.techreier.edrops.domain.BlogOwner
+import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.repository.*
 import org.springframework.dao.DataIntegrityViolationException
@@ -52,7 +53,7 @@ class InitService(
                     "Blog ID kan ikke være null"
                 )
                 blog.blogPosts.forEach { post ->
-                    val existingPosts = blogPostRepo.findByBlogIdAndSegment(blogId, post.segment)
+                    val existingPosts = blogPostRepo.findByBlogIdAndSegment(blogId, post.segment, PostState.PUBLISHED.name)
                     if (existingPosts.isEmpty()) {
                         post.blog = existingBlogs[0]
                         blogPostRepo.save(post)

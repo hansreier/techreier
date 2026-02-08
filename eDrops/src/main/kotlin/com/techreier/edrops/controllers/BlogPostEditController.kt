@@ -53,7 +53,7 @@ class BlogPostEditController(
             model.addAttribute("blogPostForm", blogPostForm)
             model.addAttribute("postHeadline", msg(ctx.messageSource, "newPost"))
         } else {
-            val (blogPost, blogText) = blogPostService.readBlogPost(blogParams.blog.id, subsegment)
+            val (blogPost, blogText) = blogPostService.readBlogPost(blogParams.blog.id, subsegment, true)
             if (blogPost == null) {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/$HOME_DIR"
@@ -105,7 +105,7 @@ class BlogPostEditController(
             )
 
             if (checkSegment(form.segment, "segment", bindingResult)) {
-                if (blogPostService.duplicate(form.segment, blogId, form.id)) {
+                if (blogPostService.duplicate(form.segment, blogId, form.state, form.id)) {
                     bindingResult.rejectValue("segment", "error.duplicate", form.segment)
                 }
             }

@@ -3,6 +3,7 @@ package com.techreier.edrops.dbservice
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.domain.BlogText
+import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
@@ -67,12 +68,18 @@ class BlogPostService(
         } ?: logger.error("BlogPost not deleted, no id")
     }
 
-    fun readBlogPost(blogId: Long?, segment: String): Pair<BlogPost?, BlogText?> {
+    fun readBlogPost(blogId: Long?, segment: String, admin: Boolean): Pair<BlogPost?, BlogText?> {
         blogId?: throw ResponseStatusException(HttpStatus.NOT_FOUND,
             "Blog with no id for blogPost segment: $segment")
-        val posts = blogPostRepo.findByBlogIdAndSegment(blogId, segment   )
-        if (posts.size > 1) {
-            throw DuplicateKeyException("Duplicate blogpost ids: " + posts.map { it.id })
+        val posts = if (admin) {
+            blogPostRepo.findByBlogIdAndSegment(blogId, segment)
+        }
+        else {
+            val publishedPosts = blogPostRepo.findByBlogIdAndSegment(blogId, segment, PostState.PUBLISHED.name)
+            if (publishedPosts.size > 1) {
+                throw DuplicateKeyException("Duplicate blogpost ids: " + publishedPosts.map { it.id })
+            }
+            publishedPosts
         }
         val blogPost = if (posts.isNotEmpty()) posts.first() else null
         val blogText = blogPost?.id?.let { post ->
@@ -81,7 +88,10 @@ class BlogPostService(
         return Pair(blogPost, blogText)
     }
 
-    fun duplicate(segment: String, blogId: Long, blogPostId: Long?): Boolean {
-        return blogPostRepo.findBlogPostIds(segment, blogId).any { it != blogPostId }
+    //Only check on duplicate if state is PUBLISHED
+    fun duplicate(segment: String, blogId: Long, state: PostState, blogPostId: Long?): Boolean {
+            return if (state == PostState.PUBLISHED) {
+                blogPostRepo.findBlogPostIds(segment, blogId, PostState.PUBLISHED.name).any { it != blogPostId }
+            } else false
     }
 }
