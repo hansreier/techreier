@@ -23,12 +23,24 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
+
 @Controller
 @RequestMapping(BLOG_EDIT_DIR)
 class BlogPostEditController(
     private val ctx: Context,
     private val blogPostService: BlogPostService,
 ) : BaseController(ctx) {
+
+    @GetMapping("/{segment}/{subsegment}/{id}")
+    fun blogPost(
+        @PathVariable segment: String,
+        @PathVariable subsegment: String,
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        redirectAttributes: RedirectAttributes,
+        model: Model,
+        @PathVariable id: Long,
+    ): String = getPost(segment, subsegment, request, response, redirectAttributes, model, id)
 
     @GetMapping("/{segment}/{subsegment}")
     fun blogPost(
@@ -38,7 +50,19 @@ class BlogPostEditController(
         response: HttpServletResponse,
         redirectAttributes: RedirectAttributes,
         model: Model,
+    ): String = getPost(segment, subsegment, request, response, redirectAttributes, model)
+
+
+    fun getPost(
+        segment: String,
+        subsegment: String,
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        redirectAttributes: RedirectAttributes,
+        model: Model,
+        id: Long? = null
     ): String {
+        logger.info("Reiers getpost")
         val blogParams = fetchBlogParams(model, request, response, segment, false, true)
 
         if (blogParams.blog == null) {
@@ -53,27 +77,25 @@ class BlogPostEditController(
             model.addAttribute("blogPostForm", blogPostForm)
             model.addAttribute("postHeadline", msg(ctx.messageSource, "newPost"))
         } else {
-            val (blogPost, blogText) = blogPostService.readBlogPost(blogParams.blog.id, subsegment, true)
+            val (blogPost, blogText) = blogPostService.readBlogPost(blogParams.blog.id, subsegment,
+                true, id)
             if (blogPost == null) {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/$HOME_DIR"
             }
 
             val datePattern = msg(ctx.messageSource, "format.datetime")
-            val blogPostDto = blogPost.toDTO(timeZone(), datePattern, markdown,false, blogText)
+            val blogPostDto = blogPost.toDTO(timeZone(), datePattern, markdown, false, blogText)
 
-            logger.info("getting GUI with blogPost. ${blogPost.title}")
+            logger.info("getting GUI with blogPost. ${blogPost.title}") //TODO blog.subject mangler
             val contentChanged = blogPostDto.blogText?.changedString ?: ""
+            model.addAttribute("blog", blogParams.blog)
             model.addAttribute("postHeadline", blogPostDto.title)
             model.addAttribute("created", (blogPostDto.createdString))
             model.addAttribute("changed", (blogPostDto.changedString))
             model.addAttribute("contentChanged", contentChanged)
             model.addAttribute("blogPostForm", blogPostDto.toForm())
         }
-
-        model.addAttribute("blog", blogParams.blog)
-        model.addAttribute("postPath", "$BLOG_EDIT_DIR/$segment/")
-
         return "blogPostEdit"
     }
 

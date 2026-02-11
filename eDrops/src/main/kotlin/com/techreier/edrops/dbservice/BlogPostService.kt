@@ -68,23 +68,34 @@ class BlogPostService(
         } ?: logger.error("BlogPost not deleted, no id")
     }
 
-    fun readBlogPost(blogId: Long?, segment: String, admin: Boolean): Pair<BlogPost?, BlogText?> {
+    fun readBlogPost(blogId: Long?, segment: String, admin: Boolean, id: Long? = null): Pair<BlogPost?, BlogText?> {
         logger.info("AdminRead: $admin")
         blogId?: throw ResponseStatusException(HttpStatus.NOT_FOUND,
             "Blog with no id for blogPost segment: $segment")
-        val posts = if (admin) {
-            blogPostRepo.findByBlogIdAndSegment(blogId, segment)
+        val blogPost: BlogPost? = if (admin) {
+            if (id != null) {
+                blogPostRepo.findById(id).orElse(null)
+            } else {
+                val posts = blogPostRepo.findByBlogIdAndSegment(blogId, segment)
+                if (posts.size > 1) {
+                    throw DuplicateKeyException("Duplicate blogpost ids: " + posts.map { it.id })
+                }
+                posts.first()
+            }
         }
         else {
             val publishedPosts = blogPostRepo.findByBlogIdAndSegment(blogId, segment, PostState.PUBLISHED.name)
             if (publishedPosts.size > 1) {
                 throw DuplicateKeyException("Duplicate blogpost ids: " + publishedPosts.map { it.id })
             }
-            publishedPosts
+            publishedPosts.first()
         }
-        val blogPost = if (posts.isNotEmpty()) posts.first() else null
-        val blogText = blogPost?.id?.let { post ->
-            blogTextRepo.findById(post).orElse(null)?.takeIf { it.id != null }
+
+        val blogText = if (blogPost != null && blogPost.id != null) {
+            val found = blogTextRepo.findById(blogPost.id).orElse(null)
+            if (found?.id != null) found else null
+        } else {
+            null
         }
         return Pair(blogPost, blogText)
     }
