@@ -28,7 +28,9 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
 
-const val NEW_SEGMENT = "_new"
+const val DUMMY_ID="/0"
+const val NEW_SEGMENT="_new"
+const val NEW_SUBSEGMENT = "_new$DUMMY_ID"
 
 abstract class BaseController(
     private val ctx: Context,

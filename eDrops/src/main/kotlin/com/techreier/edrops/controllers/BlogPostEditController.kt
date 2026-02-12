@@ -62,7 +62,6 @@ class BlogPostEditController(
         model: Model,
         id: Long? = null
     ): String {
-        logger.info("Reiers getpost")
         val blogParams = fetchBlogParams(model, request, response, segment, false, true)
 
         if (blogParams.blog == null) {
@@ -72,8 +71,9 @@ class BlogPostEditController(
         logger.info("Fetch blog posts: $blogParams")
 
         model.addAttribute("postStates", PostState.entries)
-        if (subsegment == NEW_SEGMENT) {
+        if ("$subsegment$DUMMY_ID" == NEW_SUBSEGMENT) {
             val blogPostForm = BlogPostForm()
+            model.addAttribute("blog", blogParams.blog)
             model.addAttribute("blogPostForm", blogPostForm)
             model.addAttribute("postHeadline", msg(ctx.messageSource, "newPost"))
         } else {
@@ -155,7 +155,7 @@ class BlogPostEditController(
             }
 
             val newPath =
-                "$BLOG_EDIT_DIR/$segment${if (action == "save") "/${form.segment}" else "/$NEW_SEGMENT"}"
+                "$BLOG_EDIT_DIR/$segment${if (action == "save") "/${form.segment}/${id}" else "/$NEW_SUBSEGMENT"}"
             return "redirect:$newPath"
         }
 
