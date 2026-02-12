@@ -99,12 +99,13 @@ class BlogPostEditController(
         return "blogPostEdit"
     }
 
-    @PostMapping(value = ["/{segment}/{subsegment}"])
+    @PostMapping(value = ["/{segment}/{subsegment}/{id}"])
     fun action(
         redirectAttributes: RedirectAttributes,
         @ModelAttribute form: BlogPostForm,
         @PathVariable segment: String,
         @PathVariable subsegment: String?,
+        @PathVariable id: Long,
         action: String,
         blogId: Long?,
         changed: String,
