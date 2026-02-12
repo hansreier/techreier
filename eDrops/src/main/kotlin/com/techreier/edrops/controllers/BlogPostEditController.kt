@@ -40,17 +40,6 @@ class BlogPostEditController(
         redirectAttributes: RedirectAttributes,
         model: Model,
         @PathVariable id: Long,
-    ): String = getPost(segment, subsegment, request, response, redirectAttributes, model, id)
-
-    //TODO remove separate method again, not required any more
-    fun getPost(
-        segment: String,
-        subsegment: String,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        redirectAttributes: RedirectAttributes,
-        model: Model,
-        id: Long? = null
     ): String {
         val blogParams = fetchBlogParams(model, request, response, segment, false, true)
 
@@ -203,4 +192,3 @@ class BlogPostEditController(
     }
 
 }
-
