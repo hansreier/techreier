@@ -25,7 +25,7 @@ data class MB(
 ) {
     override fun toString(): String {
         return "init=${init / MBYTE}MB, used=${used / MBYTE}MB, committed=${committed / MBYTE}MB" +
-                ", max=${max / MBYTE}MB, ${if (virtual) "vthreads=" else "threads="}$threads"
+                ", max=${max / MBYTE}MB, ${if (virtual) "vthreads=" else "pthreads="}$threads"
     }
 }
 

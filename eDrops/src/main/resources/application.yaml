@@ -20,7 +20,7 @@ spring:
       include-exception: true
       whitelabel.enabled: false
       path: /error
-
+  threads.virtual.enabled: true
 
 logging:
   level:
