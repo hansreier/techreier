@@ -42,17 +42,7 @@ class BlogPostEditController(
         @PathVariable id: Long,
     ): String = getPost(segment, subsegment, request, response, redirectAttributes, model, id)
 
-    @GetMapping("/{segment}/{subsegment}")
-    fun blogPost(
-        @PathVariable segment: String,
-        @PathVariable subsegment: String,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        redirectAttributes: RedirectAttributes,
-        model: Model,
-    ): String = getPost(segment, subsegment, request, response, redirectAttributes, model)
-
-
+    //TODO remove separate method again, not required any more
     fun getPost(
         segment: String,
         subsegment: String,
@@ -144,7 +134,10 @@ class BlogPostEditController(
             }
 
             try {
-                blogPostService.save(blogId, form, now())
+                val newId = blogPostService.save(blogId, form, now())
+                val newPath =
+                    "$BLOG_EDIT_DIR/$segment${if (action == "save") "/${form.segment}/${newId}" else "/$NEW_SUBSEGMENT"}"
+                return "redirect:$newPath"
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
@@ -153,10 +146,6 @@ class BlogPostEditController(
                 prepare(model, request, response, segment, changed)
                 return "blogPostEdit"
             }
-
-            val newPath =
-                "$BLOG_EDIT_DIR/$segment${if (action == "save") "/${form.segment}/${id}" else "/$NEW_SUBSEGMENT"}"
-            return "redirect:$newPath"
         }
 
         if (action == "delete") { //TODO evaluate if should stay on this page if more posts left, a bit work

@@ -11,6 +11,7 @@ import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.BlogTextRepository
 import org.apache.commons.lang3.StringUtils.trim
 import org.springframework.dao.DuplicateKeyException
+import org.springframework.dao.DataRetrievalFailureException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -24,7 +25,7 @@ class BlogPostService(
     private val blogRepo: BlogRepository,
     private val blogTextRepo: BlogTextRepository,
 ) {
-    fun save(blogId: Long, blogPostForm: BlogPostForm, timestamp: Instant) {
+    fun save(blogId: Long, blogPostForm: BlogPostForm, timestamp: Instant): Long {
         logger.info("Saving blogPost with id: ${blogPostForm.id} segment: ${blogPostForm.segment} blogId: $blogId")
 
         val blog = blogRepo.findById(blogId).orElse(null)?.takeIf { it.id != null }
@@ -40,7 +41,9 @@ class BlogPostService(
                 blog,
                 blogPostForm.id
             )
-        blogPostRepo.save(blogPost)
+        val savedBlogPost = blogPostRepo.save(blogPost)
+        savedBlogPost ?: throw DataRetrievalFailureException("Failed to save BlogPost: $blogPost")
+        savedBlogPost.id ?: throw DataRetrievalFailureException("Failed to save BlogPost: $blogPost. No id Returned")
 
         val blogText: BlogText? = blogPostForm.id?.let { blogTextRepo.findById(it).orElse(null) }
         val content = trim(blogPostForm.content)
@@ -55,6 +58,7 @@ class BlogPostService(
             if (content.isNotEmpty())
                 blogTextRepo.save(BlogText(timestamp, blogPostForm.state.name,content, blogPost))
         }
+        return savedBlogPost.id
     }
 
     fun delete(
