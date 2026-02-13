@@ -8,6 +8,7 @@ import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.dto.toDTO
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
+import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.util.Markdown
 import com.techreier.edrops.util.checkSegment
 import com.techreier.edrops.util.checkStringSize
@@ -15,6 +16,7 @@ import com.techreier.edrops.util.msg
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.dao.DataAccessException
+import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -29,7 +31,37 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class BlogPostEditController(
     private val ctx: Context,
     private val blogPostService: BlogPostService,
+    private val blogPostRepo: BlogPostRepository,
 ) : BaseController(ctx) {
+
+    @GetMapping("/{segment}/{subsegment}")
+    fun blogPost(
+        @PathVariable segment: String,
+        @PathVariable subsegment: String,
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        redirectAttributes: RedirectAttributes,
+        model: Model,
+    ): String {
+        val blogParams = fetchBlogParams(model, request, response, segment, false, true)
+
+        if (blogParams.blog == null || blogParams.blog.id == null) {
+            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+            return "redirect:/$HOME_DIR"
+        }
+
+        val posts = blogPostRepo.findByBlogIdAndSegment(blogParams.blog.id, subsegment)
+        if (posts.isEmpty()) {
+            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+            return "redirect:/$HOME_DIR"
+        }
+        if (posts.size > 1 ) {
+            throw DuplicateKeyException("Duplicate blogpost ids: " + posts.map { it.id })
+        }
+        val id = posts.first().id
+
+        return "redirect:$BLOG_EDIT_DIR/$segment/$subsegment/$id"
+    }
 
     @GetMapping("/{segment}/{subsegment}/{id}")
     fun blogPost(
