@@ -7,17 +7,18 @@
 - Only fix formatting errors caused by your own code change.
 - Don't fix existing formatting order, import order or formatting in other files
 - Use Spring Data JPA and Hibernate, both simple CRUD and JPA annotations.
+- Use Spring MVC
 - Use Spring Security
 - For XML parsing (marshall and unmarshall) always use Spring Boot's Jackson
 - Write SQL adapted for MariaDB
 - The code should be adapted for Spring Boot.
-- Always use the latest Spring Boot standard. Currently it's version 4.
+- Always use the latest Spring Boot standard. Currently, it's version 4.
 - Don't create simple unit tests that only test the language or included libraries
 - The code should be adapted to the latest Kotlin version
 - Limit the use of Javax to where it must be used, use Jakarta if you can.
-- Use Thymeleaf to create web GUI, not Javascript.
+- Use Thymeleaf to create web GUI, not JavaScript.
 - Create as little logic as possible in Thymeleaf, use Kotlin instead.
-- If you must use Javascript, keep it simple and don't pull in Javascript libraries
+- If you must use JavaScript, keep it simple and don't pull in JavaScript libraries
 - Use css if you must. It's just one large file. Keep it simple.
 - Max line length is 120 characters for Java and Kotlin
 - Use 4 spaces for indentation in Java and Kotlin (2 spaces for YAML, JSON, HTML)

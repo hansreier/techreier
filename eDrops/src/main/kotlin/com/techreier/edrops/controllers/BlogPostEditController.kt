@@ -128,10 +128,7 @@ class BlogPostEditController(
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blog Post: path: $path action:  $action blogid: $blogId")
-        if (action == "blog") {
-            return "redirect:$BLOG_EDIT_DIR/$segment"
-        }
-        if (action == "save" || action == "create") {
+        if (action == "save" || action == "create" || action == "copy" || action == "blog") {
 
             blogId ?: throw ResponseStatusException(
                 HttpStatus.INTERNAL_SERVER_ERROR,
@@ -156,6 +153,17 @@ class BlogPostEditController(
 
             try {
                 val newId = blogPostService.save(blogId, form, now())
+                if (action == "copy") {
+                    form.id = null
+                    form.state = PostState.DRAFT
+                    form.postLock = true
+                    val copyId = blogPostService.save(blogId, form, now())
+                    val copyPath = "$BLOG_EDIT_DIR/$segment/${form.segment}/${copyId}"
+                    return "redirect:$copyPath"
+                }
+                if (action == "blog") {
+                    return "redirect:$BLOG_EDIT_DIR/$segment"
+                }
                 val newPath =
                     "$BLOG_EDIT_DIR/$segment${if (action == "save") "/${form.segment}/${newId}" else "/$NEW_SUBSEGMENT"}"
                 return "redirect:$newPath"
