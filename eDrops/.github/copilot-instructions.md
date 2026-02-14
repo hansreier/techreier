@@ -1,0 +1,31 @@
+- You must always answer in English.
+- Comment all public methods with single-line description in English.
+- Don't comment the code inside a method.
+- Write SQL queries with UPPERCASE keywords and lowercase otherwise.
+- Don't use var instead of val in Kotlin unless the variable needs to be changed.
+- Maven dependencies must always be added in alphabetical order.
+- Only fix formatting errors caused by your own code change.
+- Don't fix existing formatting order, import order or formatting in other files
+- Use Spring Data JPA and Hibernate, both simple CRUD and JPA annotations.
+- Use Spring Security
+- For XML parsing (marshall and unmarshall) always use Spring Boot's Jackson
+- Write SQL adapted for MariaDB
+- The code should be adapted for Spring Boot.
+- Always use the latest Spring Boot standard. Currently it's version 4.
+- Don't create simple unit tests that only test the language or included libraries
+- The code should be adapted to the latest Kotlin version
+- Limit the use of Javax to where it must be used, use Jakarta if you can.
+- Use Thymeleaf to create web GUI, not Javascript.
+- Create as little logic as possible in Thymeleaf, use Kotlin instead.
+- If you must use Javascript, keep it simple and don't pull in Javascript libraries
+- Use css if you must. It's just one large file. Keep it simple.
+- Max line length is 120 characters for Java and Kotlin
+- Use 4 spaces for indentation in Java and Kotlin (2 spaces for YAML, JSON, HTML)
+- Function calls with 4+ parameters should be split over multiple lines (not necessarily one parameter per line)
+- Function calls with 1-3 parameters can be kept on one line if it fits
+- In Kotlin: Use named parameters for function calls over multiple lines
+- In Kotlin: Named parameters don't work for calls to Java methods - still split over multiple lines for 4+ parameters
+- Don't clean up the code in other places than what I ask for.
+- Don't change formatting and add new lines other than where you insert new code.
+- 1 empty line between sections is good for readability, 2+ empty lines are usually unnecessary.
+- Don't optimize or "improve" existing code unless explicitly requested
