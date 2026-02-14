@@ -11,6 +11,7 @@ import java.time.ZonedDateTime
 
 data class BlogPostDTO(
     val id: Long?,
+    val idStateString: String,
     val changed: ZonedDateTime?,
     val changedString: String,
     val created: ZonedDateTime?,
@@ -36,13 +37,15 @@ data class BlogPostDTO(
 fun BlogPost.toDTO(zoneId: ZoneId, datePattern: String, markdown: Markdown, html: Boolean = false, blogText: BlogText? = null): BlogPostDTO {
     val changed = this.changed.atZone(zoneId)
     val created = this.created.atZone(zoneId)
+    val state = PostState.entries.find { it.name == this.state } ?: PostState.UNKNOWN
     return BlogPostDTO(
         id = this.id,
+        idStateString = "${this.id.toString()} - $state" ,
         changed = changed,
         changedString = changed.text(datePattern),
         created = created,
         createdString = created.text(datePattern),
-        state = PostState.entries.find { it.name == this.state } ?: PostState.UNKNOWN,
+        state = state,
         segment = this.segment,
         title = this.title,
         summary = if (html) markdown.toHtml(this.summary, true) else this.summary,

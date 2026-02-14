@@ -41,8 +41,7 @@ class BlogPostService(
                 blog,
                 blogPostForm.id
             )
-        val savedBlogPost = blogPostRepo.save(blogPost)
-        savedBlogPost ?: throw DataRetrievalFailureException("Failed to save BlogPost: $blogPost")
+        val savedBlogPost: BlogPost = blogPostRepo.save(blogPost)
         savedBlogPost.id ?: throw DataRetrievalFailureException("Failed to save BlogPost: $blogPost. No id Returned")
 
         val blogText: BlogText? = blogPostForm.id?.let { blogTextRepo.findById(it).orElse(null) }
@@ -88,7 +87,7 @@ class BlogPostService(
             }
         }
         else {
-            val publishedPosts = blogPostRepo.findByBlogIdAndSegment(blogId, segment, PostState.PUBLISHED.name)
+            val publishedPosts = blogPostRepo.findByBlogIdAndSegmentAndState(blogId, segment, PostState.PUBLISHED.name)
             if (publishedPosts.size > 1) {
                 throw DuplicateKeyException("Duplicate blogpost ids: " + publishedPosts.map { it.id })
             }

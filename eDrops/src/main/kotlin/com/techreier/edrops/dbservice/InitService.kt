@@ -53,7 +53,7 @@ class InitService(
                     "Blog ID kan ikke være null"
                 )
                 blog.blogPosts.forEach { post ->
-                    val existingPosts = blogPostRepo.findByBlogIdAndSegment(blogId, post.segment, PostState.PUBLISHED.name)
+                    val existingPosts = blogPostRepo.findByBlogIdAndSegmentAndState(blogId, post.segment, PostState.PUBLISHED.name)
                     if (existingPosts.isEmpty()) {
                         post.blog = existingBlogs[0]
                         blogPostRepo.save(post)
