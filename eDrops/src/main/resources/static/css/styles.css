@@ -782,8 +782,17 @@ a.dropdown-item:hover {
 	background-color: green;
 }
 
-.summary {
-    height: 15vh;
+.input-form textarea.summary {
+    height: 4rem;
+    min-height: 4rem;
+    overflow-y: auto;
+    transition: height 0.2s ease-in-out;
+    resize: vertical;
+}
+
+.input-form textarea.summary:focus {
+    height: 20vh;
+    min-height: 150px;
 }
 
 #blogPost {
