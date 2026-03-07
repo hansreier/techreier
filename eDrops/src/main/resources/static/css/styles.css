@@ -795,6 +795,15 @@ a.dropdown-item:hover {
     min-height: 150px;
 }
 
+.help-container pre {
+    background-color: lightgray;
+    margin: 0;
+    padding: 2px 0;
+    line-height: 1.2;
+    font-size: 14px;
+    font-family: monospace;
+}
+
 #blogPost {
     height: 25vh;
 }

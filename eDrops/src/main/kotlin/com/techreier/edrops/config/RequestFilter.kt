@@ -28,9 +28,9 @@ class RequestFilter : Filter {
     ) {
         val res = HttpServletResponseWrapper(response as HttpServletResponse)
         val req = HttpServletRequestWrapper(request as HttpServletRequest)
-        logger.info("${req.method} ${req.servletPath} ${mem()} referer: ${req.getHeader("Referer")}")
+        logger.debug("{} {} {} referer: {}", req.method, req.servletPath, mem(), req.getHeader("Referer"))
         chain.doFilter(request, response)
-        logger.info("{} {} {} respons: {}", req.method, req.servletPath, mem(), res.status)
+        logger.debug("{} {} {} respons: {}", req.method, req.servletPath, mem(), res.status)
         /*Code removed, to be included in catch(e:Exception) block
          Sets error status to 400 Invalid request and types error directly in
          The problem is that it overrides the default error handling

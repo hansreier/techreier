@@ -208,7 +208,14 @@ class BlogPostEditController(
             return "blogPostEdit"
         }
 
+        if (action == "help") {
+            model.addAttribute("help", "h")
+            prepare(model, request, response, segment, changed)
+            return "blogPostEdit"
+        }
+
         // This should never really occur
+        logger.error("Illegal action: $action")
         bindingResult.reject("error.illegalAction")
         prepare(model, request, response, segment, changed)
         return "blogPostEdit"
