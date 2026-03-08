@@ -6,6 +6,7 @@
 <head>
     <title th:text="${blog.subject}">Blogs</title>
     <script th:src="@{/js/disable.js(v=${built})}"></script>
+    <script th:src="@{/js/markdownhelp.js(v=${built})}"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -52,7 +53,11 @@
                         <button type="submit" th:text="#{action.createPost}" name="action" th:value="createPost"
                                 th:disabled="${blog.id == null}"></button>
                         <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
+                        <button type="button" th:text="#{action.help}" onclick="toggleMarkdownHelp()"></button>
                     </div>
+                </div>
+                <div class="input-row full-width" layout:fragment="markdownHelp">
+                    <div th:insert="~{markdownHelp :: markdownHelp}"></div>
                 </div>
                 <div class="input-row full-width" th:if="${about != null}">
                     <div class="view-wrapper">
