@@ -85,14 +85,27 @@ p {
 	margin-bottom: 0;
 }
 
-ul {
-	list-style-type: disc;
-	padding: 0.1rem 1rem 0.2rem 1.2rem;
+ul, ol {
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
 }
 
-ul ul {
+ol {
+	padding-left: 2.2rem;
+	list-style-type: decimal;
+}
+
+ul {
+	padding-left: 1.5rem;
+	list-style-type: disc;
+}
+
+ol ol, ul ul, ol ul, ul ol {
+	padding-left: 0.6rem;
+	margin-top: 0.2rem;
 	list-style-type: "- ";
-	padding: 0.1rem 1rem 0.2rem 0.6rem;
 }
 
 li {
