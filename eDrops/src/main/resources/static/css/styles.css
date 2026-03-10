@@ -36,12 +36,18 @@ body {
 	}
 }
 
-h1 { font-size: 1.8rem; color: darkgreen }
-h2 { font-size: 1.5rem; color: darkslategray }
-h3 { font-size: 1.3rem; color: darkslategray }
-h4 { font-size: 1.2rem; color: darkslategray }
-h5 { font-size: 1.1rem; color: darkslategray }
-h6 { font-size: 1rem; color: darkslategray }
+h1, h2, h3, h4, h5, h6 {
+	margin-top: 1em;
+	margin-bottom: 0.3em;
+	color: darkslategray;
+}
+
+h1 { font-size: 1.8rem; color: darkgreen;  }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1.2rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 1.0rem; }
 
 p, ul, ol, a {
 	font-size: 1rem;
