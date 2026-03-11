@@ -18,4 +18,8 @@ Noe imellom.
 
 ##### Avsnitt
 ###### Delavsnitt
-Her kommer endelig teksten.
+Her kommer endelig teksten.   
+
+---
+
+ny tekst under delelinje
