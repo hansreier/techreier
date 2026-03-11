@@ -34,14 +34,14 @@ class MarkdownTest {
 
     @Test
     fun `from secure markdown to html`() {
-        val html = markdown.toHtml(SECURE, true)
+        val html = markdown.toHtml(SECURE)
         logger.debug(html)
         assertThat(html).contains("<p>Secure</p>", "<h2 ")
     }
 
     @Test
     fun `from unsecure markdown to html`() {
-        val html = markdown.toHtml(UNSECURE, true)
+        val html = markdown.toHtml(UNSECURE)
         logger.debug(html)
         assertThat(html).doesNotContain("<script>")
         assertThat(html).contains("<p>Unsecure</p>", "<h2 ")

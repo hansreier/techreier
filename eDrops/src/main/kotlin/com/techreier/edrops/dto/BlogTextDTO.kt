@@ -15,7 +15,7 @@ class BlogTextDTO(
 fun BlogText.toDTO(zoneId: ZoneId, datePattern: String, markdown: Markdown, html: Boolean= false ): BlogTextDTO {
     val changed = this.changed.atZone(zoneId)
     return BlogTextDTO(
-        text =  if (html) markdown.toHtml(this.text, true) else this.text,
+        text =  if (html) markdown.toHtml(this.text) else this.text,
         changed = changed,
         changedString = changed.text(datePattern),
     )

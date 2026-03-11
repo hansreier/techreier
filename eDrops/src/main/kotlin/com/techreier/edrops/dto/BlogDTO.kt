@@ -43,7 +43,7 @@ fun Blog.toDTO(
         segment = this.segment,
         pos = this.pos,
         subject = this.subject,
-        about = if (html) markdown.toHtml(this.about, true) else this.about,
+        about = if (html) markdown.toHtml(this.about) else this.about,
         blogPosts = if (posts) this.blogPosts.map { it.toDTO(zoneId, datePattern, markdown, html) } else emptyList()
     )
 }

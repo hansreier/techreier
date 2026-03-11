@@ -1,6 +1,7 @@
 package com.techreier.edrops.util
 
 import com.techreier.edrops.config.MEDIA_URL_PATH
+import com.techreier.edrops.config.SANITIZER
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.DEFAULT_LANGCODE
 import com.techreier.edrops.data.MARKDOWN_EXT
@@ -67,8 +68,8 @@ class Markdown() {
 
     // Flexmark implementation of commonmark standardwith Github flovour
 // https://github.com/vsch/flexmark-java/issues/92
-    fun toHtml(markdown: String, sanitizer: Boolean): String {
-        logger.debug("markdown to html, sanitizer: $sanitizer")
+    fun toHtml(markdown: String): String {
+        logger.debug("markdown to html, sanitizer: $SANITIZER")
         val options = MutableDataSet()
             .set(
                 com.vladsch.flexmark.parser.Parser.EXTENSIONS,
@@ -99,7 +100,7 @@ class Markdown() {
         val document: Node = parser.parse(markdown)
         visitor.visit(document)
         val html = renderer.render(document)
-        return if (sanitizer) sanitize(html) else {
+        return if (SANITIZER) sanitize(html) else {
             logger.warn("Sanitizer turned off, use just for testing")
             html
         }
@@ -151,7 +152,7 @@ class Markdown() {
             }
         }
 
-        return InlineHtml(toHtml(markdown, true), langCode, warning)
+        return InlineHtml(toHtml(markdown), langCode, warning)
     }
 
     data class InlineHtml(val html: String, val langCode: String, val warning: Boolean)

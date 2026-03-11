@@ -160,7 +160,7 @@ class BlogEditController(
         if (action == "view") {
             if (form.preview.isEmpty()) {
                 if (!form.about.isBlank()) {
-                    val about = Markdown().toHtml(form.about, true)
+                    val about = Markdown().toHtml(form.about)
                     model.addAttribute("about", about)
                     form.preview = "x"
                 }
