@@ -292,6 +292,14 @@ code {
 	line-height: 1.2rem;
 }
 
+blockquote {
+	border-left: 4px solid #777;
+	margin: 0 0;
+	padding: 3px 6px;
+	color: black;
+	font-style: italic;
+}
+
 footer {
 	color: green;
 	font-size: 0.7rem;
