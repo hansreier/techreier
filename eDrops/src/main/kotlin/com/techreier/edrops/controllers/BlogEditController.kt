@@ -152,11 +152,6 @@ class BlogEditController(
             }
             return "redirect:/$HOME_DIR"
         }
-        if (action == "help") {
-            model.addAttribute("help", "h")
-            prepare(model, request, response, segment, changed)
-            return "blogEdit"
-        }
         if (action == "view") {
             if (form.preview.isEmpty()) {
                 if (!form.about.isBlank()) {
