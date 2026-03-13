@@ -820,13 +820,14 @@ a.dropdown-item:hover {
     height: 4rem;
     min-height: 4rem;
     overflow-y: auto;
-    transition: height 0.2s ease-in-out;
     resize: vertical;
+    transition: height 0.2s ease-in-out 0.2s;
 }
 
 .input-form textarea.summary:focus {
     height: 20vh;
     min-height: 150px;
+    transition: height 0.2s ease-in-out 0.2s;
 }
 
 .help-container pre {
