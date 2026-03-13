@@ -57,6 +57,13 @@ p, ul, ol, a {
 button {
 	font-size: 1.1rem;
 	margin: 0.5rem 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.0rem;
+    padding: 0 1rem;
+    line-height: 1;
+    vertical-align: middle;
 }
 
 .button-row {
