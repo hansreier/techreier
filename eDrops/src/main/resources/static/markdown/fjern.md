@@ -1,7 +1,7 @@
-# Stor overskrift
+# H1 Stor overskrift
 Med tekst
-## Overskrift
-### Liten overskrift
+## H2 Overskrift
+### H3 Liten overskrift
 * Første pinne
 * Andre pinne
 * Tredje pinne
@@ -12,14 +12,17 @@ Noe imellom.
 2. Andre punkt
 3. Tredje punkt
 
-#### Bitte liten overskrift
+#### H4 Bitte liten overskrift
+1. Første punkt
+2. Andre punkt
+3. Tredje punkt
 
-> Sitat: Det er bedre med to reperatører enn ingen reperatører.
+##### H5 Avnitt
+###### H6 Delavsnitt
 
-##### Avsnitt
-###### Delavsnitt
-Her kommer endelig teksten.   
+Her kommer endelig teksten.  
+Rett før vertikal skillelinje
 
----
+------  
 
-ny tekst under delelinje
+Dette er etter vertikal skillelinje

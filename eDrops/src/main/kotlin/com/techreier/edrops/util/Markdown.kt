@@ -110,6 +110,7 @@ class Markdown() {
             .allowAttributes("align").onElements("p")
             .allowElements("img")
             .allowAttributes("title").onElements("img")
+            .allowElements("hr")
             .allowElements(*headers) //allow id on headers to support direct links to headlines on a page
             .allowAttributes("id").onElements(*headers)
             .toFactory()
