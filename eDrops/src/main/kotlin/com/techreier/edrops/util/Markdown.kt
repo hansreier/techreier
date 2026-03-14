@@ -10,7 +10,6 @@ import com.vladsch.flexmark.ast.Image
 import com.vladsch.flexmark.ast.Link
 import com.vladsch.flexmark.ext.autolink.AutolinkExtension
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
-import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.ParserEmulationProfile
@@ -71,13 +70,13 @@ class Markdown() {
     fun toHtml(markdown: String): String {
         logger.debug("markdown to html, sanitizer: $SANITIZER")
         val options = MutableDataSet()
+        options.setFrom(ParserEmulationProfile.GITHUB_DOC)
             .set(
                 com.vladsch.flexmark.parser.Parser.EXTENSIONS,
                 listOf<Extension>(
                     AutolinkExtension.create(),
                     TablesExtension.create(),
                     StrikethroughExtension.create(),
-                    TaskListExtension.create()
                 )
             )
 
@@ -88,9 +87,7 @@ class Markdown() {
             .set(TablesExtension.DISCARD_EXTRA_COLUMNS, true)
             .set(TablesExtension.WITH_CAPTION, false)
             .set(TablesExtension.HEADER_SEPARATOR_COLUMN_MATCH, true)
-
-        options.setFrom(ParserEmulationProfile.GITHUB_DOC)
-        options.set(HtmlRenderer.RENDER_HEADER_ID, true)
+            .set(HtmlRenderer.RENDER_HEADER_ID, true)
 
         // uncomment to convert soft-breaks to hard breaks
         // options.set(HtmlRenderer.SOFT_BREAK, "<br>\n");
