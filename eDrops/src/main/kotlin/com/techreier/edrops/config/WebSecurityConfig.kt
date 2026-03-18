@@ -3,13 +3,13 @@ package com.techreier.edrops.config
 import com.techreier.edrops.controllers.LOGIN_DIR
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.env.Environment
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.authentication.AuthenticationFailureHandler
 
 @Configuration
 @EnableWebSecurity
@@ -26,7 +26,9 @@ class WebSecurityConfig {
     fun filterChain(
         http: HttpSecurity,
         appConfig: AppConfig,
+        env: Environment
     ): SecurityFilterChain {
+        val isProd = env.activeProfiles.contains("prod")
         http {
             logger.info("Inside security config")
             authorizeHttpRequests {
@@ -52,6 +54,14 @@ class WebSecurityConfig {
                 ignoringRequestMatchers("/h2-console/**","/timezone")
             }
             headers {
+                frameOptions {
+                if (isProd) {
+                    deny = true
+                } else {
+                    // Tillater iFrames fra samme domene for H2-console
+                    sameOrigin = true
+                }
+            }
                 frameOptions { sameOrigin = true } // Required for h2-console
             }
             sessionManagement {
