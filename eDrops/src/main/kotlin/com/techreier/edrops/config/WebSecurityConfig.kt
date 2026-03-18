@@ -35,7 +35,7 @@ class WebSecurityConfig {
                 if (appConfig.auth) {
                     authorize("/admin/**", authenticated)
                 }
-                  authorize("/**", permitAll)
+                authorize("/**", permitAll)
                //   authorize("/css/*", permitAll)
                //   authorize("/h2-console/**", permitAll)
                //   authorize("/robots.txt", permitAll)
@@ -51,18 +51,19 @@ class WebSecurityConfig {
                 logoutSuccessUrl = "/login"
             }
             csrf {
-                ignoringRequestMatchers("/h2-console/**","/timezone")
+                val ignorePaths = mutableListOf("/timezone")
+                if (!isProd) ignorePaths.add("/h2-console/**")
+                ignoringRequestMatchers(*ignorePaths.toTypedArray())
             }
             headers {
                 frameOptions {
-                if (isProd) {
-                    deny = true
-                } else {
-                    // Tillater iFrames fra samme domene for H2-console
-                    sameOrigin = true
+                    if (isProd) {
+                        deny = true
+                    } else {
+                        // Tillater iFrames fra samme domene for H2-console
+                        sameOrigin = true
+                    }
                 }
-            }
-                frameOptions { sameOrigin = true } // Required for h2-console
             }
             sessionManagement {
                 invalidSessionUrl = "/"
