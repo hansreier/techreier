@@ -228,7 +228,7 @@ class BlogPostEditController(
         segment: String,
         changed: String,
     ) {
-        val blogParams = fetchBlogParams(model, request, response, segment, true)
+        val blogParams = fetchBlogParams(model, request, response, segment)
         logger.info("Prepare allBlogPosts Fetch blog posts with: $blogParams")
 
         model.addAttribute("blog", blogParams.blog)

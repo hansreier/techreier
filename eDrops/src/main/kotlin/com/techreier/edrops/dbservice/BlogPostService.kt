@@ -9,7 +9,6 @@ import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.BlogTextRepository
-import org.apache.commons.lang3.StringUtils.trim
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.dao.DataRetrievalFailureException
 import org.springframework.http.HttpStatus
@@ -45,7 +44,7 @@ class BlogPostService(
         savedBlogPost.id ?: throw DataRetrievalFailureException("Failed to save BlogPost: $blogPost. No id Returned")
 
         val blogText: BlogText? = blogPostForm.id?.let { blogTextRepo.findById(it).orElse(null) }
-        val content = trim(blogPostForm.content)
+        val content = blogPostForm.content.trim()
         if (blogText != null) {
             if (content.isEmpty())
                 blogTextRepo.delete(blogText)

@@ -53,10 +53,16 @@ p, ul, ol, a {
 	font-size: 1rem;
 }
 
-
 button {
 	font-size: 1.1rem;
 	margin: 0.5rem 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.0rem;
+    padding: 0 1rem;
+    line-height: 1;
+    vertical-align: middle;
 }
 
 .button-row {
@@ -813,13 +819,14 @@ a.dropdown-item:hover {
     height: 4rem;
     min-height: 4rem;
     overflow-y: auto;
-    transition: height 0.2s ease-in-out;
     resize: vertical;
+    transition: height 0.2s ease-in-out 0.2s;
 }
 
 .input-form textarea.summary:focus {
     height: 20vh;
     min-height: 150px;
+    transition: height 0.2s ease-in-out 0.2s;
 }
 
 .help-container pre {
