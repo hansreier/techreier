@@ -87,7 +87,7 @@ abstract class BaseController(
                 )
             }
         }
-
+        ctx.httpSession.setAttribute("blogId", blog?.id?: -1)
         ctx.httpSession.setAttribute("langcode", blog?.langCodeFound ?: usedLangcode)
 
         val topics = fetchTopics(usedLangcode)

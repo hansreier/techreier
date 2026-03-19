@@ -118,7 +118,6 @@ class BlogPostEditController(
         @PathVariable subsegment: String?,
         @PathVariable id: Long,
         action: String,
-        blogId: Long?,
         changed: String,
         bindingResult: BindingResult,
         request: HttpServletRequest,
@@ -126,6 +125,8 @@ class BlogPostEditController(
         model: Model,
     ): String {
         val path = request.servletPath
+        val blogId = ctx.httpSession.getAttribute("blogId") as? Long ?:
+        throw IllegalStateException("Session expired")
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blog Post: path: $path action:  $action blogid: $blogId")
         if (action == "save" || action == "create" || action == "copy" || action == "blog") {

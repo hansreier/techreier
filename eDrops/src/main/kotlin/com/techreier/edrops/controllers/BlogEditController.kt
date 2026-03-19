@@ -83,7 +83,6 @@ class BlogEditController(
         @ModelAttribute form: BlogForm,
         @PathVariable segment: String,
         action: String,
-        blogId: Long?,
         changed: String,
         bindingResult: BindingResult,
         request: HttpServletRequest,
@@ -91,18 +90,17 @@ class BlogEditController(
         model: Model,
         @AuthenticationPrincipal owner: Owner?,
     ): String {
-        val path = request.servletPath
+        val path = request.servletPath //TODO Går galt andre gang, for da er denne tom
+        val blogId = ctx.httpSession.getAttribute("blogId") as? Long ?: throw IllegalStateException("Session expired")
         redirectAttributes.addFlashAttribute("action", action)
         //TODO check and use objectName in code.
         logger.info("blog: path: $path action:  $action blogid: $blogId formName: ${bindingResult.objectName}")
         val blogOwner = owner?.user ?:
-            // TODO is this the best action, alternative return error message in the current screen
             if (ctx.appConfig.auth)
                 throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "not authorized for save action"))
             else initService.blogAdmin
 
         blogOwner.id?: throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "No blogOwner exists"))
-
         if (action == "save" || action == "create" || action == "createPost") {
             val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
                 getValidProjectLanguageCode(LocaleContextHolder.getLocale().language)

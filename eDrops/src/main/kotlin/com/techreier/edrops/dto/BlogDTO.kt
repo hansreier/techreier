@@ -21,7 +21,7 @@ data class BlogDTO(
 
     fun toForm(): BlogForm {
         return BlogForm(
-            this.id, this.segment, this.topicKey,
+             this.segment, this.topicKey,
             this.pos.toString(), this.subject, this.about, this.blogPosts.isNotEmpty()
         )
     }

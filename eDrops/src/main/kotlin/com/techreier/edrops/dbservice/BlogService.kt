@@ -58,9 +58,10 @@ class BlogService(
     fun save(
         blogId: Long?, blogForm: BlogForm, langCode: String, blogOwner: BlogOwner, timestamp: Instant,
     ) {
-        logger.info("Saving blog with id: ${blogForm.id} segment: ${blogForm.segment} blogId: $blogId")
+        val id = if (blogId == -1L) null else blogId
+        logger.info("Saving blog with id: $id segment: ${blogForm.segment}")
         val blog: Blog =
-            blogId?.let {
+            id?.let {
                 val foundBlog: Blog = blogRepo.findById(it).orElse(null)
                     ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Blog with id $it not found")
                 if ((foundBlog.topic.topicKey != blogForm.topicKey) || foundBlog.topic.language.code != langCode) {
@@ -89,10 +90,12 @@ class BlogService(
     }
 
     fun delete(blogId: Long?, blogForm: BlogForm) {
-        logger.info("Deleting blog with id: ${blogForm.id} segment: ${blogForm.segment} blogId: $blogId")
-        blogForm.id?.let { id ->
-            blogRepo.deleteById(id)
-        } ?: logger.error("Blog not deleted, no id")
+        if ((blogId == null) || (blogId == -1L)) {
+            logger.warn("Deleting blog rejected, no valid id")
+        } else {
+            logger.info("Deleting blog with id: $blogId segment: ${blogForm.segment}")
+            blogRepo.deleteById(blogId)
+        }
     }
 
     fun duplicate(segment: String, blogOwnerId: Long, languageCode: String, blogId: Long?): Boolean {
