@@ -118,8 +118,8 @@ In a cloud based environment we have no control of server nodes, so this state c
 second level cache could be used to store state. But it is not possible in practice to avoid some state stored between
 server requests. State could be preserved in different ways:
 
-- In cookies / web storage on client (local/session storage, must use Javascript)
-- In hidden fields on the client (only if just a very small amount of state)
+- In cookies / web storage on client (local/session storage, must use JavaScript)
+- In hidden fields on the client (only if just a very small amount of state and noncritical attribute)
 - Using flash attributes for temporary storage in redirects (POST/REDIRECT/GET cycle)
 - Server session object: State must be copied between server nodes (use tools like Redis) or sticky session.
 - In the Url. But must not be overused. 
@@ -142,10 +142,12 @@ suddenly is redirected to home page. To avoid this to a certain extent, I can in
 but not too much since sessions should not live forever. Spring JDBC session mechanism that automatically stores state in 
 the database can be used, because it is independent of deploy platform and easier than Redis.
 
-As a start I have used some hidden fields, but have to be included in almost every form post, so a bit cumbersome.
+As a start I have used some hidden fields, but it has to be included in almost every form post, so a bit cumbersome.
 Too many hidden fields will usually mess up the code.
 One advantage with hidden fields, is that it does not matter if the session expires. 
-So actually I reverted to using hidden fields for some attributes. 
+The biggest disadvantage is that a hidden field can be modified with inspect mode in any browser.
+This also applies to any type of web storage, except secure cookies.
+So do not used hidden fields, web local/session storage for critical attributes that e.g. modifies the database.
 But I will use session storage for blog searching and grouping attributes, 
 and for storing timezone information originating from client.
 
