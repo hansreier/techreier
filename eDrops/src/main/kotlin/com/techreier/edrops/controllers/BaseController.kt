@@ -11,11 +11,7 @@ import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.dto.toDTO
-import com.techreier.edrops.util.Markdown
-import com.techreier.edrops.util.buildVersion
-import com.techreier.edrops.util.getMenuItems
-import com.techreier.edrops.util.getValidProjectLanguageCode
-import com.techreier.edrops.util.msg
+import com.techreier.edrops.util.*
 import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -83,11 +79,11 @@ abstract class BaseController(
                     datetimePattern = msg(ctx.messageSource, "format.datetime"),
                     datePattern = msg(ctx.messageSource, "format.date"),
                     Markdown(),
-                    langCodeWanted =blogLangCode, posts, !admin
+                    langCodeWanted = blogLangCode, posts, !admin
                 )
             }
         }
-        ctx.httpSession.setAttribute("blogId", blog?.id?: -1)
+        setBlogId(request, blog?.id ?: -1)
         ctx.httpSession.setAttribute("langcode", blog?.langCodeFound ?: usedLangcode)
 
         val topics = fetchTopics(usedLangcode)
@@ -127,6 +123,38 @@ abstract class BaseController(
     protected fun timeZone(): ZoneId =
         ctx.httpSession.getAttribute("timezone") as? ZoneId
             ?: ZoneId.of(DEFAULT_TIMEZONE)
+
+    // Get blogId from session
+    protected fun getBlogId(request: HttpServletRequest): Long {
+        try {
+            @Suppress("UNCHECKED_CAST")
+            val blogIdMap = ctx.httpSession.getAttribute("blogId") as? MutableMap<String, Long>
+                ?: throw IllegalStateException("Session blogId map is empty")
+            val segment = request.servletPath.substringAfterLast('/')
+            return blogIdMap.getValue(segment)
+        } catch (e: Exception) {
+            logger.warn("Exception getting blogId from session. ${e.message}")
+            throw IllegalStateException("Session expired")
+        }
+    }
+
+    // Set blogId in session
+    protected fun setBlogId(request: HttpServletRequest, blogId: Long) {
+        try {
+            val segment = request.servletPath.substringAfterLast('/')
+            @Suppress("UNCHECKED_CAST")
+            val blogIdMap = ctx.httpSession.getAttribute("blogId") as? MutableMap<String, Long>
+            request.servletPath.substringAfterLast('/')
+            if (blogIdMap == null) {
+                ctx.httpSession.setAttribute("blogId", mutableMapOf<String?, Long?>(Pair("blogId", blogId)))
+            } else {
+                blogIdMap[segment] = blogId
+            }
+        } catch (e: Exception) {
+            logger.warn("Exception storing blogId: $blogId in session. ${e.message}")
+            throw IllegalStateException("Session expired")
+        }
+    }
 
     // Logg and handle a general recoverable error to be presented in Thymeleaf
     // Note: Stacktrace not logged, should it?

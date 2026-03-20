@@ -124,17 +124,11 @@ class BlogPostEditController(
         response: HttpServletResponse,
         model: Model,
     ): String {
+        val blogId = getBlogId(request)
         val path = request.servletPath
-        val blogId = ctx.httpSession.getAttribute("blogId") as? Long ?:
-        throw IllegalStateException("Session expired")
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blog Post: path: $path action:  $action blogid: $blogId")
         if (action == "save" || action == "create" || action == "copy" || action == "blog") {
-
-            blogId ?: throw ResponseStatusException(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                "BlogId is missing, probably programming error"
-            )
 
             if (checkSegment(form.segment, "segment", bindingResult)) {
                 if (blogPostService.duplicate(form.segment, blogId, form.state, form.id)) {

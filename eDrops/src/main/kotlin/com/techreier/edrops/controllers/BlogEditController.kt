@@ -90,11 +90,12 @@ class BlogEditController(
         model: Model,
         @AuthenticationPrincipal owner: Owner?,
     ): String {
-        val path = request.servletPath //TODO Går galt andre gang, for da er denne tom
-        val blogId = ctx.httpSession.getAttribute("blogId") as? Long ?: throw IllegalStateException("Session expired")
+        val blogId = getBlogId(request)
+        val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
         //TODO check and use objectName in code.
         logger.info("blog: path: $path action:  $action blogid: $blogId formName: ${bindingResult.objectName}")
+
         val blogOwner = owner?.user ?:
             if (ctx.appConfig.auth)
                 throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "not authorized for save action"))

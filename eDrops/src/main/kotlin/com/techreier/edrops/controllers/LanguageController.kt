@@ -16,7 +16,6 @@ class LanguageController {
         path: String,
     ): String {
         logger.info("POST /language, and redirect")
-        redirectAttributes.addFlashAttribute("blogId", blogId)
         logger.debug("Language selected: {} path: {} blogId: {}", languageCode, path, blogId)
         logger.debug("before redirect to get")
         return "redirect:$path?lang=$languageCode"
