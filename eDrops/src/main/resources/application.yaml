@@ -12,6 +12,7 @@ server:
   #only embedded Tomcat setting, ignored if war file is deployed to tomcat
   port: 8080
 #  port: 8443
+  servlet.session.timeout: 1h
 
 spring:
   web:
