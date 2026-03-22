@@ -84,7 +84,7 @@ class BlogPostEditController(
             model.addAttribute("postHeadline", msg(ctx.messageSource, "newPost"))
         } else {
             val blogState = PostState.find(state)
-            val (blogPost, blogText) = blogPostService.readBlogPost(blogParams.blog.id, subsegment, blogState)
+            val (blogPost, blogText) = blogPostService.readBlogPost(blogParams.blog.id, subsegment, blogState) //TODO kræsjer her
             if (blogPost == null) {
                 redirectAttributes.addFlashAttribute("warning", "postNotFound")
                 return "redirect:/$HOME_DIR"
@@ -126,14 +126,14 @@ class BlogPostEditController(
         val segment = segments.getOrNull(1) ?: throw SubpathException("Empty segment")
         val subSegment = segments.getOrNull(2) ?: throw SubpathException("Empty subsegment")
         val state = segments.getOrNull(3) ?: throw SubpathException("Missing state")
-        val blogPostId = if (action == "create" || subSegment == NEW_SUBSEGMENT)
+        val blogPostId = if (subSegment == NEW_SUBSEGMENT)
             null
         else
             blogPostService.findId(subSegment, blogId, PostState.find(state))
 
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blogPost: path=$path action=$action blogid=$blogId blogPostId=$blogPostId")
-        if (action == "save" || action == "create" || action == "copy" || action == "blog") {
+        if (action == "save" || action == "create" || action == "copy" || action == "blog" )  {
 
             if (checkSegment(form.segment, "segment", bindingResult)) {
                 if (blogPostService.duplicate(form.segment, blogId, form.state, blogPostId)) {
@@ -152,12 +152,11 @@ class BlogPostEditController(
             }
 
             try {
-                if (subsegment != NEW_SUBSEGMENT)
                     blogPostService.save(blogId, blogPostId, form, now())
-                if (action == "copy") { //TODO Åpenbart et problem hvis originalen er DRAFT
+                if (action == "copy") {
                     form.state = PostState.DRAFT
-                    form.postLock = true
-                    blogPostService.save(blogId, null, form, now())
+                    form.postLock = true //TODO Problem her er det ingen sjekk på at save faktisk ikke er et duplikat
+                  //  blogPostService.save(blogId, null, form, now())
                     val copyPath = "$BLOG_EDIT_DIR/$segment/$subSegment/${form.state.lower()}"
                     return "redirect:$copyPath"
                 }

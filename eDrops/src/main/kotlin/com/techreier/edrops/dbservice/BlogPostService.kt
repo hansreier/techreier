@@ -77,7 +77,7 @@ class BlogPostService(
             HttpStatus.NOT_FOUND,
             "Blog with no id for blogPost segment: $segment"
         )
-        logger.info("Søker etter poster: ${state.name}")
+        logger.info("Søker etter poster: state=${state.name} blogId=$blogId")
         val posts = blogPostRepo.findByBlogIdAndSegmentAndState(blogId, segment, state.name)
         if (posts.isEmpty()) {
             throw KeyNotFoundException("Blogpost not found: blogId: $blogId segment: $segment state: ${state.name}")
@@ -107,10 +107,8 @@ class BlogPostService(
         return ids.first()
     }
 
-    //Only check on duplicate if state is PUBLISHED
     fun duplicate(segment: String, blogId: Long, state: PostState, blogPostId: Long?): Boolean {
-        return if (state == PostState.PUBLISHED) {
-            blogPostRepo.findBlogPostIds(segment, blogId, PostState.PUBLISHED.name).any { it != blogPostId }
-        } else false
+        return blogPostRepo.findBlogPostIds(segment, blogId, state.name).any { it != blogPostId }
+
     }
 }
