@@ -78,7 +78,7 @@ class BlogPostEditController(
 
         model.addAttribute("postStates", PostState.entries)
         if (subsegment == NEW_SUBSEGMENT) {
-            val blogPostForm = BlogPostForm()
+            val blogPostForm = model.getAttribute("blogPostForm") ?: BlogPostForm()
             model.addAttribute("blog", blogParams.blog)
             model.addAttribute("blogPostForm", blogPostForm)
             model.addAttribute("postHeadline", msg(ctx.messageSource, "newPost"))
@@ -155,10 +155,8 @@ class BlogPostEditController(
                     blogPostService.save(blogId, blogPostId, form, now())
                 if (action == "copy") {
                     form.state = PostState.DRAFT
-                    form.postLock = true //TODO Problem her er det ingen sjekk på at save faktisk ikke er et duplikat
-                  //  blogPostService.save(blogId, null, form, now())
-                    val copyPath = "$BLOG_EDIT_DIR/$segment/$subSegment/${form.state.lower()}"
-                    return "redirect:$copyPath"
+                    form.postLock = true
+                    redirectAttributes.addFlashAttribute("blogPostForm", form)
                 }
                 if (action == "blog") {
                     return "redirect:$BLOG_EDIT_DIR/$segment"
