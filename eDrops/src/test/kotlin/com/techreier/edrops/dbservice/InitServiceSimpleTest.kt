@@ -7,6 +7,7 @@ import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.TopicRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -40,7 +41,7 @@ class InitServiceSimpleTest {
     fun emptyDBTest() {
         val initial = Initial(appConfig)
         val owner = initial.blogOwner.username
-        initService.saveInitialData(initial)
+        assertTrue(initService.saveInitialData(initial))
         val blogOwner = ownerRepo.findBlogOwnerByUsername(owner)
         assertNotNull(blogOwner)
         assertEquals("Sigmond", blogOwner.lastName)

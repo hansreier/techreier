@@ -6,8 +6,7 @@ import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.repository.TestBase
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.within
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertThrows
@@ -31,7 +30,7 @@ class InitServiceTest : TestBase() {
     fun emptyDBTest() {
         val initial = Initial(appConfig)
         val owner = initial.blogOwner.username
-        initService.saveInitialData(initial)
+        assertTrue(initService.saveInitialData(initial))
         val blogOwner = ownerRepo.findBlogOwnerByUsername(owner)
         assertNotNull(blogOwner)
         assertEquals("Sigmond", blogOwner.lastName)
@@ -42,7 +41,7 @@ class InitServiceTest : TestBase() {
     fun mergeDBNoChangesTest() {
         val clone = Initial(appConfig)
         val owner = clone.blogOwner.username
-        initService.saveInitialData(clone)
+        assertTrue(initService.saveInitialData(clone))
         val blogOwner = ownerRepo.findBlogOwnerByUsername(owner)
         assertNotNull(blogOwner)
         assertEquals("Sigmond", blogOwner.lastName)
@@ -89,7 +88,7 @@ class InitServiceTest : TestBase() {
         topics.addLast(Topic("Dummy", initial.base.english))
         topics.first().text = "Dummy"
         //Save initial transient data just like when starting the server
-        initService.saveInitialData(clone)
+        assertTrue(initService.saveInitialData(clone))
 
         //First blog changed because data was changed after current timestamp in DB
         val blogFirst = blogRepo.findById(blogIdFirst).orElse(null) ?: fail("blog id not found")
@@ -116,7 +115,7 @@ class InitServiceTest : TestBase() {
         val dummyTopicEn = topicRepo.findByTopicKeyAndLanguageCode("Dummy", initial.base.english.code)
         val firstTopic: Topic = topicRepo.findById(1).orElse(null)
         assertNotNull(firstTopic)
-        assertEquals("Dummy",firstTopic.text)
+        assertEquals("Dummy", firstTopic.text)
         assertNotNull(dummyTopicNo)
         assertNotNull(dummyTopicEn)
 
@@ -147,9 +146,6 @@ class InitServiceTest : TestBase() {
         val clone = Initial(appConfig)
         val first = initial.blogOwner.blogs.first().blogPosts.first()
         initial.blogOwner.blogs.first().blogPosts.last().copyAttributes(first)
-        val e = assertThrows<DuplicateKeyException> {
-            initService.saveInitialData(clone)
-        }
-        assertThat(e.message).contains("Duplicate blogpost")
+        assertFalse(initService.saveInitialData(clone))
     }
 }

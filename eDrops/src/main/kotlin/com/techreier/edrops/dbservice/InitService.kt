@@ -23,7 +23,8 @@ class InitService(
 
     lateinit var blogAdmin: BlogOwner
 
-    fun saveInitialData(initial: Initial) {
+    fun saveInitialData(initial: Initial): Boolean {
+        var ok = true
         var blogOwner: BlogOwner
         if (ownerRepo.count() == 0L) {
             logger.info("Initialize empty database with data")
@@ -38,7 +39,8 @@ class InitService(
                     existingTopic.copyAttributes(topic)
                 } else {
                     logger.info("new topic ${topic}")
-                    topicRepo.save(topic) }
+                    topicRepo.save(topic)
+                }
             }
             blogOwner = ownerRepo.findBlogOwnerByUsername(initial.blogOwner.username)
                 ?: throw IllegalStateException("Initial blog owner not found")
@@ -49,23 +51,36 @@ class InitService(
                 } else if (existingBlogs.size > 1) {
                     throw DuplicateKeyException("Duplicate blog ids: " + existingBlogs.map { it.id })
                 }
-                val blogId = existingBlogs[0].id ?: throw ResponseStatusException(HttpStatus.NOT_FOUND,
+                val blogId = existingBlogs[0].id ?: throw ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
                     "Blog ID kan ikke være null"
                 )
                 blog.blogPosts.forEach { post ->
-                    val existingPosts = blogPostRepo.findByBlogIdAndSegmentAndState(blogId, post.segment, PostState.PUBLISHED.name)
-                    if (existingPosts.isEmpty()) {
-                        post.blog = existingBlogs[0]
-                        blogPostRepo.save(post)
-                    } else if (existingPosts.size > 1) {
-                        throw DuplicateKeyException("Duplicate blogpost ids: " + existingPosts.map { it.id })
-                    }
-                    if (post.changed > existingPosts[0].changed) {
-                        logger.info("new post: $post")
-                        logger.info("old post: ${existingPosts[0]}")
-                        blogPostRepo.save(existingPosts[0].copyAttributes(post))
+                    val existingPosts =
+                        blogPostRepo.findByBlogIdAndSegmentAndState(blogId, post.segment, PostState.PUBLISHED.name)
+                            .toMutableList()
+
+                    when (existingPosts.size) {
+                        0 -> {
+                            post.blog = existingBlogs[0]
+                            blogPostRepo.save(post)
+                        }
+
+                        1 -> {
+                            if (post.changed > existingPosts[0].changed) {
+                                logger.info("new post: $post")
+                                logger.info("old post: ${existingPosts[0]}")
+                                blogPostRepo.save(existingPosts[0].copyAttributes(post))
+                            }
+                        }
+
+                        else -> {
+                            logger.error("DUPLICATED BLOGPOSTS: BlogId: $blogId : ${post.segment}. IDs: ${existingPosts.map { it.id }}")
+                            ok = false
+                        }
                     }
                 }
+
                 if ((blog.changed > existingBlogs[0].changed)) {
                     logger.info("new blog: $blog")
                     logger.info("old blog: ${existingBlogs[0]}")
@@ -78,5 +93,7 @@ class InitService(
         }
         blogAdmin = blogOwner
         logger.info("Completed init")
+        return ok
     }
+
 }

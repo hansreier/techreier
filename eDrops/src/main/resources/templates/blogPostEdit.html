@@ -86,7 +86,6 @@
                         <div class="view" th:utext="${content}"></div>
                     </div>
                 </div>
-                <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:value="${changed}" name="changed">
                 <input type="hidden" id="focus" value="" name="focus">
                 <input type="hidden" th:field="*{preview}">
@@ -105,7 +104,7 @@
                 </div>
                 <div class="outputfield">
                     <p th:text="#{postId} + ':'"></p>
-                    <p th:text="${blogPostForm.id}"></p>
+                    <p th:text="${postId}"></p>
                 </div>
             </div>
         </form>

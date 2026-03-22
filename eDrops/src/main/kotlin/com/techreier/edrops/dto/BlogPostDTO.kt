@@ -24,7 +24,6 @@ data class BlogPostDTO(
 ) {
     fun toForm(): BlogPostForm {
         return BlogPostForm(
-            id = this.id,
             segment = this.segment,
             state = this.state,
             title = this.title,
@@ -37,7 +36,7 @@ data class BlogPostDTO(
 fun BlogPost.toDTO(zoneId: ZoneId, datePattern: String, markdown: Markdown, html: Boolean = false, blogText: BlogText? = null): BlogPostDTO {
     val changed = this.changed.atZone(zoneId)
     val created = this.created.atZone(zoneId)
-    val state = PostState.entries.find { it.name == this.state } ?: PostState.UNKNOWN
+    val state = PostState.find(this.state)
     return BlogPostDTO(
         id = this.id,
         idStateString = "${this.id.toString()} - $state" ,

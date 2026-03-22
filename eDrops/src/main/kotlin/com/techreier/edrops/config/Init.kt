@@ -19,7 +19,8 @@ class Init(
             logger.warn("Admin user auth is off, turn on and redeploy if production")
         }
         val initial = Initial(appConfig)
-        initService.saveInitialData(initial)
+        val ok = initService.saveInitialData(initial)
+        logger.info(("Initial merge is performed successfully: $ok"))
     }
 }
 
