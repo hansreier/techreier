@@ -5,7 +5,6 @@ import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.domain.BlogText
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.exceptions.KeyNotFoundException
-import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
@@ -28,8 +27,7 @@ class BlogPostService(
     fun save(blogId: Long, blogPostId: Long?, blogPostForm: BlogPostForm, timestamp: Instant): Long {
         logger.info("Saving blogPost id: ${blogPostId} segment: ${blogPostForm.segment} state: ${blogPostForm.state.name} blogId: $blogId")
 
-        val blog = blogRepo.findById(blogId).orElse(null)?.takeIf { it.id != null }
-            ?: throw ParentBlogException("Cannot use blog with id: $blogId — not found or detached")
+        val blogProxy = blogRepo.getReferenceById(blogId)
 
         val blogPost =
             BlogPost(
@@ -38,7 +36,7 @@ class BlogPostService(
                 blogPostForm.segment,
                 blogPostForm.title,
                 blogPostForm.summary,
-                blog,
+                blogProxy,
                 blogPostId
             )
         val savedBlogPost: BlogPost = blogPostRepo.save(blogPost)
@@ -64,7 +62,7 @@ class BlogPostService(
         blogId: Long?, blogPostId: Long?,
         blogPostForm: BlogPostForm,
     ) {
-        logger.info("Deleting blogPost with id: ${blogPostId} segment: ${blogPostForm.segment} blogId: $blogId")
+        logger.info("Deleting blogPost id: ${blogPostId} segment: ${blogPostForm.segment} state: ${blogPostForm.state} blogId: $blogId")
         blogPostId?.let { id ->
             blogTextRepo.deleteById(id)
             blogPostRepo.deleteById(id)
@@ -99,12 +97,12 @@ class BlogPostService(
     }
 
     fun findId(segment: String, blogId: Long, state: PostState): Long {
-        val ids = blogPostRepo.findBlogPostIds(segment, blogId, PostState.PUBLISHED.name)
+        val ids = blogPostRepo.findBlogPostIds(segment, blogId, state.toString())
         if (ids.isEmpty()) {
             throw KeyNotFoundException("Blogpost not found: blogId: $blogId segment: $segment state: ${state.name}")
         }
         if (ids.size > 1) {
-            throw DuplicateKeyException("Blogpost duplicate ids: blogId: $blogId ids: ${ids.forEach { it }}")
+            throw DuplicateKeyException("Blogpost duplicate ids: blogId: $blogId ids: $ids}")
         }
         return ids.first()
     }

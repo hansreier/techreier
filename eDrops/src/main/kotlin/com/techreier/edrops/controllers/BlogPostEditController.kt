@@ -126,7 +126,6 @@ class BlogPostEditController(
         val segment  = segments.getOrNull(1) ?: throw SubpathException("Empty segment")
         val subSegment = segments.getOrNull(2) ?: throw SubpathException("Empty subsegment")
         val state    = segments.getOrNull(3)?:  throw SubpathException("Missing state")
-
         val blogPostId = if (action == "create")
             null
         else
@@ -148,7 +147,7 @@ class BlogPostEditController(
 
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.savePost")
-                prepare(model, request, response, segment, changed) //TODO her er det litt feil.
+                prepare(model, request, response, segment, changed)
                 return "blogPostEdit"
             }
 
@@ -162,7 +161,7 @@ class BlogPostEditController(
                     return "redirect:$copyPath"
                 }
                 if (action == "blog") {
-                    return "redirect:$BLOG_EDIT_DIR/$subSegment"
+                    return "redirect:$BLOG_EDIT_DIR/$segment"
                 }
                 val newPath =
                     "$BLOG_EDIT_DIR/$segment${if (action == "save") "/${form.segment}/${form.state.lower()}" else "/$NEW_SUBSEGMENT/${PostState.DRAFT.lower()}"}"
@@ -177,7 +176,7 @@ class BlogPostEditController(
             }
         }
 
-        if (action == "delete") { //TODO evaluate if should stay on this page if more posts left, a bit work
+        if (action == "delete") {
             try {
                 blogPostService.delete(blogId, blogPostId, form)
             } catch (e: DataAccessException) {
@@ -185,7 +184,7 @@ class BlogPostEditController(
                 prepare(model, request, response, subSegment, changed)
                 return "blogPostEdit"
             }
-            return "redirect:$BLOG_EDIT_DIR/$subSegment"
+            return "redirect:$BLOG_EDIT_DIR/$segment"
         }
 
         if (action == "view") {
