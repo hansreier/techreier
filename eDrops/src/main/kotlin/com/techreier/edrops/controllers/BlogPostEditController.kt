@@ -123,9 +123,9 @@ class BlogPostEditController(
         val blogId = getBlogId(request)
         val path = request.servletPath
         val segments = path.trim('/').split('/')
-        val segment  = segments.getOrNull(1) ?: throw SubpathException("Empty segment")
+        val segment = segments.getOrNull(1) ?: throw SubpathException("Empty segment")
         val subSegment = segments.getOrNull(2) ?: throw SubpathException("Empty subsegment")
-        val state    = segments.getOrNull(3)?:  throw SubpathException("Missing state")
+        val state = segments.getOrNull(3) ?: throw SubpathException("Missing state")
         val blogPostId = if (action == "create" || subSegment == NEW_SUBSEGMENT)
             null
         else
@@ -164,8 +164,11 @@ class BlogPostEditController(
                 if (action == "blog") {
                     return "redirect:$BLOG_EDIT_DIR/$segment"
                 }
-                val newPath =
-                    "$BLOG_EDIT_DIR/$segment${if (action == "save") "/${form.segment}/${form.state.lower()}" else "/$NEW_SUBSEGMENT/${PostState.DRAFT.lower()}"}"
+                val newPath = "$BLOG_EDIT_DIR/$segment" +
+                        if (action == "save")
+                            "/${form.segment}/${form.state.lower()}"
+                        else
+                            "/$NEW_SUBSEGMENT/${PostState.DRAFT.lower()}"
                 return "redirect:$newPath"
             } catch (e: Exception) {
                 when (e) {
