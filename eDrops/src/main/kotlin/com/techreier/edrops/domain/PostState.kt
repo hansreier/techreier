@@ -3,10 +3,14 @@ package com.techreier.edrops.domain
 import java.util.Locale.getDefault
 
 enum class PostState {
-    PUBLISHED,
+    IDEA,
     DRAFT,
+    SCHEDULED,
+    PUBLISHED,
+    BENCHED,
     BACKUP,
     ARCHIVED,
+    DEPRECATED,
     UNKNOWN;
 
     companion object {

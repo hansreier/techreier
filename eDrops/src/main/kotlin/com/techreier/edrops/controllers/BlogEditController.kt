@@ -131,7 +131,7 @@ class BlogEditController(
                 return "blogEdit"
             }
             if (action == "createPost") {
-                return "redirect:$BLOG_EDIT_DIR/$segment/$NEW_SUBSEGMENT/${PostState.DRAFT.lower()}"
+                return "redirect:$BLOG_EDIT_DIR/$segment/$NEW_SUBSEGMENT/${PostState.IDEA.lower()}"
             }
             val newPath = "$BLOG_EDIT_DIR/${if (action == "save") form.segment else NEW_SEGMENT}"
             return "redirect:$newPath"

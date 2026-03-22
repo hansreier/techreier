@@ -165,7 +165,7 @@ class BlogPostEditController(
                         if (action == "save")
                             "/${form.segment}/${form.state.lower()}"
                         else
-                            "/$NEW_SUBSEGMENT/${PostState.DRAFT.lower()}"
+                            "/$NEW_SUBSEGMENT/${PostState.IDEA.lower()}"
                 return "redirect:$newPath"
             } catch (e: Exception) {
                 when (e) {
