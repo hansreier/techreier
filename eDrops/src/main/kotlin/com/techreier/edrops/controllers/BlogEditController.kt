@@ -6,6 +6,7 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.dbservice.InitService
 import com.techreier.edrops.domain.Owner
+import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.util.*
 import jakarta.servlet.http.HttpServletRequest
@@ -93,8 +94,8 @@ class BlogEditController(
         val blogId = getBlogId(request)
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
-        //TODO check and use objectName in code.
-        logger.info("blog: path: $path action:  $action blogid: $blogId formName: ${bindingResult.objectName}")
+
+        logger.info("blog: path: $path action=$action blogid=$blogId }")
 
         val blogOwner = owner?.user ?:
             if (ctx.appConfig.auth)
@@ -130,7 +131,7 @@ class BlogEditController(
                 return "blogEdit"
             }
             if (action == "createPost") {
-                return "redirect:$BLOG_EDIT_DIR/$segment/$NEW_SUBSEGMENT"
+                return "redirect:$BLOG_EDIT_DIR/$segment/$NEW_SUBSEGMENT/${PostState.DRAFT.lower()}"
             }
             val newPath = "$BLOG_EDIT_DIR/${if (action == "save") form.segment else NEW_SEGMENT}"
             return "redirect:$newPath"

@@ -126,13 +126,13 @@ class BlogPostEditController(
         val segment  = segments.getOrNull(1) ?: throw SubpathException("Empty segment")
         val subSegment = segments.getOrNull(2) ?: throw SubpathException("Empty subsegment")
         val state    = segments.getOrNull(3)?:  throw SubpathException("Missing state")
-        val blogPostId = if (action == "create")
+        val blogPostId = if (action == "create" || subSegment == NEW_SUBSEGMENT)
             null
         else
             blogPostService.findId(subSegment, blogId, PostState.find(state))
 
         redirectAttributes.addFlashAttribute("action", action)
-        logger.info("blogPost: path: $path action:  $action blogid: $blogId blogPostId: $blogPostId")
+        logger.info("blogPost: path=$path action=$action blogid=$blogId blogPostId=$blogPostId")
         if (action == "save" || action == "create" || action == "copy" || action == "blog") {
 
             if (checkSegment(form.segment, "segment", bindingResult)) {
@@ -152,7 +152,8 @@ class BlogPostEditController(
             }
 
             try {
-                blogPostService.save(blogId, blogPostId, form, now())
+                if (subsegment != NEW_SUBSEGMENT)
+                    blogPostService.save(blogId, blogPostId, form, now())
                 if (action == "copy") { //TODO Åpenbart et problem hvis originalen er DRAFT
                     form.state = PostState.DRAFT
                     form.postLock = true
