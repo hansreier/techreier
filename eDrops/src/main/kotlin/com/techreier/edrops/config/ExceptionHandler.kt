@@ -2,6 +2,7 @@ package com.techreier.edrops.config
 
 import com.techreier.edrops.exceptions.KeyNotFoundException
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -28,6 +29,10 @@ class ExceptionHandler {
                 model.addAttribute("error", HttpStatus.BAD_REQUEST.reasonPhrase)
                 model.addAttribute("status", HttpStatus.BAD_REQUEST.value())
             }
+            is DuplicateKeyException -> {
+                redirectAttributes.addFlashAttribute("warning", "blogDuplicate")
+                return "redirect:/"
+                }
             is KeyNotFoundException -> {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/"
