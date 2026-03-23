@@ -97,7 +97,7 @@ class BlogPostService(
     }
 
     fun findId(segment: String, blogId: Long, state: PostState): Long {
-        val ids = blogPostRepo.findBlogPostIds(segment, blogId, state.toString())
+        val ids = blogPostRepo.findBlogPostIds(segment, blogId, state.name)
         if (ids.isEmpty()) {
             throw KeyNotFoundException("Blogpost not found: blogId: $blogId segment: $segment state: ${state.name}")
         }

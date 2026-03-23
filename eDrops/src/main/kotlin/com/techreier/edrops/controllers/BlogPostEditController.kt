@@ -7,7 +7,6 @@ import com.techreier.edrops.dbservice.BlogPostService
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.dto.toDTO
 import com.techreier.edrops.exceptions.ParentBlogException
-import com.techreier.edrops.exceptions.SubpathException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.util.Markdown
@@ -111,7 +110,7 @@ class BlogPostEditController(
         redirectAttributes: RedirectAttributes,
         @ModelAttribute form: BlogPostForm,
         @PathVariable segment: String,
-        @PathVariable subsegment: String?,
+        @PathVariable subsegment: String,
         @PathVariable state: String,
         action: String,
         changed: String,
@@ -122,14 +121,10 @@ class BlogPostEditController(
     ): String {
         val blogId = getBlogId(request)
         val path = request.servletPath
-        val segments = path.trim('/').split('/')
-        val segment = segments.getOrNull(1) ?: throw SubpathException("Empty segment")
-        val subSegment = segments.getOrNull(2) ?: throw SubpathException("Empty subsegment")
-        val state = segments.getOrNull(3) ?: throw SubpathException("Missing state")
-        val blogPostId = if (subSegment == NEW_SUBSEGMENT)
+        val blogPostId = if (subsegment == NEW_SUBSEGMENT)
             null
         else
-            blogPostService.findId(subSegment, blogId, PostState.find(state))
+            blogPostService.findId(subsegment, blogId, PostState.find(state))
 
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blogPost: path=$path action=$action blogid=$blogId blogPostId=$blogPostId")
@@ -172,7 +167,7 @@ class BlogPostEditController(
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
                     else -> throw e
                 }
-                prepare(model, request, response, subSegment, changed)
+                prepare(model, request, response, subsegment, changed)
                 return "blogPostEdit"
             }
         }
@@ -182,7 +177,7 @@ class BlogPostEditController(
                 blogPostService.delete(blogId, blogPostId, form)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
-                prepare(model, request, response, subSegment, changed)
+                prepare(model, request, response, subsegment, changed)
                 return "blogPostEdit"
             }
             return "redirect:$BLOG_EDIT_DIR/$segment"
@@ -204,20 +199,20 @@ class BlogPostEditController(
             } else {
                 form.preview = ""
             }
-            prepare(model, request, response, subSegment, changed)
+            prepare(model, request, response, subsegment, changed)
             return "blogPostEdit"
         }
 
         if (action == "help") {
             model.addAttribute("help", "h")
-            prepare(model, request, response, subSegment, changed)
+            prepare(model, request, response, subsegment, changed)
             return "blogPostEdit"
         }
 
         // This should never really occur
         logger.error("Illegal action: $action")
         bindingResult.reject("error.illegalAction")
-        prepare(model, request, response, subSegment, changed)
+        prepare(model, request, response, subsegment, changed)
         return "blogPostEdit"
     }
 

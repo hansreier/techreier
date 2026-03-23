@@ -1,10 +1,12 @@
 package com.techreier.edrops.config
 
+import com.techreier.edrops.exceptions.KeyNotFoundException
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 // https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc
 // unsure when IllegalStateException occurs, need to be verified, it was a problem in a previous Spring version
@@ -15,7 +17,7 @@ class ExceptionHandler {
 
     @ExceptionHandler(value = [Exception::class])
     @Throws(Exception::class)
-    fun defaultErrorHandler(request: HttpServletRequest, e: Exception, model: Model): String {
+    fun defaultErrorHandler(request: HttpServletRequest, e: Exception, model: Model, redirectAttributes: RedirectAttributes): String {
 
         logger.warn("Error class: ${e.javaClass} message: ${e.message} method: ${request.method}")
 
@@ -25,6 +27,10 @@ class ExceptionHandler {
                 model.addAttribute("message", e.message)
                 model.addAttribute("error", HttpStatus.BAD_REQUEST.reasonPhrase)
                 model.addAttribute("status", HttpStatus.BAD_REQUEST.value())
+            }
+            is KeyNotFoundException -> {
+                redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+                return "redirect:/"
             }
         else -> throw e
         }
