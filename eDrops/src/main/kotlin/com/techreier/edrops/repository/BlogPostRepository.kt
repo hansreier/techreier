@@ -12,6 +12,8 @@ interface BlogPostRepository : JpaRepository<BlogPost, Long> {
 
   fun findByBlogIdAndSegment(blogId: Long, segment: String): List<BlogPost>
 
+  fun findByBlogIdAndState(blogId: Long, state: String): List<BlogPost>
+
   fun findByBlogIdAndSegmentAndState(blogId: Long, segment: String, state: String): List<BlogPost>
 
   @Query("SELECT b.id FROM BlogPost b WHERE b.segment = :segment " +

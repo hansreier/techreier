@@ -21,7 +21,6 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     override fun findById(id: Long): Optional<Blog>
 
-    //TODO Finner alle
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogPosts"])
     fun findWithPostsById(id: Long): Optional<Blog>
 

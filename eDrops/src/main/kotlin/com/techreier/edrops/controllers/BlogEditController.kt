@@ -91,21 +91,26 @@ class BlogEditController(
         model: Model,
         @AuthenticationPrincipal owner: Owner?,
     ): String {
-        val blogId = getBlogId(request)
+        val blogOwner = owner?.user ?:
+        if (ctx.appConfig.auth)
+            throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "not authorized for save action"))
+        else initService.blogAdmin
+        val blogOwnerId = blogOwner.id ?:  throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "No blogOwner exists"))
+
+        val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
+        getValidProjectLanguageCode(LocaleContextHolder.getLocale().language)
+
+        // val blogId = getBlogId(request) TODO Reier Old way
+        val blogId = blogService.findId(segment, blogOwnerId, langCode )
+
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
 
         logger.info("blog: path: $path action=$action blogid=$blogId }")
 
-        val blogOwner = owner?.user ?:
-            if (ctx.appConfig.auth)
-                throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "not authorized for save action"))
-            else initService.blogAdmin
-
-        blogOwner.id?: throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "No blogOwner exists"))
         if (action == "save" || action == "create" || action == "createPost") {
-            val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
-                getValidProjectLanguageCode(LocaleContextHolder.getLocale().language)
+           // val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
+           //     getValidProjectLanguageCode(LocaleContextHolder.getLocale().language)
             if (checkSegment(form.segment, "segment",  bindingResult)) {
                 if (blogService.duplicate(form.segment, blogOwner.id, langCode, blogId)) {
                         bindingResult.rejectValue("segment","error.duplicate", form.segment)

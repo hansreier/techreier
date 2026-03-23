@@ -121,10 +121,7 @@ class BlogPostEditController(
     ): String {
         val blogId = getBlogId(request)
         val path = request.servletPath
-        val blogPostId = if (subsegment == NEW_SUBSEGMENT)
-            null
-        else
-            blogPostService.findId(subsegment, blogId, PostState.find(state))
+        val blogPostId = blogPostService.findId(subsegment, blogId, PostState.find(state))
 
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blogPost: path=$path action=$action blogid=$blogId blogPostId=$blogPostId")

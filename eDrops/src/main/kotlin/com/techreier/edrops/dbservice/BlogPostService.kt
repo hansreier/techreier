@@ -1,6 +1,7 @@
 package com.techreier.edrops.dbservice
 
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.controllers.NEW_SUBSEGMENT
 import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.domain.BlogText
 import com.techreier.edrops.domain.PostState
@@ -96,7 +97,8 @@ class BlogPostService(
         return Pair(blogPost, blogText)
     }
 
-    fun findId(segment: String, blogId: Long, state: PostState): Long {
+    fun findId(segment: String, blogId: Long, state: PostState): Long? {
+        if (segment == NEW_SUBSEGMENT) return null
         val ids = blogPostRepo.findBlogPostIds(segment, blogId, state.name)
         if (ids.isEmpty()) {
             throw KeyNotFoundException("Blogpost not found: blogId: $blogId segment: $segment state: ${state.name}")
