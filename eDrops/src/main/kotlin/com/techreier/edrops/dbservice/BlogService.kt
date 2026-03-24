@@ -8,7 +8,6 @@ import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.exceptions.KeyNotFoundException
 import com.techreier.edrops.forms.BlogForm
-import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.TopicRepository
 import org.springframework.dao.DuplicateKeyException
@@ -22,11 +21,11 @@ import java.time.Instant
 @Transactional
 class BlogService(
     private val blogRepo: BlogRepository,
-    private val blogPostRepo: BlogPostRepository,
     private val topicRepo: TopicRepository,
 ) {
 
     // Read current blog based on segment,language code. Assumption: One owner
+    @Transactional(readOnly = true)
     fun readBlog(
         segment: String,
         oldLangCode: String?,
