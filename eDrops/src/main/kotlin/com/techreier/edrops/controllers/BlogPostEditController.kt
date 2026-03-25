@@ -4,22 +4,31 @@ import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogPostService
+import com.techreier.edrops.dbservice.BlogService
+import com.techreier.edrops.dbservice.InitService
+import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.dto.toDTO
+import com.techreier.edrops.exceptions.KeyNotFoundException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.util.Markdown
 import com.techreier.edrops.util.checkSegment
 import com.techreier.edrops.util.checkStringSize
+import com.techreier.edrops.util.getValidProjectLanguageCode
 import com.techreier.edrops.util.msg
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.dao.DataAccessException
+import org.springframework.http.HttpStatus
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 
@@ -28,7 +37,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class BlogPostEditController(
     private val ctx: Context,
     private val blogPostService: BlogPostService,
+    private val blogService: BlogService,
     private val blogPostRepo: BlogPostRepository,
+    private val initService: InitService,
 ) : BaseController(ctx) {
 
 
@@ -118,8 +129,18 @@ class BlogPostEditController(
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
+        @AuthenticationPrincipal owner: Owner?,
     ): String {
-        val blogId = getBlogId(request)
+        val blogOwner = owner?.user ?:
+        if (ctx.appConfig.auth)
+            throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "not authorized for save action"))
+        else initService.blogAdmin
+
+        val blogOwnerId = blogOwner.id ?:  throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "No blogOwner exists"))
+        val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
+        getValidProjectLanguageCode(LocaleContextHolder.getLocale().language)
+        val blogId = blogService.findId(segment, blogOwnerId, langCode ) ?:
+        throw (KeyNotFoundException("blogId not found for segment $segment language $langCode"))
         val path = request.servletPath
         val blogPostId = blogPostService.findId(subsegment, blogId, PostState.find(state))
 

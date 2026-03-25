@@ -29,7 +29,8 @@ const val BLOG_EDIT_DIR = "/$EDIT"
 @RequestMapping(BLOG_EDIT_DIR)
 class BlogEditController(
     val ctx: Context,
-    private val blogService: BlogService, private val initService: InitService,
+    private val blogService: BlogService,
+    private val initService: InitService,
 ) : BaseController(ctx) {
 
     @GetMapping("/{segment}")
@@ -100,7 +101,6 @@ class BlogEditController(
         val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
         getValidProjectLanguageCode(LocaleContextHolder.getLocale().language)
 
-        // val blogId = getBlogId(request) TODO Reier Old way
         val blogId = blogService.findId(segment, blogOwnerId, langCode )
 
         val path = request.servletPath
@@ -109,8 +109,6 @@ class BlogEditController(
         logger.info("blog: path: $path action=$action blogid=$blogId }")
 
         if (action == "save" || action == "create" || action == "createPost") {
-           // val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
-           //     getValidProjectLanguageCode(LocaleContextHolder.getLocale().language)
             if (checkSegment(form.segment, "segment",  bindingResult)) {
                 if (blogService.duplicate(form.segment, blogOwner.id, langCode, blogId)) {
                         bindingResult.rejectValue("segment","error.duplicate", form.segment)

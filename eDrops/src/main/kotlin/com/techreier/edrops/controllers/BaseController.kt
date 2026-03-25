@@ -82,7 +82,6 @@ abstract class BaseController(
                 )
             }
         }
-        setBlogId(request, blog?.id ?: -1)
         ctx.httpSession.setAttribute("langcode", blog?.langCodeFound ?: usedLangcode)
 
         val topics = fetchTopics(usedLangcode)
@@ -122,38 +121,6 @@ abstract class BaseController(
     protected fun timeZone(): ZoneId =
         ctx.httpSession.getAttribute("timezone") as? ZoneId
             ?: ZoneId.of(DEFAULT_TIMEZONE)
-
-    // Get blogId from session
-    protected fun getBlogId(request: HttpServletRequest): Long {
-        try {
-            @Suppress("UNCHECKED_CAST")
-            val blogIdMap = ctx.httpSession.getAttribute("blogId") as? MutableMap<String, Long>
-                ?: throw IllegalStateException("Session blogId map is empty")
-            val segment = request.servletPath.substringAfterLast('/')
-            return blogIdMap.getValue(segment)
-        } catch (e: Exception) {
-            logger.warn("Exception getting blogId from session. ${e.message}")
-            throw IllegalStateException("Session expired")
-        }
-    }
-
-    // Set blogId in session
-    protected fun setBlogId(request: HttpServletRequest, blogId: Long) {
-        try {
-            val segment = request.servletPath.substringAfterLast('/')
-            @Suppress("UNCHECKED_CAST")
-            val blogIdMap = ctx.httpSession.getAttribute("blogId") as? MutableMap<String, Long>
-            request.servletPath.substringAfterLast('/')
-            if (blogIdMap == null) {
-                ctx.httpSession.setAttribute("blogId", mutableMapOf<String?, Long?>(Pair("blogId", blogId)))
-            } else {
-                blogIdMap[segment] = blogId
-            }
-        } catch (e: Exception) {
-            logger.warn("Exception storing blogId: $blogId in session. ${e.message}")
-            throw IllegalStateException("Session expired")
-        }
-    }
 
     // Logg and handle a general recoverable error to be presented in Thymeleaf
     // Note: Stacktrace not logged, should it?
