@@ -7,8 +7,10 @@ import com.techreier.edrops.data.MENU_SPLIT_SIZE
 import com.techreier.edrops.data.SUBMENU_MIN_ITEMS
 import com.techreier.edrops.data.TOPIC_DEFAULT
 import com.techreier.edrops.domain.LanguageCode
+import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.BlogDTO
+import com.techreier.edrops.dto.BlogRef
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.dto.toDTO
 import com.techreier.edrops.util.*
@@ -16,16 +18,15 @@ import jakarta.servlet.ServletContext
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.i18n.LocaleContextHolder
+import org.springframework.http.HttpStatus
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.web.context.ServletContextAware
+import org.springframework.web.server.ResponseStatusException
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
-
-const val NEW_SEGMENT="_new"
-const val NEW_SUBSEGMENT = "_new"
 
 abstract class BaseController(
     private val ctx: Context,
@@ -142,6 +143,20 @@ abstract class BaseController(
             menuItems.first().segment
         } else null
     }
+
+    protected fun getBlogRef(owner: Owner?, segment: String): BlogRef {
+        val blogOwner = owner?.user ?: if (ctx.appConfig.auth)
+            throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "not authorized for save action"))
+        else ctx.initService.blogAdmin
+        val blogOwnerId =
+            blogOwner.id ?: throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "No blogOwner exists"))
+        val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?: getValidProjectLanguageCode(
+            LocaleContextHolder.getLocale().language
+        )
+        val blogId = ctx.blogService.findId(segment, blogOwnerId, langCode )
+        return BlogRef(blogOwner, blogOwnerId, blogId, langCode)
+    }
+
 
     private fun fetchLanguages(): MutableList<LanguageCode> {
         logger.debug("fetch languages from db")

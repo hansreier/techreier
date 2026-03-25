@@ -1,7 +1,7 @@
 package com.techreier.edrops.dbservice
 
+import com.techreier.edrops.config.NEW_SUBSEGMENT
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.controllers.NEW_SUBSEGMENT
 import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.domain.BlogText
 import com.techreier.edrops.domain.PostState

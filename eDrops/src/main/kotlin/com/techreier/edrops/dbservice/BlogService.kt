@@ -1,10 +1,9 @@
 package com.techreier.edrops.dbservice
 
+import com.techreier.edrops.config.NEW_SEGMENT
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.controllers.NEW_SEGMENT
 import com.techreier.edrops.domain.Blog
-import com.techreier.edrops.domain.BlogOwner
-import com.techreier.edrops.domain.BlogPost
+import com.techreier.edrops.dto.BlogRef
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.exceptions.KeyNotFoundException
 import com.techreier.edrops.forms.BlogForm
@@ -71,9 +70,10 @@ class BlogService(
         return blogRepo.getMenuItems(languageCode)
     }
 
-    fun save(
-        blogId: Long?, blogForm: BlogForm, langCode: String, blogOwner: BlogOwner, timestamp: Instant,
-    ) {
+    fun save(blogRef: BlogRef, blogForm: BlogForm, timestamp: Instant) {
+        val blogOwner = blogRef.blogOwner
+        val blogId = blogRef.blogId
+        val langCode = blogRef.langCode
         val id = if (blogId == -1L) null else blogId
         logger.info("Saving blog with id: $id segment: ${blogForm.segment}")
         val blog: Blog =
@@ -99,7 +99,7 @@ class BlogService(
                 blogForm.position.toIntOrNull() ?: 0,
                 blogForm.subject,
                 blogForm.about,
-                mutableListOf<BlogPost>(), blogOwner
+                mutableListOf(), blogOwner
             )
 
         blogRepo.save(blog)

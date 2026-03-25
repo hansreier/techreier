@@ -22,6 +22,8 @@ const val DOUBLE_FIXED_PRECISION_DEFAULT = 2
 const val MEDIA_URL_PATH="/media"
 const val PONG_TEXT="Pong from TechReier"
 const val SANITIZER = true
+const val NEW_SEGMENT = "_new"
+const val NEW_SUBSEGMENT = "_new"
 
 // This way of reading app properties is more flexible and easier than using @Value in Kotlin
 // Disadvantage: Have to inject this always

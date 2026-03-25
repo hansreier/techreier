@@ -1,25 +1,19 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.MAX_SUMMARY_SIZE
-import com.techreier.edrops.config.MAX_TITLE_SIZE
-import com.techreier.edrops.config.logger
+import com.techreier.edrops.config.*
 import com.techreier.edrops.dbservice.BlogService
-import com.techreier.edrops.dbservice.InitService
 import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.util.*
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.dao.DataAccessException
-import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 const val EDIT = "edit"
@@ -29,8 +23,7 @@ const val BLOG_EDIT_DIR = "/$EDIT"
 @RequestMapping(BLOG_EDIT_DIR)
 class BlogEditController(
     val ctx: Context,
-    private val blogService: BlogService,
-    private val initService: InitService,
+    private val blogService: BlogService
 ) : BaseController(ctx) {
 
     @GetMapping("/{segment}")
@@ -92,25 +85,16 @@ class BlogEditController(
         model: Model,
         @AuthenticationPrincipal owner: Owner?,
     ): String {
-        val blogOwner = owner?.user ?:
-        if (ctx.appConfig.auth)
-            throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "not authorized for save action"))
-        else initService.blogAdmin
-        val blogOwnerId = blogOwner.id ?:  throw (ResponseStatusException(HttpStatus.UNAUTHORIZED, "No blogOwner exists"))
 
-        val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?:
-        getValidProjectLanguageCode(LocaleContextHolder.getLocale().language)
-
-        val blogId = blogService.findId(segment, blogOwnerId, langCode )
-
+        val blogRef = getBlogRef(owner, segment)
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
 
-        logger.info("blog: path: $path action=$action blogid=$blogId }")
+        logger.info("blog: path: $path action=$action blogid=${blogRef.blogId}")
 
         if (action == "save" || action == "create" || action == "createPost") {
             if (checkSegment(form.segment, "segment",  bindingResult)) {
-                if (blogService.duplicate(form.segment, blogOwner.id, langCode, blogId)) {
+                if (blogService.duplicate(form.segment, blogRef.ownerId, blogRef.langCode, blogRef.blogId)) {
                         bindingResult.rejectValue("segment","error.duplicate", form.segment)
                 }
             }
@@ -124,7 +108,7 @@ class BlogEditController(
                 return "blogEdit"
             }
             try {
-                blogService.save(blogId, form, langCode, blogOwner, now())
+                blogService.save(blogRef, form, now())
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException -> handleRecoverableError(e, "dbSave", bindingResult)
@@ -147,7 +131,7 @@ class BlogEditController(
                 return "blogEdit"
             }
             try {
-                blogService.delete(blogId, form)
+                blogService.delete(blogRef.blogId, form)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
                 prepare(model, request, response, segment, changed)
