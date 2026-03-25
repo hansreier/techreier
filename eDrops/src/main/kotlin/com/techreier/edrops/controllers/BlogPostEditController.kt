@@ -57,7 +57,7 @@ class BlogPostEditController(
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
         }
-        val state = PostState.find(posts.first().state) //TODO Den bare velger en. OK løsning eller ikke
+        val state = PostState.find(posts.first().state)
         return "redirect:$BLOG_EDIT_DIR/$segment/$subsegment/${state}"
     }
 
