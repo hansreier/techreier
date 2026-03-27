@@ -41,9 +41,9 @@ class BlogPostService(
                 blogPostId
             )
         val savedBlogPost: BlogPost = blogPostRepo.save(blogPost)
-        savedBlogPost.id ?: throw DataRetrievalFailureException("Failed to save BlogPost: $blogPost. No id Returned")
+        val blogPostId = savedBlogPost.id ?: throw DataRetrievalFailureException("Failed to save BlogPost: $blogPost. No id Returned")
 
-        val blogText: BlogText? = blogPostId?.let { blogTextRepo.findById(it).orElse(null) }
+        val blogText: BlogText? = blogTextRepo.findById(blogPostId).orElse(null)
         val content = blogPostForm.content.trim()
         if (blogText != null) {
             if (content.isEmpty())
@@ -56,7 +56,7 @@ class BlogPostService(
             if (content.isNotEmpty())
                 blogTextRepo.save(BlogText(timestamp, blogPostForm.state.name, content, blogPost))
         }
-        return savedBlogPost.id
+        return blogPostId
     }
 
     fun delete(
@@ -87,9 +87,10 @@ class BlogPostService(
             throw DuplicateKeyException("Blogpost duplicate ids: blogId: $blogId ids: ${posts.map { it.id }}")
         }
         val blogPost = posts.first()
+        val blogPostId = blogPost.id ?: throw DataRetrievalFailureException("Failed to read BlogPost: $blogPost. No id Returned")
 
         val blogText = if (blogPost.id != null) {
-            val found = blogTextRepo.findById(blogPost.id).orElse(null)
+            val found = blogTextRepo.findById(blogPostId).orElse(null)
             if (found?.id != null) found else null
         } else {
             null
