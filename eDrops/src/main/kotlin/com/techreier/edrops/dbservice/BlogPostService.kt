@@ -88,13 +88,8 @@ class BlogPostService(
         }
         val blogPost = posts.first()
         val blogPostId = blogPost.id ?: throw DataRetrievalFailureException("Failed to read BlogPost: $blogPost. No id Returned")
-
-        val blogText = if (blogPost.id != null) {
-            val found = blogTextRepo.findById(blogPostId).orElse(null)
-            if (found?.id != null) found else null
-        } else {
-            null
-        }
+        val found = blogTextRepo.findById(blogPostId).orElse(null)
+        val blogText = if (found?.id != null) found else null
         return Pair(blogPost, blogText)
     }
 
