@@ -20,7 +20,6 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     override fun findById(id: Long): Optional<Blog>
 
-    //TODO should really include owner here as in parameter and in the result
     @Query("""
     SELECT b.id as id,
            b.changed as changed,
@@ -35,10 +34,6 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     WHERE b.id = :id
 """)
     fun findPById(id:Long): IBlog?
-
-    // Ony used in a test
-    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
-    fun findByTopicLanguageCode(languageCode: String): MutableSet<Blog>
 
     // Used in data initialization and tests
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])

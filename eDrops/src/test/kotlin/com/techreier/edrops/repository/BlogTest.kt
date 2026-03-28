@@ -120,16 +120,4 @@ class BlogTest : TestBase() {
         logger.info("Blog language: ${blog2.topic.language.language} owner: ${blog2.blogOwner.id} posts: ${blog2.blogPosts}")
     }
 
-    @Test
-    fun `read blogs find by language`() {
-        logger.info("starting read all test")
-        entityManager.clear()
-        logger.info("saved")
-        val blogs = blogRepo.findByTopicLanguageCode(NB)
-        assertThat(blogs.size).isGreaterThan(0)
-        blogs.forEach {
-            logger.info("blog: $it")
-            assertThat(it.topic.language.code).isEqualTo(NB)
-        }
-    }
 }
