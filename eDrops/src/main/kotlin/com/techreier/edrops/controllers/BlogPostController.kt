@@ -2,7 +2,7 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogPostService
-import com.techreier.edrops.dto.toDTO
+import com.techreier.edrops.repository.projections.toDTO
 import com.techreier.edrops.util.msg
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

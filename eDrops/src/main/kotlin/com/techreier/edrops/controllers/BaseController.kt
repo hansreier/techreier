@@ -11,6 +11,7 @@ import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.BlogDTO
 import com.techreier.edrops.dto.BlogRef
+import com.techreier.edrops.dto.BlogWithPosts
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.dto.toDTO
 import com.techreier.edrops.util.*
@@ -63,14 +64,14 @@ abstract class BaseController(
             BlogDTO(usedLangcode)
         } else {
             model.addAttribute("blogHeadline", "")
-            val blogWithPosts  = segment?.let {
+            val blogWithPosts: BlogWithPosts? = segment?.let {
                 ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, posts, admin)
             }
             if (blogWithPosts == null) {
                 model.addAttribute("blogHeadline", msg(ctx.messageSource, "noBlog"))
                 null
             } else {
-                val blogLangCode = blogWithPosts.blog.languageCode //skal være int.
+                val blogLangCode = blogWithPosts.blog.languageCode
                 val locale = Locale.of(blogLangCode)
                 ctx.sessionLocaleResolver.setLocale(request, response, locale) //Required sometimes
                 val blogDto = blogWithPosts.toDTO(

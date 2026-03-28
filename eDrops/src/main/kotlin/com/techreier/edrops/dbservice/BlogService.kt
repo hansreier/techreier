@@ -5,14 +5,13 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.dto.BlogRef
+import com.techreier.edrops.dto.BlogWithPosts
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.exceptions.KeyNotFoundException
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.TopicRepository
-import com.techreier.edrops.repository.projections.IBlog
-import com.techreier.edrops.repository.projections.IBlogPost
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -126,7 +125,3 @@ class BlogService(
 
 }
 
-data class BlogWithPosts(
-    val blog: IBlog,
-    val posts: List<IBlogPost>?
-)

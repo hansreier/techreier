@@ -7,11 +7,11 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogPostService
 import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.domain.PostState
-import com.techreier.edrops.dto.toDTO
 import com.techreier.edrops.exceptions.KeyNotFoundException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
+import com.techreier.edrops.repository.projections.toDTO
 import com.techreier.edrops.util.Markdown
 import com.techreier.edrops.util.checkSegment
 import com.techreier.edrops.util.checkStringSize
