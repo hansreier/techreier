@@ -5,13 +5,12 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.domain.BlogText
 import com.techreier.edrops.domain.PostState
+import com.techreier.edrops.dto.PostWithText
 import com.techreier.edrops.exceptions.KeyNotFoundException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.BlogTextRepository
-import com.techreier.edrops.repository.projections.IBlogPost
-import com.techreier.edrops.repository.projections.IBlogText
 import org.springframework.dao.DataRetrievalFailureException
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
@@ -76,7 +75,7 @@ class BlogPostService(
     fun readBlogPost(
         blogId: Long?, segment: String,
         state: PostState = PostState.PUBLISHED,
-    ): Pair<IBlogPost?, IBlogText?> {
+    ): PostWithText {
         blogId ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
             "Blog with no id for blogPost segment: $segment"
@@ -94,7 +93,7 @@ class BlogPostService(
         val found = blogTextRepo.findPById(blogPostId)
         val blogText = if (found?.id != null) found else null
         logger.info("BlogPost read")
-        return Pair(blogPost, blogText)
+        return PostWithText(blogPost, blogText)
     }
 
     fun findId(segment: String, blogId: Long, state: PostState): Long? {
