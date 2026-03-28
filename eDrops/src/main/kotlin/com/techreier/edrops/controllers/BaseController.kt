@@ -10,6 +10,7 @@ import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.dto.BlogDTO
+import com.techreier.edrops.dto.BlogParams
 import com.techreier.edrops.dto.BlogRef
 import com.techreier.edrops.dto.BlogWithPosts
 import com.techreier.edrops.dto.MenuItem
@@ -191,18 +192,6 @@ abstract class BaseController(
         val usedCode = getValidProjectLanguageCode(languageCode)
         val documents = docs.filter { (it.langCode == usedCode) }
         return getMenuItems(documents, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE, ctx.messageSource)
-    }
-
-    data class BlogParams(
-        val blog: BlogDTO?,
-        val oldLangCode: String?,
-        val usedLangCode: String,
-        val action: String,
-        val topicKey: String,
-        val topics: List<Topic>,
-    ) {
-        override fun toString() =
-            "action=$action, key=$topicKey, lang=$oldLangCode=>$usedLangCode, segment=${blog?.segment}"
     }
 
 }
