@@ -24,7 +24,10 @@ write and view the blogs in various languages.
 SQL or NoSQL database? Both can be used for the purpose. The intention is to use H2 for test and
 MariaDb for production. I could have used a No SQL database like MongoDb.
 
-Hibernate is used as ORM due to its widespread use, but has some disadvantages in Kotlin.  
+JPA / Hibernate was originally selected because it was industry standard for Java, and I wanted to learn it to
+become a better consultant. If it is the best tool for a stateless web is questionable. 
+Hibernate have some disadvantages in Kotlin, and must use som effort to set it up correctly.
+
 https://kotlinexpertise.com/hibernate-with-kotlin-spring-boot/  
 https://www.jpa-buddy.com/blog/best-practices-and-common-pitfalls/  
 https://spring.io/guides/tutorials/spring-boot-kotlin/  
@@ -39,9 +42,22 @@ Use a thin SQL like layer to be able abstract SQL dialects and CRUD functionalit
 You loose control of when and how a database call is handled using Hibernate. It is a question if it is better
 use a thin layer on top of plain SQL that supports CRUD and simple abstraction of SQL dialects (H2, Oracle, MySQl..)
 Population of the required (view and or db) model objects must then be manually handled.
-E.g. use Kotlin Exposed or Spring Data JDBC instead. I have used a lot of time
+E.g. use Kotlin Exposed,JoOQ or Spring Data JDBC instead. I have used a lot of time
 to verify that generated Hibernate SQL is correct and efficient. To configure Hibernate with Kotlin and Spring MVC
-correctly required a lot of effort.
+correctly required a lot of effort.  
+
+I have used Spring Data JDBC at work in Microservices with only one or two relational tables.  
+One comment is that is too limited, and I advise  only to be used it with a very simple domain model. 
+Key generation is too simple with too few options,  It is really not CRUD, but SUD (Save Update Delete). 
+Kotlin Exposed was not an option at work, due to a mix of Java and Kotlin code. 
+JoOQ could have been used, but I do not like to generate code for database access.
+
+What I really advice when using JPA, is to separate read and write logic. For reports and read GUI,
+use projection (interfaces, proxy based) or DTOs. I rewrote the app to use this principle in 2026 due to several problems with
+various JPA lazy loading exceptions and unwanted saves. Usually what happens in a web app is first that
+you read from the database. Then the GUI is presented to the user. The new or update operation
+is separate from this after the user have pressed the save button. It does to some extent violate the DRY
+principle, but it is worth the extra coding effort because you get more stable code.  
 
 To store a lot of huge text documents including pictures in regular relational tables is not really advisable.
 Direct text search in a lot of huge documents requires special care. A better approach would be to use
@@ -52,7 +68,7 @@ Oracle Text for this purpose. Since this is a blog system, we really do not need
 
 To make it simple I planned to  use the internal file system for my initial blogs and a table in MariaDb to store
 the majority of the blogs. I have used tables to store metadata about the blog text, including summary text.
-In 2024 I added the possibility to store the blogs in the database, as an alternative. In addition,
+In 2024, I added the possibility to store the blogs in the database, as an alternative. In addition,
 a simple GUI was required to enter the blog structure and blog text. I have gradually added this to the system.
 Before adding this GUI it was no need for any user administration. So Spring Security and very simple login
 is set up to be able to enter blogs directly in the GUI.  
