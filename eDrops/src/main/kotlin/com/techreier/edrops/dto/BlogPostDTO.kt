@@ -1,9 +1,9 @@
 package com.techreier.edrops.dto
 
-import com.techreier.edrops.domain.BlogPost
-import com.techreier.edrops.domain.BlogText
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.forms.BlogPostForm
+import com.techreier.edrops.repository.projections.IBlogPost
+import com.techreier.edrops.repository.projections.IBlogText
 import com.techreier.edrops.util.Markdown
 import com.techreier.edrops.util.text
 import java.time.ZoneId
@@ -33,7 +33,12 @@ data class BlogPostDTO(
     }
 }
 
-fun BlogPost.toDTO(zoneId: ZoneId, datePattern: String, markdown: Markdown, html: Boolean = false, blogText: BlogText? = null): BlogPostDTO {
+fun IBlogPost.toDTO(
+    zoneId: ZoneId,
+    datePattern: String,
+    markdown: Markdown,
+    html: Boolean = false, blogText: IBlogText? = null
+): BlogPostDTO {
     val changed = this.changed.atZone(zoneId)
     val created = this.created.atZone(zoneId)
     val state = PostState.find(this.state)

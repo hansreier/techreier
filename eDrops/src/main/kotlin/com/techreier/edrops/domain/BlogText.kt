@@ -1,4 +1,3 @@
-
 package com.techreier.edrops.domain
 
 import com.techreier.edrops.config.MAX_STATE_SIZE
@@ -8,13 +7,13 @@ import java.time.Instant
 @Entity
 class BlogText(
 
-    @Column(columnDefinition ="datetime(0)")
+    @Column(columnDefinition = "datetime(0)")
     var changed: Instant,
 
     @Column(nullable = false, length = MAX_STATE_SIZE)
     var state: String,
 
-    @Column(nullable = false, columnDefinition ="TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     var text: String,
 
     // Note: Bidirectional relationship one to one creates trouble with eager fetching

@@ -37,6 +37,7 @@ class BlogPostController(private val ctx : Context,
             return "redirect:/$HOME_DIR"
         }
         val (blogPost, blogText) = blogPostService.readBlogPost(blogParams.blog.id, subsegment)
+        logger.info("BlogPost read again")
         if (blogPost == null) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"

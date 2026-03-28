@@ -1,6 +1,6 @@
 package com.techreier.edrops.dto
 
-import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.dbservice.BlogWithPosts
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.util.Markdown
 import com.techreier.edrops.util.text
@@ -27,24 +27,29 @@ data class BlogDTO(
     }
 }
 
-fun Blog.toDTO(
+fun BlogWithPosts.toDTO(
     zoneId: ZoneId, datetimePattern: String, datePattern: String, markdown: Markdown, langCodeWanted: String? = null,
     posts: Boolean = true, html: Boolean = false,
 ): BlogDTO {
-    val changed = this.changed.atZone(zoneId)
+    val changed = this.blog.changed.atZone(zoneId)
+    val blogPosts = if (posts) this.posts?.map {
+        it.toDTO(zoneId, datePattern, markdown, html)
+    } ?: emptyList()
+    else emptyList()
+
     return BlogDTO(
-        this.id,
-        this.topic.topicKey,
-        topicText = this.topic.text,
-        langCodeFound = this.topic.language.code,
-        langCodeWanted = langCodeWanted ?: this.topic.language.code,
+        id = this.blog.id,
+        topicKey = this.blog.topicKey,
+        topicText = this.blog.topicText,
+        langCodeFound = this.blog.languageCode,
+        langCodeWanted = langCodeWanted ?: this.blog.languageCode,
         changed = changed,
         changedText = changed.text(datetimePattern),
-        segment = this.segment,
-        pos = this.pos,
-        subject = this.subject,
-        about = if (html) markdown.toHtml(this.about) else this.about,
-        blogPosts = if (posts) this.blogPosts.map { it.toDTO(zoneId, datePattern, markdown, html) } else emptyList()
+        segment = this.blog.segment,
+        pos = this.blog.pos,
+        subject = this.blog.subject,
+        about = if (html) markdown.toHtml(this.blog.about) else this.blog.about,
+        blogPosts = blogPosts,
     )
 }
 

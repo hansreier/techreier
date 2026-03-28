@@ -3,12 +3,16 @@ package com.techreier.edrops.dbservice
 import com.techreier.edrops.config.NEW_SEGMENT
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
+import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.dto.BlogRef
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.exceptions.KeyNotFoundException
 import com.techreier.edrops.forms.BlogForm
+import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.TopicRepository
+import com.techreier.edrops.repository.projections.IBlog
+import com.techreier.edrops.repository.projections.IBlogPost
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -20,6 +24,7 @@ import java.time.Instant
 @Transactional
 class BlogService(
     private val blogRepo: BlogRepository,
+    private val blogPostRepo: BlogPostRepository,
     private val topicRepo: TopicRepository,
 ) {
 
@@ -31,38 +36,27 @@ class BlogService(
         langCode: String,
         posts: Boolean = false,
         admin: Boolean = false,
-    ): Blog? {
+    ): BlogWithPosts? {
         logger.info("Read blog old LangCode: $oldLangCode langCode: $langCode, segment $segment, posts? $posts")
 
         // If blog is not found with current language, use the previous language code if different
         // This prevents annoying use of error page or redirect to home page, can fail if e.g. expired session.
-        val blogLanguageDTO =
-            blogRepo.getBlogWithLanguageCode(segment, langCode)
-                ?: (if (oldLangCode != null && oldLangCode != langCode) blogRepo.getBlogWithLanguageCode(
-                    segment,
-                    oldLangCode
-                ) else null)
-                ?: return null
+        val blogId =  blogRepo.findIdBySegmentAndTopicLanguageCode(segment, langCode)
+            ?: (if (oldLangCode != null && oldLangCode != langCode)
+                    blogRepo.findIdBySegmentAndTopicLanguageCode(segment, oldLangCode)
+                else null)
+            ?: return null
 
-        val blog: Blog = (
-                if (posts) {
-                    if (admin)
-                        blogRepo.findWithPostsById(blogLanguageDTO.id).orElse(null)
-                    else { /* The code does not work yet
-                        val blog : Blog = blogRepo.findById(blogLanguageDTO.id).orElse(null)
-                        val posts = blogPostRepo.findByBlogIdAndState(blogLanguageDTO.id, PostState.PUBLISHED.name)
-                            blog.blogPosts = posts.toMutableList()
-                            blog
-*/
-                        //TODO Reier can cause error if no published posts
-                       blogRepo.findWithPublishedPostsById(blogLanguageDTO.id).orElse(null)
-                    }
-                } else {
-                    blogRepo.findById(blogLanguageDTO.id).orElse(null)
-                }) ?: throw KeyNotFoundException(
-            "Blog with id ${blogLanguageDTO.id} not found"
-        )
-        return blog
+        val blog  = blogRepo.findPById(blogId) ?: return null
+        if (!posts) return BlogWithPosts(blog, null)
+
+        val blogPosts =
+        if (admin)
+            blogPostRepo.findByBlogId(blogId)
+        else {
+            blogPostRepo.findByBlogIdAndState(blogId,  PostState.PUBLISHED.name)
+        }
+        return BlogWithPosts(blog, blogPosts)
     }
 
     fun readMenu(languageCode: String): List<MenuItem> {
@@ -129,4 +123,10 @@ class BlogService(
     fun duplicate(segment: String, blogOwnerId: Long, languageCode: String, blogId: Long?): Boolean {
         return blogRepo.findBlogIds(segment, blogOwnerId, languageCode).any { it != blogId }
     }
+
 }
+
+data class BlogWithPosts(
+    val blog: IBlog,
+    val posts: List<IBlogPost>?
+)

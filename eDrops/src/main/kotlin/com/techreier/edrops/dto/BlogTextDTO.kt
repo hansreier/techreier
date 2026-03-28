@@ -1,6 +1,6 @@
 package com.techreier.edrops.dto
 
-import com.techreier.edrops.domain.BlogText
+import com.techreier.edrops.repository.projections.IBlogText
 import com.techreier.edrops.util.Markdown
 import com.techreier.edrops.util.text
 import java.time.ZoneId
@@ -12,7 +12,7 @@ class BlogTextDTO(
     val changedString: String
 )
 
-fun BlogText.toDTO(zoneId: ZoneId, datePattern: String, markdown: Markdown, html: Boolean= false ): BlogTextDTO {
+fun IBlogText.toDTO(zoneId: ZoneId, datePattern: String, markdown: Markdown, html: Boolean= false ): BlogTextDTO {
     val changed = this.changed.atZone(zoneId)
     return BlogTextDTO(
         text =  if (html) markdown.toHtml(this.text) else this.text,

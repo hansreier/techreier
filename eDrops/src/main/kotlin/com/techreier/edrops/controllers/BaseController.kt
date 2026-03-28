@@ -63,24 +63,25 @@ abstract class BaseController(
             BlogDTO(usedLangcode)
         } else {
             model.addAttribute("blogHeadline", "")
-            val foundBlog = segment?.let {
+            val blogWithPosts  = segment?.let {
                 ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, posts, admin)
             }
-            if (foundBlog == null) {
+            if (blogWithPosts == null) {
                 model.addAttribute("blogHeadline", msg(ctx.messageSource, "noBlog"))
                 null
             } else {
-                val blogLangCode = foundBlog.topic.language.code
+                val blogLangCode = blogWithPosts.blog.languageCode //skal være int.
                 val locale = Locale.of(blogLangCode)
                 ctx.sessionLocaleResolver.setLocale(request, response, locale) //Required sometimes
-                model.addAttribute("blogHeadline", foundBlog.subject)
-                foundBlog.toDTO(
+                val blogDto = blogWithPosts.toDTO(
                     zoneId = timeZone(),
                     datetimePattern = msg(ctx.messageSource, "format.datetime"),
                     datePattern = msg(ctx.messageSource, "format.date"),
                     Markdown(),
                     langCodeWanted = blogLangCode, posts, !admin
                 )
+                model.addAttribute("blogHeadline", blogDto.subject)
+                blogDto
             }
         }
         ctx.httpSession.setAttribute("langcode", blog?.langCodeFound ?: usedLangcode)

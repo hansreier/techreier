@@ -1,6 +1,7 @@
 package com.techreier.edrops.repository
 
 import com.techreier.edrops.domain.BlogPost
+import com.techreier.edrops.repository.projections.IBlogPost
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
@@ -12,9 +13,13 @@ interface BlogPostRepository : JpaRepository<BlogPost, Long> {
 
   fun findByBlogIdAndSegment(blogId: Long, segment: String): List<BlogPost>
 
-  fun findByBlogIdAndState(blogId: Long, state: String): List<BlogPost>
-
   fun findByBlogIdAndSegmentAndState(blogId: Long, segment: String, state: String): List<BlogPost>
+
+  fun findByBlogId(blogId: Long): List<IBlogPost>
+
+  fun findByBlogIdAndState(blogId: Long, state: String): List<IBlogPost>
+
+  fun findPByBlogIdAndSegmentAndState(blogId: Long, segment: String, state: String): List<IBlogPost>
 
   @Query("SELECT b.id FROM BlogPost b WHERE b.segment = :segment " +
           "AND b.blog.id = :blogId " +

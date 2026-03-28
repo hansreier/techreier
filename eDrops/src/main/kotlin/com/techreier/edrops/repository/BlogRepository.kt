@@ -1,9 +1,8 @@
 package com.techreier.edrops.repository
 
 import com.techreier.edrops.domain.Blog
-import com.techreier.edrops.domain.PostState
-import com.techreier.edrops.dto.BlogLanguageDTO
 import com.techreier.edrops.dto.MenuItem
+import com.techreier.edrops.repository.projections.IBlog
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -21,26 +20,27 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     override fun findById(id: Long): Optional<Blog>
 
-    @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language", "blogPosts"])
-    fun findWithPostsById(id: Long): Optional<Blog>
-
+    //TODO should really include owner here as in parameter and in the result
     @Query("""
-    SELECT b FROM Blog b 
-    LEFT JOIN FETCH b.blogOwner 
-    LEFT JOIN FETCH b.topic t 
-    LEFT JOIN FETCH t.language 
-    LEFT JOIN FETCH b.blogPosts p 
-    WHERE b.id = :id 
-    AND (p IS NULL OR p.state = :state)
+    SELECT b.id as id,
+           b.changed as changed,
+           b.segment as segment,
+           b.subject as subject,
+           b.about as about,
+           b.pos as pos,
+           b.topic.topicKey as topicKey,
+           b.topic.text as topicText,
+           b.topic.language.code as languageCode 
+    FROM Blog b 
+    WHERE b.id = :id
 """)
-    fun findWithPublishedPostsById(
-        id: Long,
-        state: String = PostState.PUBLISHED.name
-    ): Optional<Blog>
+    fun findPById(id:Long): IBlog?
 
+    // Ony used in a test
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCode(languageCode: String): MutableSet<Blog>
 
+    // Used in data initialization and tests
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCodeAndSegment(languageCode: String, segment: String): List<Blog>
 
@@ -50,12 +50,8 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     )
     fun getMenuItems(languageCode: String): List<MenuItem>
 
-    // Assumption: Only one owner. TODO Check for not saving blogs that returns duplicates here. Will crash here.
-    @Query(
-        "SELECT new com.techreier.edrops.dto.BlogLanguageDTO(b.id, b.topic.language.code) " +
-                " FROM Blog b WHERE b.segment = :segment AND b.topic.language.code = :languageCode",
-    )
-    fun getBlogWithLanguageCode(segment: String, languageCode: String): BlogLanguageDTO?
+    @Query("select b.id from Blog b where b.segment = :segment and b.topic.language.code = :lang")
+    fun findIdBySegmentAndTopicLanguageCode(segment: String, lang: String): Long?
 
     @Query(
         "SELECT b.id FROM Blog b " +

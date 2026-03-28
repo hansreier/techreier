@@ -10,6 +10,8 @@ import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.BlogTextRepository
+import com.techreier.edrops.repository.projections.IBlogPost
+import com.techreier.edrops.repository.projections.IBlogText
 import org.springframework.dao.DataRetrievalFailureException
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
@@ -70,16 +72,17 @@ class BlogPostService(
         } ?: logger.error("BlogPost not deleted, no id")
     }
 
+    @Transactional(readOnly = true)
     fun readBlogPost(
         blogId: Long?, segment: String,
         state: PostState = PostState.PUBLISHED,
-    ): Pair<BlogPost?, BlogText?> {
+    ): Pair<IBlogPost?, IBlogText?> {
         blogId ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
             "Blog with no id for blogPost segment: $segment"
         )
         logger.info("Søker etter poster: state=${state.name} blogId=$blogId")
-        val posts = blogPostRepo.findByBlogIdAndSegmentAndState(blogId, segment, state.name)
+        val posts = blogPostRepo.findPByBlogIdAndSegmentAndState(blogId, segment, state.name)
         if (posts.isEmpty()) {
             throw KeyNotFoundException("Blogpost not found: blogId: $blogId segment: $segment state: ${state.name}")
         }
@@ -88,8 +91,9 @@ class BlogPostService(
         }
         val blogPost = posts.first()
         val blogPostId = blogPost.id ?: throw DataRetrievalFailureException("Failed to read BlogPost: $blogPost. No id Returned")
-        val found = blogTextRepo.findById(blogPostId).orElse(null)
+        val found = blogTextRepo.findPById(blogPostId)
         val blogText = if (found?.id != null) found else null
+        logger.info("BlogPost read")
         return Pair(blogPost, blogText)
     }
 
