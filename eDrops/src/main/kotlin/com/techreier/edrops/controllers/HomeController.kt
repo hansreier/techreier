@@ -50,6 +50,7 @@ class HomeController(ctx: Context ) : BaseController(ctx) {
             """
             User-agent: *
             Disallow: /admin/
+            Disallow: /edit/
             """.trimIndent()
         logger.debug("robots.txt handling rule:\n$rules")
         return rules

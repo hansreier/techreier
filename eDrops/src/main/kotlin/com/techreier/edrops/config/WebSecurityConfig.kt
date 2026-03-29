@@ -34,6 +34,7 @@ class WebSecurityConfig {
             authorizeHttpRequests {
                 if (appConfig.auth) {
                     authorize("/admin/**", authenticated)
+                    authorize("/edit/**", authenticated)
                 }
                 authorize("/**", permitAll)
                //   authorize("/css/*", permitAll)

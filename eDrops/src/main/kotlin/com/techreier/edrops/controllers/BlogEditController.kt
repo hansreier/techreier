@@ -28,12 +28,14 @@ class BlogEditController(
 
     @GetMapping("/{segment}")
     fun allBlogPosts(
-        @PathVariable segment: String?,
+        @PathVariable segment: String,
         request: HttpServletRequest,
         response: HttpServletResponse,
         redirectAttributes: RedirectAttributes,
         model: Model,
+        @AuthenticationPrincipal owner: Owner?,
     ): String {
+        authorize(owner)
         val blogParams = fetchBlogParams(model, request, response, segment, true, true)
 
         logger.info("Fetch blog posts: $blogParams")
@@ -62,7 +64,9 @@ class BlogEditController(
         response: HttpServletResponse,
         model: Model,
         redirectAttributes: RedirectAttributes,
+        @AuthenticationPrincipal owner: Owner?,
     ): String {
+        authorize(owner)
         val blogParams = fetchBlogParams(model, request, response, null, false, true)
         val firstSegment = readFirstSegment(blogParams.usedLangCode)
         if (firstSegment == null) {
@@ -86,15 +90,15 @@ class BlogEditController(
         @AuthenticationPrincipal owner: Owner?,
     ): String {
 
-        val blogRef = getBlogRef(owner, segment)
+        val blogPrincipal = getAuthorizedBlogPrincipal(owner, segment)
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
 
-        logger.info("blog: path: $path action=$action blogid=${blogRef.blogId}")
+        logger.info("blog: path: $path action=$action blogid=${blogPrincipal.blogId}")
 
         if (action == "save" || action == "create" || action == "createPost") {
             if (checkSegment(form.segment, "segment",  bindingResult)) {
-                if (blogService.duplicate(form.segment, blogRef.ownerId, blogRef.langCode, blogRef.blogId)) {
+                if (blogService.duplicate(form.segment, blogPrincipal.ownerId, blogPrincipal.langCode, blogPrincipal.blogId)) {
                         bindingResult.rejectValue("segment","error.duplicate", form.segment)
                 }
             }
@@ -108,7 +112,7 @@ class BlogEditController(
                 return "blogEdit"
             }
             try {
-                blogService.save(blogRef, form, now())
+                blogService.save(blogPrincipal, form, now())
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException -> handleRecoverableError(e, "dbSave", bindingResult)
@@ -131,7 +135,7 @@ class BlogEditController(
                 return "blogEdit"
             }
             try {
-                blogService.delete(blogRef.blogId, form)
+                blogService.delete(blogPrincipal.blogId, form)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
                 prepare(model, request, response, segment, changed)
@@ -170,10 +174,10 @@ class BlogEditController(
         val blogParams = fetchBlogParams(model, request, response, segment, true, true)
 
         logger.info("Prepare fetch blog posts with: $blogParams")
-        model.addAttribute("blog", blogParams.blog)
+        model.addAttribute("blog", blogParams.blog) //TODO Reier trolig er verdien null
         model.addAttribute("postPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
-        logger.info("prepared)")
+        logger.info("prepared")
     }
 
 }

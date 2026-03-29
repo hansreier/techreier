@@ -70,7 +70,9 @@ class BlogPostEditController(
         response: HttpServletResponse,
         redirectAttributes: RedirectAttributes,
         model: Model,
+        @AuthenticationPrincipal owner: Owner?,
     ): String {
+        authorize(owner)
         val blogParams = fetchBlogParams(model, request, response, segment, false, true)
 
         if (blogParams.blog == null) {
@@ -95,7 +97,6 @@ class BlogPostEditController(
 
             val datePattern = msg(ctx.messageSource, "format.datetime")
             val blogPostDto = blogPost.toDTO(timeZone(), datePattern, markdown, false, blogText)
-
             logger.info("getting GUI with blogPost. ${blogPost.title}") //TODO blog.subject mangler
             val contentChanged = blogPostDto.blogText?.changedString ?: ""
             model.addAttribute("blog", blogParams.blog)
@@ -124,9 +125,9 @@ class BlogPostEditController(
         model: Model,
         @AuthenticationPrincipal owner: Owner?,
     ): String {
-        val blogRef = getBlogRef(owner, segment)
-        val blogId = blogRef.blogId
-            ?: throw (KeyNotFoundException("blogId not found for segment $segment language $blogRef.langCode"))
+        val blogPrincipal = getAuthorizedBlogPrincipal(owner, segment)
+        val blogId = blogPrincipal.blogId
+            ?: throw (KeyNotFoundException("blogId not found for segment $segment language $blogPrincipal.langCode"))
         val path = request.servletPath
         val blogPostId = blogPostService.findId(subsegment, blogId, PostState.find(state))
 
@@ -228,9 +229,9 @@ class BlogPostEditController(
         changed: String,
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment)
-        logger.info("Prepare allBlogPosts Fetch blog posts with: $blogParams")
+        logger.info("Prepare allBlogPosts Fetch blog posts with: ${blogParams}")
 
-        model.addAttribute("blog", blogParams.blog)
+        model.addAttribute("blog", blogParams.blog) //TODO Reier the value can be null
         model.addAttribute("postPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
         model.addAttribute("postStates", PostState.entries)

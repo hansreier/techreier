@@ -21,7 +21,7 @@ class InitService(
     private val topicRepo: TopicRepository,
 ) {
 
-    lateinit var blogAdmin: BlogOwner
+    private var blogAdminId: Long = -1
 
     fun saveInitialData(initial: Initial): Boolean {
         var ok = true
@@ -91,9 +91,11 @@ class InitService(
                 }
             }
         }
-        blogAdmin = blogOwner
+        blogAdminId = blogOwner.id ?: throw IllegalStateException("Initial blog owner id not found")
         logger.info("Completed init")
         return ok
     }
+
+    fun getAdminId() = blogAdminId
 
 }

@@ -4,11 +4,12 @@ import com.techreier.edrops.config.NEW_SEGMENT
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.PostState
-import com.techreier.edrops.dto.BlogRef
+import com.techreier.edrops.dto.BlogPrincipal
 import com.techreier.edrops.dto.BlogWithPosts
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.exceptions.KeyNotFoundException
 import com.techreier.edrops.forms.BlogForm
+import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.TopicRepository
@@ -22,6 +23,7 @@ import java.time.Instant
 @Service
 @Transactional
 class BlogService(
+    private val ownerRepo: BlogOwnerRepository,
     private val blogRepo: BlogRepository,
     private val blogPostRepo: BlogPostRepository,
     private val topicRepo: TopicRepository,
@@ -44,7 +46,7 @@ class BlogService(
             ?: (if (oldLangCode != null && oldLangCode != langCode)
                     blogRepo.findIdBySegmentAndTopicLanguageCode(segment, oldLangCode)
                 else null)
-            ?: return null
+            ?: return null //Reier TODO hva hvis dette skjer.
 
         val blog  = blogRepo.findPById(blogId) ?: return null
         if (!posts) return BlogWithPosts(blog, null)
@@ -63,10 +65,12 @@ class BlogService(
         return blogRepo.getMenuItems(languageCode)
     }
 
-    fun save(blogRef: BlogRef, blogForm: BlogForm, timestamp: Instant) {
-        val blogOwner = blogRef.blogOwner
-        val blogId = blogRef.blogId
-        val langCode = blogRef.langCode
+    fun save(blogPrincipal: BlogPrincipal, blogForm: BlogForm, timestamp: Instant) {
+        val blogId = blogPrincipal.blogId
+        val blogOwnerId = blogPrincipal.ownerId
+        val langCode = blogPrincipal.langCode
+        val blogOwner = ownerRepo.findById(blogOwnerId).orElse(null) ?:
+            throw KeyNotFoundException("BlogOwner with id=$blogOwnerId not found")
         val id = if (blogId == -1L) null else blogId
         logger.info("Saving blog with id: $id segment: ${blogForm.segment}")
         val blog: Blog =

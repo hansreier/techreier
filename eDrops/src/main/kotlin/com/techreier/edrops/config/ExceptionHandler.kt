@@ -1,6 +1,7 @@
 package com.techreier.edrops.config
 
 import com.techreier.edrops.exceptions.KeyNotFoundException
+import com.techreier.edrops.exceptions.NotAuthorizedException
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
@@ -31,6 +32,10 @@ class ExceptionHandler {
             }
             is DuplicateKeyException -> {
                 redirectAttributes.addFlashAttribute("warning", "blogDuplicate")
+                return "redirect:/"
+            }
+            is NotAuthorizedException -> {
+                redirectAttributes.addFlashAttribute("warning", "notAuthorized")
                 return "redirect:/"
                 }
             is KeyNotFoundException -> {
