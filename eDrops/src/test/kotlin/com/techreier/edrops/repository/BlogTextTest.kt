@@ -13,9 +13,6 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
-
-// TODO Consider where to put the test data, since BlogText in practice is not used yet.
-
 const val BLOGTEXT_1 =
     "FN har 17 bærekraftmål der alle er like viktig "
 

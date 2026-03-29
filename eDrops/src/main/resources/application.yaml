@@ -225,7 +225,7 @@ spring:
     username: dbuser
     password: ${DB_PASSWORD}
 app:
-  auth: true
+  auth: false
   media-path: "file:C:/media/"
 
 ---

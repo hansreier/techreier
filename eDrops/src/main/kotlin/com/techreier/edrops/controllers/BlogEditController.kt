@@ -53,7 +53,7 @@ class BlogEditController(
         model.addAttribute("changed", blogParams.blog.changedText)
         model.addAttribute("blogForm", blogParams.blog.toForm())
         model.addAttribute("blog", blogParams.blog)
-        model.addAttribute("postPath", "$BLOG_EDIT_DIR/$segment/")
+        model.addAttribute("blogPath", "$BLOG_EDIT_DIR/$segment/")
         logger.info("getting GUI with blogPosts")
         return "blogEdit"
     }
@@ -174,8 +174,8 @@ class BlogEditController(
         val blogParams = fetchBlogParams(model, request, response, segment, true, true)
 
         logger.info("Prepare fetch blog posts with: $blogParams")
-        model.addAttribute("blog", blogParams.blog) //TODO Reier trolig er verdien null
-        model.addAttribute("postPath", "$BLOG_EDIT_DIR/$segment/")
+        model.addAttribute("blog", blogParams.blog)
+        model.addAttribute("blogPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
         logger.info("prepared")
     }

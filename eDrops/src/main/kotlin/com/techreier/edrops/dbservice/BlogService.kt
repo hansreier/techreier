@@ -46,7 +46,7 @@ class BlogService(
             ?: (if (oldLangCode != null && oldLangCode != langCode)
                     blogRepo.findIdBySegmentAndTopicLanguageCode(segment, oldLangCode)
                 else null)
-            ?: return null //Reier TODO hva hvis dette skjer.
+            ?: return null
 
         val blog  = blogRepo.findPById(blogId) ?: return null
         if (!posts) return BlogWithPosts(blog, null)

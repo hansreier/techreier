@@ -172,7 +172,7 @@ class BlogPostEditController(
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
                     else -> throw e
                 }
-                prepare(model, request, response, subsegment, changed)
+                prepare(model, request, response, segment, changed)
                 return "blogPostEdit"
             }
         }
@@ -182,7 +182,7 @@ class BlogPostEditController(
                 blogPostService.delete(blogId, blogPostId, form)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
-                prepare(model, request, response, subsegment, changed)
+                prepare(model, request, response, segment, changed)
                 return "blogPostEdit"
             }
             return "redirect:$BLOG_EDIT_DIR/$segment"
@@ -204,20 +204,20 @@ class BlogPostEditController(
             } else {
                 form.preview = ""
             }
-            prepare(model, request, response, subsegment, changed)
+            prepare(model, request, response, segment, changed)
             return "blogPostEdit"
         }
 
         if (action == "help") {
             model.addAttribute("help", "h")
-            prepare(model, request, response, subsegment, changed)
+            prepare(model, request, response, segment, changed)
             return "blogPostEdit"
         }
 
         // This should never really occur
         logger.error("Illegal action: $action")
         bindingResult.reject("error.illegalAction")
-        prepare(model, request, response, subsegment, changed)
+        prepare(model, request, response, segment, changed)
         return "blogPostEdit"
     }
 
@@ -231,8 +231,8 @@ class BlogPostEditController(
         val blogParams = fetchBlogParams(model, request, response, segment)
         logger.info("Prepare allBlogPosts Fetch blog posts with: ${blogParams}")
 
-        model.addAttribute("blog", blogParams.blog) //TODO Reier the value can be null
-        model.addAttribute("postPath", "$BLOG_EDIT_DIR/$segment/")
+        model.addAttribute("blog", blogParams.blog)
+        model.addAttribute("blogPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
         model.addAttribute("postStates", PostState.entries)
         logger.info("prepared)")
