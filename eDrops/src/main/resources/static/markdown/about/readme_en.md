@@ -143,6 +143,7 @@ server requests. State could be preserved in different ways:
 - In a database: Using e.g. Spring JDBC session.
 
 Typical required state is user login information and conversational state.
+Spring Boot uses secure cookie for session information and authentication.
 
 Temporary state between pages: Use flash attributes.
 
@@ -165,7 +166,7 @@ The biggest disadvantage is that a hidden field can be modified with inspect mod
 This also applies to any type of web storage, except secure cookies.
 So do not used hidden fields, web local/session storage for critical attributes that e.g. modifies the database.
 But I will use session storage for blog searching and grouping attributes, 
-and for storing timezone information originating from client.
+and for storing timezone information originating from client. 
 
 Loosing this information will not force a return to the homepage anyhow.  
 
@@ -185,17 +186,32 @@ Storing state in the URL path. It seems like a strange idea... What it means is 
 not query parameters since query parameters usually only used for GET. I have used the path to identify which
 blog and blog post the user is looking at. E.g. 
 ````
-https://techreier/blog/petters/cat/feeding
-https://techreier/blog/env/weather  (username is skipped for default admin user)
+https://techreier/blog/reier/cat/feeding
+https://techreier/edit/blog/cat/feeding/published
+https://techreier/edit/blog/cat/feeding/draft
+https://techreier/blog/cat/feeding  (username is skipped for default admin user)
 ````
 - blog refers to blogs tab in main menu.
-- petters refer to the unique username that created the blog.
-- env refers to a blog identified with unique identifier env.
+- reier refer to the unique username that created the blog.
+- cat refers to the blog name about cats
+- feeding refers to the blog post with timestamp
+- edit refers  to edit mode for users with blog editing privileges
+- published means that everyone can read this blog
+- draft, means that the blog is a draft not visible to everyone.
 - weather refers to a blog post with unique identifier weather. 
 
-Note: the identifiers must conform with allowed naming rules used for an url segment.
-I do not use them as id in the database, but it could. I think it is better to use sequential numbers
-that more easily allows for renaming of these identifiers (segments.  
+For simplicity a blog post is defined with fixed states (idea, published, draft, backup, ...).
+This limits the number of instances of the same blogpost, and is done on purpose.
+Two drafts can not exist, so it is a kind of state. This is a code limitation, not database.  
+
+Note: the identifiers must conform with allowed naming rules used for a url segment.
+The path should uniquely define a database instance, it is easy fetch the instance using the url.
+If the path does not define a unique database instance, a "duplicate" error message is thrown.
+The database id I have used is a simple Kotlin Long number (artificial key, the simplest),
+I do not path as id in the database directly.
+SQL selects are used to find the id (unknown to the user)
+I think it is better to use sequential numbers (synthetic key).
+that more easily allows for renaming of these identifiers.  
 
 Currently, the username is skipped and I use only a default user to create blogs (me).
 This system makes it very easy to save hyperlinks and return to the same place.
@@ -206,12 +222,8 @@ But it is not state. Spring stores internally language in the session as state.
 
 ## Security
 
-I plan to use Spring security for login and other security issues. It seems to be the simplest option in a
+I have used Spring security for login and other security issues. It seems to be the simplest option in a
 Spring MVC Boot based system.
-
-The web app runs on http://localhost:8443 due to Spring security.  
-To run on 8080 you must remove Spring-security from pom, absolutely required.
-I have temporarily removed it e.g. to test Docker.
 
 ### Preventing security threats
 
@@ -219,31 +231,32 @@ I have temporarily removed it e.g. to test Docker.
 - Watch for SQL injection. Prevented by using Hibernate / Spring JPA and not native SQL
 - Watch for HTML injection. Required when using Markdown or RTF editors, because HTML is generated and included.
 
-I really have to do this. Summary is a text containing HTML from an editor. Using utext tag
+I really have to do this when using the utext tag to include html parsed markdown. 
 instead of text renders the included HTML as HTML and not text.
 
 ```
 <div class="container" th:utext="${blogPost.summary}"></div><br><br>
 ```
 
-What I will try to do to avoid Cross Site Scripting XSS, is to check the XML before injecting it into the web page.
+What I do to avoid Cross Site Scripting (XSS), is to check the html before injecting it into the web page.
 It is possible to remove plain HTML in markup and RTF, but a better approach is to scan and remove the potential
 dangerous parts after the HTML is generated. I have used the Owasp html Java Sanitizer library to do this.
 
 Spring security also includes some methods of preventing it. I will try
 that later.
 
-### Docker
+## Docker
 
 Generate .jar to deploy on Docker container
 Can generate .war to deploy on Tomcat (change pom)
 
 To deploy to docker container:  
-mvn spring-boot:build-image -DskipTests  
-https://www.baeldung.com/dockerizing-spring-boot-application  
-https://medium.com/@sybrenbolandit/jib-maven-plugin-89c447473d76
+mvn spring-boot:build-image -DskipTests
 
-Remember to remove the scope provided in spring-boot-starter-tomcat.
+[We Dockerize Spring Boot app](https://www.baeldung.com/dockerizing-spring-boot-application) using the
+[jib maven plugin](https://medium.com/@sybrenbolandit/jib-maven-plugin-89c447473d76).
+
+Remember to remove the scope "provided" in spring-boot-starter-tomcat.
 
 Port must be set manually to 8080 to start the application. I have temporarily disabled Spring security, can add it
 again and test.
@@ -274,16 +287,16 @@ Can be used as an alternate to a credential helper. Not tested.
 https://docs.docker.com/engine/reference/commandline/login/  
 https://github.com/docker/docker-credential-helpers/releases
 
-2 Factor Authentication can be set up on Dockerhub. Not done yet.
+MFA Authentication can be set up on Dockerhub. 
 
-to login to Docker with user name and password:
+To log in to Docker with username and password:
 
 docker login registry-1.docker.io  
 First successful login stores password in Windows Credentials Manager.  
 Check in Windows Credential Manager or "Legitimasjonsbehandling", that password is stored.  
 Check in file .docker\config.json. I first set it up manually to "credStore": "wincread",
 but contents is changed in process. This seems to be the best way to store
-credentias in Wincread.
+credentials in Wincread.
 
 I tried to do it manually by opening Credential Manager in Windows on a
 company owned PC, but did not work.
@@ -405,26 +418,26 @@ correctly required a lot of work.
 
 ### Storing text
 
-https://dzone.com/articles/how-to-store-text-in-postgresql-tips-tricks-and-tr
+I simply store it with VARCHAR for limited summary fields and TEXT for the content field in MariaDB.
 
 My documents will not exceed 1Gb limit, forget it.
 
-I will try MariaDB, PostGres is to large and not well suited for small web applications.
+I selected MariaDB, PostgreSql is too large and not well suited for small web applications.
 
-Text editors to use:
-RTF based: Can include pictures.
-Sommernote - Tutorial for Thymeleaf.. Try this  
-TineMCE (not free for advanced features), also directly editing online using cloud version.  
-Froala  
-CKEditor 5?
+Text editors that can be used:
+- Html textarea
+- RTF based: Can include pictures.
+- Sommernote - Tutorial for Thymeleaf.. Try this  
+- TineMCE (not free for advanced features), also directly editing online using cloud version.  
+- Froala  
+- CKEditor 5?
+- EasyMDE, markdown based
+- Editor.js (JSON objekter)
 
-Using markdown instead:
-
-Like this readme file..
-
-https://www.roshanadhikary.com.np/2021/07/build-a-markdown-based-blog-with-spring-boot-part-5.html  
-https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-markdown-editor  
-https://medium.com/content-uneditable/a-standard-for-rich-text-data-4b3a507af552
+But I decided to use markdown and the simple Html textarea.
+This readme file is markdown simply stored as a file on the file system.
+What I did was simply to add a view button, to view the result with backend rendering below the text box.
+In addition, I added a markdown help button to reveal som markdown tricks.
 
 ## web stuff
 
