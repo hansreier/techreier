@@ -1,7 +1,9 @@
 package com.techreier.edrops.config
 
-import com.techreier.edrops.exceptions.KeyNotFoundException
+import com.techreier.edrops.controllers.HOME_DIR
+import com.techreier.edrops.exceptions.BlogNotFoundException
 import com.techreier.edrops.exceptions.NotAuthorizedException
+import com.techreier.edrops.exceptions.PostNotFoundException
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
@@ -32,15 +34,19 @@ class ExceptionHandler {
             }
             is DuplicateKeyException -> {
                 redirectAttributes.addFlashAttribute("warning", "blogDuplicate")
-                return "redirect:/"
+                return "redirect:/$HOME_DIR"
             }
             is NotAuthorizedException -> {
                 redirectAttributes.addFlashAttribute("warning", "notAuthorized")
-                return "redirect:/"
+                return "redirect:/$HOME_DIR"
                 }
-            is KeyNotFoundException -> {
+            is BlogNotFoundException -> {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-                return "redirect:/"
+                return "redirect:/$HOME_DIR"
+            }
+            is PostNotFoundException -> {
+                redirectAttributes.addFlashAttribute("warning", "postNotFound")
+                return "redirect:/$HOME_DIR"
             }
         else -> throw e
         }

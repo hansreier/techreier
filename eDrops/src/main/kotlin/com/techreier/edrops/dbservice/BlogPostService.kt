@@ -6,7 +6,8 @@ import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.domain.BlogText
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.dto.PostWithText
-import com.techreier.edrops.exceptions.KeyNotFoundException
+import com.techreier.edrops.exceptions.BlogNotFoundException
+import com.techreier.edrops.exceptions.PostNotFoundException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
@@ -83,7 +84,7 @@ class BlogPostService(
         logger.info("Søker etter poster: state=${state.name} blogId=$blogId")
         val posts = blogPostRepo.findPByBlogIdAndSegmentAndState(blogId, segment, state.name)
         if (posts.isEmpty()) {
-            throw KeyNotFoundException("Blogpost not found: blogId: $blogId segment: $segment state: ${state.name}")
+            throw PostNotFoundException("Blogpost not found: blogId: $blogId segment: $segment state: ${state.name}")
         }
         if (posts.size > 1) {
             throw DuplicateKeyException("Blogpost duplicate ids: blogId: $blogId ids: ${posts.map { it.id }}")
@@ -100,7 +101,7 @@ class BlogPostService(
         if (segment == NEW_SUBSEGMENT) return null
         val ids = blogPostRepo.findBlogPostIds(segment, blogId, state.name)
         if (ids.isEmpty()) {
-            throw KeyNotFoundException("Blogpost not found: blogId: $blogId segment: $segment state: ${state.name}")
+            throw PostNotFoundException("Blogpost not found: blogId: $blogId segment: $segment state: ${state.name}")
         }
         if (ids.size > 1) {
             throw DuplicateKeyException("Blogpost duplicate ids: blogId: $blogId ids: $ids}")

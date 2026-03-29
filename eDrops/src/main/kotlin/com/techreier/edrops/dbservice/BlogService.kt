@@ -7,7 +7,7 @@ import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.dto.BlogPrincipal
 import com.techreier.edrops.dto.BlogWithPosts
 import com.techreier.edrops.dto.MenuItem
-import com.techreier.edrops.exceptions.KeyNotFoundException
+import com.techreier.edrops.exceptions.BlogNotFoundException
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.BlogPostRepository
@@ -70,7 +70,7 @@ class BlogService(
         val blogOwnerId = blogPrincipal.ownerId
         val langCode = blogPrincipal.langCode
         val blogOwner = ownerRepo.findById(blogOwnerId).orElse(null) ?:
-            throw KeyNotFoundException("BlogOwner with id=$blogOwnerId not found")
+            throw BlogNotFoundException("BlogOwner with id=$blogOwnerId not found")
         val id = if (blogId == -1L) null else blogId
         logger.info("Saving blog with id: $id segment: ${blogForm.segment}")
         val blog: Blog =
@@ -115,7 +115,7 @@ class BlogService(
         if (segment == NEW_SEGMENT) return null
         val ids = blogRepo.findBlogIds(segment, blogOwnerId, languageCode)
         if (ids.isEmpty()) {
-            throw KeyNotFoundException("Blog not found: ownerId: $blogOwnerId segment: $segment languageCode: $languageCode")
+            throw BlogNotFoundException("Blog not found: ownerId: $blogOwnerId segment: $segment languageCode: $languageCode")
         }
         if (ids.size > 1) {
             throw DuplicateKeyException("Blog duplicate ids: ownerId: $blogOwnerId ids: $ids}")

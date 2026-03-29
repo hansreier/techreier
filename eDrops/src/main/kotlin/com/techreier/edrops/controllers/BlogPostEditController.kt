@@ -7,8 +7,9 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogPostService
 import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.domain.PostState
-import com.techreier.edrops.exceptions.KeyNotFoundException
+import com.techreier.edrops.exceptions.BlogNotFoundException
 import com.techreier.edrops.exceptions.ParentBlogException
+import com.techreier.edrops.exceptions.PostNotFoundException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.projections.toDTO
@@ -47,16 +48,12 @@ class BlogPostEditController(
     ): String {
         val blogParams = fetchBlogParams(model, request, response, segment, false, true)
 
-        if (blogParams.blog == null || blogParams.blog.id == null) {
-            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-            return "redirect:/$HOME_DIR"
-        }
+        if (blogParams.blog == null || blogParams.blog.id == null)
+            throw BlogNotFoundException("blog with segment: $segment is not found")
 
         val posts = blogPostRepo.findByBlogIdAndSegment(blogParams.blog.id, subsegment)
-        if (posts.isEmpty()) {
-            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-            return "redirect:/$HOME_DIR"
-        }
+        if (posts.isEmpty())
+            throw PostNotFoundException("blogpost with segment: $segment subsegment: $subsegment is not found")
         val state = PostState.find(posts.first().state)
         return "redirect:$BLOG_EDIT_DIR/$segment/$subsegment/${state}"
     }
@@ -75,10 +72,8 @@ class BlogPostEditController(
         authorize(owner)
         val blogParams = fetchBlogParams(model, request, response, segment, false, true)
 
-        if (blogParams.blog == null) {
-            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-            return "redirect:/$HOME_DIR"
-        }
+        if (blogParams.blog == null)
+            throw BlogNotFoundException("blog with segment: $segment is not found")
         logger.info("Fetch blog posts: $blogParams")
 
         model.addAttribute("postStates", PostState.entries)
@@ -90,10 +85,8 @@ class BlogPostEditController(
         } else {
             val blogState = PostState.find(state)
             val (blogPost, blogText) = blogPostService.readBlogPost(blogParams.blog.id, subsegment, blogState) //TODO kræsjer her
-            if (blogPost == null) {
-                redirectAttributes.addFlashAttribute("warning", "postNotFound")
-                return "redirect:/$HOME_DIR"
-            }
+            blogPost ?:
+                throw PostNotFoundException("blogpost with segment: $segment subsegment $subsegment is not found")
 
             val datePattern = msg(ctx.messageSource, "format.datetime")
             val blogPostDto = blogPost.toDTO(timeZone(), datePattern, markdown, false, blogText)
@@ -127,7 +120,7 @@ class BlogPostEditController(
     ): String {
         val blogPrincipal = getAuthorizedBlogPrincipal(owner, segment)
         val blogId = blogPrincipal.blogId
-            ?: throw (KeyNotFoundException("blogId not found for segment $segment language $blogPrincipal.langCode"))
+            ?: throw (BlogNotFoundException("blogId not found for segment $segment language $blogPrincipal.langCode"))
         val path = request.servletPath
         val blogPostId = blogPostService.findId(subsegment, blogId, PostState.find(state))
 
@@ -230,6 +223,8 @@ class BlogPostEditController(
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment)
         logger.info("Prepare allBlogPosts Fetch blog posts with: ${blogParams}")
+
+        blogParams.blog ?: throw BlogNotFoundException("Blog with segment $segment not found")
 
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("blogPath", "$BLOG_EDIT_DIR/$segment/")

@@ -4,6 +4,7 @@ import com.techreier.edrops.config.*
 import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.domain.PostState
+import com.techreier.edrops.exceptions.BlogNotFoundException
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.util.*
 import jakarta.servlet.http.HttpServletRequest
@@ -174,6 +175,7 @@ class BlogEditController(
         val blogParams = fetchBlogParams(model, request, response, segment, true, true)
 
         logger.info("Prepare fetch blog posts with: $blogParams")
+        blogParams.blog ?: throw BlogNotFoundException("Blog with segment $segment not found")
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("blogPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
