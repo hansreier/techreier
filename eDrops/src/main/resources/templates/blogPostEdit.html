@@ -10,6 +10,9 @@
 </head>
 <body>
 <div layout:fragment="content">
+    <th:block th:if="${duplicates != null}">
+        <p class=warning th:text="#{warning.postDuplicate} +' '+ ${duplicates}"></p>
+    </th:block>
     <div th:if="${blogPostForm != null}">
         <form id="blogPostform" th:action="@{${path}}" th:object="${blogPostForm}" th:method="post">
             <div class="button-row">

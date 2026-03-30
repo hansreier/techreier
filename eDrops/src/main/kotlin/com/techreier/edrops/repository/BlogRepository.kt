@@ -48,9 +48,13 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @Query("select b.id from Blog b where b.segment = :segment and b.topic.language.code = :lang")
     fun findIdBySegmentAndTopicLanguageCode(segment: String, lang: String): Long?
 
-    @Query(
-        "SELECT b.id FROM Blog b " +
-                "WHERE b.segment = :segment AND b.blogOwner.id = :blogOwnerId AND b.topic.language.code = :languageCode"
-    )
+    @Query("""
+    SELECT b.id FROM Blog b 
+    WHERE b.segment = :segment 
+    AND b.blogOwner.id = :blogOwnerId 
+    AND b.topic.language.code = :languageCode
+    ORDER BY b.changed DESC, b.id DESC
+""")
     fun findBlogIds(segment: String, blogOwnerId: Long, languageCode: String): List<Long>
+
 }

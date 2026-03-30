@@ -9,21 +9,24 @@ import org.springframework.stereotype.Repository
 @Repository
 interface BlogPostRepository : JpaRepository<BlogPost, Long> {
 
-  fun findByTitle(text: String, state: String): List<BlogPost>
+    fun findByTitle(text: String, state: String): List<BlogPost>
 
-  fun findByBlogIdAndSegment(blogId: Long, segment: String): List<BlogPost>
+    fun findByBlogIdAndSegmentAndState(blogId: Long, segment: String, state: String): List<BlogPost>
 
-  fun findByBlogIdAndSegmentAndState(blogId: Long, segment: String, state: String): List<BlogPost>
+    fun findByBlogId(blogId: Long): List<IBlogPost>
 
-  fun findByBlogId(blogId: Long): List<IBlogPost>
+    fun findByBlogIdAndState(blogId: Long, state: String): List<IBlogPost>
 
-  fun findByBlogIdAndState(blogId: Long, state: String): List<IBlogPost>
+    fun findPByBlogIdAndSegmentAndState(blogId: Long, segment: String, state: String): List<IBlogPost>
 
-  fun findPByBlogIdAndSegmentAndState(blogId: Long, segment: String, state: String): List<IBlogPost>
-
-  @Query("SELECT b.id FROM BlogPost b WHERE b.segment = :segment " +
-          "AND b.blog.id = :blogId " +
-          "AND b.state = :state")
-  fun findBlogPostIds(segment: String, blogId: Long, state: String): List<Long>
-
+    @Query(
+        """
+    SELECT b.id FROM BlogPost b 
+    WHERE b.segment = :segment 
+    AND b.blog.id = :blogId 
+    AND b.state = :state 
+    ORDER BY b.changed DESC, b.id DESC
+"""
+    )
+    fun findBlogPostIds(segment: String, blogId: Long, state: String): List<Long>
 }

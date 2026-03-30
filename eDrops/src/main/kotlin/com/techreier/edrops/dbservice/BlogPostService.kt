@@ -1,19 +1,16 @@
 package com.techreier.edrops.dbservice
 
-import com.techreier.edrops.config.NEW_SUBSEGMENT
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.domain.BlogText
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.dto.PostWithText
-import com.techreier.edrops.exceptions.BlogNotFoundException
 import com.techreier.edrops.exceptions.PostNotFoundException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.BlogTextRepository
 import org.springframework.dao.DataRetrievalFailureException
-import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -62,14 +59,14 @@ class BlogPostService(
     }
 
     fun delete(
-        blogId: Long?, blogPostId: Long?,
+        blogId: Long?, blogPostIds: List<Long>,
         blogPostForm: BlogPostForm,
     ) {
-        logger.info("Deleting blogPost id: ${blogPostId} segment: ${blogPostForm.segment} state: ${blogPostForm.state} blogId: $blogId")
-        blogPostId?.let { id ->
-            blogTextRepo.deleteById(id)
-            blogPostRepo.deleteById(id)
-        } ?: logger.error("BlogPost not deleted, no id")
+        logger.info("Deleting blogPost ids: $blogPostIds segment: ${blogPostForm.segment} state: ${blogPostForm.state} blogId: $blogId")
+        blogPostIds.let { ids ->
+            blogTextRepo.deleteAllById(ids)
+            blogPostRepo.deleteAllById(ids)
+        }
     }
 
     @Transactional(readOnly = true)
@@ -86,27 +83,22 @@ class BlogPostService(
         if (posts.isEmpty()) {
             throw PostNotFoundException("Blogpost not found: blogId: $blogId segment: $segment state: ${state.name}")
         }
-        if (posts.size > 1) {
-            throw DuplicateKeyException("Blogpost duplicate ids: blogId: $blogId ids: ${posts.map { it.id }}")
-        }
+        val duplicates = if (posts.size > 1) {
+            val dupList = posts.mapNotNull { it.id }
+            logger.warn("Blogpost duplicate ids: blogId: $blogId ids: $dupList")
+            dupList
+        } else listOf()
         val blogPost = posts.first()
         val blogPostId = blogPost.id ?: throw DataRetrievalFailureException("Failed to read BlogPost: $blogPost. No id Returned")
         val found = blogTextRepo.findPById(blogPostId)
         val blogText = if (found?.id != null) found else null
         logger.info("BlogPost read")
-        return PostWithText(blogPost, blogText)
+        return PostWithText(blogPost, blogText, duplicates)
     }
 
-    fun findId(segment: String, blogId: Long, state: PostState): Long? {
-        if (segment == NEW_SUBSEGMENT) return null
-        val ids = blogPostRepo.findBlogPostIds(segment, blogId, state.name)
-        if (ids.isEmpty()) {
-            throw PostNotFoundException("Blogpost not found: blogId: $blogId segment: $segment state: ${state.name}")
-        }
-        if (ids.size > 1) {
-            throw DuplicateKeyException("Blogpost duplicate ids: blogId: $blogId ids: $ids}")
-        }
-        return ids.first()
+
+    fun findIds(segment: String, blogId: Long, state: PostState):List<Long> {
+        return blogPostRepo.findBlogPostIds(segment, blogId, state.name)
     }
 
     fun duplicate(segment: String, blogId: Long, state: PostState, blogPostId: Long?): Boolean {

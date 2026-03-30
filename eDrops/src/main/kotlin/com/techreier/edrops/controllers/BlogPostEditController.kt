@@ -57,15 +57,22 @@ class BlogPostEditController(
             model.addAttribute("blogPostForm", blogPostForm)
             model.addAttribute("postHeadline", msg(ctx.messageSource, "newPost"))
         } else {
-            val postState = PostState.find(state, false) //TODO ReierAsk rettet her
-            val (blogPost, blogText) = blogPostService.readBlogPost(blogParams.blog.id, subsegment, postState)
-            blogPost ?:
-                throw PostNotFoundException("blogpost with segment: $segment subsegment $subsegment is not found")
+            val postState = PostState.find(state, false)
+            val (blogPost, blogText, duplicates) = blogPostService.readBlogPost(
+                blogParams.blog.id,
+                subsegment,
+                postState
+            )
+            blogPost
+                ?: throw PostNotFoundException("blogpost with segment: $segment subsegment $subsegment is not found")
 
             val datePattern = msg(ctx.messageSource, "format.datetime")
             val blogPostDto = blogPost.toDTO(timeZone(), datePattern, markdown, false, blogText)
-            logger.info("getting GUI with blogPost. ${blogPost.title}") //TODO blog.subject mangler
+            logger.info("getting GUI with blogPost. ${blogPost.title}")
             val contentChanged = blogPostDto.blogText?.changedString ?: ""
+            if (duplicates.isNotEmpty()) {
+                model.addAttribute("duplicates", duplicates)
+            }
             model.addAttribute("blog", blogParams.blog)
             model.addAttribute("postHeadline", blogPostDto.title)
             model.addAttribute("created", (blogPostDto.createdString))
@@ -96,18 +103,17 @@ class BlogPostEditController(
         val blogId = blogPrincipal.blogId
             ?: throw (BlogNotFoundException("blogId not found for segment $segment language $blogPrincipal.langCode"))
         val path = request.servletPath
-        val blogPostId = blogPostService.findId(subsegment, blogId, PostState.find(state, true))
+
+        val state = PostState.find(state, false)
+        val blogPostIds = blogPostService.findIds(subsegment, blogId, state).toMutableList()
 
         redirectAttributes.addFlashAttribute("action", action)
-        logger.info("blogPost: path=$path action=$action blogid=$blogId blogPostId=$blogPostId")
-        if (action == "save" || action == "create" || action == "copy" || action == "blog" )  {
+        logger.info("blogPost: path=$path action=$action blogid=$blogId blogPostIds=$blogPostIds")
+        if (action == "save" || action == "create" || action == "copy" || action == "blog") {
+            if (blogPostIds.size > 1)
+                bindingResult.rejectValue("segment", "error.duplicate", form.segment)
 
-            if (checkSegment(form.segment, "segment", bindingResult)) {
-                if (blogPostService.duplicate(form.segment, blogId, form.state, blogPostId)) {
-                    bindingResult.rejectValue("segment", "error.duplicate", form.segment)
-                }
-            }
-
+            checkSegment(form.segment, "segment", bindingResult)
             checkStringSize(form.title, MAX_TITLE_SIZE, "title", bindingResult, 1)
             form.title = form.title.replaceFirstChar { it.uppercaseChar() }
             checkStringSize(form.summary, MAX_SUMMARY_SIZE, "summary", bindingResult)
@@ -117,9 +123,8 @@ class BlogPostEditController(
                 prepare(model, request, response, segment, changed)
                 return "blogPostEdit"
             }
-
             try {
-                    blogPostService.save(blogId, blogPostId, form, now())
+                blogPostService.save(blogId, blogPostIds.firstOrNull(), form, now())
                 if (action == "copy") {
                     form.state = PostState.DRAFT
                     form.postLock = true
@@ -146,7 +151,7 @@ class BlogPostEditController(
 
         if (action == "delete") {
             try {
-                blogPostService.delete(blogId, blogPostId, form)
+                blogPostService.delete(blogId, blogPostIds, form)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
                 prepare(model, request, response, segment, changed)
