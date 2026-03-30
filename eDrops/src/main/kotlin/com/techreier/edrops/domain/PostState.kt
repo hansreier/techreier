@@ -13,9 +13,10 @@ enum class PostState {
     DEPRECATED,
     UNKNOWN;
 
+    // Observe: When called from database, boolean should be true, else false
     companion object {
-        fun find(value: String?): PostState =
-            entries.find { it.name.equals(value, ignoreCase = true) } ?: UNKNOWN
+        fun find(value: String?, ignoreCase: Boolean = false ): PostState =
+            entries.find { it.name.equals(value?.uppercase(), ignoreCase = ignoreCase) } ?: UNKNOWN
     }
 
     override fun toString(): String =
