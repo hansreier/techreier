@@ -1,19 +1,17 @@
 package com.techreier.edrops
 
 import com.techreier.edrops.domain.PostState
+import com.techreier.edrops.exceptions.StateNotFoundException
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 class PostStateTest {
 
-    @Test
-    fun findExactMatch() {
-        assertEquals(PostState.PUBLISHED, PostState.find("PUBLISHED"))
-    }
 
     @Test
     fun findLowercaseInput() {
-        assertEquals(PostState.PUBLISHED, PostState.find("published"))
+        assertEquals(PostState.PUBLISHED, PostState.find("published", false))
     }
 
     @Test
@@ -23,16 +21,30 @@ class PostStateTest {
 
     @Test
     fun findInvalidInput() {
-        assertEquals(PostState.UNKNOWN, PostState.find("SOEPPEL"))
+        assertThrows(StateNotFoundException::class.java) {
+            PostState.find("soeppel", false)
+        }
+    }
+
+    @Test
+    fun findInvalidCase() {
+        assertThrows(StateNotFoundException::class.java) {
+            PostState.find("PUBLISHED", false)
+        }
+    }
+
+    @Test
+    fun findUnknownWithInvalidInputFromDatabase() {
+        assertEquals(PostState.UNKNOWN, PostState.find("soeppel", true))
     }
 
     @Test
     fun findNullInput() {
-        assertEquals(PostState.UNKNOWN, PostState.find(null))
+        assertEquals(PostState.UNKNOWN, PostState.find(null, true))
     }
 
     @Test
     fun findEmptyInput() {
-        assertEquals(PostState.UNKNOWN, PostState.find(""))
+        assertEquals(PostState.UNKNOWN, PostState.find("", true))
     }
 }

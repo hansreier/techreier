@@ -11,7 +11,6 @@ import com.techreier.edrops.exceptions.BlogNotFoundException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.exceptions.PostNotFoundException
 import com.techreier.edrops.forms.BlogPostForm
-import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.projections.toDTO
 import com.techreier.edrops.util.Markdown
 import com.techreier.edrops.util.checkSegment
@@ -33,30 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class BlogPostEditController(
     private val ctx: Context,
     private val blogPostService: BlogPostService,
-    private val blogPostRepo: BlogPostRepository,
 ) : BaseController(ctx) {
-
-
-    @GetMapping("/{segment}/{subsegment}")
-    fun blogPost(
-        @PathVariable segment: String,
-        @PathVariable subsegment: String,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        redirectAttributes: RedirectAttributes,
-        model: Model,
-    ): String {
-        val blogParams = fetchBlogParams(model, request, response, segment, false, true)
-
-        if (blogParams.blog == null || blogParams.blog.id == null)
-            throw BlogNotFoundException("blog with segment: $segment is not found")
-
-        val posts = blogPostRepo.findByBlogIdAndSegment(blogParams.blog.id, subsegment)
-        if (posts.isEmpty())
-            throw PostNotFoundException("blogpost with segment: $segment subsegment: $subsegment is not found")
-        val state = PostState.find(posts.first().state)
-        return "redirect:$BLOG_EDIT_DIR/$segment/$subsegment/${state}"
-    }
 
     @GetMapping("/{segment}/{subsegment}/{state}")
     fun blogPost(
@@ -65,13 +41,11 @@ class BlogPostEditController(
         @PathVariable state: String,
         request: HttpServletRequest,
         response: HttpServletResponse,
-        redirectAttributes: RedirectAttributes,
         model: Model,
         @AuthenticationPrincipal owner: Owner?,
     ): String {
         authorize(owner)
         val blogParams = fetchBlogParams(model, request, response, segment, false, true)
-
         if (blogParams.blog == null)
             throw BlogNotFoundException("blog with segment: $segment is not found")
         logger.info("Fetch blog posts: $blogParams")
@@ -83,8 +57,8 @@ class BlogPostEditController(
             model.addAttribute("blogPostForm", blogPostForm)
             model.addAttribute("postHeadline", msg(ctx.messageSource, "newPost"))
         } else {
-            val blogState = PostState.find(state)
-            val (blogPost, blogText) = blogPostService.readBlogPost(blogParams.blog.id, subsegment, blogState) //TODO kræsjer her
+            val postState = PostState.find(state, false) //TODO ReierAsk rettet her
+            val (blogPost, blogText) = blogPostService.readBlogPost(blogParams.blog.id, subsegment, postState)
             blogPost ?:
                 throw PostNotFoundException("blogpost with segment: $segment subsegment $subsegment is not found")
 
@@ -122,7 +96,7 @@ class BlogPostEditController(
         val blogId = blogPrincipal.blogId
             ?: throw (BlogNotFoundException("blogId not found for segment $segment language $blogPrincipal.langCode"))
         val path = request.servletPath
-        val blogPostId = blogPostService.findId(subsegment, blogId, PostState.find(state))
+        val blogPostId = blogPostService.findId(subsegment, blogId, PostState.find(state, true))
 
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blogPost: path=$path action=$action blogid=$blogId blogPostId=$blogPostId")

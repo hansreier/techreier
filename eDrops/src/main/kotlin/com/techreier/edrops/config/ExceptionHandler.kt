@@ -4,6 +4,7 @@ import com.techreier.edrops.controllers.HOME_DIR
 import com.techreier.edrops.exceptions.BlogNotFoundException
 import com.techreier.edrops.exceptions.NotAuthorizedException
 import com.techreier.edrops.exceptions.PostNotFoundException
+import com.techreier.edrops.exceptions.StateNotFoundException
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
@@ -46,6 +47,10 @@ class ExceptionHandler {
             }
             is PostNotFoundException -> {
                 redirectAttributes.addFlashAttribute("warning", "postNotFound")
+                return "redirect:/$HOME_DIR"
+            }
+            is StateNotFoundException -> {
+                redirectAttributes.addFlashAttribute("warning", "stateNotFound")
                 return "redirect:/$HOME_DIR"
             }
         else -> throw e

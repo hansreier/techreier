@@ -178,7 +178,7 @@ abstract class BaseController(
         return topics
     }
 
-    // Fetch menu items from database (Note: Only own owner in this implementation)
+    // Fetch menu items from database (Note: Only owner in this implementation)
     private fun fetchMenuFromDb(langCode: String): List<MenuItem> {
         logger.debug("Fetch menu items by langCode: $langCode")
         val blogs = ctx.blogService.readMenu(langCode)

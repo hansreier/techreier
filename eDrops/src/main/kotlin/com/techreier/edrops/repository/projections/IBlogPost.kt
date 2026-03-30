@@ -25,7 +25,7 @@ fun IBlogPost.toDTO(
 ): BlogPostDTO {
     val changed = this.changed.atZone(zoneId)
     val created = this.created.atZone(zoneId)
-    val state = PostState.find(this.state)
+    val state = PostState.find(this.state, true)
     return BlogPostDTO(
         id = this.id,
         idStateString = "${this.id.toString()} - $state" ,

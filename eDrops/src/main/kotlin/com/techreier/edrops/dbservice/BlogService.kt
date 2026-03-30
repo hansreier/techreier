@@ -61,7 +61,7 @@ class BlogService(
     }
 
     fun readMenu(languageCode: String): List<MenuItem> {
-        logger.info("Read menu from blog with language: $languageCode")
+        logger.info("Read menu from blog with language=$languageCode")
         return blogRepo.getMenuItems(languageCode)
     }
 
