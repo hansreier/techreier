@@ -45,6 +45,7 @@ class BlogPostEditController(
         @AuthenticationPrincipal owner: Owner?,
     ): String {
         authorize(owner)
+        logger.info("ReierAsk reading")
         val blogParams = fetchBlogParams(model, request, response, segment, false, true)
         if (blogParams.blog == null)
             throw BlogNotFoundException("blog with segment: $segment is not found")
@@ -120,7 +121,7 @@ class BlogPostEditController(
 
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.savePost")
-                prepare(model, request, response, segment, changed)
+                prepare(model, request, response, segment, changed, blogPostIds)
                 return "blogPostEdit"
             }
             try {
@@ -144,7 +145,7 @@ class BlogPostEditController(
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
                     else -> throw e
                 }
-                prepare(model, request, response, segment, changed)
+                prepare(model, request, response, segment, changed, blogPostIds)
                 return "blogPostEdit"
             }
         }
@@ -154,7 +155,7 @@ class BlogPostEditController(
                 blogPostService.delete(blogId, blogPostIds, form)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
-                prepare(model, request, response, segment, changed)
+                prepare(model, request, response, segment, changed, blogPostIds)
                 return "blogPostEdit"
             }
             return "redirect:$BLOG_EDIT_DIR/$segment"
@@ -176,20 +177,20 @@ class BlogPostEditController(
             } else {
                 form.preview = ""
             }
-            prepare(model, request, response, segment, changed)
+            prepare(model, request, response, segment, changed, blogPostIds)
             return "blogPostEdit"
         }
 
         if (action == "help") {
             model.addAttribute("help", "h")
-            prepare(model, request, response, segment, changed)
+            prepare(model, request, response, segment, changed, blogPostIds)
             return "blogPostEdit"
         }
 
         // This should never really occur
         logger.error("Illegal action: $action")
         bindingResult.reject("error.illegalAction")
-        prepare(model, request, response, segment, changed)
+        prepare(model, request, response, segment, changed, blogPostIds)
         return "blogPostEdit"
     }
 
@@ -199,6 +200,7 @@ class BlogPostEditController(
         response: HttpServletResponse,
         segment: String,
         changed: String,
+        duplicates: List<Long>
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment)
         logger.info("Prepare allBlogPosts Fetch blog posts with: ${blogParams}")
@@ -209,6 +211,9 @@ class BlogPostEditController(
         model.addAttribute("blogPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
         model.addAttribute("postStates", PostState.entries)
+        if (duplicates.size > 1) {
+            model.addAttribute("duplicates", duplicates)
+        }
         logger.info("prepared)")
     }
 
