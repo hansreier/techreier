@@ -116,7 +116,11 @@ class BlogPostEditController(
             if (blogPostIds.size > 1)
                 bindingResult.rejectValue("segment", "error.duplicate", form.segment)
 
-            checkSegment(form.segment, "segment", bindingResult)
+            if (checkSegment(form.segment, "segment", bindingResult)) {
+                if (blogPostService.duplicate(form.segment, blogId, form.state, blogPostIds.first())) {
+                    bindingResult.rejectValue("segment", "error.duplicate", form.segment)
+                }
+            }
             checkStringSize(form.title, MAX_TITLE_SIZE, "title", bindingResult, 1)
             form.title = form.title.replaceFirstChar { it.uppercaseChar() }
             checkStringSize(form.summary, MAX_SUMMARY_SIZE, "summary", bindingResult)
