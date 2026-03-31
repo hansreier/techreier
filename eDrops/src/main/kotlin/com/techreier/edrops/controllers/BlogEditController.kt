@@ -91,7 +91,7 @@ class BlogEditController(
         @AuthenticationPrincipal owner: Owner?,
     ): String {
 
-        val blogPrincipal = getAuthorizedBlogPrincipal(owner, segment)
+        val blogPrincipal = authorize(owner, segment)
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
 

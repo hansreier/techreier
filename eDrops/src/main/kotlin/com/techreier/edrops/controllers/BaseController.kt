@@ -153,7 +153,7 @@ abstract class BaseController(
         return blogOwnerId
     }
 
-    protected fun getAuthorizedBlogPrincipal(owner: Owner?, segment: String): BlogPrincipal {
+    protected fun authorize(owner: Owner?, segment: String): BlogPrincipal {
         val blogOwnerId = authorize(owner)
         val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?: getValidProjectLanguageCode(
             LocaleContextHolder.getLocale().language

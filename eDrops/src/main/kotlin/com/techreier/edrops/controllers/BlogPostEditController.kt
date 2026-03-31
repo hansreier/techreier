@@ -100,7 +100,7 @@ class BlogPostEditController(
         model: Model,
         @AuthenticationPrincipal owner: Owner?,
     ): String {
-        val blogPrincipal = getAuthorizedBlogPrincipal(owner, segment)
+        val blogPrincipal = authorize(owner, segment)
         val blogId = blogPrincipal.blogId
             ?: throw (BlogNotFoundException("blogId not found for segment $segment language $blogPrincipal.langCode"))
 
