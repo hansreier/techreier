@@ -43,24 +43,23 @@ class BlogService(
 
         // If blog is not found with current language, use the previous language code if different
         // This prevents annoying use of error page or redirect to home page, can fail if e.g. expired session.
-        val blogId =  blogRepo.findIdBySegmentAndTopicLanguageCode(segment, langCode)
+        val blogId = blogRepo.findIdBySegmentAndTopicLanguageCode(segment, langCode)
             ?: (if (oldLangCode != null && oldLangCode != langCode)
-                    blogRepo.findIdBySegmentAndTopicLanguageCode(segment, oldLangCode)
-                else null)
+                blogRepo.findIdBySegmentAndTopicLanguageCode(segment, oldLangCode)
+            else null)
             ?: return null
 
-        val blog  = blogRepo.findPById(blogId) ?: return null
+        val blog = blogRepo.findPById(blogId) ?: return null
         if (!posts) return BlogWithPosts(blog, null)
 
         val blogPosts =
-        if (admin) {
-            val sort = Sort.by(Sort.Direction.DESC, "changed")
-            blogPostRepo.findByBlogId(blogId, sort)
-        }
-        else {
-            val sort = Sort.by(Sort.Direction.DESC, "changed")
-            blogPostRepo.findByBlogIdAndState(blogId,  PostState.PUBLISHED.name, sort)
-        }
+            if (admin) {
+                val sort = Sort.by(Sort.Direction.DESC, "changed")
+                blogPostRepo.findByBlogId(blogId, sort)
+            } else {
+                val sort = Sort.by(Sort.Direction.DESC, "changed")
+                blogPostRepo.findByBlogIdAndState(blogId, PostState.PUBLISHED.name, sort)
+            }
         return BlogWithPosts(blog, blogPosts)
     }
 
@@ -73,8 +72,8 @@ class BlogService(
         val blogId = blogPrincipal.blogId
         val blogOwnerId = blogPrincipal.ownerId
         val langCode = blogPrincipal.langCode
-        val blogOwner = ownerRepo.findById(blogOwnerId).orElse(null) ?:
-            throw BlogNotFoundException("BlogOwner with id=$blogOwnerId not found")
+        val blogOwner = ownerRepo.findById(blogOwnerId).orElse(null)
+            ?: throw BlogNotFoundException("BlogOwner with id=$blogOwnerId not found")
         val id = if (blogId == -1L) null else blogId
         logger.info("Saving blog with id: $id segment: ${blogForm.segment}")
         val blog: Blog =
@@ -127,8 +126,12 @@ class BlogService(
         return ids.first()
     }
 
-    fun duplicate(segment: String, blogOwnerId: Long, languageCode: String, blogId: Long?): Boolean {
-        return blogRepo.findBlogIds(segment, blogOwnerId, languageCode).any { it != blogId }
+    fun duplicate(segment: String, blogPrincipal: BlogPrincipal): Boolean {
+        return if (blogPrincipal.blogId == null) true else blogRepo.findBlogIds(
+            segment = segment,
+            blogOwnerId =blogPrincipal.ownerId,
+            languageCode = blogPrincipal.langCode
+        ).any { it != blogPrincipal.blogId }
     }
 
 }

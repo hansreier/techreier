@@ -40,7 +40,8 @@ class BlogPostService(
                 blogPostId
             )
         val savedBlogPost: BlogPost = blogPostRepo.save(blogPost)
-        val blogPostId = savedBlogPost.id ?: throw DataRetrievalFailureException("Failed to save BlogPost: $blogPost. No id Returned")
+        val blogPostId = savedBlogPost.id
+            ?: throw DataRetrievalFailureException("Failed to save BlogPost: $blogPost. No id Returned")
 
         val blogText: BlogText? = blogTextRepo.findById(blogPostId).orElse(null)
         val content = blogPostForm.content.trim()
@@ -89,7 +90,8 @@ class BlogPostService(
             dupList
         } else listOf()
         val blogPost = posts.first()
-        val blogPostId = blogPost.id ?: throw DataRetrievalFailureException("Failed to read BlogPost: $blogPost. No id Returned")
+        val blogPostId =
+            blogPost.id ?: throw DataRetrievalFailureException("Failed to read BlogPost: $blogPost. No id Returned")
         val found = blogTextRepo.findPById(blogPostId)
         val blogText = if (found?.id != null) found else null
         logger.info("BlogPost read")
@@ -97,12 +99,13 @@ class BlogPostService(
     }
 
 
-    fun findIds(segment: String, blogId: Long, state: PostState):List<Long> {
+    fun findIds(segment: String, blogId: Long, state: PostState): List<Long> {
         return blogPostRepo.findBlogPostIds(segment, blogId, state.name)
     }
 
     fun duplicate(segment: String, blogId: Long, state: PostState, blogPostId: Long?): Boolean {
-        return blogPostRepo.findBlogPostIds(segment, blogId, state.name).any { it != blogPostId }
+        return if (blogPostId == null) false else
+            blogPostRepo.findBlogPostIds(segment, blogId, state.name).any { it != blogPostId }
 
     }
 }

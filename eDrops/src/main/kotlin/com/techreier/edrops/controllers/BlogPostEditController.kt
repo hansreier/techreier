@@ -117,7 +117,7 @@ class BlogPostEditController(
                 bindingResult.rejectValue("segment", "error.duplicate", form.segment)
 
             if (checkSegment(form.segment, "segment", bindingResult)) {
-                if (blogPostService.duplicate(form.segment, blogId, form.state, blogPostIds.first())) {
+                if (blogPostService.duplicate(form.segment, blogId, form.state, blogPostIds.firstOrNull())) {
                     bindingResult.rejectValue("segment", "error.duplicate", form.segment)
                 }
             }

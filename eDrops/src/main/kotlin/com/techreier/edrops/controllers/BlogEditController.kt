@@ -24,7 +24,7 @@ const val BLOG_EDIT_DIR = "/$EDIT"
 @RequestMapping(BLOG_EDIT_DIR)
 class BlogEditController(
     val ctx: Context,
-    private val blogService: BlogService
+    private val blogService: BlogService,
 ) : BaseController(ctx) {
 
     @GetMapping("/{segment}")
@@ -47,7 +47,7 @@ class BlogEditController(
         }
 
         if (segment == NEW_SEGMENT) {
-            model.addAttribute("title",msg(ctx.messageSource,"newBLog"))
+            model.addAttribute("title", msg(ctx.messageSource, "newBLog"))
         }
 
         // Set blog related fields
@@ -98,15 +98,14 @@ class BlogEditController(
         logger.info("blog: path: $path action=$action blogid=${blogPrincipal.blogId}")
 
         if (action == "save" || action == "create" || action == "createPost") {
-            if (checkSegment(form.segment, "segment",  bindingResult)) {
-                if (blogService.duplicate(form.segment, blogPrincipal.ownerId, blogPrincipal.langCode, blogPrincipal.blogId)) {
-                        bindingResult.rejectValue("segment","error.duplicate", form.segment)
-                }
+            if (checkSegment(form.segment, "segment", bindingResult)) {
+                if (blogService.duplicate(form.segment, blogPrincipal))
+                    bindingResult.rejectValue("segment", "error.duplicate", form.segment)
             }
-            checkStringSize(form.subject, MAX_TITLE_SIZE,  "subject", bindingResult,  1)
+            checkStringSize(form.subject, MAX_TITLE_SIZE, "subject", bindingResult, 1)
             form.subject = form.subject.replaceFirstChar { it.uppercaseChar() }
-            checkStringSize(form.about, MAX_SUMMARY_SIZE,  "about", bindingResult)
-            checkInt(form.position,"position", bindingResult,  -1000,1000)
+            checkStringSize(form.about, MAX_SUMMARY_SIZE, "about", bindingResult)
+            checkInt(form.position, "position", bindingResult, -1000, 1000)
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.saveBlog")
                 prepare(model, request, response, segment, changed)
@@ -129,7 +128,7 @@ class BlogEditController(
             return "redirect:$newPath"
         }
 
-        if (action =="delete") {
+        if (action == "delete") {
             if (form.postLock) {
                 bindingResult.reject("error.locked")
                 prepare(model, request, response, segment, changed)
