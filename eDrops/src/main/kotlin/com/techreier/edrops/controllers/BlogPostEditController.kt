@@ -103,13 +103,12 @@ class BlogPostEditController(
         val blogPrincipal = getAuthorizedBlogPrincipal(owner, segment)
         val blogId = blogPrincipal.blogId
             ?: throw (BlogNotFoundException("blogId not found for segment $segment language $blogPrincipal.langCode"))
-        val path = request.servletPath
 
         val state = PostState.find(state, false)
         val blogPostIds = blogPostService.findIds(subsegment, blogId, state)
 
         redirectAttributes.addFlashAttribute("action", action)
-        logger.info("blogPost: path=$path action=$action blogid=$blogId blogPostIds=$blogPostIds")
+        logger.info("blogPost: path=${request.servletPath} action=$action blogid=$blogId blogPostIds=$blogPostIds")
         if ((action == "blog") && (blogPostIds.size > 1 )) {
             return "redirect:$BLOG_EDIT_DIR/$segment"
         }
