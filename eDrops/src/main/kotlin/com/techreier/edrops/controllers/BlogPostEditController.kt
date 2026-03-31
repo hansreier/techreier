@@ -106,10 +106,13 @@ class BlogPostEditController(
         val path = request.servletPath
 
         val state = PostState.find(state, false)
-        val blogPostIds = blogPostService.findIds(subsegment, blogId, state).toMutableList()
+        val blogPostIds = blogPostService.findIds(subsegment, blogId, state)
 
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blogPost: path=$path action=$action blogid=$blogId blogPostIds=$blogPostIds")
+        if ((action == "blog") && (blogPostIds.size > 1 )) {
+            return "redirect:$BLOG_EDIT_DIR/$segment"
+        }
         if (action == "save" || action == "create" || action == "copy" || action == "blog") {
             if (blogPostIds.size > 1)
                 bindingResult.rejectValue("segment", "error.duplicate", form.segment)
@@ -200,7 +203,7 @@ class BlogPostEditController(
         response: HttpServletResponse,
         segment: String,
         changed: String,
-        duplicates: List<Long>
+        blogPostIds: List<Long>
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment)
         logger.info("Prepare allBlogPosts Fetch blog posts with: ${blogParams}")
@@ -211,8 +214,8 @@ class BlogPostEditController(
         model.addAttribute("blogPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
         model.addAttribute("postStates", PostState.entries)
-        if (duplicates.size > 1) {
-            model.addAttribute("duplicates", duplicates)
+        if (blogPostIds.size > 1) {
+            model.addAttribute("duplicates", blogPostIds)
         }
         logger.info("prepared)")
     }
