@@ -14,6 +14,7 @@ import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.TopicRepository
 import org.springframework.dao.DuplicateKeyException
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -52,10 +53,13 @@ class BlogService(
         if (!posts) return BlogWithPosts(blog, null)
 
         val blogPosts =
-        if (admin)
-            blogPostRepo.findByBlogId(blogId)
+        if (admin) {
+            val sort = Sort.by(Sort.Direction.DESC, "changed")
+            blogPostRepo.findByBlogId(blogId, sort)
+        }
         else {
-            blogPostRepo.findByBlogIdAndState(blogId,  PostState.PUBLISHED.name)
+            val sort = Sort.by(Sort.Direction.DESC, "changed")
+            blogPostRepo.findByBlogIdAndState(blogId,  PostState.PUBLISHED.name, sort)
         }
         return BlogWithPosts(blog, blogPosts)
     }
