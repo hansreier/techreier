@@ -1,3 +1,81 @@
+## My setup of persistent storage, including MariaDB
+
+I have selected to use MariaDB, a fork of MySQL.
+Mainly because it is Open Source and supported  directly by Cyberpanel that I use. 
+For complex applications and special needs I will advise to use PostgreSQL.
+
+I have tried both simpler databases like H2, SQL lite end even Firebird.
+It is tempting because administration is simpler. 
+The first two alternatives really does not support write transactions very well with high volumes.
+The last is very badly adapted with Spring Data JPA, so forget it.  
+
+## JPA and Hibernate
+
+JPA / Hibernate was selected because it was industry standard for Java and a lot of people uses it.
+Refer to a more detailed discussion [here](../about/jpa_en.md)
+
+## Persistent storage of text and pictures
+
+To store a lot of huge text documents including pictures in regular relational tables is not really advisable.
+Direct text search in a lot of huge documents requires special care. A better approach would be to use
+another kind of storage designed for documents and text search. The structured metadata could still
+be stored in relational DB. This approach was used in a project at work, where Amazon S3 was used. But
+the use case was different, since no advanced text search was required. I have professionally tried
+Oracle Text for this purpose. Since this is a blog system, we really do not need huge document sizes.
+
+To make it simple I use the internal file system for my initial blogs and a table in MariaDb to store
+the majority of the blogs. I have used tables to store metadata about the blog text, including summary text.
+In 2024, I added the possibility to store the blogs in the database, as an alternative. In addition,
+a simple GUI was required to enter the blog structure and blog text. I have gradually added this to the system.
+Before adding this GUI it was no need for any user administration. So Spring Security and very simple login
+is set up to be able to enter blogs directly in the GUI.
+
+Pictures (and other multimedia) will not be stored in the database but on the file system on the server. 
+A Docker volume is mapped to the picture folder location. It is referenced from the blog text as links.
+A simple synchronization service will be used from Jottacloud to maintain pictures. 
+
+## Persistent storage of metadata and other structured data
+
+I always store metodata in the relational database in addition to hierarchical blog data structure.  
+
+Entity hierarchy:  
+- BlogOwner: The owner of the blog, including control of write access for the blogs
+- Blog: Really a collection blog posts with a short summary.
+- Topic: Categorization of a blog, used to organize a dropdown menu
+- LanguageCode: A topic (and blog) can be written in English or Norwegian. 
+- BlogPost: The dated article contained in a blog with a short summary and metadata.
+- BlogText: The markdown text of an article  
+
+LanguageCode and Topic are stored with UniqueConstraint in the database.
+I have preferred not to define other unique constraints because it makes the database less flexible.
+Unique synthetic keys are used, except for LanguageCode id.  
+
+### MariaDB persistent storage
+
+MariaDB is selected as database to use in production. Mariadb is built on MySQL, but seems a better option
+today due to licencing and other issues. PostgreSQL could be another option, but MariaDB has a smaller footprint,
+is simpler and best suited for web applications. TODO: Temporarily H2 and the h2-prod profile is used in production.
+If you use Flyway, it is much easier to clear MariaDB database tables,
+with PostgreSQL usually the whole database must be deleted.
+
+## Temporary database storage using H2
+
+Before 2025 H2 in memory was used for production.  This means that blogs are not really stored permanently.
+I set up initial data in the blog system quite simply using Kotlin and Hibernate.
+ 
+The final step with permanent database storage in MariaDB was implemented late in 2025.
+GUI is now used to feed all the blogs and most of the metadata into the database.
+
+### About unit tests using Spring Boot testing and H2
+
+H2 is used in automated integration tests. This is good enough even for most professional projects,
+if you take care not using all the database platform specific features.
+If you can avoid test DB-containers or libraries like Zonky (for PostgreSQL) it is adviceable. 
+
+In earlier versions the entire Spring Context was reloaded and tables recreated for every unit test.
+In the new version the tables is cleared instead. Note that other database configuration is not cleared.
+Identifier numbers will continue to increase through all the tests, so take care when doing asserts.
+
 ## Databases, connections and Spring profiles
 
 This project needs a database connection to run and uses Spring Boot standard configuration with profiles to
@@ -9,18 +87,6 @@ The blog part needs a database, even if markdown is used.
 
 To select a Spring Boot database profile using environment variable:
 SPRING_PROFILES_ACTIVE="profile".
-
-## H2
-
-H2 is mainly used for unit and integration tests.  
-
-### About unit tests using Spring Boot testing and H2
-
-In earlier versions the entire Spring Context was reloaded and tables recreated for every unit test.
-In the new version the tables is cleared instead. Note that other database configuration is not cleared.
-Identifier numbers will continue to increase through all the tests, so take care when doing asserts.  
-
-Tables are created using Flyway. This can easily be changed in config, so Hibernate/JPA is used instead if desired.  
 
 ### Profiles
 
@@ -35,12 +101,6 @@ Spring boot H2 profiles:
 H2 could even be used with the disk option in production for simplicity, but it is only recommended for
 reading database instances and not writing by many clients. One simple option would be to mount the h2 database
 files (volume or bind) to ensure permanent storage. This is not tested.
-
-## MariaDB
-
-MariaDB is selected as database to use in production. Mariadb is built on MySQL, but seems a better option
-today due to licencing and other issues. PostgreSQL could be another option, but MariaDB has a smaller footprint,
-is simpler and best suited for web applications. TODO: Temporarily H2 and the h2-prod profile is used in production.
 
 ### Profiles
 

@@ -1,104 +1,45 @@
 ## Functionality
 
-This is a simple and limited Blog system.
+This is a simple and limited Blog system. It is two types of blogs, both are markdown based.
+- Hard coded text content stored in files in the project in the static/markdown folder with subfolders.
+- Database blogs stored in MariaDB, the newest blog at the top.
 
-Always use this way to include images to be able to view in intellij, locally and docker.
-Not sure actually why .. works
+Some of the hard coded blogs have added functionality, like calculation of energy.
+A menu system supports navigation to the blogs, partly hard coded and partly dynamically generated from the database.  
+The blog system uses a simple one column layout, to be able to be viewed on any device (including mobiles).
 
 ### How to enter blogs without coding HTML
 
-The goal is to make this as simple as possible where the user does it in an input
-window. An option is to use markdown like this readme.md file, since
-it is simpler than RTF and uses less space. Perhaps the system will support both
-formats. Editors (both outside of this project, or include in the code can be used).
+The goal was to make this as simple as possible without a complex text editor. 
 
-The first attempt is to use markdown written in Intellij or other editor, store it as a file  
-together with project code and pick it up as a part of the Web GUI. No database is really needed.
-I still use a relational database for structuring the blogs and metadata, and to enable to
-write and view the blogs in various languages.
+I choose to use markdown like this README.md file, since it is simpler than RTF and uses less disk space. 
+Any text or markdown editor can be used, I have included my own simple markdown editor to produce the database
+based blogs. The editor is based ont the HTML Textarea tag with some additions.
+
+The first attempt was to use markdown written in Intellij or other editor, store it as a file  
+together with project code and pick it up as a part of the Web GUI. 
+My improved solution is to use a relational database for structuring the blogs and metadata, and to enable to
+write, store and view the blogs in various languages.
+
+Standard Markdown formatting, including tables, links and images are supported.
+I mostly follow the GitHub Markdown dialect.
 
 ## Technology
 
-### Storage of blogs and meta data
+### Storage of blogs, pictures and metadata
 
-SQL or NoSQL database? Both can be used for the purpose. The intention is to use H2 for test and
-MariaDb for production. I could have used a No SQL database like MongoDb.
-
-JPA / Hibernate was originally selected because it was industry standard for Java, and I wanted to learn it to
-become a better consultant. If it is the best tool for a stateless web is questionable. 
-Hibernate have some disadvantages in Kotlin, and must use som effort to set it up correctly.
-
-https://kotlinexpertise.com/hibernate-with-kotlin-spring-boot/  
-https://www.jpa-buddy.com/blog/best-practices-and-common-pitfalls/  
-https://spring.io/guides/tutorials/spring-boot-kotlin/  
-https://kotlination.com/kotlin-spring-jpa-postgresql-spring-boot-example/  
-https://medium.com/swlh/defining-jpa-hibernate-entities-in-kotlin-1ff8ee470805
-
-The challenge with Spring JPA and Hibernate is that you need to check that the SQL generated is correct
-and effective. I have experienced misuse of Hibernate in many projects, with strange errors and inefficiency
-in queries as a result. But I will advise against writing directly native SQL to the database.
-Use a thin SQL like layer to be able abstract SQL dialects and CRUD functionality included.
-
-You loose control of when and how a database call is handled using Hibernate. It is a question if it is better
-use a thin layer on top of plain SQL that supports CRUD and simple abstraction of SQL dialects (H2, Oracle, MySQl..)
-Population of the required (view and or db) model objects must then be manually handled.
-E.g. use Kotlin Exposed,JoOQ or Spring Data JDBC instead. I have used a lot of time
-to verify that generated Hibernate SQL is correct and efficient. To configure Hibernate with Kotlin and Spring MVC
-correctly required a lot of effort.  
-
-I have used Spring Data JDBC at work in Microservices with only one or two relational tables.  
-One comment is that is too limited, and I advise  only to be used it with a very simple domain model. 
-Key generation is too simple with too few options,  It is really not CRUD, but SUD (Save Update Delete). 
-Kotlin Exposed was not an option at work, due to a mix of Java and Kotlin code. 
-JoOQ could have been used, but I do not like to generate code for database access.
-
-What I really advice when using JPA, is to separate read and write logic. For reports and read GUI,
-use projection (interfaces, proxy based) or DTOs. I rewrote the app to use this principle in 2026 due to several problems with
-various JPA lazy loading exceptions and unwanted saves. Usually what happens in a web app is first that
-you read from the database. Then the GUI is presented to the user. The new or update operation
-is separate from this after the user have pressed the save button. It does to some extent violate the DRY
-principle, but it is worth the extra coding effort because you get more stable code.  
-
-To store a lot of huge text documents including pictures in regular relational tables is not really advisable.
-Direct text search in a lot of huge documents requires special care. A better approach would be to use
-another kind of storage designed for documents and text search. The structured metadata could still
-be stored in relational DB. This approach was used in a project at work, where Amazon S3 was used. But
-the use case was different, since no advanced text search was required. I have professionally tried
-Oracle Text for this purpose. Since this is a blog system, we really do not need huge document sizes.
-
-To make it simple I planned to  use the internal file system for my initial blogs and a table in MariaDb to store
-the majority of the blogs. I have used tables to store metadata about the blog text, including summary text.
-In 2024, I added the possibility to store the blogs in the database, as an alternative. In addition,
-a simple GUI was required to enter the blog structure and blog text. I have gradually added this to the system.
-Before adding this GUI it was no need for any user administration. So Spring Security and very simple login
-is set up to be able to enter blogs directly in the GUI.  
-
-So far late i 2025 H2 in memory is simply used for production. 
-This means that blogs is not really stored permanently in production. 
-I have set up some initial data in the blog system quite simply using Kotlin,
-that uses the database to store both the blogs itself and the metadata.
-This is to prepare for the final step where the blogs and metadata are stored in the Maria DB database instead,
-and GUI is used to feed all the blogs with most of the metadata into the database.
-
-The blog system is language independent, but for simplicity I have restricted it to store blogs in English
-and in Norwegian "Bokmål". No GUI is yet made for the concept of a blog owner and possibility to select
-the blog owners wanted languages. The development philosophy has been to have a working website on
-internet all the time and develop it gradually, so a lot of possible functionality is left for future development.
-The intention is not to compete with other blog systems out there, including Facebook. 
-The vision is to produce text blogs, not blogs with a lot of media content and advanced graphics.  
-
-The system supports adding pictures to the blogs stored directly on the file system, linking to it
-and viewing pictures directly in the blogs. So far it is set up to store pictures within the Docker container.
-This will very soon be changed to store most of the pictures on the VPS in a directory suited for it.
+I use H2 for development and test and MariaDb for production. 
+Everything is stored in the database, except pictures and permanent text stored on the file system in the VPS.
+Note that the not dated blogs are stored in the GitHub project within the Docker container.
+Most of the pictures are stored directly on the VPS, a very few is stored in the Docker container.
+Refer to details [here](../about/databases_en.md) 
 
 ### Adding backup to the system
 
-So far GitHub is backup of both code, metadata and blogs. I have late 2025 started to add backups
+GitHub is backup of both code, metadata and permanent blogs. I have late 2025 added backups
 on the VPS for the MariaDB database. The backup will be stored on Jottacloud, using the Jottacloud Cli
-for Linux (Ubuntu). I start with adding daily backup of the databae tables and contents, and will probably
-for simplicity use Jottacloud's sync folder for images stored in the file system. Currently backup is in the
-proof of concept state. I will switch from H2 to Mariadb in production as soon as I get this completed.
-
+for Linux (Ubuntu). I have added daily backup of the database tables and contents, and use
+Jottacloud's sync folder for images stored in the file system.
 
 ### Producing HTML GUI efficiently
 
@@ -253,7 +194,7 @@ Can generate .war to deploy on Tomcat (change pom)
 To deploy to docker container:  
 mvn spring-boot:build-image -DskipTests
 
-[We Dockerize Spring Boot app](https://www.baeldung.com/dockerizing-spring-boot-application) using the
+[Dockerize Spring Boot app](https://www.baeldung.com/dockerizing-spring-boot-application) using the
 [jib maven plugin](https://medium.com/@sybrenbolandit/jib-maven-plugin-89c447473d76).
 
 Remember to remove the scope "provided" in spring-boot-starter-tomcat.
@@ -439,9 +380,23 @@ This readme file is markdown simply stored as a file on the file system.
 What I did was simply to add a view button, to view the result with backend rendering below the text box.
 In addition, I added a markdown help button to reveal som markdown tricks.
 
+### About images
+
+Always use this way to include images to be able to view in intellij, locally and docker.
+Not sure actually why .. works
+
+![PerSeter](../images/pas.jpg "Per Seter")
+
+| haha  | hoha   | hwhw      | de       | dd |
+|-------|--------|-----------|----------|----|
+| oah   | alan   | podagra   | fanitull | ss | 
+| mygod | huff   | r         | reier    | ss |
+| olav  | andres | pettersen | hipl     | ds |
+
+
 ## web stuff
 
-Files that need to be included, else WARN message can be displaid in log.
+Files that need to be included, else WARN message can be seen in logs.
 
 favicon.ico file is created e.g. by 
 https://www.favicon.cc/
@@ -455,8 +410,3 @@ Caching of css and JavaScript is tricky, mobile phones is worst, since cache ver
 
 This is done by versioning the .css and JavaScript files when required.
 Refer to the bottom line in app with display of current version.
-
-## Slutt
-
-
-
