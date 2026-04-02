@@ -7,7 +7,7 @@ Welcome to Reiers new webpages.
 [README](eDrops/src/main/resources/static/markdown/about/readme.md)  
 [About technology](eDrops/src/main/resources/static/markdown/about/tech.md)  
 [Markdown related](eDrops/src/main/resources/static/markdown/about/markdown.md)  
-[Database related](eDrops/src/main/resources/static/markdown/about/databases.md) 
+[Database related](eDrops/src/main/resources/static/markdown/about/databases.md)  
 [Webapps and state](eDrops/src/main/resources/static/markdown/about/state.md)  
 [Maintainability](eDrops/src/main/resources/static/markdown/about/maintainable.md)  
 [Responsive design](eDrops/src/main/resources/static/markdown/about/responsive.md)    
