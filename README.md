@@ -9,7 +9,7 @@ Welcome to Reiers new webpages.
 [Markdown related](eDrops/src/main/resources/static/markdown/about/markdown_en.md)  
 [Database related](eDrops/src/main/resources/static/markdown/about/databases_en.md)  
 [Webapps and state](eDrops/src/main/resources/static/markdown/about/state_en.md)  
-[Maintainability](eDrops/src/main/resources/static/markdown/about/maintainable_en.md)
+[Maintainability](eDrops/src/main/resources/static/markdown/about/maintainable_en.md)  
 [My Docker web hosting](eDrops/src/main/resources/static/markdown/about/hosting_en.md)           
 
 ---
