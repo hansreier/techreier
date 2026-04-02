@@ -13,4 +13,5 @@ Welcome to Reiers new webpages.
 
 ---
 
-Please visit me at wwww.techreier.com for more tech stuff, political comments and fun.  
+Please visit me at www.techreier.com for more tech stuff, political comments and fun.  
+
