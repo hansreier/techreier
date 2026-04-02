@@ -4,13 +4,13 @@ Welcome to Reiers new webpages.
 
 [About me](eDrops/src/main/resources/static/markdown/about/reier_en.md)  
 [About this website](eDrops/src/main/resources/static/markdown/about/website_en.md)  
-[README](eDrops/src/main/resources/static/markdown/about/readme.md)  
-[About technology](eDrops/src/main/resources/static/markdown/about/tech.md)  
-[Markdown related](eDrops/src/main/resources/static/markdown/about/markdown.md)  
-[Database related](eDrops/src/main/resources/static/markdown/about/databases.md)  
-[Webapps and state](eDrops/src/main/resources/static/markdown/about/state.md)  
-[Maintainability](eDrops/src/main/resources/static/markdown/about/maintainable.md)  
-[Responsive design](eDrops/src/main/resources/static/markdown/about/responsive.md)    
+[README](eDrops/src/main/resources/static/markdown/about/readme_en.md)  
+[About technology](eDrops/src/main/resources/static/markdown/about/tech_en.md)  
+[Markdown related](eDrops/src/main/resources/static/markdown/about/markdown_en.md)  
+[Database related](eDrops/src/main/resources/static/markdown/about/databases_en.md)  
+[Webapps and state](eDrops/src/main/resources/static/markdown/about/state_en.md)  
+[Maintainability](eDrops/src/main/resources/static/markdown/about/maintainable_en.md)  
+[Responsive design](eDrops/src/main/resources/static/markdown/about/responsive_en.md)    
 
 ---
 
