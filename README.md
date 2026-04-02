@@ -9,9 +9,9 @@ Welcome to Reiers new webpages.
 [Markdown related](eDrops/src/main/resources/static/markdown/about/markdown.md)  
 [Database related](eDrops/src/main/resources/static/markdown/about/databases.md) 
 [Webapps and state](eDrops/src/main/resources/static/markdown/about/state.md)  
-[Webapps and state](eDrops/src/main/resources/static/markdown/about/maintainable.md)
-[Responsive design](eDrops/src/main/resources/static/markdown/about/responsive.md) 
-       
+[Maintainability](eDrops/src/main/resources/static/markdown/about/maintainable.md)  
+[Responsive design](eDrops/src/main/resources/static/markdown/about/responsive.md)    
+
 ---
 
-Please visit med at wwww.techreier.com for more tech stuff, political comments and fun.  
+Please visit me at wwww.techreier.com for more tech stuff, political comments and fun.  
