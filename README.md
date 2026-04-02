@@ -1,7 +1,8 @@
-# techreier
-Welcome to Reiers new webpages. 
+# techreier 
 
-[About me](eDrops/src/main/resources/static/markdown/about/reier_en.md) 
+Welcome to Reiers new webpages.  
+
+[About me](eDrops/src/main/resources/static/markdown/about/reier_en.md)  
 [About this website](eDrops/src/main/resources/static/markdown/about/website_en.md)  
 [README](eDrops/src/main/resources/static/markdown/about/readme.md)  
 [About technology](eDrops/src/main/resources/static/markdown/about/tech.md)  
@@ -9,6 +10,8 @@ Welcome to Reiers new webpages.
 [Database related](eDrops/src/main/resources/static/markdown/about/databases.md) 
 [Webapps and state](eDrops/src/main/resources/static/markdown/about/state.md)  
 [Webapps and state](eDrops/src/main/resources/static/markdown/about/maintainable.md)
-[Responsive design](eDrops/src/main/resources/static/markdown/about/responsive.md)        
+[Responsive design](eDrops/src/main/resources/static/markdown/about/responsive.md) 
+       
 ---
-Please visit med at wwww.techreier.com for more tech stuff, political comments and fun.
+
+Please visit med at wwww.techreier.com for more tech stuff, political comments and fun.  
