@@ -69,7 +69,7 @@ Future plan is to make the system a true multiuser project with 4 user permissio
 
 I am not there yet. The question is if I ever will. The website could be used for a very limited set of
 blog owners, e.g. by a sports club or something. If I let any user into the system, this implies I have created
-a free blog platform without advertising or a payment mechanisms. And do I really want this. Probably not.  
+a free blog platform without advertising or a payment mechanisms. And do I really want this. Probably not.
 My simple way of using Jottacloud for synchronizing media content to a Docker volume, can not be used either. 
 It could soon outgrow the current Hostinger plan. Regarding the future use of other formats than markdown,
 I have come to realize that is the best not to expand to other formats. A commercial blog system probably

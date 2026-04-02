@@ -144,5 +144,3 @@ Cloud payment models look a bit complex and unpredictable to me.
 Overall I am satisfied with the solution well suited for a small private project.
 Using e.g. Azure I risk to pay 5 times more than the current cost, when the trial period expires.
 And it is not only an estimate, I have checked with other developers on similar projects. 
-
-Preliminary solution uses H2, final solution will use MariaDB. Jottacloud will be used for backup.  
