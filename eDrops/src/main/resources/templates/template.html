@@ -100,7 +100,7 @@
                         <button class=dropdown-item type="submit" th:text="#{action.logout}"></button>
                     </form>
                 </div>
-                <a th:each="item : ${menu}"
+                <a th:each="item : ${adminMenu}"
                    th:href="@{/edit/{segment}(segment=${item.segment})}" class="dropdown-item"
                    th:text="${item.subject}"
                    th:data-topic="${item.isTopic}"

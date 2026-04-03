@@ -39,11 +39,14 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCodeAndSegment(languageCode: String, segment: String): List<Blog>
 
-    @Query(
-        "SELECT new com.techreier.edrops.dto.MenuItem(b.topic.language.code, b.segment,  b.topic.topicKey, b.subject, false) " +
-                " FROM Blog b WHERE b.topic.language.code = :languageCode ORDER BY b.topic.pos, b.pos",
-    )
-    fun getMenuItems(languageCode: String): List<MenuItem>
+    @Query( """
+        SELECT new com.techreier.edrops.dto.MenuItem(b.topic.language.code, b.segment,  b.topic.topicKey, b.subject, false) 
+        FROM Blog b 
+        WHERE b.topic.language.code = :languageCode
+        AND b.pos >= :minPos
+        ORDER BY b.topic.pos, b.pos
+    """)
+    fun getMenuItems(languageCode: String, minPos: Int): List<MenuItem>
 
     @Query("select b.id from Blog b where b.segment = :segment and b.topic.language.code = :lang")
     fun findIdBySegmentAndTopicLanguageCode(segment: String, lang: String): Long?

@@ -69,7 +69,7 @@ class BlogEditController(
     ): String {
         authorize(owner)
         val blogParams = fetchBlogParams(model, request, response, null, false, true)
-        val firstSegment = readFirstSegment(blogParams.usedLangCode)
+        val firstSegment = readFirstSegment(blogParams.usedLangCode, true)
         if (firstSegment == null) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"

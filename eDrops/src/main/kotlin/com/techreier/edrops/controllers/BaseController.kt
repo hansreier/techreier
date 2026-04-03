@@ -106,7 +106,9 @@ abstract class BaseController(
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("newSegment", NEW_SEGMENT)
         model.addAttribute("path", path)
-        model.addAttribute("menu", fetchMenuFromDb(usedLangcode))
+        model.addAttribute("menu", fetchMenuFromDb(usedLangcode, false))
+        if (admin)
+            model.addAttribute("adminMenu", fetchMenuFromDb(usedLangcode, true))
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
@@ -139,8 +141,10 @@ abstract class BaseController(
         bindingResult.reject("error.$key", args, "??error.$key?? ${e.message}")
     }
 
-    protected fun readFirstSegment(languageCode: String): String? {
-        val menuItems = ctx.blogService.readMenu(languageCode)
+    // Used to fetch first available blog in redirects or go to homepage if not found
+    // The call is inefficient since it reuses function that reads the entire menu, do not care
+    protected fun readFirstSegment(languageCode: String, admin: Boolean = false): String? {
+        val menuItems = ctx.blogService.readMenu(languageCode, admin)
         return if (menuItems.isNotEmpty()) {
             menuItems.first().segment
         } else null
@@ -179,10 +183,13 @@ abstract class BaseController(
     }
 
     // Fetch menu items from database (Note: Only owner in this implementation)
-    private fun fetchMenuFromDb(langCode: String): List<MenuItem> {
-        logger.debug("Fetch menu items by langCode: $langCode")
-        val blogs = ctx.blogService.readMenu(langCode)
-        return getMenuItems(blogs, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE, ctx.messageSource)
+    private fun fetchMenuFromDb(langCode: String, admin: Boolean): List<MenuItem> {
+        logger.debug("Fetch menu items by langCode=$langCode admin=$admin")
+        val blogs = ctx.blogService.readMenu(langCode, admin)
+        return getMenuItems(
+            menuItemOrig = blogs,
+            submenuMinItems = SUBMENU_MIN_ITEMS,
+            menuSplitSize = MENU_SPLIT_SIZE, ctx.messageSource)
     }
 
     // Fetch menu items from documents stored on disk

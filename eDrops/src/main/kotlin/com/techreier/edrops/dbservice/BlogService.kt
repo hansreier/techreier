@@ -1,5 +1,6 @@
 package com.techreier.edrops.dbservice
 
+import com.techreier.edrops.config.BLOG_PUBLISHED_MIN_VALUE
 import com.techreier.edrops.config.NEW_SEGMENT
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.Blog
@@ -63,9 +64,9 @@ class BlogService(
         return BlogWithPosts(blog, blogPosts)
     }
 
-    fun readMenu(languageCode: String): List<MenuItem> {
-        logger.info("Read menu from blog with language=$languageCode")
-        return blogRepo.getMenuItems(languageCode)
+    fun readMenu(languageCode: String, admin: Boolean): List<MenuItem> {
+        val minValue = if (admin) Int.MIN_VALUE else  BLOG_PUBLISHED_MIN_VALUE
+        return blogRepo.getMenuItems(languageCode, minValue)
     }
 
     fun save(blogPrincipal: BlogPrincipal, blogForm: BlogForm, timestamp: Instant) {
