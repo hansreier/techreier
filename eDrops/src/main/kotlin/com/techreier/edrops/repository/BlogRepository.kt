@@ -40,16 +40,20 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     fun findByTopicLanguageCodeAndSegment(languageCode: String, segment: String): List<Blog>
 
     @Query( """
-        SELECT new com.techreier.edrops.dto.MenuItem(b.topic.language.code, b.segment,  b.topic.topicKey, b.subject, false) 
-        FROM Blog b 
-        WHERE b.topic.language.code = :languageCode
-        AND b.pos >= :minPos
-        ORDER BY b.topic.pos, b.pos
+    SELECT new com.techreier.edrops.dto.MenuItem(b.topic.language.code, b.segment,  b.topic.topicKey, b.subject, false) 
+    FROM Blog b 
+    WHERE b.topic.language.code = :languageCode
+    AND b.pos >= :minPos
+    ORDER BY b.topic.pos, b.pos
     """)
     fun getMenuItems(languageCode: String, minPos: Int): List<MenuItem>
 
-    @Query("select b.id from Blog b where b.segment = :segment and b.topic.language.code = :lang")
-    fun findIdBySegmentAndTopicLanguageCode(segment: String, lang: String): Long?
+    @Query("""
+    SELECT b.id FROM Blog b 
+    WHERE b.segment = :segment AND b.topic.language.code = :lang
+    AND b.pos >= :minPos
+    """)
+    fun findIdBySegmentAndTopicLanguageCode(segment: String, lang: String, minPos: Int): Long?
 
     @Query("""
     SELECT b.id FROM Blog b 

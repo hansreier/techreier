@@ -48,7 +48,7 @@ abstract class BaseController(
         response: HttpServletResponse,
         segment: String? = null,
         posts: Boolean = false,
-        admin: Boolean = false
+        adminMenu: Boolean = false
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("auth", ctx.appConfig.auth)
@@ -59,13 +59,13 @@ abstract class BaseController(
         ctx.sessionLocaleResolver.setLocale(request, response, locale) //Set locale to allowed projectLocale
         val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
         // If segment is blank or new, do not read database
-        val blog = if ((segment == NEW_SEGMENT) && admin) {
+        val blog = if ((segment == NEW_SEGMENT) && adminMenu) {
             model.addAttribute("blogHeadline", msg(ctx.messageSource, "newBlog"))
             BlogDTO(usedLangcode)
         } else {
             model.addAttribute("blogHeadline", "")
             val blogWithPosts: BlogWithPosts? = segment?.let {
-                ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, posts, admin)
+                ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, posts, adminMenu)
             }
             if (blogWithPosts == null) {
                 model.addAttribute("blogHeadline", msg(ctx.messageSource, "noBlog"))
@@ -79,7 +79,7 @@ abstract class BaseController(
                     datetimePattern = msg(ctx.messageSource, "format.datetime"),
                     datePattern = msg(ctx.messageSource, "format.date"),
                     Markdown(),
-                    langCodeWanted = blogLangCode, posts, !admin
+                    langCodeWanted = blogLangCode, posts, !adminMenu
                 )
                 model.addAttribute("blogHeadline", blogDto.subject)
                 blogDto

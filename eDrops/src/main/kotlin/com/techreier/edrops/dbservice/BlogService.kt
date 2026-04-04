@@ -38,15 +38,16 @@ class BlogService(
         oldLangCode: String?,
         langCode: String,
         posts: Boolean = false,
-        admin: Boolean = false,
+        adminMenu: Boolean = false,
     ): BlogWithPosts? {
         logger.info("Read blog old LangCode: $oldLangCode langCode: $langCode, segment $segment, posts? $posts")
+        val minValue = if (adminMenu) Int.MIN_VALUE else  BLOG_PUBLISHED_MIN_VALUE
 
         // If blog is not found with current language, use the previous language code if different
         // This prevents annoying use of error page or redirect to home page, can fail if e.g. expired session.
-        val blogId = blogRepo.findIdBySegmentAndTopicLanguageCode(segment, langCode)
+        val blogId = blogRepo.findIdBySegmentAndTopicLanguageCode(segment, langCode, minValue)
             ?: (if (oldLangCode != null && oldLangCode != langCode)
-                blogRepo.findIdBySegmentAndTopicLanguageCode(segment, oldLangCode)
+                blogRepo.findIdBySegmentAndTopicLanguageCode(segment, oldLangCode, minValue)
             else null)
             ?: return null
 
@@ -54,7 +55,7 @@ class BlogService(
         if (!posts) return BlogWithPosts(blog, null)
 
         val blogPosts =
-            if (admin) {
+            if (adminMenu) {
                 val sort = Sort.by(Sort.Direction.DESC, "changed")
                 blogPostRepo.findByBlogId(blogId, sort)
             } else {
