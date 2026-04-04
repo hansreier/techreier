@@ -1,12 +1,15 @@
 package com.techreier.edrops.exceptions
 
-class ParentBlogException(message: String) : Exception(message)
+open class BlogException(msg: String, val key: String) : Exception(msg)
 
-class BlogNotFoundException(message: String) : Exception(message)
+class BlogNotFoundException(msg: String) : BlogException(msg, "blogDuplicate")
 
-class PostNotFoundException(message: String) : Exception(message)
+class PostNotFoundException(msg: String) : BlogException(msg, "postNotFound")
 
-class StateNotFoundException(message: String) : Exception(message)
+class DuplicateBlogException(msg: String) : BlogException(msg, "blogDuplicate")
 
-class NotAuthorizedException(message: String) : Exception(message)
+class StateNotFoundException(msg: String) :BlogException(msg, "stateNotFound")
 
+class NotAuthorizedException(msg: String) : BlogException(msg, "notAuthorized")
+
+class ParentBlogException(msg: String) : Exception(msg)

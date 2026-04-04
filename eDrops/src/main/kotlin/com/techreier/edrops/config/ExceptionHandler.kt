@@ -1,12 +1,8 @@
 package com.techreier.edrops.config
 
 import com.techreier.edrops.controllers.HOME_DIR
-import com.techreier.edrops.exceptions.BlogNotFoundException
-import com.techreier.edrops.exceptions.NotAuthorizedException
-import com.techreier.edrops.exceptions.PostNotFoundException
-import com.techreier.edrops.exceptions.StateNotFoundException
+import com.techreier.edrops.exceptions.BlogException
 import jakarta.servlet.http.HttpServletRequest
-import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -33,24 +29,8 @@ class ExceptionHandler {
                 model.addAttribute("error", HttpStatus.BAD_REQUEST.reasonPhrase)
                 model.addAttribute("status", HttpStatus.BAD_REQUEST.value())
             }
-            is DuplicateKeyException -> {
-                redirectAttributes.addFlashAttribute("warning", "blogDuplicate")
-                return "redirect:/$HOME_DIR"
-            }
-            is NotAuthorizedException -> {
-                redirectAttributes.addFlashAttribute("warning", "notAuthorized")
-                return "redirect:/$HOME_DIR"
-                }
-            is BlogNotFoundException -> {
-                redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-                return "redirect:/$HOME_DIR"
-            }
-            is PostNotFoundException -> {
-                redirectAttributes.addFlashAttribute("warning", "postNotFound")
-                return "redirect:/$HOME_DIR"
-            }
-            is StateNotFoundException -> {
-                redirectAttributes.addFlashAttribute("warning", "stateNotFound")
+            is BlogException -> {
+                redirectAttributes.addFlashAttribute("warning", e.key)
                 return "redirect:/$HOME_DIR"
             }
         else -> throw e

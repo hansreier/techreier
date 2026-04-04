@@ -9,12 +9,12 @@ import com.techreier.edrops.dto.BlogPrincipal
 import com.techreier.edrops.dto.BlogWithPosts
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.exceptions.BlogNotFoundException
+import com.techreier.edrops.exceptions.DuplicateBlogException
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.TopicRepository
-import org.springframework.dao.DuplicateKeyException
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -64,7 +64,7 @@ class BlogService(
     private fun readBlogId(segment: String, langCode: String, minValue: Int): Long? {
         val blogIds: List<Long> = blogRepo.findIdBySegmentAndTopicLanguageCode(segment, langCode, minValue)
         if (blogIds.size > 1)
-            throw DuplicateKeyException("Duplicate blog: Segment=$segment langCode: $langCode ids: ${blogIds.map { it }}")
+            throw DuplicateBlogException("Duplicate blog: Segment=$segment langCode: $langCode ids: ${blogIds.map { it }}")
         return blogIds.firstOrNull()
     }
 
@@ -126,7 +126,7 @@ class BlogService(
             throw BlogNotFoundException("Blog not found: ownerId: $blogOwnerId segment: $segment languageCode: $languageCode")
         }
         if (ids.size > 1) {
-            throw DuplicateKeyException("Blog duplicate ids: ownerId: $blogOwnerId ids: $ids}")
+            throw DuplicateBlogException("Blog duplicate ids: ownerId: $blogOwnerId ids: $ids}")
         }
         return ids.first()
     }
