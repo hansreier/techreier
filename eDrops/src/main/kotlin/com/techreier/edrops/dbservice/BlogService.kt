@@ -131,12 +131,12 @@ class BlogService(
         return ids.first()
     }
 
-    fun duplicate(segment: String, blogPrincipal: BlogPrincipal): Boolean {
-        return if (blogPrincipal.blogId == null) false else blogRepo.findBlogIds(
+    fun exists(segment: String, blogPrincipal: BlogPrincipal): Boolean {
+        return blogRepo.findBlogIds(
             segment = segment,
             blogOwnerId = blogPrincipal.ownerId,
             languageCode = blogPrincipal.langCode
-        ).any { it != blogPrincipal.blogId }
+        ).isNotEmpty()
     }
 
 }
