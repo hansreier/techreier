@@ -99,7 +99,7 @@ class BlogEditController(
 
         if (action == "save" || action == "create" || action == "createPost") {
             if (checkSegment(form.segment, "segment", bindingResult)) {
-                if (blogService.duplicate(form.segment, blogPrincipal))
+                if ((segment != form.segment) && (blogService.exists(form.segment, blogPrincipal)))
                     bindingResult.rejectValue("segment", "error.duplicate", form.segment)
             }
             checkStringSize(form.subject, MAX_TITLE_SIZE, "subject", bindingResult, 1)
