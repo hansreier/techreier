@@ -103,9 +103,7 @@ class BlogPostService(
         return blogPostRepo.findBlogPostIds(segment, blogId, state.name)
     }
 
-    fun duplicate(segment: String, blogId: Long, state: PostState, blogPostId: Long?): Boolean {
-        return if (blogPostId == null) false else
-            blogPostRepo.findBlogPostIds(segment, blogId, state.name).any { it != blogPostId }
-
+    fun exists(segment: String, blogId: Long, state: PostState): Boolean {
+        return blogPostRepo.findBlogPostIds(segment, blogId, state.name).size > 1
     }
 }
