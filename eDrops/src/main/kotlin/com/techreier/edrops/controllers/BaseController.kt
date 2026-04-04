@@ -107,7 +107,7 @@ abstract class BaseController(
         model.addAttribute("newSegment", NEW_SEGMENT)
         model.addAttribute("path", path)
         model.addAttribute("menu", fetchMenuFromDb(usedLangcode, false))
-        if (admin)
+        if (!ctx.appConfig.auth || request.userPrincipal != null) //Fetch admin menu if required
             model.addAttribute("adminMenu", fetchMenuFromDb(usedLangcode, true))
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
@@ -143,8 +143,8 @@ abstract class BaseController(
 
     // Used to fetch first available blog in redirects or go to homepage if not found
     // The call is inefficient since it reuses function that reads the entire menu, do not care
-    protected fun readFirstSegment(languageCode: String, admin: Boolean = false): String? {
-        val menuItems = ctx.blogService.readMenu(languageCode, admin)
+    protected fun readFirstSegment(languageCode: String, adminMenu: Boolean = false): String? {
+        val menuItems = ctx.blogService.readMenu(languageCode, adminMenu)
         return if (menuItems.isNotEmpty()) {
             menuItems.first().segment
         } else null
@@ -183,9 +183,9 @@ abstract class BaseController(
     }
 
     // Fetch menu items from database (Note: Only owner in this implementation)
-    private fun fetchMenuFromDb(langCode: String, admin: Boolean): List<MenuItem> {
-        logger.debug("Fetch menu items by langCode=$langCode admin=$admin")
-        val blogs = ctx.blogService.readMenu(langCode, admin)
+    private fun fetchMenuFromDb(langCode: String, adminMenu: Boolean): List<MenuItem> {
+        logger.debug("Fetch menu items by langCode=$langCode adminMenu=$adminMenu")
+        val blogs = ctx.blogService.readMenu(langCode, adminMenu)
         return getMenuItems(
             menuItemOrig = blogs,
             submenuMinItems = SUBMENU_MIN_ITEMS,

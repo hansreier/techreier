@@ -45,7 +45,6 @@ class BlogPostEditController(
         @AuthenticationPrincipal owner: Owner?,
     ): String {
         authorize(owner)
-        logger.info("ReierAsk reading")
         val blogParams = fetchBlogParams(model, request, response, segment, false, true)
         if (blogParams.blog == null)
             throw BlogNotFoundException("blog with segment: $segment is not found")

@@ -64,9 +64,9 @@ class BlogService(
         return BlogWithPosts(blog, blogPosts)
     }
 
-    fun readMenu(languageCode: String, admin: Boolean): List<MenuItem> {
-        val minValue = if (admin) Int.MIN_VALUE else  BLOG_PUBLISHED_MIN_VALUE
-        return blogRepo.getMenuItems(languageCode, minValue)
+    fun readMenu(languageCode: String, adminMenu: Boolean): List<MenuItem> {
+        val minValue = if (adminMenu) Int.MIN_VALUE else  BLOG_PUBLISHED_MIN_VALUE
+        return  blogRepo.getMenuItems(languageCode, minValue)
     }
 
     fun save(blogPrincipal: BlogPrincipal, blogForm: BlogForm, timestamp: Instant) {
