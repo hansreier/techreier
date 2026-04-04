@@ -41,15 +41,11 @@ class BlogService(
         adminMenu: Boolean = false,
     ): BlogWithPosts? {
         logger.info("Read blog old LangCode: $oldLangCode langCode: $langCode, segment $segment, posts? $posts")
-        val minValue = if (adminMenu) Int.MIN_VALUE else  BLOG_PUBLISHED_MIN_VALUE
+        val minValue = if (adminMenu) Int.MIN_VALUE else BLOG_PUBLISHED_MIN_VALUE
 
-        // If blog is not found with current language, use the previous language code if different
-        // This prevents annoying use of error page or redirect to home page, can fail if e.g. expired session.
-        val blogId = blogRepo.findIdBySegmentAndTopicLanguageCode(segment, langCode, minValue)
-            ?: (if (oldLangCode != null && oldLangCode != langCode)
-                blogRepo.findIdBySegmentAndTopicLanguageCode(segment, oldLangCode, minValue)
-            else null)
-            ?: return null
+        val blogId = readBlogId(segment, langCode, minValue) ?: if ((oldLangCode != null) && (oldLangCode != langCode))
+            readBlogId(segment, oldLangCode, minValue) ?: return null
+        else return null
 
         val blog = blogRepo.findPById(blogId) ?: return null
         if (!posts) return BlogWithPosts(blog, null)
@@ -65,9 +61,16 @@ class BlogService(
         return BlogWithPosts(blog, blogPosts)
     }
 
+    private fun readBlogId(segment: String, langCode: String, minValue: Int): Long? {
+        val blogIds: List<Long> = blogRepo.findIdBySegmentAndTopicLanguageCode(segment, langCode, minValue)
+        if (blogIds.size > 1)
+            throw DuplicateKeyException("Duplicate blog: Segment=$segment langCode: $langCode ids: ${blogIds.map { it }}")
+        return blogIds.firstOrNull()
+    }
+
     fun readMenu(languageCode: String, adminMenu: Boolean): List<MenuItem> {
-        val minValue = if (adminMenu) Int.MIN_VALUE else  BLOG_PUBLISHED_MIN_VALUE
-        return  blogRepo.getMenuItems(languageCode, minValue)
+        val minValue = if (adminMenu) Int.MIN_VALUE else BLOG_PUBLISHED_MIN_VALUE
+        return blogRepo.getMenuItems(languageCode, minValue)
     }
 
     fun save(blogPrincipal: BlogPrincipal, blogForm: BlogForm, timestamp: Instant) {
@@ -131,7 +134,7 @@ class BlogService(
     fun duplicate(segment: String, blogPrincipal: BlogPrincipal): Boolean {
         return if (blogPrincipal.blogId == null) false else blogRepo.findBlogIds(
             segment = segment,
-            blogOwnerId =blogPrincipal.ownerId,
+            blogOwnerId = blogPrincipal.ownerId,
             languageCode = blogPrincipal.langCode
         ).any { it != blogPrincipal.blogId }
     }

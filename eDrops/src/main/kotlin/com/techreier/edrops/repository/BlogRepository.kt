@@ -53,7 +53,7 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     WHERE b.segment = :segment AND b.topic.language.code = :lang
     AND b.pos >= :minPos
     """)
-    fun findIdBySegmentAndTopicLanguageCode(segment: String, lang: String, minPos: Int): Long?
+    fun findIdBySegmentAndTopicLanguageCode(segment: String, lang: String, minPos: Int): List<Long>
 
     @Query("""
     SELECT b.id FROM Blog b 
