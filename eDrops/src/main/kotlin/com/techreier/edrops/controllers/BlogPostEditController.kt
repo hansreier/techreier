@@ -115,14 +115,14 @@ class BlogPostEditController(
             if (blogPostIds.size > 1)
                 bindingResult.rejectValue("segment", "error.duplicate", form.segment)
 
+            checkStringSize(form.title, MAX_TITLE_SIZE, "title", bindingResult, 1)
+            form.title = form.title.replaceFirstChar { it.uppercaseChar() }
+            checkStringSize(form.summary, MAX_SUMMARY_SIZE, "summary", bindingResult)
             if (checkSegment(form.segment, "segment", bindingResult)) {
                 if (blogPostService.duplicate(form.segment, blogId, form.state, blogPostIds.firstOrNull())) {
                     bindingResult.rejectValue("segment", "error.duplicate", form.segment)
                 }
             }
-            checkStringSize(form.title, MAX_TITLE_SIZE, "title", bindingResult, 1)
-            form.title = form.title.replaceFirstChar { it.uppercaseChar() }
-            checkStringSize(form.summary, MAX_SUMMARY_SIZE, "summary", bindingResult)
 
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.savePost")
@@ -132,7 +132,7 @@ class BlogPostEditController(
             try {
                 blogPostService.save(blogId, blogPostIds.firstOrNull(), form, now())
                 if (action == "copy") {
-                    form.state = PostState.DRAFT
+                    form.state = PostState.IDEA
                     form.postLock = true
                     redirectAttributes.addFlashAttribute("blogPostForm", form)
                 }
@@ -207,9 +207,8 @@ class BlogPostEditController(
         changed: String,
         blogPostIds: List<Long>
     ) {
-        val blogParams = fetchBlogParams(model, request, response, segment)
+        val blogParams = fetchBlogParams(model, request, response, segment, false, true)
         logger.info("Prepare allBlogPosts Fetch blog posts with: ${blogParams}")
-
         blogParams.blog ?: throw BlogNotFoundException("Blog with segment $segment not found")
 
         model.addAttribute("blog", blogParams.blog)
