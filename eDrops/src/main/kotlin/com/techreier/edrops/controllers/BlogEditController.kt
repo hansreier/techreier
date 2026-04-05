@@ -27,9 +27,10 @@ class BlogEditController(
     private val blogService: BlogService,
 ) : BaseController(ctx) {
 
-    @GetMapping("/{segment}")
+
+    @GetMapping("/{segment}","/")
     fun allBlogPosts(
-        @PathVariable segment: String,
+        @PathVariable segment: String = "",
         request: HttpServletRequest,
         response: HttpServletResponse,
         redirectAttributes: RedirectAttributes,
