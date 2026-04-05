@@ -34,11 +34,17 @@ class BlogPostEditController(
     private val blogPostService: BlogPostService,
 ) : BaseController(ctx) {
 
-    @GetMapping("/{segment}/{subsegment}/{state}")
+    //  @GetMapping("/{segment}/{subsegment}/{state}")
+    @GetMapping(
+        "/{segment}/{subsegment}/{state}",
+        "/{segment}/{subsegment}/",
+        "/{segment}/{subsegment}",
+        "/{segment}/"
+    )
     fun blogPost(
         @PathVariable segment: String,
-        @PathVariable subsegment: String,
-        @PathVariable state: String,
+        @PathVariable subsegment: String = "",
+        @PathVariable state: String = "",
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
@@ -108,7 +114,7 @@ class BlogPostEditController(
 
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blogPost: path=${request.servletPath} action=$action blogid=$blogId blogPostIds=$blogPostIds")
-        if ((action == "blog") && (blogPostIds.size > 1 )) {
+        if ((action == "blog") && (blogPostIds.size > 1)) {
             return "redirect:$BLOG_EDIT_DIR/$segment"
         }
         if (action == "save" || action == "create" || action == "copy" || action == "blog") {
@@ -205,7 +211,7 @@ class BlogPostEditController(
         response: HttpServletResponse,
         segment: String,
         changed: String,
-        blogPostIds: List<Long>
+        blogPostIds: List<Long>,
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment, false, true)
         logger.info("Prepare allBlogPosts Fetch blog posts with: ${blogParams}")
