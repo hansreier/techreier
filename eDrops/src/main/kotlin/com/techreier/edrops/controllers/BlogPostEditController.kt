@@ -162,7 +162,7 @@ class BlogPostEditController(
 
         if (action == "delete") {
             try {
-                blogPostService.delete(blogId, blogPostIds, form)
+                blogPostService.delete(blogId, blogPostIds)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
                 prepare(model, request, response, segment, changed, blogPostIds)

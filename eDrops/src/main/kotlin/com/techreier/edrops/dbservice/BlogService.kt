@@ -106,11 +106,11 @@ class BlogService(
         blogRepo.save(blog)
     }
 
-    fun delete(blogId: Long?, blogForm: BlogForm) {
+    fun delete(blogId: Long?) {
         if ((blogId == null) || (blogId == -1L)) {
             logger.warn("Deleting blog rejected, no valid id")
         } else {
-            logger.info("Deleting blog with id: $blogId segment: ${blogForm.segment}")
+            logger.info("Deleting blog with id: $blogId")
             blogRepo.deleteById(blogId)
         }
     }

@@ -61,9 +61,8 @@ class BlogPostService(
 
     fun delete(
         blogId: Long?, blogPostIds: List<Long>,
-        blogPostForm: BlogPostForm,
     ) {
-        logger.info("Deleting blogPost ids: $blogPostIds segment: ${blogPostForm.segment} state: ${blogPostForm.state} blogId: $blogId")
+        logger.info("Deleting blogPost ids: $blogPostIds  blogId: $blogId")
         blogPostIds.let { ids ->
             blogTextRepo.deleteAllById(ids)
             blogPostRepo.deleteAllById(ids)
