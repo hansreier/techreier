@@ -21,10 +21,10 @@ class BlogPostController(private val ctx : Context,
                          private val blogPostService: BlogPostService
 ) : BaseController(ctx) {
 
-    @GetMapping("/{segment}/{subsegment}")
+    @GetMapping("/{segment}/{subsegment}","/{segment}/")
     fun blogPost(
         @PathVariable segment: String,
-        @PathVariable subsegment: String,
+        @PathVariable subsegment: String = "",
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
