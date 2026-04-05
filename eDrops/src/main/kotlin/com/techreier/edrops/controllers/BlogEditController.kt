@@ -59,24 +59,6 @@ class BlogEditController(
         return "blogEdit"
     }
 
-    @GetMapping
-    fun redirect(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        model: Model,
-        redirectAttributes: RedirectAttributes,
-        @AuthenticationPrincipal owner: Owner?,
-    ): String {
-        authorize(owner)
-        val blogParams = fetchBlogParams(model, request, response, null, false, true)
-        val firstSegment = readFirstSegment(blogParams.usedLangCode, true)
-        if (firstSegment == null) {
-            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-            return "redirect:/$HOME_DIR"
-        }
-        return "redirect:$BLOG_EDIT_DIR/$firstSegment"
-    }
-
     @PostMapping(value = ["/{segment}"])
     fun action(
         redirectAttributes: RedirectAttributes,
@@ -98,14 +80,17 @@ class BlogEditController(
         logger.info("blog: path: $path action=$action blogid=${blogPrincipal.blogId}")
 
         if (action == "save" || action == "create" || action == "createPost") {
-            if (checkSegment(form.segment, "segment", bindingResult)) {
-                if ((segment != form.segment) && (blogService.exists(form.segment, blogPrincipal)))
-                    bindingResult.rejectValue("segment", "error.duplicate", form.segment)
-            }
             checkStringSize(form.subject, MAX_TITLE_SIZE, "subject", bindingResult, 1)
             form.subject = form.subject.replaceFirstChar { it.uppercaseChar() }
             checkStringSize(form.about, MAX_SUMMARY_SIZE, "about", bindingResult)
             checkInt(form.position, "position", bindingResult, -1000, 1000)
+
+            if (checkSegment(form.segment, "segment", bindingResult)) {
+                if (blogService.duplicate(form.segment, blogPrincipal)) {
+                    bindingResult.rejectValue("segment", "error.duplicate", form.segment)
+                }
+            }
+
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.saveBlog")
                 prepare(model, request, response, segment, changed)

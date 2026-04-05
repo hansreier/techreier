@@ -38,21 +38,4 @@ class BlogController(context: Context) : BaseController(context) {
         return "blogSummaries"
     }
 
-    // Redirect to first blog
-    @GetMapping
-    fun redirect(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        model: Model,
-        redirectAttributes: RedirectAttributes,
-    ): String {
-        val blogParams = fetchBlogParams(model, request, response)
-        val firstSegment = readFirstSegment(blogParams.usedLangCode)
-        if (firstSegment == null) {
-            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-            return "redirect:/$HOME_DIR"
-        }
-        return "redirect:$BLOG_DIR/$firstSegment"
-    }
-
 }

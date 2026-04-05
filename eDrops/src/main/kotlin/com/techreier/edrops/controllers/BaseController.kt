@@ -141,15 +141,6 @@ abstract class BaseController(
         bindingResult.reject("error.$key", args, "??error.$key?? ${e.message}")
     }
 
-    // Used to fetch first available blog in redirects or go to homepage if not found
-    // The call is inefficient since it reuses function that reads the entire menu, do not care
-    protected fun readFirstSegment(languageCode: String, adminMenu: Boolean = false): String? {
-        val menuItems = ctx.blogService.readMenu(languageCode, adminMenu)
-        return if (menuItems.isNotEmpty()) {
-            menuItems.first().segment
-        } else null
-    }
-
     protected fun authorize(owner: Owner?): Long {
         val blogOwnerId = owner?.userId ?: if (ctx.appConfig.auth)
             throw (NotAuthorizedException("not authorized for edit/save action"))
