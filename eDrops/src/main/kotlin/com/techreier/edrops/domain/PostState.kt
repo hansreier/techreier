@@ -14,7 +14,7 @@ enum class PostState {
     DEPRECATED,
     UNKNOWN;
 
-    // Observe: When called from database, be nice and access everything
+    // Observe: When called from database, be nice and accept everything
     companion object {
         fun find(value: String?, fromDB: Boolean): PostState {
 
