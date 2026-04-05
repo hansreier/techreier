@@ -34,7 +34,6 @@ class BlogPostEditController(
     private val blogPostService: BlogPostService,
 ) : BaseController(ctx) {
 
-    //  @GetMapping("/{segment}/{subsegment}/{state}")
     @GetMapping(
         "/{segment}/{subsegment}/{state}",
         "/{segment}/{subsegment}/",
