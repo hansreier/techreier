@@ -35,18 +35,14 @@ class BlogService(
     @Transactional(readOnly = true)
     fun readBlog(
         segment: String,
-        oldLangCode: String?,
         langCode: String,
         posts: Boolean = false,
         adminMenu: Boolean = false,
     ): BlogWithPosts? {
-        logger.info("Read blog old LangCode: $oldLangCode langCode: $langCode, segment $segment, posts? $posts")
+        logger.info("Read blog langCode: $langCode, segment $segment, posts? $posts")
         val minValue = if (adminMenu) Int.MIN_VALUE else BLOG_PUBLISHED_MIN_VALUE
 
-        val blogId = readBlogId(segment, langCode, minValue) ?: if ((oldLangCode != null) && (oldLangCode != langCode))
-            readBlogId(segment, oldLangCode, minValue) ?: return null
-        else return null
-
+        val blogId = readBlogId(segment, langCode, minValue) ?: return null
         val blog = blogRepo.findPById(blogId) ?: return null
         if (!posts) return BlogWithPosts(blog, null)
 
@@ -131,12 +127,9 @@ class BlogService(
         return ids.first()
     }
 
-    fun exists(segment: String, blogPrincipal: BlogPrincipal): Boolean {
-        return blogRepo.findBlogIds(
-            segment = segment,
-            blogOwnerId = blogPrincipal.ownerId,
-            languageCode = blogPrincipal.langCode
-        ).isNotEmpty()
+    fun duplicate(segment: String, blogPrincipal: BlogPrincipal): Boolean {
+        return blogRepo.findBlogIds(segment, blogPrincipal.ownerId, blogPrincipal.langCode
+        ).any { it != blogPrincipal.blogId }
     }
 
 }

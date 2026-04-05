@@ -25,20 +25,13 @@ class BlogController(context: Context) : BaseController(context) {
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
-        redirectAttributes: RedirectAttributes
+        redirectAttributes: RedirectAttributes,
     ): String {
         val blogParams = fetchBlogParams(model, request, response, segment, true, false)
         if (blogParams.blog == null) {
             logger.warn("Blog $segment is not found in language: ${blogParams.usedLangCode}")
-
-            val firstSegment = readFirstSegment(blogParams.usedLangCode)
-            return if (firstSegment != null) {
-                redirectAttributes.addFlashAttribute("warning", "readFirstBlog")
-                "redirect:$BLOG_DIR/$firstSegment"
-            } else {
-                redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-                "redirect:/$HOME_DIR"
-            }
+            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+            return "redirect:/$HOME_DIR"
         }
         logger.info("Fetch blog posts (including summary): $blogParams")
         model.addAttribute("blog", blogParams.blog)
@@ -51,7 +44,7 @@ class BlogController(context: Context) : BaseController(context) {
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
-        redirectAttributes: RedirectAttributes
+        redirectAttributes: RedirectAttributes,
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
         val firstSegment = readFirstSegment(blogParams.usedLangCode)

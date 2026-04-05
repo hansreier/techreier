@@ -65,7 +65,7 @@ abstract class BaseController(
         } else {
             model.addAttribute("blogHeadline", "")
             val blogWithPosts: BlogWithPosts? = segment?.let {
-                ctx.blogService.readBlog(segment, oldLangCode, usedLangcode, posts, adminMenu)
+                ctx.blogService.readBlog(segment,  usedLangcode, posts, adminMenu)
             }
             if (blogWithPosts == null) {
                 model.addAttribute("blogHeadline", msg(ctx.messageSource, "noBlog"))
