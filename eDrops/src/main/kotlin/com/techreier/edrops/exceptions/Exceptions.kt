@@ -2,7 +2,7 @@ package com.techreier.edrops.exceptions
 
 open class BlogException(msg: String, val key: String) : Exception(msg)
 
-class BlogNotFoundException(msg: String) : BlogException(msg, "blogDuplicate")
+class BlogNotFoundException(msg: String) : BlogException(msg, "blogNotFound")
 
 class PostNotFoundException(msg: String) : BlogException(msg, "postNotFound")
 
