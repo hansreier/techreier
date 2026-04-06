@@ -16,18 +16,17 @@
     <div th:if="${blogPostForm != null}">
         <form id="blogPostform" th:action="@{${path}}" th:object="${blogPostForm}" th:method="post">
             <div class="button-row">
-                <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
+                <button type="submit" th:text="#{action.back}" name="action" th:value="blog"></button>
                 <div class="checkbox">
                     <label class="checkbox-container">
                         <input class="postLock" type="checkbox" th:field="*{postLock}"/>
                     </label>
                 </div>
                 <button type="submit" class="deleteButton" th:text="#{action.delete}" name="action" th:value="delete"></button>
+                <button type="submit" th:text="#{action.save}" name="actih:on" th:value="save"></button>
                 <button type="submit" th:text="#{action.newPost}" name="action" th:value="create"></button>
                 <button type="submit" th:text="#{action.copy}" name="action" th:value="copy"></button>
-                <button type="submit" th:text="#{action.back}" name="action" th:value="blog"></button>
-                <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
-            </div>
+:             </div>
             <h1 th:text="${blogHeadline}"/>
             <h2 th:text="${postHeadline}"/>
             <div class="input-form">
@@ -67,16 +66,16 @@
                 </div>
                 <div class="input-row full-width">
                     <div class="button-row">
-                        <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
+                        <button type="submit" th:text="#{action.back}" name="action" th:value="blog"></button>
                         <div class="checkbox">
                             <label>
                                 <input class="postLock" type="checkbox" th:field="*{postLock}"/>
                             </label>
                         </div>
                         <button type="submit" class="deleteButton" th:text="#{action.delete}" name="action" th:value="delete"></button>
+                        <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
                         <button type="submit" th:text="#{action.newPost}" name="action" th:value="create"></button>
                         <button type="submit" th:text="#{action.copy}" name="action" th:value="copy"></button>
-                        <button type="submit" th:text="#{action.back}" name="action" th:value="blog"></button>
                         <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
                         <button type="button" th:text="#{action.help}" onclick="toggleMarkdownHelp()"></button>
                     </div>
@@ -105,8 +104,8 @@
                     <p th:text="#{created} +  ':'"></p>
                     <p th:text="${created}"></p>
                 </div>
+                <p th:text="#{postId} + ':'"></p>
                 <div class="outputfield">
-                    <p th:text="#{postId} + ':'"></p>
                     <p th:text="${postId}"></p>
                 </div>
             </div>
