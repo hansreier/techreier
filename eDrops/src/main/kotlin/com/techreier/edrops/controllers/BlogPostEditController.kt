@@ -113,10 +113,10 @@ class BlogPostEditController(
 
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blogPost: path=${request.servletPath} action=$action blogid=$blogId blogPostIds=$blogPostIds")
-        if ((action == "blog") && (blogPostIds.size > 1)) {
+        if (action == "blog")  {
             return "redirect:$BLOG_EDIT_DIR/$segment"
         }
-        if (action == "save" || action == "create" || action == "copy" || action == "blog") {
+        if (action == "save" || action == "create" || action == "copy" ) {
             if (blogPostIds.size > 1)
                 bindingResult.rejectValue("segment", "error.duplicate", form.segment)
 
@@ -140,9 +140,6 @@ class BlogPostEditController(
                     form.state = PostState.IDEA
                     form.postLock = true
                     redirectAttributes.addFlashAttribute("blogPostForm", form)
-                }
-                if (action == "blog") {
-                    return "redirect:$BLOG_EDIT_DIR/$segment"
                 }
                 val newPath = "$BLOG_EDIT_DIR/$segment" +
                         if (action == "save")
