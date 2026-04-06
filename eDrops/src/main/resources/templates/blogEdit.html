@@ -46,6 +46,11 @@
                 </div>
                 <div class="input-row full-width">
                     <div class="button-row">
+                        <div class="checkbox">
+                            <label>
+                                <input class="postLock" type="checkbox" th:field="*{postLock}"/>
+                            </label>
+                        </div>
                         <button type="submit" class="deleteButton" th:text="#{action.delete}" name="action"
                                 th:value="delete"></button>
                         <button type="submit" th:text="#{save}" name="action" th:value="save"></button>
@@ -67,25 +72,20 @@
                 <input type="hidden" th:value="${changed}" name="changed">
                 <input type="hidden" th:field="*{preview}">
             </div>
-            <div class="posts" th:if="${blog.blogPosts.size > 0} ">
-                <div class="checkbox">
-                    <label>
-                        <input class="postLock" type="checkbox" th:field="*{postLock}"/>
-                        <span th:text="#{postLock(${blog.blogPosts.size})}"></span>
-                    </label>
-                </div>
-            </div>
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
             </div>
             <div class="statusline" th:if="${changed != null} ">
                 <div class="outputfield">
-                    <p th:text="#{changed} +  ':'"></p>
                     <p th:text="${changed}"></p>
                 </div>
                 <div class="outputfield">
                     <p th:text="#{blogId} + ':'"></p>
                     <p th:text="${blog.id}"></p>
+                </div>
+                <div class="outputfield">
+                    <p th:text="#{postsText} + ':'"></p>
+                    <p th:text="${blog.blogPosts.size}"></p>
                 </div>
             </div>
         </form>
