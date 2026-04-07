@@ -79,7 +79,10 @@ class BlogEditController(
         redirectAttributes.addFlashAttribute("action", action)
 
         logger.info("blog: path: $path action=$action blogid=${blogPrincipal.blogId}")
-
+        if (action == "back")  {
+            logger.info("ReierAsk going back")
+            return "redirect:/$HOME_DIR"
+        }
         if (action == "save" || action == "create" || action == "createPost") {
             checkStringSize(form.subject, MAX_TITLE_SIZE, "subject", bindingResult, 1)
             form.subject = form.subject.replaceFirstChar { it.uppercaseChar() }

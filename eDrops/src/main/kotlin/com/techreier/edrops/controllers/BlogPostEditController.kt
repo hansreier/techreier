@@ -113,7 +113,7 @@ class BlogPostEditController(
 
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blogPost: path=${request.servletPath} action=$action blogid=$blogId blogPostIds=$blogPostIds")
-        if (action == "blog")  {
+        if (action == "back")  {
             return "redirect:$BLOG_EDIT_DIR/$segment"
         }
         if (action == "save" || action == "create" || action == "copy" ) {

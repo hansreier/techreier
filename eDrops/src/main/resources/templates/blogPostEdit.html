@@ -16,7 +16,7 @@
     <div th:if="${blogPostForm != null}">
         <form id="blogPostform" th:action="@{${path}}" th:object="${blogPostForm}" th:method="post">
             <div class="button-row">
-                <button type="submit" th:text="#{action.back}" name="action" th:value="blog"></button>
+                <button type="submit" th:text="#{action.back}" name="action" th:value="back"></button>
                 <div class="checkbox">
                     <label class="checkbox-container">
                         <input class="postLock" type="checkbox" th:field="*{postLock}"/>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="input-row full-width">
                     <div class="button-row">
-                        <button type="submit" th:text="#{action.back}" name="action" th:value="blog"></button>
+                        <button type="submit" th:text="#{action.back}" name="action" th:value="back"></button>
                         <div class="checkbox">
                             <label>
                                 <input class="postLock" type="checkbox" th:field="*{postLock}"/>
