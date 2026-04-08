@@ -62,7 +62,7 @@
                         <button type="button" th:text="#{action.help}" onclick="toggleMarkdownHelp()"></button>
                     </div>
                 </div>
-                <div class="deleteWarning">
+                <div class="deleteWarning" th:if="${blog.blogPosts.size > 0}">
                     <p class="error" th:text="#{warning.deletePosts}"></p>
                 </div>
                 <div class="input-row full-width" layout:fragment="markdownHelp">
