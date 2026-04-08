@@ -62,6 +62,9 @@
                         <button type="button" th:text="#{action.help}" onclick="toggleMarkdownHelp()"></button>
                     </div>
                 </div>
+                <div class="deleteWarning">
+                    <p class="error" th:text="#{warning.deletePosts}"></p>
+                </div>
                 <div class="input-row full-width" layout:fragment="markdownHelp">
                     <div th:insert="~{markdownHelp :: markdownHelp}"></div>
                 </div>
