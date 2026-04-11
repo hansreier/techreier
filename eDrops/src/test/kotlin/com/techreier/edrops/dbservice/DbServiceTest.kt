@@ -1,6 +1,6 @@
 package com.techreier.edrops.dbservice
 
-import com.techreier.edrops.data.Initial
+
 import com.techreier.edrops.data.NB
 import com.techreier.edrops.data.TOPIC_DEFAULT
 import com.techreier.edrops.dto.BlogPrincipal
@@ -21,9 +21,6 @@ import java.time.Instant
 class DbServiceTest : TestBase() {
 
     @Autowired
-    private lateinit var initService: InitService
-
-    @Autowired
     private lateinit var blogService: BlogService
 
     @Test
@@ -32,8 +29,6 @@ class DbServiceTest : TestBase() {
         val langCode = NB
         val topic = TOPIC_DEFAULT
         val timestamp = Instant.now()
-        val initial = Initial(appConfig)
-        assertTrue(initService.saveInitialData(initial))
         val blogForm = BlogForm(segment, topic)
         val blogPrincipal = BlogPrincipal(blogOwnerId, null, langCode)
 
@@ -56,8 +51,6 @@ class DbServiceTest : TestBase() {
     fun existingBlogTest() {
         val segment="test"
         val timestamp = Instant.now()
-        val initial = Initial(appConfig)
-        assertTrue(initService.saveInitialData(initial))
         val langCode = blog.topic.language.code
         val topicKey = blog.topic.topicKey
         val blogForm = BlogForm(segment, topicKey, "1","test","about test" )
