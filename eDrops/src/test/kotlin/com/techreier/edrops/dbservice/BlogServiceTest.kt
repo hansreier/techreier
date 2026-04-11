@@ -20,7 +20,7 @@ import java.time.Instant
 
 @SpringBootTest
 @Transactional
-class DbServiceTest : TestBase() {
+class BlogServiceTest : TestBase() {
 
     @Autowired
     private lateinit var blogService: BlogService
@@ -36,17 +36,24 @@ class DbServiceTest : TestBase() {
 
         blogService.save(blogPrincipal, blogForm, timestamp)
 
+        // Read blog without blogPosts
         val blogWithPosts1: BlogWithPosts? = blogService.readBlog(segment, langCode, false, true)
         assertNotNull(blogWithPosts1)
         val blog1 = blogWithPosts1.blog
         assertNotNull(blog1)
         assertNull(blogWithPosts1.posts)
 
+        // Read blog with blogPosts
         val blogWithPosts2: BlogWithPosts? = blogService.readBlog(segment, langCode, true, true)
         assertNotNull(blogWithPosts2)
         val blog2 = blogWithPosts2.blog
         assertNotNull(blog2)
         assertThat(blogWithPosts2.posts).isEmpty()
+
+        // Additional menuItem check on changed data
+        val menuItems =  blogService.readMenu(langCode, false)
+        val adminMenuItems = blogService.readMenu(langCode, true)
+        assertEquals(menuItems.size +1, adminMenuItems.size)
     }
 
     @Test
@@ -79,10 +86,28 @@ class DbServiceTest : TestBase() {
         val topicKey = blog.topic.topicKey
         val blogForm = BlogForm(segment, topicKey, "1","test","about test" )
         val blogPrincipal = BlogPrincipal(blogOwnerId, null, langCode)
+        blogService.save(blogPrincipal, blogForm, timestamp) //No duplicate check on save
         assertThrows<DuplicateBlogException> {
-            blogService.save(blogPrincipal, blogForm, timestamp)
             blogService.readBlog(segment, langCode, true, true)
         }
+        assertThrows<DuplicateBlogException> {
+            blogService.findId(segment, blogOwnerId, langCode )
+        }
     }
+
+    @Test
+    fun isDuplicateTest() {
+        val blogPrincipal = BlogPrincipal(blogOwnerId, null, blog.topic.language.code)
+        assertTrue(blogService.duplicate(blog.segment, blogPrincipal)) //Duplicate check function, use before save
+    }
+
+    @Test
+    fun findIdTest() {
+        val segment = blog.segment
+        val langCode = blog.topic.language.code
+            assertEquals(blogId, blogService.findId(segment, blogOwnerId, langCode ))
+    }
+
+
 
 }
