@@ -51,9 +51,9 @@ class BlogServiceTest : TestBase() {
         assertThat(blogWithPosts2.posts).isEmpty()
 
         // Additional menuItem check on changed data
-        val menuItems =  blogService.readMenu(langCode, false)
+        val menuItems = blogService.readMenu(langCode, false)
         val adminMenuItems = blogService.readMenu(langCode, true)
-        assertEquals(menuItems.size +1, adminMenuItems.size)
+        assertEquals(menuItems.size + 1, adminMenuItems.size)
     }
 
     @Test
@@ -62,7 +62,7 @@ class BlogServiceTest : TestBase() {
         val timestamp = Instant.now()
         val langCode = blog.topic.language.code
         val topicKey = blog.topic.topicKey
-        val blogForm = BlogForm(segment, topicKey, "1","test","about test" )
+        val blogForm = BlogForm(segment, topicKey, "1", "test", "about test")
         val blogPrincipal = BlogPrincipal(blogOwnerId, blogId, langCode)
 
         blogService.save(blogPrincipal, blogForm, timestamp)
@@ -84,14 +84,14 @@ class BlogServiceTest : TestBase() {
         val timestamp = Instant.now()
         val langCode = blog.topic.language.code
         val topicKey = blog.topic.topicKey
-        val blogForm = BlogForm(segment, topicKey, "1","test","about test" )
+        val blogForm = BlogForm(segment, topicKey, "1", "test", "about test")
         val blogPrincipal = BlogPrincipal(blogOwnerId, null, langCode)
         blogService.save(blogPrincipal, blogForm, timestamp) //No duplicate check on save
         assertThrows<DuplicateBlogException> {
             blogService.readBlog(segment, langCode, true, true)
         }
         assertThrows<DuplicateBlogException> {
-            blogService.findId(segment, blogOwnerId, langCode )
+            blogService.findId(segment, blogOwnerId, langCode)
         }
     }
 
@@ -105,9 +105,12 @@ class BlogServiceTest : TestBase() {
     fun findIdTest() {
         val segment = blog.segment
         val langCode = blog.topic.language.code
-            assertEquals(blogId, blogService.findId(segment, blogOwnerId, langCode ))
+        assertEquals(blogId, blogService.findId(segment, blogOwnerId, langCode))
+        blogOwner.blogs.remove(blog)
+        blogService.delete(null)
+        blogService.delete(-1)
+        assertNotNull(blogRepo.findById(blogId).orElse(null))
+        blogService.delete(blogId)
+        assertNull(blogRepo.findById(blogId).orElse(null))
     }
-
-
-
 }

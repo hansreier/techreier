@@ -127,7 +127,8 @@ class BlogService(
     }
 
     fun duplicate(segment: String, blogPrincipal: BlogPrincipal): Boolean {
-        return blogRepo.findBlogIds(segment, blogPrincipal.ownerId, blogPrincipal.langCode
+        return blogRepo.findBlogIds(
+            segment, blogPrincipal.ownerId, blogPrincipal.langCode
         ).any { it != blogPrincipal.blogId }
     }
 
