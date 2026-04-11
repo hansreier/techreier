@@ -69,17 +69,15 @@ class BlogService(
         return blogRepo.getMenuItems(languageCode, minValue)
     }
 
-    //TODO Add test
     fun save(blogPrincipal: BlogPrincipal, blogForm: BlogForm, timestamp: Instant) {
         val blogId = blogPrincipal.blogId
         val blogOwnerId = blogPrincipal.ownerId
         val langCode = blogPrincipal.langCode
         val blogOwner = ownerRepo.findById(blogOwnerId).orElse(null)
             ?: throw BlogNotFoundException("BlogOwner with id=$blogOwnerId not found")
-        val id = if (blogId == -1L) null else blogId
-        logger.info("Saving blog with id: $id segment: ${blogForm.segment}")
+        logger.info("Saving blog with id=$blogId topic=${blogForm.topicKey} langCode=${langCode} segment=${blogForm.segment}")
         val blog: Blog =
-            id?.let {
+            blogId?.let {
                 val foundBlog: Blog = blogRepo.findById(it).orElse(null)
                     ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Blog with id $it not found")
                 if ((foundBlog.topic.topicKey != blogForm.topicKey) || foundBlog.topic.language.code != langCode) {

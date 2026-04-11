@@ -42,6 +42,7 @@ abstract class TestBase {
     var blogPostId: Long = 0
     var noOfBlogPosts: Int = 0
     var noOfBlogs: Int = 0
+    var blogOwnerId: Long = 0
 
     @BeforeEach
     fun setup() {
@@ -50,6 +51,7 @@ abstract class TestBase {
         languageRepo.saveAll(initial.base.languages)
         topicRepo.saveAll(initial.base.topics)
         blogOwner = ownerRepo.save(initial.blogOwner)
+        blogOwnerId = blogOwner.id!!
         blog = blogOwner.blogs.first { it.segment == Climatenv.SEGMENT }
         blogId = blog.id!!
         blogPost = blog.blogPosts.first { it.segment == Green.SEGMENT }
