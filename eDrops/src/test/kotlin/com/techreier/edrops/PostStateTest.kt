@@ -3,8 +3,8 @@ package com.techreier.edrops
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.exceptions.StateNotFoundException
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class PostStateTest {
 
@@ -21,14 +21,14 @@ class PostStateTest {
 
     @Test
     fun findInvalidInput() {
-        assertThrows(StateNotFoundException::class.java) {
+        assertThrows<StateNotFoundException> {
             PostState.find("soeppel", false)
         }
     }
 
     @Test
     fun findInvalidCase() {
-        assertThrows(StateNotFoundException::class.java) {
+        assertThrows<StateNotFoundException> {
             PostState.find("PUBLISHED", false)
         }
     }
