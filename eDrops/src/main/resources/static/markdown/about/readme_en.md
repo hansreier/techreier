@@ -1,6 +1,6 @@
-## Functionality
+## Functionality of Techreier
 
-This is a simple and limited Blog system. It is two types of blogs, both are markdown based.
+This is a simple and limited blog system. It is two types of blogs, both are markdown based.
 - Hard coded text content stored in files in the project in the static/markdown folder with subfolders.
 - Database blogs stored in MariaDB, the newest blog at the top.
 
@@ -8,13 +8,13 @@ Some of the hard coded blogs have added functionality, like calculation of energ
 A menu system supports navigation to the blogs, partly hard coded and partly dynamically generated from the database.  
 The blog system uses a simple one column layout, to be able to be viewed on any device (including mobiles).
 
-### How to enter blogs without coding HTML
+### How to enter blogs without coding html
 
 The goal was to make this as simple as possible without a complex text editor. 
 
 I choose to use markdown like this README.md file, since it is simpler than RTF and uses less disk space. 
 Any text or markdown editor can be used, I have included my own simple markdown editor to produce the database
-based blogs. The editor is based ont the HTML Textarea tag with some additions.
+based blogs. The editor is based ont the html Textarea tag with some additions.
 
 The first attempt was to use markdown written in Intellij or other editor, store it as a file  
 together with project code and pick it up as a part of the Web GUI. 
@@ -24,7 +24,43 @@ write, store and view the blogs in various languages.
 Standard Markdown formatting, including tables, links and images are supported.
 I mostly follow the GitHub Markdown dialect.
 
+### How to make an interactive website with minimal amount of JavaScript
+
+This philosophy was selected a long time ago with my old website, before JavaScript became popular.
+I have never actually liked the JavaScript language. Without JavaScript, a round trip to the server
+is required whatever you do interactively. What I do is to use JavaScript where GUI 
+performance and usability actually matters, in drop down menus and some limited state handling
+where server storage really is cumbersome. The best is that no node and npm is required.
+I like TypeScript, but it adds a lot of libraries on top of JavaScript, so it is skipped.
+Libraries used for DOM manipulation and css are omitted. HTMx (and Ajax) is omitted because I really
+cannot see the gain in the way more system is written. One comment is that the introduction of AI
+have made it easier to use basic low level tools than it was before.  My webSite is very SEO friendly.  
+
+
 ## Technology
+
+### Tech stack
+
+- Kotlin
+- Spring Boot 4.x
+- Spring MVC
+- Spring Security
+- JPA / Hibernate
+- MariaDB
+- html
+- Thymeleaf
+- Markdown with Flexmark (CommonMark implementation)
+- Javascript
+- css
+- Apache POI
+- Logback
+
+### Build tools and deployment 
+
+- Maven
+- Jib
+- Docker
+- VPS
 
 ### Storage of blogs, pictures and metadata
 
@@ -41,22 +77,21 @@ on the VPS for the MariaDB database. The backup will be stored on Jottacloud, us
 for Linux (Ubuntu). I have added daily backup of the database tables and contents, and use
 Jottacloud's sync folder for images stored in the file system.
 
-### Producing HTML GUI efficiently
+### Producing html GUI efficiently
 
-Thymeleaf is used for server side rendering HTML pages. For simplicity
+Thymeleaf is used for server side rendering html pages. For simplicity
 client side frameworks is not used to create Web GUI in this application.  
-It is required to use Thymeleaf tags in the HTML. This can be challenging sometimes and some of this syntax
+It is required to use Thymeleaf tags in the html. This can be challenging sometimes and some of this syntax
 is cryptic and a little difficult to understand. Thymeleaf if much better to use than plain old JSP.
 
 Spring MVC is used in the controllers. To use a Model View Controller concept for producing GUI is beneficial.
 But I am not sure that I like the way Spring has implemented their Java API. Actually I liked JSF Java API
-(now about deprecated) better. Remark that the Thymeleaf approach of adding some tags to regular HTML5,
-is definitely better and cleaner than the proprietary JSF syntax for producing HTML.
+(now about deprecated) better. Remark that the Thymeleaf approach of adding some tags to regular html5,
+is definitely better and cleaner than the proprietary JSF syntax for producing html.
 For a better responsive user experience and PWAs: A frontend framework like React is better.
 
-The method of generating HTML in the backend is definitely easier for a back
-end developer like me. For small projects it is flexible enough. Actually I could recommend it in
-projects for internal usage in big organizations. Changes in HTML and all code can be immediately viewed
+The method of generating html in the backend is definitely easier for a backend developer like me. For small projects it is flexible enough. Actually I could recommend it in
+projects for internal usage in big organizations. Changes in html and all code can be immediately viewed
 in a browser using Intellij. I dislike the extra complexity by introducing node and npm.
 
 ## Security
@@ -65,11 +100,15 @@ I have used Spring security for login and other security issues. It seems to be 
 Spring MVC Boot based system. The password is encrypted and stored in the blogowner entity.
 I have adapted the default Spring Security login screen.
 
+At present the system is a one user system. This simplifies user and password administration. 
+The URL paths need to be expanded to allow for more write users. At the database level multiuser is 
+already taken care of, but I need to add at least one admin user with extra privileges.  
+
 ### Preventing security threats
 
 - Remember to update library versions in pom regularly. This is easy for a small demo app like this.
 - Watch for SQL injection. Prevented by using Hibernate / Spring JPA and not native SQL
-- Watch for HTML injection. Required when using Markdown or RTF editors, because HTML is generated and included.
+- Watch for html injection. Required when using Markdown or RTF editors, because html is generated and included.
 - Spring Security uses the principle of least privilege as default.
 - Be extremely aware when changing settings in Spring Security config (WebSecurityConfig.kt)
 
@@ -79,8 +118,8 @@ Be alert when using the Thymeleaf utext tag:
 ```
 
 What I do to avoid Cross Site Scripting (XSS), is to check the html before injecting it into the web page.
-It is possible to remove plain HTML in markup and RTF, but a better approach is to scan and remove the potential
-dangerous parts after the HTML is generated. I have used the Owasp html Java Sanitizer library to do this.
+It is possible to remove plain html in markup and RTF, but a better approach is to scan and remove the potential
+dangerous parts after the html is generated. I have used the Owasp html Java Sanitizer library to do this.
 
 ## State
 
@@ -202,27 +241,19 @@ the server. You loose control of when and how a database call is handled using H
 
 ### Storing and editing text
 
-I simply store it with VARCHAR for  small summary fields and TEXT for the content field in MariaDB.
-
-My documents will not exceed 1Gb limit, forget it.
-
-I selected MariaDB, PostgreSql is too large and not well suited for small web applications.
-
-Text editors that can be used:
-- Html textarea
-- RTF based: Can include pictures.
-- Sommernote - Tutorial for Thymeleaf.. Try this  
-- TineMCE (not free for advanced features), also directly editing online using cloud version.  
-- Froala  
-- CKEditor 5?
-- EasyMDE, markdown based
-- Editor.js (JSON objekter)
-
-But I decided to use markdown and the simple Html textarea.
-This readme file is markdown simply stored as a file on the file system.
-What I did with HTML textarea was simply to add a view button, 
+I use the simple html <textarea> tag and plain markdown editing and backend parsing with Flexmark.
+What I did with html textarea was simply to add a button row including a view button, 
 to view the result with backend rendering below the text box.
-In addition, I added a markdown help button to reveal som markdown tricks.
+In addition, I added a Markdown Help button to reveal syntax tips.  
+I have found this approach to be highly responsive and sufficient.  
+There is no need for including a more advanced markdown editor, it adds complexity.   
+Markdown is much more efficient than RTF when it comes to processing and storing.
+
+This readme file is markdown simply stored as a file on the file system and included in the project.
+I have more files like this and other markdown based text stored in Mariadb.
+I selected MariaDB, PostgreSql is too large and not well suited for small web applications.
+I simply store it with VARCHAR for  small summary fields and TEXT for the content field in MariaDB.
+My documents will not exceed 1Gb limit, forget it.
 
 ### About images
 
@@ -234,8 +265,7 @@ Always use this way to  include images to be able to view in Intellij, locally a
 This should only be used for some permanent and compressed images. 
 The better way to be used for blogs in general, is mapping of the image path to a Docker volume.
 This stores the images on a dedicated file path on the server, and can be synchronized with e.g. Jottacloud.
-This is described above in the Docker volumes section.  
-
+This is described above in the Docker volumes section.
 
 ## Web stuff
 
