@@ -25,7 +25,7 @@ class DbServiceTest : TestBase() {
 
     @Test
     fun newBlogTest() {
-        val segment="test"
+        val segment = "test"
         val langCode = NB
         val topic = TOPIC_DEFAULT
         val timestamp = Instant.now()
@@ -49,7 +49,7 @@ class DbServiceTest : TestBase() {
 
     @Test
     fun existingBlogTest() {
-        val segment="test"
+        val segment = "test"
         val timestamp = Instant.now()
         val langCode = blog.topic.language.code
         val topicKey = blog.topic.topicKey
