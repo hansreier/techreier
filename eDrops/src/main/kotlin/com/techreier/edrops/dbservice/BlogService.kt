@@ -69,6 +69,7 @@ class BlogService(
         return blogRepo.getMenuItems(languageCode, minValue)
     }
 
+    //TODO Add test
     fun save(blogPrincipal: BlogPrincipal, blogForm: BlogForm, timestamp: Instant) {
         val blogId = blogPrincipal.blogId
         val blogOwnerId = blogPrincipal.ownerId
