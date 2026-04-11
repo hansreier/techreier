@@ -5,12 +5,14 @@ import com.techreier.edrops.data.NB
 import com.techreier.edrops.data.TOPIC_DEFAULT
 import com.techreier.edrops.dto.BlogPrincipal
 import com.techreier.edrops.dto.BlogWithPosts
+import com.techreier.edrops.exceptions.DuplicateBlogException
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.repository.TestBase
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
@@ -67,6 +69,20 @@ class DbServiceTest : TestBase() {
         assertEquals(blogForm.subject, blogFound.subject)
         assertEquals(blogForm.about, blogFound.about)
         assertThat(blogWithPosts.posts).size().isEqualTo(blog.blogPosts.size)
+    }
+
+    @Test
+    fun duplicateBlogTest() {
+        val segment = blog.segment
+        val timestamp = Instant.now()
+        val langCode = blog.topic.language.code
+        val topicKey = blog.topic.topicKey
+        val blogForm = BlogForm(segment, topicKey, "1","test","about test" )
+        val blogPrincipal = BlogPrincipal(blogOwnerId, null, langCode)
+        assertThrows<DuplicateBlogException> {
+            blogService.save(blogPrincipal, blogForm, timestamp)
+            blogService.readBlog(segment, langCode, true, true)
+        }
     }
 
 }
