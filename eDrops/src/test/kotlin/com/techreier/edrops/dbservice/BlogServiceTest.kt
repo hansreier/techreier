@@ -141,15 +141,15 @@ class BlogServiceTest : TestBase() {
     }
 
     @Test
-    fun findAndDeleteTest() { //TODO Evaluate if delete function is to be changed to include blogOwner
+    fun findAndDeleteTest() {
         val segment = blog.segment
         val langCode = blog.topic.language.code
-        assertEquals(blogId, blogService.findId(segment, blogOwnerId, langCode))
-        blogOwner.blogs.remove(blog) //Both remove and delete is required
+        val foundBlogId = blogService.findId(segment, blogOwnerId, langCode)
+        assertEquals(blogId, foundBlogId)
         blogService.delete(null)
         blogService.delete(-1)
         assertNotNull(blogRepo.findById(blogId).orElse(null))
-        blogService.delete(blogId)
+        blogService.delete(foundBlogId)
         assertNull(blogRepo.findById(blogId).orElse(null))
     }
 }
