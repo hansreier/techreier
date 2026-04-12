@@ -5,6 +5,7 @@ import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.domain.Owner
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.exceptions.BlogNotFoundException
+import com.techreier.edrops.exceptions.TopicNotFoundException
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.util.*
 import jakarta.servlet.http.HttpServletRequest
@@ -105,6 +106,7 @@ class BlogEditController(
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException -> handleRecoverableError(e, "dbSave", bindingResult)
+                    is TopicNotFoundException -> handleRecoverableError(e, "topicNotFound", bindingResult)
                     else -> throw e
                 }
                 prepare(model, request, response, segment, changed)

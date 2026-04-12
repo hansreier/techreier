@@ -1,11 +1,13 @@
 package com.techreier.edrops.dbservice
 
 
+import com.techreier.edrops.data.EN
 import com.techreier.edrops.data.NB
 import com.techreier.edrops.data.TOPIC_DEFAULT
 import com.techreier.edrops.dto.BlogPrincipal
 import com.techreier.edrops.dto.BlogWithPosts
 import com.techreier.edrops.exceptions.DuplicateBlogException
+import com.techreier.edrops.exceptions.TopicNotFoundException
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.repository.TestBase
 import org.assertj.core.api.Assertions.assertThat
@@ -33,8 +35,16 @@ class BlogServiceTest : TestBase() {
         val topic = TOPIC_DEFAULT
         val timestamp = Instant.now()
         val blogForm = BlogForm(segment, topic)
+
         val blogPrincipal = BlogPrincipal(blogOwnerId, null, langCode)
 
+        // Topic not found case
+        val e = assertThrows<TopicNotFoundException> {
+            blogService.save(blogPrincipal, BlogForm(), timestamp)
+        }
+        assertThat(e.message!!.contains("topic"))
+
+        // Happy day case
         blogService.save(blogPrincipal, blogForm, timestamp)
 
         // Read blog without blogPosts
@@ -55,6 +65,10 @@ class BlogServiceTest : TestBase() {
         val menuItems = blogService.readMenu(langCode, false)
         val adminMenuItems = blogService.readMenu(langCode, true)
         assertEquals(menuItems.size + 1, adminMenuItems.size)
+
+        // Read blog with wrong language
+        val blogWithPosts3 = blogService.readBlog(segment, EN, false, true)
+        assertNull(blogWithPosts3)
     }
 
     @Test
@@ -66,6 +80,13 @@ class BlogServiceTest : TestBase() {
         val blogForm = BlogForm(segment, topicKey, "1", "test", "about test")
         val blogPrincipal = BlogPrincipal(blogOwnerId, blogId, langCode)
 
+        // Topic not found case
+        val e = assertThrows<TopicNotFoundException> {
+            blogService.save(blogPrincipal, BlogForm(), timestamp)
+        }
+        assertThat(e.message!!.contains("topic"))
+
+        // Happy day case
         blogService.save(blogPrincipal, blogForm, timestamp)
 
         val blogWithPosts: BlogWithPosts? = blogService.readBlog(segment, langCode, true, true)

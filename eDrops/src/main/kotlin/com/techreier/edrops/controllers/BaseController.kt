@@ -130,6 +130,8 @@ abstract class BaseController(
     // Logg and handle a general recoverable error to be presented in Thymeleaf
     // Note: Stacktrace not logged, should it?
     // The primary error text is fetched from language files with "error.key"
+    // Ommitting parameter inn key and no messsage from Exception is logged
+    // Evaluate in future if message should be sent directly e.g. for save in DB errors.
     protected fun handleRecoverableError(
         e: Exception,
         key: String,

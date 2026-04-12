@@ -10,6 +10,7 @@ import com.techreier.edrops.dto.BlogWithPosts
 import com.techreier.edrops.dto.MenuItem
 import com.techreier.edrops.exceptions.BlogNotFoundException
 import com.techreier.edrops.exceptions.DuplicateBlogException
+import com.techreier.edrops.exceptions.TopicNotFoundException
 import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.BlogPostRepository
@@ -83,7 +84,7 @@ class BlogService(
                 if ((foundBlog.topic.topicKey != blogForm.topicKey) || foundBlog.topic.language.code != langCode) {
                     topicRepo.findByTopicKeyAndLanguageCode(blogForm.topicKey, langCode)
                         ?.let { topic -> foundBlog.topic = topic }
-                        ?: logger.warn("Topic with key: ${blogForm.topicKey} and languageCode: $langCode not found")
+                        ?: throw TopicNotFoundException("Topic key=${blogForm.topicKey} and languageCode=$langCode not found")
                 }
                 foundBlog.changed = timestamp
                 foundBlog.segment = blogForm.segment
@@ -92,14 +93,14 @@ class BlogService(
                 foundBlog.about = blogForm.about
                 foundBlog
             } ?: Blog(
-                timestamp,
-                blogForm.segment,
-                topicRepo.findByTopicKeyAndLanguageCode(blogForm.topicKey, langCode)
-                    ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Topic ${blogForm.topicKey} not found"),
-                blogForm.position.toIntOrNull() ?: 0,
-                blogForm.subject,
-                blogForm.about,
-                mutableListOf(), blogOwner
+                changed = timestamp,
+                segment = blogForm.segment,
+                topic = topicRepo.findByTopicKeyAndLanguageCode(blogForm.topicKey, langCode)
+                    ?: throw TopicNotFoundException("Topic key=${blogForm.topicKey} and languageCode=$langCode not found"),
+                pos = blogForm.position.toIntOrNull() ?: 0,
+                subject = blogForm.subject,
+                about = blogForm.about,
+                blogPosts = mutableListOf(), blogOwner
             )
 
         blogRepo.save(blog)
