@@ -16,6 +16,7 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.server.ResponseStatusException
 import java.time.Instant
 
 @SpringBootTest
@@ -102,11 +103,28 @@ class BlogServiceTest : TestBase() {
     }
 
     @Test
-    fun findIdTest() {
+    fun notFoundSaveBlogTest() {
+        val blogPrincipal = BlogPrincipal(blogOwnerId, -1, NB)
+        val topicKey = blog.topic.topicKey
+        val blogForm = BlogForm("rubbish", topicKey)
+        val e = assertThrows<ResponseStatusException> {
+            blogService.save(blogPrincipal, blogForm, Instant.now())
+        }
+        assertThat(e.message).contains("404")
+    }
+
+    @Test
+    fun notFoundReadBlogTest() {
+        val blogWithPosts = blogService.readBlog("tull", NB, false, true)
+        assertNull(blogWithPosts)
+    }
+
+    @Test
+    fun findAndDeleteTest() { //TODO Evaluate if delete function is to be changed to include blogOwner
         val segment = blog.segment
         val langCode = blog.topic.language.code
         assertEquals(blogId, blogService.findId(segment, blogOwnerId, langCode))
-        blogOwner.blogs.remove(blog)
+        blogOwner.blogs.remove(blog) //Both remove and delete is required
         blogService.delete(null)
         blogService.delete(-1)
         assertNotNull(blogRepo.findById(blogId).orElse(null))
