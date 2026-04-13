@@ -24,7 +24,6 @@ class BlogPostService(
     private val blogRepo: BlogRepository,
     private val blogTextRepo: BlogTextRepository,
 ) {
-    //TODO Add test
     fun save(blogId: Long, blogPostId: Long?, blogPostForm: BlogPostForm, timestamp: Instant): Long {
         logger.info("Saving blogPost id: ${blogPostId} segment: ${blogPostForm.segment} state: ${blogPostForm.state.name} blogId: $blogId")
 

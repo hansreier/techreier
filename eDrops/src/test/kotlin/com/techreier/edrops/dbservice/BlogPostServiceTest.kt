@@ -1,26 +1,16 @@
 package com.techreier.edrops.dbservice
 
 
-import com.techreier.edrops.data.EN
-import com.techreier.edrops.data.NB
-import com.techreier.edrops.data.TOPIC_DEFAULT
 import com.techreier.edrops.domain.PostState
-import com.techreier.edrops.dto.BlogPrincipal
-import com.techreier.edrops.dto.BlogWithPosts
-import com.techreier.edrops.exceptions.DuplicateBlogException
-import com.techreier.edrops.exceptions.TopicNotFoundException
-import com.techreier.edrops.forms.BlogForm
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.TestBase
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
-import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.server.ResponseStatusException
 import java.time.Instant
 
 @SpringBootTest
@@ -32,101 +22,60 @@ class BlogPostServiceTest : TestBase() {
 
     @Test
     fun newPostTest() {
-        val segment = "test"
+
+        // BlogPost without BlogText
+        val segment1 = "test"
         val timestamp = Instant.now()
-        val form = BlogPostForm(segment)
+        val form1 = BlogPostForm(segment = segment1, summary = "summary")
+        postService.save(blogId, null, form1, timestamp)
+        val (post1, text1) = postService.readBlogPost(blogId, segment1, PostState.IDEA)
+        assertNotNull(post1)
+        assertNull(text1)
+        assertEquals("summary", post1.summary)
 
-        // Happy day case
-        postService.save(blogId, null , form, timestamp)
-
-        // Read blogpost and blogtext
-        val (post, text) = postService.readBlogPost(blogId, segment, PostState.IDEA )
-        assertNotNull(post)
-        assertNull(text)
-
+        // BlogPost with BlogText
+        val segment2 = "test2"
+        val form2 = BlogPostForm(segment = segment2, content = "text")
+        postService.save(blogId, null, form2, timestamp)
+        val (post2, text2) = postService.readBlogPost(blogId, segment2, PostState.IDEA)
+        assertNotNull(post2)
+        assertNotNull(text2)
+        assertEquals("text", text2.text)
     }
 
 
-    /*
     @Test
-    fun existingBlogTest() {
-        val segment = "test"
+    fun existingPostTest() {
+
+        //BlogPost without BlogText
         val timestamp = Instant.now()
-        val langCode = blog.topic.language.code
-        val topicKey = blog.topic.topicKey
-        val blogForm = BlogForm(segment, topicKey, "1", "test", "about test")
-        val blogPrincipal = BlogPrincipal(blogOwnerId, blogId, langCode)
+        val form1 = BlogPostForm(segment = blogPost.segment, summary = "summary")
+        postService.save(blogId, blogPostId, form1, timestamp)
+        val (post1, text1) = postService.readBlogPost(blogId, blogPost.segment, PostState.IDEA)
+        assertNotNull(post1)
+        assertNotNull(post1.id)
+        assertEquals(blogPostId, post1.id)
+        assertNull(text1)
+        assertEquals("summary", post1.summary)
 
-        // Topic not found case
-        val e = assertThrows<TopicNotFoundException> {
-            blogService.save(blogPrincipal, BlogForm(), timestamp)
-        }
-        assertThat(e.message!!.contains("topic"))
+        //BlogPost with BlogText
+        val form2 = BlogPostForm(segment = blogPost.segment, content = "text")
+        postService.save(blogId, blogPostId, form2, timestamp)
+        val (post2, text2) = postService.readBlogPost(blogId, blogPost.segment, PostState.IDEA)
+        assertNotNull(post2)
+        assertNotNull(post2.id)
+        assertEquals(blogPostId, post2.id)
+        assertNotNull(text2)
+        assertEquals("text", text2.text)
 
-        // Happy day case
-        blogService.save(blogPrincipal, blogForm, timestamp)
-
-        val blogWithPosts: BlogWithPosts? = blogService.readBlog(segment, langCode, true, true)
-        assertNotNull(blogWithPosts)
-        val blogFound = blogWithPosts.blog
-        assertNotNull(blogFound)
-        assertEquals(segment, blogFound.segment)
-        assertEquals(blogForm.position.toInt(), blogFound.pos)
-        assertEquals(blogForm.subject, blogFound.subject)
-        assertEquals(blogForm.about, blogFound.about)
-        assertThat(blogWithPosts.posts).size().isEqualTo(blog.blogPosts.size)
+        //BlogPost with empty BlogText
+        val form3 = BlogPostForm(segment = blogPost.segment, content = " ")
+        postService.save(blogId, blogPostId, form3, timestamp)
+        val (post3, text3) = postService.readBlogPost(blogId, blogPost.segment, PostState.IDEA)
+        assertNotNull(post3)
+        assertNotNull(post3.id)
+        assertEquals(blogPostId, post3.id)
+        assertNull(text3)
     }
 
-    @Test
-    fun duplicateBlogTest() {
-        val segment = blog.segment
-        val timestamp = Instant.now()
-        val langCode = blog.topic.language.code
-        val topicKey = blog.topic.topicKey
-        val blogForm = BlogForm(segment, topicKey, "1", "test", "about test")
-        val blogPrincipal = BlogPrincipal(blogOwnerId, null, langCode)
-        blogService.save(blogPrincipal, blogForm, timestamp) //No duplicate check on save
-        assertThrows<DuplicateBlogException> {
-            blogService.readBlog(segment, langCode, true, true)
-        }
-        assertThrows<DuplicateBlogException> {
-            blogService.findId(segment, blogOwnerId, langCode)
-        }
-    }
-
-    @Test
-    fun isDuplicateTest() {
-        val blogPrincipal = BlogPrincipal(blogOwnerId, null, blog.topic.language.code)
-        assertTrue(blogService.duplicate(blog.segment, blogPrincipal)) //Duplicate check function, use before save
-    }
-
-    @Test
-    fun notFoundSaveBlogTest() {
-        val blogPrincipal = BlogPrincipal(blogOwnerId, -1, NB)
-        val topicKey = blog.topic.topicKey
-        val blogForm = BlogForm("rubbish", topicKey)
-        val e = assertThrows<ResponseStatusException> {
-            blogService.save(blogPrincipal, blogForm, Instant.now())
-        }
-        assertThat(e.message).contains("404")
-    }
-
-    @Test
-    fun notFoundReadBlogTest() {
-        val blogWithPosts = blogService.readBlog("tull", NB, false, true)
-        assertNull(blogWithPosts)
-    }
-
-    @Test
-    fun findAndDeleteTest() {
-        val segment = blog.segment
-        val langCode = blog.topic.language.code
-        val foundBlogId = blogService.findId(segment, blogOwnerId, langCode)
-        assertEquals(blogId, foundBlogId)
-        blogService.delete(null)
-        blogService.delete(-1)
-        assertNotNull(blogRepo.findById(blogId).orElse(null))
-        blogService.delete(foundBlogId)
-        assertNull(blogRepo.findById(blogId).orElse(null))
-    } */
 }
