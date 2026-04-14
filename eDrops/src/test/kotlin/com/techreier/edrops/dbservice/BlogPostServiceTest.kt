@@ -92,7 +92,7 @@ class BlogPostServiceTest : TestBase() {
     }
 
     @Test
-    fun findAndDeleteTest() { //Save function does not prevent duplicate, delete all that is duplicate
+    fun findAndDeleteTest() { //Save function does not prevent duplicate, delete all duplicates
         val state = PostState.find(blogPost.state, true)
         val form = BlogPostForm(segment = blogPost.segment, state = state)
         val id = postService.save(blogId, null, form, Instant.now())
