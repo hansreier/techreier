@@ -127,6 +127,7 @@ class BlogService(
         return ids.first()
     }
 
+    // If save existing or new blog (given by blogId), check if it will be a duplicate
     fun duplicate(segment: String, blogPrincipal: BlogPrincipal): Boolean {
         return blogRepo.findBlogIds(
             segment, blogPrincipal.ownerId, blogPrincipal.langCode

@@ -4,8 +4,11 @@ package com.techreier.edrops.dbservice
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.TestBase
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -77,5 +80,27 @@ class BlogPostServiceTest : TestBase() {
         assertEquals(blogPostId, post3.id)
         assertNull(text3)
     }
+    @Test
+    fun isDuplicateTest() {
+        val state = PostState.find(blogPost.state, true)
+        assertFalse(postService.duplicate(blogPost.segment, blogId, state, blogPostId))
+        assertTrue(postService.duplicate(blogPost.segment, blogId, state, null))
 
+        val form = BlogPostForm(segment = blogPost.segment, state = PostState.DEPRECATED)
+        postService.save(blogId, null, form, Instant.now())
+        assertTrue(postService.duplicate(blogPost.segment, blogId, PostState.DEPRECATED, blogPostId))
+    }
+
+    @Test
+    fun findAndDeleteTest() { //Save function does not prevent duplicate, delete all that is duplicate
+        val state = PostState.find(blogPost.state, true)
+        val form = BlogPostForm(segment = blogPost.segment, state = state)
+        val id = postService.save(blogId, null, form, Instant.now())
+        val ids = postService.findIds(blogPost.segment,blogId, state)
+        assertThat(ids.size).isEqualTo(2)
+        assertThat(ids).containsAll(listOf(id, blogPostId))
+        postService.delete(blogId, ids )
+        assertNull(postRepo.findById(ids.first()).orElse(null))
+        assertNull(postRepo.findById(ids[1]).orElse(null))
+    }
 }

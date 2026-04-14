@@ -103,6 +103,7 @@ class BlogPostService(
         return blogPostRepo.findBlogPostIds(segment, blogId, state.name)
     }
 
+    // If save existing or new post (given by blogPostId), check if it will be a duplicate
     fun duplicate(segment: String, blogId: Long, state: PostState, blogPostId: Long?): Boolean {
         return blogPostRepo.findBlogPostIds(segment, blogId, state.name).any { it != blogPostId }
 
