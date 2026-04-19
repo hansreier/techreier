@@ -14,7 +14,7 @@ The goal was to make this as simple as possible without a complex text editor.
 
 I choose to use markdown like this README.md file, since it is simpler than RTF and uses less disk space. 
 Any text or markdown editor can be used, I have included my own simple markdown editor to produce the database
-based blogs. The editor is based ont the html Textarea tag with some additions.
+based blogs. The editor is based on the html textarea tag with some additions.
 
 The first attempt was to use markdown written in Intellij or other editor, store it as a file  
 together with project code and pick it up as a part of the Web GUI. 
@@ -157,10 +157,10 @@ Docker manages my files somewhere. This is not wanted behaviour.
 
 C:\media is the local source on my PC. The destination is /mediafiles.
 
-| Where |          Local Source | Destination | Comment                   |
-|-------|----------------------:|-------------|---------------------------|
-| Local |              C:\media | /mediafiles | PCs local hard disk       | 
-| VPS   | /jottasync/mediafiles | /mediafiles | Reversed order Cyberpanel | 
+| Where    | Local Source            | Destination | Comment                   |
+|:---------|:------------------------|:------------|:--------------------------|
+| Local    | C:\media                | /mediafiles | PCs local hard disk       | 
+| VPS      | /jottasync/mediafiles   | /mediafiles | Reversed order Cyberpanel | 
 
 Do not name VPS catalog just media, it is already used on many Docker preinstalled images.
 Note that the url path is e.g. this: https://techreier.com/media/cherries.jpg
@@ -241,13 +241,13 @@ the server. You loose control of when and how a database call is handled using H
 
 ### Storing and editing text
 
-I use the simple html <textarea> tag and plain markdown editing and backend parsing with Flexmark.
-What I did with html textarea was simply to add a button row including a view button, 
+I use the simple html textarea tag and plain markdown editing and backend parsing with Flexmark.
+What I did with textarea was simply to add a button row including a view button,
 to view the result with backend rendering below the text box.
-In addition, I added a Markdown Help button to reveal syntax tips.  
-I have found this approach to be highly responsive and sufficient.  
-There is no need for including a more advanced markdown editor, it adds complexity.   
-Markdown is much more efficient than RTF when it comes to processing and storing.
+In addition, I added a Markdown Help button to reveal syntax tips. 
+I have found this approach to be highly responsive and sufficient.
+There is no need for including a more advanced markdown editor, it adds complexity. 
+Markdown is much more efficient than RTF when it comes to processing and storing.  
 
 This readme file is markdown simply stored as a file on the file system and included in the project.
 I have more files like this and other markdown based text stored in Mariadb.
