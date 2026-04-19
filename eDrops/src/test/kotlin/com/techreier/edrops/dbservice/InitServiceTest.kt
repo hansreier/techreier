@@ -34,7 +34,7 @@ class InitServiceTest : TestBase() {
         val blogOwner = ownerRepo.findBlogOwnerByUsername(owner)
         assertNotNull(blogOwner)
         assertEquals("Sigmond", blogOwner.lastName)
-        assertEquals("reier.sigmond@gmail.com", blogOwner.eMail)
+        assertEquals("reier.sigmond@gmail.com", blogOwner.email)
     }
 
     @Test
@@ -45,7 +45,7 @@ class InitServiceTest : TestBase() {
         val blogOwner = ownerRepo.findBlogOwnerByUsername(owner)
         assertNotNull(blogOwner)
         assertEquals("Sigmond", blogOwner.lastName)
-        assertEquals("reier.sigmond@gmail.com", blogOwner.eMail)
+        assertEquals("reier.sigmond@gmail.com", blogOwner.email)
     }
 
     @Test

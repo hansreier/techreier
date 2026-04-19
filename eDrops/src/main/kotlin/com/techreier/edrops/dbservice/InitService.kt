@@ -44,6 +44,8 @@ class InitService(
             }
             blogOwner = ownerRepo.findBlogOwnerByUsername(initial.blogOwner.username)
                 ?: throw IllegalStateException("Initial blog owner not found")
+            blogOwner.copyAttributes(initial.blogOwner)
+            ownerRepo.save(blogOwner)
             initial.blogOwner.blogs.forEach { blog ->
                 val existingBlogs = blogRepo.findByTopicLanguageCodeAndSegment(blog.topic.language.code, blog.segment)
                 if (existingBlogs.isEmpty()) {

@@ -45,7 +45,7 @@ class InitServiceSimpleTest {
         val blogOwner = ownerRepo.findBlogOwnerByUsername(owner)
         assertNotNull(blogOwner)
         assertEquals("Sigmond", blogOwner.lastName)
-        assertEquals("reier.sigmond@gmail.com", blogOwner.eMail)
+        assertEquals("reier.sigmond@gmail.com", blogOwner.email)
         assertThat(blogOwner.blogs.first().blogPosts.count()).isGreaterThan(0)
         assertEquals(initial.base.topics.size.toLong(), topicRepo.count())
     }

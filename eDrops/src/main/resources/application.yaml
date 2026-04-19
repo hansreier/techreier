@@ -1,6 +1,6 @@
 app:
   appname: ${APP_NAME:edrops}
-  user: Reier
+  user: reier
   password: $2a$10$RXI.HV1eFSTCsHlDFFkHlO37yjw4qM4XS6I57gP2upV46lDi0ZFTa
   auth: true
   media-path: "file:/mediafiles/"

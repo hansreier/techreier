@@ -5,6 +5,7 @@ import com.techreier.edrops.data.blogs.climatenv.Climatenv
 import com.techreier.edrops.data.blogs.coding.Coding
 import com.techreier.edrops.data.blogs.energy.Elpower
 import com.techreier.edrops.data.blogs.politics.Politics
+import com.techreier.edrops.domain.AccessLevel
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.util.checkDuplicates
@@ -27,9 +28,11 @@ class Initial(
 
     val blogOwner: BlogOwner =
         BlogOwner(
-            blogOwnerCreated, blogOwnerCreated, appConfig.user, appConfig.password,
-            OWNER_FIRSTNAME, OWNER_LASTNAME, OWNER_EMAIL, OWNER_PHONE, OWNER_ADDRESS, OWNER_ZIP, OWNER_LOCATION, NB,
-            blogList
+            created = blogOwnerCreated, changed = blogOwnerCreated,
+            username = appConfig.user, password = appConfig.password, accessLevel = AccessLevel.ADMIN.level,
+            firstName = OWNER_FIRSTNAME, lastName = OWNER_LASTNAME, email = OWNER_EMAIL, phones = OWNER_PHONE,
+            address = OWNER_ADDRESS,  zipCode = OWNER_ZIP, location = OWNER_LOCATION, countryCode = NB,
+            blogs = blogList
         )
 
     init {
