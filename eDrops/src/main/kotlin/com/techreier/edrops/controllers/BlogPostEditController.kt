@@ -97,6 +97,7 @@ class BlogPostEditController(
         @PathVariable subsegment: String,
         @PathVariable state: String,
         action: String,
+        created: String,
         changed: String,
         bindingResult: BindingResult,
         request: HttpServletRequest,
@@ -131,7 +132,7 @@ class BlogPostEditController(
 
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.savePost")
-                prepare(model, request, response, segment, changed, blogPostIds)
+                prepare(model, request, response, segment, created,changed, blogPostIds)
                 return "blogPostEdit"
             }
             try {
@@ -152,7 +153,7 @@ class BlogPostEditController(
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
                     else -> throw e
                 }
-                prepare(model, request, response, segment, changed, blogPostIds)
+                prepare(model, request, response, segment, created,changed, blogPostIds)
                 return "blogPostEdit"
             }
         }
@@ -162,7 +163,7 @@ class BlogPostEditController(
                 blogPostService.delete(blogId, blogPostIds)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
-                prepare(model, request, response, segment, changed, blogPostIds)
+                prepare(model, request, response, segment, created,changed, blogPostIds)
                 return "blogPostEdit"
             }
             return "redirect:$BLOG_EDIT_DIR/$segment"
@@ -184,20 +185,20 @@ class BlogPostEditController(
             } else {
                 form.preview = ""
             }
-            prepare(model, request, response, segment, changed, blogPostIds)
+            prepare(model, request, response, segment, created, changed, blogPostIds)
             return "blogPostEdit"
         }
 
         if (action == "help") {
             model.addAttribute("help", "h")
-            prepare(model, request, response, segment, changed, blogPostIds)
+            prepare(model, request, response, segment, created, changed, blogPostIds)
             return "blogPostEdit"
         }
 
         // This should never really occur
         logger.error("Illegal action: $action")
         bindingResult.reject("error.illegalAction")
-        prepare(model, request, response, segment, changed, blogPostIds)
+        prepare(model, request, response, segment, created, changed,  blogPostIds)
         return "blogPostEdit"
     }
 
@@ -206,6 +207,7 @@ class BlogPostEditController(
         request: HttpServletRequest,
         response: HttpServletResponse,
         segment: String,
+        created: String,
         changed: String,
         blogPostIds: List<Long>,
     ) {
@@ -216,6 +218,7 @@ class BlogPostEditController(
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("blogPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
+        model.addAttribute("created", created)
         model.addAttribute("postStates", PostState.entries)
         if (blogPostIds.size > 1) {
             model.addAttribute("duplicates", blogPostIds)

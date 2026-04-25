@@ -26,7 +26,8 @@
                 <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
                 <button type="submit" th:text="#{action.newPost}" name="action" th:value="create"></button>
                 <button type="submit" th:text="#{action.copy}" name="action" th:value="copy"></button>
-:             </div>
+                <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
+             </div>
             <h1 th:text="${blogHeadline}"/>
             <h2 th:text="${postHeadline}"/>
             <div class="input-form">
@@ -89,6 +90,7 @@
                     </div>
                 </div>
                 <input type="hidden" th:value="${changed}" name="changed">
+                <input type="hidden" th:value="${created}" name="created">
                 <input type="hidden" id="focus" value="" name="focus">
                 <input type="hidden" th:field="*{preview}">
             </div>
