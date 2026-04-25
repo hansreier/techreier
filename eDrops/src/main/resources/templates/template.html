@@ -44,6 +44,19 @@
 </header>
 <div class="navbar">
     <div class="dropdown">
+        <button th:text="#{blog}" th:class="${menu == 'blogs'} ? 'dropdown-selected' :'dropdown-btn'">
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a th:each="item : ${menu}"
+               th:href="@{/blog/{segment}(segment=${item.segment})}" class="dropdown-item"
+               th:text="${item.subject}"
+               th:data-topic="${item.isTopic}"
+               th:data-id="${item.segment + '.' + item.langCode}">
+            </a>
+        </div>
+    </div>
+    <div class="dropdown">
         <button th:text="#{views}" th:class="${menu == 'home'} ? 'dropdown-selected' : 'dropdown-btn'">
             <i class="fa fa-caret-down"></i>
         </button>
@@ -70,26 +83,13 @@
         </div>
     </div>
     <div class="dropdown">
-        <button th:text="#{blog}" th:class="${menu == 'blogs'} ? 'dropdown-selected' :'dropdown-btn'">
+        <button th:text="#{blogAdmin}" th:class="${menu == 'admin'} ? 'dropdown-selected' :'dropdown-btn'">
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
             <a th:href="@{/collatz}" class="dropdown-item" th:text="#{collatz}"></a>
             <a th:href="@{/fraction}" class="dropdown-item" th:text="#{fraction}"></a>
             <a th:href="@{/energydata}" class="dropdown-item" th:text="#{energy.data}"></a>
-            <a th:each="item : ${menu}"
-               th:href="@{/blog/{segment}(segment=${item.segment})}" class="dropdown-item"
-               th:text="${item.subject}"
-               th:data-topic="${item.isTopic}"
-               th:data-id="${item.segment + '.' + item.langCode}">
-            </a>
-        </div>
-    </div>
-    <div class="dropdown">
-        <button th:text="#{blogAdmin}" th:class="${menu == 'admin'} ? 'dropdown-selected' :'dropdown-btn'">
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
             <div sec:authorize="!isAuthenticated()">
                 <a th:href="@{/login}" class="dropdown-item" th:text="#{action.login}"></a>
             </div>
