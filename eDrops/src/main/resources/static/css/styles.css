@@ -626,36 +626,40 @@ img:hover::after {
 
 /* Add a black background color to the top navigation */
 .navbar {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
 	background-color: dimgray;
-	overflow: hidden;
+    padding: 0 1rem;
 }
 
 /* Style the links inside the navigation bar */
-.navbar a {
-	float: left;
+.navbar a,
+.dropdown-btn,
+.dropdown-selected {
 	color: #f2f2f2;
-	text-align: center;
-	padding: 14px 16px;
+    padding: 0.8rem 1.2rem;
 	text-decoration: none;
 	font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 /* Change the color of links on hover */
-.navbar a:hover {
+.navbar a:hover,
+.dropdown:hover .dropdown-btn,
+.dropdown:hover .dropdown-selected {
 	background-color: #ddd;
 	color: black;
 }
 
 /* Add a color to the active/current link */
-.navbar a.active {
+.dropdown.selected, .navbar a.active {
 	background-color: #04AA6D;
 	color: white;
-}
-
-/* The dropdown container */
-.dropdown {
-	float: left;
-	overflow: hidden;
 }
 
 /* Dropdown button */
@@ -666,18 +670,6 @@ img:hover::after {
 	color: white;
 	padding: 0.8rem 0.8rem;
 	background-color: inherit;
-	font-family: inherit; /* Important for vertical align on mobile phones */
-	margin: 0; /* Important for vertical align on mobile phones */
-}
-
-/* Selected dropdown */
-.dropdown-selected {
-	font-size: 1rem;
-	border: none;
-	outline: none;
-	color: white;
-	padding: 0.8rem 0.8rem;
-	background-color: blue;
 	font-family: inherit;
 	margin: 0;
 }
@@ -687,19 +679,48 @@ img:hover::after {
 	background-color: red;
 }
 
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-	display: block;
+.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
-/* Dropdown content (hidden by default) */
+/* Shared positioning anchor for all dropdowns */
+.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Shared properties for both dropdown types */
+.dropdown-content,
+.dropdown-content-right {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1000;
+    flex-direction: column;
+    min-width: 100%;
+    width: max-content;
+}
+
+/* Left-aligned specific attributes */
 .dropdown-content {
-	display: none;
-	position: absolute;
-	background-color: #f9f9f9;
-	min-width: 4rem;
-	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-	z-index: 1;
+    top: 2rem;
+    left: 0;
+}
+
+/* Right-aligned specific attributes */
+.dropdown-content-right {
+    top: 100%;
+    right: 0;
+}
+
+/* Shared hover logic to show the menus */
+.dropdown:hover > .dropdown-content,
+.dropdown:hover > .dropdown-content-right {
+    display: flex;
 }
 
 /* Hide meny items when  */
