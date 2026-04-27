@@ -1,20 +1,30 @@
 
 /* General HTML settings */
 html, body {
-	height: 100%;
+	/*height: 100%;*/
 	font-size: 1rem;
 	font-weight: 400;
 	min-width: 50px;
-	background: lightyellow;
 	margin: 0;
 	padding: 0;
+    background: lightyellow;
+}
+
+@media screen and (min-width: 1401px) {
+    html {
+        border-right: 2px solid #e6e6ad;
+    }
 }
 
 body {
+    max-width: 1400px;
 	height: 100%;
 	font-family: Arial, Helvetica, sans-serif;
-	overflow-x: auto; /* scroll bars */
-	overflow-y: auto; /* scroll bars */
+/*	overflow-x: auto;
+	overflow-y: auto; */
+    border-right: 2px solid #e6e6ad;
+    border-bottom: 2px solid #e6e6ad;
+    margin-bottom: 2rem;
 }
 
 /* Smaller size for smaller screens, add different background color to verify, did not use clamp */
@@ -277,8 +287,8 @@ header {
 	padding-left: 0.5rem;
 	margin: 0;
 	background-color:#ffecb3;
-	border-style: solid;
-	border-width: 0 0 1px;
+/*	border-style: solid;
+	border-width: 0 0 2px; */
     overflow: hidden;
  	display: flex;
 	align-items: center;
@@ -317,8 +327,6 @@ footer {
 #work {
 	margin: 0;
 	padding: 0.5rem 0.5rem;
-	border-style: solid;
-	border-width: 1px 0 1px 0;
     overflow-wrap: break-word;
 }
 
@@ -628,7 +636,7 @@ img:hover::after {
 .navbar {
     display: flex;
     flex-direction: row;
-    gap: 0.5rem;
+    gap: 0;
 	background-color: dimgray;
     padding: 0 1rem;
 }
@@ -702,18 +710,23 @@ img:hover::after {
     flex-direction: column;
     min-width: 100%;
     width: max-content;
+    top: 100%;
 }
 
 /* Left-aligned specific attributes */
-.dropdown-content {
-    top: 2rem;
-    left: 0;
+@media screen and (min-width: 481px) {
+    .dropdown-content,
+    .dropdown-content-right {
+        left: 0;
+    }
 }
 
 /* Right-aligned specific attributes */
-.dropdown-content-right {
-    top: 100%;
-    right: 0;
+@media screen and (max-width: 480px) {
+    .dropdown-content-right {
+        top: 100%;
+        right: 0;
+    }
 }
 
 /* Shared hover logic to show the menus */
