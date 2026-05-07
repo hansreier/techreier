@@ -91,6 +91,7 @@ class InitService(
                         ?: throw DataIntegrityViolationException("topic ${blog.topic.topicKey} not found")
                     existingBlogs[0].topic = topic
                     existingBlogs[0].copyAttributes(blog)
+                    blogRepo.save(existingBlogs[0])
                 }
             }
         }
