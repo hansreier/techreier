@@ -37,6 +37,7 @@ class InitService(
                 val existingTopic: Topic? = topicRepo.findByTopicKeyAndLanguageCode(topic.topicKey, topic.language.code)
                 if (existingTopic != null) {
                     existingTopic.copyAttributes(topic)
+                    topicRepo.save(existingTopic)
                 } else {
                     logger.info("new topic ${topic}")
                     topicRepo.save(topic)
