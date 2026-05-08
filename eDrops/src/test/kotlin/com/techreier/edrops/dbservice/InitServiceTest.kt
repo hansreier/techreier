@@ -72,6 +72,7 @@ class InitServiceTest : TestBase() {
         val firstBlog = owner.blogs.first()
         firstBlog.changed = firstBlog.changed.plus(Duration.ofDays(1))
         firstBlog.pos = Int.MIN_VALUE
+
         val lastBlog = owner.blogs.last()
         lastBlog.changed = lastBlog.changed.minus(Duration.ofDays(1))
         lastBlog.pos = Int.MAX_VALUE

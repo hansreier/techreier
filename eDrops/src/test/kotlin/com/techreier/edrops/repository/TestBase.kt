@@ -9,6 +9,8 @@ import com.techreier.edrops.domain.*
 import jakarta.persistence.*
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionTemplate
 
 abstract class TestBase {
     @PersistenceContext
@@ -33,6 +35,9 @@ abstract class TestBase {
     lateinit var blogTextRepo: BlogTextRepository
 
     @Autowired
+    lateinit var transactionTemplate: TransactionTemplate
+
+    @Autowired
     lateinit var appConfig: AppConfig
     lateinit var initial: Initial
     lateinit var blogOwner: BlogOwner
@@ -46,33 +51,35 @@ abstract class TestBase {
 
     @BeforeEach
     fun setup() {
-        clean()
-        initial = Initial(appConfig)
-        languageRepo.saveAll(initial.base.languages)
-        topicRepo.saveAll(initial.base.topics)
-        blogOwner = ownerRepo.save(initial.blogOwner)
-        blogOwnerId = blogOwner.id!!
-        blog = blogOwner.blogs.first { it.segment == Climatenv.SEGMENT }
-        blogId = blog.id!!
-        blogPost = blog.blogPosts.first { it.segment == Green.SEGMENT }
-        blogPostId = blogPost.id!!
-        noOfBlogPosts = blogOwner.blogs.sumOf { it.blogPosts.size }
-        noOfBlogs = blogOwner.blogs.size
-        entityManager.flush()
+        transactionTemplate.execute {
+            clean()
+            initial = Initial(appConfig)
+            languageRepo.saveAll(initial.base.languages)
+            topicRepo.saveAll(initial.base.topics)
+            blogOwner = ownerRepo.save(initial.blogOwner)
+            blogOwnerId = blogOwner.id!!
+            blog = blogOwner.blogs.first { it.segment == Climatenv.SEGMENT }
+            blogId = blog.id!!
+            blogPost = blog.blogPosts.first { it.segment == Green.SEGMENT }
+            blogPostId = blogPost.id!!
+            noOfBlogPosts = blogOwner.blogs.sumOf { it.blogPosts.size }
+            noOfBlogs = blogOwner.blogs.size
+            entityManager.flush()
+        }
     }
 
     // Does not clean sequences in id's, but really does not matter
     private fun clean() {
         logger.info("CleanUp start")
-        entityManager.clear()
-        entityManager.createQuery("DELETE FROM BlogText").executeUpdate()
-        entityManager.createQuery("DELETE FROM BlogPost").executeUpdate()
-        entityManager.createQuery("DELETE FROM Blog").executeUpdate()
-        entityManager.createQuery("DELETE FROM BlogOwner").executeUpdate()
-        entityManager.createQuery("DELETE FROM Topic").executeUpdate()
-        entityManager.createQuery("DELETE FROM LanguageCode").executeUpdate()
-        entityManager.flush()
-        entityManager.clear()
+            entityManager.clear()
+            entityManager.createQuery("DELETE FROM BlogText").executeUpdate()
+            entityManager.createQuery("DELETE FROM BlogPost").executeUpdate()
+            entityManager.createQuery("DELETE FROM Blog").executeUpdate()
+            entityManager.createQuery("DELETE FROM BlogOwner").executeUpdate()
+            entityManager.createQuery("DELETE FROM Topic").executeUpdate()
+            entityManager.createQuery("DELETE FROM LanguageCode").executeUpdate()
+            entityManager.flush()
+            entityManager.clear()
         logger.info("cleanup end")
     }
 }

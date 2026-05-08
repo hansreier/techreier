@@ -1,6 +1,6 @@
 app:
   appname: ${APP_NAME:edrops}
-  user: ${USER:Reier}
+  user: Reier
   password: ${PASSWORD:Passord}
   media-path: file:/var/media
 
