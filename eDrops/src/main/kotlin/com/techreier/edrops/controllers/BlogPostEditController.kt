@@ -223,7 +223,7 @@ class BlogPostEditController(
         if (blogPostIds.size > 1) {
             model.addAttribute("duplicates", blogPostIds)
         } else {
-            model.addAttribute("postId", blogPostIds.first())
+            model.addAttribute("postId", blogPostIds.firstOrNull())
         }
         logger.info("prepared)")
     }
