@@ -19,6 +19,9 @@ import java.time.Duration
 import java.time.temporal.ChronoUnit
 import kotlin.test.DefaultAsserter.fail
 
+// The test is NOT 100% equal to where the method is normally used, at startup.
+// Be aware that the code running at startup is not within transactional control, but this code is.
+// Take care and save the changed objects in the code to test instead of relying on JPA to detect it.
 @SpringBootTest
 @Transactional
 class InitServiceTest : TestBase() {
@@ -114,7 +117,7 @@ class InitServiceTest : TestBase() {
         //Check changes in topics list
         val dummyTopicNo = topicRepo.findByTopicKeyAndLanguageCode("Dummy", initial.base.norwegian.code)
         val dummyTopicEn = topicRepo.findByTopicKeyAndLanguageCode("Dummy", initial.base.english.code)
-        val firstTopic: Topic = topicRepo.findById(1).orElse(null)
+        val firstTopic: Topic? = topicRepo.findById(1).orElse(null)
         assertNotNull(firstTopic)
         assertEquals("Dummy", firstTopic.text)
         assertNotNull(dummyTopicNo)
