@@ -116,6 +116,7 @@ abstract class BaseController(
         // Current time should only be used for selected local profiles, refer to BuildTimeValidation.kt
         val built = buildVersion(ctx.appConfig.buildTime, false)
         model.addAttribute("built", built)
+        model.addAttribute("sessionMark", getSessionMark())
         return BlogParams(blog, oldLangCode, usedLangcode, action, topicKey, topics)
     }
 
@@ -157,6 +158,11 @@ abstract class BaseController(
         )
         val blogId = ctx.blogService.findId(segment, blogOwnerId, langCode )
         return BlogPrincipal( blogOwnerId, blogId, langCode)
+    }
+
+    private fun getSessionMark(): String {
+        val fullId = ctx.httpSession.id
+        return "[${fullId.substring(fullId.length -4)}]"
     }
 
     private fun fetchLanguages(): MutableList<LanguageCode> {

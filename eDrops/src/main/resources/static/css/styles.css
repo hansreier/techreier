@@ -544,6 +544,12 @@ img:hover::after {
 	display: inline-block;
 }
 
+@media (max-width: 480px) {
+    #sessionmark {
+        display: none;
+    }
+}
+
 #techreier {
 	font-weight: bold;
 	white-space:nowrap;

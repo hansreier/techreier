@@ -39,7 +39,10 @@
             <p class="error" th:text="${error != null} ? #{error}+' '+${error}"></p>
             <input type="hidden" th:value="${path}" name="path">
         </form>
-        <div sec:authorize="isAuthenticated()" id="login-status"> ✔</div>
+        <div sec:authorize="isAuthenticated()" id="login-status">
+            <span>✔</span>
+            <span id="sessionmark" th:text="${sessionMark}"></span>
+        </div>
     </div>
 </header>
 <div class="navbar">
