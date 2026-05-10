@@ -31,7 +31,7 @@
             <button type="submit" th:text="#{action.login}"></button>
         </div>
         <div sec:authorize="isAuthenticated()">
-            <p>Authenticated</p>
+            <p th:text="#{authenticated}"></p>
         </div>
     </form>
     <p th:if="${loginError != null}" class="error" th:text="#{${loginError}}"></p>
