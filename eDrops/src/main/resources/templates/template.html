@@ -104,7 +104,7 @@
                 <a th:href="@{/login}" class="dropdown-item" th:text="#{action.login}"></a>
             </div>
             <div th:if="!${auth}">
-                <a th:href="@{/edit/{segment}(segment=${newSegment})}"  class="dropdown-item" th:text="#{newBlog}"></a>
+                <a th:href="@{/edit/{segment}(segment=${newSegment}, lang=${langCode})}"  class="dropdown-item" th:text="#{newBlog}"></a>
                 <div sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" th:method="post">
                         <button class=dropdown-item type="submit" th:text="#{action.logout}"></button>
@@ -119,7 +119,7 @@
             </div>
             <div th:if="${auth}">
                 <div sec:authorize="isAuthenticated()">
-                    <a th:href="@{/edit/{segment}(segment=${newSegment})}"  class="dropdown-item" th:text="#{newBlog}"></a>
+                    <a th:href="@{/edit/{segment}(segment=${newSegment}, lang=${langCode})}"  class="dropdown-item" th:text="#{newBlog}"></a>
                     <form th:action="@{/logout}" th:method="post">
                         <button class=dropdown-item type="submit" th:text="#{action.logout}"></button>
                     </form>
