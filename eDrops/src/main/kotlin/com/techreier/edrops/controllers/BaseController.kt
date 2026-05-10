@@ -48,12 +48,13 @@ abstract class BaseController(
         response: HttpServletResponse,
         segment: String? = null,
         posts: Boolean = false,
-        adminMenu: Boolean = false
+        adminMenu: Boolean = false,
+        forcedLangcode: String? = null
     ): BlogParams {
         logger.debug("set common model parameters")
         model.addAttribute("auth", ctx.appConfig.auth)
         model.addAttribute("languages", fetchLanguages())
-        val currentLangCode = LocaleContextHolder.getLocale().language
+        val currentLangCode = forcedLangcode ?: LocaleContextHolder.getLocale().language
         val usedLangcode = getValidProjectLanguageCode(currentLangCode)
         val locale = Locale.of(usedLangcode)
         ctx.sessionLocaleResolver.setLocale(request, response, locale) //Set locale to allowed projectLocale
@@ -85,8 +86,10 @@ abstract class BaseController(
                 blogDto
             }
         }
-        ctx.httpSession.setAttribute("langcode", blog?.langCodeFound ?: usedLangcode)
 
+        val blogLangcode = blog?.langCodeFound ?: usedLangcode
+        ctx.httpSession.setAttribute("langcode", blogLangcode)
+        model.addAttribute("blogLangcode", blogLangcode)
         val topics = fetchTopics(usedLangcode)
         val topicKey =
             if (topics.isNotEmpty()) {
@@ -151,13 +154,11 @@ abstract class BaseController(
         return blogOwnerId
     }
 
-    protected fun authorize(owner: Owner?, segment: String): BlogPrincipal {
+    protected fun authorize(owner: Owner?, segment: String, langCode: String): BlogPrincipal {
         val blogOwnerId = authorize(owner)
-        val langCode = (ctx.httpSession.getAttribute("langcode") as String?) ?: getValidProjectLanguageCode(
-            LocaleContextHolder.getLocale().language
-        )
-        val blogId = ctx.blogService.findId(segment, blogOwnerId, langCode )
-        return BlogPrincipal( blogOwnerId, blogId, langCode)
+        val validLangCode = getValidProjectLanguageCode(langCode)
+        val blogId = ctx.blogService.findId(segment, blogOwnerId, validLangCode )
+        return BlogPrincipal( blogOwnerId, blogId, validLangCode)
     }
 
     private fun getSessionMark(): String {

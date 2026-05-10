@@ -111,7 +111,7 @@
                     </form>
                 </div>
                 <a th:each="item : ${adminMenu}"
-                   th:href="@{/edit/{segment}(segment=${item.segment})}" class="dropdown-item"
+                   th:href="@{/edit/{segment}(segment=${item.segment}, lang=${item.langCode})}"  class="dropdown-item"
                    th:text="${item.subject}"
                    th:data-topic="${item.isTopic}"
                    th:data-id="${item.segment + '+' + item.langCode}">
@@ -124,7 +124,7 @@
                         <button class=dropdown-item type="submit" th:text="#{action.logout}"></button>
                     </form>
                     <a th:each="item : ${adminMenu}"
-                       th:href="@{/edit/{segment}(segment=${item.segment})}" class="dropdown-item"
+                       th:href="@{/edit/{segment}(segment=${item.segment}, lang=${item.langCode})}"  class="dropdown-item"
                        th:text="${item.subject}">
                     </a>
                 </div>

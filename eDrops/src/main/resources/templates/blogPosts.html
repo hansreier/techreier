@@ -11,14 +11,20 @@
             </thead>
             <tbody>
             <tr th:each="blogPost : ${blog.blogPosts}">
-                <td><a th:href="@{${blogPath + blogPost.segment + '/' + blogPost.state.lower}}"
-                       th:text="${blogPost.idStateString}"></a></td>
-                <td><a th:href="@{${blogPath + blogPost.segment + '/' + blogPost.state.lower}}"
-                       th:text="${blogPost.segment}"></a></td>
-                <td><a th:href="@{${blogPath + blogPost.segment + '/' + blogPost.state.lower}}"
-                       th:text="${blogPost.title}"></a></td>
-                <td class="blogposts-time"><a th:href="@{${blogPath + blogPost.segment + '/' + blogPost.state.lower}}"
-                                              th:text="${blogPost.changedString}"></a>
+                <td><a th:href="@{${blogPath + blogPost.segment + '/' + blogPost.state.lower}(lang=${blog.langCodeFound})}"
+                       th:text="${blogPost.idStateString}"></a>
+                </td>
+                <td>
+                    <a th:href="@{${blogPath + blogPost.segment + '/' + blogPost.state.lower}(lang=${blog.langCodeFound})}"
+                       th:text="${blogPost.segment}"></a>
+                </td>
+                <td>
+                    <a th:href="@{${blogPath + blogPost.segment + '/' + blogPost.state.lower}(lang=${blog.langCodeFound})}"
+                       th:text="${blogPost.title}"></a>
+                </td>
+                <td class="blogposts-time">
+                    <a th:href="@{${blogPath + blogPost.segment + '/' + blogPost.state.lower}(lang=${blog.langCodeFound})}"
+                       th:text="${blogPost.changedString}"></a>
                 </td>
             </tr>
             </tbody>

@@ -37,9 +37,10 @@ class BlogEditController(
         redirectAttributes: RedirectAttributes,
         model: Model,
         @AuthenticationPrincipal owner: Owner?,
+        @RequestParam lang: String
     ): String {
         authorize(owner)
-        val blogParams = fetchBlogParams(model, request, response, segment, true, true)
+        val blogParams = fetchBlogParams(model, request, response, segment, true, true, lang)
 
         logger.info("Fetch blog posts: $blogParams")
 
@@ -68,6 +69,7 @@ class BlogEditController(
         @PathVariable segment: String,
         action: String,
         changed: String,
+        @RequestParam blogLangcode: String,
         bindingResult: BindingResult,
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -75,13 +77,12 @@ class BlogEditController(
         @AuthenticationPrincipal owner: Owner?,
     ): String {
 
-        val blogPrincipal = authorize(owner, segment)
+        val blogPrincipal = authorize(owner, segment, blogLangcode)
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
 
         logger.info("blog: path: $path action=$action blogid=${blogPrincipal.blogId}")
         if (action == "back")  {
-            logger.info("ReierAsk going back")
             return "redirect:/$HOME_DIR"
         }
         if (action == "save" || action == "create" || action == "createPost") {
@@ -98,7 +99,7 @@ class BlogEditController(
 
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.saveBlog")
-                prepare(model, request, response, segment, changed)
+                prepare(model, request, response, segment, changed, blogLangcode)
                 return "blogEdit"
             }
             try {
@@ -109,27 +110,28 @@ class BlogEditController(
                     is TopicNotFoundException -> handleRecoverableError(e, "topicNotFound", bindingResult)
                     else -> throw e
                 }
-                prepare(model, request, response, segment, changed)
+                prepare(model, request, response, segment, changed, blogLangcode)
                 return "blogEdit"
             }
             if (action == "createPost") {
-                return "redirect:$BLOG_EDIT_DIR/$segment/$NEW_SUBSEGMENT/${PostState.IDEA.lower()}"
+                return "redirect:$BLOG_EDIT_DIR/$segment/$NEW_SUBSEGMENT/${PostState.IDEA.lower()}?lang=$blogLangcode"
             }
             val newPath = "$BLOG_EDIT_DIR/${if (action == "save") form.segment else NEW_SEGMENT}"
-            return "redirect:$newPath"
+            return "redirect:$newPath?lang=$blogLangcode"
+
         }
 
         if (action == "delete") {
             if (form.postLock) {
                 bindingResult.reject("error.locked")
-                prepare(model, request, response, segment, changed)
+                prepare(model, request, response, segment, changed, blogLangcode)
                 return "blogEdit"
             }
             try {
                 blogService.delete(blogPrincipal.blogId)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
-                prepare(model, request, response, segment, changed)
+                prepare(model, request, response, segment, changed, blogLangcode)
                 return "blogEdit"
             }
             return "redirect:/$HOME_DIR"
@@ -144,13 +146,13 @@ class BlogEditController(
             } else {
                 form.preview = ""
             }
-            prepare(model, request, response, segment, changed)
+            prepare(model, request, response, segment, changed, blogLangcode)
             return "blogEdit"
         }
         // This should never really occur
         logger.error("Illegal action: $action")
         bindingResult.reject("error.illegalAction")
-        prepare(model, request, response, segment, changed)
+        prepare(model, request, response, segment, changed, blogLangcode)
 
         return "blogEdit"
     }
@@ -161,6 +163,7 @@ class BlogEditController(
         response: HttpServletResponse,
         segment: String,
         changed: String,
+        blogLangcode: String
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment, true, true)
 
@@ -169,6 +172,7 @@ class BlogEditController(
         model.addAttribute("blog", blogParams.blog)
         model.addAttribute("blogPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
+        model.addAttribute("blogLangcode",blogLangcode)
         logger.info("prepared")
     }
 

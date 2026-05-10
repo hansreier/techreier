@@ -55,6 +55,33 @@ state in the database using Spring JDBC session. But it is not absolutely requir
 Cookies can be practical because kept when session expires, but I am not very fond of cookie abuse.
 Note: Spring Security uses a cookie by default for user and login information and I use that.
 
+
+### The Spring session problem
+
+The Spring session scope applies to all tabs and windows (not Incognito mode) for most modern Web browser.
+This implies that session data is shared between views. This is convenient behavior for users not 
+needing to log in for each view, but is problematic if we really need the session state to be different
+for every view. Java Server Faces solved this by introducing a View scope. It does not exist in Spring MVC.
+A custom defined Spring Scope is possible, but a bit hard to implement.  
+
+Spring stores the selected language in the session. My website is multilingual. It is possible to use two
+views e.g. in Chrome to edit blogs with the same content but with different language selected. 
+The result if we depend on the language stored in the session, is that we risk to save a blog in one language and
+overwrite the blog in the other language. When I first detected the problem I lost my Norwegian text of a blog post. 
+I used the same browser with two edit windows to look at the english text and translate it to Norwegion in the other window.
+Oops, I did it again. The Norwegian text was overwritten by the English text and vice versa.  
+
+The language needs to be stored for every edit view. This can be solved in several ways. 
+One way is including the language in the Url path. But it is clumsy, and it contradicts the
+Spring way of doing this with a query parameter. What I did was using
+the old technique of hidden fields in forms. The disadvantage is that the language need to be sent
+as a parameter for every GET or browser refresh.
+
+The problem of shared session state will appear for all types of data stored in the session, not just the language code.
+If we do not need to store state on the server, it is not really a problem. Client based web development like React
+solves this by storing data on the client, but in my web app I try not to use too much JavaScript.  
+
+
 ### State and the URL path
 
 Storing state in the URL path. It seems like a strange idea... What it means is to store some state in path variables,

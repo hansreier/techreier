@@ -48,9 +48,10 @@ class BlogPostEditController(
         response: HttpServletResponse,
         model: Model,
         @AuthenticationPrincipal owner: Owner?,
+        @RequestParam lang: String
     ): String {
         authorize(owner)
-        val blogParams = fetchBlogParams(model, request, response, segment, false, true)
+        val blogParams = fetchBlogParams(model, request, response, segment, false, true, lang)
         if (blogParams.blog == null)
             throw BlogNotFoundException("blog with segment: $segment is not found")
         logger.info("Fetch blog posts: $blogParams")
@@ -99,13 +100,14 @@ class BlogPostEditController(
         action: String,
         created: String,
         changed: String,
+        @RequestParam blogLangcode: String,
         bindingResult: BindingResult,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
         @AuthenticationPrincipal owner: Owner?,
     ): String {
-        val blogPrincipal = authorize(owner, segment)
+        val blogPrincipal = authorize(owner, segment, blogLangcode)
         val blogId = blogPrincipal.blogId
             ?: throw (BlogNotFoundException("blogId not found for segment $segment language $blogPrincipal.langCode"))
 
@@ -115,7 +117,7 @@ class BlogPostEditController(
         redirectAttributes.addFlashAttribute("action", action)
         logger.info("blogPost: path=${request.servletPath} action=$action blogid=$blogId blogPostIds=$blogPostIds")
         if (action == "back")  {
-            return "redirect:$BLOG_EDIT_DIR/$segment"
+            return "redirect:$BLOG_EDIT_DIR/$segment?lang=$blogLangcode"
         }
         if (action == "save" || action == "create" || action == "copy" ) {
             if (blogPostIds.size > 1)
@@ -147,7 +149,7 @@ class BlogPostEditController(
                             "/${form.segment}/${form.state.lower()}"
                         else
                             "/$NEW_SUBSEGMENT/${PostState.IDEA.lower()}"
-                return "redirect:$newPath"
+                return "redirect:$newPath?lang=$blogLangcode"
             } catch (e: Exception) {
                 when (e) {
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
@@ -166,7 +168,7 @@ class BlogPostEditController(
                 prepare(model, request, response, segment, created,changed, blogPostIds)
                 return "blogPostEdit"
             }
-            return "redirect:$BLOG_EDIT_DIR/$segment"
+            return "redirect:$BLOG_EDIT_DIR/$segment?lang=$blogLangcode"
         }
 
         if (action == "view") {

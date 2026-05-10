@@ -2,7 +2,7 @@
 
 Nearly completed..
 
-With boring design, but engagin content. I hope.
+With boring design, but engaging content. I hope.
 
 ( If not happening automagically.
 Use the dropdown button on the top right to switch between Norwegian and English.

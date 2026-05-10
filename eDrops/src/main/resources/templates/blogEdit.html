@@ -75,6 +75,7 @@
                 </div>
                 <input type="hidden" th:value="${changed}" name="changed">
                 <input type="hidden" th:field="*{preview}">
+                <input type="hidden" th:value="${blogLangcode}" name="blogLangcode">
             </div>
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
