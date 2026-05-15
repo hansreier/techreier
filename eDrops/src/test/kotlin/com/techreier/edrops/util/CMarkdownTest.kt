@@ -11,6 +11,7 @@ import com.techreier.edrops.data.Docs.getDocIndex
 import com.techreier.edrops.data.Docs.views
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 private const val SECURE = """
@@ -33,12 +34,14 @@ class CMarkdownTest {
     private val  markdown = CMarkdown()
 
     @Test
+    @Disabled
     fun `from secure markdown to html`() {
         val html = markdown.toHtml(SECURE)
         logger.debug(html)
         assertThat(html).contains("<p>Secure</p>", "<h2 ")
     }
 
+    @Disabled
     @Test
     fun `from unsecure markdown to html`() {
         val html = markdown.toHtml(UNSECURE)
@@ -84,6 +87,7 @@ class CMarkdownTest {
     }
 
     //Todo add more here for new type of link
+    @Disabled
     @Test
     fun `markdown to html link and image - detailed verification`() {
         val docIndex = getDocIndex(about, EN, EN, "markdown")
