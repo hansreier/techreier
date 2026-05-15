@@ -2,7 +2,7 @@ package com.techreier.edrops.repository.projections
 
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.dto.BlogPostDTO
-import com.techreier.edrops.util.Markdown
+import com.techreier.edrops.util.IMarkdown
 import com.techreier.edrops.util.text
 import java.time.Instant
 import java.time.ZoneId
@@ -20,7 +20,7 @@ interface IBlogPost {
 fun IBlogPost.toDTO(
     zoneId: ZoneId,
     datePattern: String,
-    markdown: Markdown,
+    markdown: IMarkdown,
     html: Boolean = false, blogText: IBlogText? = null
 ): BlogPostDTO {
     val changed = this.changed.atZone(zoneId)

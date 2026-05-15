@@ -3,9 +3,6 @@ package com.techreier.edrops.util
 import com.techreier.edrops.config.MEDIA_URL_PATH
 import com.techreier.edrops.config.SANITIZER
 import com.techreier.edrops.config.logger
-import com.techreier.edrops.data.DEFAULT_LANGCODE
-import com.techreier.edrops.data.MARKDOWN_EXT
-import com.techreier.edrops.dto.MenuItem
 import com.vladsch.flexmark.ast.Image
 import com.vladsch.flexmark.ast.Link
 import com.vladsch.flexmark.ext.autolink.AutolinkExtension
@@ -19,10 +16,8 @@ import com.vladsch.flexmark.util.ast.VisitHandler
 import com.vladsch.flexmark.util.data.MutableDataSet
 import com.vladsch.flexmark.util.misc.Extension
 import com.vladsch.flexmark.util.sequence.BasedSequence
-import org.owasp.html.HtmlPolicyBuilder
-import org.owasp.html.Sanitizers
 
-class Markdown() {
+class Markdown : MarkdownEngine(), IMarkdown {
 
     private val headers = arrayOf("h1", "h2", "h3", "h4", "h5", "h6")
 
@@ -67,7 +62,7 @@ class Markdown() {
 
     // Flexmark implementation of commonmark standardwith Github flovour
 // https://github.com/vsch/flexmark-java/issues/92
-    fun toHtml(markdown: String): String {
+    override fun toHtml(markdown: String): String {
         logger.debug("markdown to html, sanitizer: $SANITIZER")
         val options = MutableDataSet()
         options.setFrom(ParserEmulationProfile.GITHUB_DOC)
@@ -102,57 +97,5 @@ class Markdown() {
             html
         }
     }
-
-    // https://owasp.org/www-project-java-html-sanitizer/
-    fun sanitize(html: String): String {
-        val policyTags = HtmlPolicyBuilder()
-            .allowElements("p")
-            .allowAttributes("align").onElements("p")
-            .allowElements("img")
-            .allowAttributes("title").onElements("img")
-            .allowElements("hr")
-            .allowElements(*headers) //allow id on headers to support direct links to headlines on a page
-            .allowAttributes("id").onElements(*headers)
-            .toFactory()
-        val policy =
-            Sanitizers.BLOCKS.and(Sanitizers.FORMATTING).and(Sanitizers.LINKS)
-                .and(Sanitizers.TABLES).and(Sanitizers.LINKS).and(Sanitizers.IMAGES).and(policyTags)
-        return policy.sanitize(html)
-    }
-
-    // Must do it this way with classLoader and streams to be able to read files in Docker and locally
-// This implementation read file with file name constructed from segment and selected language code
-// If not found it will look up a file named by default language code instead.
-// What this means is that if Norwegian is selected, some text can be presented in English instead if not found.
-    fun toHtml(menuItem: MenuItem, subDir: String = ""): InlineHtml {
-        logger.debug("{}, subDir: {}", menuItem, subDir)
-        var warning = false
-        val classLoader = object {}.javaClass.classLoader
-        val prefix = "static/markdown$subDir/${menuItem.segment}_"
-        val fileName = prefix + menuItem.langCode + MARKDOWN_EXT
-        val inputStream = classLoader.getResourceAsStream(fileName)
-        var langCode = menuItem.langCode
-        val markdown = inputStream?.bufferedReader().use { file ->
-            file?.readText() ?: run {
-                if (DEFAULT_LANGCODE != menuItem.langCode) {
-                    warning = true
-                    langCode = DEFAULT_LANGCODE
-                    val defaultFileName = prefix + DEFAULT_LANGCODE + MARKDOWN_EXT
-                    val defaultInputStream = classLoader.getResourceAsStream(defaultFileName)
-                    defaultInputStream?.bufferedReader().use { defaultFile ->
-                        defaultFile?.readText() ?: run {
-                            langCode = ""
-                            warning = false
-                            "$fileName and $defaultFileName not found"
-                        }
-                    }
-                } else "$fileName not found"
-            }
-        }
-
-        return InlineHtml(toHtml(markdown), langCode, warning)
-    }
-
-    data class InlineHtml(val html: String, val langCode: String, val warning: Boolean)
 
 }

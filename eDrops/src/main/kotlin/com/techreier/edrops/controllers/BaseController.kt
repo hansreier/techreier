@@ -33,7 +33,7 @@ abstract class BaseController(
     private val ctx: Context,
 ) : ServletContextAware {
     private var servletContext: ServletContext? = null
-    protected val markdown: Markdown = Markdown()
+    protected val markdown  = ctx.markdown
 
     override fun setServletContext(servletContext: ServletContext) {
         this.servletContext = servletContext
@@ -79,7 +79,7 @@ abstract class BaseController(
                     zoneId = timeZone(),
                     datetimePattern = msg(ctx.messageSource, "format.datetime"),
                     datePattern = msg(ctx.messageSource, "format.date"),
-                    Markdown(),
+                    ctx.markdown,
                     langCodeWanted = blogLangCode, posts, !adminMenu
                 )
                 model.addAttribute("blogHeadline", blogDto.subject)

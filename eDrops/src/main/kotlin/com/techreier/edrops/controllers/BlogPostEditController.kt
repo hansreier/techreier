@@ -12,7 +12,6 @@ import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.exceptions.PostNotFoundException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.projections.toDTO
-import com.techreier.edrops.util.Markdown
 import com.techreier.edrops.util.checkSegment
 import com.techreier.edrops.util.checkStringSize
 import com.techreier.edrops.util.msg
@@ -174,13 +173,13 @@ class BlogPostEditController(
         if (action == "view") {
             if ((form.focus.isNotEmpty() || form.preview.isEmpty())) {
                 if (!form.summary.isBlank() && (form.focus.isEmpty() || form.focus == "s")) {
-                    val summary = Markdown().toHtml(form.summary)
+                    val summary = ctx.markdown.toHtml(form.summary)
                     model.addAttribute("summary", summary)
                     form.preview = "x"
                 }
 
                 if (!form.content.isBlank() && (form.focus.isEmpty() || form.focus == "c")) {
-                    val content = Markdown().toHtml(form.content)
+                    val content = ctx.markdown.toHtml(form.content)
                     model.addAttribute("content", content)
                     form.preview = "x"
                 }

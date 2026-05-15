@@ -3,7 +3,7 @@ package com.techreier.edrops.dto
 import com.techreier.edrops.repository.projections.IBlog
 import com.techreier.edrops.repository.projections.IBlogPost
 import com.techreier.edrops.repository.projections.toDTO
-import com.techreier.edrops.util.Markdown
+import com.techreier.edrops.util.IMarkdown
 import com.techreier.edrops.util.text
 import java.time.ZoneId
 
@@ -13,7 +13,7 @@ data class BlogWithPosts(
 )
 
 fun BlogWithPosts.toDTO(
-    zoneId: ZoneId, datetimePattern: String, datePattern: String, markdown: Markdown, langCodeWanted: String? = null,
+    zoneId: ZoneId, datetimePattern: String, datePattern: String, markdown: IMarkdown, langCodeWanted: String? = null,
     posts: Boolean = true, html: Boolean = false,
 ): BlogDTO {
     val changed = this.blog.changed.atZone(zoneId)
