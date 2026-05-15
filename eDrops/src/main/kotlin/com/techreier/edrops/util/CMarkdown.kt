@@ -8,6 +8,7 @@ import org.commonmark.ext.image.attributes.ImageAttributesExtension
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
 
+
 class CMarkdown: MarkdownEngine(), IMarkdown {
 
     // Commonmark implementation

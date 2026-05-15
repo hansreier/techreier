@@ -421,6 +421,12 @@
             <groupId>com.vladsch.flexmark</groupId>
             <artifactId>flexmark-ext-autolink</artifactId>
             <version>${flexmark.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.nibor.autolink</groupId>
+                    <artifactId>autolink</artifactId>
+                </exclusion>
+        </exclusions>
         </dependency>
         <dependency>
             <groupId>com.vladsch.flexmark</groupId>

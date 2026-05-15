@@ -15,4 +15,4 @@ const val SANITIZER = true
 const val NEW_SEGMENT = "_new"
 const val NEW_SUBSEGMENT = "_new"
 const val BLOG_PUBLISHED_MIN_VALUE = 1
-const val USE_COMMONMARK = false
+const val USE_COMMONMARK = true
