@@ -1,4 +1,4 @@
-package com.techreier.edrops.util
+package com.techreier.edrops.markdown
 
 import com.techreier.edrops.config.MEDIA_URL_PATH
 import com.techreier.edrops.config.SANITIZER
@@ -9,6 +9,7 @@ import com.vladsch.flexmark.ext.autolink.AutolinkExtension
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.html.HtmlRenderer
+import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.parser.ParserEmulationProfile
 import com.vladsch.flexmark.util.ast.Node
 import com.vladsch.flexmark.util.ast.NodeVisitor
@@ -17,9 +18,8 @@ import com.vladsch.flexmark.util.data.MutableDataSet
 import com.vladsch.flexmark.util.misc.Extension
 import com.vladsch.flexmark.util.sequence.BasedSequence
 
-class Markdown : MarkdownEngine(), IMarkdown {
-
-    private val headers = arrayOf("h1", "h2", "h3", "h4", "h5", "h6")
+// Flexmark
+class MarkdownF : MarkdownBase(), IMarkdown {
 
     var visitor: NodeVisitor = NodeVisitor(
         VisitHandler(Link::class.java) { link: Link -> visitLink(link) },
@@ -54,27 +54,26 @@ class Markdown : MarkdownEngine(), IMarkdown {
 
     private fun replaceImageLinks(origPath: String): String {
         if (!origPath.startsWith("..")) {
-            val newPath = "$MEDIA_URL_PATH/$origPath"
+            val newPath = "${MEDIA_URL_PATH}/$origPath"
             logger.debug("Visitor - image path replaced: $origPath to: $newPath")
             return newPath
         } else return origPath
     }
 
     // Flexmark implementation of commonmark standardwith Github flovour
-// https://github.com/vsch/flexmark-java/issues/92
+    // https://github.com/vsch/flexmark-java/issues/92
     override fun toHtml(markdown: String): String {
-        logger.debug("markdown to html, sanitizer: $SANITIZER")
+        logger.info("Flexmark markdown to html, sanitizer: ${SANITIZER}")
         val options = MutableDataSet()
         options.setFrom(ParserEmulationProfile.GITHUB_DOC)
             .set(
-                com.vladsch.flexmark.parser.Parser.EXTENSIONS,
+                Parser.EXTENSIONS,
                 listOf<Extension>(
                     AutolinkExtension.create(),
                     TablesExtension.create(),
                     StrikethroughExtension.create(),
                 )
             )
-
         options.set(TablesExtension.COLUMN_SPANS, false)
             .set(TablesExtension.MIN_HEADER_ROWS, 1)
             .set(TablesExtension.MAX_HEADER_ROWS, 1)
@@ -87,7 +86,9 @@ class Markdown : MarkdownEngine(), IMarkdown {
         // uncomment to convert soft-breaks to hard breaks
         // options.set(HtmlRenderer.SOFT_BREAK, "<br>\n");
 
-        val parser = com.vladsch.flexmark.parser.Parser.builder(options).build()
+        options.set(HtmlRenderer.RENDER_HEADER_ID,false)
+
+        val parser = Parser.builder(options).build()
         val renderer = HtmlRenderer.builder(options).build()
         val document: Node = parser.parse(markdown)
         visitor.visit(document)

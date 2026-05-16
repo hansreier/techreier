@@ -3,7 +3,7 @@ package com.techreier.edrops.dto
 import com.techreier.edrops.repository.projections.IBlog
 import com.techreier.edrops.repository.projections.IBlogPost
 import com.techreier.edrops.repository.projections.toDTO
-import com.techreier.edrops.util.IMarkdown
+import com.techreier.edrops.markdown.IMarkdown
 import com.techreier.edrops.util.text
 import java.time.ZoneId
 

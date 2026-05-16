@@ -1,4 +1,4 @@
-package com.techreier.edrops.util
+package com.techreier.edrops.markdown
 
 interface IMarkdown {
 
