@@ -9,8 +9,6 @@ import org.owasp.html.Sanitizers
 
 abstract class MarkdownBase : IMarkdown {
 
-    // private val headers = arrayOf("h1", "h2", "h3", "h4", "h5", "h6")
-
     // https://owasp.org/www-project-java-html-sanitizer/
     fun sanitize(html: String): String {
         val policyTags = HtmlPolicyBuilder()
@@ -19,8 +17,6 @@ abstract class MarkdownBase : IMarkdown {
             .allowElements("img")
             .allowAttributes("title").onElements("img")
             .allowElements("hr")
-            //  .allowElements(*headers) Aallow id on headers to support direct links to headlines on a page
-            //  .allowAttributes("id").onElements(*headers)
             .toFactory()
         val policy =
             Sanitizers.BLOCKS

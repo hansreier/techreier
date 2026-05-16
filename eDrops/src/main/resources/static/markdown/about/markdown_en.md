@@ -4,11 +4,13 @@ Commonmark reference implementation was first used for Markdown. What I
 found is that it was not very configurable, even if some extensions could be 
 added (like Table and Image extension) in addition to just use the Commonmark 
 standard. I startet to use Flexmark instead. But I have later found that this
-library is not actively maintained anymore, and I have started to go back to CommonMark again.
+library is not actively maintained anymore. I have started to go back to CommonMark again,
+and I have found this library sufficient for my web app. 
 
 GitHub flavored Markdown is the most used Markdown dialect, also used in Intellij.
 I have implemented support for most of it. 
-Support for tables, link in images is absoulutely required in a blog system.
+Support for tables, links and images is absolutely required in a blog system.
+GitHub flavored Markdown s code and code blocks. I have enabled this too.  
 
 One disadvantage with Markdown is the limited set of formatting options for
 individual HTML tags. It is possible to do some of it
@@ -71,7 +73,7 @@ It is possible to link to headlines with id's defined, as in HTML.
 [Link to internal Bottom headline](#bottom-headline)  INTERNAL ANCHOR NOT IMPLEMENTED  
 [Link to tech how to headline](tech_en#how-to-make-a-text-based-website-without-coding-html)      EXTERNAL ANCHOR NOT IMPLEMENTED  
 If you try this is will not work in my blog. It works in Intellij.
-I got this to work with Flexmark, it is possible with Commonmark, but not tested.
+I got this to work with Flexmark. It is possible with Commonmark, but not tested.
 My intent is to skip this because it is not much used,
 and it is not very useful either with blog pages usually been less than 3 pages.
 It is generally hard to implement because it can collide with internal id’s and need to be prefixed.
@@ -107,11 +109,11 @@ Example of embedded images in Markdown, stored on volume (bind mount) outside th
 ![Cherries in my garden](cherries.jpg "Cherries in my garden")
 
 There is no difference in syntax for the two methods.
-I use a Flexmark Visitor pattern to be able to detect where the images are stored.
+I use a visitor pattern to be able to detect where the images are stored.
 I have not yet made any GUI for uploading images, 
 so an upload or syncronization tool is required to the VPS (e.g. Jottacloud). 
 
-### Code
+### Code and code blocks
 
 An example of a code block.
 Below is a standard Kotlin utility function to check if a number is a prime number:
