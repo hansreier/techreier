@@ -9,6 +9,7 @@ import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.ext.image.attributes.ImageAttributesExtension
 import org.commonmark.node.AbstractVisitor
 import org.commonmark.node.Image
+import org.commonmark.node.Link
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
 
@@ -31,6 +32,20 @@ class MarkdownC: MarkdownBase(), IMarkdown {
                         if (!origPath.startsWith("..")) {
                             logger.info("Visitor - image path replaced: $origPath to: $MEDIA_URL_PATH/$origPath")
                             image.destination = "$MEDIA_URL_PATH/$origPath"
+                        }
+                    }
+                    override fun visit(link: Link) {
+                        val origPath = link.destination
+                        if (origPath.contains(".md")) {
+                            val segment = origPath.substringAfterLast("#", "")
+                            val path = origPath.substringBeforeLast("#")
+                                .replace(".md", "")
+                                .replaceAfterLast("_", "")
+                                .replace("_", "")
+                                .replace("/home", "/") // home page no subpath
+                            val newPath = if (segment.isEmpty()) path else "$path#$segment"
+                            logger.info("Visitor - Link path replaced: $origPath to: $newPath")
+                            link.destination = newPath
                         }
                     }
                 })

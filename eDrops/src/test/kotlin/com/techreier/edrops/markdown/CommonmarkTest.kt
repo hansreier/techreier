@@ -92,7 +92,7 @@ class CMarkdownTest {
         assertThat(inlineHtml.html).contains("""<a href="https://openai.com/blog/chatgpt""")
         assertThat(inlineHtml.html).contains("""<a href="../blogs/energy""")
         assertThat(inlineHtml.html).contains("""<img src="../../images/pas.jpg" alt="My mascot PerSeter" title="Per Seter""")
-        assertThat(inlineHtml.html).contains("$MEDIA_URL_PATH/cherries.jpg") //TODO fails here
+        assertThat(inlineHtml.html).contains("$MEDIA_URL_PATH/cherries.jpg")
         assertEquals(EN, inlineHtml.langCode)
         assertFalse(inlineHtml.warning)
     }

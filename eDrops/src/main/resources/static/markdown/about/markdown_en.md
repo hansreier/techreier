@@ -62,7 +62,7 @@ A new security risk is detected with the latest Owasp sanitizer.
 Examples of links:  
 [Link to home](../home_en.md)  
 [Link to about electrical power](../elpower_en.md)  
-[Link to tech](tech_en)  
+[Link to tech](tech_en.md)  
 [Link to internal Bottom headline](#bottom-headline)  
 [Link to tech how to headline](tech_en#how-to-make-a-text-based-website-without-coding-html)  
 [Link to default blog](../blogs)  
