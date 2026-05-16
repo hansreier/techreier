@@ -18,6 +18,7 @@ import com.vladsch.flexmark.util.data.MutableDataSet
 import com.vladsch.flexmark.util.misc.Extension
 import com.vladsch.flexmark.util.sequence.BasedSequence
 
+// Flexmark
 class MarkdownF : MarkdownBase(), IMarkdown {
 
     var visitor: NodeVisitor = NodeVisitor(
@@ -60,9 +61,9 @@ class MarkdownF : MarkdownBase(), IMarkdown {
     }
 
     // Flexmark implementation of commonmark standardwith Github flovour
-// https://github.com/vsch/flexmark-java/issues/92
+    // https://github.com/vsch/flexmark-java/issues/92
     override fun toHtml(markdown: String): String {
-        logger.debug("markdown to html, sanitizer: ${SANITIZER}")
+        logger.info("Flexmark markdown to html, sanitizer: ${SANITIZER}")
         val options = MutableDataSet()
         options.setFrom(ParserEmulationProfile.GITHUB_DOC)
             .set(
@@ -73,7 +74,6 @@ class MarkdownF : MarkdownBase(), IMarkdown {
                     StrikethroughExtension.create(),
                 )
             )
-
         options.set(TablesExtension.COLUMN_SPANS, false)
             .set(TablesExtension.MIN_HEADER_ROWS, 1)
             .set(TablesExtension.MAX_HEADER_ROWS, 1)
@@ -85,6 +85,8 @@ class MarkdownF : MarkdownBase(), IMarkdown {
 
         // uncomment to convert soft-breaks to hard breaks
         // options.set(HtmlRenderer.SOFT_BREAK, "<br>\n");
+
+        options.set(HtmlRenderer.RENDER_HEADER_ID,false)
 
         val parser = Parser.builder(options).build()
         val renderer = HtmlRenderer.builder(options).build()

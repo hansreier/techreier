@@ -11,7 +11,6 @@ import com.techreier.edrops.data.Docs.getDocIndex
 import com.techreier.edrops.data.Docs.views
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class CMarkdownTest {
@@ -19,7 +18,6 @@ class CMarkdownTest {
     private val  markdown = MarkdownC()
 
     @Test
-    @Disabled
     fun `from secure markdown to html`() {
         val html = markdown.toHtml(SECURE)
         logger.info("\n$html")
@@ -29,6 +27,13 @@ class CMarkdownTest {
     @Test
     fun `from headings to html`() {
         val html = markdown.toHtml(HEADINGS)
+        assertThat(html).doesNotContain("id=")
+        assertThat(html)
+            .contains("<h1>Testoppsett for Bloggsystem</h1>")
+            .contains("<h2>Arkitektur og Design</h2>")
+            .contains("<h3>Minimalistisk Implementasjon</h3>")
+            .contains("<p>Nivå tre for å sikre at dybden i nodetreet blir riktig formatert under parsingen.</p>")
+            .contains("<p>Til slutt kommer en helt vanlig, kort paragraf uten noe ekstra jåleri, akkurat som bestilt.</p>")
         logger.info("\n$html")
     }
 
@@ -77,18 +82,17 @@ class CMarkdownTest {
     }
 
     //Todo add more here for new type of link
-    @Disabled
     @Test
     fun `markdown to html link and image - detailed verification`() {
         val docIndex = getDocIndex(about, EN, EN, "markdown")
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
         val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
-        logger.debug("Html: \n{}", inlineHtml)
+        logger.info("Html; \n$inlineHtml")
         assertThat(inlineHtml.html).contains("""<a href="https://openai.com/blog/chatgpt""")
         assertThat(inlineHtml.html).contains("""<a href="../blogs/energy""")
         assertThat(inlineHtml.html).contains("""<img src="../../images/pas.jpg" alt="My mascot PerSeter" title="Per Seter""")
-        assertThat(inlineHtml.html).contains("$MEDIA_URL_PATH/cherries.jpg")
+        assertThat(inlineHtml.html).contains("$MEDIA_URL_PATH/cherries.jpg") //TODO fails here
         assertEquals(EN, inlineHtml.langCode)
         assertFalse(inlineHtml.warning)
     }

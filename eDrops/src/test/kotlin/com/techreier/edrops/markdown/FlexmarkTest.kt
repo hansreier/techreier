@@ -23,6 +23,13 @@ class MarkdownTest {
     fun `from headings to html`() {
         val html = markdown.toHtml(HEADINGS)
         logger.info("\n$html")
+        assertThat(html)
+            .contains("<h1>Testoppsett for Bloggsystem</h1>")
+            .contains("<h2>Arkitektur og Design</h2>")
+            .contains("<h3>Minimalistisk Implementasjon</h3>")
+            .contains("<p>Nivå tre for å sikre at dybden i nodetreet blir riktig formatert under parsingen.</p>")
+            .contains("<p>Til slutt kommer en helt vanlig, kort paragraf uten noe ekstra jåleri, akkurat som bestilt.</p>")
+        assertThat(html).doesNotContain("id=")
     }
 
 
@@ -84,7 +91,7 @@ class MarkdownTest {
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
         val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
-        logger.debug("Html: \n{}", inlineHtml)
+        logger.info("Html; \n$inlineHtml")
         assertThat(inlineHtml.html).contains("""<a href="https://openai.com/blog/chatgpt""")
         assertThat(inlineHtml.html).contains("""<a href="../blogs/energy""")
         assertThat(inlineHtml.html).contains("""<img src="../../images/pas.jpg" alt="My mascot PerSeter" title="Per Seter""")

@@ -3,6 +3,7 @@ package com.techreier.edrops.markdown
 import org.junit.jupiter.api.Assertions.assertEquals
 
 import com.techreier.edrops.config.logger
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class CompareTest {
@@ -17,5 +18,6 @@ class CompareTest {
         logger.info("Commonmark:\n$htmlC")
         logger.info("Flexmark:\n$htmlF")
         assertEquals(htmlF, htmlC)
+        assertThat(htmlF).doesNotContain("id=")
     }
 }
