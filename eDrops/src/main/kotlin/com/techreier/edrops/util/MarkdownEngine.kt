@@ -19,12 +19,16 @@ abstract class MarkdownEngine: IMarkdown {
             .allowElements("img")
             .allowAttributes("title").onElements("img")
             .allowElements("hr")
-            .allowElements(*headers) //allow id on headers to support direct links to headlines on a page
+          //  .allowElements(*headers) Aallow id on headers to support direct links to headlines on a page
             .allowAttributes("id").onElements(*headers)
             .toFactory()
         val policy =
-            Sanitizers.BLOCKS.and(Sanitizers.FORMATTING).and(Sanitizers.LINKS)
-                .and(Sanitizers.TABLES).and(Sanitizers.LINKS).and(Sanitizers.IMAGES).and(policyTags)
+            Sanitizers.BLOCKS
+                .and(Sanitizers.FORMATTING)
+                .and(Sanitizers.LINKS)
+                .and(Sanitizers.TABLES)
+                .and(Sanitizers.IMAGES)
+                .and(policyTags)
         return policy.sanitize(html)
     }
 
