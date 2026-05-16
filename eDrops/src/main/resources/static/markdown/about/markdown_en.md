@@ -57,8 +57,8 @@ Examples of links:
 [Link to about electrical power](../elpower_en.md)  
 [Link to tech](tech_en.md)  
 [Link to energy view](../energy)  
-[Relative link to blog sideways](/blog/sideways)  
-[Absolute link blog web page sideways](https://techreier.com/blog/sideways)  
+[Relative link to blog politics](/blog/politics)  
+[Absolute link blog web page politics](https://techreier.com/blog/politics)  
 [Link to external web page ChatGPT](https://openai.com/blog/chatgpt)  
 
 The code uses the Markdown parser to convert Markdown links to HTML links on the web page.  

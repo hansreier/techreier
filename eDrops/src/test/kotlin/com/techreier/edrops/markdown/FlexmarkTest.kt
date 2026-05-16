@@ -84,7 +84,6 @@ class MarkdownTest {
         assertTrue(inlineHtml.warning)
     }
 
-    //Todo add more here for new type of link
     @Test
     fun `markdown to html link and image - detailed verification`() {
         val docIndex = getDocIndex(about, EN, EN, "markdown")
@@ -92,8 +91,11 @@ class MarkdownTest {
         val doc = about[docIndex.index]
         val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
         logger.info("Html; \n$inlineHtml")
+        assertThat(inlineHtml.html).contains("""<a href="../elpower""")
+        assertThat(inlineHtml.html).contains("""<a href="tech""")
         assertThat(inlineHtml.html).contains("""<a href="https://openai.com/blog/chatgpt""")
-        assertThat(inlineHtml.html).contains("""<a href="../blogs/energy""")
+        assertThat(inlineHtml.html).contains("""<a href="../energy""")
+        assertThat(inlineHtml.html).contains("""<a href="/blog/politics""")
         assertThat(inlineHtml.html).contains("""<img src="../../images/pas.jpg" alt="My mascot PerSeter" title="Per Seter""")
         assertThat(inlineHtml.html).contains("$MEDIA_URL_PATH/cherries.jpg")
         assertEquals(EN, inlineHtml.langCode)
