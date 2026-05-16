@@ -86,11 +86,12 @@ All link examples contain relative links, except the bottom link that is just a 
 
 Example of embedded table in Markdown.
 
-| City   |              No of citizens | County    | Comment                                |
-|--------|---------------------------:|-----------|----------------------------------------|
-| Oslo   |                      709037 | Oslo      | Capital of Norway                      | 
-| Bergen |                      288133 | Vestland  | Second largest city                    | 
-| Moelv  |                        4459 | Innlandet | My home village, I love it and hate it |
+| City (Left) | No of citizens (Right) | Code (Center) | Comment (Default)                      |
+|:------------|-----------------------:|:-------------:|----------------------------------------|
+| Oslo        |                 709037 |      03       | Capital of Norway                      | 
+| Bergen      |                 288133 |      46       | Second largest city                    | 
+| Moelv       |                   4459 |      34       | My home village, I love it and hate it |
+
 
 ### Media files in Markdown
 

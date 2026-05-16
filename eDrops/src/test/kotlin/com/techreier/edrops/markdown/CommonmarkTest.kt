@@ -100,6 +100,26 @@ class CMarkdownTest {
     }
 
     @Test
+    fun `markdown to html table - detailed verification`() {
+        val docIndex = getDocIndex(about, EN, EN, "markdown")
+        assertThat(docIndex.index).isGreaterThan(-1)
+        val doc = about[docIndex.index]
+        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
+        logger.info("Html; \n$inlineHtml")
+        assertThat(inlineHtml.html).contains("""<td align="right">709037</td>""")
+        assertThat(inlineHtml.html).contains("""<td align="right">4459</td>""")
+        assertThat(inlineHtml.html).contains("""<td align="center">03</td>""")
+        assertThat(inlineHtml.html).contains("""<td align="center">34</td>""")
+        assertThat(inlineHtml.html).matches { html ->
+            html.contains("""<td align="left">Oslo</td>""") || html.contains("""<td>Oslo</td>""")
+        }
+
+        assertThat(inlineHtml.html).contains("</table>")
+        assertEquals(EN, inlineHtml.langCode)
+        assertFalse(inlineHtml.warning)
+    }
+
+    @Test
     fun `Ringsaker to html English - cannot find in English`() {
         val docIndex = getDocIndex(views, NB, EN, "ringsaker")
         assertThat(docIndex.index).isGreaterThan(-1)

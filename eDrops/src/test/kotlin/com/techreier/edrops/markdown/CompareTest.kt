@@ -34,4 +34,15 @@ class CompareTest {
         val htmlC = markdownC.toHtml(doc, ABOUT_DIR)
         assertEquals(htmlF, htmlC)
     }
+
+    @Test
+    fun `markdown to html table - detailed verification`() {
+        val docIndex = getDocIndex(about, EN, EN, "markdown")
+        assertThat(docIndex.index).isGreaterThan(-1)
+        val doc = about[docIndex.index]
+        val htmlF = markdownF.toHtml(doc, ABOUT_DIR)
+        val htmlC = markdownC.toHtml(doc, ABOUT_DIR)
+        assertEquals(htmlF, htmlC)
+    }
+
 }
