@@ -65,7 +65,7 @@ The code uses the Markdown parser to convert Markdown links to HTML links on the
 This enables the link to work correctly in GitHub, Intellij and web page.
 My blog system can use all these link types, but the absolute URL is preferred.
 
-### Anchor links
+### Anchor links (not implemented)
 
 It is possible to link to headlines with id's defined, as in HTML.  
 [Link to internal Bottom headline](#bottom-headline)  INTERNAL ANCHOR NOT IMPLEMENTED  
@@ -84,7 +84,10 @@ This often introduces a lot of broken links in documentation systems.
 The links to blog content stored in a database, only works on the produced web page.
 All link examples contain relative links, except the bottom link that is just a regular external link.
 
-Example of embedded table in Markdown.
+
+### Tables
+
+Example of embedded table in Markdown.  
 
 | City (Left) | No of citizens (Right) | Code (Center) | Comment (Default)                      |
 |:------------|-----------------------:|:-------------:|----------------------------------------|
@@ -106,17 +109,22 @@ Example of embedded images in Markdown, stored on volume (bind mount) outside th
 There is no difference in syntax for the two methods.
 I use a Flexmark Visitor pattern to be able to detect where the images are stored.
 I have not yet made any GUI for uploading images, 
-so an upload or syncronization tool is required to the VPS (e.g. Jottacloud).  
+so an upload or syncronization tool is required to the VPS (e.g. Jottacloud). 
 
-### Example headline 
+### Code
 
-The contents should be visible by clicking on internal page link above
+An example of a code block.
+Below is a standard Kotlin utility function to check if a number is a prime number:
 
-### Bottom headline
-
-Nothing interesting here at the bottom of page. Just som bullshit I am writing.
-I do not care if you actually read this.
-
-[Link to internal Examples headline](#examples)  
+```kotlin
+fun isPrime(number: Int): Boolean {
+    if (number <= 1) return false
+    for (i in 2..Math.sqrt(number.toDouble()).toInt()) {
+        if (number % i == 0) return false
+    }
+    return true
+}
+```
+The page ends, and the answer is 42.
 
 

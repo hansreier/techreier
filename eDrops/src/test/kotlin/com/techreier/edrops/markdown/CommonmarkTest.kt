@@ -120,6 +120,51 @@ class CMarkdownTest {
     }
 
     @Test
+    fun `markdown to html code block - isPrime and footer verification`() {
+        val docIndex = getDocIndex(about, EN, EN, "markdown")
+        assertThat(docIndex.index).isGreaterThan(-1)
+
+        val doc = about[docIndex.index]
+        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
+        logger.info("Html; \n${inlineHtml.html}")
+
+        assertThat(inlineHtml.html).contains("""<pre><code class="language-kotlin">""")
+
+        assertThat(inlineHtml.html).contains("fun isPrime(number: Int): Boolean {")
+        assertThat(inlineHtml.html).contains("if (number % i == 0) return false")
+        assertThat(inlineHtml.html).contains("return true")
+
+        assertThat(inlineHtml.html).contains("</code></pre>")
+        assertThat(inlineHtml.html).contains("The end of the page and the answer is 42.")
+
+        assertEquals(EN, inlineHtml.langCode)
+        assertFalse(inlineHtml.warning)
+    }
+
+    @Test
+    fun `markdown to html code block - final verification`() {
+        val docIndex = getDocIndex(about, EN, EN, "markdown")
+        assertThat(docIndex.index).isGreaterThan(-1)
+
+        val doc = about[docIndex.index]
+        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
+        logger.info("Html; \n${inlineHtml.html}")
+
+        assertThat(inlineHtml.html).contains("<code>")
+        assertThat(inlineHtml.html).contains("</code>")
+
+        assertThat(inlineHtml.html).contains("fun isPrime")
+        assertThat(inlineHtml.html).contains("Math.sqrt")
+        assertThat(inlineHtml.html).contains("return true")
+
+        assertThat(inlineHtml.html).contains("The page ends, and the answer is 42.")
+
+        assertEquals(EN, inlineHtml.langCode)
+        assertFalse(inlineHtml.warning)
+    }
+
+
+    @Test
     fun `Ringsaker to html English - cannot find in English`() {
         val docIndex = getDocIndex(views, NB, EN, "ringsaker")
         assertThat(docIndex.index).isGreaterThan(-1)

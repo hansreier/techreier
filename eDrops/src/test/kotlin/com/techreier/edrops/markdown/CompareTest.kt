@@ -8,6 +8,7 @@ import com.techreier.edrops.data.Docs.about
 import com.techreier.edrops.data.Docs.getDocIndex
 import com.techreier.edrops.data.EN
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 
 class CompareTest {
@@ -43,6 +44,17 @@ class CompareTest {
         val htmlF = markdownF.toHtml(doc, ABOUT_DIR)
         val htmlC = markdownC.toHtml(doc, ABOUT_DIR)
         assertEquals(htmlF, htmlC)
+    }
+
+    @Test
+    fun `markdown to html code block - final verification`() {
+        val docIndex = getDocIndex(about, EN, EN, "markdown")
+        assertThat(docIndex.index).isGreaterThan(-1)
+        val doc = about[docIndex.index]
+        val htmlF = markdownF.toHtml(doc, ABOUT_DIR)
+        val htmlC = markdownC.toHtml(doc, ABOUT_DIR)
+        assertEquals(htmlF, htmlC)
+
     }
 
 }
