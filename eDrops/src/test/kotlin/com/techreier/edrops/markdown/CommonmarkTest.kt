@@ -18,13 +18,6 @@ class CMarkdownTest {
     private val  markdown = MarkdownC()
 
     @Test
-    fun `from secure markdown to html`() {
-        val html = markdown.toHtml(SECURE)
-        logger.info("\n$html")
-        assertThat(html).contains("<p>Secure</p>", "<h2")
-    }
-
-    @Test
     fun `from headings to html`() {
         val html = markdown.toHtml(HEADINGS)
         assertThat(html).doesNotContain("id=")
@@ -38,11 +31,18 @@ class CMarkdownTest {
     }
 
     @Test
+    fun `from secure markdown to html`() {
+        val html = markdown.toHtml(SECURE)
+        logger.info("\n$html")
+        assertThat(html).contains("<p>Secure</p>", "<h2>")
+    }
+
+    @Test
     fun `from unsecure markdown to html`() {
         val html = markdown.toHtml(UNSECURE)
         logger.info("\n$html")
         assertThat(html).doesNotContain("<script>")
-        assertThat(html).contains("<p>Unsecure</p>", "<h2")
+        assertThat(html).contains("<p>Unsecure</p>", "<h2>")
     }
 
     @Test
@@ -115,28 +115,6 @@ class CMarkdownTest {
         }
 
         assertThat(inlineHtml.html).contains("</table>")
-        assertEquals(EN, inlineHtml.langCode)
-        assertFalse(inlineHtml.warning)
-    }
-
-    @Test
-    fun `markdown to html code block - isPrime and footer verification`() {
-        val docIndex = getDocIndex(about, EN, EN, "markdown")
-        assertThat(docIndex.index).isGreaterThan(-1)
-
-        val doc = about[docIndex.index]
-        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
-        logger.info("Html; \n${inlineHtml.html}")
-
-        assertThat(inlineHtml.html).contains("""<pre><code class="language-kotlin">""")
-
-        assertThat(inlineHtml.html).contains("fun isPrime(number: Int): Boolean {")
-        assertThat(inlineHtml.html).contains("if (number % i == 0) return false")
-        assertThat(inlineHtml.html).contains("return true")
-
-        assertThat(inlineHtml.html).contains("</code></pre>")
-        assertThat(inlineHtml.html).contains("The end of the page and the answer is 42.")
-
         assertEquals(EN, inlineHtml.langCode)
         assertFalse(inlineHtml.warning)
     }

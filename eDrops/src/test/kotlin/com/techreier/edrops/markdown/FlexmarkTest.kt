@@ -32,12 +32,11 @@ class MarkdownTest {
         assertThat(html).doesNotContain("id=")
     }
 
-
     @Test
     fun `from secure markdown to html`() {
         val html = markdown.toHtml(SECURE)
         logger.debug("\n$html")
-        assertThat(html).contains("<p>Secure</p>", "<h2 ")
+        assertThat(html).contains("<p>Secure</p>", "<h2>")
     }
 
     @Test
@@ -45,7 +44,7 @@ class MarkdownTest {
         val html = markdown.toHtml(UNSECURE)
         logger.debug("\n$html")
         assertThat(html).doesNotContain("<script>")
-        assertThat(html).contains("<p>Unsecure</p>", "<h2")
+        assertThat(html).contains("<p>Unsecure</p>", "<h2>")
     }
 
     @Test
