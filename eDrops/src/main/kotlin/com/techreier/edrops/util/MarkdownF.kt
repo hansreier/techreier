@@ -17,9 +17,7 @@ import com.vladsch.flexmark.util.data.MutableDataSet
 import com.vladsch.flexmark.util.misc.Extension
 import com.vladsch.flexmark.util.sequence.BasedSequence
 
-class Markdown : MarkdownEngine(), IMarkdown {
-
-    private val headers = arrayOf("h1", "h2", "h3", "h4", "h5", "h6")
+class MarkdownF : MarkdownBase(), IMarkdown {
 
     var visitor: NodeVisitor = NodeVisitor(
         VisitHandler(Link::class.java) { link: Link -> visitLink(link) },

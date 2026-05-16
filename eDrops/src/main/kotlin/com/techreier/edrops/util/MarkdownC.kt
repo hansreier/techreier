@@ -9,7 +9,7 @@ import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
 
 
-class CMarkdown: MarkdownEngine(), IMarkdown {
+class MarkdownC: MarkdownBase(), IMarkdown {
 
     // Commonmark implementation
     override fun toHtml(markdown: String): String {

@@ -30,7 +30,7 @@ Unsecure
 
 class MarkdownTest {
 
-    private val  markdown = Markdown()
+    private val  markdown = MarkdownF()
 
     @Test
     fun `from secure markdown to html`() {

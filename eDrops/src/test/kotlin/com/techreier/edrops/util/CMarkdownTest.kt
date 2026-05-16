@@ -31,7 +31,7 @@ Unsecure
 
 class CMarkdownTest {
 
-    private val  markdown = CMarkdown()
+    private val  markdown = MarkdownC()
 
     @Test
     @Disabled

@@ -7,7 +7,7 @@ import com.techreier.edrops.dto.MenuItem
 import org.owasp.html.HtmlPolicyBuilder
 import org.owasp.html.Sanitizers
 
-abstract class MarkdownEngine: IMarkdown {
+abstract class MarkdownBase: IMarkdown {
 
     private val headers = arrayOf("h1", "h2", "h3", "h4", "h5", "h6")
 

@@ -5,9 +5,9 @@ import com.techreier.edrops.config.USE_COMMONMARK
 import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.dbservice.GenService
 import com.techreier.edrops.dbservice.InitService
-import com.techreier.edrops.util.CMarkdown
-import com.techreier.edrops.util.Markdown
-import com.techreier.edrops.util.MarkdownEngine
+import com.techreier.edrops.util.MarkdownC
+import com.techreier.edrops.util.MarkdownF
+import com.techreier.edrops.util.MarkdownBase
 import jakarta.servlet.http.HttpSession
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Component
@@ -22,5 +22,5 @@ data class Context(
     val sessionLocaleResolver: SessionLocaleResolver,
     val appConfig: AppConfig,
     val httpSession: HttpSession,
-    val markdown: MarkdownEngine = if (USE_COMMONMARK) CMarkdown() else Markdown()
+    val markdown: MarkdownBase = if (USE_COMMONMARK) MarkdownC() else MarkdownF()
 )

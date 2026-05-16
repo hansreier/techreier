@@ -19,15 +19,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>21</java.version>
-		<kotlin.version>2.2.21</kotlin.version>
-		<mariadb.version>3.5.7</mariadb.version>
-		<maven-failsafe-plugin.version>3.5.0</maven-failsafe-plugin.version>
-		<maven-surefire-plugin.version>3.5.0</maven-surefire-plugin.version>
+		<kotlin.version>2.3.21</kotlin.version>
+		<mariadb.version>3.5.8</mariadb.version>
+		<maven-failsafe-plugin.version>3.5.5</maven-failsafe-plugin.version>
+		<maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
 		<kotlin.code.style>official</kotlin.code.style>
 		<kotlin.compiler.jvmTarget>21</kotlin.compiler.jvmTarget>
 		<junit-jupiter.version>6.0.1</junit-jupiter.version>
 		<mockk.version>1.14.9</mockk.version>
-		<assertJ.version>3.27.6</assertJ.version>
+		<assertJ.version>3.27.7</assertJ.version>
 		<!-- fetched automagically-->
 		<h2.version>2.4.240</h2.version>
 		<flyway.version>11.18.0</flyway.version>
