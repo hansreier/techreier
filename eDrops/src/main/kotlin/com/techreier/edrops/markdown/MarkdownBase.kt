@@ -7,7 +7,7 @@ import com.techreier.edrops.dto.MenuItem
 import org.owasp.html.HtmlPolicyBuilder
 import org.owasp.html.Sanitizers
 
-abstract class MarkdownBase: IMarkdown {
+abstract class MarkdownBase : IMarkdown {
 
     // private val headers = arrayOf("h1", "h2", "h3", "h4", "h5", "h6")
 
@@ -19,8 +19,8 @@ abstract class MarkdownBase: IMarkdown {
             .allowElements("img")
             .allowAttributes("title").onElements("img")
             .allowElements("hr")
-          //  .allowElements(*headers) Aallow id on headers to support direct links to headlines on a page
-          //  .allowAttributes("id").onElements(*headers)
+            //  .allowElements(*headers) Aallow id on headers to support direct links to headlines on a page
+            //  .allowAttributes("id").onElements(*headers)
             .toFactory()
         val policy =
             Sanitizers.BLOCKS
