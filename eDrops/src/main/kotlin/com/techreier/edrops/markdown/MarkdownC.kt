@@ -30,7 +30,7 @@ class MarkdownC: MarkdownBase(), IMarkdown {
                     override fun visit(image: Image) {
                         val origPath = image.destination
                         if (!origPath.startsWith("..")) {
-                            logger.info("Visitor - image path replaced: $origPath to: $MEDIA_URL_PATH/$origPath")
+                            logger.debug("Visitor - image path replaced: $origPath to: $MEDIA_URL_PATH/$origPath")
                             image.destination = "$MEDIA_URL_PATH/$origPath"
                         }
                     }
@@ -44,7 +44,7 @@ class MarkdownC: MarkdownBase(), IMarkdown {
                                 .replace("_", "")
                                 .replace("/home", "/") // home page no subpath
                             val newPath = if (segment.isEmpty()) path else "$path#$segment"
-                            logger.info("Visitor - Link path replaced: $origPath to: $newPath")
+                            logger.debug("Visitor - Link path replaced: $origPath to: $newPath")
                             link.destination = newPath
                         }
                     }

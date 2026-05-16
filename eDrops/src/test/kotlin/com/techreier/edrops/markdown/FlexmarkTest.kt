@@ -22,7 +22,7 @@ class MarkdownTest {
     @Test
     fun `from headings to html`() {
         val html = markdown.toHtml(HEADINGS)
-        logger.info("\n$html")
+        logger.debug("\n$html")
         assertThat(html)
             .contains("<h1>Testoppsett for Bloggsystem</h1>")
             .contains("<h2>Arkitektur og Design</h2>")
@@ -36,14 +36,14 @@ class MarkdownTest {
     @Test
     fun `from secure markdown to html`() {
         val html = markdown.toHtml(SECURE)
-        logger.info("\n$html")
+        logger.debug("\n$html")
         assertThat(html).contains("<p>Secure</p>", "<h2 ")
     }
 
     @Test
     fun `from unsecure markdown to html`() {
         val html = markdown.toHtml(UNSECURE)
-        logger.info("\n$html")
+        logger.debug("\n$html")
         assertThat(html).doesNotContain("<script>")
         assertThat(html).contains("<p>Unsecure</p>", "<h2")
     }
@@ -90,7 +90,7 @@ class MarkdownTest {
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
         val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
-        logger.info("Html; \n$inlineHtml")
+        logger.debug("Html; \n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("""<a href="../elpower""")
         assertThat(inlineHtml.html).contains("""<a href="tech""")
         assertThat(inlineHtml.html).contains("""<a href="https://openai.com/blog/chatgpt""")
@@ -108,7 +108,7 @@ class MarkdownTest {
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
         val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
-        logger.info("Html; \n$inlineHtml")
+        logger.debug("Html; \n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("""<td align="right">709037</td>""")
         assertThat(inlineHtml.html).contains("""<td align="right">4459</td>""")
         assertThat(inlineHtml.html).contains("""<td align="center">03</td>""")
@@ -128,7 +128,7 @@ class MarkdownTest {
 
         val doc = about[docIndex.index]
         val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
-        logger.info("Html; \n${inlineHtml.html}")
+        logger.debug("Html; \n${inlineHtml.html}")
 
         assertThat(inlineHtml.html).contains("<code>")
         assertThat(inlineHtml.html).contains("</code>")
