@@ -1,7 +1,7 @@
 package com.techreier.edrops.repository.projections
 
 import com.techreier.edrops.dto.BlogTextDTO
-import com.techreier.edrops.util.IMarkdown
+import com.techreier.edrops.markdown.IMarkdown
 import com.techreier.edrops.util.text
 import java.time.Instant
 import java.time.ZoneId

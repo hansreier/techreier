@@ -1,4 +1,4 @@
-package com.techreier.edrops.util
+package com.techreier.edrops.markdown
 
 import com.techreier.edrops.config.SANITIZER
 import org.commonmark.Extension
@@ -7,7 +7,6 @@ import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.ext.image.attributes.ImageAttributesExtension
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
-
 
 class MarkdownC: MarkdownBase(), IMarkdown {
 
@@ -25,6 +24,6 @@ class MarkdownC: MarkdownBase(), IMarkdown {
             .extensions(exts)
             .build()
         val html = renderer.render(document)
-        if (SANITIZER) return sanitize(html) else return html
+        return if (SANITIZER) sanitize(html) else html
     }
 }

@@ -5,9 +5,9 @@ import com.techreier.edrops.config.USE_COMMONMARK
 import com.techreier.edrops.dbservice.BlogService
 import com.techreier.edrops.dbservice.GenService
 import com.techreier.edrops.dbservice.InitService
-import com.techreier.edrops.util.MarkdownC
-import com.techreier.edrops.util.MarkdownF
-import com.techreier.edrops.util.MarkdownBase
+import com.techreier.edrops.markdown.MarkdownC
+import com.techreier.edrops.markdown.MarkdownF
+import com.techreier.edrops.markdown.MarkdownBase
 import jakarta.servlet.http.HttpSession
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Component

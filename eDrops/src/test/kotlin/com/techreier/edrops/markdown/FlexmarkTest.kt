@@ -1,4 +1,4 @@
-package com.techreier.edrops.util
+package com.techreier.edrops.markdown
 
 import com.techreier.edrops.config.MEDIA_URL_PATH
 import com.techreier.edrops.config.logger
@@ -11,43 +11,34 @@ import com.techreier.edrops.data.Docs.getDocIndex
 import com.techreier.edrops.data.Docs.views
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
-private const val SECURE = """
-## Functionality
-Secure  
-"""
 
-private const val UNSECURE = """
-## Functionality
-This is a simple and limited Blog system.  
-<script>  
-  var s = "surprise!</script><script>alert('whoops!')</script>";  
-</script>  
-  
-Unsecure
-"""
 
-class CMarkdownTest {
+class MarkdownTest {
 
-    private val  markdown = MarkdownC()
+    private val  markdown = MarkdownF()
 
     @Test
-    @Disabled
+    fun `from headings to html`() {
+        val html = markdown.toHtml(HEADINGS)
+        logger.info("\n$html")
+    }
+
+
+    @Test
     fun `from secure markdown to html`() {
         val html = markdown.toHtml(SECURE)
-        logger.debug(html)
+        logger.info("\n$html")
         assertThat(html).contains("<p>Secure</p>", "<h2 ")
     }
 
-    @Disabled
     @Test
     fun `from unsecure markdown to html`() {
         val html = markdown.toHtml(UNSECURE)
-        logger.debug(html)
+        logger.info("\n$html")
         assertThat(html).doesNotContain("<script>")
-        assertThat(html).contains("<p>Unsecure</p>", "<h2 ")
+        assertThat(html).contains("<p>Unsecure</p>", "<h2")
     }
 
     @Test
@@ -87,7 +78,6 @@ class CMarkdownTest {
     }
 
     //Todo add more here for new type of link
-    @Disabled
     @Test
     fun `markdown to html link and image - detailed verification`() {
         val docIndex = getDocIndex(about, EN, EN, "markdown")

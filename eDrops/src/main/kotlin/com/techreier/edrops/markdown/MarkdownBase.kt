@@ -1,4 +1,4 @@
-package com.techreier.edrops.util
+package com.techreier.edrops.markdown
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.DEFAULT_LANGCODE
