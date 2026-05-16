@@ -1,52 +1,48 @@
-## About usage of markdown
+## About usage of Markdown
 
-Commonmark reference implementation was first used for markdown. What I 
+Commonmark reference implementation was first used for Markdown. What I 
 found is that it was not very configurable, even if some extensions could be 
 added (like Table and Image extension) in addition to just use the Commonmark 
-standard.
-To achieve Github flavoured markdown, like in Github and in Intellij, I had to 
-use and configure Flexmark. Flexmark is much more configurable. Note that it 
-can be discussed how much deviation from the standard that is advisable. As 
-a developer, Github flavoured markdown can be considered as standard.
+standard. I startet to use Flexmark instead. But I have later found that this
+library is not actively maintained anymore, and I have started to go back to CommonMark again.
 
-In addition, support for tables, links and image
-attributes is added with commonmark extension, and images can be used as well.
+GitHub flavored Markdown is the most used Markdown dialect, also used in Intellij.
+I have implemented support for most of it. 
+Support for tables, link in images is absoulutely required in a blog system.
 
-One disadvantage with markdown is the limited set of formatting options for
+One disadvantage with Markdown is the limited set of formatting options for
 individual HTML tags. It is possible to do some of it
-with either smart css or including HTML in the markdown.
-As a more customizable alternative flexmark could be used instead
-of the commonmark reference library (not tested).
-My experience with these smart markdown tricks, is that it is difficult to
+with either smart CSS or including HTML in the Markdown.
+My experience with these smart Markdown tricks, is that it is difficult to
 obtain the desired layout effects without a lot of effort. The best is to accept the
-limitations of markdown. One option is to add more markdown extensions or to use a
-more advances markdown library that extends the Commonmark standard.
+limitations of Markdown. One option is to add more Markdown extensions.
 
-The markdown is embedded in the HTML. It is two ways to add markdown to this website:
+The Markdown is embedded in the HTML. It is two ways to add Markdown to this website:
 
-- To include static markdown files
-- To use embedded text editor and store the markdown in a database.
+- To include static Markdown files
+- To use embedded text editor and store the Markdown in a database.
 
-The markdown context is selected from a menu
+The Markdown content is selected from a menu:  
 
-- Hard coded menu for the static markdown files
+- Hard coded menu for the static Markdown files
 - Storing metadata in a database and produce a menu from it.
 
-### Alternatives to markdown
+### Alternatives to Markdown
 
-- Plain HTMl (too much work and includes coding)
-- language resource file text (tried that, not ideal)
+- Plain HTML (too much work and includes coding).
+- language resource file text (tried that, not ideal).
 - To use RTF.
+- XML / XHTML (non-standard legacy solutions)
 
 The RTF option is the best alternative, but needs an RTF editor and a more complex parser.
-The generated embedded HTML also is not as clean as if markdown is used.
+The generated embedded HTML also is not as clean as if Markdown is used.
 Language resource files is used in this project, but only for short text.
 
 ### Security
 
 Markdown does not prevent HTML injection, since it is possible to add plan HTML
-to markdown. To avoid security problems  a sanitizer is used to remove dangerous HTML. 
-A problem with this is that it removes some useful HTML tags that can be included in the markdown. 
+to Markdown. To avoid security problems  a sanitizer is used to remove dangerous HTML. 
+A problem with this is that it removes some useful HTML tags that can be included in the Markdown. 
 The Owasp sanitizer is configurable, so I have allowed some HTML tags
 and attributes that was denied in the default setup. 
 The right adjustment of numbers used in the table example below,
@@ -54,31 +50,41 @@ is removed by the sanitizer, if I do not allow the <p> tag and align attribute w
 configuring the sanitizer.
 The title attribute of image is also removed, if I do not tell the sanitizer to keep it.
 
-**NOTE I will try JSoup instead, because it is more actively maintained.**
-A new security risk is detected with the latest Owasp sanitizer.
-
-### Examples
+### Markdown links
 
 Examples of links:  
 [Link to home](../home_en.md)  
 [Link to about electrical power](../elpower_en.md)  
 [Link to tech](tech_en.md)  
-[Link to internal Bottom headline](#bottom-headline)  
-[Link to tech how to headline](tech_en#how-to-make-a-text-based-website-without-coding-html)  
-[Link to default blog](../blogs)  
-[Link to environment blog](../blogs/env)  
-[Link to energy blog](../blogs/energy). Test of failure, no English energy blog.  With Norwegian set as language: OK.  
-[Link to external chatgpt](https://openai.com/blog/chatgpt)
+[Link to energy view](../energy)  
+[Relative link to blog sideways](/blog/sideways)  
+[Absolute link blog web page sideways](https://techreier.com/blog/sideways)  
+[Link to external web page ChatGPT](https://openai.com/blog/chatgpt)  
 
-The code uses Flexmark to convert Markdown links to HTML links on the web page.
+The code uses the Markdown parser to convert Markdown links to HTML links on the web page.  
 This enables the link to work correctly in GitHub, Intellij and web page.
-It is possible to link to headlines with id's defined, as in HTML.
-Flexmark has to be configured to generate ids for headlines,
-and the Sanitizer must be configured not to remove them.
+My blog system can use all these link types, but the absolute URL is preferred.
+
+### Anchor links
+
+It is possible to link to headlines with id's defined, as in HTML.  
+[Link to internal Bottom headline](#bottom-headline)  INTERNAL ANCHOR NOT IMPLEMENTED  
+[Link to tech how to headline](tech_en#how-to-make-a-text-based-website-without-coding-html)      EXTERNAL ANCHOR NOT IMPLEMENTED  
+If you try this is will not work in my blog. It works in Intellij.
+I got this to work with Flexmark, it is possible with Commonmark, but not tested.
+My intent is to skip this because it is not much used,
+and it is not very useful either with blog pages usually been less than 3 pages.
+It is generally hard to implement because it can collide with internal id’s and need to be prefixed.
+The parser need to be configured to generate ids for headlines,
+and the Sanitizer must be configured not to remove them.  
+If the headline you link to is changed, it will not work either.
+This often introduces a lot of broken links in documentation systems. 
+
+
 The links to blog content stored in a database, only works on the produced web page.
 All link examples contain relative links, except the bottom link that is just a regular external link.
 
-Example of embedded table in markdown.
+Example of embedded table in Markdown.
 
 | City   |              No of citizens | County    | Comment                                |
 |--------|---------------------------:|-----------|----------------------------------------|
@@ -86,13 +92,13 @@ Example of embedded table in markdown.
 | Bergen |                      288133 | Vestland  | Second largest city                    | 
 | Moelv  |                        4459 | Innlandet | My home village, I love it and hate it |
 
-### Media files in markdown
+### Media files in Markdown
 
-Example of embedded image in markdown, stored in the Docker container.
+Example of embedded image in Markdown, stored in the Docker container.
 
 ![My mascot PerSeter](../../images/pas.jpg "Per Seter")
 
-Example of embedded images in markdown, stored on volume (bind mount) outside the Docker container
+Example of embedded images in Markdown, stored on volume (bind mount) outside the Docker container
 
 ![Cherries in my garden](cherries.jpg "Cherries in my garden")
 
