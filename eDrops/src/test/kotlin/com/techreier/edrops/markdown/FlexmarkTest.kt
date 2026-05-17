@@ -89,7 +89,7 @@ class MarkdownTest {
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
         val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
-        logger.debug("Html; \n{}", inlineHtml)
+        logger.debug("Html: \n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("""<a href="../elpower""")
         assertThat(inlineHtml.html).contains("""<a href="tech""")
         assertThat(inlineHtml.html).contains("""<a href="https://openai.com/blog/chatgpt""")
@@ -107,7 +107,7 @@ class MarkdownTest {
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
         val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
-        logger.debug("Html; \n{}", inlineHtml)
+        logger.debug("Html: \n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("""<td align="right">709037</td>""")
         assertThat(inlineHtml.html).contains("""<td align="right">4459</td>""")
         assertThat(inlineHtml.html).contains("""<td align="center">03</td>""")
@@ -127,7 +127,7 @@ class MarkdownTest {
 
         val doc = about[docIndex.index]
         val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
-        logger.debug("Html; \n${inlineHtml.html}")
+        logger.debug("Html: \n${inlineHtml.html}")
 
         assertThat(inlineHtml.html).contains("<code>")
         assertThat(inlineHtml.html).contains("</code>")
@@ -140,6 +140,16 @@ class MarkdownTest {
 
         assertEquals(EN, inlineHtml.langCode)
         assertFalse(inlineHtml.warning)
+    }
+
+    @Test
+    fun `markdown to one line code`() {
+        val html = markdown.toHtml(CODE_LINE)
+        logger.debug("Html: \n${html}")
+        assertThat(html).contains("<code>fun isPrime</code>")
+        assertThat(html).doesNotContain("<pre>")
+        assertThat(html).contains("This is a")
+        assertThat(html).contains("utility function inside a text line.")
     }
 
     @Test

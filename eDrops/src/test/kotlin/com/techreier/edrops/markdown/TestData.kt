@@ -27,3 +27,5 @@ Nivå tre for å sikre at dybden i nodetreet blir riktig formatert under parsing
 
 Til slutt kommer en helt vanlig, kort paragraf uten noe ekstra jåleri, akkurat som bestilt.
 """
+
+const val CODE_LINE = "This is a `fun isPrime` utility function inside a text line."

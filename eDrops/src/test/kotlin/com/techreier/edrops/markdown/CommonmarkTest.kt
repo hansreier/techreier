@@ -141,6 +141,16 @@ class CMarkdownTest {
         assertFalse(inlineHtml.warning)
     }
 
+    @Test
+    fun `markdown to one line code`() {
+        val html = markdown.toHtml(CODE_LINE)
+        logger.debug("Html: \n${html}")
+        assertThat(html).contains("<code>fun isPrime</code>")
+        assertThat(html).doesNotContain("<pre>")
+        assertThat(html).contains("This is a")
+        assertThat(html).contains("utility function inside a text line.")
+    }
+
 
     @Test
     fun `Ringsaker to html English - cannot find in English`() {

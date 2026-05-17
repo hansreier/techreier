@@ -47,10 +47,9 @@ to Markdown. To avoid security problems  a sanitizer is used to remove dangerous
 A problem with this is that it removes some useful HTML tags that can be included in the Markdown. 
 The Owasp sanitizer is configurable, so I have allowed some HTML tags
 and attributes that was denied in the default setup. 
-The right adjustment of numbers used in the table example below,
-is removed by the sanitizer, if I do not allow the <p> tag and align attribute when
-configuring the sanitizer.
-The title attribute of image is also removed, if I do not tell the sanitizer to keep it.
+The right adjustment of numbers used in the table example below, is removed by the sanitizer.
+The title attribute of image is also removed
+I have to whitelist some tags and attributes I need in the sanitizer.  
 
 ### Markdown links
 
