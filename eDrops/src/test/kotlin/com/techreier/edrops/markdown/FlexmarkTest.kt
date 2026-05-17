@@ -153,6 +153,15 @@ class MarkdownTest {
     }
 
     @Test
+    fun `markdown to horizontal rule`() {
+        val html = markdown.toHtml(HORIZONTAL_RULE)
+        logger.debug("Html: \n{}", html)
+        assertThat(html).contains("<hr") // Overlever sanitizeren
+        assertThat(html).contains("First paragraph of text.")
+        assertThat(html).contains("Second paragraph after the line.")
+    }
+
+    @Test
     fun `Ringsaker to html English - cannot find in English`() {
         val docIndex = getDocIndex(views, NB, EN, "ringsaker")
         assertThat(docIndex.index).isGreaterThan(-1)

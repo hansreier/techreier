@@ -29,3 +29,11 @@ Til slutt kommer en helt vanlig, kort paragraf uten noe ekstra jåleri, akkurat 
 """
 
 const val CODE_LINE = "This is a `fun isPrime` utility function inside a text line."
+
+const val HORIZONTAL_RULE = """
+First paragraph of text. 
+
+---
+
+Second paragraph after the line.
+"""

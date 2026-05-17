@@ -63,4 +63,11 @@ class CompareTest {
         assertEquals(htmlF, htmlC)
     }
 
+    @Test
+    fun `markdown to horizontal rule`() {
+        val htmlF = markdownF.toHtml(HORIZONTAL_RULE)
+        val htmlC = markdownF.toHtml(HORIZONTAL_RULE)
+        assertEquals(htmlF, htmlC)
+    }
+
 }
