@@ -21,6 +21,10 @@ import com.vladsch.flexmark.util.sequence.BasedSequence
 // Flexmark
 class MarkdownF : MarkdownBase(), IMarkdown {
 
+    init {
+        logger.info("Markdown engine Flexmark startet, sanitizer: ${SANITIZER}")
+    }
+
     var visitor: NodeVisitor = NodeVisitor(
         VisitHandler(Link::class.java) { link: Link -> visitLink(link) },
         VisitHandler(Image::class.java) { image: Image -> visitImage(image) }
@@ -63,7 +67,7 @@ class MarkdownF : MarkdownBase(), IMarkdown {
     // Flexmark implementation of commonmark standardwith Github flovour
     // https://github.com/vsch/flexmark-java/issues/92
     override fun toHtml(markdown: String): String {
-        logger.info("Flexmark markdown to html, sanitizer: ${SANITIZER}")
+        logger.debug("Flexmark markdown to html, sanitizer: ${SANITIZER}")
         val options = MutableDataSet()
         options.setFrom(ParserEmulationProfile.GITHUB_DOC)
             .set(

@@ -16,9 +16,13 @@ import org.commonmark.renderer.html.HtmlRenderer
 //CommonMark
 class MarkdownC: MarkdownBase(), IMarkdown {
 
+    init {
+        logger.info("Markdown engine Commonmark startet, sanitizer: ${SANITIZER}")
+    }
+
     // Commonmark implementation
     override fun toHtml(markdown: String): String {
-        logger.info("Commonmark markdown to html, sanitizer: ${SANITIZER}")
+        logger.debug("Commonmark markdown to html, sanitizer: ${SANITIZER}")
         val exts: List<Extension> = listOf(
             TablesExtension.create(),
             AutolinkExtension.create(),
