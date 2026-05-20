@@ -37,3 +37,6 @@ First paragraph of text.
 
 Second paragraph after the line.
 """
+
+val markdownC = MarkdownC()
+val markdownF = MarkdownF()

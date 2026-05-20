@@ -15,11 +15,9 @@ import org.junit.jupiter.api.Test
 
 class CMarkdownTest {
 
-    private val  markdown = MarkdownC()
-
     @Test
     fun `from headings to html`() {
-        val html = markdown.toHtml(HEADINGS)
+        val html = markdownC.toHtml(HEADINGS)
         assertThat(html).doesNotContain("id=")
         assertThat(html)
             .contains("<h1>Testoppsett for Bloggsystem</h1>")
@@ -32,14 +30,14 @@ class CMarkdownTest {
 
     @Test
     fun `from secure markdown to html`() {
-        val html = markdown.toHtml(SECURE)
+        val html = markdownC.toHtml(SECURE)
         logger.info("\n$html")
         assertThat(html).contains("<p>Secure</p>", "<h2>")
     }
 
     @Test
     fun `from unsecure markdown to html`() {
-        val html = markdown.toHtml(UNSECURE)
+        val html = markdownC.toHtml(UNSECURE)
         logger.info("\n$html")
         assertThat(html).doesNotContain("<script>")
         assertThat(html).contains("<p>Unsecure</p>", "<h2>")
@@ -50,7 +48,7 @@ class CMarkdownTest {
         val docIndex = getDocIndex(about, NB, NB, "reier")
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
-        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
+        val inlineHtml = markdownC.toHtml(doc, ABOUT_DIR)
         logger.debug("Html: \n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("Reier")
         assertEquals(NB, inlineHtml.langCode)
@@ -62,7 +60,7 @@ class CMarkdownTest {
         val docIndex = getDocIndex(about, EN, EN, "reier")
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
-        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
+        val inlineHtml = markdownC.toHtml(doc, ABOUT_DIR)
         logger.debug("html:\n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("Reier")
         assertEquals(EN, inlineHtml.langCode)
@@ -74,7 +72,7 @@ class CMarkdownTest {
         val docIndex = getDocIndex(about, NB, NB, "tech")
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
-        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
+        val inlineHtml = markdownC.toHtml(doc, ABOUT_DIR)
         logger.debug("Html: \n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("Technological")
         assertEquals(EN, inlineHtml.langCode)
@@ -86,7 +84,7 @@ class CMarkdownTest {
         val docIndex = getDocIndex(about, EN, EN, "markdown")
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
-        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
+        val inlineHtml = markdownC.toHtml(doc, ABOUT_DIR)
         logger.info("Html; \n$inlineHtml")
         assertThat(inlineHtml.html).contains("""<a href="../elpower""")
         assertThat(inlineHtml.html).contains("""<a href="tech""")
@@ -104,7 +102,7 @@ class CMarkdownTest {
         val docIndex = getDocIndex(about, EN, EN, "markdown")
         assertThat(docIndex.index).isGreaterThan(-1)
         val doc = about[docIndex.index]
-        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
+        val inlineHtml = markdownC.toHtml(doc, ABOUT_DIR)
         logger.info("Html; \n$inlineHtml")
         assertThat(inlineHtml.html).contains("""<td align="right">709037</td>""")
         assertThat(inlineHtml.html).contains("""<td align="right">4459</td>""")
@@ -125,7 +123,7 @@ class CMarkdownTest {
         assertThat(docIndex.index).isGreaterThan(-1)
 
         val doc = about[docIndex.index]
-        val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
+        val inlineHtml = markdownC.toHtml(doc, ABOUT_DIR)
         logger.info("Html; \n${inlineHtml.html}")
 
         assertThat(inlineHtml.html).contains("<code>")
@@ -143,7 +141,7 @@ class CMarkdownTest {
 
     @Test
     fun `markdown to one line code`() {
-        val html = markdown.toHtml(CODE_LINE)
+        val html = markdownC.toHtml(CODE_LINE)
         logger.debug("Html: \n${html}")
         assertThat(html).contains("<code>fun isPrime</code>")
         assertThat(html).doesNotContain("<pre>")
@@ -153,7 +151,7 @@ class CMarkdownTest {
 
     @Test
     fun `markdown to horizontal rule`() {
-        val html = markdown.toHtml(HORIZONTAL_RULE)
+        val html = markdownC.toHtml(HORIZONTAL_RULE)
         logger.debug("Html: \n{}", html)
         assertThat(html).contains("<hr") // Overlever sanitizeren
         assertThat(html).contains("First paragraph of text.")
@@ -166,7 +164,7 @@ class CMarkdownTest {
         assertThat(docIndex.index).isGreaterThan(-1)
         assertTrue(docIndex.error)
         val doc = views[docIndex.index]
-        val inlineHtml = markdown.toHtml(doc, HOME_DIR)
+        val inlineHtml = markdownC.toHtml(doc, HOME_DIR)
         logger.debug("Html: \n{}", inlineHtml)
         assertThat(inlineHtml.html).contains("Ringsaker")
         assertEquals(NB, inlineHtml.langCode)

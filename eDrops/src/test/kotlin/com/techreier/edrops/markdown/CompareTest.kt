@@ -12,9 +12,6 @@ import org.junit.jupiter.api.Test
 
 class CompareTest {
 
-    val markdownC = MarkdownC()
-    val markdownF = MarkdownF()
-
     @Test
     fun `from headings to html`() {
         val htmlF = markdownF.toHtml(HEADINGS)
