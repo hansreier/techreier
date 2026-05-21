@@ -44,7 +44,7 @@ class BlogTextTest : TestBase() {
         val blogTexts = blogTextRepo.findAll()
         assertThat(blogTexts).isNotNull
         assertThat(blogTexts.size).isEqualTo(1)
-        assertThat(blogTexts[0]?.text).isEqualTo(BLOGTEXT_2)
+        assertThat(blogTexts[0].text).isEqualTo(BLOGTEXT_2)
         blogTextRepo.delete(blogTexts[0])
         assertThat(blogTextRepo.count()).isEqualTo(0)
     }

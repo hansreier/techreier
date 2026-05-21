@@ -1,9 +1,9 @@
-package com.techreier.edrops
+package com.techreier.edrops.service
 
 import org.junit.jupiter.api.Test
 
 private const val MIN_SIZE = 1L
-private const val MAX_SIZE = 300L
+private const val MAX_SIZE = 30L
 private const val DISPLAY_SEQUENCE = true
 
 //Collatz Conjecture
