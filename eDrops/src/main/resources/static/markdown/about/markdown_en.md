@@ -126,6 +126,10 @@ fun isPrime(number: Int): Boolean {
     return true
 }
 ```
+Single quote block:  
+
+`This is a single line code block with a very long text to check if it breaks.`
+
 The page ends, and the answer is 42.
 
 
