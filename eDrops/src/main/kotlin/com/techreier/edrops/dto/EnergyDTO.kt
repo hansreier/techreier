@@ -11,9 +11,9 @@ fun MutableList<EnergyValues>.toDTOs(m: MessageSource): List<EnergyDTO> =
     this.map { energyValues ->
         EnergyDTO(
             energyValues.source.name(m),
-            energyValues.orig.fixed(),
+            energyValues.orig.fixed(1),
             energyValues.source.energyUnit,
-            energyValues.twh.fixed(),
+            energyValues.twh.fixed(1),
             energyValues.tj.fixed(1)
         )
     }
