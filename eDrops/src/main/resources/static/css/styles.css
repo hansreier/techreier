@@ -201,6 +201,15 @@ th, td {
     background-color: #f5f5f5;
 }
 
+#energyTable th:nth-child(2),
+#energyTable td:nth-child(2) {
+    width: 28%;
+}
+
+#energyTable th:not(:nth-child(2)),
+#energyTable td:not(:nth-child(2)) {
+    width: 24%;
+}
 #energyInput button,
 #energiInput input {
     display: inline-block;
