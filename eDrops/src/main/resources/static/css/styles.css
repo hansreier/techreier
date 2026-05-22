@@ -175,11 +175,10 @@ textarea[readonly] {
 }
 
 table {
-	display: block;
+	display: table;
 	width: 100%;
 	max-width: 100%;
-	overflow-x: auto;
-	table-layout: auto;
+	table-layout: fixed;
 	border-collapse: collapse;
 	margin-bottom: 1rem;
 }
@@ -189,58 +188,17 @@ th {
 }
 
 th, td {
-	width: auto;
-	padding: 4px 2px;
+	padding: 4px 6px;
 	border: 1px solid black;
-	overflow: hidden;
-	word-wrap: break-word;
-	word-break: break-word;
-	text-overflow:clip;
+    overflow-wrap: anywhere;
 }
 
-#error-table th, td {
-	width: auto;
-	min-width: 7rem;
-	padding: 4px 2px;
-	border: 1px solid black;
-	overflow: hidden;
-	word-wrap: break-word;
-	word-break: break-word;
-	text-overflow:clip;
-}
-
-/* Space above the table */
 #fractionTable {
-	margin-top: 20px;
-	width: 100%;
-	border-collapse: collapse; /* avoids double borders */
-	border: 1px solid black; /* solid outer border */
+    margin-top: 20px;
 }
 
-/* Table headers */
-#fractionTable thead th {
-	font-weight: normal;
-	background-color: #f5f5f5;
-	padding: 8px;
-	text-align: left;
-	border-bottom: 1px solid black; /* lighter inner border */
-}
-
-/* Table body */
-#fractionTable tbody td {
-	padding: 8px;
-	border-bottom: 1px solid #ccc; /* lighter inner border */
-}
-
-/* Last row - remove bottom border to avoid double with outer border */
-#fractionTable tbody tr:last-child td {
-	border-bottom: none;
-}
-
-/* Column widths */
-#fractionTable thead th:first-child,
-#fractionTable tbody td:first-child {
-	width: 66.66%;
+#fractionTable th {
+    background-color: #f5f5f5;
 }
 
 #energyInput button,
@@ -266,23 +224,6 @@ th, td {
 #energyPJ {
     text-align: right
 }
-
-#energyTable {
-    width: 100%;
-    table-layout: fixed;
-}
-
-#energyTable th:nth-child(1),
-#energyTable td:nth-child(1) { width: 24%; }
-
-#energyTable th:nth-child(2),
-#energyTable td:nth-child(2) { width: 32%; }
-
-#energyTable th:nth-child(3),
-#energyTable td:nth-child(3) { width: 22%; }
-
-#energyTable th:nth-child(4),
-#energyTable td:nth-child(4) { width: 22%; }
 
 header {
 	padding-top:0.4rem;
