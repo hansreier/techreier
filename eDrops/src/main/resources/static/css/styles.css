@@ -380,6 +380,11 @@ img:hover::after {
     overflow-wrap: anywhere
 }
 
+#blogposts td:first-child, #blogposts th:first-child {
+    white-space: nowrap;
+    overflow-wrap: normal;
+}
+
 #blogposts tr:nth-child(even){background-color: #f2f2f2;}
 #blogposts tr:nth-child(odd){background-color: yellow;}
 

@@ -28,7 +28,6 @@ fun IBlogPost.toDTO(
     val state = PostState.find(this.state, true)
     return BlogPostDTO(
         id = this.id,
-        idStateString = "${this.id.toString()} - $state" ,
         changed = changed,
         changedString = changed.text(datePattern),
         created = created,

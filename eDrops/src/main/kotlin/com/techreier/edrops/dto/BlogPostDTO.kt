@@ -6,7 +6,6 @@ import java.time.ZonedDateTime
 
 data class BlogPostDTO(
     val id: Long?,
-    val idStateString: String,
     val changed: ZonedDateTime?,
     val changedString: String,
     val created: ZonedDateTime?,

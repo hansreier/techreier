@@ -3,7 +3,7 @@
         <table id="blogposts">
             <thead>
             <tr>
-                <th th:text="#{postIdState}"></th>
+                <th th:text="#{postState}"></th>
                 <th th:text="#{segment}"></th>
                 <th th:text="#{title}"></th>
                 <th class="blogposts-time" th:text="#{changed}"></th>
@@ -12,7 +12,7 @@
             <tbody>
             <tr th:each="blogPost : ${blog.blogPosts}">
                 <td><a th:href="@{${blogPath + blogPost.segment + '/' + blogPost.state.lower}(lang=${blog.langCodeFound})}"
-                       th:text="${blogPost.idStateString}"></a>
+                       th:text="${blogPost.state}"></a>
                 </td>
                 <td>
                     <a th:href="@{${blogPath + blogPost.segment + '/' + blogPost.state.lower}(lang=${blog.langCodeFound})}"
