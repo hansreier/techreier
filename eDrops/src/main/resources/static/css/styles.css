@@ -258,15 +258,27 @@ header {
 }
 
 code {
-	display: block;
-	background-color: #f4f4f4;
-	color: #333;
-	padding: 0.3rem;
-	border-radius: 5px;
-	font-size: 0.9rem;
-	white-space: pre;
-	overflow-x: auto;
-	line-height: 1.2rem;
+    display: inline;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 0.3rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    white-space: pre;
+    overflow-x: auto;
+    line-height: 1.2rem;
+}
+
+pre code {
+    display: block;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 0.3rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    white-space: pre;
+    overflow-x: auto;
+    line-height: 1.2rem;
 }
 
 blockquote {
@@ -866,6 +878,21 @@ a.dropdown-item:hover {
         border: none !important;
         background: none !important;
         box-shadow: none !important;
+    }
+
+    code {
+        display: inline !important;
+        background: #f0f0f0 !important;
+        color: #000000 !important;
+        white-space: pre-wrap !important;
+        padding: 2px 4px !important;
+        border: 1px solid #ccc !important;
+    }
+
+    pre code {
+        display: block !important;
+        white-space: pre-wrap !important;
+        padding: 0.5rem !important;
     }
 }
 

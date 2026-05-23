@@ -13,6 +13,7 @@ abstract class MarkdownBase : IMarkdown {
     fun sanitize(html: String): String {
         val policyTags = HtmlPolicyBuilder()
             .allowElements("p")
+            .allowElements("pre")
             .allowAttributes("align").onElements("p")
             .allowElements("img")
             .allowAttributes("title").onElements("img")
