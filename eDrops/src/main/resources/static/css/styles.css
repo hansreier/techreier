@@ -856,6 +856,7 @@ a.dropdown-item:hover {
 }
 
 /* Styring av utskrift */
+/* Styring av utskrift */
 @media print {
     @page {
         margin: 15mm;
@@ -880,19 +881,36 @@ a.dropdown-item:hover {
         box-shadow: none !important;
     }
 
-    code {
-        display: inline !important;
-        background: #f0f0f0 !important;
-        color: #000000 !important;
-        white-space: pre-wrap !important;
-        padding: 2px 4px !important;
-        border: 1px solid #ccc !important;
+    /* Unngå at overskrifter blir stående helt alene i bunnen av et ark */
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
     }
 
+    /* En-fnutts inline-kode: Ingen bakgrunnsfarge, mørkegrå ramme, hold ordet samlet */
+    code {
+        display: inline !important;
+        background: none !important;
+        color: #000000 !important;
+        white-space: nowrap !important;
+        padding: 1px 3px !important;
+        border: 1px solid #777777 !important;
+    }
+
+    /* Tre-fnutts kodeblokker: Ingen bakgrunnsfarge, tydelig ramme, bevar linjeskift */
     pre code {
         display: block !important;
+        background: none !important;
         white-space: pre-wrap !important;
         padding: 0.5rem !important;
+        border: 1px solid #555555 !important;
+    }
+
+    /* Lenker: Mørkeblå tekst med understreking sikrer kontrast på absolutt alle printere */
+    a, a:link, a:visited, a:hover, a:active {
+        color: #0033aa !important;
+        text-decoration: underline !important;
+        background: none !important;
     }
 }
 
