@@ -203,7 +203,7 @@ th, td {
 
 #energyTable th:nth-child(1),
 #energyTable td:nth-child(1) {
-    width: 26%;
+    width: 28%;
 }
 
 #energyTable th:nth-child(2),
@@ -215,11 +215,11 @@ th, td {
 #energyTable td:nth-child(3),
 #energyTable th:nth-child(4),
 #energyTable td:nth-child(4) {
-    width: 22%;
+    width: 21%;
 }
 
 #energyInput button,
-#energiInput input {
+#energyInput input {
     display: inline-block;
     vertical-align: middle;
     margin-top: 0;
@@ -359,9 +359,11 @@ img:hover::after {
 }
 
 #blogposts {
+    table-layout: auto;
+    width: 100%;
+    word-break: break-word;
 	border-collapse: collapse;
 	cursor: pointer;
-	width: 100%;
 }
 
 #blogposts th {
@@ -375,6 +377,7 @@ img:hover::after {
 	border: 2px solid #ddd;
 	padding: 8px 4px;
 	margin: 0;
+    overflow-wrap: anywhere
 }
 
 #blogposts tr:nth-child(even){background-color: #f2f2f2;}
@@ -391,23 +394,11 @@ img:hover::after {
 	width: 100%;
 }
 
-/* No text wrapping for blogposts table */
-#blogposts {
-	white-space: nowrap;
-}
-
 /* Remove timestamp row in blogposts table for space on mobile phones */
 @media (max-width: 768px) {
 	.blogposts-time {
 		display: none;
 	}
-	#blogposts {
-		white-space: normal;
-	}
-}
-
-/* still wrap if mobile phone / small size */
-@media (max-width: 768px) {
 	#blogposts {
 		white-space: normal;
 	}
