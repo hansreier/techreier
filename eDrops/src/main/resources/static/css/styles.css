@@ -856,7 +856,6 @@ a.dropdown-item:hover {
 }
 
 /* Styring av utskrift */
-/* Styring av utskrift */
 @media print {
     @page {
         margin: 15mm;
@@ -881,34 +880,36 @@ a.dropdown-item:hover {
         box-shadow: none !important;
     }
 
-    /* Unngå at overskrifter blir stående helt alene i bunnen av et ark */
+    /* Unngå delte overskrifter, og tving alle til ren sort for perfekt kontrast på papir */
     h1, h2, h3, h4, h5, h6 {
         page-break-after: avoid !important;
         break-after: avoid !important;
+        color: #000000 !important;
     }
 
-    /* En-fnutts inline-kode: Ingen bakgrunnsfarge, mørkegrå ramme, hold ordet samlet */
+    /* En-fnutts inline-kode: Ingen bakgrunnsfarge, ren sort tekst og ramme, hold ordet samlet */
     code {
         display: inline !important;
         background: none !important;
         color: #000000 !important;
         white-space: nowrap !important;
         padding: 1px 3px !important;
-        border: 1px solid #777777 !important;
+        border: 1px solid #000000 !important;
     }
 
-    /* Tre-fnutts kodeblokker: Ingen bakgrunnsfarge, tydelig ramme, bevar linjeskift */
+    /* Tre-fnutts kodeblokker: Ingen bakgrunnsfarge, ren sort tekst og ramme, bevar linjeskift */
     pre code {
         display: block !important;
         background: none !important;
+        color: #000000 !important;
         white-space: pre-wrap !important;
         padding: 0.5rem !important;
-        border: 1px solid #555555 !important;
+        border: 1px solid #000000 !important;
     }
 
-    /* Lenker: Mørkeblå tekst med understreking sikrer kontrast på absolutt alle printere */
+    /* Lenker: Ren sort tekst med understreking fungerer pikselsperfekt på absolutt alle printere */
     a, a:link, a:visited, a:hover, a:active {
-        color: #0033aa !important;
+        color: #000000 !important;
         text-decoration: underline !important;
         background: none !important;
     }
