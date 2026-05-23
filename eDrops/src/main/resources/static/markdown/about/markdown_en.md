@@ -31,6 +31,7 @@ The Markdown content is selected from a menu:
 
 ### Alternatives to Markdown
 
+- AsciiDoc (Extended markdown for better layout, e.g. for tables)
 - Plain HTML (too much work and includes coding).
 - language resource file text (tried that, not ideal).
 - To use RTF.
@@ -129,6 +130,15 @@ fun isPrime(number: Int): Boolean {
 Single quote block:  
 
 `This is a single line code block with a very long text to check if it breaks.`
+
+### Printing
+
+Some additional css are added, to exclude top and bottom line and more,
+with the `@media print` tag. For most of my web pages, this is enough
+to enjoy beautiful web page printing. For even better result, 
+print the blog post as PDF, download and enjoy.  
+
+### The end
 
 The page ends, and the answer is 42.
 

@@ -361,29 +361,33 @@ img:hover::after {
 #blogposts {
     table-layout: auto;
     width: 100%;
-    word-break: break-word;
-	border-collapse: collapse;
-	cursor: pointer;
+    border-collapse: collapse;
+    cursor: pointer;
 }
 
 #blogposts th {
-	padding: 4px 0;
-	text-align: left;
-	background-color: #04AA6D;
-	color: white;
+    padding: 4px 0;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
     white-space: nowrap;
 }
 
 #blogposts td, #blogposts th {
-	border: 2px solid #ddd;
-	padding: 8px 4px;
-	margin: 0;
-    overflow-wrap: anywhere
+    border: 2px solid #ddd;
+    padding: 8px 4px;
+    margin: 0;
+    overflow-wrap: anywhere;
 }
 
 #blogposts td:first-child, #blogposts th:first-child {
     white-space: nowrap;
     overflow-wrap: normal;
+}
+
+#blogposts td:nth-child(2), #blogposts th:nth-child(2) {
+    width: 11ch;
+    min-width: 11ch;
 }
 
 #blogposts tr:nth-child(even){background-color: #f2f2f2;}
@@ -392,8 +396,8 @@ img:hover::after {
 #blogposts tr:hover {background-color: #ddd;}
 
 #blogposts a {
-	text-decoration: none;
-	color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 #blogpostform {
@@ -837,6 +841,32 @@ a.dropdown-item:hover {
 
 #blogPost {
     height: 25vh;
+}
+
+/* Styring av utskrift */
+@media print {
+    @page {
+        margin: 15mm;
+    }
+
+    html, body {
+        background: white !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    header,
+    #language,
+    #login-status,
+    .navbar,
+    footer,
+    #work::before,
+    #work::after {
+        display: none !important;
+        border: none !important;
+        background: none !important;
+        box-shadow: none !important;
+    }
 }
 
 
