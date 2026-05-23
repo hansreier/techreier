@@ -855,7 +855,6 @@ a.dropdown-item:hover {
     height: 25vh;
 }
 
-/* Styring av utskrift */
 @media print {
     @page {
         margin: 15mm;
@@ -880,14 +879,12 @@ a.dropdown-item:hover {
         box-shadow: none !important;
     }
 
-    /* Unngå delte overskrifter, og tving alle til ren sort for perfekt kontrast på papir */
     h1, h2, h3, h4, h5, h6 {
         page-break-after: avoid !important;
         break-after: avoid !important;
         color: #000000 !important;
     }
 
-    /* En-fnutts inline-kode: Ingen bakgrunnsfarge, ren sort tekst og ramme, hold ordet samlet */
     code {
         display: inline !important;
         background: none !important;
@@ -897,7 +894,6 @@ a.dropdown-item:hover {
         border: 1px solid #000000 !important;
     }
 
-    /* Tre-fnutts kodeblokker: Ingen bakgrunnsfarge, ren sort tekst og ramme, bevar linjeskift */
     pre code {
         display: block !important;
         background: none !important;
@@ -907,7 +903,6 @@ a.dropdown-item:hover {
         border: 1px solid #000000 !important;
     }
 
-    /* Lenker: Ren sort tekst med understreking fungerer pikselsperfekt på absolutt alle printere */
     a, a:link, a:visited, a:hover, a:active {
         color: #000000 !important;
         text-decoration: underline !important;
