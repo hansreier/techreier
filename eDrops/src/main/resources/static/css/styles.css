@@ -33,7 +33,7 @@ body {
 		background: white;
 	}
 	html {
-		font-size: 0.92rem;
+		font-size: 0.95rem;
 	}
 }
 
@@ -42,7 +42,7 @@ body {
 		background: lightgrey;
 	}
 	html {
-		font-size: 0.96rem;
+		font-size: 0.98rem;
 	}
 }
 
@@ -175,6 +175,7 @@ textarea[readonly] {
 }
 
 table {
+    font-size: 0.92rem;
 	display: table;
 	width: 100%;
 	max-width: 100%;
@@ -263,7 +264,7 @@ code {
     color: #333;
     padding: 0.3rem;
     border-radius: 5px;
-    font-size: 0.9rem;
+    font-size: 0.87rem;
     white-space: pre;
     overflow-x: auto;
     line-height: 1.2rem;
@@ -275,7 +276,7 @@ pre code {
     color: #333;
     padding: 0.3rem;
     border-radius: 5px;
-    font-size: 0.9rem;
+    font-size: 0.87rem;
     white-space: pre;
     overflow-x: auto;
     line-height: 1.2rem;
@@ -847,7 +848,7 @@ a.dropdown-item:hover {
     margin: 0;
     padding: 2px 0;
     line-height: 1.2;
-    font-size: 14px;
+    font-size: 0.9rem;
     font-family: monospace;
 }
 
