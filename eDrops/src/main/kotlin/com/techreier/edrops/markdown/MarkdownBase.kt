@@ -18,6 +18,7 @@ abstract class MarkdownBase : IMarkdown {
             .allowElements("img")
             .allowAttributes("title").onElements("img")
             .allowElements("hr")
+            .allowElements("sup", "sub")
             .toFactory()
         val policy =
             Sanitizers.BLOCKS

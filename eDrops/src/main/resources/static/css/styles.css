@@ -33,7 +33,7 @@ body {
 		background: white;
 	}
 	html {
-		font-size: 0.95rem;
+		font-size: 1rem;
 	}
 }
 
@@ -42,7 +42,7 @@ body {
 		background: lightgrey;
 	}
 	html {
-		font-size: 0.98rem;
+		font-size: 1rem;
 	}
 }
 
@@ -262,12 +262,12 @@ code {
     display: inline;
     background-color: #f4f4f4;
     color: #333;
-    padding: 0.3rem;
+    padding: 0.15rem 0.3rem;
     border-radius: 5px;
     font-size: 0.87rem;
-    white-space: pre;
-    overflow-x: auto;
-    line-height: 1.2rem;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 pre code {

@@ -8,6 +8,10 @@ import org.commonmark.ext.autolink.AutolinkExtension
 import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.ext.image.attributes.ImageAttributesExtension
 import org.commonmark.node.AbstractVisitor
+import org.commonmark.node.Code
+import org.commonmark.node.FencedCodeBlock
+import org.commonmark.node.HtmlBlock
+import org.commonmark.node.HtmlInline
 import org.commonmark.node.Image
 import org.commonmark.node.Link
 import org.commonmark.parser.Parser
@@ -50,6 +54,53 @@ class MarkdownC: MarkdownBase(), IMarkdown {
                             val newPath = if (segment.isEmpty()) path else "$path#$segment"
                             logger.debug("Visitor - Link path replaced: $origPath to: $newPath")
                             link.destination = newPath
+                        }
+                    }
+
+                    // Dedicated math formulas in a , code with _ need to be escaped
+                    override fun visit(fencedCodeBlock: FencedCodeBlock) {
+                        if (fencedCodeBlock.info == "math" || fencedCodeBlock.info == "formula") {
+                            val mathRegex = Regex("""(?<!\\)([_^])([a-zA-Z0-9]+)""")
+
+                            val formattedHtml = fencedCodeBlock.literal
+                                .replace(mathRegex) { match ->
+                                    val type = match.groupValues[1]
+                                    val value = match.groupValues[2]
+                                    if (type == "_") "<sub>$value</sub>" else "<sup>$value</sup>"
+                                }
+                                .replace("\\_", "_")
+                                .replace("\\^", "^")
+                                .replace("\n", "<br>\n")
+
+                            val htmlBlock = HtmlBlock()
+                            htmlBlock.literal = "<div class=\"math-display\">$formattedHtml</div>"
+
+                            fencedCodeBlock.insertAfter(htmlBlock)
+                            fencedCodeBlock.unlink()
+                        }
+                    }
+
+                    // Inline math formulas, code with _ need to be escaped
+                    override fun visit(code: Code) {
+                        val literal = code.literal
+                        if (literal.startsWith("math:")) {
+                            val formula = literal.substringAfter("math:")
+                            val mathRegex = Regex("""(?<!\\)([_^])([a-zA-Z0-9]+)""")
+
+                            val formattedHtml = formula
+                                .replace(mathRegex) { match ->
+                                    val type = match.groupValues[1]
+                                    val value = match.groupValues[2]
+                                    if (type == "_") "<sub>$value</sub>" else "<sup>$value</sup>"
+                                }
+                                .replace("\\_", "_")
+                                .replace("\\^", "^")
+
+                            val htmlInline = HtmlInline()
+                            htmlInline.literal = "<span class=\"math-inline\">$formattedHtml</span>"
+
+                            code.insertAfter(htmlInline)
+                            code.unlink()
                         }
                     }
                 })
