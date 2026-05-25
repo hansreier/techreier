@@ -282,6 +282,14 @@ pre code {
     line-height: 1.2rem;
 }
 
+.math-display {
+    display: block;
+    margin-left: 0.8rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
 blockquote {
 	border-left: 4px solid #777;
 	margin: 0 0;

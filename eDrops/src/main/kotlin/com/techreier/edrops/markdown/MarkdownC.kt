@@ -59,8 +59,8 @@ class MarkdownC: MarkdownBase(), IMarkdown {
 
                     // Dedicated math formulas in a , code with _ need to be escaped
                     override fun visit(fencedCodeBlock: FencedCodeBlock) {
-                        if (fencedCodeBlock.info == "math" || fencedCodeBlock.info == "formula") {
-                            val mathRegex = Regex("""(?<!\\)([_^])([a-zA-Z0-9]+)""")
+                        if (fencedCodeBlock.info == "math:")  {
+                            val mathRegex = Regex("""([_^])([a-zA-Z0-9]+)""")
 
                             val formattedHtml = fencedCodeBlock.literal
                                 .replace(mathRegex) { match ->
@@ -84,8 +84,8 @@ class MarkdownC: MarkdownBase(), IMarkdown {
                     override fun visit(code: Code) {
                         val literal = code.literal
                         if (literal.startsWith("math:")) {
-                            val formula = literal.substringAfter("math:")
-                            val mathRegex = Regex("""(?<!\\)([_^])([a-zA-Z0-9]+)""")
+                            val formula = literal.removePrefix("math:")
+                            val mathRegex = Regex("""([_^])([a-zA-Z0-9]+)""")
 
                             val formattedHtml = formula
                                 .replace(mathRegex) { match ->

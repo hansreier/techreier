@@ -131,6 +131,20 @@ Single quote block:
 
 `This is a single line code block with a very long text to check if it breaks.`
 
+### Math
+
+Example of a formula in a math block and a simpler inlined math expression.  
+
+```math:
+x_1 = (-b + sqrt(b^2 - 4*a*c)) / (2*a)
+x_2 = (-b - sqrt(b^2 - 4*a*c)) / (2*a)
+```
+
+The total energy increases quadratically, as shown in the formula `math:E_total = gamma * N_inn^2`.
+
+Note:  Intellij uses more advanced Latex parsing, not included in my simple Commonmark configuration.
+GitHub uses a different syntax for inline math expressions. I have used what is simple to implement with Commonmark.  
+
 ### Printing
 
 Some additional css are added, to exclude top and bottom line and more,

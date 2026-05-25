@@ -12,6 +12,8 @@ abstract class MarkdownBase : IMarkdown {
     // https://owasp.org/www-project-java-html-sanitizer/
     fun sanitize(html: String): String {
         val policyTags = HtmlPolicyBuilder()
+            .allowElements("div", "span")
+            .allowAttributes("class").onElements("div", "span")
             .allowElements("p")
             .allowElements("pre")
             .allowAttributes("align").onElements("p")
