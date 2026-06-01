@@ -60,7 +60,7 @@ class EnergyController(private val ctx: Context, private val energyService: Ener
     ): String {
         logger.info("fetch energy data")
 
-        checkInt(energyForm.year, "year", bindingResult, 2008, 2024)
+        checkInt(energyForm.year, "year", bindingResult, 2008, 2025)
 
         if (bindingResult.hasErrors()) {
             logger.info("warn energy production input error: $energyForm")

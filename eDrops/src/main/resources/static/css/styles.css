@@ -224,7 +224,7 @@ th, td {
     display: inline-block;
     vertical-align: middle;
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 1rem;
 }
 
 #energyInput input {
