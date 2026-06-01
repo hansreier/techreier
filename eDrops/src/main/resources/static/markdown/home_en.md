@@ -61,4 +61,6 @@ you can visit other parts of this website about tech and why we use it.
 
 [About me](about/reier_en.md)
 
+Email me at: reier.sigmond@gmail.com
+
 **Run with Docker, Kotlin og Spring Boot on Reier's Virtual private server.**

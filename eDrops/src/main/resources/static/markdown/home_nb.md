@@ -61,4 +61,6 @@ kan du jo besøke andre deler av nettstedet om teknologi og hvorfor vi bruker de
 
 [Om meg](about/reier_nb.md)
 
+Min epost: reier.sigmond@gmail.com
+
 **Kjørt med Docker, Kotlin og Spring Boot av Reier's virtuelle private tjener.**
