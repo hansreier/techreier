@@ -52,9 +52,9 @@ energi samtidig i hele område, som gjør at prisene faller til for lave nivåer
 
 ### Konklusjon
 
-Norge leverer 30% av Norges gassforbruk, Tilsvarende tall for el er 0.76% (Netto).  
+Norge leverer 30% av EU's gassforbruk, Tilsvarende tall for el er 0.76% (Netto).  
 
-**Norge har rett til å bremse eksport når vannmagasiene når under et
+**Norge har rett til å bremse eksport når vannmagasinene når under et
 visst nivå, som er langt over det som regnes som kritisk nivå i dag i henhold til EØS / Acer.**  
 
 Vår vannkraft er ikke billig lenger for at vi skal integreres i EUs strømmarked.
