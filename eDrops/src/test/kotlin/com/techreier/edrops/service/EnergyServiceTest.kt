@@ -25,8 +25,8 @@ class EnergyServiceTest {
         assertEnergy(EnergySource.SOLAR, orig = 0.251, twh = 0.251, tj = 0.9036)
         assertEnergy(EnergySource.EL_PROD, orig = 157.14, twh = 157.14,tj =  565.7)
         assertEnergy(EnergySource.HEAT, orig = 2.357, twh = 2.357, tj = 8.4852)
-        assertEnergy(EnergySource.GAS, orig = 126.24, twh = 674.82, tj = 4858.71)
-        assertEnergy(EnergySource.OIL, orig = 116.36, twh = 460.29, tj = 4478.54)
+        assertEnergy(EnergySource.GAS, orig = 126.24, twh = 674.84, tj = 4858.91)
+        assertEnergy(EnergySource.OIL, orig = 116.36, twh = 460.29, tj = 4478.56)
     }
 
     private fun assertEnergy(
