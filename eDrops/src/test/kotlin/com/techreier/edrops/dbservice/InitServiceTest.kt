@@ -17,7 +17,6 @@ import org.springframework.dao.DuplicateKeyException
 import org.springframework.transaction.annotation.Transactional
 import java.time.Duration
 import java.time.temporal.ChronoUnit
-import kotlin.test.DefaultAsserter.fail
 
 // The test is NOT 100% equal to where the method is normally used, at startup.
 // Be aware that the code running at startup is not within transactional control, but this code is.
