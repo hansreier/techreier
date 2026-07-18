@@ -176,7 +176,7 @@ abstract class BaseController(
         val topics = ctx.genService.readTopics(languageCode)
         topics.forEach { topic ->
             if (topic.text.isNullOrBlank()) {
-                topic.text = msg(ctx.messageSource, "topic." + topic.topicKey)
+                topic.text = msg(ctx.messageSource, "topic." + topic.topicKey, languageCode)
             }
         }
         return topics

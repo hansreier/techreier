@@ -73,8 +73,6 @@ spring:
     password: sa
   thymeleaf:
     cache: false
-  devtools:
-    livereload.enabled: true
   web.resources.cache.period: 3600
 logging:
   level:
@@ -105,7 +103,6 @@ spring:
   thymeleaf:
     cache: false
   devtools:
-    livereload.enabled: true
     restart.enabled: true
   web.resources.cache.period: 3600
 app:
@@ -142,8 +139,6 @@ spring:
     password: ${DB_PASSWORD}
   thymeleaf:
     cache: true
-  devtools:
-    livereload.enabled: false
   web.resources.cache.period: 3600
 
 ---

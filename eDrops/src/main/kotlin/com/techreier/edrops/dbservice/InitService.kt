@@ -6,6 +6,8 @@ import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.repository.*
+import com.techreier.edrops.util.msg
+import org.springframework.context.MessageSource
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
@@ -19,6 +21,7 @@ class InitService(
     private val blogRepo: BlogRepository,
     private val blogPostRepo: BlogPostRepository,
     private val topicRepo: TopicRepository,
+    private val messageSource: MessageSource
 ) {
 
     private var blogAdminId: Long = -1
@@ -36,10 +39,14 @@ class InitService(
             initial.base.topics.forEach { topic ->
                 val existingTopic: Topic? = topicRepo.findByTopicKeyAndLanguageCode(topic.topicKey, topic.language.code)
                 if (existingTopic != null) {
+                    if ((topic.text) == null) { //if not found, fetch from localized message files
+                        topic.text = msg(messageSource, "topic.${topic.topicKey}", topic.language.code)
+                    }
                     existingTopic.copyAttributes(topic)
+                    logger.debug("existing topic {}", topic)
                     topicRepo.save(existingTopic)
                 } else {
-                    logger.info("new topic ${topic}")
+                    logger.info("new topic $topic")
                     topicRepo.save(topic)
                 }
             }

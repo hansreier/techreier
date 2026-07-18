@@ -7,6 +7,7 @@ import com.techreier.edrops.dto.MenuItem
 import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
+import org.springframework.util.StringUtils
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -50,10 +51,16 @@ fun getValidProjectLanguageCode(languageCode: String): String =
     if (languageCode in listOf("nn", "no", "nb")) "nb" else "en"
 
 
-// Spring localized messages given messageSource, key and arguments
+// Spring localized message given messageSource, key and arguments
 fun msg(messageSource: MessageSource, key: String, args: Array<Any>? = null): String {
     val locale = LocaleContextHolder.getLocale()
     return messageSource.getMessage(key, args, "??$key??", locale) as String
+}
+
+// Spring localized message given messageSource, key and language code
+fun msg(messageSource: MessageSource, key: String, languageCode: String): String {
+    val locale = StringUtils.parseLocaleString(languageCode)
+    return messageSource.getMessage(key, null, "??$key??", locale) as String
 }
 
 // Formatting functions

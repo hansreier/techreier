@@ -33,5 +33,5 @@ class Topic(
         return this
     }
 
-    override fun toString() = "key=$topicKey language=${language.language} id=$id"
+    override fun toString() = "key=$topicKey language=${language.language} id=$id text=$text"
 }

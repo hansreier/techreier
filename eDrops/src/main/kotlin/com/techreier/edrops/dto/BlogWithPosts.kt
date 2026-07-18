@@ -21,7 +21,6 @@ fun BlogWithPosts.toDTO(
         it.toDTO(zoneId, datePattern, markdown, html)
     } ?: emptyList()
     else emptyList()
-
     return BlogDTO(
         id = this.blog.id,
         topicKey = this.blog.topicKey,

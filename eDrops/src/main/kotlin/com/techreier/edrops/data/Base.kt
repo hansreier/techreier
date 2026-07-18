@@ -12,8 +12,9 @@ const val DEFAULT_LANGCODE = EN
 
 const val TOPIC_DEFAULT = "default"
 const val TOPIC_CODING = "coding"
+const val TOPIC_TECH = "tech"
 const val TOPIC_ENERGY = "energy"
-const val TOPIC_SPORT = "sport"
+const val TOPIC_LEISURE = "leisure"
 const val TOPIC_POLITICS = "politics"
 
 const val SUBMENU_MIN_ITEMS = 2 //Minimum number of items within a topic sub menu
@@ -29,15 +30,17 @@ class Base {
     val defaultEn = Topic(TOPIC_DEFAULT, english, 0)
     val codingNo = Topic(TOPIC_CODING, norwegian, 1)
     val codingEn = Topic(TOPIC_CODING, english, 1)
-    val energyNo = Topic(TOPIC_ENERGY, norwegian, 2)
-    val energyEn = Topic(TOPIC_ENERGY, english, 2)
-    val sportNo = Topic(TOPIC_SPORT, norwegian, 3)
-    val sportEn = Topic(TOPIC_SPORT, english, 3)
-    val politicsNo = Topic(TOPIC_POLITICS, norwegian, 4)
-    val politicsEn = Topic(TOPIC_POLITICS, english, 4)
+    val techNo = Topic(TOPIC_TECH, norwegian,2)
+    val techEn = Topic(TOPIC_TECH, english, 2 )
+    val energyNo = Topic(TOPIC_ENERGY, norwegian, 3)
+    val energyEn = Topic(TOPIC_ENERGY, english, 3)
+    val leisureNo = Topic(TOPIC_LEISURE, norwegian, 4)
+    val leisureEn = Topic(TOPIC_LEISURE, english, 4)
+    val politicsNo = Topic(TOPIC_POLITICS, norwegian, 5)
+    val politicsEn = Topic(TOPIC_POLITICS, english, 5)
 
-    val topics = mutableListOf(defaultNo, defaultEn, codingNo, codingEn, energyNo, energyEn,
-        sportNo, sportEn,politicsNo, politicsEn)
+    val topics = mutableListOf(defaultNo, defaultEn, codingNo, codingEn,  techNo, techEn, energyNo, energyEn,
+        leisureNo, leisureEn, politicsNo, politicsEn)
 
     init {
         topics.checkDuplicates { it.topicKey to it.language.code  }
