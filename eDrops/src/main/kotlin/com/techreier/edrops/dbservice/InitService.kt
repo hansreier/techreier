@@ -37,11 +37,11 @@ class InitService(
         } else {
             logger.info("Updating database with changed initial data")
             initial.base.topics.forEach { topic ->
+                if ((topic.text) == null) { //if not found, fetch from localized message files
+                    topic.text = msg(messageSource, "topic.${topic.topicKey}", topic.language.code)
+                }
                 val existingTopic: Topic? = topicRepo.findByTopicKeyAndLanguageCode(topic.topicKey, topic.language.code)
                 if (existingTopic != null) {
-                    if ((topic.text) == null) { //if not found, fetch from localized message files
-                        topic.text = msg(messageSource, "topic.${topic.topicKey}", topic.language.code)
-                    }
                     existingTopic.copyAttributes(topic)
                     logger.debug("existing topic {}", topic)
                     topicRepo.save(existingTopic)
