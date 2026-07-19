@@ -3,16 +3,16 @@ package com.techreier.edrops.domain
 import com.techreier.edrops.exceptions.StateNotFoundException
 import java.util.Locale.getDefault
 
-enum class PostState {
-    IDEA,
-    DRAFT,
-    SCHEDULED,
-    PUBLISHED,
-    BENCHED,
-    BACKUP,
-    ARCHIVED,
-    DEPRECATED,
-    UNKNOWN;
+enum class PostState (val short: String) {
+    IDEA("Id"),
+    DRAFT("Dr"),
+    SCHEDULED("Sc"),
+    PUBLISHED("Pb"),
+    BENCHED("Be"),
+    BACKUP("Bk"),
+    ARCHIVED("Ar"),
+    DEPRECATED("Dp)"),
+    UNKNOWN("??");
 
     // Observe: When called from database, be nice and accept everything
     companion object {
@@ -36,3 +36,4 @@ enum class PostState {
     fun lower() = name.lowercase()
 
 }
+
