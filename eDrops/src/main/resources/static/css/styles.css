@@ -419,6 +419,10 @@ img:hover::after {
 	width: 100%;
 }
 
+.state-short {
+	display: none;
+}
+
 @media (max-width: 480px) {
 	#blogposts .title {
 		display: inline-block;
@@ -427,6 +431,18 @@ img:hover::after {
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		vertical-align: bottom;
+	}
+
+	#blogposts .state-full {
+		display: none;
+	}
+
+	#blogposts .state-short {
+		display: inline;
+	}
+
+	#blogposts .hstate {
+		font-size: 0;
 	}
 }
 
@@ -508,7 +524,6 @@ img:hover::after {
 }
 
 /* Specific formatting of header line  */
-
 .left-top {
 	display: flex;
 	align-items: center;

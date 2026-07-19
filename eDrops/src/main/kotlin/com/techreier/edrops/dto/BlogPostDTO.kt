@@ -11,6 +11,7 @@ data class BlogPostDTO(
     val created: ZonedDateTime?,
     val createdString: String,
     val state: PostState,
+    val stateShort: String,
     val segment: String,
     var title: String,
     val summary: String,

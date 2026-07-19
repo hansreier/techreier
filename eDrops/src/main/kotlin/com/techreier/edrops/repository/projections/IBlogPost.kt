@@ -26,6 +26,7 @@ fun IBlogPost.toDTO(
     val changed = this.changed.atZone(zoneId)
     val created = this.created.atZone(zoneId)
     val state = PostState.find(this.state, true)
+    val stateShort = state.toString().substring(0,2)
     return BlogPostDTO(
         id = this.id,
         changed = changed,
@@ -33,6 +34,7 @@ fun IBlogPost.toDTO(
         created = created,
         createdString = created.text(datePattern),
         state = state,
+        stateShort = stateShort,
         segment = this.segment,
         title = this.title,
         summary = if (html) markdown.toHtml(this.summary) else this.summary,
