@@ -19,7 +19,7 @@
                        th:text="${blogPost.segment}"></a>
                 </td>
                 <td>
-                    <a th:href="@{${blogPath + blogPost.segment + '/' + blogPost.state.lower}(lang=${blog.langCodeFound})}"
+                    <a class="title" th:href="@{${blogPath + blogPost.segment + '/' + blogPost.state.lower}(lang=${blog.langCodeFound})}"
                        th:text="${blogPost.title}"></a>
                 </td>
                 <td class="blogposts-time">

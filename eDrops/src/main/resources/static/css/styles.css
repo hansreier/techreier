@@ -333,7 +333,7 @@ img[alt="Reier"] {
 img:hover::after {
 	content: attr(title);
 	position: absolute;
-	bottom: 100%; /* Position the tooltip above the image */
+	bottom: 100%;
 	left: 0;
 	background-color: white;
 	color: black;
@@ -359,19 +359,18 @@ img:hover::after {
 .linkbutton {
 	display: inline-block;
 	padding: 10px 20px;
-	background-color: #0074d9; /* Button background color */
-	color: #fff; /* Text color */
+	background-color: #0074d9;
+	color: #fff;
 	text-decoration: none;
 	border-radius: 5px;
 	font-weight: bold;
 	transition: background-color 0.3s;
 }
 
-/* flexbox with date and link to blog */
 #blog-reference {
     display: flex;
-    align-items: baseline; /* Aligns text by the bottom of the letters */
-    gap: 15px;             /* Adds space between the date and the link */
+    align-items: baseline;
+    gap: 15px;
 }
 
 #date {
@@ -406,11 +405,6 @@ img:hover::after {
     overflow-wrap: normal;
 }
 
-#blogposts td:nth-child(2), #blogposts th:nth-child(2) {
-    width: 11ch;
-    min-width: 11ch;
-}
-
 #blogposts tr:nth-child(even){background-color: #f2f2f2;}
 #blogposts tr:nth-child(odd){background-color: yellow;}
 
@@ -425,7 +419,17 @@ img:hover::after {
 	width: 100%;
 }
 
-/* Remove timestamp row in blogposts table for space on mobile phones */
+@media (max-width: 480px) {
+	#blogposts .title {
+		display: inline-block;
+		max-width: 18ch;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		vertical-align: bottom;
+	}
+}
+
 @media (max-width: 768px) {
 	.blogposts-time {
 		display: none;
