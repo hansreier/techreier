@@ -125,7 +125,9 @@
                     </form>
                     <a th:each="item : ${adminMenu}"
                        th:href="@{/edit/{segment}(segment=${item.segment}, lang=${item.langCode})}"  class="dropdown-item"
-                       th:text="${item.subject}">
+                       th:text="${item.subject}"
+                       th:data-topic="${item.isTopic}"
+                       th:data-id="${item.segment + '+' + item.langCode}">
                     </a>
                 </div>
             </div>
