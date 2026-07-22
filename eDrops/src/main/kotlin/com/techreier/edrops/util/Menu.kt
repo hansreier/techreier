@@ -50,7 +50,7 @@ fun getMenuItems(
             menuItems.add(menuItem)
         }
     }
-    logger.info("menuItemsOrig: {}", menuItemOrig)
-    logger.info("menuTtems: $menuItems")
+    logger.debug("menuItemsOrig: {}", menuItemOrig)
+    logger.debug("menuItems: {}", menuItems)
     return menuItems
 }
