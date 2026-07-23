@@ -116,7 +116,6 @@ class BlogEditController(
                 return "redirect:$BLOG_EDIT_DIR/$segment/$NEW_SUBSEGMENT/${PostState.IDEA.lower()}?lang=$blogLangcode"
             }
             val newPath = "$BLOG_EDIT_DIR/${if (action == "save") form.segment else NEW_SEGMENT}"
-            redirectAttributes.addFlashAttribute("menuChanged", true)
             return "redirect:$newPath?lang=$blogLangcode"
 
         }
@@ -134,7 +133,6 @@ class BlogEditController(
                 prepare(model, request, response, segment, changed, blogLangcode)
                 return "blogEdit"
             }
-            redirectAttributes.addFlashAttribute("menuChanged", true)
             return "redirect:/$HOME_DIR"
         }
         if (action == "view") {

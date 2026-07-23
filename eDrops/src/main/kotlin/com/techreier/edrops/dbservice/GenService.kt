@@ -1,5 +1,6 @@
 package com.techreier.edrops.dbservice
 
+import com.techreier.edrops.config.AppConfig
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.domain.LanguageCode
@@ -7,6 +8,7 @@ import com.techreier.edrops.domain.Topic
 import com.techreier.edrops.repository.BlogOwnerRepository
 import com.techreier.edrops.repository.LanguageRepository
 import com.techreier.edrops.repository.TopicRepository
+import com.techreier.edrops.util.buildVersion
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,10 +18,17 @@ class GenService(
     private val ownerRepo: BlogOwnerRepository,
     private val languageRepo: LanguageRepository,
     private val topicRepo: TopicRepository,
+    private val appConfig: AppConfig,
 ) {
     fun readOwner(blogOwnerId: Long): BlogOwner? {
         logger.info("Read blog owner")
         return ownerRepo.findById(blogOwnerId).orElse(null)
+    }
+
+    fun menuChanged(): String {
+        val dbTime = ownerRepo.menuChanged()?.toString()
+        val buildTime = buildVersion(appConfig.buildTime, false)
+        return maxOf(dbTime ?: buildTime, buildTime)
     }
 
     fun readLanguages(): MutableList<LanguageCode> = languageRepo.findAll()

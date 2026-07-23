@@ -17,7 +17,7 @@
     <script th:src="@{/js/dropdown.js(v=${built})}"></script>
     <script th:src="@{/js/timezone.js(v=${built})}"></script>
 </head>
-<body>
+<body th:data-menu-changed="${menuChanged}">
 <header>
     <div class="left-top">
         <a id="homebutton" th:href="@{/}" th:text="'⌂'"/>

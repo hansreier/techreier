@@ -6,7 +6,22 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".dropdown").forEach(function (menu) {
         let top = true
         menu.querySelectorAll(".dropdown-item").forEach(function (item) {
-            log("top")
+            const currentMenuVersion = document.body.dataset.menuChanged;
+            log("top menuVersion:", currentMenuVersion);
+            const savedMenuVersion = sessionStorage.getItem("menuVersion");
+
+            if (!savedMenuVersion || savedMenuVersion < currentMenuVersion) {
+                log("Menu changed or server restarted: Rebuilding menu state");
+
+                Object.keys(sessionStorage)
+                    .filter(key => key.endsWith(".expandable") || key.endsWith(".collapsed"))
+                    .forEach(key => sessionStorage.removeItem(key));
+
+                if (currentMenuVersion) {
+                    sessionStorage.setItem("menuVersion", currentMenuVersion);
+                }
+            }
+
             if (item.dataset.topic === "true") {
                 top = false
             }

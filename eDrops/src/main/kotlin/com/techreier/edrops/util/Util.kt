@@ -23,21 +23,20 @@ const val TIMESTAMP_PATTERN = "yyMMddHHmmss"
 // timestamp used for caching of frontend files, this is the reason for reversed format without separators.
 // timestamp returnes is Oslo time.
 fun buildVersion(utc: String?, short: Boolean = true): String {
-    return try {
-        if (utc.isNullOrBlank()) {
-            DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(timestampDefaultTimezone())
+    val instant = try {
+        if (!utc.isNullOrBlank()) {
+            Instant.parse(utc)
         } else {
-            val defaultTime = Instant.parse(utc).atZone(ZoneId.of(DEFAULT_TIMEZONE))
-            DateTimeFormatter.ofPattern(if (short) DATE_PATTERN else TIMESTAMP_PATTERN).format(defaultTime)
+            Instant.now()
         }
     } catch (ex: DateTimeParseException) {
-        logger.error("${ex.message} returning empty string")
-        ""
+        logger.error("${ex.message}, falling back to current time")
+        Instant.now() // Helt skuddsikker! Instant.now() kan ALDRI kaste DateTimeParseException
     }
-}
 
-//Only correct in default timezone, Norway. So only use in tests and for buildVersion
-fun timestampDefaultTimezone(): ZonedDateTime = ZonedDateTime.now(ZoneId.of(DEFAULT_TIMEZONE)).truncatedTo(ChronoUnit.SECONDS)
+    val pattern = if (short) DATE_PATTERN else TIMESTAMP_PATTERN
+    return DateTimeFormatter.ofPattern(pattern).format(instant.atZone(ZoneId.of(DEFAULT_TIMEZONE)))
+}
 
 fun timestamp(datetime: String): Instant {
     val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")

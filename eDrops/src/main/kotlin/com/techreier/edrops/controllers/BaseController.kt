@@ -99,6 +99,7 @@ abstract class BaseController(
             }
 
         val action = (model.getAttribute("action") ?: "") as String
+        model.addAttribute("menuChanged", ctx.genService.menuChanged())
         model.addAttribute("blogHeadLine", blog?.subject ?: "")
         model.addAttribute("homeMenu", fetchMenuFromDisk(views, usedLangcode))
         model.addAttribute("aboutMenu", fetchMenuFromDisk(about, usedLangcode))

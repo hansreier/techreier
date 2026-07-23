@@ -39,6 +39,7 @@ interface BlogRepository : JpaRepository<Blog, Long> {
     @EntityGraph(attributePaths = ["blogOwner", "topic", "topic.language"])
     fun findByTopicLanguageCodeAndSegment(languageCode: String, segment: String): List<Blog>
 
+    // Assumption: One default admin user can edit blogs, all blogs in the system are fetched.
     @Query( """
     SELECT new com.techreier.edrops.dto.MenuItem(b.topic.language.code, b.segment,  b.topic.topicKey, b.subject, false) 
     FROM Blog b 
