@@ -146,10 +146,10 @@ class BlogServiceTest : TestBase() {
         val langCode = blog.topic.language.code
         val foundBlogId = blogService.findId(segment, blogOwnerId, langCode)
         assertEquals(blogId, foundBlogId)
-        blogService.delete(null)
-        blogService.delete(-1)
+        blogService.delete(BlogPrincipal(blogOwnerId, null, langCode))
+        blogService.delete(BlogPrincipal(blogOwnerId, -1, langCode))
         assertNotNull(blogRepo.findById(blogId).orElse(null))
-        blogService.delete(foundBlogId)
+        blogService.delete(BlogPrincipal(blogOwnerId, foundBlogId, langCode))
         assertNull(blogRepo.findById(blogId).orElse(null))
     }
 }

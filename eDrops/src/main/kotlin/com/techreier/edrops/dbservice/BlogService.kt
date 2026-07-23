@@ -100,18 +100,26 @@ class BlogService(
                 pos = blogForm.position.toIntOrNull() ?: 0,
                 subject = blogForm.subject,
                 about = blogForm.about,
-                blogPosts = mutableListOf(), blogOwner
+                blogPosts = mutableListOf(),
+                blogOwner = blogOwner
             )
 
-        blogRepo.save(blog)
+        blogOwner.menuChanged = Instant.now()
+        blogOwner.blogs.add(blog)
     }
 
-    fun delete(blogId: Long?) {
-        if ((blogId == null) || (blogId == -1L)) {
+    fun delete(blogPrincipal: BlogPrincipal) {
+        if ((blogPrincipal.blogId == null) || (blogPrincipal.blogId == -1L)) {
             logger.warn("Deleting blog rejected, no valid id")
         } else {
+            val blogOwnerId = blogPrincipal.ownerId
+            val blogId = blogPrincipal.blogId
             logger.info("Deleting blog with id: $blogId")
             blogRepo.deleteById(blogId)
+
+            val blogOwner = ownerRepo.findById(blogOwnerId).orElse(null)
+                ?: throw BlogNotFoundException("BlogOwner with id=$blogOwnerId not found")
+            blogOwner.menuChanged = Instant.now()
         }
     }
 

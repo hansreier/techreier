@@ -76,7 +76,6 @@ class BlogEditController(
         model: Model,
         @AuthenticationPrincipal owner: Owner?,
     ): String {
-
         val blogPrincipal = authorize(owner, segment, blogLangcode)
         val path = request.servletPath
         redirectAttributes.addFlashAttribute("action", action)
@@ -117,6 +116,7 @@ class BlogEditController(
                 return "redirect:$BLOG_EDIT_DIR/$segment/$NEW_SUBSEGMENT/${PostState.IDEA.lower()}?lang=$blogLangcode"
             }
             val newPath = "$BLOG_EDIT_DIR/${if (action == "save") form.segment else NEW_SEGMENT}"
+            redirectAttributes.addFlashAttribute("menuChanged", true)
             return "redirect:$newPath?lang=$blogLangcode"
 
         }
@@ -128,12 +128,13 @@ class BlogEditController(
                 return "blogEdit"
             }
             try {
-                blogService.delete(blogPrincipal.blogId)
+                blogService.delete(blogPrincipal)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
                 prepare(model, request, response, segment, changed, blogLangcode)
                 return "blogEdit"
             }
+            redirectAttributes.addFlashAttribute("menuChanged", true)
             return "redirect:/$HOME_DIR"
         }
         if (action == "view") {

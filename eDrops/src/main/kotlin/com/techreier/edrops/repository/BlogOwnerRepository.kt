@@ -16,9 +16,14 @@ interface BlogOwnerRepository : JpaRepository<BlogOwner, Long> {
    // https://thorben-janssen.com/hibernate-jooq-a-match-made-in-heaven/
    //  If more than one level downwards and MutableList is used, there will be duplicates. Bug?
    // Fetches all, but not really required
+   // Note: I have removed "blogs.blogPosts" from the graph. It results in posts always beeing fetched.
 
-    @EntityGraph(attributePaths = ["blogs","blogs.topic","blogs.topic.language","blogs.blogPosts"])
+    @EntityGraph(attributePaths = ["blogs","blogs.topic","blogs.topic.language"])
     override fun findById(id: Long): Optional<BlogOwner>
+
+  //  @Modifying
+   // @Query("UPDATE BlogOwner b SET b.menuChanged = :now WHERE b.id = :id")
+  ///  fun updateMenuChanged(id: Long, now: Instant = Instant.now()): Int
 
     fun findBlogOwnerByUsername(user: String): BlogOwner?
 }

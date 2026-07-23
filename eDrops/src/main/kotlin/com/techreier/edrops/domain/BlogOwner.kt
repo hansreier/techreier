@@ -47,6 +47,9 @@ class BlogOwner(
     @Column(nullable = false, length = MAX_CODE_SIZE)
     var countryCode: String,
 
+    @Column(columnDefinition ="datetime(0)")
+    var menuChanged: Instant? = null,
+
     @OneToMany(mappedBy = "blogOwner", cascade = [CascadeType.ALL], orphanRemoval = true)
     @OrderBy("id DESC")
     var blogs: MutableSet<Blog>,
