@@ -3,8 +3,6 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.config.*
 import com.techreier.edrops.data.Docs.about
 import com.techreier.edrops.data.Docs.views
-import com.techreier.edrops.data.MENU_SPLIT_SIZE
-import com.techreier.edrops.data.SUBMENU_MIN_ITEMS
 import com.techreier.edrops.data.TOPIC_DEFAULT
 import com.techreier.edrops.domain.LanguageCode
 import com.techreier.edrops.domain.Owner

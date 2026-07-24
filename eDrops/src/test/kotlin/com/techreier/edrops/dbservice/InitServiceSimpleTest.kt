@@ -16,7 +16,6 @@ import org.springframework.test.annotation.DirtiesContext
 import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
-@Transactional
 class InitServiceSimpleTest {
 
     @Autowired
@@ -37,6 +36,7 @@ class InitServiceSimpleTest {
     }
 
     @Test
+    @Transactional
     @DirtiesContext
     fun emptyDBTest() {
         val initial = Initial(appConfig)

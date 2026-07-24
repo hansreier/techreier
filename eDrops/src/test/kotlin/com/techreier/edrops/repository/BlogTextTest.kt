@@ -5,10 +5,8 @@ import com.techreier.edrops.domain.BlogText
 import com.techreier.edrops.domain.PostState
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -23,7 +21,6 @@ const val BLOGTEXT_2 =
             "Så kom det masse regn. " +
             "Så ble det isglatt og iskaldt. #Snø"
 
-@ExtendWith(SpringExtension::class)
 @SpringBootTest
 @Transactional
 class BlogTextTest : TestBase() {

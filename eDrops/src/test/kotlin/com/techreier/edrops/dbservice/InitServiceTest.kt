@@ -22,7 +22,6 @@ import java.time.temporal.ChronoUnit
 // Be aware that the code running at startup is not within transactional control, but this code is.
 // Take care and save the changed objects in the code to test instead of relying on JPA to detect it.
 @SpringBootTest
-@Transactional
 class InitServiceTest : TestBase() {
 
     @Autowired
@@ -33,10 +32,12 @@ class InitServiceTest : TestBase() {
         val initial = Initial(appConfig)
         val owner = initial.blogOwner.username
         assertTrue(initService.saveInitialData(initial))
-        val blogOwner = ownerRepo.findBlogOwnerByUsername(owner)
-        assertNotNull(blogOwner)
-        assertEquals("Sigmond", blogOwner.lastName)
-        assertEquals("reier.sigmond@gmail.com", blogOwner.email)
+        transactionTemplate.execute {
+            val blogOwner = ownerRepo.findBlogOwnerByUsername(owner)
+            assertNotNull(blogOwner)
+            assertEquals("Sigmond", blogOwner.lastName)
+            assertEquals("reier.sigmond@gmail.com", blogOwner.email)
+        }
     }
 
     @Test
@@ -44,13 +45,16 @@ class InitServiceTest : TestBase() {
         val clone = Initial(appConfig)
         val owner = clone.blogOwner.username
         assertTrue(initService.saveInitialData(clone))
-        val blogOwner = ownerRepo.findBlogOwnerByUsername(owner)
-        assertNotNull(blogOwner)
-        assertEquals("Sigmond", blogOwner.lastName)
-        assertEquals("reier.sigmond@gmail.com", blogOwner.email)
+        transactionTemplate.execute {
+            val blogOwner = ownerRepo.findBlogOwnerByUsername(owner)
+            assertNotNull(blogOwner)
+            assertEquals("Sigmond", blogOwner.lastName)
+            assertEquals("reier.sigmond@gmail.com", blogOwner.email)
+        }
     }
 
     @Test
+    @Transactional
     fun mergeDBWithChangesTest() {
 
         assertThat(blogOwner.blogs.size).isGreaterThan(2)
@@ -94,39 +98,42 @@ class InitServiceTest : TestBase() {
         //Save initial transient data just like when starting the server
         assertTrue(initService.saveInitialData(clone))
 
-        //First blog changed because data was changed after current timestamp in DB
-        val blogFirst = blogRepo.findById(blogIdFirst).orElse(null) ?: fail("blog id not found")
-        assertThat(blogFirst.changed).isCloseTo(firstBlog.changed, within(5, ChronoUnit.SECONDS))
-        assertEquals(Int.MIN_VALUE, blogFirst.pos)
+        transactionTemplate.execute {
 
-        //Last blog not changed because data was changed before  current timestamp in DB
-        val blogLast = blogRepo.findById(blogIdLast).orElse(null) ?: fail("blog id not found")
-        assertThat(blogLast.changed).isCloseTo(blogTimestampLast, within(5, ChronoUnit.SECONDS))
-        assertEquals(blogPosLast, blogLast.pos)
+            //First blog changed because data was changed after current timestamp in DB
+            val blogFirst = blogRepo.findById(blogIdFirst).orElse(null) ?: fail("blog id not found")
+            assertThat(blogFirst.changed).isCloseTo(firstBlog.changed, within(5, ChronoUnit.SECONDS))
+            assertEquals(Int.MIN_VALUE, blogFirst.pos)
 
-        //First post changed because data was changed after current timestamp in DB
-        val postFirst = postRepo.findById(postIdFirst).orElse(null) ?: fail("blog post id not found")
-        assertThat(postFirst.changed).isCloseTo(firstPost.changed, within(5, ChronoUnit.SECONDS))
-        assertEquals(firstPost.title, postFirst.title)
+            //Last blog not changed because data was changed before  current timestamp in DB
+            val blogLast = blogRepo.findById(blogIdLast).orElse(null) ?: fail("blog id not found")
+            assertThat(blogLast.changed).isCloseTo(blogTimestampLast, within(5, ChronoUnit.SECONDS))
+            assertEquals(blogPosLast, blogLast.pos)
 
-        //First post not changed because data was changed before current timestamp in DB
-        val postLast = postRepo.findById(postIdLast).orElse(null) ?: fail("blog post id not found")
-        assertThat(postLast.changed).isCloseTo(postTimestampLast, within(5, ChronoUnit.SECONDS))
-        assertEquals(postTitleLast, postLast.title)
+            //First post changed because data was changed after current timestamp in DB
+            val postFirst = postRepo.findById(postIdFirst).orElse(null) ?: fail("blog post id not found")
+            assertThat(postFirst.changed).isCloseTo(firstPost.changed, within(5, ChronoUnit.SECONDS))
+            assertEquals(firstPost.title, postFirst.title)
 
-        //Check if topics are initialized correctly
-        topicRepo.findAll().forEach {
-            assertThat(it.text)
-                .describedAs("Topic '%s' no text", it.topicKey)
-                .isNotBlank()
-            if (it.topicKey == "Dummy") assertThat(it.text).contains("??") else assertThat(it.text).doesNotContain("??")
+            //First post not changed because data was changed before current timestamp in DB
+            val postLast = postRepo.findById(postIdLast).orElse(null) ?: fail("blog post id not found")
+            assertThat(postLast.changed).isCloseTo(postTimestampLast, within(5, ChronoUnit.SECONDS))
+            assertEquals(postTitleLast, postLast.title)
+
+            //Check if topics are initialized correctly
+            topicRepo.findAll().forEach {
+                assertThat(it.text)
+                    .describedAs("Topic '%s' no text", it.topicKey)
+                    .isNotBlank()
+                if (it.topicKey == "Dummy") assertThat(it.text).contains("??") else assertThat(it.text).doesNotContain("??")
+            }
+
+            //Check changes in topics list
+            val dummyTopicNo = topicRepo.findByTopicKeyAndLanguageCode("Dummy", initial.base.norwegian.code)
+            val dummyTopicEn = topicRepo.findByTopicKeyAndLanguageCode("Dummy", initial.base.english.code)
+            assertNotNull(dummyTopicNo)
+            assertNotNull(dummyTopicEn)
         }
-
-        //Check changes in topics list
-        val dummyTopicNo = topicRepo.findByTopicKeyAndLanguageCode("Dummy", initial.base.norwegian.code)
-        val dummyTopicEn = topicRepo.findByTopicKeyAndLanguageCode("Dummy", initial.base.english.code)
-        assertNotNull(dummyTopicNo)
-        assertNotNull(dummyTopicEn)
 
     }
 
@@ -135,11 +142,14 @@ class InitServiceTest : TestBase() {
         Initial(appConfig)
         val topic = Topic(TOPIC_DEFAULT, initial.base.norwegian, 0)
         assertThrows<DataIntegrityViolationException> {
-            topicRepo.save(topic)
+            transactionTemplate.execute {
+                topicRepo.save(topic)
+            }
         }
     }
 
     @Test
+    @Transactional
     fun duplicateBlogSegmentTest() {
         val clone = Initial(appConfig)
         val first = initial.blogOwner.blogs.first()
@@ -151,10 +161,12 @@ class InitServiceTest : TestBase() {
     }
 
     @Test
+    @Transactional
     fun duplicateBlogPostSegmentTest() {
         val clone = Initial(appConfig)
         val first = initial.blogOwner.blogs.first().blogPosts.first()
         initial.blogOwner.blogs.first().blogPosts.last().copyAttributes(first)
         assertFalse(initService.saveInitialData(clone))
     }
+
 }

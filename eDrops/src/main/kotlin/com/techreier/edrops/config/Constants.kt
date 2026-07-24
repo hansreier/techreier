@@ -16,3 +16,5 @@ const val NEW_SEGMENT = "_new"
 const val NEW_SUBSEGMENT = "_new"
 const val BLOG_PUBLISHED_MIN_VALUE = 1
 const val USE_COMMONMARK = true
+const val SUBMENU_MIN_ITEMS = 2 //Minimum number of items within a topic sub menu
+const val MENU_SPLIT_SIZE = 10 //Minimum menu size before splitting

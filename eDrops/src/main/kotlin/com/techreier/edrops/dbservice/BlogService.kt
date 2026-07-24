@@ -116,10 +116,7 @@ class BlogService(
             val blogId = blogPrincipal.blogId
             logger.info("Deleting blog with id: $blogId")
             blogRepo.deleteById(blogId)
-            blogRepo.flush()
-            val blogOwner = ownerRepo.findById(blogOwnerId).orElse(null)
-                ?: throw BlogNotFoundException("BlogOwner with id=$blogOwnerId not found")
-            blogOwner.menuChanged = Instant.now()
+            ownerRepo.updateMenuChanged(blogOwnerId)
         }
     }
 

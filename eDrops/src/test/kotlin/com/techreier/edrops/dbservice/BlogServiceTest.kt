@@ -6,6 +6,7 @@ import com.techreier.edrops.data.NB
 import com.techreier.edrops.data.TOPIC_DEFAULT
 import com.techreier.edrops.dto.BlogPrincipal
 import com.techreier.edrops.dto.BlogWithPosts
+import com.techreier.edrops.exceptions.BlogNotFoundException
 import com.techreier.edrops.exceptions.DuplicateBlogException
 import com.techreier.edrops.exceptions.TopicNotFoundException
 import com.techreier.edrops.forms.BlogForm
@@ -17,12 +18,10 @@ import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ResponseStatusException
 import java.time.Instant
 
 @SpringBootTest
-@Transactional
 class BlogServiceTest : TestBase() {
 
     @Autowired
@@ -142,14 +141,20 @@ class BlogServiceTest : TestBase() {
 
     @Test
     fun findAndDeleteTest() {
-        val segment = blog.segment
         val langCode = blog.topic.language.code
-        val foundBlogId = blogService.findId(segment, blogOwnerId, langCode)
-        assertEquals(blogId, foundBlogId)
+        val newBlogPrincipal = BlogPrincipal(blogOwnerId, null, langCode)
+        blogService.save(
+            newBlogPrincipal, BlogForm(
+                segment = "test2", topicKey = blog.topic.topicKey
+            ), Instant.now()
+        )
+        val readId = blogService.findId("test2", blogOwnerId, langCode)
+        val savedBlogPrincipal = BlogPrincipal(blogOwnerId, readId, langCode)
         blogService.delete(BlogPrincipal(blogOwnerId, null, langCode))
         blogService.delete(BlogPrincipal(blogOwnerId, -1, langCode))
-        assertNotNull(blogRepo.findById(blogId).orElse(null))
-        blogService.delete(BlogPrincipal(blogOwnerId, foundBlogId, langCode))
-        assertNull(blogRepo.findById(blogId).orElse(null))
+        blogService.delete(savedBlogPrincipal)
+        assertThrows<BlogNotFoundException> {
+            blogService.findId("test2", blogOwnerId, langCode)
+        }
     }
 }

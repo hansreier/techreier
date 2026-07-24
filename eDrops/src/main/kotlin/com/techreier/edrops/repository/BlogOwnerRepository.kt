@@ -4,6 +4,7 @@ import com.techreier.edrops.domain.AccessLevel
 import com.techreier.edrops.domain.BlogOwner
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import java.time.Instant
@@ -29,4 +30,8 @@ interface BlogOwnerRepository : JpaRepository<BlogOwner, Long> {
     // This code assumes one admin user with admin accessLevel, and that this user have all the blogs shown in the GUI
     @Query("SELECT u.menuChanged FROM BlogOwner u WHERE u.accessLevel = :level")
     fun menuChanged(level: Int = AccessLevel.ADMIN.level): Instant?
+
+    @Modifying
+    @Query("UPDATE BlogOwner bo SET bo.menuChanged = :now WHERE bo.id = :id")
+    fun updateMenuChanged(id: Long, now: Instant = Instant.now()): Int
 }
