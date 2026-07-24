@@ -26,9 +26,10 @@ class GenService(
     }
 
     fun menuChanged(): String {
-        val dbTime = ownerRepo.menuChanged()?.toString()
-        val buildTime = buildVersion(appConfig.buildTime, false)
-        return maxOf(dbTime ?: buildTime, buildTime)
+        val dbTime = buildVersion(ownerRepo.menuChanged()?.toString())
+        val buildTime = buildVersion(appConfig.buildTime)
+        logger.debug("dbTime: $dbTime buildTime: $buildTime")
+        return maxOf(dbTime, buildTime)
     }
 
     fun readLanguages(): MutableList<LanguageCode> = languageRepo.findAll()

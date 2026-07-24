@@ -36,7 +36,7 @@ class UtilTest {
 
     @Test
     fun emptyTimeStamp() {
-        val timeStamp = buildVersion("")
+        val timeStamp = buildVersion("", true)
         assertThat(timeStamp).isNotNull()
         assertThat(timeStamp).isNotEmpty()
     }

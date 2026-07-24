@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 import org.springframework.transaction.annotation.RollbackOn
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.client.RestClient
+import java.time.Instant
 
 // This way of reading app properties is more flexible and easier than using @Value in Kotlin
 // Disadvantage: Have to inject this always
@@ -31,7 +32,8 @@ class AppConfig {
 
     var auth: Boolean = true
 
-    val buildTime: String? = System.getenv("BUILD_TIME")
+    private val serverStartTime: String = Instant.now().toString()
+    val buildTime: String? = System.getenv("BUILD_TIME") ?: serverStartTime
 
     @Bean
     fun restClient(): RestClient = RestClient.create()

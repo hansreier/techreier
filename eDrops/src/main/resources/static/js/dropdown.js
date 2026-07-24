@@ -3,24 +3,25 @@ document.addEventListener("DOMContentLoaded", function () {
     const isDev = window.location.hostname === 'localhost';
     const log = (...args) => isDev && console.log(...args);
     // Since the dropdown menus are dynamically generated, have to add class for css selectors to work.
+
+    const currentMenuVersion = document.body.dataset.menuChanged;
+    const savedMenuVersion = sessionStorage.getItem("menuVersion");
+
+    log("savedMenuVersion:", savedMenuVersion, "currentMenuVersion:", currentMenuVersion);
+    if (currentMenuVersion) {
+        if (savedMenuVersion && currentMenuVersion > savedMenuVersion) {
+            log("Menu changed or server restarted: Rebuilding menu state");
+
+            Object.keys(sessionStorage)
+                .filter(key => key.endsWith(".expandable") || key.endsWith(".collapsed"))
+                .forEach(key => sessionStorage.removeItem(key));
+        }
+        sessionStorage.setItem("menuVersion", currentMenuVersion);
+    }
+
     document.querySelectorAll(".dropdown").forEach(function (menu) {
         let top = true
         menu.querySelectorAll(".dropdown-item").forEach(function (item) {
-            const currentMenuVersion = document.body.dataset.menuChanged;
-            log("top menuVersion:", currentMenuVersion);
-            const savedMenuVersion = sessionStorage.getItem("menuVersion");
-
-            if (!savedMenuVersion || savedMenuVersion < currentMenuVersion) {
-                log("Menu changed or server restarted: Rebuilding menu state");
-
-                Object.keys(sessionStorage)
-                    .filter(key => key.endsWith(".expandable") || key.endsWith(".collapsed"))
-                    .forEach(key => sessionStorage.removeItem(key));
-
-                if (currentMenuVersion) {
-                    sessionStorage.setItem("menuVersion", currentMenuVersion);
-                }
-            }
 
             if (item.dataset.topic === "true") {
                 top = false

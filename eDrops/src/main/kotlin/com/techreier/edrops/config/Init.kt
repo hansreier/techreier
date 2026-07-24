@@ -13,7 +13,7 @@ class Init(
     initService: InitService,
 ) {
     init {
-        val buildVersion = buildVersion(appConfig.buildTime, false)
+        val buildVersion = buildVersion(appConfig.buildTime)
         logger.info("App name: ${appConfig.appname} built: ${buildVersion}")
         if (!appConfig.auth) {
             logger.warn("Admin user auth is off, turn on and redeploy if production")

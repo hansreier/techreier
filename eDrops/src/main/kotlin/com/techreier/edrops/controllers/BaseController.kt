@@ -116,7 +116,7 @@ abstract class BaseController(
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
         // Build time if existing or current time. Forcing clear of css cache. Value in GUI at bottom.
         // Current time should only be used for selected local profiles, refer to BuildTimeValidation.kt
-        val built = buildVersion(ctx.appConfig.buildTime, false)
+        val built = buildVersion(ctx.appConfig.buildTime)
         model.addAttribute("built", built)
         model.addAttribute("sessionMark", getSessionMark())
         return BlogParams(blog, oldLangCode, usedLangcode, action, topicKey, topics)

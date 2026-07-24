@@ -58,7 +58,7 @@ class ErrorController(
         model.addAllAttributes(errAttributes)
         model["message"] = improveNoMsgAvail(msg, locale, response.status)
         model["path"] = decodeURLEncodedPath(path)
-        model["appversion"] = "${appConfig.appname} ${buildVersion(appConfig.buildTime, false)}"
+        model["appversion"] = "${appConfig.appname} ${buildVersion(appConfig.buildTime)}"
         return "error"
     }
 

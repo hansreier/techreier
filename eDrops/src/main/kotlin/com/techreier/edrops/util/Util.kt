@@ -13,7 +13,6 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
-import java.time.temporal.ChronoUnit
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 const val DATE_PATTERN = "dd.MM.yyyy"
@@ -22,7 +21,7 @@ const val TIMESTAMP_PATTERN = "yyMMddHHmmss"
 // Return built version as simple timestamp with minutes or date. If time is not there current time is used.
 // timestamp used for caching of frontend files, this is the reason for reversed format without separators.
 // timestamp returnes is Oslo time.
-fun buildVersion(utc: String?, short: Boolean = true): String {
+fun buildVersion(utc: String?, short: Boolean = false): String {
     val instant = try {
         if (!utc.isNullOrBlank()) {
             Instant.parse(utc)
