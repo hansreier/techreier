@@ -13,6 +13,7 @@ import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import java.time.Instant
 
 @Service
 class InitService(
@@ -33,6 +34,7 @@ class InitService(
             logger.info("Initialize empty database with data")
             languageRepo.saveAll(initial.base.languages)
             topicRepo.saveAll(initial.base.topics)
+            initial.blogOwner.menuChanged = Instant.now()
             blogOwner = ownerRepo.save(initial.blogOwner)
         } else {
             logger.info("Updating database with changed initial data")
@@ -53,6 +55,7 @@ class InitService(
             blogOwner = ownerRepo.findBlogOwnerByUsername(initial.blogOwner.username)
                 ?: throw IllegalStateException("Initial blog owner not found")
             blogOwner.copyAttributes(initial.blogOwner)
+            if (blogOwner.menuChanged == null ) blogOwner.menuChanged = Instant.now()
             ownerRepo.save(blogOwner)
             initial.blogOwner.blogs.forEach { blog ->
                 val existingBlogs = blogRepo.findByTopicLanguageCodeAndSegment(blog.topic.language.code, blog.segment)

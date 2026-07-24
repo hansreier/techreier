@@ -30,7 +30,7 @@ fun buildVersion(utc: String?, short: Boolean = false): String {
         }
     } catch (ex: DateTimeParseException) {
         logger.error("${ex.message}, falling back to current time")
-        Instant.now() // Helt skuddsikker! Instant.now() kan ALDRI kaste DateTimeParseException
+        Instant.now()
     }
 
     val pattern = if (short) DATE_PATTERN else TIMESTAMP_PATTERN
