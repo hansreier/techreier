@@ -95,6 +95,19 @@ button {
     margin: 0.25rem 0.25rem;
 }
 
+details > summary {
+	font-weight: 600;
+	letter-spacing: 0.03em;
+	font-size: 0.9rem;
+	color: #212529;
+	cursor: default;
+	transition: color 0.2s ease;
+}
+
+details > summary:hover {
+	color: #0066cc;
+}
+
 p {
 	margin-top: 0;
 	padding: 0.5rem 5px;
@@ -857,7 +870,7 @@ a.dropdown-item:hover {
 }
 
 .input-form textarea.summary {
-    height: 4rem;
+    height: 8rem;
     min-height: 4rem;
     overflow-y: auto;
     resize: vertical;

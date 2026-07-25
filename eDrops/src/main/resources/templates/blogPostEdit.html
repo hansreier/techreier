@@ -6,6 +6,7 @@
 <head>
     <title th:text="${blog.subject}">Blogs</title>
     <script th:src="@{/js/disable.js(v=${built})}"></script>
+    <script th:src="@{/js/details.js(v=${built})}"></script>
     <script th:src="@{/js/markdownhelp.js(v=${built})}"></script>
 </head>
 <body>
@@ -22,50 +23,62 @@
                         <input class="postLock" type="checkbox" th:field="*{postLock}"/>
                     </label>
                 </div>
-                <button type="submit" class="deleteButton" th:text="#{action.delete}" name="action" th:value="delete"></button>
+                <button type="submit" class="deleteButton" th:text="#{action.delete}" name="action"
+                        th:value="delete"></button>
                 <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
                 <button type="submit" th:text="#{action.newPost}" name="action" th:value="create"></button>
                 <button type="submit" th:text="#{action.copy}" name="action" th:value="copy"></button>
                 <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
                 <button type="button" th:text="#{action.help}" onclick="toggleMarkdownHelp()"></button>
-             </div>
+            </div>
             <h1 th:text="${blogHeadline}"/>
             <h2 th:text="${postHeadline}"/>
-            <div class="input-form">
-                <div class="input-row">
-                    <label th:for="blogPostSegment" th:text="#{postSegment}"></label>
-                    <input type="text" id="blogPostSegment" th:field="*{segment}" th:attr="maxLength=${maxSegmentSize}"
-                           th:title="#{tip.segment}">
-                    <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
-                </div>
-                <div class="input-row">
-                    <label th:for="title" th:text="#{title}"></label>
-                    <input type="text" id="title" th:field="*{title}" th:attr="maxLength=${maxTitleSize}">
-                    <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
-                </div>
-                <div class="input-row">
-                    <label for="state" id="stateLabel" th:text="#{postState}"></label>
-                    <select id="state" th:field="*{state}">
-                        <option th:each="state : ${postStates}" th:value="${state.name()}" th:text="${state}"></option>
-                    </select>
-                </div>
-                <div class="input-row full-width">
-                    <label th:for="summary" th:text="#{postSummary}"></label>
-                    <textarea class="summary" id="summary" th:field="*{summary}" th:attr="maxLength=${maxSummarySize}"
-                              onfocus="document.getElementById('focus').value='s'"></textarea>
-                    <span class="error" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></span>
-                </div>
-                <div class="input-row full-width" th:if="${summary != null}">
-                    <div class="view-wrapper">
-                        <div class="view" th:utext="${summary}"></div>
+            <details id="post-details">
+                <summary th:text="#{details}"/>
+                <div class="input-form">
+                    <div class="input-row">
+                        <label th:for="blogPostSegment" th:text="#{postSegment}"></label>
+                        <input type="text" id="blogPostSegment" th:field="*{segment}"
+                               th:attr="maxLength=${maxSegmentSize}"
+                               th:title="#{tip.segment}">
+                        <span class="error" th:if="${#fields.hasErrors('segment')}" th:errors="*{segment}"></span>
+                    </div>
+                    <div class="input-row">
+                        <label th:for="title" th:text="#{title}"></label>
+                        <input type="text" id="title" th:field="*{title}" th:attr="maxLength=${maxTitleSize}">
+                        <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+                    </div>
+                    <div class="input-row">
+                        <label for="state" id="stateLabel" th:text="#{postState}"></label>
+                        <select id="state" th:field="*{state}">
+                            <option th:each="state : ${postStates}" th:value="${state.name()}"
+                                    th:text="${state}"></option>
+                        </select>
+                    </div>
+                    <div class="input-row full-width">
+                        <label th:for="summary" th:text="#{postSummary}"></label>
+                        <textarea class="summary" id="summary" th:field="*{summary}"
+                                  th:attr="maxLength=${maxSummarySize}"
+                                  onfocus="document.getElementById('focus').value='s'"></textarea>
+                        <span class="error" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></span>
+                    </div>
+                    <div class="input-row full-width" th:if="${summary != null}">
+                        <div class="view-wrapper">
+                            <div class="view" th:utext="${summary}"></div>
+                        </div>
                     </div>
                 </div>
+            </details>
+            <div class="input-form">
                 <div class="input-row full-width">
                     <label th:for="blogPost" th:text="#{blogPost}"></label>
                     <textarea id="blogPost" th:field="*{content}"
                               onfocus="document.getElementById('focus').value='c'"></textarea>
                     <span class="error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
                 </div>
+            </div>
+
+            <div class="input-form">
                 <div class="input-row full-width">
                     <div class="button-row">
                         <button type="submit" th:text="#{action.back}" name="action" th:value="back"></button>
@@ -74,7 +87,8 @@
                                 <input class="postLock" type="checkbox" th:field="*{postLock}"/>
                             </label>
                         </div>
-                        <button type="submit" class="deleteButton" th:text="#{action.delete}" name="action" th:value="delete"></button>
+                        <button type="submit" class="deleteButton" th:text="#{action.delete}" name="action"
+                                th:value="delete"></button>
                         <button type="submit" th:text="#{action.save}" name="action" th:value="save"></button>
                         <button type="submit" th:text="#{action.newPost}" name="action" th:value="create"></button>
                         <button type="submit" th:text="#{action.copy}" name="action" th:value="copy"></button>
