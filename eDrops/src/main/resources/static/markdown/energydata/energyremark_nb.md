@@ -38,7 +38,7 @@ Regjeringens voldsomme planer om økt forbrukt (datasentre, batteriproduksjon,
 ammoniakk, hydrogen, Melkøya, elektrifisering) gjør at det ikke går opp. 
 Så skal eksisterende kraftkrevende industri også få kraft.
 
-**Det er vannkkraftens stabilisernede effekt EU er ute etter**. 
+**Det er vannkraftens stabilisernede effekt EU er ute etter**. 
 EU kan ikke da si at det hjelper  med mer vindkraft- og solkraft-produksjon i Norge. 
 Havvind eventyret til regjeringen  er i så fall ganske bortkastet. 
 Samtidig presterer EU å si at vannkraft egentlig ikke
