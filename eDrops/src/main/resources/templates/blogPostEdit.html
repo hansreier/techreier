@@ -55,6 +55,14 @@
                                     th:text="${state}"></option>
                         </select>
                     </div>
+                    <div class="input-row">
+                        <label for="postBump" id="postBumpLabel" th:text="#{postBump}"></label>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="postBump" th:field="*{bumped}"/>
+                            </label>
+                        </div>
+                    </div>
                     <div class="input-row full-width">
                         <label th:for="summary" th:text="#{postSummary}"></label>
                         <textarea class="summary" id="summary" th:field="*{summary}"

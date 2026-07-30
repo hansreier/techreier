@@ -10,6 +10,7 @@ import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
 import com.techreier.edrops.repository.BlogRepository
 import com.techreier.edrops.repository.BlogTextRepository
+import com.techreier.edrops.repository.projections.IBlogPostSummary
 import org.springframework.dao.DataRetrievalFailureException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -25,7 +26,7 @@ class BlogPostService(
     private val blogTextRepo: BlogTextRepository,
 ) {
     fun save(blogId: Long, blogPostId: Long?, blogPostForm: BlogPostForm, timestamp: Instant): Long {
-        logger.info("Saving blogPost id: ${blogPostId} segment: ${blogPostForm.segment} state: ${blogPostForm.state.name} blogId: $blogId")
+        logger.info("Saving blogPost id: $blogPostId segment: ${blogPostForm.segment} state: ${blogPostForm.state.name} blogId: $blogId")
 
         val blogProxy = blogRepo.getReferenceById(blogId)
 
@@ -85,27 +86,25 @@ class BlogPostService(
             throw PostNotFoundException("Blogpost not found: blogId: $blogId segment: $segment state: ${state.name}")
         }
         val duplicates = if (posts.size > 1) {
-            val dupList = posts.mapNotNull { it.id }
+            val dupList = posts.map { it.id }
             logger.warn("Blogpost duplicate ids: blogId: $blogId ids: $dupList")
             dupList
         } else listOf()
         val blogPost = posts.first()
-        val blogPostId =
-            blogPost.id ?: throw DataRetrievalFailureException("Failed to read BlogPost: $blogPost. No id Returned")
-        val found = blogTextRepo.findPById(blogPostId)
+        val found = blogTextRepo.findPById(blogPost.id)
         val blogText = if (found?.id != null) found else null
         logger.info("BlogPost read")
         return PostWithText(blogPost, blogText, duplicates)
     }
 
 
-    fun findIds(segment: String, blogId: Long, state: PostState): List<Long> {
-        return blogPostRepo.findBlogPostIds(segment, blogId, state.name)
+    fun findSummaries(segment: String, blogId: Long, state: PostState): List<IBlogPostSummary> {
+        return blogPostRepo.findBlogPostSummaries(segment, blogId, state.name)
     }
 
     // If save existing or new post (given by blogPostId), check if it will be a duplicate
     fun duplicate(segment: String, blogId: Long, state: PostState, blogPostId: Long?): Boolean {
-        return blogPostRepo.findBlogPostIds(segment, blogId, state.name).any { it != blogPostId }
-
+        val summaries = blogPostRepo.findBlogPostSummaries(segment, blogId, state.name)
+        return summaries.any {  it.id != blogPostId }
     }
 }

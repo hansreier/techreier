@@ -1,6 +1,7 @@
 package com.techreier.edrops.repository
 
 import com.techreier.edrops.domain.BlogPost
+import com.techreier.edrops.repository.projections.IBlogPostSummary
 import com.techreier.edrops.repository.projections.IBlogPost
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
@@ -22,12 +23,12 @@ interface BlogPostRepository : JpaRepository<BlogPost, Long> {
 
     @Query(
         """
-    SELECT b.id FROM BlogPost b 
+    SELECT b.id AS id, b.changed AS changed FROM BlogPost b 
     WHERE b.segment = :segment 
     AND b.blog.id = :blogId 
     AND b.state = :state 
     ORDER BY b.changed DESC, b.id DESC
 """
     )
-    fun findBlogPostIds(segment: String, blogId: Long, state: String): List<Long>
+    fun findBlogPostSummaries(segment: String, blogId: Long, state: String): List<IBlogPostSummary>
 }

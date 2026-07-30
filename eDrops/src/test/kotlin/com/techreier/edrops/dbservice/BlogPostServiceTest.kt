@@ -1,6 +1,7 @@
 package com.techreier.edrops.dbservice
 
 
+import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.PostState
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.TestBase
@@ -38,6 +39,7 @@ class BlogPostServiceTest : TestBase() {
         val (post2, text2) = postService.readBlogPost(blogId, segment2, PostState.IDEA)
         assertNotNull(post2)
         assertNotNull(text2)
+        logger.debug("blogId=${blog.id} id: ${post2.id} segment: ${post2.segment} state: ${post2.state}")
         assertEquals("text", text2.text)
     }
 
@@ -92,11 +94,11 @@ class BlogPostServiceTest : TestBase() {
         val state = PostState.find(blogPost.state, true)
         val form = BlogPostForm(segment = blogPost.segment, state = state)
         val id = postService.save(blogId, null, form, Instant.now())
-        val ids = postService.findIds(blogPost.segment, blogId, state)
-        assertThat(ids.size).isEqualTo(2)
-        assertThat(ids).containsAll(listOf(id, blogPostId))
-        postService.delete(blogId, ids)
-        assertNull(postRepo.findById(ids.first()).orElse(null))
-        assertNull(postRepo.findById(ids[1]).orElse(null))
+        val summaries = postService.findSummaries(blogPost.segment, blogId, state)
+        assertThat(summaries.size).isEqualTo(2)
+        assertThat(summaries.map{it.id}).containsAll(listOf(id, blogPostId))
+        postService.delete(blogId, summaries.map {it.id})
+        assertNull(postRepo.findById(summaries.first().id).orElse(null))
+        assertNull(postRepo.findById(summaries[1].id).orElse(null))
     }
 }

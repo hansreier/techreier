@@ -11,6 +11,7 @@ import com.techreier.edrops.exceptions.BlogNotFoundException
 import com.techreier.edrops.exceptions.ParentBlogException
 import com.techreier.edrops.exceptions.PostNotFoundException
 import com.techreier.edrops.forms.BlogPostForm
+import com.techreier.edrops.repository.projections.IBlogPostSummary
 import com.techreier.edrops.repository.projections.toDTO
 import com.techreier.edrops.util.checkSegment
 import com.techreier.edrops.util.checkStringSize
@@ -111,33 +112,35 @@ class BlogPostEditController(
             ?: throw (BlogNotFoundException("blogId not found for segment $segment language $blogPrincipal.langCode"))
 
         val state = PostState.find(state, false)
-        val blogPostIds = blogPostService.findIds(subsegment, blogId, state)
+        val blogPostSummaries = blogPostService.findSummaries(subsegment, blogId, state)
 
         redirectAttributes.addFlashAttribute("action", action)
-        logger.info("blogPost: path=${request.servletPath} action=$action blogid=$blogId blogPostIds=$blogPostIds")
+        logger.info("blogPost: path=${request.servletPath} action=$action blogid=$blogId blogPostIds=$blogPostSummaries")
         if (action == "back")  {
             return "redirect:$BLOG_EDIT_DIR/$segment?lang=$blogLangcode"
         }
         if (action == "save" || action == "create" || action == "copy" ) {
-            if (blogPostIds.size > 1)
+            if (blogPostSummaries.size > 1)
                 bindingResult.rejectValue("segment", "error.duplicate", form.segment)
 
             checkStringSize(form.title, MAX_TITLE_SIZE, "title", bindingResult, 1)
             form.title = form.title.replaceFirstChar { it.uppercaseChar() }
             checkStringSize(form.summary, MAX_SUMMARY_SIZE, "summary", bindingResult)
             if (checkSegment(form.segment, "segment", bindingResult)) {
-                if (blogPostService.duplicate(form.segment, blogId, form.state, blogPostIds.firstOrNull())) {
+                if (blogPostService.duplicate(form.segment, blogId, form.state, blogPostSummaries.firstOrNull()?.id)) {
                     bindingResult.rejectValue("segment", "error.duplicate", form.segment)
                 }
             }
 
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.savePost")
-                prepare(model, request, response, segment, created,changed, blogPostIds)
+                prepare(model, request, response, segment, created,changed, blogPostSummaries)
                 return "blogPostEdit"
             }
             try {
-                blogPostService.save(blogId, blogPostIds.firstOrNull(), form, now())
+                val blogPostId = blogPostSummaries.firstOrNull()?.id
+                val timestamp = if (form.bumped || blogPostId == null) { now() } else { blogPostSummaries.first().changed }
+                blogPostService.save(blogId, blogPostId, form, timestamp)
                 if (action == "copy") {
                     form.state = PostState.IDEA
                     form.postLock = true
@@ -154,17 +157,20 @@ class BlogPostEditController(
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
                     else -> throw e
                 }
-                prepare(model, request, response, segment, created,changed, blogPostIds)
+                prepare(model, request, response, segment, created,changed, blogPostSummaries)
                 return "blogPostEdit"
             }
         }
 
         if (action == "delete") {
             try {
-                blogPostService.delete(blogId, blogPostIds)
+                val blogIdList = blogPostSummaries.map {
+                    it.id
+                }
+                blogPostService.delete(blogId, blogIdList)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
-                prepare(model, request, response, segment, created,changed, blogPostIds)
+                prepare(model, request, response, segment, created,changed, blogPostSummaries)
                 return "blogPostEdit"
             }
             return "redirect:$BLOG_EDIT_DIR/$segment?lang=$blogLangcode"
@@ -186,20 +192,20 @@ class BlogPostEditController(
             } else {
                 form.preview = ""
             }
-            prepare(model, request, response, segment, created, changed, blogPostIds)
+            prepare(model, request, response, segment, created, changed, blogPostSummaries)
             return "blogPostEdit"
         }
 
         if (action == "help") {
             model.addAttribute("help", "h")
-            prepare(model, request, response, segment, created, changed, blogPostIds)
+            prepare(model, request, response, segment, created, changed, blogPostSummaries)
             return "blogPostEdit"
         }
 
         // This should never really occur
         logger.error("Illegal action: $action")
         bindingResult.reject("error.illegalAction")
-        prepare(model, request, response, segment, created, changed,  blogPostIds)
+        prepare(model, request, response, segment, created, changed,  blogPostSummaries)
         return "blogPostEdit"
     }
 
@@ -210,7 +216,7 @@ class BlogPostEditController(
         segment: String,
         created: String,
         changed: String,
-        blogPostIds: List<Long>,
+        blogPostSummaries: List<IBlogPostSummary>,
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment, false, true)
         logger.info("Prepare allBlogPosts Fetch blog posts with: ${blogParams}")
@@ -221,10 +227,10 @@ class BlogPostEditController(
         model.addAttribute("changed", changed)
         model.addAttribute("created", created)
         model.addAttribute("postStates", PostState.entries)
-        if (blogPostIds.size > 1) {
-            model.addAttribute("duplicates", blogPostIds)
+        if (blogPostSummaries.size > 1) {
+            model.addAttribute("duplicates", blogPostSummaries.map { it.id })
         } else {
-            model.addAttribute("postId", blogPostIds.firstOrNull())
+            model.addAttribute("postId", blogPostSummaries.firstOrNull()?.id)
         }
         logger.info("prepared)")
     }

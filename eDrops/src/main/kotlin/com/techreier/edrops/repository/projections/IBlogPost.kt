@@ -14,7 +14,7 @@ interface IBlogPost {
     val segment: String
     val changed: Instant
     val created: Instant
-    val id: Long?
+    val id: Long
 }
 
 fun IBlogPost.toDTO(
