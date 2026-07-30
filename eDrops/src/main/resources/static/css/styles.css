@@ -100,8 +100,9 @@ details > summary {
 	letter-spacing: 0.03em;
 	font-size: 0.9rem;
 	color: #212529;
-	cursor: default;
 	transition: color 0.2s ease;
+	margin-top: 1rem;
+	margin-bottom: 7px;
 }
 
 details > summary:hover {
@@ -868,6 +869,11 @@ a.dropdown-item:hover {
 #reier {
 	background-color: green;
 }
+
+#postBump {
+	display: flex;
+	margin-top: -5px;
+ }
 
 .input-form textarea.summary {
     height: 8rem;
