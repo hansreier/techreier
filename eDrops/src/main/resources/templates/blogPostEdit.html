@@ -33,7 +33,7 @@
             </div>
             <h1 th:text="${blogHeadline}"/>
             <h2 th:text="${postHeadline}"/>
-            <details id="post-details">
+            <details id="post-details" open>
                 <summary th:text="#{details}"/>
                 <div class="input-form">
                     <div class="input-row">
@@ -55,7 +55,7 @@
                                     th:text="${state}"></option>
                         </select>
                     </div>
-                    <div class="input-row">
+                    <div class="input-row">f
                         <label for="postBump" id="postBumpLabel" th:text="#{postBump}"></label>
                         <div class="checkbox">
                             <label>
