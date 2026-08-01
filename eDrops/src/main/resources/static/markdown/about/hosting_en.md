@@ -8,7 +8,7 @@ More and more hosting companies offer hosting of Docker containers.
 Docker hosting is either VPS hosting or cloud hosting.
 In general, you have less control if cloud hosting is selected and the yearly bill is usually more unpredictable and
 higher. On the other hand, a VPS does not scale that well, and you are bound to one server location.
-A VPS is also more limited when it comes to managing a lot of docker containers, e.g. with Kubernetes.
+A VPS is also more limited when it comes to managing a lot of Docker containers, e.g. with Kubernetes.
 For a small personal project like this VPS was selected due to simplicity and cost control.
 My usual customers have been large organizations or companies, then cloud hosting is preferred.
 

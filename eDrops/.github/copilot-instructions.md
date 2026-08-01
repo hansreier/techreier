@@ -19,7 +19,7 @@
 - Use Thymeleaf to create web GUI, not JavaScript.
 - Create as little logic as possible in Thymeleaf, use Kotlin instead.
 - If you must use JavaScript, keep it simple and don't pull in JavaScript libraries
-- Use css if you must. It's just one large file. Keep it simple.
+- Use CSS if you must. It's just one large file. Keep it simple.
 - Max line length is 120 characters for Java and Kotlin
 - Use 4 spaces for indentation in Java and Kotlin (2 spaces for YAML, JSON, HTML)
 - Function calls with 4+ parameters should be split over multiple lines (not necessarily one parameter per line)

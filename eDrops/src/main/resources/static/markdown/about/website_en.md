@@ -38,7 +38,7 @@ discussing this.
   * Programming techniques
   * Backend: Kotlin / Spring Boot / Hibernate / MariaDB
   * Frontend: Thymeleaf / producing HTML from text
-  * Devops: Running docker containers on Hostinger VPS (Virtual Private Linux Server)
+  * Devops: Running Docker containers on Hostinger VPS (Virtual Private Linux Server)
 * Programming prototypes is included here
 
 ### Technology prototype
@@ -49,7 +49,7 @@ If you are interested in how the site was made, I have another post explaining i
 
 ### How to make a text based website without coding HTML
 
-The goal is to do this as simple as possible. One option is to use markdown like in a readme.md file,
+The goal is to do this as simple as possible. One option is to use Markdown like in a readme.md file,
 since this is simpler that RTF and uses less disk space. Perhaps this system in the future will support both formats.
 External text editors like Intellij can be used, or a text editor to be included in this project (TODO).
 I consider using HTMX to be able to update a part of the web page for text editing.
@@ -58,7 +58,7 @@ it is quicker to develop an easier to maintain, compared to using client based w
 This is at least valid for me, being basically a backend developer. Do not mix technologies, if you do not need to.
 One thing to note is that server side rendering with Thymeleaf results in very clean HTML 5 with almost no Javascript added.
 
-The first attempt is to use markdown written in Intellij or other editor, store it as a file included in the code,
+The first attempt is to use Markdown written in Intellij or other editor, store it as a file included in the code,
 and pick it up as a part of the Web user interface. No database is really required. 
 I use a relational database to structure the blogs and metadata, and to enable viewing and writing 
 the blog in different languages.

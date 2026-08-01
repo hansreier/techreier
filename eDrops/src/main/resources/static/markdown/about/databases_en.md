@@ -44,7 +44,7 @@ Entity hierarchy:
 - Topic: Categorization of a blog, used to organize a dropdown menu
 - LanguageCode: A topic (and blog) can be written in English or Norwegian. 
 - BlogPost: The dated article contained in a blog with a short summary and metadata.
-- BlogText: The markdown text of an article  
+- BlogText: The Markdown text of an article  
 
 LanguageCode and Topic are stored with UniqueConstraint in the database.
 I have preferred not to define other unique constraints because it makes the database less flexible.
@@ -82,8 +82,8 @@ This project needs a database connection to run and uses Spring Boot standard co
 set up database connections.
 
 Some parts of this webapp does not require a database. In the current setup a database connection at startup is
-still required, due to the simple Spring Boot configuration. This markdown file is e.g. not stored in a database.
-The blog part needs a database, even if markdown is used.
+still required, due to the simple Spring Boot configuration. This Markdown file is e.g. not stored in a database.
+The blog part needs a database, even if Markdown is used.
 
 To select a Spring Boot database profile using environment variable:
 SPRING_PROFILES_ACTIVE="profile".
@@ -106,9 +106,9 @@ files (volume or bind) to ensure permanent storage. This is not tested.
 
 Spring boot MariaDB profiles:
 - local-mariadb: Mariadb in local disk. 
-- mariadb-dockerized - connect dockerized mariadb (locally or from docker)
-- docker-mariadb - connect from local docker image to local mariadb
-- global-mariadb - connect globally to dockerized mariadb
+- mariadb-dockerized - connect dockerized MariaDB (locally or from Docker)
+- docker-mariadb - connect from local Docker image to local MariaDB
+- global-mariadb - connect globally to dockerized MariaDB
 
 All these profile uses Flyway for table generation, else JPA/Hibernate for other DB operations.
 
@@ -130,19 +130,19 @@ GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, SHOW VIEW ON e
 ```
 refer to script dbInit.sql. The bottom grant statement is better to use, gives more limited access.
 
-### Installing MariaDB on docker image
+### Installing MariaDB on Docker image
 
 I have tested this, but I really like local installation better because it is easier. 
 It is not that complicated if required to clear the tables, you just have to do it in the correct order.  
 
 Use MariaDb official image from Dockerhub. Create a container. Remember to enter port 
-and set MARIADB_ROOT_PASSWORD as environment variable when using Docker Desktop or docker command.
+and set MARIADB_ROOT_PASSWORD as environment variable when using Docker Desktop or Docker command.
 Sign in.  
 
 Note: The db port is changed to 3308 in config for local Docker.  
 
 Never use the root user and password for connection, a separate user: dbuser is defined for the purpose.
-I have used an environment variable DB_PASSWORD, to avoid checking in db user password to github.  
+I have used an environment variable DB_PASSWORD, to avoid checking in db user password to GitHub.  
 
 - Local connect to dockerized MariaDB: Docker Desktop has a special host name host.docker.internal.
   Note: localhost refers to localhost on the Docker image and not on your development PC.

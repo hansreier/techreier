@@ -4,7 +4,7 @@ Commonmark reference implementation was first used for Markdown. What I
 found is that it was not very configurable, even if some extensions could be 
 added (like Table and Image extension) in addition to just use the Commonmark 
 standard. I startet to use Flexmark instead. But I have later found that this
-library is not actively maintained anymore. I have started to go back to CommonMark again,
+library is not actively maintained anymore. I have switched back to CommonMark again,
 and I have found this library sufficient for my web app. 
 
 GitHub flavored Markdown is the most used Markdown dialect, also used in Intellij.
@@ -31,7 +31,7 @@ The Markdown content is selected from a menu:
 
 ### Alternatives to Markdown
 
-- AsciiDoc (Extended markdown for better layout, e.g. for tables)
+- AsciiDoc (Extended Markdown for better layout, e.g. for tables)
 - Plain HTML (too much work and includes coding).
 - language resource file text (tried that, not ideal).
 - To use RTF.
@@ -80,8 +80,7 @@ It is generally hard to implement because it can collide with internal id’s an
 The parser need to be configured to generate ids for headlines,
 and the Sanitizer must be configured not to remove them.  
 If the headline you link to is changed, it will not work either.
-This often introduces a lot of broken links in documentation systems. 
-
+This often introduces a lot of broken links in documentation systems.  
 
 The links to blog content stored in a database, only works on the produced web page.
 All link examples contain relative links, except the bottom link that is just a regular external link.
@@ -147,7 +146,7 @@ GitHub uses a different syntax for inline math expressions. I have used what is 
 
 ### Printing
 
-Some additional css are added, to exclude top and bottom line and more,
+Some additional CSS are added, to exclude top and bottom line and more,
 with the `@media print` tag. For most of my web pages, this is enough
 to enjoy beautiful web page printing. For even better result, 
 print the blog post as PDF, download and enjoy.  

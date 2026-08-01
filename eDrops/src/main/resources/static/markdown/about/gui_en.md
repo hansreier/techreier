@@ -44,7 +44,7 @@ Really very simple implemented, layout could have been improved.
 #### Clicking on links 
 
 Minimal JavaScript is used. I have avoided the use of URL query parameters and transferring state in internal links.
-This keeps the code simple because I can use simple HTML links for everything (including in markdown)
+This keeps the code simple because I can use simple HTML links for everything (including in Markdown)
 
 ### Displaying date and time information
 
@@ -66,16 +66,20 @@ Now you know what this cryptic number is. It is changed for every deploy to Dock
 
 #### Other usage of JavaScript
 
-Simple actions that do not need to contact the server, e.g. changing value in dropdown or hiding a field.
+Simple actions that do not need to contact the server, e.g. changing value in dropdown or hiding fields.
 
-Else, to be decided, I can add more, perhaps for graphs or a markdown editor.
+Else, to be decided, I can add more, perhaps for graphs in a canvas area.  One use case I consider
+is to store current position when editing on the client. The problem is that for every round trip to the 
+server this position is reset. I have found it does not matter for a small blogpost. It can be annoying for a
+3-page blogpost. This functionality is really required for a longer article.  
+
 The responsive design web page uses some JavaScript, 
 just to demonstrate what information I can fetch for free from your device without you knowing it.
 I dropped reading position, since it requires special care.
 
-### Language independent web site
+### Language independent website
 
-To achieve this both traditional language resource files and language dependent markdown is used.
+To achieve this both traditional language resource files and language dependent Markdown is used.
 My previous website used only resources files, but not advisable for a lot of unstructured text.
 The labels and message system uses resource files. The menu system is constructed from blog metadata,
 so resource files are not used there in general. Some of the menu items and topic anyhow will use hard coded
@@ -107,17 +111,17 @@ administrate and enter blogs and blog posts. And this is not a simple task, actu
 Markdown are stored on the file system in Docker or in the database. Some of the permanent text are stored on files,
 the rest are stored in database. Images are stored directly on the VPS server, some are stored in the Docker container.
 
-I have used Intellij as the markdown editor. This is not practical when storing blogs and images in a database.
-I have already used  a Markdown parser (Flexmark), but I also need a Markdown editor. 
+I have used Intellij as the Markdown editor. This is not practical when storing blogs and images in a database.
+I have already used  a Markdown parser, but I need a Markdown editor. 
 The simplest way of doing this is using an HTML text input field,
 parsing the result on the server and using a separate window to present the result.
 It is a question of styling, maybe editor buttons and special characters like emojis.
 The simplest improvement is using a Tooltip for help.
 
 A more advanced solution uses JavaScript, perhaps I will use some open source library.
-This, including the scaling problem, is why I will keep this as a one user system for a long time.
+This, including the scaling problem, is why I will keep this as a one-user system for a long time.
 Imagine commercial blog sites: I just cannot and will not compete with it. This system is really designed for
-one or a few selected admin users and a small VPS.
+one or a few selected writers and admin users and a small VPS with relatively short blogposts.  
 
 ### Thymeleaf, HTML5 and JavaScript in practice.
 

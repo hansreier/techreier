@@ -51,7 +51,7 @@ Hvis du er interessert i hvordan dette nettstedet er laget, så har jeg en annen
 
 ### Hvordan å lage en tekst basert nettsted uten å kode HTML
 
-Målet er å lage dette så enkelt som mulig. En opsjon er å bruke markdown som i en readme.md fil,
+Målet er å lage dette så enkelt som mulig. En opsjon er å bruke Markdown som i en readme.md fil,
 siden det er enklere enn RTF og tar mindre plass. Kanskje vil systemet støtte begge formater.
 Eksterne tekst-editorer som Intellij kan brukes, eller en tekst editor som inkluderes i dette prosjektet (TODO).
 Jeg vurderer å brukt HTMX for å kunne oppdaterere deler av en web side for tekst editering.
@@ -62,7 +62,7 @@ sammen, i hvertfall hvis det ikke er nødvendig.
 En ting å notere er at tjenerside generering med Thymeleaf gir veldig ren HTML 5,
 og uten at det er påkrevet med veldig mye Javascript.
 
-Det første forsøket er å bruke markdown skrevet i Intellij eller en annen editor, lagre det som en fil smmmen
+Det første forsøket er å bruke Markdown skrevet i Intellij eller en annen editor, lagre det som en fil smmmen
 med koden, og plukke det opp som en del av Web brukergrensesnittet. Ingen database er egentlig
 nødvendig. Men jeg bruker likevel en relasjonsdatabase for å strukturer bloggene og metadata, og
 for å muliggjøre å skrive og vise bloggene i ulike språk.

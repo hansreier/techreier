@@ -15,7 +15,7 @@ This is the motivation for using Docker containers and using a more modern
 technology stack. 
 
 One important decision was not to use client based web technologies like React and Angular 
-like everybody else nowadays, but to use server based html template generation.
+like everybody else nowadays, but to use server based HTML template generation.
 The motivation for this is simplicity and to keep the main focus on backend.
 It is simpler, quicker and I do not need to use tools like node and npm to produce the frontend.
 I have professionally been working with Java and Kotlin projects that includes Angular or React.
@@ -30,24 +30,24 @@ I think Thymeleaf is a more modern, simpler and better approach, in particular c
 Spring Boot and Spring MVC.
 
 What I originally intended was to make a blog based system, since producing text on my
-previous website was cumbersome. I have solved this by using markdown based text.
-Text is simply produced by editing a markdown file in Intellij.
-Later I implemented a database based solution with MariaDB and web GUI to enter text as markdown.
+previous website was cumbersome. I have solved this by using Markdown based text.
+Text is simply produced by editing a Markdown file in Intellij.
+Later I implemented a database based solution with MariaDB and web GUI to enter text as Markdown.
 
 ### How to make a text based website without coding HTML
 
 The original goal was to make this as simple as possible where the user enters text in an input
-window.  An option is to use markdown like this readme.md file, since
+window.  An option is to use Markdown like this readme.md file, since
 it is simpler than RTF and uses less space. Perhaps the system will support both
 formats in the future. Editors, both outside of this project or included in this project can be used.
 
-The first attempt was to use markdown written in Intellij or other editor, store it as a file
+The first attempt was to use Markdown written in Intellij or other editor, store it as a file
 together with project code and pick it up as a part of the Web GUI. No database is really needed.
 The advantage and disadvantage of this approach is that my written text is included directly in the codebase,
 and I have to redeploy to update. 
 
 The second attempt was to use a relational database H2 for structuring the blogs and metadata.
-I use server based markdown parsing. I started with CommonMark,
+I use server based Markdown parsing. I started with CommonMark,
 the Java reference implementation, found it too limited and switched to Flexmark. What I have seen now
 is that I perhaps need to switch back to CommonMark again, no more Flexmark releases seen to be produced.
 Some issues with link replacement and GitHub flavor need to be solved in another way to manage this.
@@ -56,9 +56,9 @@ The third attempt was to enable to write and view the blogs online in various la
 This required the use of Spring Security and a blogOwner concept with a simple login screen. 
 The production database was changed from H2 to MariaDB. I have used some effort on 
 expanding the simple button row below the HTML textarea editor; with preview and quick Markdown help.
-I have selected not to use additional buttons or keyboard shortcuts to insert markdown codes into the textarea.
+I have selected not to use additional buttons or keyboard shortcuts to insert Markdown codes into the textarea.
 This is the present status of the project. I have looked at other Markdown editors doing this, and my experience is
-that it is the best just to skip it. My editor and markdown parsing is server based instead of using JavaScript.
+that it is the best just to skip it. My editor and Markdown parsing is server based instead of using JavaScript.
 This have some limitations, but it works surprisingly well. The response time does not feel slow.  
 
 Future plan is to make the system a true multiuser project with 4 user permission levels:
@@ -71,11 +71,15 @@ I am not there yet. The question is if I ever will. The website could be used fo
 blog owners, e.g. by a sports club or something. If I let any user into the system, this implies I have created
 a free blog platform without advertising or a payment mechanisms. And do I really want this. Probably not.
 My simple way of using Jottacloud for synchronizing media content to a Docker volume, can not be used either. 
-It could soon outgrow the current Hostinger plan. Regarding the future use of other formats than markdown,
+It could soon outgrow the current Hostinger plan. Regarding the future use of other formats than Markdown,
 I have come to realize that is the best not to expand to other formats. A commercial blog system probably
-requires frontend markdown rendering too.  
+requires frontend Markdown rendering too. 
 
-A more realistic and fun future plan is to expand the blogs with functionality, calculations and graphical curves, 
-to support my own blogs.
+### Future plans
 
-
+A more realistic and fun future plan is to expand the blog with more functionality,
+calculations, and graphical curves to support my posts. 
+One idea is to use WebAssembly (Wasm) to perform live animations and simulations without writing pure JavaScript.
+WebAssembly will be generated from Kotlin code.
+I could reuse a math parser I built in an earlier side project 
+(or alternatively integrate an open source parser like Exp4j) to enable live tweaking of formulas.

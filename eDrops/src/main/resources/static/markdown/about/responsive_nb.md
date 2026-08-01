@@ -20,7 +20,7 @@ Innstillingene endres etterhvert. Jeg ønsker å tilpasse nettstedet til ulike e
 Jeg foretrekker å ikke gjøre det agressivt, fordi det kan være
 forvirrende med mange endringer i font størrelser når vinduet endrer størrelse.
 
-Informasjonen er funnet med Javascript. Ikke noe lagres noe sted.  
+Informasjonen er funnet med JavaScript. Ikke noe lagres noe sted.  
 
 ## Din enhet med skjerm og font
 

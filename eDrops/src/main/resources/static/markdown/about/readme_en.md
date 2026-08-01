@@ -1,22 +1,22 @@
 ## Functionality of Techreier
 
-This is a simple and limited blog system. It is two types of blogs, both are markdown based.
-- Hard coded text content stored in files in the project in the static/markdown folder with subfolders.
+This is a simple and limited blog system. It is two types of blogs, both are Markdown based.
+- Hard coded text content stored in files in the project in the static/Markdown folder with subfolders.
 - Database blogs stored in MariaDB, the newest blog at the top.
 
 Some of the hard coded blogs have added functionality, like calculation of energy.
 A menu system supports navigation to the blogs, partly hard coded and partly dynamically generated from the database.  
 The blog system uses a simple one column layout, to be able to be viewed on any device (including mobiles).
 
-### How to enter blogs without coding html
+### How to enter blogs without coding HTML
 
 The goal was to make this as simple as possible without a complex text editor. 
 
-I choose to use markdown like this README.md file, since it is simpler than RTF and uses less disk space. 
-Any text or markdown editor can be used, I have included my own simple markdown editor to produce the database
-based blogs. The editor is based on the html textarea tag with some additions.
+I choose to use Markdown like this README.md file, since it is simpler than RTF and uses less disk space. 
+Any text or Markdown editor can be used, I have included my own simple Markdown editor to produce the database
+based blogs. The editor is based on the HTML <textarea> tag with some additions.
 
-The first attempt was to use markdown written in Intellij or other editor, store it as a file  
+The first attempt was to use Markdown written in Intellij or other editor, store it as a file  
 together with project code and pick it up as a part of the Web GUI. 
 My improved solution is to use a relational database for structuring the blogs and metadata, and to enable to
 write, store and view the blogs in various languages.
@@ -29,10 +29,11 @@ I mostly follow the GitHub Markdown dialect.
 This philosophy was selected a long time ago with my old website, before JavaScript became popular.
 I have never actually liked the JavaScript language. Without JavaScript, a round trip to the server
 is required whatever you do interactively. What I do is to use JavaScript where GUI 
-performance and usability actually matters, in drop down menus and some limited state handling
-where server storage really is cumbersome. The best is that no node and npm is required.
+performance and usability actually matters. Examples are in drop down menus and some limited state handling
+where server storage really is cumbersome. The best is that no node and npm is required.  
+
 I like TypeScript, but it adds a lot of libraries on top of JavaScript, so it is skipped.
-Libraries used for DOM manipulation and css are omitted. HTMx (and Ajax) is omitted because I really
+Libraries used for DOM manipulation and CSS are omitted. HTMx (and Ajax) is omitted because I really
 cannot see the gain in the way more system is written. One comment is that the introduction of AI
 have made it easier to use basic low level tools than it was before.  My webSite is very SEO friendly.  
 
@@ -47,11 +48,11 @@ have made it easier to use basic low level tools than it was before.  My webSite
 - Spring Security
 - JPA / Hibernate
 - MariaDB
-- html
+- HTML
 - Thymeleaf
-- Markdown with Flexmark (CommonMark implementation)
-- Javascript
-- css
+- Markdown with CommonMark
+- JavaScript
+- CSS
 - Apache POI
 - Logback
 
@@ -77,21 +78,21 @@ on the VPS for the MariaDB database. The backup will be stored on Jottacloud, us
 for Linux (Ubuntu). I have added daily backup of the database tables and contents, and use
 Jottacloud's sync folder for images stored in the file system.
 
-### Producing html GUI efficiently
+### Producing HtML GUI efficiently
 
-Thymeleaf is used for server side rendering html pages. For simplicity
+Thymeleaf is used for server side rendering HtML pages. For simplicity
 client side frameworks is not used to create Web GUI in this application.  
-It is required to use Thymeleaf tags in the html. This can be challenging sometimes and some of this syntax
+It is required to use Thymeleaf tags in the HtML. This can be challenging sometimes and some of this syntax
 is cryptic and a little difficult to understand. Thymeleaf if much better to use than plain old JSP.
 
 Spring MVC is used in the controllers. To use a Model View Controller concept for producing GUI is beneficial.
 But I am not sure that I like the way Spring has implemented their Java API. Actually I liked JSF Java API
-(now about deprecated) better. Remark that the Thymeleaf approach of adding some tags to regular html5,
-is definitely better and cleaner than the proprietary JSF syntax for producing html.
+(now about deprecated) better. Remark that the Thymeleaf approach of adding some tags to regular HTML5,
+is definitely better and cleaner than the proprietary JSF syntax for producing HTML.
 For a better responsive user experience and PWAs: A frontend framework like React is better.
 
-The method of generating html in the backend is definitely easier for a backend developer like me. For small projects it is flexible enough. Actually I could recommend it in
-projects for internal usage in big organizations. Changes in html and all code can be immediately viewed
+The method of generating HTML in the backend is definitely easier for a backend developer like me. For small projects it is flexible enough. Actually I could recommend it in
+projects for internal usage in big organizations. Changes in HTML and all code can be immediately viewed
 in a browser using Intellij. I dislike the extra complexity by introducing node and npm.
 
 ## Security
@@ -108,7 +109,7 @@ already taken care of, but I need to add at least one admin user with extra priv
 
 - Remember to update library versions in pom regularly. This is easy for a small demo app like this.
 - Watch for SQL injection. Prevented by using Hibernate / Spring JPA and not native SQL
-- Watch for html injection. Required when using Markdown or RTF editors, because html is generated and included.
+- Watch for HTML injection. Required when using Markdown or RTF editors, because HtmL is generated and included.
 - Spring Security uses the principle of least privilege as default.
 - Be extremely aware when changing settings in Spring Security config (WebSecurityConfig.kt)
 
@@ -117,9 +118,9 @@ Be alert when using the Thymeleaf utext tag:
 <div class="container" th:utext="${blogPost.summary}"></div><br><br>
 ```
 
-What I do to avoid Cross Site Scripting (XSS), is to check the html before injecting it into the web page.
-It is possible to remove plain html in markup and RTF, but a better approach is to scan and remove the potential
-dangerous parts after the html is generated. I have used the Owasp html Java Sanitizer library to do this.
+What I do to avoid Cross Site Scripting (XSS), is to check the HTML before injecting it into the web page.
+It is possible to remove plai HTML in markup and RTF, but a better approach is to scan and remove the potential
+dangerous parts after the HTML is generated. I have used the Owasp HTML Java Sanitizer library to do this.
 
 ## State
 
@@ -139,7 +140,7 @@ Remember to remove the scope "provided" in spring-boot-starter-tomcat.
 
 Port must be set manually to 8080 to start the application. 
 
-- mvn jib:dockerBuild to deploy to local docker (not DockerHub)
+- mvn jib:dockerBuild to deploy to local Docker (not DockerHub)
 - mvn jib:build to deploy to dockerhub
 
 The jib-maven plugin is faster to use than the spring-boot-maven-plugin and more flexible. Recommended. Both method uses
@@ -164,7 +165,7 @@ C:\media is the local source on my PC. The destination is /mediafiles.
 
 Do not name VPS catalog just media, it is already used on many Docker preinstalled images.
 Note that the url path is e.g. this: https://techreier.com/media/cherries.jpg
-or in subdirectories of /media.  If the link does not work, the volume mapping when deploying to docker
+or in subdirectories of /media.  If the link does not work, the volume mapping when deploying to Docker
 is probably wrong. 
 
 #### Docker database connections
@@ -241,16 +242,16 @@ the server. You loose control of when and how a database call is handled using H
 
 ### Storing and editing text
 
-I use the simple html textarea tag and plain markdown editing and backend parsing with Flexmark.
+I use the simple HTML <textarea> tag and plain Markdown editing and backend parsing with Flexmark.
 What I did with textarea was simply to add a button row including a view button,
 to view the result with backend rendering below the text box.
 In addition, I added a Markdown Help button to reveal syntax tips. 
 I have found this approach to be highly responsive and sufficient.
-There is no need for including a more advanced markdown editor, it adds complexity. 
+There is no need for including a more advanced Markdown editor, it adds complexity. 
 Markdown is much more efficient than RTF when it comes to processing and storing.  
 
-This readme file is markdown simply stored as a file on the file system and included in the project.
-I have more files like this and other markdown based text stored in Mariadb.
+This readme file is Markdown simply stored as a file on the file system and included in the project.
+I have more files like this and other Markdown based text stored in Mariadb.
 I selected MariaDB, PostgreSql is too large and not well suited for small web applications.
 I simply store it with VARCHAR for  small summary fields and TEXT for the content field in MariaDB.
 My documents will not exceed 1Gb limit, forget it.
@@ -276,7 +277,7 @@ https://www.favicon.cc/
 
 robots.txt file for web crawlers is created
 
-Caching of css and JavaScript is tricky, mobile phones is worst, since cache very seldom is cleared.
+Caching of CSS and JavaScript is tricky, mobile phones is worst, since cache very seldom is cleared.
 - local development. Clear cache for any change.
 - production. Clear cache for users only if new version of the deployed code.
 - Spring is set to do this each hour as a backup.
