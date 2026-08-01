@@ -56,26 +56,29 @@ The third attempt was to enable to write and view the blogs online in various la
 This required the use of Spring Security and a blogOwner concept with a simple login screen. 
 The production database was changed from H2 to MariaDB. I have used some effort on 
 expanding the simple button row below the HTML textarea editor; with preview and quick Markdown help.
-I have selected not to use additional buttons or keyboard shortcuts to insert Markdown codes into the textarea.
+I have chosen not to use additional buttons or keyboard shortcuts to insert Markdown codes into the HTML <textarea>.
 This is the present status of the project. I have looked at other Markdown editors doing this, and my experience is
 that it is the best just to skip it. My editor and Markdown parsing is server based instead of using JavaScript.
-This have some limitations, but it works surprisingly well. The response time does not feel slow.  
+This have some limitations, but it works surprisingly well. The response time does not feel slow.
 
-Future plan is to make the system a true multiuser project with 4 user permission levels:
+### Future plans
+
+One idea is to make the system a true multiuser project with 4 user permission levels:
 - Admin user
 - BlogOwner
 - Logged in read user
 - Anonymous read user
 
-I am not there yet. The question is if I ever will. The website could be used for a very limited set of
+Commercial software usually uses a role based permission system. I have simplified this by using a simple integer 
+access level variable instead (Read = 0, Write = 1, Admin = 2).  
+
+The question is if I ever will implement this properly. The website could be used for a very limited set of
 blog owners, e.g. by a sports club or something. If I let any user into the system, this implies I have created
 a free blog platform without advertising or a payment mechanisms. And do I really want this. Probably not.
-My simple way of using Jottacloud for synchronizing media content to a Docker volume, can not be used either. 
+My simple way of using Jottacloud for synchronizing media content to a Docker volume, can not be used either.
 It could soon outgrow the current Hostinger plan. Regarding the future use of other formats than Markdown,
 I have come to realize that is the best not to expand to other formats. A commercial blog system probably
-requires frontend Markdown rendering too. 
-
-### Future plans
+requires frontend Markdown rendering too.
 
 A more realistic and fun future plan is to expand the blog with more functionality,
 calculations, and graphical curves to support my posts. 
