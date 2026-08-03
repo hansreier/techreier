@@ -36,6 +36,9 @@ class BlogPost(
 
     @Column( columnDefinition = "datetime(0)", nullable = false, updatable = false)
     var created: Instant = Instant.now(),
+
+    @Column( columnDefinition = "datetime(0)")
+    var bumped: Instant? = null,
 ) {
 
     constructor(
@@ -45,18 +48,26 @@ class BlogPost(
         summary: String,
         blog: Blog,
         state: String = PostState.PUBLISHED.name,
-    ) : this(timestamp, state, segment, title, summary, blog, null) {
-        this.created = timestamp
-    }
+    ) : this(
+            created = timestamp,
+            changed = timestamp,
+            bumped = timestamp,
+            state = state,
+            segment = segment,
+            title = title,
+            summary = summary,
+        blog = blog,
+        id = null)
 
     fun copyAttributes(other: BlogPost): BlogPost {
         this.changed = other.changed
         this.created = other.created
+        this.bumped = other.bumped
         this.segment = other.segment
         this.title = other.title
         this.summary = other.summary
         return this
     }
 
-    override fun toString() = "id=$id blog=$blog state=$state changed=$changed title=$title"
+    override fun toString() = "id=$id blog=$blog state=$state changed=$changed bumped=$bumped title=$title"
 }

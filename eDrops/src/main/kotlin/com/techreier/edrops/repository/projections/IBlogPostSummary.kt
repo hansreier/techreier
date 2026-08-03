@@ -4,6 +4,6 @@ import java.time.Instant
 
 interface IBlogPostSummary {
     val id: Long
-    val changed: Instant
+    val bumped: Instant
 }
 

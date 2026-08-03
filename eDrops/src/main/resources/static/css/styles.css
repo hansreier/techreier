@@ -870,10 +870,21 @@ a.dropdown-item:hover {
 	background-color: green;
 }
 
+#bumpWrapper {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
 #postBump {
 	display: flex;
-	margin-top: -5px;
+	margin-top: -2px;
  }
+
+#postBumpDate {
+	  margin-top: -4px;
+	  white-space: nowrap;
+}
 
 .input-form textarea.summary {
     height: 8rem;

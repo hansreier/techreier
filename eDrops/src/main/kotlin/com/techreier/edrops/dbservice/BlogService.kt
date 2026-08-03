@@ -52,7 +52,7 @@ class BlogService(
                 val sort = Sort.by(Sort.Direction.DESC, "changed")
                 blogPostRepo.findByBlogId(blogId, sort)
             } else {
-                val sort = Sort.by(Sort.Direction.DESC, "changed")
+                val sort = Sort.by(Sort.Direction.DESC, "bumped")
                 blogPostRepo.findByBlogIdAndState(blogId, PostState.PUBLISHED.name, sort)
             }
         return BlogWithPosts(blog, blogPosts)

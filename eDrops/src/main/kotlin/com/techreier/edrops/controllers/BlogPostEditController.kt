@@ -83,6 +83,7 @@ class BlogPostEditController(
             model.addAttribute("postHeadline", blogPostDto.title)
             model.addAttribute("created", (blogPostDto.createdString))
             model.addAttribute("changed", (blogPostDto.changedString))
+            model.addAttribute("bumped", (blogPostDto.bumpedString))
             model.addAttribute("contentChanged", contentChanged)
             model.addAttribute("blogPostForm", blogPostDto.toForm())
             model.addAttribute("postId", blogPost.id)
@@ -100,6 +101,7 @@ class BlogPostEditController(
         action: String,
         created: String,
         changed: String,
+        bumped: String,
         @RequestParam blogLangcode: String,
         bindingResult: BindingResult,
         request: HttpServletRequest,
@@ -134,13 +136,18 @@ class BlogPostEditController(
 
             if (bindingResult.hasErrors()) {
                 bindingResult.reject("error.savePost")
-                prepare(model, request, response, segment, created,changed, blogPostSummaries)
+                prepare(model, request, response, segment, created, changed, bumped, blogPostSummaries)
                 return "blogPostEdit"
             }
             try {
                 val blogPostId = blogPostSummaries.firstOrNull()?.id
-                val timestamp = if (form.bumped || blogPostId == null) { now() } else { blogPostSummaries.first().changed }
-                blogPostService.save(blogId, blogPostId, form, timestamp)
+                val now = now()
+                val timestamp = if (form.bump || blogPostId == null)  {
+                    now
+                } else {
+                    blogPostSummaries.first().bumped
+                }
+                blogPostService.save(blogId, blogPostId, form, now, timestamp)
                 if (action == "copy") {
                     form.state = PostState.IDEA
                     form.postLock = true
@@ -157,7 +164,7 @@ class BlogPostEditController(
                     is DataAccessException, is ParentBlogException -> handleRecoverableError(e, "dbSave", bindingResult)
                     else -> throw e
                 }
-                prepare(model, request, response, segment, created,changed, blogPostSummaries)
+                prepare(model, request, response, segment, created, changed, bumped, blogPostSummaries)
                 return "blogPostEdit"
             }
         }
@@ -170,7 +177,7 @@ class BlogPostEditController(
                 blogPostService.delete(blogId, blogIdList)
             } catch (e: DataAccessException) {
                 handleRecoverableError(e, "dbDelete", bindingResult)
-                prepare(model, request, response, segment, created,changed, blogPostSummaries)
+                prepare(model, request, response, segment, created,changed, bumped, blogPostSummaries)
                 return "blogPostEdit"
             }
             return "redirect:$BLOG_EDIT_DIR/$segment?lang=$blogLangcode"
@@ -192,20 +199,20 @@ class BlogPostEditController(
             } else {
                 form.preview = ""
             }
-            prepare(model, request, response, segment, created, changed, blogPostSummaries)
+            prepare(model, request, response, segment, created, changed, bumped, blogPostSummaries)
             return "blogPostEdit"
         }
 
         if (action == "help") {
             model.addAttribute("help", "h")
-            prepare(model, request, response, segment, created, changed, blogPostSummaries)
+            prepare(model, request, response, segment, created, changed, bumped, blogPostSummaries)
             return "blogPostEdit"
         }
 
         // This should never really occur
         logger.error("Illegal action: $action")
         bindingResult.reject("error.illegalAction")
-        prepare(model, request, response, segment, created, changed,  blogPostSummaries)
+        prepare(model, request, response, segment, created, changed, bumped,  blogPostSummaries)
         return "blogPostEdit"
     }
 
@@ -216,6 +223,7 @@ class BlogPostEditController(
         segment: String,
         created: String,
         changed: String,
+        bumped: String,
         blogPostSummaries: List<IBlogPostSummary>,
     ) {
         val blogParams = fetchBlogParams(model, request, response, segment, false, true)
@@ -226,6 +234,7 @@ class BlogPostEditController(
         model.addAttribute("blogPath", "$BLOG_EDIT_DIR/$segment/")
         model.addAttribute("changed", changed)
         model.addAttribute("created", created)
+        model.addAttribute("bumped", bumped)
         model.addAttribute("postStates", PostState.entries)
         if (blogPostSummaries.size > 1) {
             model.addAttribute("duplicates", blogPostSummaries.map { it.id })

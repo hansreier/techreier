@@ -55,12 +55,18 @@
                                     th:text="${state}"></option>
                         </select>
                     </div>
-                    <div class="input-row">f
+                    <div class="input-row">
                         <label for="postBump" id="postBumpLabel" th:text="#{postBump}"></label>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" id="postBump" th:field="*{bumped}"/>
-                            </label>
+                        <div id="bumpWrapper">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="postBump" th:field="*{bump}"/>
+                                    </label>
+                            </div>
+                            <span id="postBumpDate"
+                                th:if="${bumped != null}"
+                                th:text="${bumped}">
+                            </span>
                         </div>
                     </div>
                     <div class="input-row full-width">
@@ -114,6 +120,7 @@
                 </div>
                 <input type="hidden" th:value="${changed}" name="changed">
                 <input type="hidden" th:value="${created}" name="created">
+                <input type="hidden" th:value="${bumped}" name="bumped">
                 <input type="hidden" id="focus" value="" name="focus">
                 <input type="hidden" th:field="*{preview}">
                 <input type="hidden" th:value="${blogLangcode}" name="blogLangcode">

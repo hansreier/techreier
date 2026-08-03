@@ -1,0 +1,2 @@
+ALTER TABLE blog_post
+    ADD COLUMN bumped DATETIME(0) NULL

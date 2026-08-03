@@ -23,11 +23,11 @@ interface BlogPostRepository : JpaRepository<BlogPost, Long> {
 
     @Query(
         """
-    SELECT b.id AS id, b.changed AS changed FROM BlogPost b 
+    SELECT b.id AS id, COALESCE(b.bumped, b.changed) AS bumped FROM BlogPost b 
     WHERE b.segment = :segment 
     AND b.blog.id = :blogId 
     AND b.state = :state 
-    ORDER BY b.changed DESC, b.id DESC
+    ORDER BY COALESCE(b.bumped, b.changed) DESC, b.id DESC
 """
     )
     fun findBlogPostSummaries(segment: String, blogId: Long, state: String): List<IBlogPostSummary>

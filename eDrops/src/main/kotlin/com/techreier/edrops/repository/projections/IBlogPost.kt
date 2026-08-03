@@ -14,6 +14,7 @@ interface IBlogPost {
     val segment: String
     val changed: Instant
     val created: Instant
+    val bumped: Instant?
     val id: Long
 }
 
@@ -25,6 +26,7 @@ fun IBlogPost.toDTO(
 ): BlogPostDTO {
     val changed = this.changed.atZone(zoneId)
     val created = this.created.atZone(zoneId)
+    val bumped = this.bumped?.atZone(zoneId) ?: changed
     val state = PostState.find(this.state, true)
     return BlogPostDTO(
         id = this.id,
@@ -32,6 +34,8 @@ fun IBlogPost.toDTO(
         changedString = changed.text(datePattern),
         created = created,
         createdString = created.text(datePattern),
+        bumped = bumped,
+        bumpedString = bumped.text(datePattern),
         state = state,
         stateShort = state.short,
         segment = this.segment,

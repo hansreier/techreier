@@ -25,20 +25,21 @@ class BlogPostService(
     private val blogRepo: BlogRepository,
     private val blogTextRepo: BlogTextRepository,
 ) {
-    fun save(blogId: Long, blogPostId: Long?, blogPostForm: BlogPostForm, timestamp: Instant): Long {
+    fun save(blogId: Long, blogPostId: Long?, blogPostForm: BlogPostForm, changed: Instant, bumped: Instant? = null): Long {
         logger.info("Saving blogPost id: $blogPostId segment: ${blogPostForm.segment} state: ${blogPostForm.state.name} blogId: $blogId")
 
         val blogProxy = blogRepo.getReferenceById(blogId)
 
         val blogPost =
             BlogPost(
-                timestamp,
-                blogPostForm.state.name,
-                blogPostForm.segment,
-                blogPostForm.title,
-                blogPostForm.summary,
-                blogProxy,
-                blogPostId
+                changed = changed,
+                bumped = bumped ?: changed,
+                state = blogPostForm.state.name,
+                segment = blogPostForm.segment,
+                title = blogPostForm.title,
+                summary = blogPostForm.summary,
+                blog = blogProxy,
+                id = blogPostId
             )
         val savedBlogPost: BlogPost = blogPostRepo.save(blogPost)
         val blogPostId = savedBlogPost.id
@@ -55,7 +56,7 @@ class BlogPostService(
             }
         } else {
             if (content.isNotEmpty())
-                blogTextRepo.save(BlogText(timestamp, blogPostForm.state.name, content, blogPost))
+                blogTextRepo.save(BlogText(changed, blogPostForm.state.name, content, blogPost))
         }
         return blogPostId
     }
