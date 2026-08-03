@@ -13,7 +13,7 @@
         <h2 th:text="${blogPost.title}"></h2>
         <div class="container" th:utext="${blogPost.summary}"></div>
         <div id="blog-reference">
-            <p class="date" th:text="${blogPost.changedString}"></p>
+            <p class="date" th:text="${blogPost.bumpedString}"></p>
             <a th:href="@{${blog.segment + '/'+ blogPost.segment}}" th:text="#{details}"></a>
         </div>
     </div>
