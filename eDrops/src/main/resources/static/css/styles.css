@@ -757,6 +757,14 @@ img:hover::after {
     display: flex;
 }
 
+.dropdown-item {
+	max-width: 30ch;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+}
+
 /* Hide meny items when  */
 .dropdown-item.collapsed {
     display: none;

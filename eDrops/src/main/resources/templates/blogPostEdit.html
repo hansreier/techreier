@@ -52,7 +52,8 @@
                         <label for="state" id="stateLabel" th:text="#{postState}"></label>
                         <select id="state" th:field="*{state}">
                             <option th:each="state : ${postStates}" th:value="${state.name()}"
-                                    th:text="${state}"></option>
+                                    th:text="${state}">
+                            </option>
                         </select>
                     </div>
                     <div class="input-row">
@@ -68,6 +69,17 @@
                                 th:text="${bumped}">
                             </span>
                         </div>
+                    </div>
+                    <div class="input-row">
+                        <label for="blog" id="blogLabel" th:text="#{blog}"></label>
+                        <select id="blog" th:field="*{blogSegment}">
+                            <option th:each="item : ${adminMenu}"
+                                    th:with="fullText=|${item.segment} - ${item.subject}|"
+                                    th:value="${item.segment}"
+                                    th:text="${item.isTopic ? item.subject : #strings.abbreviate(fullText, 50)}"
+                                    th:disabled="${item.isTopic}">
+                            </option>
+                        </select>
                     </div>
                     <div class="input-row full-width">
                         <label th:for="summary" th:text="#{postSummary}"></label>
