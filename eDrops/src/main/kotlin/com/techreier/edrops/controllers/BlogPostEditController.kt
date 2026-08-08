@@ -154,11 +154,13 @@ class BlogPostEditController(
                     form.postLock = true
                     redirectAttributes.addFlashAttribute("blogPostForm", form)
                 }
-                val newPath = "$BLOG_EDIT_DIR/$segment" +
+                val blogSegment = form.blogSegment.ifBlank { segment }
+                val newPath = "$BLOG_EDIT_DIR/$blogSegment" +
                         if (action == "save")
                                 "/${form.segment}/${form.state.lower()}"
                         else
                             "/$NEW_SUBSEGMENT/${PostState.IDEA.lower()}"
+                    logger.info("ReierAsk newPath=$newPath")
                 return "redirect:$newPath?lang=$blogLangcode"
             } catch (e: Exception) {
                 when (e) {
