@@ -130,6 +130,12 @@ Single quote block:
 
 `This is a single line code block with a very long text to check if it breaks.`
 
+This is very convenient to use e.g. for describing HTML tags in text.
+If you do this with tag syntax like `<Code>` outside of a block,
+the Commonmark parser will interpret this as an ordinary HTML tag.
+A simple HTML tag without end tag means trouble and the rest of the document is viewed incorrectly after
+parsing and sanitation of the Markdown. 
+
 ### Math
 
 Example of a formula in a math block and a simpler inlined math expression.  
