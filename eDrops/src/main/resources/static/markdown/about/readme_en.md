@@ -14,7 +14,7 @@ The goal was to make this as simple as possible without a complex text editor.
 
 I choose to use Markdown like this README.md file, since it is simpler than RTF and uses less disk space. 
 Any text or Markdown editor can be used, I have included my own simple Markdown editor to produce the database
-based blogs. The editor is based on the HTML <textarea> tag with some additions.
+based blogs. The editor is based on the HTML `textarea` tag with some additions.
 
 The first attempt was to use Markdown written in Intellij or other editor, store it as a file  
 together with project code and pick it up as a part of the Web GUI. 
@@ -242,7 +242,7 @@ the server. You loose control of when and how a database call is handled using H
 
 ### Storing and editing text
 
-I use the simple HTML <textarea> tag and plain Markdown editing and backend parsing with Flexmark.
+I use the simple HTML `textarea` tag and plain Markdown editing and backend parsing with Flexmark.
 What I did with textarea was simply to add a button row including a view button,
 to view the result with backend rendering below the text box.
 In addition, I added a Markdown Help button to reveal syntax tips. 
