@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const checks = document.querySelectorAll('.postLock');
-    const buttons = document.querySelectorAll('.deleteButton');
+    const buttons = document.querySelectorAll('.deleteButton, .blogSelect');
     const warnings = document.querySelectorAll('.deleteWarning');
 
     const updateAll = (isChecked) => {

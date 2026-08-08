@@ -72,7 +72,7 @@
                     </div>
                     <div class="input-row">
                         <label for="blog" id="blogLabel" th:text="#{blog}"></label>
-                        <select id="blog" th:field="*{blogSegment}">
+                        <select id="blog" class="blogSelect" th:field="*{blogSegment}">
                             <option th:each="item : ${adminMenu}"
                                     th:with="fullText=|${item.segment} - ${item.subject}|"
                                     th:value="${item.segment}"
