@@ -8,6 +8,7 @@ import com.techreier.edrops.data.blogs.climatenv.Green
 import com.techreier.edrops.domain.Blog
 import com.techreier.edrops.domain.BlogOwner
 import com.techreier.edrops.domain.BlogPost
+import com.techreier.edrops.dto.BlogPrincipal
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import org.junit.jupiter.api.BeforeEach
@@ -46,6 +47,7 @@ abstract class TestBase {
     lateinit var blogOwner: BlogOwner
     lateinit var blog: Blog
     lateinit var blogPost: BlogPost
+    lateinit var blogPrincipal: BlogPrincipal
     var blogId: Long = 0
     var blogPostId: Long = 0
     var noOfBlogPosts: Int = 0
@@ -67,6 +69,7 @@ abstract class TestBase {
             blogPostId = blogPost.id!!
             noOfBlogPosts = blogOwner.blogs.sumOf { it.blogPosts.size }
             noOfBlogs = blogOwner.blogs.size
+            blogPrincipal = BlogPrincipal(blogOwnerId, blogId, blog.topic.language.code)
         }
     }
 

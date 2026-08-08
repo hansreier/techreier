@@ -123,10 +123,10 @@ class BlogService(
         if (segment == NEW_SEGMENT) return null
         val ids = blogRepo.findBlogIds(segment, blogOwnerId, languageCode)
         if (ids.isEmpty()) {
-            throw BlogNotFoundException("Blog not found: ownerId: $blogOwnerId segment: $segment languageCode: $languageCode")
+            throw BlogNotFoundException("Blog not found: ownerId=$blogOwnerId segment=$segment languageCode=$languageCode")
         }
         if (ids.size > 1) {
-            throw DuplicateBlogException("Blog duplicate ids: ownerId: $blogOwnerId ids: $ids}")
+            throw DuplicateBlogException("Blog duplicate ids: ownerId=$blogOwnerId ids=ids}")
         }
         return ids.first()
     }

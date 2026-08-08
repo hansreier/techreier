@@ -4,7 +4,9 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.domain.BlogPost
 import com.techreier.edrops.domain.BlogText
 import com.techreier.edrops.domain.PostState
+import com.techreier.edrops.dto.BlogPrincipal
 import com.techreier.edrops.dto.PostWithText
+import com.techreier.edrops.exceptions.BlogNotFoundException
 import com.techreier.edrops.exceptions.PostNotFoundException
 import com.techreier.edrops.forms.BlogPostForm
 import com.techreier.edrops.repository.BlogPostRepository
@@ -23,10 +25,25 @@ import java.time.Instant
 class BlogPostService(
     private val blogPostRepo: BlogPostRepository,
     private val blogRepo: BlogRepository,
+    private val blogService: BlogService,
     private val blogTextRepo: BlogTextRepository,
 ) {
-    fun save(blogId: Long, blogPostId: Long?, blogPostForm: BlogPostForm, changed: Instant, bumped: Instant? = null): Long {
-        logger.info("Saving blogPost id: $blogPostId segment: ${blogPostForm.segment} state: ${blogPostForm.state.name} blogId: $blogId")
+    fun save(blogPrincipal: BlogPrincipal, blogPostId: Long?, blogPostForm:
+            BlogPostForm, changed: Instant, bumped: Instant? = null): Long {
+        logger.info("Saving blogPost id=$blogPostId segment=${blogPostForm.segment} " +
+                "state=${blogPostForm.state.name} blogPrincipal=$blogPrincipal}")
+
+        val blogId = if (blogPostForm.blogSegment.isNotBlank()) { // Attempted to change parent blog
+            blogService.findId(
+                segment = blogPostForm.blogSegment,
+                blogOwnerId = blogPrincipal.ownerId,
+                languageCode =blogPrincipal.langCode) ?: throw (BlogNotFoundException("New blog cannot be selected"))
+        } else {
+            blogPrincipal.blogId
+                ?: throw (BlogNotFoundException("Probably not logged in. " +
+                        "BlogId not found for segment=${blogPostForm.segment} blogPrincipal=$blogPrincipal"))
+        }
+
 
         val blogProxy = blogRepo.getReferenceById(blogId)
 

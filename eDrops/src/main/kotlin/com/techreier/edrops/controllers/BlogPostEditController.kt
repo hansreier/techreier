@@ -111,7 +111,8 @@ class BlogPostEditController(
     ): String {
         val blogPrincipal = authorize(owner, segment, blogLangcode)
         val blogId = blogPrincipal.blogId
-            ?: throw (BlogNotFoundException("blogId not found for segment $segment language $blogPrincipal.langCode"))
+            ?: throw (BlogNotFoundException("Probably not logged in. " +
+                    "BlogId not found for segment=$segment blogPrincipal=$blogPrincipal"))
 
         val state = PostState.find(state, false)
         val blogPostSummaries = blogPostService.findSummaries(subsegment, blogId, state)
@@ -147,7 +148,7 @@ class BlogPostEditController(
                 } else {
                     blogPostSummaries.first().bumped
                 }
-                blogPostService.save(blogId, blogPostId, form, now, timestamp)
+                blogPostService.save(blogPrincipal, blogPostId, form, now, timestamp)
                 if (action == "copy") {
                     form.state = PostState.IDEA
                     form.postLock = true
@@ -155,7 +156,7 @@ class BlogPostEditController(
                 }
                 val newPath = "$BLOG_EDIT_DIR/$segment" +
                         if (action == "save")
-                            "/${form.segment}/${form.state.lower()}"
+                                "/${form.segment}/${form.state.lower()}"
                         else
                             "/$NEW_SUBSEGMENT/${PostState.IDEA.lower()}"
                 return "redirect:$newPath?lang=$blogLangcode"

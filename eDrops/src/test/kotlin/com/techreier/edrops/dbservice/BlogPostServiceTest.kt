@@ -26,7 +26,7 @@ class BlogPostServiceTest : TestBase() {
         val segment1 = "test"
         val timestamp = Instant.now()
         val form1 = BlogPostForm(segment = segment1, summary = "summary")
-        postService.save(blogId, null, form1, timestamp)
+        postService.save( blogPrincipal, null, form1, timestamp)
         val (post1, text1) = postService.readBlogPost(blogId, segment1, PostState.IDEA)
         assertNotNull(post1)
         assertNull(text1)
@@ -35,7 +35,7 @@ class BlogPostServiceTest : TestBase() {
         // BlogPost with BlogText
         val segment2 = "test2"
         val form2 = BlogPostForm(segment = segment2, content = "text")
-        postService.save(blogId, null, form2, timestamp)
+        postService.save(blogPrincipal, null, form2, timestamp)
         val (post2, text2) = postService.readBlogPost(blogId, segment2, PostState.IDEA)
         assertNotNull(post2)
         assertNotNull(text2)
@@ -50,7 +50,7 @@ class BlogPostServiceTest : TestBase() {
         //BlogPost without BlogText
         val timestamp = Instant.now()
         val form1 = BlogPostForm(segment = blogPost.segment, summary = "summary")
-        postService.save(blogId, blogPostId, form1, timestamp)
+        postService.save(blogPrincipal, blogPostId, form1, timestamp)
         val (post1, text1) = postService.readBlogPost(blogId, blogPost.segment, PostState.IDEA)
         assertNotNull(post1)
         assertNotNull(post1.id)
@@ -60,7 +60,7 @@ class BlogPostServiceTest : TestBase() {
 
         //BlogPost with BlogText
         val form2 = BlogPostForm(segment = blogPost.segment, content = "text")
-        postService.save(blogId, blogPostId, form2, timestamp)
+        postService.save(blogPrincipal, blogPostId, form2, timestamp)
         val (post2, text2) = postService.readBlogPost(blogId, blogPost.segment, PostState.IDEA)
         assertNotNull(post2)
         assertNotNull(post2.id)
@@ -70,7 +70,7 @@ class BlogPostServiceTest : TestBase() {
 
         //BlogPost with empty BlogText
         val form3 = BlogPostForm(segment = blogPost.segment, content = " ")
-        postService.save(blogId, blogPostId, form3, timestamp)
+        postService.save(blogPrincipal, blogPostId, form3, timestamp)
         val (post3, text3) = postService.readBlogPost(blogId, blogPost.segment, PostState.IDEA)
         assertNotNull(post3)
         assertNotNull(post3.id)
@@ -85,7 +85,7 @@ class BlogPostServiceTest : TestBase() {
         assertTrue(postService.duplicate(blogPost.segment, blogId, state, null))
 
         val form = BlogPostForm(segment = blogPost.segment, state = PostState.DEPRECATED)
-        postService.save(blogId, null, form, Instant.now())
+        postService.save(blogPrincipal, null, form, Instant.now())
         assertTrue(postService.duplicate(blogPost.segment, blogId, PostState.DEPRECATED, blogPostId))
     }
 
@@ -93,7 +93,7 @@ class BlogPostServiceTest : TestBase() {
     fun findAndDeleteTest() { //Save function does not prevent duplicate, delete all duplicates
         val state = PostState.find(blogPost.state, true)
         val form = BlogPostForm(segment = blogPost.segment, state = state)
-        val id = postService.save(blogId, null, form, Instant.now())
+        val id = postService.save(blogPrincipal, null, form, Instant.now())
         val summaries = postService.findSummaries(blogPost.segment, blogId, state)
         assertThat(summaries.size).isEqualTo(2)
         assertThat(summaries.map{it.id}).containsAll(listOf(id, blogPostId))
@@ -101,4 +101,6 @@ class BlogPostServiceTest : TestBase() {
         assertNull(postRepo.findById(summaries.first().id).orElse(null))
         assertNull(postRepo.findById(summaries[1].id).orElse(null))
     }
+
+    // TODO ReierAsk add more functionality due to added functionality connected with blogPrincipal and changed parent blog
 }
