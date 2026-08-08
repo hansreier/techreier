@@ -19,9 +19,10 @@ data class BlogPostDTO(
     val summary: String,
     val blogText: BlogTextDTO? = null
 ) {
-    fun toForm(): BlogPostForm {
+    fun toForm(blogSegment: String = ""): BlogPostForm {
         return BlogPostForm(
             segment = this.segment,
+            blogSegment = blogSegment,
             state = this.state,
             title = this.title,
             summary = this.summary,

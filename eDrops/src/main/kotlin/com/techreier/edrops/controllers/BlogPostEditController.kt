@@ -85,7 +85,7 @@ class BlogPostEditController(
             model.addAttribute("changed", (blogPostDto.changedString))
             model.addAttribute("bumped", (blogPostDto.bumpedString))
             model.addAttribute("contentChanged", contentChanged)
-            model.addAttribute("blogPostForm", blogPostDto.toForm())
+            model.addAttribute("blogPostForm", blogPostDto.toForm(blogParams.blog.segment))
             model.addAttribute("postId", blogPost.id)
         }
         return "blogPostEdit"
@@ -160,7 +160,6 @@ class BlogPostEditController(
                                 "/${form.segment}/${form.state.lower()}"
                         else
                             "/$NEW_SUBSEGMENT/${PostState.IDEA.lower()}"
-                    logger.info("ReierAsk newPath=$newPath")
                 return "redirect:$newPath?lang=$blogLangcode"
             } catch (e: Exception) {
                 when (e) {
