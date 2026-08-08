@@ -247,7 +247,7 @@
 							</resources>
 						</configuration>
 					</execution>
-					<execution
+					<execution>
 						<id>copy-resource-images</id>
 						<phase>generate-sources</phase>
 						<goals>
