@@ -53,42 +53,38 @@ abstract class BaseController(
         model.addAttribute("auth", ctx.appConfig.auth)
         model.addAttribute("languages", fetchLanguages())
         val currentLangCode = forcedLangcode ?: LocaleContextHolder.getLocale().language
-        val usedLangcode = getValidProjectLanguageCode(currentLangCode)
-        val locale = Locale.of(usedLangcode)
+        val usedLangCode = getValidProjectLanguageCode(currentLangCode)
+        val locale = Locale.of(usedLangCode)
         ctx.sessionLocaleResolver.setLocale(request, response, locale) //Set locale to allowed projectLocale
         val oldLangCode = ctx.httpSession.getAttribute("langcode") as String?
         // If segment is blank or new, do not read database
         val blog = if ((segment == NEW_SEGMENT) && adminMenu) {
             model.addAttribute("blogHeadline", msg(ctx.messageSource, "newBlog"))
-            BlogDTO(usedLangcode)
+            BlogDTO(usedLangCode)
         } else {
             model.addAttribute("blogHeadline", "")
             val blogWithPosts: BlogWithPosts? = segment?.let {
-                ctx.blogService.readBlog(segment,  usedLangcode, posts, adminMenu)
+                ctx.blogService.readBlog(segment,  oldLangCode, usedLangCode, posts, adminMenu) ?: noBlog(model)
             }
-            if (blogWithPosts == null) {
-                model.addAttribute("blogHeadline", msg(ctx.messageSource, "noBlog"))
-                null
-            } else {
-                val blogLangCode = blogWithPosts.blog.languageCode
-                val locale = Locale.of(blogLangCode)
-                ctx.sessionLocaleResolver.setLocale(request, response, locale) //Required sometimes
-                val blogDto = blogWithPosts.toDTO(
+           blogWithPosts?.let { bwp ->
+                val blogDto = bwp.toDTO(
                     zoneId = timeZone(),
                     datetimePattern = msg(ctx.messageSource, "format.datetime"),
                     datePattern = msg(ctx.messageSource, "format.date"),
-                    ctx.markdown,
-                    langCodeWanted = blogLangCode, posts, !adminMenu
+                    markdown = ctx.markdown,
+                    langCodeWanted = usedLangCode,
+                    posts = posts,
+                    html = !adminMenu
                 )
                 model.addAttribute("blogHeadline", blogDto.subject)
                 blogDto
             }
         }
 
-        val blogLangcode = blog?.langCodeFound ?: usedLangcode
+        val blogLangcode = blog?.langCodeFound ?: usedLangCode
         ctx.httpSession.setAttribute("langcode", blogLangcode)
         model.addAttribute("blogLangcode", blogLangcode)
-        val topics = fetchTopics(usedLangcode)
+        val topics = fetchTopics(usedLangCode)
         val topicKey =
             if (topics.isNotEmpty()) {
                 (ctx.httpSession.getAttribute("topic") as String?) ?: topics.first().topicKey
@@ -99,18 +95,18 @@ abstract class BaseController(
         val action = (model.getAttribute("action") ?: "") as String
         model.addAttribute("menuChanged", ctx.genService.menuChanged())
         model.addAttribute("blogHeadLine", blog?.subject ?: "")
-        model.addAttribute("homeMenu", fetchMenuFromDisk(views, usedLangcode))
-        model.addAttribute("aboutMenu", fetchMenuFromDisk(about, usedLangcode))
-        model.addAttribute("langCode", usedLangcode)
+        model.addAttribute("homeMenu", fetchMenuFromDisk(views, usedLangCode))
+        model.addAttribute("aboutMenu", fetchMenuFromDisk(about, usedLangCode))
+        model.addAttribute("langCode", usedLangCode)
         model.addAttribute("topicKey", topicKey)
         model.addAttribute("topics", topics)
         // Add path and menu attributes based on servletPath
         val path = request.servletPath.removeSuffix("/")
         model.addAttribute("newSegment", NEW_SEGMENT)
         model.addAttribute("path", path)
-        model.addAttribute("menu", fetchMenuFromDb(usedLangcode, false))
+        model.addAttribute("menu", fetchMenuFromDb(usedLangCode, false))
         if (!ctx.appConfig.auth || request.userPrincipal != null) //Fetch admin menu if required
-            model.addAttribute("adminMenu", fetchMenuFromDb(usedLangcode, true))
+            model.addAttribute("adminMenu", fetchMenuFromDb(usedLangCode, true))
         model.addAttribute("maxSummarySize", MAX_SUMMARY_SIZE)
         model.addAttribute("maxTitleSize", MAX_TITLE_SIZE)
         model.addAttribute("maxSegmentSize", MAX_SEGMENT_SIZE)
@@ -119,7 +115,7 @@ abstract class BaseController(
         val built = buildVersion(ctx.appConfig.buildTime)
         model.addAttribute("built", built)
         model.addAttribute("sessionMark", getSessionMark())
-        return BlogParams(blog, oldLangCode, usedLangcode, action, topicKey, topics)
+        return BlogParams(blog, oldLangCode, usedLangCode, action, topicKey, topics)
     }
 
     //Current time in Europe / Oslo time
@@ -199,6 +195,11 @@ abstract class BaseController(
         val usedCode = getValidProjectLanguageCode(languageCode)
         val documents = docs.filter { (it.langCode == usedCode) }
         return getMenuItems(documents, SUBMENU_MIN_ITEMS, MENU_SPLIT_SIZE, ctx.messageSource)
+    }
+
+    private fun noBlog(model: Model): BlogWithPosts? {
+        model.addAttribute("blogHeadline", msg(ctx.messageSource, "noBlog"))
+        return null
     }
 
 }

@@ -36,31 +36,41 @@ class BlogService(
     @Transactional(readOnly = true)
     fun readBlog(
         segment: String,
+        oldLangCode: String?,
         langCode: String,
         posts: Boolean = false,
         adminMenu: Boolean = false,
     ): BlogWithPosts? {
-        logger.info("Read blog langCode: $langCode, segment $segment, posts? $posts")
-        val minValue = if (adminMenu) Int.MIN_VALUE else BLOG_PUBLISHED_MIN_VALUE
+        logger.info("Read blog oldLangCode=$oldLangCode langCode=$langCode, segment=$segment, posts=$posts")
 
-        val blogId = readBlogId(segment, langCode, minValue) ?: return null
-        val blog = blogRepo.findPById(blogId) ?: return null
-        if (!posts) return BlogWithPosts(blog, null)
-
-        val blogPosts =
             if (adminMenu) {
+                val blogId = readBlogId(segment, null, langCode, Int.MIN_VALUE) ?: return null
+                val blog = blogRepo.findPById(blogId) ?: return null
+                if (!posts) return BlogWithPosts(blog, null)
                 val sort = Sort.by(Sort.Direction.DESC, "changed")
-                blogPostRepo.findByBlogId(blogId, sort)
+                val blogPosts = blogPostRepo.findByBlogId(blogId, sort)
+                return BlogWithPosts(blog, blogPosts)
             } else {
-                blogPostRepo.findByBlogIdAndStateSorted(blogId, PostState.PUBLISHED.name)
+                val blogId = readBlogId(segment, oldLangCode, langCode, BLOG_PUBLISHED_MIN_VALUE) ?: return null
+                val blog = blogRepo.findPById(blogId) ?: return null
+                if (!posts) return BlogWithPosts(blog, null)
+                val blogPosts = blogPostRepo.findByBlogIdAndStateSorted(blogId, PostState.PUBLISHED.name)
+                return BlogWithPosts(blog, blogPosts)
             }
-        return BlogWithPosts(blog, blogPosts)
     }
 
-    private fun readBlogId(segment: String, langCode: String, minValue: Int): Long? {
-        val blogIds: List<Long> = blogRepo.findIdBySegmentAndTopicLanguageCode(segment, langCode, minValue)
-        if (blogIds.size > 1)
-            throw DuplicateBlogException("Duplicate blog: Segment=$segment langCode: $langCode ids: ${blogIds.map { it }}")
+    //TODO ReierAsk add test
+    private fun readBlogId(segment: String, oldLangCode: String?, langCode: String, minValue: Int): Long? {
+        var blogIds = blogRepo.findIdBySegmentAndTopicLanguageCode(segment, langCode, minValue)
+        var activeLang = langCode
+
+        if (blogIds.isEmpty() && !oldLangCode.isNullOrEmpty() && oldLangCode != langCode) {
+            blogIds = blogRepo.findIdBySegmentAndTopicLanguageCode(segment, oldLangCode, minValue)
+            activeLang = oldLangCode
+        }
+        if (blogIds.size > 1) {
+            throw DuplicateBlogException("Duplicate blog: Segment=$segment langCode: $activeLang ids: $blogIds")
+        }
         return blogIds.firstOrNull()
     }
 

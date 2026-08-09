@@ -47,14 +47,14 @@ class BlogServiceTest : TestBase() {
         blogService.save(blogPrincipal, blogForm, timestamp)
 
         // Read blog without blogPosts
-        val blogWithPosts1: BlogWithPosts? = blogService.readBlog(segment, langCode, false, true)
+        val blogWithPosts1: BlogWithPosts? = blogService.readBlog(segment, null,langCode, false, true)
         assertNotNull(blogWithPosts1)
         val blog1 = blogWithPosts1.blog
         assertNotNull(blog1)
         assertNull(blogWithPosts1.posts)
 
         // Read blog with blogPosts
-        val blogWithPosts2: BlogWithPosts? = blogService.readBlog(segment, langCode, true, true)
+        val blogWithPosts2: BlogWithPosts? = blogService.readBlog(segment, null, langCode, true, true)
         assertNotNull(blogWithPosts2)
         val blog2 = blogWithPosts2.blog
         assertNotNull(blog2)
@@ -66,7 +66,7 @@ class BlogServiceTest : TestBase() {
         assertEquals(menuItems.size + 1, adminMenuItems.size)
 
         // Read blog with wrong language
-        val blogWithPosts3 = blogService.readBlog(segment, EN, false, true)
+        val blogWithPosts3 = blogService.readBlog(segment, null, EN, false, true)
         assertNull(blogWithPosts3)
     }
 
@@ -88,7 +88,7 @@ class BlogServiceTest : TestBase() {
         // Happy day case
         blogService.save(blogPrincipal, blogForm, timestamp)
 
-        val blogWithPosts: BlogWithPosts? = blogService.readBlog(segment, langCode, true, true)
+        val blogWithPosts: BlogWithPosts? = blogService.readBlog(segment, langCode, langCode, true, true)
         assertNotNull(blogWithPosts)
         val blogFound = blogWithPosts.blog
         assertNotNull(blogFound)
@@ -109,7 +109,7 @@ class BlogServiceTest : TestBase() {
         val blogPrincipal = BlogPrincipal(blogOwnerId, null, langCode)
         blogService.save(blogPrincipal, blogForm, timestamp) //No duplicate check on save
         assertThrows<DuplicateBlogException> {
-            blogService.readBlog(segment, langCode, true, true)
+            blogService.readBlog(segment, null, langCode, true, true)
         }
         assertThrows<DuplicateBlogException> {
             blogService.findId(segment, blogOwnerId, langCode)
@@ -133,9 +133,10 @@ class BlogServiceTest : TestBase() {
         assertThat(e.message).contains("404")
     }
 
+    //TODO ReierAsk add tests for different values of oldLangCode
     @Test
     fun notFoundReadBlogTest() {
-        val blogWithPosts = blogService.readBlog("tull", NB, false, true)
+        val blogWithPosts = blogService.readBlog("tull", null,NB, false, true)
         assertNull(blogWithPosts)
     }
 

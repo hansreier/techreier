@@ -46,6 +46,7 @@ class BlogPostController(private val ctx : Context,
         logger.info("Fetch blog post (including text): $blogPost.segment")
         val datePattern = msg(ctx.messageSource, "format.datetime")
         val blogPostDto = blogPost.toDTO(timeZone(), datePattern, markdown,true, blogText)
+        model.addAttribute("blog", blogParams.blog) //Required when changing languages.
         model.addAttribute("blogPost", blogPostDto)
         return "blogPost"
     }
