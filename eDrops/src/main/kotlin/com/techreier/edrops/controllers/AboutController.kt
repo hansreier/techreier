@@ -27,19 +27,14 @@ class AboutController(ctx: Context) : BaseController(ctx) {
         redirectAttributes: RedirectAttributes,
     ): String {
         val blogParams = fetchBlogParams(model, request, response)
-        val docIndex = getDocIndex(about, blogParams.oldLangCode, blogParams.usedLangCode, segment)
-        if (docIndex.error) {
-            if (docIndex.index < 0) {
-                redirectAttributes.addFlashAttribute("warning", "blogNotFound")
-                return "redirect:/$HOME_DIR"
-            } else {
-                model.addAttribute("docLangCode", blogParams.oldLangCode)
-            }
+        val doc = findDocument(about, blogParams, segment, model)
+        if (doc == null) {
+            redirectAttributes.addFlashAttribute("warning", "blogNotFound")
+            return "redirect:/$HOME_DIR"
         }
 
-        val doc = about[docIndex.index]
         val inlineHtml = markdown.toHtml(doc, ABOUT_DIR)
-        if (inlineHtml.warning) model.addAttribute("warning", "blogOtherLanguage")
+        if (inlineHtml.warning) model.addAttribute("warning", "otherLanguage")
         model.addAttribute("doc", doc)
         model.addAttribute("docText", inlineHtml.html)
         return ABOUT

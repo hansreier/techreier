@@ -2,6 +2,7 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.*
 import com.techreier.edrops.data.Docs.about
+import com.techreier.edrops.data.Docs.getDocIndex
 import com.techreier.edrops.data.Docs.views
 import com.techreier.edrops.data.TOPIC_DEFAULT
 import com.techreier.edrops.domain.LanguageCode
@@ -76,6 +77,10 @@ abstract class BaseController(
                     posts = posts,
                     html = !adminMenu
                 )
+                 if (blogDto.langCodeFound != blogDto.langCodeWanted) {
+                     val otherLanguage = msg(ctx.messageSource, "warning.otherLanguage", blogDto.langCodeWanted)
+                     model.addAttribute("otherLanguage",otherLanguage)
+                 }
                 model.addAttribute("blogHeadline", blogDto.subject)
                 blogDto
             }
@@ -154,6 +159,22 @@ abstract class BaseController(
         val validLangCode = getValidProjectLanguageCode(langCode)
         val blogId = ctx.blogService.findId(segment, blogOwnerId, validLangCode )
         return BlogPrincipal( blogOwnerId, blogId, validLangCode)
+    }
+
+    // finds hard coded documents and adds warning to model if not available in current languate.
+    protected fun findDocument(menuItems: Array<MenuItem>, blogParams: BlogParams, segment: String?, model: Model): MenuItem? {
+        val docIndex = getDocIndex(menuItems, blogParams.oldLangCode, blogParams.usedLangCode, segment)
+        if (docIndex.error) {
+            if (docIndex.index < 0) {
+                return null
+            } else {
+                blogParams.oldLangCode?.let {
+                    val otherLanguage = msg(ctx.messageSource, "warning.otherLanguage", it)
+                    model.addAttribute("otherLanguage", otherLanguage)
+                }
+            }
+        }
+        return menuItems[docIndex.index]
     }
 
     private fun getSessionMark(): String {

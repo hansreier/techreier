@@ -138,11 +138,8 @@
     <th:block th:if="${warning != null}">
         <p class=warning th:text="#{'warning.' + ${warning}}"></p>
     </th:block>
-    <th:block th:if="${docLangCode != null}">
-        <p class=warning th:text="#{'warning.' + ${docLangCode}}"></p>
-    </th:block>
-    <th:block th:if="${(blog != null) and (blog.langCodeFound != blog.langCodeWanted)}">
-        <p class=warning th:text="#{'warning.' + ${blog.langCodeFound}}"></p>
+    <th:block th:if="${otherLanguage != null}">
+        <p class=warning th:text="${otherLanguage}"></p>
     </th:block>
     <section layout:fragment="content">
         <p>This is filled by the content template.</p>
