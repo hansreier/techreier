@@ -48,6 +48,7 @@ class BlogPostController(private val ctx : Context,
         val blogPostDto = blogPost.toDTO(timeZone(), datePattern, markdown,true, blogText)
         model.addAttribute("blog", blogParams.blog) //Required when changing languages.
         model.addAttribute("blogPost", blogPostDto)
+        model.addAttribute("backUrl", "$BLOG_DIR/$segment")
         return "blogPost"
     }
 

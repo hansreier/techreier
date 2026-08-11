@@ -75,6 +75,28 @@ button {
     vertical-align: middle;
 }
 
+.singlebutton {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.35rem 0.35rem;
+	font-size: 1rem;
+	text-decoration: none;
+	margin-left: 0.5rem;
+	background-color: #f0f0f0;
+	border: 1px solid black;
+	border-radius: 0.25rem;
+	color: #212529;
+	cursor: default;
+}
+
+.singlebutton:hover {
+	background-color: #e2e6ea;
+	border: 1px solid black;
+	color: #212529;
+	text-decoration: none;
+}
+
 .button-row {
     display: flex;
     flex-wrap: wrap;
@@ -672,7 +694,6 @@ img:hover::after {
 	text-decoration: none;
 	font-size: 1rem;
     background: none;
-    border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -895,7 +916,7 @@ a.dropdown-item:hover {
 }
 
 .input-form textarea.summary {
-    height: 8rem;
+    height: 15vh;
     min-height: 4rem;
     overflow-y: auto;
     resize: vertical;
@@ -903,7 +924,7 @@ a.dropdown-item:hover {
 }
 
 .input-form textarea.summary:focus {
-    height: 20vh;
+    height: 30vh;
     min-height: 150px;
     transition: height 0.2s ease-in-out 0.2s;
 }
@@ -918,7 +939,7 @@ a.dropdown-item:hover {
 }
 
 #blogPost {
-    height: 25vh;
+    height: 40vh;
 }
 
 @media print {
