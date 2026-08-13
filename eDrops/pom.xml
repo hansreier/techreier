@@ -30,7 +30,7 @@
 		<h2.version>2.4.240</h2.version>
 		<flyway.version>11.18.0</flyway.version>
 		<flexmark.version>0.64.8</flexmark.version>
-        <commonmark.version>0.28.0</commonmark.version>
+        <commonmark.version>0.30.0</commonmark.version>
 		<sanitizer.version>20260313.1</sanitizer.version>
 		<apache-poi.version>5.5.1</apache-poi.version>
 	</properties>
