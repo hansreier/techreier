@@ -693,8 +693,7 @@ img:hover::after {
 
 /* Style the links inside the navigation bar */
 .navbar a,
-.dropdown-btn,
-.dropdown-selected {
+.dropdown-btn {
 	color: #f2f2f2;
     padding: 0.8rem 1.2rem;
 	text-decoration: none;
@@ -705,17 +704,16 @@ img:hover::after {
     align-items: center;
 }
 
-/* Change the color of links on hover */
-.navbar a:hover,
-.dropdown:hover .dropdown-btn,
-.dropdown:hover .dropdown-selected {
-	background-color: #ddd;
+.dropdown-btn.menu-active {
+	font-weight: bold;
+	text-decoration: underline;
+	text-underline-offset: 4px;
 }
 
-/* Add a color to the active/current link */
-.dropdown.selected, .navbar a.active {
-	background-color: #04AA6D;
-	color: white;
+/* Change the color of links on hover */
+.navbar a:hover,
+.dropdown:hover .dropdown-btn {
+	background-color: #ddd;
 }
 
 /* Dropdown button */
@@ -731,7 +729,7 @@ img:hover::after {
 }
 
 /* Add a red background color to navbar links on hover */
-.navbar .dropdown:hover .dropdown-btn, .dropdown:hover .dropdown-selected {
+.navbar .dropdown:hover .dropdown-btn, .dropdown:hover {
 	background-color: #b22222;
 }
 
