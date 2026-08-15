@@ -1,5 +1,6 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.Menu
 import com.techreier.edrops.config.logger
 
 import com.techreier.edrops.data.Docs
@@ -81,7 +82,7 @@ class EnergyController(private val ctx: Context, private val energyService: Ener
         request: HttpServletRequest,
         response: HttpServletResponse,
     ): DocIndex {
-        val blogParams = fetchBlogParams(model, request, response)
+        val blogParams = fetchBlogParams(model, request, response, Menu.LAB, )
         val docPreIndex = Docs.getDocIndex(Docs.energy, blogParams.oldLangCode, blogParams.usedLangCode, ENERGYDATA)
         if (docPreIndex.index >= 0) {
             val doc = Docs.energy[docPreIndex.index]

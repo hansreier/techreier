@@ -1,5 +1,6 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.Menu
 import com.techreier.edrops.config.logger
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -27,7 +28,7 @@ class BlogController(context: Context) : BaseController(context) {
         model: Model,
         redirectAttributes: RedirectAttributes,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, segment, true, false)
+        val blogParams = fetchBlogParams(model, request, response, Menu.BLOGS,  segment, true)
         if (blogParams.blog == null) {
             logger.warn("Blog $segment is not found in language: ${blogParams.usedLangCode}")
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")

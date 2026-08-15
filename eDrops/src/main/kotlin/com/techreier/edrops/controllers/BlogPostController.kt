@@ -1,5 +1,6 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.Menu
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogPostService
 import com.techreier.edrops.repository.projections.toDTO
@@ -30,7 +31,7 @@ class BlogPostController(private val ctx : Context,
         model: Model,
         redirectAttributes: RedirectAttributes
     ): String {
-        val blogParams = fetchBlogParams(model, request, response, segment, false, false)
+        val blogParams = fetchBlogParams(model, request, response, Menu.BLOGS, segment, false)
 
         if (blogParams.blog == null) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")

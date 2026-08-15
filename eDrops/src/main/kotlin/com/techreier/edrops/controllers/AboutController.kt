@@ -1,5 +1,6 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.Menu
 import com.techreier.edrops.data.Docs.about
 import com.techreier.edrops.data.Docs.getDocIndex
 import jakarta.servlet.http.HttpServletRequest
@@ -26,7 +27,7 @@ class AboutController(ctx: Context) : BaseController(ctx) {
         model: Model,
         redirectAttributes: RedirectAttributes,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response)
+        val blogParams = fetchBlogParams(model, request, response, Menu.ABOUT)
         val doc = findDocument(about, blogParams, segment, model)
         if (doc == null) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
@@ -48,7 +49,7 @@ class AboutController(ctx: Context) : BaseController(ctx) {
         model: Model,
         redirectAttributes: RedirectAttributes,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response)
+        val blogParams = fetchBlogParams(model, request, response, Menu.ABOUT)
         val docIndex = getDocIndex(about, blogParams.oldLangCode, blogParams.usedLangCode)
         if (docIndex.error || docIndex.index < 0) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")

@@ -2,6 +2,7 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.config.MAX_SUMMARY_SIZE
 import com.techreier.edrops.config.MAX_TITLE_SIZE
+import com.techreier.edrops.config.Menu
 import com.techreier.edrops.config.NEW_SUBSEGMENT
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.dbservice.BlogPostService
@@ -51,7 +52,7 @@ class BlogPostEditController(
         @RequestParam lang: String
     ): String {
         authorize(owner)
-        val blogParams = fetchBlogParams(model, request, response, segment, false, true, lang)
+        val blogParams = fetchBlogParams(model, request, response, Menu.ADM, segment, false, lang)
         if (blogParams.blog == null)
             throw BlogNotFoundException("blog with segment: $segment is not found")
         logger.info("Fetch blog posts: $blogParams")
@@ -228,7 +229,7 @@ class BlogPostEditController(
         bumped: String,
         blogPostSummaries: List<IBlogPostSummary>,
     ) {
-        val blogParams = fetchBlogParams(model, request, response, segment, false, true)
+        val blogParams = fetchBlogParams(model, request, response, Menu.ADM, segment, false)
         logger.info("Prepare allBlogPosts Fetch blog posts with: ${blogParams}")
         blogParams.blog ?: throw BlogNotFoundException("Blog with segment $segment not found")
 

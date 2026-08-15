@@ -1,5 +1,6 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.Menu
 import com.techreier.edrops.config.logger
 
 import com.techreier.edrops.data.Docs
@@ -76,7 +77,7 @@ class FractionController(ctx: Context,
         request: HttpServletRequest,
         response: HttpServletResponse
     ): DocIndex {
-        val blogParams = fetchBlogParams(model, request, response)
+        val blogParams = fetchBlogParams(model, request, response, Menu.LAB)
         val docIndex = Docs.getDocIndex(Docs.fraction, blogParams.oldLangCode, blogParams.usedLangCode, FRACTION)
 
         if (docIndex.index >= 0 ) {

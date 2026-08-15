@@ -40,7 +40,7 @@ class BlogEditController(
         @RequestParam lang: String
     ): String {
         authorize(owner)
-        val blogParams = fetchBlogParams(model, request, response, segment, true, true, lang)
+        val blogParams = fetchBlogParams(model, request, response, Menu.ADM, segment, true,  lang)
 
         logger.info("Fetch blog posts: $blogParams")
 
@@ -164,7 +164,7 @@ class BlogEditController(
         changed: String,
         blogLangcode: String
     ) {
-        val blogParams = fetchBlogParams(model, request, response, segment, true, true)
+        val blogParams = fetchBlogParams(model, request, response, Menu.ADM, segment, true )
 
         logger.info("Prepare fetch blog posts with: $blogParams")
         blogParams.blog ?: throw BlogNotFoundException("Blog with segment $segment not found")

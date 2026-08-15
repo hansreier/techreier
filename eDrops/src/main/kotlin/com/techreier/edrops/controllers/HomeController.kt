@@ -1,5 +1,6 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.Menu
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.getDocIndex
@@ -28,7 +29,7 @@ class HomeController(ctx: Context) : BaseController(ctx) {
         response: HttpServletResponse,
         model: Model,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response)
+        val blogParams = fetchBlogParams(model, request, response, Menu.HOME)
         val docIndex = getDocIndex(Docs.home, blogParams.oldLangCode, blogParams.usedLangCode)
         if (docIndex.index >= 0) {
 
@@ -69,7 +70,7 @@ class HomeController(ctx: Context) : BaseController(ctx) {
         model: Model,
         redirectAttributes: RedirectAttributes,
     ): String {
-        val blogParams = fetchBlogParams(model, request, response)
+        val blogParams = fetchBlogParams(model, request, response, Menu.VIEWS)
 
         val doc = findDocument(views, blogParams, segment, model)
         if (doc == null) {

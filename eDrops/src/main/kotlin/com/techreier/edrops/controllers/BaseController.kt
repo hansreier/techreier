@@ -45,12 +45,14 @@ abstract class BaseController(
         model: Model,
         request: HttpServletRequest,
         response: HttpServletResponse,
+        menu: Menu,
         segment: String? = null,
         posts: Boolean = false,
-        adminMenu: Boolean = false,
         forcedLangcode: String? = null
     ): BlogParams {
         logger.debug("set common model parameters")
+        val adminMenu = menu.equals(Menu.ADM)
+        model.addAttribute("menu", menu.name.lowercase())
         model.addAttribute("auth", ctx.appConfig.auth)
         model.addAttribute("languages", fetchLanguages())
         val currentLangCode = forcedLangcode ?: LocaleContextHolder.getLocale().language

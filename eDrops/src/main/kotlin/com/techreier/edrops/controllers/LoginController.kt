@@ -1,5 +1,6 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.Menu
 import com.techreier.edrops.config.logger
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -32,7 +33,7 @@ class LoginController(context: Context) : BaseController(context) {
         }
         val user = User()
         model.addAttribute("user", user)
-        fetchBlogParams(model, request, response, null, false, true)
+        fetchBlogParams(model, request, response, Menu.ADM, null, false)
         return LOGIN
     }
 

@@ -1,5 +1,6 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.Menu
 import com.techreier.edrops.config.logger
 
 import com.techreier.edrops.service.CollatzService
@@ -78,7 +79,7 @@ class CollatzController(ctx: Context,
         request: HttpServletRequest,
         response: HttpServletResponse
     ): DocIndex {
-        val blogParams = fetchBlogParams(model, request, response)
+        val blogParams = fetchBlogParams(model, request, response, Menu.LAB)
         val docIndex = Docs.getDocIndex(Docs.collatz, blogParams.oldLangCode, blogParams.usedLangCode, COLLATZ)
 
         if (docIndex.index >= 0 ) {
