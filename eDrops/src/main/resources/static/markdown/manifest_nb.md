@@ -24,7 +24,8 @@
     - Kost
     - Nytte
     - Utslipp
-    - Natur-tap 
+    - Natur-tap
+    - Nærmiljø og rekerasjon
     - Første mann til mølla prinsippet forlates
 * Dagens energipolitikk fører til økt konfliktnivå og mer ekstremisme.
 * Økt energibehov skal dekkes med:
@@ -44,5 +45,7 @@
 * Solenergianlegg plassert i urørt natur er ikke så mye bedre enn vindenergi-anlegg.
 * Uregulerbar kraft (sol, vind) bør ikke overstige 20% av total elkraft produksjon.
 * Bruk av pumpekraft som regulator kan vurderes, kanskje hydrogen, batterier i stor skala er urealistisk.
+* Energimiksen må ha god diversitet for å spre risiko og sikre en robust kraftforsyning.
+* Ny kraftkrevende industri (som datasentre) må prioriteres ut fra samfunnsnytte, reell krafttilgang og nettkapasitet.
 * Vi trenger likevel forsterkning av nær- og fjernnett for å takle mer uregulerbar kraft i nettet.
 

@@ -35,6 +35,7 @@ Key points:
     - Benefit
     - Emmissions
     - Nature loss
+    - Community and rekreational impact
     - The first-come, first-served principle is abandoned.
 * Today's energy policy leads to increased conflict levels and more extremism.
 * Increased energy demands should be solved with:
@@ -54,5 +55,7 @@ Key points:
 * Solar energy plants placed in untouched nature are not much better than wind energy plants.
 * Non-dispatchable power (solar, wind) should not exceed 20% of total electricity production.
 * The use of pumped hydro storage as a regulator can be considered, but hydrogen and large-scale batteries are unrealistic.
+* The energy mix must have strong diversity to spread risk and ensure a robust power supply.
+* New power-intensive industry (such as data centers) must be prioritized based on public benefit, real power availability, and grid capacity.
 * Nevertheless, we still require upgrades of local and national power grid in Norway to handle more non-dispatchable power.
 

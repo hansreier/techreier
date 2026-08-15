@@ -707,7 +707,7 @@ img:hover::after {
 .dropdown-btn.menu-active {
 	font-weight: bold;
 	text-decoration: underline;
-	text-underline-offset: 4px;
+	text-underline-offset: 6px;
 }
 
 /* Change the color of links on hover */
