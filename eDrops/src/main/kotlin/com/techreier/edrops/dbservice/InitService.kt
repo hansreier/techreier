@@ -60,6 +60,7 @@ class InitService(
             initial.blogOwner.blogs.forEach { blog ->
                 val existingBlogs = blogRepo.findByTopicLanguageCodeAndSegment(blog.topic.language.code, blog.segment)
                 if (existingBlogs.isEmpty()) {
+                    logger.info("No blog exists in the current database, the initial data is used without modification")
                     blogRepo.save(blog)
                 } else {
                     if (existingBlogs.size > 1) {
