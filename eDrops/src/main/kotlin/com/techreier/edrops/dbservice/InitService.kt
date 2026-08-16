@@ -22,7 +22,7 @@ class InitService(
     private val blogRepo: BlogRepository,
     private val blogPostRepo: BlogPostRepository,
     private val topicRepo: TopicRepository,
-    private val messageSource: MessageSource
+    private val messageSource: MessageSource,
 ) {
 
     private var blogAdminId: Long = -1
@@ -55,53 +55,56 @@ class InitService(
             blogOwner = ownerRepo.findBlogOwnerByUsername(initial.blogOwner.username)
                 ?: throw IllegalStateException("Initial blog owner not found")
             blogOwner.copyAttributes(initial.blogOwner)
-            if (blogOwner.menuChanged == null ) blogOwner.menuChanged = Instant.now()
+            if (blogOwner.menuChanged == null) blogOwner.menuChanged = Instant.now()
             ownerRepo.save(blogOwner)
             initial.blogOwner.blogs.forEach { blog ->
                 val existingBlogs = blogRepo.findByTopicLanguageCodeAndSegment(blog.topic.language.code, blog.segment)
                 if (existingBlogs.isEmpty()) {
                     blogRepo.save(blog)
-                } else if (existingBlogs.size > 1) {
-                    throw DuplicateKeyException("Duplicate blog ids: " + existingBlogs.map { it.id })
-                }
-                val blogId = existingBlogs[0].id ?: throw ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Blog ID kan ikke være null"
-                )
-                blog.blogPosts.forEach { post ->
-                    val existingPosts =
-                        blogPostRepo.findByBlogIdAndSegmentAndState(blogId, post.segment, PostState.PUBLISHED.name)
-                            .toMutableList()
+                } else {
+                    if (existingBlogs.size > 1) {
+                        throw DuplicateKeyException("Duplicate blog ids: " + existingBlogs.map { it.id })
+                    }
+                    val blogId = existingBlogs[0].id ?: throw ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Blog ID kan ikke være null"
+                    )
+                    blog.blogPosts.forEach { post ->
+                        val existingPosts =
+                            blogPostRepo.findByBlogIdAndSegmentAndState(blogId, post.segment, PostState.PUBLISHED.name)
+                                .toMutableList()
 
-                    when (existingPosts.size) {
-                        0 -> {
-                            post.blog = existingBlogs[0]
-                            blogPostRepo.save(post)
-                        }
+                        when (existingPosts.size) {
+                            0 -> {
+                                post.blog = existingBlogs[0]
+                                blogPostRepo.save(post)
+                            }
 
-                        1 -> {
-                            if (post.changed > existingPosts[0].changed) {
-                                logger.info("new post: $post")
-                                logger.info("old post: ${existingPosts[0]}")
-                                blogPostRepo.save(existingPosts[0].copyAttributes(post))
+                            1 -> {
+                                if (post.changed > existingPosts[0].changed) {
+                                    logger.info("new post: $post")
+                                    logger.info("old post: ${existingPosts[0]}")
+                                    blogPostRepo.save(existingPosts[0].copyAttributes(post))
+                                }
+                            }
+
+                            else -> {
+                                logger.error("DUPLICATED BLOGPOSTS: BlogId: $blogId : ${post.segment}. IDs: ${existingPosts.map { it.id }}")
+                                ok = false
                             }
                         }
-
-                        else -> {
-                            logger.error("DUPLICATED BLOGPOSTS: BlogId: $blogId : ${post.segment}. IDs: ${existingPosts.map { it.id }}")
-                            ok = false
-                        }
                     }
-                }
 
-                if ((blog.changed > existingBlogs[0].changed)) {
-                    logger.info("new blog: $blog")
-                    logger.info("old blog: ${existingBlogs[0]}")
-                    val topic = topicRepo.findByTopicKeyAndLanguageCode(blog.topic.topicKey, blog.topic.language.code)
-                        ?: throw DataIntegrityViolationException("topic ${blog.topic.topicKey} not found")
-                    existingBlogs[0].topic = topic
-                    existingBlogs[0].copyAttributes(blog)
-                    blogRepo.save(existingBlogs[0])
+                    if ((blog.changed > existingBlogs[0].changed)) {
+                        logger.info("new blog: $blog")
+                        logger.info("old blog: ${existingBlogs[0]}")
+                        val topic =
+                            topicRepo.findByTopicKeyAndLanguageCode(blog.topic.topicKey, blog.topic.language.code)
+                                ?: throw DataIntegrityViolationException("topic ${blog.topic.topicKey} not found")
+                        existingBlogs[0].topic = topic
+                        existingBlogs[0].copyAttributes(blog)
+                        blogRepo.save(existingBlogs[0])
+                    }
                 }
             }
         }
