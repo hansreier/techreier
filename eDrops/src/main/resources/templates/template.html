@@ -20,7 +20,7 @@
 <body th:data-menu-changed="${menuChanged}">
 <header>
     <div class="left-top">
-        <a id="homebutton" th:href="@{/}" th:text="'⌂'"/>
+        <a id="homebutton" th:href="@{/}" th:text="'⌂'"></a>
         <a id="techreier" th:href="@{/}" th:text="Techreier"></a>
     </div>
     <div class="right-top">
@@ -96,6 +96,7 @@
         <div class="dropdown-content-right">
             <a th:href="@{/collatz}" class="dropdown-item" th:text="#{collatz}"></a>
             <a th:href="@{/fraction}" class="dropdown-item" th:text="#{fraction}"></a>
+            <a th:href="@{/graph}" class="dropdown-item" th:text="#{graph}"></a>
             <a th:href="@{/energydata}" class="dropdown-item" th:text="#{energy.data}"></a>
         </div>
     </div>

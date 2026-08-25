@@ -4,13 +4,13 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
 <head>
-    <title>Fraction</title>
+    <title>Graph</title>
 </head>
 <body>
 <div layout:fragment="content">
     <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"></h1>
     <div class="container" th:utext="${docText}"></div><br>
-    <form th:action="@{/fraction}" th:object="${fractionForm}" th:method="post">
+    <form th:action="@{/graph}" th:object="${graphForm}" th:method="post">
         <div class="input-row">
             <label th:for="decimalNumber" th:text="#{decimalNumber}"></label>
             <input type="text" id="decimalNumber" th:field="*{decimalNumber}" maxLength="22">
@@ -32,7 +32,7 @@
             <p class="result-row" th:text="#{fraction} + ': ' + ${result.numerator} + ' / ' + ${result.denominator}"></p>
             <p class="result-row" th:text="#{deviation} + ': ' + ${result.deviation}"></p>
             <p class="result-row" th:text="#{iterations} + ': ' + ${result.iterations}"></p>
-            <table id="fractionTable">
+            <table id="graphTable">
                 <thead>
                 <tr>
                     <th th:text="#{fraction}"></th>
@@ -40,9 +40,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="fraction : ${result.fractions}">
-                    <td th:text="${fraction.numerator} + ' / ' + ${fraction.denominator}"></td>
-                    <td th:text="${fraction.deviation}"></td>
+                <tr th:each="graph : ${result.fractions}">
+                    <td th:text="${graph.numerator} + ' / ' + ${graph.denominator}"></td>
+                    <td th:text="${grpah.deviation}"></td>
                 </tr>
                 </tbody>
             </table>
