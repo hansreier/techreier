@@ -92,6 +92,12 @@ object Docs {
             MenuItem("fraction", c.defaultEn, "Best fraction")
         )
 
+    val graph =
+        arrayOf(
+            MenuItem("graph", c.defaultNo, "Graf"),
+            MenuItem("graph", c.defaultEn, "Graph")
+        )
+
     val energy =
         arrayOf(
             MenuItem("energydata", c.defaultNo, "Energidata for Norge"),

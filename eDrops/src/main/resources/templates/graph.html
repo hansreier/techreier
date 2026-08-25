@@ -29,20 +29,20 @@
         <button type="submit" th:text="#{action.calculate}"></button>
         <th:block th:if="${result}">
             <p class="error" th:if="${result.error != null }" th:text="#{${result.error}}"></p>
-            <p class="result-row" th:text="#{fraction} + ': ' + ${result.numerator} + ' / ' + ${result.denominator}"></p>
+            <p class="result-row" th:text="#{graph} + ': ' + ${result.numerator} + ' / ' + ${result.denominator}"></p>
             <p class="result-row" th:text="#{deviation} + ': ' + ${result.deviation}"></p>
             <p class="result-row" th:text="#{iterations} + ': ' + ${result.iterations}"></p>
             <table id="graphTable">
                 <thead>
                 <tr>
-                    <th th:text="#{fraction}"></th>
+                    <th th:text="#{graph}"></th>
                     <th th:text="#{deviation}"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="graph : ${result.fractions}">
+                <tr th:each="graph : ${result.graphs}">
                     <td th:text="${graph.numerator} + ' / ' + ${graph.denominator}"></td>
-                    <td th:text="${grpah.deviation}"></td>
+                    <td th:text="${graph.deviation}"></td>
                 </tr>
                 </tbody>
             </table>

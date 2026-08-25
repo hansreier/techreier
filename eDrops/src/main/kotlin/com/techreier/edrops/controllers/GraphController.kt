@@ -5,7 +5,6 @@ import com.techreier.edrops.config.logger
 
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
-import com.techreier.edrops.forms.FractionForm
 import com.techreier.edrops.forms.GraphForm
 import com.techreier.edrops.service.GraphService
 import jakarta.servlet.http.HttpServletRequest
@@ -28,21 +27,21 @@ class GraphController(ctx: Context,
 ) : BaseController(ctx) {
 
     @GetMapping
-    fun fraction(
+    fun graph(
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
         redirectAttributes: RedirectAttributes
     ): String {
-        logger.info("Fraction page")
-        val fractionForm = model.getAttribute("fractionForm") ?: FractionForm()
-        model.addAttribute("fractionForm", fractionForm)
+        logger.info("Graph page")
+        val graphForm = model.getAttribute("graphForm") ?: GraphForm()
+        model.addAttribute("graphForm", graphForm)
         val docIndex = prepare(model, request, response)
         if (docIndex.error || docIndex.index < 0) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
         }
-        return "fraction"
+        return "graph"
     }
 
     @PostMapping
@@ -66,12 +65,12 @@ class GraphController(ctx: Context,
                 return "redirect:/$HOME_DIR"
             }
             model.addAttribute("graphForm", graphForm)
-            return FRACTION
+            return GRAPH
         }
 
-        redirectAttributes.addFlashAttribute("fractionForm", graphForm)
+        redirectAttributes.addFlashAttribute("graphForm", graphForm)
         redirectAttributes.addFlashAttribute("result", result)
-        return "redirect:$FRACTION_DIR"
+        return "redirect:$GRAPH_DIR"
     }
 
     private fun prepare(
@@ -80,11 +79,11 @@ class GraphController(ctx: Context,
         response: HttpServletResponse
     ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response, Menu.LAB)
-        val docIndex = Docs.getDocIndex(Docs.fraction, blogParams.oldLangCode, blogParams.usedLangCode, FRACTION)
+        val docIndex = Docs.getDocIndex(Docs.graph, blogParams.oldLangCode, blogParams.usedLangCode, GRAPH)
 
         if (docIndex.index >= 0 ) {
-            val doc = Docs.fraction[docIndex.index]
-            val docText: String = markdown.toHtml(doc, FRACTION_DIR).html
+            val doc = Docs.graph[docIndex.index]
+            val docText: String = markdown.toHtml(doc, GRAPH_DIR).html
             model.addAttribute("doc", doc)
             model.addAttribute("docText", docText)
         }
