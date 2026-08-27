@@ -22,8 +22,9 @@ const val GRAPH_DIR = "/$GRAPH"
 
 @Controller
 @RequestMapping(GRAPH_DIR)
-class GraphController(ctx: Context,
-                         private val graphService: GraphService
+class GraphController(
+    ctx: Context,
+    private val graphService: GraphService
 ) : BaseController(ctx) {
 
     @GetMapping
@@ -55,7 +56,7 @@ class GraphController(ctx: Context,
     ): String {
         logger.info("draw graph")
 
-        val result = graphForm.validate(bindingResult) ?.let  { graphService.svgChart(it)}
+        val result = graphForm.validate(bindingResult)?.let { graphService.svgChart(it) }
 
         if (bindingResult.hasErrors()) {
             logger.info("warn graph input error: $graphForm")
@@ -81,7 +82,7 @@ class GraphController(ctx: Context,
         val blogParams = fetchBlogParams(model, request, response, Menu.LAB)
         val docIndex = Docs.getDocIndex(Docs.graph, blogParams.oldLangCode, blogParams.usedLangCode, GRAPH)
 
-        if (docIndex.index >= 0 ) {
+        if (docIndex.index >= 0) {
             val doc = Docs.graph[docIndex.index]
             val docText: String = markdown.toHtml(doc, GRAPH_DIR).html
             model.addAttribute("doc", doc)

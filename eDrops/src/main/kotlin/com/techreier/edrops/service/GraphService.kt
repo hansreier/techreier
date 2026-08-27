@@ -11,61 +11,52 @@ class GraphService {
 
 
     fun svgChart(graphInput: GraphInput): SvgChart {
-        // Faste dimensjoner for selve lerretet
         val chartWidth = 800.0
         val chartHeight = 500.0
 
-        // Rammen for selve plottområdet (gir plass til akselabler på sidene)
-        val plotX = 70.0
-        val plotY = 40.0
-        val plotWidth = 700.0
-        val plotHeight = 400.0
-
         val plotArea = PlotArea(
-            x = plotX,
-            y = plotY,
-            width = plotWidth,
-            height = plotHeight
+            x = 70.0,
+            y = 40.0,
+            width = 700.0,
+            height = 400.0
         )
 
-        val xAxisY = plotY + plotHeight // Búnnlinjen for X-aksen
+        // X-akse plassering
+        val xAxisYMath = if (0.0 in graphInput.yMin..graphInput.yMax) 0.0 else graphInput.yMin
+        val xAxisPx = mapY(xAxisYMath, graphInput, plotArea)
 
-        // Hardkodet X-akse (BOTTOM) med min, midt- og maks-verdier fra input
         val xAxis = Axis(
             position = AxisPosition.BOTTOM,
             mainLine = LineSegment(
-                x1 = plotX,
-                y1 = xAxisY,
-                x2 = plotX + plotWidth,
-                y2 = xAxisY
+                x1 = mapX(graphInput.xMin, graphInput, plotArea),
+                y1 = xAxisPx,
+                x2 = mapX(graphInput.xMax, graphInput, plotArea),
+                y2 = xAxisPx
             ),
             ticks = listOf(
-                AxisTick(positionPx = plotX, label = String.format("%.1f", graphInput.xMin)),
-                AxisTick(
-                    positionPx = plotX + (plotWidth / 2),
-                    label = String.format("%.1f", (graphInput.xMin + graphInput.xMax) / 2)
-                ),
-                AxisTick(positionPx = plotX + plotWidth, label = String.format("%.1f", graphInput.xMax))
+                AxisTick(positionPx = mapX(graphInput.xMin, graphInput, plotArea), label = String.format("%.1f", graphInput.xMin)),
+                AxisTick(positionPx = mapX((graphInput.xMin + graphInput.xMax) / 2, graphInput, plotArea), label = String.format("%.1f", (graphInput.xMin + graphInput.xMax) / 2)),
+                AxisTick(positionPx = mapX(graphInput.xMax, graphInput, plotArea), label = String.format("%.1f", graphInput.xMax))
             ),
             title = "X-akse"
         )
 
-        // Hardkodet Y-akse (LEFT)
+        // Y-akse plassering
+        val yAxisXMath = if (0.0 in graphInput.xMin..graphInput.xMax) 0.0 else graphInput.xMin
+        val yAxisPx = mapX(yAxisXMath, graphInput, plotArea)
+
         val yAxis = Axis(
             position = AxisPosition.LEFT,
             mainLine = LineSegment(
-                x1 = plotX,
-                y1 = xAxisY,
-                x2 = plotX,
-                y2 = plotY
+                x1 = yAxisPx,
+                y1 = mapY(graphInput.yMin, graphInput, plotArea),
+                x2 = yAxisPx,
+                y2 = mapY(graphInput.yMax, graphInput, plotArea)
             ),
             ticks = listOf(
-                AxisTick(positionPx = xAxisY, label = String.format("%.1f", graphInput.yMin)),
-                AxisTick(
-                    positionPx = plotY + (plotHeight / 2),
-                    label = String.format("%.1f", (graphInput.yMin + graphInput.yMax) / 2)
-                ),
-                AxisTick(positionPx = plotY, label = String.format("%.1f", graphInput.yMax))
+                AxisTick(positionPx = mapY(graphInput.yMin, graphInput, plotArea), label = String.format("%.1f", graphInput.yMin)),
+                AxisTick(positionPx = mapY((graphInput.yMin + graphInput.yMax) / 2, graphInput, plotArea), label = String.format("%.1f", (graphInput.yMin + graphInput.yMax) / 2)),
+                AxisTick(positionPx = mapY(graphInput.yMax, graphInput, plotArea), label = String.format("%.1f", graphInput.yMax))
             ),
             title = "Y-akse"
         )
@@ -77,6 +68,17 @@ class GraphService {
             axes = listOf(xAxis, yAxis)
         )
     }
+
+    private fun mapX(x: Double, graphInput: GraphInput, plotArea: PlotArea): Double {
+        val ratio = (x - graphInput.xMin) / (graphInput.xMax - graphInput.xMin)
+        return plotArea.x + (ratio * plotArea.width)
+    }
+
+    private fun mapY(y: Double, graphInput: GraphInput, plotArea: PlotArea): Double {
+        val ratio = (y - graphInput.yMin) / (graphInput.yMax - graphInput.yMin)
+        return (plotArea.y + plotArea.height) - (ratio * plotArea.height)
+    }
+
 }
 
 
