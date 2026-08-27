@@ -9,44 +9,34 @@
 <body>
 <div layout:fragment="content">
     <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"></h1>
-    <div class="container" th:utext="${docText}"></div><br>
+    <div class="container" th:utext="${docText}"></div>
+    <br>
     <form th:action="@{/graph}" th:object="${graphForm}" th:method="post">
-        <div class="input-row">
-            <label th:for="decimalNumber" th:text="#{decimalNumber}"></label>
-            <input type="text" id="decimalNumber" th:field="*{decimalNumber}" maxLength="22">
-            <span class="error" th:if="${#fields.hasErrors('decimalNumber')}" th:errors="*{decimalNumber}"></span>
+        <div class="input-form">
+            <div class="input-row">
+                <label th:for="xMin" th:text="#{xMin}"></label>
+                <input type="text" id="xMin" th:field="*{xMin}" maxLength="22">
+                <span class="error" th:if="${#fields.hasErrors('xMin')}" th:errors="*{xMin}"></span>
+            </div>
+            <div class="input-row">
+                <label th:for="xMax" th:text="#{xMax}"></label>
+                <input type="text" id="xMax" th:field="*{xMax}" maxLength="22">
+                <span class="error" th:if="${#fields.hasErrors('xMax')}" th:errors="*{xMax}"></span>
+            </div>
+            <div class="input-row">
+                <label th:for="yMin" th:text="#{yMin}"></label>
+                <input type="text" id="yMin" th:field="*{yMin}" maxLength="22">
+                <span class="error" th:if="${#fields.hasErrors('yMin')}" th:errors="*{yMin}"></span>
+            </div>
+            <div class="input-row">
+                <label th:for="yMax" th:text="#{yMax}"></label>
+                <input type="text" id="yMax" th:field="*{yMax}" maxLength="22">
+                <span class="error" th:if="${#fields.hasErrors('yMax')}" th:errors="*{yMax}"></span>
+            </div>
         </div>
-        <div class="input-row">
-            <label th:for="maxDeviation" th:text="#{maxDeviation}"></label>
-            <input type="text" id="maxDeviation" th:field="*{maxDeviation}" maxLength="22">
-            <span class="error" th:if="${#fields.hasErrors('maxDeviation')}" th:errors="*{maxDeviation}"></span>
-        </div>
-        <div class="input-row">
-            <label th:for="maxDenominator" th:text="#{maxDenominator}"></label>
-            <input type="text" id="maxDenominator" th:field="*{maxDenominator}" maxLength="22">
-            <span class="error" th:if="${#fields.hasErrors('maxDenominator')}" th:errors="*{maxDenominator}"></span>
-        </div>
-        <button type="submit" th:text="#{action.calculate}"></button>
+        <button type="submit" th:text="#{action.draw}"></button>
         <th:block th:if="${result}">
-            <p class="error" th:if="${result.error != null }" th:text="#{${result.error}}"></p>
-            <p class="result-row" th:text="#{graph} + ': ' + ${result.numerator} + ' / ' + ${result.denominator}"></p>
-            <p class="result-row" th:text="#{deviation} + ': ' + ${result.deviation}"></p>
-            <p class="result-row" th:text="#{iterations} + ': ' + ${result.iterations}"></p>
-            <table id="graphTable">
-                <thead>
-                <tr>
-                    <th th:text="#{graph}"></th>
-                    <th th:text="#{deviation}"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="graph : ${result.graphs}">
-                    <td th:text="${graph.numerator} + ' / ' + ${graph.denominator}"></td>
-                    <td th:text="${graph.deviation}"></td>
-                </tr>
-                </tbody>
-            </table>
-
+            <p class="error" th:if="${graph.error != null }" th:text="#{${graph.error}}"></p>
         </th:block>
     </form>
 </div>

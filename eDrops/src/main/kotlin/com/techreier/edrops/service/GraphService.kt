@@ -10,7 +10,7 @@ class GraphService {
     }
 
 
-    fun svgChart(graphInput: GraphInput): SvgChart {
+    fun svgGraph(graphInput: GraphInput): SvgGraph {
         val chartWidth = 800.0
         val chartHeight = 500.0
 
@@ -61,7 +61,7 @@ class GraphService {
             title = "Y-akse"
         )
 
-        return SvgChart(
+        return SvgGraph(
             width = chartWidth,
             height = chartHeight,
             plotArea = plotArea,
@@ -117,11 +117,12 @@ data class PlotArea(
     val height: Double
 )
 
-data class SvgChart(
+data class SvgGraph(
     val width: Double,      // Total width SVG-area
     val height: Double,     // Total height SVG-area
     val plotArea: PlotArea, // The plot area (for ramme)
-    val axes: List<Axis> = emptyList()
+    val axes: List<Axis> = emptyList(),
+    val error: String? = null
 )
 
 
