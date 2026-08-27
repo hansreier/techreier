@@ -55,7 +55,7 @@ class GraphController(ctx: Context,
     ): String {
         logger.info("draw graph")
 
-        val result = graphForm.validate(bindingResult) ?.let  { graphService.graph(it)}
+        val result = graphForm.validate(bindingResult) ?.let  { graphService.svgChart(it)}
 
         if (bindingResult.hasErrors()) {
             logger.info("warn graph input error: $graphForm")

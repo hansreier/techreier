@@ -1,109 +1,125 @@
 package com.techreier.edrops.service
 
-import com.techreier.edrops.config.logger
-import com.techreier.edrops.util.float
 import org.springframework.stereotype.Service
-import kotlin.math.abs
-import kotlin.math.floor
 
 @Service
 class GraphService {
 
     companion object {
-        const val MAX_DEVIATION = 1e-6
-        const val MAX_DENOMINATOR = Long.MAX_VALUE
-        const val MAX_ITERATIONS = 500
-        const val MAX_VIEW_ITERATIONS = 50
+        const val MAX_DEVIATION = 1e-6 //TODO ReierAsk use object if required.
     }
 
-    fun graph(graphInput: GraphInput): GraphResult {
-        return graph(graphInput.decimalNumber, graphInput.maxDeviation, graphInput.maxDenominator)
-    }
 
-    /* Approximates a decimal number as a rational fraction using continued fraction expansion
-    *
-    * Each fraction is computed from the previous two as:
-    * next numerator = floor(value) * previous numerator + numerator before that
-    * next denominator = floor(value) * previous denominator + denominator before that
-    * where value is inverted fractional remainder each step
-    *
-    * The stop criteria is max deviation and max denominator. The max number of iterations will in practice not be exceeded.
-    */
-    fun graph(
-        decimalNumber: Double, maxDeviation: Double = MAX_DEVIATION, maxDenominator: Long = MAX_DENOMINATOR,
-        maxIterations: Int = MAX_ITERATIONS,
-    ): GraphResult {
+    fun svgChart(graphInput: GraphInput): SvgChart {
+        // Faste dimensjoner for selve lerretet
+        val chartWidth = 800.0
+        val chartHeight = 500.0
 
-        var numerator = 1L
-        var denominator = 0L
-        var numeratorOld = 0L
-        var denominatorOld = 1L
-        var i = 0
-        var error: String? = null
-        var value = decimalNumber
-        val graphs: MutableList<Graph> = mutableListOf()
-        logger.info("value $decimalNumber maxDeviation: $maxDeviation maxDenominator: $maxDenominator ")
+        // Rammen for selve plottområdet (gir plass til akselabler på sidene)
+        val plotX = 70.0
+        val plotY = 40.0
+        val plotWidth = 700.0
+        val plotHeight = 400.0
 
-        try {
-            do {
-                val integerPart = floor(value).toLong()
+        val plotArea = PlotArea(
+            x = plotX,
+            y = plotY,
+            width = plotWidth,
+            height = plotHeight
+        )
 
-                val numeratorNew = Math.addExact(
-                    Math.multiplyExact(integerPart, numerator), numeratorOld
-                )
-                val denominatorNew = Math.addExact(
-                    Math.multiplyExact(integerPart, denominator), denominatorOld
-                )
-                i++
-                if (i >= maxIterations) {
-                    error = "error.maxIterations"
-                    break
-                }
-                if (denominatorNew > maxDenominator) {
-                    error = "error.maxDenominator"
-                    break
-                }
-                val deviation = deviation(decimalNumber, numeratorNew, denominatorNew)
-                numeratorOld = numerator
-                denominatorOld = denominator
-                numerator = numeratorNew
-                denominator = denominatorNew
-                logger.debug("numerator: $numeratorNew denominator: $denominatorNew value $value deviation $deviation")
-                if (i <= MAX_VIEW_ITERATIONS) {
-                    graphs.add(Graph(numerator, denominator, deviation.float()))
-                } else {
-                    error = "error.sequenceTruncated"
-                    break
-                }
-                if (deviation < maxDeviation) {
-                    break
-                }
+        val xAxisY = plotY + plotHeight // Búnnlinjen for X-aksen
 
-                value = 1.0 / (value - integerPart)
+        // Hardkodet X-akse (BOTTOM) med min, midt- og maks-verdier fra input
+        val xAxis = Axis(
+            position = AxisPosition.BOTTOM,
+            mainLine = LineSegment(
+                x1 = plotX,
+                y1 = xAxisY,
+                x2 = plotX + plotWidth,
+                y2 = xAxisY
+            ),
+            ticks = listOf(
+                AxisTick(positionPx = plotX, label = String.format("%.1f", graphInput.xMin)),
+                AxisTick(
+                    positionPx = plotX + (plotWidth / 2),
+                    label = String.format("%.1f", (graphInput.xMin + graphInput.xMax) / 2)
+                ),
+                AxisTick(positionPx = plotX + plotWidth, label = String.format("%.1f", graphInput.xMax))
+            ),
+            title = "X-akse"
+        )
 
-            } while (true)
-        } catch (e: ArithmeticException) {
-            logger.error("AritmeticException ${e.message}")
-            error = "error.arithmetic"
-        }
-        return GraphResult(
-            numerator, denominator, deviation(decimalNumber, numerator, denominator).float(), i, graphs, error
+        // Hardkodet Y-akse (LEFT)
+        val yAxis = Axis(
+            position = AxisPosition.LEFT,
+            mainLine = LineSegment(
+                x1 = plotX,
+                y1 = xAxisY,
+                x2 = plotX,
+                y2 = plotY
+            ),
+            ticks = listOf(
+                AxisTick(positionPx = xAxisY, label = String.format("%.1f", graphInput.yMin)),
+                AxisTick(
+                    positionPx = plotY + (plotHeight / 2),
+                    label = String.format("%.1f", (graphInput.yMin + graphInput.yMax) / 2)
+                ),
+                AxisTick(positionPx = plotY, label = String.format("%.1f", graphInput.yMax))
+            ),
+            title = "Y-akse"
+        )
+
+        return SvgChart(
+            width = chartWidth,
+            height = chartHeight,
+            plotArea = plotArea,
+            axes = listOf(xAxis, yAxis)
         )
     }
-
-    private fun deviation(decimalNumber: Double, numerator: Long, denominator: Long) =
-        abs(decimalNumber - numerator.toDouble() / denominator)
 }
 
-data class GraphInput(val decimalNumber: Double, val maxDeviation: Double, val maxDenominator: Long)
 
-data class GraphResult(
-    val numerator: Long, val denominator: Long, val deviation: String, val iterations: Int,
-    val graphs: MutableList<Graph>, val error: String?,
+data class GraphInput(val xMin: Double, val xMax: Double, val yMin: Double, val yMax: Double)
+
+enum class AxisPosition {
+    LEFT, RIGHT, TOP, BOTTOM
+}
+
+
+data class Layout(val plotArea: PlotArea, val xAxis: Axis, val yAxis: Axis)
+
+data class LineSegment(
+    val x1: Double,
+    val y1: Double,
+    val x2: Double,
+    val y2: Double
 )
 
-data class Graph(
-    val numerator: Long, val denominator: Long, val deviation: String,
+data class AxisTick(
+    val positionPx: Double, // Posisjon langs aksen i piksler
+    val label: String       // Ferdig formatert tekst (f.eks. "100")
+)
+
+data class Axis(
+    val position: AxisPosition,
+    val mainLine: LineSegment,
+    val ticks: List<AxisTick> = emptyList(),
+    val title: String? = null
+)
+
+data class PlotArea(
+    val x: Double,
+    val y: Double,
+    val width: Double,
+    val height: Double
+)
+
+data class SvgChart(
+    val width: Double,      // Total width SVG-area
+    val height: Double,     // Total height SVG-area
+    val plotArea: PlotArea, // The plot area (for ramme)
+    val axes: List<Axis> = emptyList()
 )
 
 
