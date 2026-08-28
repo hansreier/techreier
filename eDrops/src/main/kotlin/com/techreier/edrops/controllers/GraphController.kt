@@ -56,7 +56,7 @@ class GraphController(
     ): String {
         logger.info("draw graph")
 
-        val svgGraph = graphForm.validate(bindingResult)?.let { graphService.svgGraph(it) }
+        val svgGraph = graphForm.validate(bindingResult)?.let { graphService.graph(it) }
 
         if (bindingResult.hasErrors()) {
             logger.info("warn graph input error: $graphForm")
@@ -70,7 +70,11 @@ class GraphController(
         }
 
         redirectAttributes.addFlashAttribute("graphForm", graphForm)
-        redirectAttributes.addFlashAttribute("graph", svgGraph)
+        val polylines = svgGraph?.dataSeries?.map {
+            serie -> serie.points.joinToString(" ") { "${it.x},${it.y}" }
+        } ?: listOf()
+        redirectAttributes.addFlashAttribute("diagram", svgGraph?.diagram)
+        redirectAttributes.addFlashAttribute("polylines", polylines)
         return "redirect:$GRAPH_DIR"
     }
 

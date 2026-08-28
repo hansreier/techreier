@@ -27,6 +27,13 @@ data class LineSegment(
     val y2: Double
 )
 
+data class DataSeries(
+    val id: String? = null,
+    val label: String? = null,          // F.eks. "f(x) = sin(x)" (kjekt for tegnforklaring/legend senere)
+    val points: List<Point> = emptyList(), // De faktiske piksel-punktene
+    val error: String? = null,
+)
+
 data class AxisTick(
     val tickLine: LineSegment, // Eksakte piksel-koordinater for selve tick-streken
     val labelPoint: Point,     // Eksakt (x, y) hvor teksten skal plasseres
@@ -55,10 +62,15 @@ data class PlotArea(
     val height: Double
 )
 
-data class SvgGraph(
+data class Diagram(
     val width: Double,
     val height: Double,
     val plotArea: PlotArea,
     val axes: List<Axis> = emptyList(),
-    val error: String? = null
+    val error: String? = null,
+)
+
+data class Graph(
+    val diagram: Diagram,
+    val dataSeries: List<DataSeries> = emptyList(),
 )

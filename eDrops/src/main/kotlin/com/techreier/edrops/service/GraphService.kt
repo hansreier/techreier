@@ -13,7 +13,7 @@ class GraphService {
         const val Y_TITLE_OFFSET = 45.0
     }
 
-    fun svgGraph(graphInput: GraphInput): SvgGraph {
+    fun graph(graphInput: GraphInput): Graph {
         val chartWidth = 800.0
         val chartHeight = 500.0
 
@@ -27,11 +27,15 @@ class GraphService {
         val xAxis = createXAxis(graphInput, plotArea)
         val yAxis = createYAxis(graphInput, plotArea)
 
-        return SvgGraph(
+        val diagram = Diagram(
             width = chartWidth,
             height = chartHeight,
             plotArea = plotArea,
             axes = listOf(xAxis, yAxis)
+        )
+
+        return Graph(
+           diagram, listOf(DataSeries()) //TODO ReierAsk add data
         )
     }
 

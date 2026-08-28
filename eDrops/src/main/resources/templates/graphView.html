@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <div th:fragment="graphView(graph)" class="edrops-graph-container">
-    <div th:if="${graph != null}">
-        <div th:if="${graph.error != null}" class="alert alert-danger" th:text="${graph.error}">
+    <div th:if="${diagram != null}">
+        <div th:if="${diagram.error != null}" class="alert alert-danger" th:text="${diagram.error}">
             Feil ved generering av graf.
         </div>
 
         <!-- SVG-graf -->
-        <svg th:if="${graph.error == null}"
-             th:attr="viewBox=|0 0 ${graph.width} ${graph.height}|"
+        <svg th:if="${diagram.error == null}"
+             th:attr="viewBox=|0 0 ${diagram.width} ${diagram.height}|"
              width="100%"
              height="auto"
              xmlns="http://www.w3.org/2000/svg"
@@ -50,13 +50,13 @@
 
             <!-- 1. PLOTTAREAL (Bakgrunn og ramme) -->
             <rect class="plot-area"
-                  th:x="${graph.plotArea.x}"
-                  th:y="${graph.plotArea.y}"
-                  th:width="${graph.plotArea.width}"
-                  th:height="${graph.plotArea.height}"/>
+                  th:x="${diagram.plotArea.x}"
+                  th:y="${diagram.plotArea.y}"
+                  th:width="${diagram.plotArea.width}"
+                  th:height="${diagram.plotArea.height}"/>
 
             <!-- 2. AKSER, TICKS OG TITLER (Generisk løkke – uavhengig av aksetype) -->
-            <g th:each="axis : ${graph.axes}" class="axis">
+            <g th:each="axis : ${diagram.axes}" class="axis">
 
                 <!-- Hovedlinje for aksen -->
                 <line class="axis-line"
@@ -79,6 +79,14 @@
                           th:attr="text-anchor=${tick.textAlignment.name() == 'CENTER' ? 'middle' : tick.textAlignment.name().toLowerCase()}"
                           th:text="${tick.label}">0.0
                     </text>
+                </g>
+
+                <g class="data-series">
+                    <polyline th:each="s : ${polylines}"
+                              th:points="${s}"
+                              fill="none"
+                              stroke="#2563eb"
+                              stroke-width="2.5" />
                 </g>
 
                 <!-- Aksetittel (Helt generisk plassering og rotasjon) -->
