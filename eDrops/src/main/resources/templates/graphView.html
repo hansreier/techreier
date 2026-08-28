@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<div th:fragment="graphView(graph)" class="edrops-graph-container" th:if="${graph != null}">
+
+    <!-- Feilmelding hvis noe gikk galt under beregning -->
+    <div th:if="${graph.error != null}" class="alert alert-danger" th:text="${graph.error}">
+        Feil ved generering av graf.
+    </div>
+
+    <!-- SVG-graf -->
+    <svg th:if="${graph.error == null}"
+         th:attr="viewBox=|0 0 ${graph.width} ${graph.height}|"
+         width="100%"
+         height="auto"
+         xmlns="http://www.w3.org/2000/svg"
+         class="edrops-graph-svg">
+
+        <style>
+            .edrops-graph-svg {
+                background-color: #fafafa;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            }
+            .plot-area {
+                fill: #ffffff;
+                stroke: #e2e8f0;
+                stroke-width: 1;
+            }
+            .axis-line {
+                stroke: #334155;
+                stroke-width: 2;
+                stroke-linecap: round;
+            }
+            .tick-line {
+                stroke: #64748b;
+                stroke-width: 1.5;
+            }
+            .tick-text {
+                font-size: 12px;
+                fill: #475569;
+            }
+            .axis-title {
+                font-size: 13px;
+                font-weight: 600;
+                fill: #1e293b;
+            }
+        </style>
+
+        <!-- 1. PLOTTAREAL (Bakgrunn og ramme) -->
+        <rect class="plot-area"
+              th:x="${graph.plotArea.x}"
+              th:y="${graph.plotArea.y}"
+              th:width="${graph.plotArea.width}"
+              th:height="${graph.plotArea.height}" />
+
+        <!-- 2. AKSER, TICKS OG TITLER (Generisk løkke – uavhengig av aksetype) -->
+        <g th:each="axis : ${graph.axes}" class="axis">
+
+            <!-- Hovedlinje for aksen -->
+            <line class="axis-line"
+                  th:x1="${axis.mainLine.x1}"
+                  th:y1="${axis.mainLine.y1}"
+                  th:x2="${axis.mainLine.x2}"
+                  th:y2="${axis.mainLine.y2}" />
+
+            <!-- Ticks (Strek og tekst har ferdig beregnede koordinater) -->
+            <g th:each="tick : ${axis.ticks}" class="tick">
+                <line class="tick-line"
+                      th:x1="${tick.tickLine.x1}"
+                      th:y1="${tick.tickLine.y1}"
+                      th:x2="${tick.tickLine.x2}"
+                      th:y2="${tick.tickLine.y2}" />
+
+                <text class="tick-text"
+                      th:x="${tick.labelPoint.x}"
+                      th:y="${tick.labelPoint.y}"
+                      th:attr="text-anchor=${tick.textAlignment.name() == 'CENTER' ? 'middle' : tick.textAlignment.name().toLowerCase()}"
+                      th:text="${tick.label}">0.0</text>
+            </g>
+
+            <!-- Aksetittel (Helt generisk plassering og rotasjon) -->
+            <text th:if="${axis.title != null}"
+                  class="axis-title"
+                  th:x="${axis.title.point.x}"
+                  th:y="${axis.title.point.y}"
+                  th:attr="text-anchor=${axis.title.textAlignment.name() == 'CENTER' ? 'middle' : axis.title.textAlignment.name().toLowerCase()},
+                           transform=${axis.title.rotationDegrees != 0.0 ? '|rotate(' + axis.title.rotationDegrees + ' ' + axis.title.point.x + ' ' + axis.title.point.y + ')|' : null}"
+                  th:text="${axis.title.text}">Akse</text>
+        </g>
+
+        <!-- 3. DATAKURVER / SERIER (Klar for utvidelse) -->
+        <!-- <g class="data-series"> ... </g> -->
+
+    </svg>
+</div>

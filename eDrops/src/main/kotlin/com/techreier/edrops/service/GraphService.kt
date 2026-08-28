@@ -6,9 +6,12 @@ import org.springframework.stereotype.Service
 class GraphService {
 
     companion object {
-        const val MAX_DEVIATION = 1e-6 //TODO ReierAsk use object if required.
+        const val TICK_LENGTH = 6.0
+        const val X_LABEL_OFFSET = 22.0
+        const val X_TITLE_OFFSET = 38.0
+        const val Y_LABEL_OFFSET = 10.0
+        const val Y_TITLE_OFFSET = 45.0
     }
-
 
     fun svgGraph(graphInput: GraphInput): SvgGraph {
         val chartWidth = 800.0
@@ -21,45 +24,8 @@ class GraphService {
             height = 400.0
         )
 
-        // X-akse plassering
-        val xAxisYMath = if (0.0 in graphInput.yMin..graphInput.yMax) 0.0 else graphInput.yMin
-        val xAxisPx = mapY(xAxisYMath, graphInput, plotArea)
-
-        val xAxis = Axis(
-            position = AxisPosition.BOTTOM,
-            mainLine = LineSegment(
-                x1 = mapX(graphInput.xMin, graphInput, plotArea),
-                y1 = xAxisPx,
-                x2 = mapX(graphInput.xMax, graphInput, plotArea),
-                y2 = xAxisPx
-            ),
-            ticks = listOf(
-                AxisTick(positionPx = mapX(graphInput.xMin, graphInput, plotArea), label = String.format("%.1f", graphInput.xMin)),
-                AxisTick(positionPx = mapX((graphInput.xMin + graphInput.xMax) / 2, graphInput, plotArea), label = String.format("%.1f", (graphInput.xMin + graphInput.xMax) / 2)),
-                AxisTick(positionPx = mapX(graphInput.xMax, graphInput, plotArea), label = String.format("%.1f", graphInput.xMax))
-            ),
-            title = "X-akse"
-        )
-
-        // Y-akse plassering
-        val yAxisXMath = if (0.0 in graphInput.xMin..graphInput.xMax) 0.0 else graphInput.xMin
-        val yAxisPx = mapX(yAxisXMath, graphInput, plotArea)
-
-        val yAxis = Axis(
-            position = AxisPosition.LEFT,
-            mainLine = LineSegment(
-                x1 = yAxisPx,
-                y1 = mapY(graphInput.yMin, graphInput, plotArea),
-                x2 = yAxisPx,
-                y2 = mapY(graphInput.yMax, graphInput, plotArea)
-            ),
-            ticks = listOf(
-                AxisTick(positionPx = mapY(graphInput.yMin, graphInput, plotArea), label = String.format("%.1f", graphInput.yMin)),
-                AxisTick(positionPx = mapY((graphInput.yMin + graphInput.yMax) / 2, graphInput, plotArea), label = String.format("%.1f", (graphInput.yMin + graphInput.yMax) / 2)),
-                AxisTick(positionPx = mapY(graphInput.yMax, graphInput, plotArea), label = String.format("%.1f", graphInput.yMax))
-            ),
-            title = "Y-akse"
-        )
+        val xAxis = createXAxis(graphInput, plotArea)
+        val yAxis = createYAxis(graphInput, plotArea)
 
         return SvgGraph(
             width = chartWidth,
@@ -69,60 +35,88 @@ class GraphService {
         )
     }
 
-    private fun mapX(x: Double, graphInput: GraphInput, plotArea: PlotArea): Double {
-        val ratio = (x - graphInput.xMin) / (graphInput.xMax - graphInput.xMin)
+    private fun createXAxis(input: GraphInput, plotArea: PlotArea): Axis {
+        val yMath = if (0.0 in input.yMin..input.yMax) 0.0 else input.yMin
+        val yPx = mapY(yMath, input, plotArea)
+        val xMinPx = mapX(input.xMin, input, plotArea)
+        val xMaxPx = mapX(input.xMax, input, plotArea)
+        val xMidPx = mapX((input.xMin + input.xMax) / 2, input, plotArea)
+
+        val xValues = listOf(
+            input.xMin to xMinPx,
+            (input.xMin + input.xMax) / 2 to xMidPx,
+            input.xMax to xMaxPx
+        )
+
+        val ticks = xValues.map { (value, xPx) ->
+            AxisTick(
+                tickLine = LineSegment(x1 = xPx, y1 = yPx, x2 = xPx, y2 = yPx + TICK_LENGTH),
+                labelPoint = Point(x = xPx, y = yPx + X_LABEL_OFFSET),
+                label = String.format("%.1f", value),
+                textAlignment = TextAlignment.CENTER
+            )
+        }
+
+        val title = AxisTitle(
+            point = Point(x = plotArea.x + (plotArea.width / 2), y = yPx + X_TITLE_OFFSET),
+            text = "X-akse",
+            textAlignment = TextAlignment.CENTER
+        )
+
+        return Axis(
+            position = AxisPosition.BOTTOM,
+            mainLine = LineSegment(x1 = xMinPx, y1 = yPx, x2 = xMaxPx, y2 = yPx),
+            ticks = ticks,
+            title = title
+        )
+    }
+
+    private fun createYAxis(input: GraphInput, plotArea: PlotArea): Axis {
+        val xMath = if (0.0 in input.xMin..input.xMax) 0.0 else input.xMin
+        val xPx = mapX(xMath, input, plotArea)
+        val yMinPx = mapY(input.yMin, input, plotArea)
+        val yMaxPx = mapY(input.yMax, input, plotArea)
+        val yMidPx = mapY((input.yMin + input.yMax) / 2, input, plotArea)
+
+        val yValues = listOf(
+            input.yMin to yMinPx,
+            (input.yMin + input.yMax) / 2 to yMidPx,
+            input.yMax to yMaxPx
+        )
+
+        val ticks = yValues.map { (value, yPx) ->
+            AxisTick(
+                tickLine = LineSegment(x1 = xPx, y1 = yPx, x2 = xPx - TICK_LENGTH, y2 = yPx),
+                labelPoint = Point(x = xPx - Y_LABEL_OFFSET, y = yPx + 4.0), // +4.0 for vertikal sentrering av font
+                label = String.format("%.1f", value),
+                textAlignment = TextAlignment.END
+            )
+        }
+
+        val title = AxisTitle(
+            point = Point(x = xPx - Y_TITLE_OFFSET, y = plotArea.y + (plotArea.height / 2)),
+            text = "Y-akse",
+            rotationDegrees = -90.0,
+            textAlignment = TextAlignment.CENTER
+        )
+
+        return Axis(
+            position = AxisPosition.LEFT,
+            mainLine = LineSegment(x1 = xPx, y1 = yMinPx, x2 = xPx, y2 = yMaxPx),
+            ticks = ticks,
+            title = title
+        )
+    }
+
+    private fun mapX(x: Double, input: GraphInput, plotArea: PlotArea): Double {
+        val ratio = (x - input.xMin) / (input.xMax - input.xMin)
         return plotArea.x + (ratio * plotArea.width)
     }
 
-    private fun mapY(y: Double, graphInput: GraphInput, plotArea: PlotArea): Double {
-        val ratio = (y - graphInput.yMin) / (graphInput.yMax - graphInput.yMin)
+    private fun mapY(y: Double, input: GraphInput, plotArea: PlotArea): Double {
+        val ratio = (y - input.yMin) / (input.yMax - input.yMin)
         return (plotArea.y + plotArea.height) - (ratio * plotArea.height)
     }
-
 }
-
-
-data class GraphInput(val xMin: Double, val xMax: Double, val yMin: Double, val yMax: Double)
-
-enum class AxisPosition {
-    LEFT, RIGHT, TOP, BOTTOM
-}
-
-
-data class Layout(val plotArea: PlotArea, val xAxis: Axis, val yAxis: Axis)
-
-data class LineSegment(
-    val x1: Double,
-    val y1: Double,
-    val x2: Double,
-    val y2: Double
-)
-
-data class AxisTick(
-    val positionPx: Double, // Posisjon langs aksen i piksler
-    val label: String       // Ferdig formatert tekst (f.eks. "100")
-)
-
-data class Axis(
-    val position: AxisPosition,
-    val mainLine: LineSegment,
-    val ticks: List<AxisTick> = emptyList(),
-    val title: String? = null
-)
-
-data class PlotArea(
-    val x: Double,
-    val y: Double,
-    val width: Double,
-    val height: Double
-)
-
-data class SvgGraph(
-    val width: Double,      // Total width SVG-area
-    val height: Double,     // Total height SVG-area
-    val plotArea: PlotArea, // The plot area (for ramme)
-    val axes: List<Axis> = emptyList(),
-    val error: String? = null
-)
 
 
