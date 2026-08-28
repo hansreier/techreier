@@ -34,8 +34,14 @@ class GraphService {
             axes = listOf(xAxis, yAxis)
         )
 
+        val sinusCurve = generateSeries(
+            input = graphInput,
+            plotArea = plotArea,
+            mathFunction = { x -> kotlin.math.sin(x) }
+        )
+
         return Graph(
-           diagram, listOf(DataSeries()) //TODO ReierAsk add data
+           diagram, listOf(sinusCurve)
         )
     }
 
@@ -120,6 +126,31 @@ class GraphService {
     private fun mapY(y: Double, input: GraphInput, plotArea: PlotArea): Double {
         val ratio = (y - input.yMin) / (input.yMax - input.yMin)
         return (plotArea.y + plotArea.height) - (ratio * plotArea.height)
+    }
+
+    private fun generateSeries(
+        input: GraphInput,
+        plotArea: PlotArea,
+        mathFunction: (Double) -> Double,
+        steps: Int = 200
+    ): DataSeries {
+        val stepSize = (input.xMax - input.xMin) / steps
+
+        val points = (0..steps).mapNotNull { i ->
+            val xMath = input.xMin + (i * stepSize)
+            val yMath = mathFunction(xMath)
+
+            if (yMath.isNaN() || yMath.isInfinite()) {
+                null
+            } else {
+                Point(
+                    x = mapX(xMath, input, plotArea),
+                    y = mapY(yMath, input, plotArea)
+                )
+            }
+        }
+
+        return DataSeries(points = points)
     }
 }
 
