@@ -28,7 +28,7 @@ class GraphController(
 ) : BaseController(ctx) {
 
     @GetMapping
-    fun graph(
+    fun drawGraph(
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
@@ -46,7 +46,7 @@ class GraphController(
     }
 
     @PostMapping
-    fun calculate(
+    fun calculateGraph(
         redirectAttributes: RedirectAttributes,
         graphForm: GraphForm,
         bindingResult: BindingResult,

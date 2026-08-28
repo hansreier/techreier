@@ -39,7 +39,7 @@
             <p class="error" th:if="${graph.error != null }" th:text="#{${graph.error}}"></p>
         </th:block>
     </form>
+    <div th:insert="~{graphView :: graphView(${graph})}"></div>
 </div>
-<div th:insert="~{fragments/graph-view :: graphView(${graph})}"></div>
 </body>
 </html>
