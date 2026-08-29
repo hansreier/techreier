@@ -94,8 +94,8 @@ object Docs {
 
     val graph =
         arrayOf(
-            MenuItem("graph", c.defaultNo, "Graf"),
-            MenuItem("graph", c.defaultEn, "Graph")
+            MenuItem("graph", c.defaultNo, "Tegne graf"),
+            MenuItem("graph", c.defaultEn, "Draw graph")
         )
 
     val energy =

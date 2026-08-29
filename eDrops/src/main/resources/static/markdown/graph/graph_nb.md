@@ -1,4 +1,17 @@
-## Tegne en graf
+Midlertidig SVG med en sinusbølge.
 
-Tegn en graf med x-akse og y-akse. Koden er midlertidig.
-Ikke forvent at den virker ennå.
+* Første kjøring: standard aksegrenser
+* Neste kjøringer: dynamiske min/maks-grenser
+
+Enkle antakelser for aksestreker og tekster.
+
+### Måldatasett
+* Matematisk funksjon fra bruker
+* Hardkodede verdier eller database
+* Import fra regneark eller API
+* Tidsbaserte simuleringer
+
+Beregninger kjører på backend. 
+Klient-side WASM for live-animasjon senere.
+Matte parsing med bibliotek eller min egen RPN motor.
+
