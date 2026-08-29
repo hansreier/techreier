@@ -6,7 +6,10 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
 import com.techreier.edrops.forms.GraphForm
+import com.techreier.edrops.service.CoordinateTransformer
+import com.techreier.edrops.service.DiagramRenderer
 import com.techreier.edrops.service.GraphService
+import com.techreier.edrops.service.PlotArea
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
@@ -24,7 +27,8 @@ const val GRAPH_DIR = "/$GRAPH"
 @RequestMapping(GRAPH_DIR)
 class GraphController(
     ctx: Context,
-    private val graphService: GraphService
+    private val graphService: GraphService,
+    private val diagramRenderer: DiagramRenderer
 ) : BaseController(ctx) {
 
     @GetMapping
@@ -56,9 +60,9 @@ class GraphController(
     ): String {
         logger.info("draw graph")
 
-        val svgGraph = graphForm.validate(bindingResult)?.let { graphService.graph(it) }
+        val validatedInput = graphForm.validate(bindingResult)
 
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || validatedInput == null) {
             logger.info("warn graph input error: $graphForm")
             val docIndex = prepare(model, request, response)
             if (docIndex.index < 0) {
@@ -69,22 +73,34 @@ class GraphController(
             return GRAPH
         }
 
-        if (svgGraph != null ) {
-            val xMin =  svgGraph.dataSeries.minOf { it.statistics.xMin }
-            val xMax = svgGraph.dataSeries.maxOf { it.statistics.xMax }
-            val yMin = svgGraph.dataSeries.minOf { it.statistics.yMin }
-            val yMax = svgGraph.dataSeries.maxOf { it.statistics.yMax }
+        // 1. Generer ren matematisk dataserie
+        val sinusCurve = graphService.generateSeries(
+            input = validatedInput,
+            mathFunction = { x -> kotlin.math.sin(x) }
+        )
+        val seriesList = listOf(sinusCurve)
 
-            if (xMin != Double.POSITIVE_INFINITY) graphForm.xMin = xMin.toString()
-            if (xMax != Double.NEGATIVE_INFINITY) graphForm.xMax = xMax.toString()
-            if (yMin != Double.POSITIVE_INFINITY) graphForm.yMin = yMin.toString()
-            if (yMax != Double.NEGATIVE_INFINITY) graphForm.yMax = yMax.toString()
-        }
+        // 2. Opprett layout & transformator for visning
+        val plotArea = PlotArea(x = 70.0, y = 40.0, width = 700.0, height = 400.0)
+        val transformer = CoordinateTransformer(input = validatedInput, plotArea = plotArea)
+
+        // 3. Render diagram-elementer og polyline-strenger
+        val diagram = diagramRenderer.buildDiagram(validatedInput, plotArea, transformer)
+        val polylines = diagramRenderer.renderPolylines(seriesList, transformer)
+
+        // 4. Statistikk-oppdatering på form
+        val xMin = seriesList.minOf { it.statistics.xMin }
+        val xMax = seriesList.maxOf { it.statistics.xMax }
+        val yMin = seriesList.minOf { it.statistics.yMin }
+        val yMax = seriesList.maxOf { it.statistics.yMax }
+
+        if (xMin != Double.POSITIVE_INFINITY) graphForm.xMin = xMin.toString()
+        if (xMax != Double.NEGATIVE_INFINITY) graphForm.xMax = xMax.toString()
+        if (yMin != Double.POSITIVE_INFINITY) graphForm.yMin = yMin.toString()
+        if (yMax != Double.NEGATIVE_INFINITY) graphForm.yMax = yMax.toString()
+
         redirectAttributes.addFlashAttribute("graphForm", graphForm)
-        val polylines = svgGraph?.dataSeries?.map {
-            serie -> serie.points.joinToString(" ") { "${it.x},${it.y}" }
-        } ?: listOf()
-        redirectAttributes.addFlashAttribute("diagram", svgGraph?.diagram)
+        redirectAttributes.addFlashAttribute("diagram", diagram)
         redirectAttributes.addFlashAttribute("polylines", polylines)
         return "redirect:$GRAPH_DIR"
     }
