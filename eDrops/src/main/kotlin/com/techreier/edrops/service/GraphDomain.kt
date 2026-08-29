@@ -27,11 +27,19 @@ data class LineSegment(
     val y2: Double
 )
 
+data class Statistics (
+    val xMin: Double = Double.NEGATIVE_INFINITY,
+    val xMax : Double = Double.POSITIVE_INFINITY,
+    val yMin: Double = Double.NEGATIVE_INFINITY,
+    val yMax: Double = Double.POSITIVE_INFINITY,
+)
+
 data class DataSeries(
     val id: String? = null,
-    val label: String? = null,          // F.eks. "f(x) = sin(x)" (kjekt for tegnforklaring/legend senere)
-    val points: List<Point> = emptyList(), // De faktiske piksel-punktene
+    val label: String? = null,
+    val points: List<Point> = emptyList(),
     val error: String? = null,
+    val statistics: Statistics
 )
 
 data class AxisTick(

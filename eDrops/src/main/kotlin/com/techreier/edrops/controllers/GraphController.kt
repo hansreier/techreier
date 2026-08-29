@@ -69,6 +69,17 @@ class GraphController(
             return GRAPH
         }
 
+        if (svgGraph != null ) {
+            val xMin =  svgGraph.dataSeries.minOf { it.statistics.xMin }
+            val xMax = svgGraph.dataSeries.maxOf { it.statistics.xMax }
+            val yMin = svgGraph.dataSeries.minOf { it.statistics.yMin }
+            val yMax = svgGraph.dataSeries.maxOf { it.statistics.yMax }
+
+            if (xMin != Double.POSITIVE_INFINITY) graphForm.xMin = xMin.toString()
+            if (xMax != Double.NEGATIVE_INFINITY) graphForm.xMax = xMax.toString()
+            if (yMin != Double.POSITIVE_INFINITY) graphForm.yMin = yMin.toString()
+            if (yMax != Double.NEGATIVE_INFINITY) graphForm.yMax = yMax.toString()
+        }
         redirectAttributes.addFlashAttribute("graphForm", graphForm)
         val polylines = svgGraph?.dataSeries?.map {
             serie -> serie.points.joinToString(" ") { "${it.x},${it.y}" }

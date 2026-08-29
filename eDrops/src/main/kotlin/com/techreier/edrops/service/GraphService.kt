@@ -1,6 +1,9 @@
 package com.techreier.edrops.service
 
+import com.techreier.edrops.config.logger
 import org.springframework.stereotype.Service
+import kotlin.math.max
+import kotlin.math.min
 
 @Service
 class GraphService {
@@ -27,17 +30,37 @@ class GraphService {
         val xAxis = createXAxis(graphInput, plotArea)
         val yAxis = createYAxis(graphInput, plotArea)
 
+        val sinusCurve = generateSeries(
+            input = graphInput,
+            plotArea = plotArea,
+            mathFunction = { x -> kotlin.math.sin(x) }
+        )
+
+
+
+        val seriesList = listOf(sinusCurve)
+
+        /*ReierAsk TODO fjern */
+        var xMin: Double? = null
+        var xMax: Double? = null
+        var yMin: Double? = null
+        var yMax: Double? = null
+
+        for (series in seriesList) {
+            for (p in series.points) {
+                if (xMin == null || p.x < xMin) xMin = p.x
+                if (xMax == null || p.x > xMax) xMax = p.x
+                if (yMin == null || p.y < yMin) yMin = p.y
+                if (yMax == null || p.y > yMax) yMax = p.y
+            }
+        }
+        logger.info("xMin=$xMin xMax=$xMax, yMin=$yMin, yMax=$yMax")
+
         val diagram = Diagram(
             width = chartWidth,
             height = chartHeight,
             plotArea = plotArea,
             axes = listOf(xAxis, yAxis)
-        )
-
-        val sinusCurve = generateSeries(
-            input = graphInput,
-            plotArea = plotArea,
-            mathFunction = { x -> kotlin.math.sin(x) }
         )
 
         return Graph(
@@ -135,14 +158,16 @@ class GraphService {
         steps: Int = 200
     ): DataSeries {
         val stepSize = (input.xMax - input.xMin) / steps
-
+        var yMin = Double.POSITIVE_INFINITY
+        var yMax = Double.NEGATIVE_INFINITY
         val points = (0..steps).mapNotNull { i ->
             val xMath = input.xMin + (i * stepSize)
             val yMath = mathFunction(xMath)
-
             if (yMath.isNaN() || yMath.isInfinite()) {
                 null
             } else {
+                yMin = min (yMin, yMath)
+                yMax = max (yMax, yMath)
                 Point(
                     x = mapX(xMath, input, plotArea),
                     y = mapY(yMath, input, plotArea)
@@ -150,7 +175,7 @@ class GraphService {
             }
         }
 
-        return DataSeries(points = points)
+        return DataSeries(points = points, statistics = Statistics(input.xMin, input.xMax, yMin, yMax))
     }
 }
 
