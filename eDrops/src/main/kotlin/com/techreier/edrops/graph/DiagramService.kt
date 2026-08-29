@@ -1,9 +1,9 @@
-package com.techreier.edrops.service
+package com.techreier.edrops.graph
 
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 
-@Component
-class DiagramRenderer {
+@Service
+class DiagramService {
 
     companion object {
         const val TICK_LENGTH = 6.0

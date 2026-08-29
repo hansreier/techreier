@@ -1,4 +1,4 @@
-package com.techreier.edrops.service
+package com.techreier.edrops.graph
 
 data class GraphInput(
     val xMin: Double,
@@ -76,9 +76,4 @@ data class Diagram(
     val plotArea: PlotArea,
     val axes: List<Axis> = emptyList(),
     val error: String? = null,
-)
-
-data class Graph(
-    val diagram: Diagram,
-    val dataSeries: List<DataSeries> = emptyList(),
 )

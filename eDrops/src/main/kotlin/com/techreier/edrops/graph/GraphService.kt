@@ -1,4 +1,4 @@
-package com.techreier.edrops.service
+package com.techreier.edrops.graph
 
 import org.springframework.stereotype.Service
 import kotlin.math.max
@@ -35,5 +35,3 @@ class GraphService {
         )
     }
 }
-
-

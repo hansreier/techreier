@@ -6,10 +6,10 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
 import com.techreier.edrops.forms.GraphForm
-import com.techreier.edrops.service.CoordinateTransformer
-import com.techreier.edrops.service.DiagramRenderer
-import com.techreier.edrops.service.GraphService
-import com.techreier.edrops.service.PlotArea
+import com.techreier.edrops.graph.CoordinateTransformer
+import com.techreier.edrops.graph.DiagramService
+import com.techreier.edrops.graph.GraphService
+import com.techreier.edrops.graph.PlotArea
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
@@ -28,7 +28,7 @@ const val GRAPH_DIR = "/$GRAPH"
 class GraphController(
     ctx: Context,
     private val graphService: GraphService,
-    private val diagramRenderer: DiagramRenderer
+    private val diagramService: DiagramService
 ) : BaseController(ctx) {
 
     @GetMapping
@@ -85,8 +85,8 @@ class GraphController(
         val transformer = CoordinateTransformer(input = validatedInput, plotArea = plotArea)
 
         // 3. Render diagram-elementer og polyline-strenger
-        val diagram = diagramRenderer.buildDiagram(validatedInput, plotArea, transformer)
-        val polylines = diagramRenderer.renderPolylines(seriesList, transformer)
+        val diagram = diagramService.buildDiagram(validatedInput, plotArea, transformer)
+        val polylines = diagramService.renderPolylines(seriesList, transformer)
 
         // 4. Statistikk-oppdatering på form
         val xMin = seriesList.minOf { it.statistics.xMin }

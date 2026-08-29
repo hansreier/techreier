@@ -1,6 +1,6 @@
 package com.techreier.edrops.forms
 
-import com.techreier.edrops.service.GraphInput
+import com.techreier.edrops.graph.GraphInput
 import com.techreier.edrops.util.checkDouble
 import org.springframework.validation.BindingResult
 
