@@ -1,7 +1,7 @@
 Temporary SVG rendering with a sine wave.
 
 * First run: default axis bounds
-* Next runs: dynamic min/max limits
+* Next: dynamic min/max limits
 
 Simple assumptions for ticks and labels.
 

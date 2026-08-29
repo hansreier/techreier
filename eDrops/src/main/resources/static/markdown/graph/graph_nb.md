@@ -1,7 +1,7 @@
 Midlertidig SVG med en sinusbølge.
 
 * Første kjøring: standard aksegrenser
-* Neste kjøringer: dynamiske min/maks-grenser
+* Neste: dynamiske min/maks-grenser
 
 Enkle antakelser for aksestreker og tekster.
 
