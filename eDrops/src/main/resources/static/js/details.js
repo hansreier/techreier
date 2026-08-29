@@ -1,15 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const details = document.getElementById("post-details");
-    if (!details) return;
+    document.querySelectorAll("details").forEach((details, index) => {
+        const key = `details_${window.location.pathname}_${details.id || index}`;
+        const savedState = sessionStorage.getItem(key);
 
-    const savedState = sessionStorage.getItem("detailsOpen");
-    if (savedState === "true") {
-        details.open = true;
-    } else if (savedState === "false") {
-        details.open = false;
-    }
+        if (savedState !== null) {
+            details.open = savedState === "true";
+        }
 
-    details.addEventListener("toggle", () => {
-        sessionStorage.setItem("detailsOpen", details.open);
+        details.addEventListener("toggle", () => {
+            sessionStorage.setItem(key, details.open);
+        });
     });
 });

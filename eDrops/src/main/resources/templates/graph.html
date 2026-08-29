@@ -9,8 +9,11 @@
 <body>
 <div layout:fragment="content">
     <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"></h1>
-    <div class="container" th:utext="${docText}"></div>
-    <br>
+    <details id="graph-details" open>
+        <summary th:text="#{details}"></summary>
+            <div class="container" th:utext="${docText}"></div>
+            <br>
+    </details>
     <form th:action="@{/graph}" th:object="${graphForm}" th:method="post">
         <div class="input-form">
             <div class="input-row">
