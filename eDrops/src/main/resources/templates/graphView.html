@@ -48,24 +48,20 @@
                 }
             </style>
 
-            <!-- 1. PLOTTAREAL (Bakgrunn og ramme) -->
             <rect class="plot-area"
                   th:x="${diagram.plotArea.x}"
                   th:y="${diagram.plotArea.y}"
                   th:width="${diagram.plotArea.width}"
                   th:height="${diagram.plotArea.height}"/>
 
-            <!-- 2. AKSER, TICKS OG TITLER (Generisk løkke – uavhengig av aksetype) -->
             <g th:each="axis : ${diagram.axes}" class="axis">
 
-                <!-- Hovedlinje for aksen -->
                 <line class="axis-line"
                       th:x1="${axis.mainLine.x1}"
                       th:y1="${axis.mainLine.y1}"
                       th:x2="${axis.mainLine.x2}"
                       th:y2="${axis.mainLine.y2}"/>
 
-                <!-- Ticks (Strek og tekst har ferdig beregnede koordinater) -->
                 <g th:each="tick : ${axis.ticks}" class="tick">
                     <line class="tick-line"
                           th:x1="${tick.tickLine.x1}"
@@ -89,7 +85,6 @@
                               stroke-width="2.5" />
                 </g>
 
-                <!-- Aksetittel (Helt generisk plassering og rotasjon) -->
                 <text th:if="${axis.title != null}"
                       class="axis-title"
                       th:x="${axis.title.point.x}"
@@ -99,9 +94,6 @@
                       th:text="${axis.title.text}">Akse
                 </text>
             </g>
-
-            <!-- 3. DATAKURVER / SERIER (Klar for utvidelse) -->
-            <!-- <g class="data-series"> ... </g> -->
 
         </svg>
     </div>
