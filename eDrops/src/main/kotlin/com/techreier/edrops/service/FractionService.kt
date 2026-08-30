@@ -41,7 +41,7 @@ class FractionService {
         var error: String? = null
         var value = decimalNumber
         val fractions: MutableList<Fraction> = mutableListOf()
-        logger.info("value $decimalNumber maxDeviation: $maxDeviation maxDenominator: $maxDenominator ")
+        logger.debug("value $decimalNumber maxDeviation: $maxDeviation maxDenominator: $maxDenominator ")
 
         try {
             do {
