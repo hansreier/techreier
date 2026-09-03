@@ -1,12 +1,33 @@
 package com.techreier.edrops.graph
 
 import com.techreier.edrops.config.logger
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.byLessThan
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class TicsTest {
 
-    // Manual inspection is best for veritying nice numbers used on grapth axis
+    @Test
+    fun axisDataTest() {
+        val min = -2.3
+        val max = 15.3
+        val noTics = 5
+        val delta = (max - min) / noTics
+        val initialAxis = AxisData(delta, min, max, noTics)
+        logger.info("init axis: $initialAxis")
+        val axis = axisData(min = -2.3, max = 15.3, noTics = 5)
+        logger.info("calc axis: $axis")
+        assertThat(axis.min).isLessThanOrEqualTo(min)
+        assertThat(axis.max).isGreaterThanOrEqualTo(max)
+        assertThat(axis.delta).isGreaterThanOrEqualTo(delta)
+        assertEquals(noTics, axis.noTics)
+        assertThat((axis.max - axis.min) / axis.noTics)
+            .isCloseTo(axis.delta, byLessThan(TOLERANCE))
+    }
+
+    // Manual inspection is best for veriFying nice numbers used on grapth axis
     @Disabled
     @Test
     fun testNiceNumbersSweep() {
