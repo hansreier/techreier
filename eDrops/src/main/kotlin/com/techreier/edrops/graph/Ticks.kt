@@ -2,6 +2,7 @@ package com.techreier.edrops.graph
 
 import com.techreier.edrops.service.FractionService
 import org.slf4j.LoggerFactory
+import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.log10
 import kotlin.math.pow
@@ -28,8 +29,8 @@ fun niceNumber(min: Double, max: Double, noTics: Int):Double {
 
 fun axisData(min: Double, max: Double, noTics: Int): AxisData {
     val delta = niceNumber(min, max, noTics)
-    val min = Math.floor(min /delta + TOLERANCE) * delta
-    val max = Math.ceil(max/delta + TOLERANCE) * delta
+    val min = floor(min / delta + TOLERANCE) * delta
+    val max = ceil(max / delta + TOLERANCE) * delta
     val no = ((max - min) / delta + TOLERANCE).toInt()
     return AxisData(delta, min, max, no)
 }
