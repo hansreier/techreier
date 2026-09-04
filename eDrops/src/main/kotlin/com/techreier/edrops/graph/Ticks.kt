@@ -31,7 +31,7 @@ fun axisData(min: Double, max: Double, noTics: Int): AxisData {
     val delta = niceNumber(min, max, noTics)
     val min = floor(min / delta + TOLERANCE) * delta
     val max = ceil(max / delta + TOLERANCE) * delta
-    val no = ((max - min) / delta + TOLERANCE).toInt()
+    val no = ((max - min) / delta + 1 + TOLERANCE).toInt()
     return AxisData(delta, min, max, no)
 }
 

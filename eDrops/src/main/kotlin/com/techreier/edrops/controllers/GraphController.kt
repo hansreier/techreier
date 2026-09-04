@@ -6,7 +6,6 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
 import com.techreier.edrops.forms.GraphForm
-import com.techreier.edrops.graph.CoordinateTransformer
 import com.techreier.edrops.graph.DiagramService
 import com.techreier.edrops.graph.GraphService
 import com.techreier.edrops.graph.PlotArea
@@ -82,11 +81,10 @@ class GraphController(
 
         // 2. Opprett layout & transformator for visning
         val plotArea = PlotArea(x = 70.0, y = 40.0, width = 700.0, height = 400.0)
-        val transformer = CoordinateTransformer(input = validatedInput, plotArea = plotArea)
 
         // 3. Render diagram-elementer og polyline-strenger
-        val diagram = diagramService.buildDiagram(validatedInput, plotArea, transformer)
-        val polylines = diagramService.renderPolylines(seriesList, transformer)
+        val diagramResult = diagramService.buildDiagram(validatedInput, plotArea)
+        val polylines = diagramService.renderPolylines(seriesList, diagramResult.transformer)
 
         // 4. Statistikk-oppdatering på form
         val xMin = seriesList.minOf { it.statistics.xMin }
@@ -100,7 +98,7 @@ class GraphController(
         if (yMax != Double.NEGATIVE_INFINITY) graphForm.yMax = yMax.toString()
 
         redirectAttributes.addFlashAttribute("graphForm", graphForm)
-        redirectAttributes.addFlashAttribute("diagram", diagram)
+        redirectAttributes.addFlashAttribute("diagram", diagramResult.diagram)
         redirectAttributes.addFlashAttribute("polylines", polylines)
         return "redirect:$GRAPH_DIR"
     }
