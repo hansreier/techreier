@@ -17,7 +17,7 @@ class TicsTest {
         val delta = (max - min) / noTics
         val initialAxis = AxisData(delta, min, max, noTics)
         logger.info("init axis: $initialAxis")
-        val axis = axisData(min = -2.3, max = 15.3, noTics = 5)
+        val axis = axisData(min = -2.3, max = 15.3, noSegments = 5)
         logger.info("calc axis: $axis")
         assertThat(axis.min).isLessThanOrEqualTo(min)
         assertThat(axis.max).isGreaterThanOrEqualTo(max)
@@ -34,9 +34,9 @@ class TicsTest {
         var interval = 10.0
         repeat(20) {
             logger.info("--- interval = $interval ---")
-            for (noTics in 3..10) {
-                val niceNumber = niceNumber(0.0, interval, noTics)
-                logger.info("noTics=$noTics -> niceNumber = $niceNumber")
+            for (noSegments in 3..10) {
+                val niceNumber = niceNumber(0.0, interval, noSegments)
+                logger.info("noTics=$noSegments -> niceNumber = $niceNumber")
             }
             interval += 10.0
         }
@@ -55,9 +55,9 @@ class TicsTest {
 
         for (interval in trickyIntervals) {
             logger.info("--- interval = $interval ---")
-            for (noTics in 3..10) {
-                val niceNumber = niceNumber(0.0, interval, noTics)
-                logger.info("tricky interval=$interval, noTics=$noTics -> niceNumber = $niceNumber")
+            for (noSegments in 3..10) {
+                val niceNumber = niceNumber(0.0, interval, noSegments)
+                logger.info("tricky interval=$interval, noTics=$noSegments -> niceNumber = $niceNumber")
             }
         }
     }

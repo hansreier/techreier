@@ -19,10 +19,10 @@ const val USE_COMMONMARK = true
 const val SUBMENU_MIN_ITEMS = 2 //Minimum number of items within a topic sub menu
 const val MENU_SPLIT_SIZE = 10 //Minimum menu size before splitting
 
-// for plot
-const val XTICS_MIN = 3
-const val XTICS_MAX = 10
-const val XTIC_PIXELS = 100.0
-const val YTICS_MIN = 4
-const val YTICS_MAX = 10
-const val YTIC_PIXELS = 60.0
+
+const val XSEGMENTS_MIN = 2
+const val XSEGMENTS_MAX = 9
+const val XSEGMENT_PIXELS = 100.0
+const val YSEGMENTS_MIN = 4
+const val YSEGMENTS_MAX = 10
+const val YSEGMENT_PIXELS = 60.0

@@ -10,9 +10,9 @@ import kotlin.math.pow
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 const val TOLERANCE = 1e-2
 
-fun niceNumber(min: Double, max: Double, noTics: Int):Double {
+fun niceNumber(min: Double, max: Double, noSegments: Int):Double {
     val fractionService = FractionService()
-    val delta = (max - min) / noTics
+    val delta = (max - min) / noSegments
     val log10 = floor(log10(delta) + TOLERANCE).toLong()
     val scale = 10.0.pow(log10.toDouble())
     val seed = delta / scale
@@ -27,11 +27,11 @@ fun niceNumber(min: Double, max: Double, noTics: Int):Double {
     return niceNumber
 }
 
-fun axisData(min: Double, max: Double, noTics: Int): AxisData {
-    val delta = niceNumber(min, max, noTics)
+fun axisData(min: Double, max: Double, noSegments: Int): AxisData {
+    val delta = niceNumber(min, max, noSegments)
     val min = floor(min / delta + TOLERANCE) * delta
     val max = ceil(max / delta + TOLERANCE) * delta
-    val no = ((max - min) / delta + 1 + TOLERANCE).toInt()
+    val no = ((max - min) / delta + TOLERANCE).toInt()
     return AxisData(delta, min, max, no)
 }
 
