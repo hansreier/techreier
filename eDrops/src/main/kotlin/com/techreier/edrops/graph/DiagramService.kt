@@ -1,14 +1,7 @@
 package com.techreier.edrops.graph
 
-import com.techreier.edrops.config.XSEGMENTS_MAX
-import com.techreier.edrops.config.XSEGMENTS_MIN
-import com.techreier.edrops.config.XSEGMENT_PIXELS
-import com.techreier.edrops.config.YSEGMENTS_MAX
-import com.techreier.edrops.config.YSEGMENTS_MIN
-import com.techreier.edrops.config.YSEGMENT_PIXELS
 
-
-import com.techreier.edrops.config.logger
+import com.techreier.edrops.config.*
 import com.techreier.edrops.util.axis
 import org.springframework.stereotype.Service
 
@@ -25,8 +18,9 @@ class DiagramService {
 
     fun buildDiagram(input: GraphInput, plotArea: PlotArea): DiagramResult {
 
-        val xSegments = ((plotArea.width / XSEGMENT_PIXELS) + TOLERANCE ).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
-        val ySegments =((plotArea.height / YSEGMENT_PIXELS) + 1 + TOLERANCE ).toInt().coerceIn(YSEGMENTS_MIN, YSEGMENTS_MAX)
+        val xSegments = ((plotArea.width / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
+        val ySegments =
+            ((plotArea.height / YSEGMENT_PIXELS) + 1 + TOLERANCE).toInt().coerceIn(YSEGMENTS_MIN, YSEGMENTS_MAX)
         val xAxisData = axisData(input.xMin, input.xMax, xSegments)
         logger.info("x: wantedSegments: $xSegments xAxisData: $xAxisData")
         val yAxisData = axisData(input.yMin, input.yMax, ySegments)
@@ -34,8 +28,21 @@ class DiagramService {
         val input = GraphInput(xAxisData.min, xAxisData.max, yAxisData.min, yAxisData.max)
         val transformer = CoordinateTransformer(input = input, plotArea = plotArea)
 
-        val xAxis = createXAxis(xAxisData.noTics, input, plotArea, transformer)
-        val yAxis = createYAxis(yAxisData.noTics, input,  plotArea, transformer)
+        val xAxis = createXAxis(
+            xSegments = xAxisData.noTics,
+            xMin =xAxisData.min,
+            xMax = xAxisData.max,
+            y = yAxisData.min,
+            plotArea = plotArea,
+            transformer = transformer)
+
+        val yAxis = createYAxis(
+            ySegments = yAxisData.noTics,
+            yMin = yAxisData.min,
+            yMax = yAxisData.max,
+            x = xAxisData.min,
+            plotArea = plotArea,
+            transformer = transformer)
 
         val diagram = Diagram(
             width = 800.0,
@@ -58,15 +65,18 @@ class DiagramService {
         }
     }
 
-    private fun createXAxis(xSegments: Int, input: GraphInput, plotArea: PlotArea, transformer: CoordinateTransformer): Axis {
+    private fun createXAxis(
+        xSegments: Int, xMin: Double, xMax: Double, y: Double,
+        plotArea: PlotArea, transformer: CoordinateTransformer,
+    ): Axis {
 
-        val xMinPx = transformer.mapX(input.xMin)
-        val xMaxPx = transformer.mapX(input.xMax)
-        val yPx = transformer.mapY(input.yMin)
-        val xStep = (input.xMax - input.xMin) / (xSegments)
+        val xMinPx = transformer.mapX(xMin)
+        val xMaxPx = transformer.mapX(xMax)
+        val yPx = transformer.mapY(y)
+        val xStep = (xMax - xMin) / (xSegments)
         logger.info("xStep: $xStep")
         val xValues: List<Pair<Double, Double>> = List(xSegments + 1) { i ->
-            val xValue = input.xMin + (i * xStep)
+            val xValue = xMin + (i * xStep)
             xValue to transformer.mapX(xValue)
         }
 
@@ -94,16 +104,19 @@ class DiagramService {
     }
 
 
-    private fun createYAxis(ySegments: Int, input: GraphInput, plotArea: PlotArea, transformer: CoordinateTransformer): Axis {
+    private fun createYAxis(
+        ySegments: Int, yMin: Double, yMax: Double, x: Double,
+        plotArea: PlotArea, transformer: CoordinateTransformer,
+    ): Axis {
 
 
-        val yMinPx = transformer.mapY(input.yMin)
-        val yMaxPx = transformer.mapY(input.yMax)
-        val xPx = transformer.mapX(input.xMin)
-        val yStep = (input.yMax - input.yMin) / (ySegments)
+        val yMinPx = transformer.mapY(yMin)
+        val yMaxPx = transformer.mapY(yMax)
+        val xPx = transformer.mapX(x)
+        val yStep = (yMax - yMin) / (ySegments)
         logger.info("yStep: $yStep")
         val yValues: List<Pair<Double, Double>> = List(ySegments + 1) { i ->
-            val yValue = input.yMin + (i * yStep)
+            val yValue = yMin + (i * yStep)
             yValue to transformer.mapY(yValue)
         }
 
@@ -133,6 +146,6 @@ class DiagramService {
 
     data class DiagramResult(
         val diagram: Diagram,
-        val transformer: CoordinateTransformer
+        val transformer: CoordinateTransformer,
     )
 }
