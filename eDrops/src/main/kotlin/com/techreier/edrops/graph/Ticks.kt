@@ -1,6 +1,5 @@
 package com.techreier.edrops.graph
 
-import com.techreier.edrops.config.MAX_DECIMALS
 import com.techreier.edrops.config.MAX_SUBTICS
 import com.techreier.edrops.config.MIN_SUBTICS
 import com.techreier.edrops.service.FractionService
@@ -10,7 +9,6 @@ import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.log10
 import kotlin.math.pow
-import kotlin.math.roundToInt
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 const val TOLERANCE = 1e-2
