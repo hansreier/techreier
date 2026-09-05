@@ -14,8 +14,9 @@ class TicsTest {
         val min = -2.3
         val max = 15.3
         val noTics = 5
+        val noSubTics = 2
         val delta = (max - min) / noTics
-        val initialAxis = AxisData(delta, min, max, noTics)
+        val initialAxis = AxisData(delta, min, max, noTics, noSubTics, min)
         logger.info("init axis: $initialAxis")
         val axis = axisData(min = -2.3, max = 15.3, noSegments = 5)
         logger.info("calc axis: $axis")

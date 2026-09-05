@@ -36,6 +36,11 @@
                     stroke-width: 1.5;
                 }
 
+                .sub-tick-line {
+                    stroke: #94a3b8;
+                    stroke-width: 1.0;
+                }
+
                 .tick-text {
                     font-size: 12px;
                     fill: #475569;
@@ -49,14 +54,14 @@
             </style>
 
             <g class="graph-header">
-            <text x="20" y="25" class="svg-title-text">
-                <tspan th:text="#{yTitle}"></tspan>
-                <tspan>:</tspan>
-                <tspan th:text="${graphForm.yUnit}" dx="4"></tspan>
-                <tspan th:text="#{xTitle}" dx="20"></tspan>
-                <tspan>:</tspan>
-                <tspan th:text="${graphForm.xUnit}" dx="4"></tspan>
-            </text>
+                <text x="20" y="25" class="svg-title-text">
+                    <tspan th:text="#{yTitle}"></tspan>
+                    <tspan>:</tspan>
+                    <tspan th:text="${graphForm.yUnit}" dx="4"></tspan>
+                    <tspan th:text="#{xTitle}" dx="20"></tspan>
+                    <tspan>:</tspan>
+                    <tspan th:text="${graphForm.xUnit}" dx="4"></tspan>
+                </text>
             </g>
 
             <rect class="plot-area"
@@ -64,43 +69,43 @@
                   th:y="${diagram.plotArea.y}"
                   th:width="${diagram.plotArea.width}"
                   th:height="${diagram.plotArea.height}"/>
-
+            <g class="data-series">
+                <polyline th:each="s : ${polylines}"
+                          th:points="${s}"
+                          fill="none"
+                          stroke="#2563eb"
+                          stroke-width="2.5"/>
+            </g>
             <g th:each="axis : ${diagram.axes}" class="axis">
-
                 <line class="axis-line"
                       th:x1="${axis.mainLine.x1}"
                       th:y1="${axis.mainLine.y1}"
                       th:x2="${axis.mainLine.x2}"
                       th:y2="${axis.mainLine.y2}"/>
-
                 <g th:each="tick : ${axis.ticks}" class="tick">
                     <line class="tick-line"
                           th:x1="${tick.tickLine.x1}"
                           th:y1="${tick.tickLine.y1}"
                           th:x2="${tick.tickLine.x2}"
                           th:y2="${tick.tickLine.y2}"/>
-
                     <text class="tick-text"
                           th:x="${tick.labelPoint.x}"
                           th:y="${tick.labelPoint.y}"
-                          th:attr="text-anchor=${tick.textAlignment.name() == 'CENTER' ? 'middle' : tick.textAlignment.name().toLowerCase()}"
+                          th:attr="text-anchor=${tick.textAlignment.name() == 'CENTER' ? 'middle' : (tick.textAlignment.name() == 'END' ? 'end' : 'start')}"
                           th:text="${tick.label}">0.0
                     </text>
+                    <line th:each="sub : ${tick.subTics}"
+                          class="sub-tick-line"
+                          th:x1="${sub.tickLine.x1}"
+                          th:y1="${sub.tickLine.y1}"
+                          th:x2="${sub.tickLine.x2}"
+                          th:y2="${sub.tickLine.y2}"/>
                 </g>
-
-                <g class="data-series">
-                    <polyline th:each="s : ${polylines}"
-                              th:points="${s}"
-                              fill="none"
-                              stroke="#2563eb"
-                              stroke-width="2.5"/>
-                </g>
-
                 <text th:if="${axis.title != null}"
                       class="axis-title"
                       th:x="${axis.title.point.x}"
                       th:y="${axis.title.point.y}"
-                      th:attr="text-anchor=${axis.title.textAlignment.name() == 'CENTER' ? 'middle' : axis.title.textAlignment.name().toLowerCase()},
+                      th:attr="text-anchor=${axis.title.textAlignment.name() == 'CENTER' ? 'middle' : (axis.title.textAlignment.name() == 'END' ? 'end' : 'start')},
                            transform=${axis.title.rotationDegrees != 0.0 ? '|rotate(' + axis.title.rotationDegrees + ' ' + axis.title.point.x + ' ' + axis.title.point.y + ')|' : null}"
                       th:text="${axis.title.text}">Akse
                 </text>

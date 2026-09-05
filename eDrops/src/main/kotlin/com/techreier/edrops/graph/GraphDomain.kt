@@ -42,11 +42,17 @@ data class DataSeries(
     val statistics: Statistics
 )
 
+data class SubTick(
+    val tickLine: LineSegment,
+    val subTicPoint: Point
+)
+
 data class AxisTick(
-    val tickLine: LineSegment, // Eksakte piksel-koordinater for selve tick-streken
-    val labelPoint: Point,     // Eksakt (x, y) hvor teksten skal plasseres
+    val tickLine: LineSegment,
+    val labelPoint: Point,
     val label: String,
-    val textAlignment: TextAlignment
+    val textAlignment: TextAlignment,
+    val subTics: List<SubTick> = emptyList()
 )
 
 data class AxisTitle(

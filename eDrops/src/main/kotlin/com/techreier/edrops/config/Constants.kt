@@ -27,3 +27,5 @@ const val YSEGMENTS_MIN = 4
 const val YSEGMENTS_MAX = 10
 const val YSEGMENT_PIXELS = 60.0
 const val MAX_DECIMALS = 6
+const val MIN_SUBTICS = 4
+const val MAX_SUBTICS = 8
