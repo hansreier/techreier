@@ -21,8 +21,9 @@ const val MENU_SPLIT_SIZE = 10 //Minimum menu size before splitting
 
 
 const val XSEGMENTS_MIN = 2
-const val XSEGMENTS_MAX = 9
+const val XSEGMENTS_MAX = 2
 const val XSEGMENT_PIXELS = 100.0
 const val YSEGMENTS_MIN = 4
 const val YSEGMENTS_MAX = 10
 const val YSEGMENT_PIXELS = 60.0
+const val MAX_DECIMALS = 6

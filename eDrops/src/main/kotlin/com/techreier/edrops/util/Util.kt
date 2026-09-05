@@ -3,16 +3,20 @@ package com.techreier.edrops.util
 import com.techreier.edrops.config.DEFAULT_TIMEZONE
 import com.techreier.edrops.config.DOUBLE_FIXED_PRECISION_DEFAULT
 import com.techreier.edrops.config.DOUBLE_FLOAT_PRECISION_DEFAULT
+import com.techreier.edrops.config.MAX_DECIMALS
 import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.util.StringUtils
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import kotlin.math.abs
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 const val DATE_PATTERN = "dd.MM.yyyy"
@@ -77,6 +81,21 @@ fun Double?.fixed(precision: Int = DOUBLE_FIXED_PRECISION_DEFAULT): String {
 fun Double?.float(precision: Int = DOUBLE_FLOAT_PRECISION_DEFAULT): String {
     val locale = LocaleContextHolder.getLocale()
     return this ?.let { String.format(locale, "%.${precision}g", this)} ?: ""
+}
+
+fun Double.axis(maxDecimals: Int = MAX_DECIMALS): String {
+    if (this == 0.0) return "0"
+
+    val absVal = abs(this)
+    val pattern = if (absVal !in 0.001..<10000.0) {
+        "0.##E0"
+    } else {
+        "0." + "#".repeat(maxDecimals)
+    }
+
+    val locale = LocaleContextHolder.getLocale()
+    val symbols = DecimalFormatSymbols(locale)
+    return DecimalFormat(pattern, symbols).format(this)
 }
 
 fun String.strip(): String {

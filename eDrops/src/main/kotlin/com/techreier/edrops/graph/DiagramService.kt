@@ -9,6 +9,7 @@ import com.techreier.edrops.config.YSEGMENT_PIXELS
 
 
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.util.axis
 import org.springframework.stereotype.Service
 
 @Service
@@ -73,7 +74,7 @@ class DiagramService {
             AxisTick(
                 tickLine = LineSegment(x1 = xPx, y1 = yPx, x2 = xPx, y2 = yPx + TICK_LENGTH),
                 labelPoint = Point(x = xPx, y = yPx + X_LABEL_OFFSET),
-                label = String.format("%.2f", value), //TODO ReierAsk format
+                label = value.axis(),
                 textAlignment = TextAlignment.CENTER
             )
         }
@@ -110,7 +111,7 @@ class DiagramService {
             AxisTick(
                 tickLine = LineSegment(x1 = xPx, y1 = yPx, x2 = xPx - TICK_LENGTH, y2 = yPx),
                 labelPoint = Point(x = xPx - Y_LABEL_OFFSET, y = yPx + 4.0),
-                label = String.format("%.1f", value),
+                label = value.axis(),
                 textAlignment = TextAlignment.END
             )
         }
