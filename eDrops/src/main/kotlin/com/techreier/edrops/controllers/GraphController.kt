@@ -9,6 +9,7 @@ import com.techreier.edrops.forms.GraphForm
 import com.techreier.edrops.graph.DiagramService
 import com.techreier.edrops.graph.GraphService
 import com.techreier.edrops.graph.PlotArea
+import com.techreier.edrops.util.msg
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
@@ -25,7 +26,7 @@ const val GRAPH_DIR = "/$GRAPH"
 @Controller
 @RequestMapping(GRAPH_DIR)
 class GraphController(
-    ctx: Context,
+    val ctx: Context,
     private val graphService: GraphService,
     private val diagramService: DiagramService
 ) : BaseController(ctx) {
@@ -38,8 +39,9 @@ class GraphController(
         redirectAttributes: RedirectAttributes
     ): String {
         logger.info("Graph page")
-        val graphForm = model.getAttribute("graphForm") ?: GraphForm()
-        model.addAttribute("graphForm", graphForm)
+        val xUnit = msg(ctx.messageSource,"xUnit")
+        val yUnit = msg(ctx.messageSource,"yUnit")
+        model.addAttribute("graphForm", GraphForm(xUnit = xUnit, yUnit = yUnit))
         val docIndex = prepare(model, request, response)
         if (docIndex.error || docIndex.index < 0) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")

@@ -11,9 +11,7 @@ class DiagramService {
     companion object {
         const val TICK_LENGTH = 6.0
         const val X_LABEL_OFFSET = 22.0
-        const val X_TITLE_OFFSET = 38.0
         const val Y_LABEL_OFFSET = 10.0
-        const val Y_TITLE_OFFSET = 45.0
     }
 
     fun buildDiagram(input: GraphInput, plotArea: PlotArea): DiagramResult {
@@ -33,7 +31,6 @@ class DiagramService {
             xMin =xAxisData.min,
             xMax = xAxisData.max,
             y = yAxisData.min,
-            plotArea = plotArea,
             transformer = transformer)
 
         val yAxis = createYAxis(
@@ -41,7 +38,6 @@ class DiagramService {
             yMin = yAxisData.min,
             yMax = yAxisData.max,
             x = xAxisData.min,
-            plotArea = plotArea,
             transformer = transformer)
 
         val diagram = Diagram(
@@ -66,8 +62,7 @@ class DiagramService {
     }
 
     private fun createXAxis(
-        xSegments: Int, xMin: Double, xMax: Double, y: Double,
-        plotArea: PlotArea, transformer: CoordinateTransformer,
+        xSegments: Int, xMin: Double, xMax: Double, y: Double, transformer: CoordinateTransformer,
     ): Axis {
 
         val xMinPx = transformer.mapX(xMin)
@@ -89,24 +84,17 @@ class DiagramService {
             )
         }
 
-        val title = AxisTitle(
-            point = Point(x = plotArea.x + (plotArea.width / 2), y = yPx + X_TITLE_OFFSET),
-            text = "X-akse",
-            textAlignment = TextAlignment.CENTER
-        )
 
         return Axis(
             position = AxisPosition.BOTTOM,
             mainLine = LineSegment(x1 = xMinPx, y1 = yPx, x2 = xMaxPx, y2 = yPx),
-            ticks = ticks,
-            title = title
+            ticks = ticks
         )
     }
 
 
     private fun createYAxis(
-        ySegments: Int, yMin: Double, yMax: Double, x: Double,
-        plotArea: PlotArea, transformer: CoordinateTransformer,
+        ySegments: Int, yMin: Double, yMax: Double, x: Double, transformer: CoordinateTransformer,
     ): Axis {
 
 
@@ -129,18 +117,10 @@ class DiagramService {
             )
         }
 
-        val title = AxisTitle(
-            point = Point(x = xPx - Y_TITLE_OFFSET, y = plotArea.y + (plotArea.height / 2)),
-            text = "Y-akse",
-            rotationDegrees = -90.0,
-            textAlignment = TextAlignment.CENTER
-        )
-
         return Axis(
             position = AxisPosition.LEFT,
             mainLine = LineSegment(x1 = xPx, y1 = yMinPx, x2 = xPx, y2 = yMaxPx),
-            ticks = ticks,
-            title = title
+            ticks = ticks
         )
     }
 

@@ -48,6 +48,17 @@
                 }
             </style>
 
+            <g class="graph-header">
+            <text x="20" y="25" class="svg-title-text">
+                <tspan th:text="#{yTitle}"></tspan>
+                <tspan>:</tspan>
+                <tspan th:text="#{yUnit}" dx="4"></tspan>
+                <tspan th:text="#{xTitle}" dx="20"></tspan>
+                <tspan>:</tspan>
+                <tspan th:text="#{xUnit}" dx="4"></tspan>
+            </text>
+            </g>
+
             <rect class="plot-area"
                   th:x="${diagram.plotArea.x}"
                   th:y="${diagram.plotArea.y}"
@@ -82,7 +93,7 @@
                               th:points="${s}"
                               fill="none"
                               stroke="#2563eb"
-                              stroke-width="2.5" />
+                              stroke-width="2.5"/>
                 </g>
 
                 <text th:if="${axis.title != null}"

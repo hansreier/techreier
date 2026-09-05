@@ -36,6 +36,14 @@
                 <input type="text" id="yMax" th:field="*{yMax}" maxLength="22">
                 <span class="error" th:if="${#fields.hasErrors('yMax')}" th:errors="*{yMax}"></span>
             </div>
+            <div class="input-row">
+                <label th:for="xUnit" th:text="#{xTitle}"></label>
+                <input type="text" id="xUnit" th:field="*{xUnit}" maxLength="22">
+            </div>
+            <div class="input-row">
+                <label th:for="yUnit" th:text="#{yTitle}"></label>
+                <input type="text" id="yUnit" th:field="*{yUnit}" maxLength="22">
+            </div>
         </div>
         <button type="submit" th:text="#{action.draw}"></button>
         <th:block th:if="${result}">
