@@ -5,10 +5,13 @@ import com.techreier.edrops.service.FractionService.Companion.MAX_DENOMINATOR
 import com.techreier.edrops.service.FractionService.Companion.MAX_DEVIATION
 import com.techreier.edrops.util.checkDouble
 import com.techreier.edrops.util.checkLong
+import com.techreier.edrops.util.fixed
+import com.techreier.edrops.util.float
 import org.springframework.validation.BindingResult
 
 data class FractionForm(
-    var decimalNumber: String = kotlin.math.PI.toString(), var maxDeviation: String = MAX_DEVIATION.toString(),
+    var decimalNumber: String = kotlin.math.PI.fixed(15),
+    var maxDeviation: String = MAX_DEVIATION.float(2),
     var maxDenominator: String = MAX_DENOMINATOR.toString(),
 ) {
     fun validate(bindingResult: BindingResult): FractionInput? {

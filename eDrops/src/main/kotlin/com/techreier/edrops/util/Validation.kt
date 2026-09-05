@@ -2,8 +2,11 @@ package com.techreier.edrops.util
 
 import com.techreier.edrops.config.MAX_SEGMENT_SIZE
 import org.slf4j.LoggerFactory
-import org.springframework.validation.BindingResult
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.dao.DuplicateKeyException
+import org.springframework.validation.BindingResult
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 
@@ -24,18 +27,18 @@ fun checkStringSize(
     }
     if (value.length > maxSize) {
         logger.info("$form $field: ${value.length} is longer than the allowed size: $maxSize")
-        bindingResult.rejectValue(field,"error.maxSize", arrayOf(maxSize),  value)
+        bindingResult.rejectValue(field, "error.maxSize", arrayOf(maxSize), value)
         return false
     }
     if (value.length < minSize) {
         logger.info("$form $field: ${value.length} is shorter than the minimum size: $minSize")
-        bindingResult.rejectValue(field,"error.minSize", arrayOf(minSize),  value)
+        bindingResult.rejectValue(field, "error.minSize", arrayOf(minSize), value)
         return false
     }
     val byteSize = value.toByteArray(Charsets.UTF_8).size
     if (byteSize > maxSize) {
         logger.info("$form $field: $byteSize (checked for multibyte) is longer than the allowed size: $maxSize")
-        bindingResult.rejectValue(field,"error.maxSizeM", arrayOf(maxSize),  value)
+        bindingResult.rejectValue(field, "error.maxSizeM", arrayOf(maxSize), value)
         return false
     }
     return true
@@ -56,7 +59,7 @@ fun checkSegment(
     }
     if (value.length > MAX_SEGMENT_SIZE) {
         logger.info("$form $field: ${value.length} is longer than the allowed size: $MAX_SEGMENT_SIZE")
-        bindingResult.rejectValue(field,"error.maxSize", arrayOf(MAX_SEGMENT_SIZE),  value)
+        bindingResult.rejectValue(field, "error.maxSize", arrayOf(MAX_SEGMENT_SIZE), value)
         return false
     }
     if (!value.matches(regex)) {
@@ -80,9 +83,9 @@ fun checkInt(
     } else {
         val result = value.toIntOrNull()
         if (result == null)
-            bindingResult.rejectValue(field,"error.noInteger")
+            bindingResult.rejectValue(field, "error.noInteger")
         else if ((minValue != null) && (result < minValue))
-            bindingResult.rejectValue(field,"error.lessThan", arrayOf(minValue),  value)
+            bindingResult.rejectValue(field, "error.lessThan", arrayOf(minValue), value)
         else if ((maxValue != null) && (result > maxValue))
             bindingResult.rejectValue(field, "error.greaterThan", arrayOf(maxValue), value)
         return result
@@ -104,7 +107,7 @@ fun checkLong(
         if (result == null)
             bindingResult.rejectValue(field, "error.noLong", value)
         else if ((minValue != null) && (result < minValue))
-            bindingResult.rejectValue(field,"error.lessThan", arrayOf(minValue),  value)
+            bindingResult.rejectValue(field, "error.lessThan", arrayOf(minValue), value)
         else if ((maxValue != null) && (result > maxValue))
             bindingResult.rejectValue(field, "error.greaterThan", arrayOf(maxValue), value)
         return result
@@ -115,22 +118,34 @@ fun checkDouble(
     value: String?,
     field: String,
     bindingResult: BindingResult,
-    minValue: Double? = null, maxValue:Double? = null, required: Boolean = true,
+    minValue: Double? = null,
+    maxValue: Double? = null,
+    required: Boolean = true
 ): Double? {
-    if (value.isNullOrBlank()) {
-        if (required)
-            bindingResult.rejectValue(field, "error.empty")
+    val trimmed = value?.trim()
+    if (trimmed.isNullOrEmpty()) {
+        if (required) bindingResult.rejectValue(field, "error.empty")
         return null
-    } else {
-        val result = value.toDoubleOrNull()
-        if (result == null)
-            bindingResult.rejectValue(field, "error.noDouble", value)
-        else if ((minValue != null) && (result < minValue))
-            bindingResult.rejectValue(field,"error.lessThan", arrayOf(minValue),  value)
-        else if ((maxValue != null) && (result > maxValue))
-            bindingResult.rejectValue(field, "error.greaterThan", arrayOf(maxValue), value)
-        return result
     }
+
+    val normalized = trimmed.replace(',', '.')
+    val result = normalized.toDoubleOrNull()
+
+    if (result == null) {
+        bindingResult.rejectValue(field, "error.noDouble", arrayOf(value), value)
+        return null
+    }
+
+    val locale = LocaleContextHolder.getLocale()
+    val formatter = DecimalFormat("0.######", DecimalFormatSymbols(locale))
+
+    if (minValue != null && result < minValue) {
+        bindingResult.rejectValue(field, "error.lessThan", arrayOf(formatter.format(minValue)), value)
+    } else if (maxValue != null && result > maxValue) {
+        bindingResult.rejectValue(field, "error.greaterThan", arrayOf(formatter.format(maxValue)), value)
+    }
+
+    return result
 }
 
 // To check for uniqueness of combined attributes in a list of objects (One, Pair, Triple, More: Use data class)
