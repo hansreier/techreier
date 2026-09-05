@@ -9,6 +9,7 @@ import com.techreier.edrops.forms.GraphForm
 import com.techreier.edrops.graph.DiagramService
 import com.techreier.edrops.graph.GraphService
 import com.techreier.edrops.graph.PlotArea
+import com.techreier.edrops.util.fixed
 import com.techreier.edrops.util.msg
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -41,7 +42,9 @@ class GraphController(
         logger.info("Graph page")
         val xUnit = msg(ctx.messageSource,"xUnit")
         val yUnit = msg(ctx.messageSource,"yUnit")
-        model.addAttribute("graphForm", GraphForm(xUnit = xUnit, yUnit = yUnit))
+        val graphForm = model.getAttribute("graphForm")
+        graphForm?:
+            model.addAttribute("graphForm", GraphForm(xUnit = xUnit, yUnit = yUnit))
         val docIndex = prepare(model, request, response)
         if (docIndex.error || docIndex.index < 0) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
@@ -94,10 +97,10 @@ class GraphController(
         val yMin = seriesList.minOf { it.statistics.yMin }
         val yMax = seriesList.maxOf { it.statistics.yMax }
 
-        if (xMin != Double.POSITIVE_INFINITY) graphForm.xMin = xMin.toString()
-        if (xMax != Double.NEGATIVE_INFINITY) graphForm.xMax = xMax.toString()
-        if (yMin != Double.POSITIVE_INFINITY) graphForm.yMin = yMin.toString()
-        if (yMax != Double.NEGATIVE_INFINITY) graphForm.yMax = yMax.toString()
+        if (xMin != Double.POSITIVE_INFINITY) graphForm.xMin = xMin.fixed()
+        if (xMax != Double.NEGATIVE_INFINITY) graphForm.xMax = xMax.fixed()
+        if (yMin != Double.POSITIVE_INFINITY) graphForm.yMin = yMin.fixed(5)
+        if (yMax != Double.NEGATIVE_INFINITY) graphForm.yMax = yMax.fixed(5)
 
         redirectAttributes.addFlashAttribute("graphForm", graphForm)
         redirectAttributes.addFlashAttribute("diagram", diagramResult.diagram)
