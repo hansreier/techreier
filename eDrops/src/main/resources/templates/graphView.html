@@ -105,6 +105,7 @@
                           class="tick-text"
                           th:x="${tick.labelPoint.x}"
                           th:y="${tick.labelPoint.y}"
+                          th:attr="text-anchor=${tick.textAlignment.name() == 'CENTER' ? 'middle' : (tick.textAlignment.name() == 'END' ? 'end' : 'start')}"
                           th:text="${tick.label}">0.0
                     </text>
                 </g>
