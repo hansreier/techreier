@@ -2,6 +2,9 @@ package com.techreier.edrops.graph
 
 
 import com.techreier.edrops.config.*
+import com.techreier.edrops.graph.DiagramService.Companion.SUBTICK_LENGTH
+import com.techreier.edrops.graph.DiagramService.Companion.TICK_LENGTH
+import com.techreier.edrops.graph.DiagramService.Companion.Y_LABEL_OFFSET
 import com.techreier.edrops.util.axis
 import org.springframework.stereotype.Service
 
@@ -29,24 +32,13 @@ class DiagramService {
             xMin = xAxisData.subTickMin,
             xMax = xAxisData.subTickMax,
             yMin = yAxisData.subTickMin,
-            yMax = yAxisData.subTickMax)
+            yMax = yAxisData.subTickMax
+        )
         val transformer = CoordinateTransformer(input = input, plotArea = plotArea)
 
-        val xAxis = createXAxis(
-            xSegments = xAxisData.sectionCount,
-            xSubSegments = xAxisData.subSectionsPerSection,
-            xMin = xAxisData.subTickMin,
-            xMax = xAxisData.subTickMax,
-            y = yAxisData.subTickMin,
-            transformer = transformer)
+        val xAxis = createXAxis(xAxisData, yAxisData.subTickMin, transformer = transformer)
 
-        val yAxis = createYAxis(
-            ySegments = yAxisData.sectionCount,
-            ySubSegments = yAxisData.subSectionsPerSection,
-            yMin = yAxisData.subTickMin,
-            yMax = yAxisData.subTickMax,
-            x = xAxisData.subTickMin,
-            transformer = transformer)
+        val yAxis = createYAxis(yAxisData, xAxisData.subTickMin, transformer = transformer)
 
         val diagram = Diagram(
             width = 800.0,
@@ -70,113 +62,93 @@ class DiagramService {
     }
 
     private fun createXAxis(
-        xSegments: Int, xSubSegments: Int, xMin: Double, xMax: Double, y: Double, transformer: CoordinateTransformer,
+        axisData: AxisData,
+        y: Double,
+        transformer: CoordinateTransformer,
     ): Axis {
-
-        val xMinPx = transformer.mapX(xMin)
-        val xMaxPx = transformer.mapX(xMax)
         val yPx = transformer.mapY(y)
 
-        val xStep = (xMax - xMin) / xSegments
-        val xSubStep = xStep / xSubSegments
-        logger.info("xStep: $xStep")
-
-        val ticks = List(xSegments + 1) { i ->
-            val xValue = xMin + (i * xStep)
+        val ticks = List(axisData.sectionCount + 1) { i ->
+            val xValue = axisData.tickMin + (i * axisData.tickStep)
             val xPx = transformer.mapX(xValue)
-
-            // Generer SubTicks kun for segmentet mellom dette hovedsteget og det neste
-            val subTics = if (i < xSegments && xSubSegments > 1) {
-                (1 until xSubSegments).map { j ->
-                    val subXValue = xValue + (j * xSubStep)
-                    val subXPx = transformer.mapX(subXValue)
-                    val subYPx = yPx + SUBTICK_LENGTH
-
-                    SubTick(
-                        tickLine = LineSegment(x1 = subXPx, y1 = yPx, x2 = subXPx, y2 = subYPx),
-                        subTicPoint = Point(x = subXPx, y = subYPx)
-                    )
-                }
-            } else {
-                emptyList()
-            }
 
             AxisTick(
                 tickLine = LineSegment(x1 = xPx, y1 = yPx, x2 = xPx, y2 = yPx + TICK_LENGTH),
                 labelPoint = Point(x = xPx, y = yPx + X_LABEL_OFFSET),
                 label = xValue.axis(),
-                textAlignment = TextAlignment.CENTER,
-                subTics = subTics
+                textAlignment = TextAlignment.CENTER
             )
         }
 
-        // 3. Slå sammen hoved-ticks og sub-ticks
-        return Axis(
-            position = AxisPosition.BOTTOM,
-            mainLine = LineSegment(x1 = xMinPx, y1 = yPx, x2 = xMaxPx, y2 = yPx),
-            ticks = ticks
-        )
-    }
-
-    private fun createYAxis(
-        ySegments: Int,
-        ySubSegments: Int,
-        yMin: Double,
-        yMax: Double,
-        x: Double,
-        transformer: CoordinateTransformer
-    ): Axis {
-        val safeYSegments = ySegments.coerceAtLeast(1)
-        val safeYSubSegments = ySubSegments.coerceAtLeast(1)
-
-        val yMinPx = transformer.mapY(yMin)
-        val yMaxPx = transformer.mapY(yMax)
-        val xPx = transformer.mapX(x)
-
-        val yStep = (yMax - yMin) / safeYSegments
-        val ySubStep = yStep / safeYSubSegments
-        val subTickLength = TICK_LENGTH * 0.5
-
-        logger.info("yStep: $yStep")
-
-        val ticks = List(safeYSegments + 1) { i ->
-            val yValue = yMin + (i * yStep)
-            val yPx = transformer.mapY(yValue)
-
-            // Generer SubTicks kun for segmentet mellom dette hovedsteget og det neste
-            val subTics = if (i < safeYSegments && safeYSubSegments > 1) {
-                (1 until safeYSubSegments).map { j ->
-                    val subYValue = yValue + (j * ySubStep)
-                    val subYPx = transformer.mapY(subYValue)
-                    val subXPx = xPx - subTickLength
-
-                    SubTick(
-                        tickLine = LineSegment(x1 = xPx, y1 = subYPx, x2 = subXPx, y2 = subYPx),
-                        subTicPoint = Point(x = subXPx, y = subYPx)
-                    )
-                }
-            } else {
-                emptyList()
-            }
+        val subTicks = List(axisData.subSectionCount + 1) { i ->
+            val subXValue = axisData.subTickMin + (i * axisData.subTickStep)
+            val subXPx = transformer.mapX(subXValue)
 
             AxisTick(
-                tickLine = LineSegment(x1 = xPx, y1 = yPx, x2 = xPx - TICK_LENGTH, y2 = yPx),
-                labelPoint = Point(x = xPx - Y_LABEL_OFFSET, y = yPx + 4.0),
-                label = yValue.axis(),
-                textAlignment = TextAlignment.END,
-                subTics = subTics
+                tickLine = LineSegment(x1 = subXPx, y1 = yPx, x2 = subXPx, y2 = yPx + SUBTICK_LENGTH),
+                labelPoint = null,
+                label = null,
+                textAlignment = TextAlignment.CENTER
             )
         }
 
         return Axis(
-            position = AxisPosition.LEFT,
-            mainLine = LineSegment(x1 = xPx, y1 = yMinPx, x2 = xPx, y2 = yMaxPx),
-            ticks = ticks
+            position = AxisPosition.BOTTOM,
+            mainLine = LineSegment(
+                x1 = transformer.mapX(axisData.subTickMin),
+                y1 = yPx,
+                x2 = transformer.mapX(axisData.subTickMax),
+                y2 = yPx
+            ),
+            ticks = ticks,
+            subTicks = subTicks
+        )
+    }
+}
+
+private fun createYAxis(
+    axisData: AxisData,
+    x: Double,
+    transformer: CoordinateTransformer,
+): Axis {
+    val xPx = transformer.mapX(x)
+
+    val ticks = List(axisData.sectionCount + 1) { i ->
+        val yValue = axisData.tickMin + (i * axisData.tickStep)
+        val yPx = transformer.mapY(yValue)
+
+        AxisTick(
+            tickLine = LineSegment(x1 = xPx, y1 = yPx, x2 = xPx - TICK_LENGTH, y2 = yPx),
+            labelPoint = Point(x = xPx - Y_LABEL_OFFSET, y = yPx + 4.0),
+            label = yValue.axis(),
+            textAlignment = TextAlignment.END
         )
     }
 
-    data class DiagramResult(
-        val diagram: Diagram,
-        val transformer: CoordinateTransformer,
+    val subTicks = List(axisData.subSectionCount + 1) { i ->
+        val subYValue = axisData.subTickMin + (i * axisData.subTickStep)
+        val subYPx = transformer.mapY(subYValue)
+
+        AxisTick(
+            tickLine = LineSegment(x1 = xPx, y1 = subYPx, x2 = xPx - SUBTICK_LENGTH, y2 = subYPx),
+            labelPoint = null,
+            label = null,
+            textAlignment = TextAlignment.END
+        )
+    }
+
+    val yMinPx = transformer.mapY(axisData.subTickMin)
+    val yMaxPx = transformer.mapY(axisData.subTickMax)
+
+    return Axis(
+        position = AxisPosition.LEFT,
+        mainLine = LineSegment(x1 = xPx, y1 = yMinPx, x2 = xPx, y2 = yMaxPx),
+        ticks = ticks,
+        subTicks = subTicks
     )
 }
+
+data class DiagramResult(
+    val diagram: Diagram,
+    val transformer: CoordinateTransformer,
+)

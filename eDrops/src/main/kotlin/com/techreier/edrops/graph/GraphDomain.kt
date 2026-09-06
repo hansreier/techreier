@@ -49,10 +49,9 @@ data class SubTick(
 
 data class AxisTick(
     val tickLine: LineSegment,
-    val labelPoint: Point,
-    val label: String,
-    val textAlignment: TextAlignment,
-    val subTics: List<SubTick> = emptyList()
+    val labelPoint: Point? = null,
+    val label: String? = null,
+    val textAlignment: TextAlignment
 )
 
 data class AxisTitle(
@@ -66,6 +65,7 @@ data class Axis(
     val position: AxisPosition,
     val mainLine: LineSegment,
     val ticks: List<AxisTick> = emptyList(),
+    val subTicks: List<AxisTick> = emptyList(),
     val title: AxisTitle? = null
 )
 
