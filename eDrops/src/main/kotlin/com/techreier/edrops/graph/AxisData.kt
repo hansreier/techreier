@@ -28,8 +28,8 @@ fun axisData(minInput: Double, maxInput: Double, noSegments: Int): AxisData {
     logger.info("delta=$delta scale=$scale seed=$seed")
     val fractionResult = fractionService.fraction(
         decimalNumber = seed,
-        maxDeviation = 0.2,
-        maxDenominator = 15,
+        maxDeviation = 0.4,
+        maxDenominator = 10,
         maxIterations = 4
     )
     logger.info("fractionResult={}", fractionResult)

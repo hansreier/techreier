@@ -20,8 +20,8 @@ const val SUBMENU_MIN_ITEMS = 2 //Minimum number of items within a topic sub men
 const val MENU_SPLIT_SIZE = 10 //Minimum menu size before splitting
 
 
-const val XSEGMENTS_MIN = 2
-const val XSEGMENTS_MAX = 2
+const val XSEGMENTS_MIN = 6
+const val XSEGMENTS_MAX = 10
 const val XSEGMENT_PIXELS = 100.0
 const val YSEGMENTS_MIN = 4
 const val YSEGMENTS_MAX = 10
