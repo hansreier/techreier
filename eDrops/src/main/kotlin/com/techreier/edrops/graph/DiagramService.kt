@@ -25,23 +25,27 @@ class DiagramService {
         logger.info("x: wantedSegments: $xSegments xAxisData: $xAxisData")
         val yAxisData = axisData(input.yMin, input.yMax, ySegments)
         logger.info("y: wantedSegments: $ySegments yAxisData: $yAxisData")
-        val input = GraphInput(xAxisData.min, xAxisData.max, yAxisData.min, yAxisData.max)
+        val input = GraphInput(
+            xMin = xAxisData.subTickMin,
+            xMax = xAxisData.subTickMax,
+            yMin = yAxisData.subTickMin,
+            yMax = yAxisData.subTickMax)
         val transformer = CoordinateTransformer(input = input, plotArea = plotArea)
 
         val xAxis = createXAxis(
-            xSegments = xAxisData.noTics,
-            xSubSegments = xAxisData.noSubTics,
-            xMin =xAxisData.min,
-            xMax = xAxisData.max,
-            y = yAxisData.realMin,
+            xSegments = xAxisData.sectionCount,
+            xSubSegments = xAxisData.subSectionsPerSection,
+            xMin = xAxisData.subTickMin,
+            xMax = xAxisData.subTickMax,
+            y = yAxisData.subTickMin,
             transformer = transformer)
 
         val yAxis = createYAxis(
-            ySegments = yAxisData.noTics,
-            ySubSegments = yAxisData.noSubTics,
-            yMin = yAxisData.min,
-            yMax = yAxisData.max,
-            x = xAxisData.realMin,
+            ySegments = yAxisData.sectionCount,
+            ySubSegments = yAxisData.subSectionsPerSection,
+            yMin = yAxisData.subTickMin,
+            yMax = yAxisData.subTickMax,
+            x = xAxisData.subTickMin,
             transformer = transformer)
 
         val diagram = Diagram(

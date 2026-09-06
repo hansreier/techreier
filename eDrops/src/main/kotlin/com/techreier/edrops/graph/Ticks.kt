@@ -4,54 +4,78 @@ import com.techreier.edrops.config.MAX_SUBTICS
 import com.techreier.edrops.config.MIN_SUBTICS
 import com.techreier.edrops.service.FractionService
 import org.slf4j.LoggerFactory
-import kotlin.math.abs
-import kotlin.math.ceil
-import kotlin.math.floor
-import kotlin.math.log10
-import kotlin.math.pow
+import kotlin.math.*
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
-const val TOLERANCE = 1e-2
+const val TOLERANCE = 1e-5
 
-fun niceNumber(min: Double, max: Double, noSegments: Int):GraphSection {
+fun axisData(minInput: Double, maxInput: Double, noSegments: Int): AxisData {
+    var min = minInput
+    var max = maxInput
+
+    // Correct for min equal to max
+    if (min == max) {
+        val padding = if (min == 0.0) 1.0 else abs(min) * 0.1
+        min -= padding
+        max += padding
+    }
+
     val fractionService = FractionService()
-    val delta = (max - min) / noSegments
+    val delta = abs(max - min) / noSegments
     val log10 = floor(log10(delta) + TOLERANCE).toLong()
     val scale = 10.0.pow(log10.toDouble())
     val seed = delta / scale
-    logger.debug("delta=$delta scale=$scale seed=$seed")
+    logger.info("delta=$delta scale=$scale seed=$seed")
     val fractionResult = fractionService.fraction(
         decimalNumber = seed,
-        maxDeviation = 0.5,
+        maxDeviation = 0.2,
         maxDenominator = 15,
-        maxIterations = 4)
+        maxIterations = 4
+    )
     logger.info("fractionResult={}", fractionResult)
-    val value = (fractionResult.numerator.toDouble() / fractionResult.denominator.toDouble()) * scale
-    val noSubSections =noSubSections(fractionResult.numerator)
-    val subStep = value / noSubSections
-    val realMin = floor((min + TOLERANCE) / subStep) * subStep
-    return GraphSection(value, noSubSections, realMin)
+    val tickStep = (fractionResult.numerator.toDouble() / fractionResult.denominator.toDouble()) * scale
+    val subSectionsPerSection = subSectionCount(fractionResult.numerator)
+    val subTickStep = tickStep / subSectionsPerSection
+    val subTickMin = correctToStep(min, subTickStep, true)
+    val subTickMax = correctToStep(max, subTickStep, false)
+    val subSectionCount = (abs(subTickMax - subTickMin) / subTickStep + TOLERANCE).toInt()
+    val tickMin = correctToStep(subTickMin, tickStep, false)
+    val tickMax = correctToStep(subTickMax, tickStep, true)
+    val sectionCount = (abs(tickMax - tickMin) / tickStep + TOLERANCE).toInt()
+    return AxisData(
+        tickStep, sectionCount, tickStep, tickMin, tickMax,
+        subSectionsPerSection, subSectionCount, subTickStep, subTickMin, subTickMax
+    )
 }
 
-fun noSubSections(numerator: Long):Int {
-    var noSubTics = abs(numerator)
-    if (noSubTics.equals(0L)) return MIN_SUBTICS
-    while (noSubTics < MIN_SUBTICS) {
-        noSubTics *= 2
+fun subSectionCount(numerator: Long): Int {
+    var subSectionCount = abs(numerator)
+    if (subSectionCount == 0L) return MIN_SUBTICS
+    while (subSectionCount < MIN_SUBTICS) {
+        subSectionCount *= 2
     }
-    return noSubTics.coerceAtMost(MAX_SUBTICS.toLong()).toInt()
+    return subSectionCount.coerceAtMost(MAX_SUBTICS.toLong()).toInt()
 }
 
-
-fun axisData(min: Double, max: Double, noSegments: Int): AxisData {
-    val graphSection = niceNumber(min, max, noSegments)
-    val delta = graphSection.value
-    val min = floor(min / delta + TOLERANCE) * delta
-    val max = ceil(max / delta + TOLERANCE) * delta
-    val no = ((max - min) / delta + TOLERANCE).toInt()
-    return AxisData(delta, min, max, no, graphSection.noSubTics, graphSection.realMin)
+fun correctToStep(value: Double, step: Double, down: Boolean): Double {
+    return if (down) {
+        val corr = value + step * TOLERANCE
+        corr - corr.mod(step)
+    } else {
+        val corr = value - step * TOLERANCE
+        corr - corr.mod(step) + step
+    }
 }
 
-data class AxisData(val delta: Double, val min: Double, val max: Double, val noTics: Int, val noSubTics: Int, val realMin: Double)
-
-data class GraphSection(val value: Double, val noSubTics: Int, val realMin: Double)
+data class AxisData(
+    val tickDelta: Double,
+    val sectionCount: Int,
+    val tickStep: Double,
+    val tickMin: Double,
+    val tickMax: Double,
+    val subSectionsPerSection: Int,
+    val subSectionCount: Int,
+    val subTickStep: Double,
+    val subTickMin: Double,
+    val subTickMax: Double,
+)
