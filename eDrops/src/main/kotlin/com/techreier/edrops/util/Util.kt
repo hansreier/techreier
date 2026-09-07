@@ -83,8 +83,9 @@ fun Double?.float(precision: Int = DOUBLE_FLOAT_PRECISION_DEFAULT): String {
     return this ?.let { String.format(locale, "%.${precision}g", this)} ?: ""
 }
 
-fun Double.axis(maxDecimals: Int = MAX_DECIMALS): String {
-    if (this == 0.0) return "0"
+fun Double.axis(maxDecimals: Int = MAX_DECIMALS, minThreshold: Double = 1e-12): String {
+
+    if (abs(this) < minThreshold) return "0"
 
     val absVal = abs(this)
     val pattern = if (absVal !in 0.001..<10000.0) {

@@ -76,7 +76,7 @@ class DiagramService {
             AxisTick(
                 tickLine = LineSegment(x1 = xPx, y1 = yPx, x2 = xPx, y2 = yPx + TICK_LENGTH),
                 labelPoint = Point(x = xPx, y = yPx + X_LABEL_OFFSET),
-                label = xValue.axis(),
+                label = xValue.axis(minThreshold = axisData.subTickStep / 10),
                 textAlignment = TextAlignment.CENTER
             )
         }
@@ -121,7 +121,7 @@ private fun createYAxis(
         AxisTick(
             tickLine = LineSegment(x1 = xPx, y1 = yPx, x2 = xPx - TICK_LENGTH, y2 = yPx),
             labelPoint = Point(x = xPx - Y_LABEL_OFFSET, y = yPx + 4.0),
-            label = yValue.axis(),
+            label = yValue.axis(minThreshold = axisData.subTickStep / 10),
             textAlignment = TextAlignment.END
         )
     }

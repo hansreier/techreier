@@ -36,7 +36,7 @@ fun axisData(min: Double, max: Double, noSegments: Int): AxisData {
     val tickMax = correctToStep(subTickMax, tickStep, true)
     val sectionCount = ((tickMax - tickMin) / tickStep + TOLERANCE).toInt()
     return AxisData(
-        tickStep, sectionCount, tickStep, tickMin, tickMax,
+        sectionCount, tickStep, tickMin, tickMax,
         subSectionsPerSection, subSectionCount, subTickStep, subTickMin, subTickMax
     )
 }
@@ -61,7 +61,6 @@ fun correctToStep(value: Double, step: Double, down: Boolean): Double {
 }
 
 data class AxisData(
-    val tickDelta: Double,
     val sectionCount: Int,
     val tickStep: Double,
     val tickMin: Double,
