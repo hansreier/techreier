@@ -40,11 +40,10 @@ class GraphController(
         redirectAttributes: RedirectAttributes
     ): String {
         logger.info("Graph page")
-        val xUnit = msg(ctx.messageSource,"xUnit")
-        val yUnit = msg(ctx.messageSource,"yUnit")
+        val xUnit = msg(ctx.messageSource, "xUnit")
+        val yUnit = msg(ctx.messageSource, "yUnit")
         val graphForm = model.getAttribute("graphForm")
-        graphForm?:
-            model.addAttribute("graphForm", GraphForm(xUnit = xUnit, yUnit = yUnit))
+        graphForm ?: model.addAttribute("graphForm", GraphForm(xUnit = xUnit, yUnit = yUnit))
         val docIndex = prepare(model, request, response)
         if (docIndex.error || docIndex.index < 0) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
@@ -66,6 +65,43 @@ class GraphController(
 
         val validatedInput = graphForm.validate(bindingResult)
 
+        if (validatedInput != null) {
+
+            try {
+
+                val sinusCurve = graphService.generateSeries(
+                    input = validatedInput,
+                    mathFunction = { x -> kotlin.math.sin(x) }
+                )
+                val seriesList = listOf(sinusCurve)
+                val plotArea = PlotArea(x = 70.0, y = 40.0, width = 700.0, height = 400.0)
+                val diagramResult = diagramService.buildDiagram(validatedInput, plotArea)
+                val polylines = diagramService.renderPolylines(seriesList, diagramResult.transformer)
+
+                val xMin = seriesList.minOf { it.statistics.xMin }
+                val xMax = seriesList.maxOf { it.statistics.xMax }
+                val yMin = seriesList.minOf { it.statistics.yMin }
+                val yMax = seriesList.maxOf { it.statistics.yMax }
+
+                graphForm.xMin = xMin.fixed()
+                graphForm.xMax = xMax.fixed()
+                graphForm.yMin = yMin.fixed(5)
+                graphForm.yMax = yMax.fixed(5)
+
+                redirectAttributes.addFlashAttribute("graphForm", graphForm)
+                redirectAttributes.addFlashAttribute("diagram", diagramResult.diagram)
+                redirectAttributes.addFlashAttribute("polylines", polylines)
+            } catch (ex: Exception) {
+                if (ex is IllegalArgumentException) {
+                    bindingResult.reject("error.range")
+                }
+                else {
+                    logger.warn("error in graph calculation: ${ex.message}")
+                    bindingResult.reject("error.calcGraph")
+                }
+            }
+        }
+
         if (bindingResult.hasErrors() || validatedInput == null) {
             logger.info("warn graph input error: $graphForm")
             val docIndex = prepare(model, request, response)
@@ -77,34 +113,6 @@ class GraphController(
             return GRAPH
         }
 
-        // 1. Generer ren matematisk dataserie
-        val sinusCurve = graphService.generateSeries(
-            input = validatedInput,
-            mathFunction = { x -> kotlin.math.sin(x) }
-        )
-        val seriesList = listOf(sinusCurve)
-
-        // 2. Opprett layout & transformator for visning
-        val plotArea = PlotArea(x = 70.0, y = 40.0, width = 700.0, height = 400.0)
-
-        // 3. Render diagram-elementer og polyline-strenger
-        val diagramResult = diagramService.buildDiagram(validatedInput, plotArea)
-        val polylines = diagramService.renderPolylines(seriesList, diagramResult.transformer)
-
-        // 4. Statistikk-oppdatering på form
-        val xMin = seriesList.minOf { it.statistics.xMin }
-        val xMax = seriesList.maxOf { it.statistics.xMax }
-        val yMin = seriesList.minOf { it.statistics.yMin }
-        val yMax = seriesList.maxOf { it.statistics.yMax }
-
-        if (xMin != Double.POSITIVE_INFINITY) graphForm.xMin = xMin.fixed()
-        if (xMax != Double.NEGATIVE_INFINITY) graphForm.xMax = xMax.fixed()
-        if (yMin != Double.POSITIVE_INFINITY) graphForm.yMin = yMin.fixed(5)
-        if (yMax != Double.NEGATIVE_INFINITY) graphForm.yMax = yMax.fixed(5)
-
-        redirectAttributes.addFlashAttribute("graphForm", graphForm)
-        redirectAttributes.addFlashAttribute("diagram", diagramResult.diagram)
-        redirectAttributes.addFlashAttribute("polylines", polylines)
         return "redirect:$GRAPH_DIR"
     }
 

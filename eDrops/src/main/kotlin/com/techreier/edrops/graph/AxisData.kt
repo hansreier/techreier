@@ -9,19 +9,12 @@ import kotlin.math.*
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 const val TOLERANCE = 1e-5
 
-fun axisData(minInput: Double, maxInput: Double, noSegments: Int): AxisData {
-    var min = minInput
-    var max = maxInput
+fun axisData(min: Double, max: Double, noSegments: Int): AxisData {
 
-    // Correct for min equal to max
-    if (min == max) {
-        val padding = if (min == 0.0) 1.0 else abs(min) * 0.1
-        min -= padding
-        max += padding
-    }
+    if (max <= min) throw IllegalArgumentException("Max must be greater than min in axis calculation")
 
     val fractionService = FractionService()
-    val delta = abs(max - min) / noSegments
+    val delta = (max - min) / noSegments
     val log10 = floor(log10(delta) + TOLERANCE).toLong()
     val scale = 10.0.pow(log10.toDouble())
     val seed = delta / scale
@@ -38,10 +31,10 @@ fun axisData(minInput: Double, maxInput: Double, noSegments: Int): AxisData {
     val subTickStep = tickStep / subSectionsPerSection
     val subTickMin = correctToStep(min, subTickStep, true)
     val subTickMax = correctToStep(max, subTickStep, false)
-    val subSectionCount = (abs(subTickMax - subTickMin) / subTickStep + TOLERANCE).toInt()
+    val subSectionCount = ((subTickMax - subTickMin) / subTickStep + TOLERANCE).toInt()
     val tickMin = correctToStep(subTickMin, tickStep, false)
     val tickMax = correctToStep(subTickMax, tickStep, true)
-    val sectionCount = (abs(tickMax - tickMin) / tickStep + TOLERANCE).toInt()
+    val sectionCount = ((tickMax - tickMin) / tickStep + TOLERANCE).toInt()
     return AxisData(
         tickStep, sectionCount, tickStep, tickMin, tickMax,
         subSectionsPerSection, subSectionCount, subTickStep, subTickMin, subTickMax

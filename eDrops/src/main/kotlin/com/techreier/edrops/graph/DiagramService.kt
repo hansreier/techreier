@@ -19,7 +19,8 @@ class DiagramService {
     }
 
     fun buildDiagram(input: GraphInput, plotArea: PlotArea): DiagramResult {
-
+        if (input.xMax <= input.xMin) throw IllegalArgumentException("xMax must be greater than xMin")
+        if (input.yMax <= input.yMin) throw IllegalArgumentException("yMax must be greater than yMin")
         val xSegments =
             ((plotArea.width / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
         val ySegments =

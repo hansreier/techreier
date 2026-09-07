@@ -45,10 +45,10 @@
                 <input type="text" id="yUnit" th:field="*{yUnit}" maxLength="22">
             </div>
         </div>
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
         <button type="submit" th:text="#{action.draw}"></button>
-        <th:block th:if="${result}">
-            <p class="error" th:if="${graph.error != null }" th:text="#{${graph.error}}"></p>
-        </th:block>
     </form>
     <div th:insert="~{graphView :: graphView(${graph})}"></div>
 </div>
