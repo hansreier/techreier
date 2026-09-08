@@ -25,7 +25,7 @@ class GraphService {
             } else {
                 yMin = min(yMin, yMath)
                 yMax = max(yMax, yMath)
-                Point(x = xMath, y = yMath) // Kun matematiske koordinater
+                Point(x = xMath, y = yMath)
             }
         }
 
