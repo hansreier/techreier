@@ -1,12 +1,11 @@
-
 /* General HTML settings */
 html, body {
-	/*height: 100%;*/
-	font-size: 1rem;
-	font-weight: 400;
-	min-width: 50px;
-	margin: 0;
-	padding: 0;
+    /*height: 100%;*/
+    font-size: 1rem;
+    font-weight: 400;
+    min-width: 50px;
+    margin: 0;
+    padding: 0;
     background: lightyellow;
 }
 
@@ -18,10 +17,10 @@ html, body {
 
 body {
     max-width: 1400px;
-	height: 100%;
-	font-family: Arial, Helvetica, sans-serif;
-/*	overflow-x: auto;
-	overflow-y: auto; */
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    /*	overflow-x: auto;
+        overflow-y: auto; */
     border-right: 2px solid #e6e6ad;
     border-bottom: 2px solid #e6e6ad;
     margin-bottom: 2rem;
@@ -29,43 +28,63 @@ body {
 
 /* Smaller size for smaller screens, add different background color to verify, did not use clamp */
 @media (max-width: 480px) {
-	#work.has-device-info {
-		background: white;
-	}
-	html {
-		font-size: 1rem;
-	}
+    #work.has-device-info {
+        background: white;
+    }
+
+    html {
+        font-size: 1rem;
+    }
 }
 
 @media (min-width: 481px) and (max-width: 900px) and  (max-height: 480px) {
-	#work.has-device-info {
-		background: lightgrey;
-	}
-	html {
-		font-size: 1rem;
-	}
+    #work.has-device-info {
+        background: lightgrey;
+    }
+
+    html {
+        font-size: 1rem;
+    }
 }
 
 h1, h2, h3, h4, h5, h6 {
-	margin-top: 1em;
-	margin-bottom: 0.3em;
-	color: darkslategray;
+    margin-top: 1em;
+    margin-bottom: 0.3em;
+    color: darkslategray;
 }
 
-h1 { font-size: 1.8rem; color: darkgreen;  }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.3rem; }
-h4 { font-size: 1.2rem; }
-h5 { font-size: 1.1rem; }
-h6 { font-size: 1.0rem; }
+h1 {
+    font-size: 1.8rem;
+    color: darkgreen;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.3rem;
+}
+
+h4 {
+    font-size: 1.2rem;
+}
+
+h5 {
+    font-size: 1.1rem;
+}
+
+h6 {
+    font-size: 1.0rem;
+}
 
 p, ul, ol, a {
-	font-size: 1rem;
+    font-size: 1rem;
 }
 
 button {
-	font-size: 1.1rem;
-	margin: 0.5rem 0.5rem;
+    font-size: 1.1rem;
+    margin: 0.5rem 0.5rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -76,31 +95,31 @@ button {
 }
 
 .singlebutton {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0.35rem 0.35rem;
-	font-size: 1rem;
-	text-decoration: none;
-	margin-left: 0.5rem;
-	background-color: #f0f0f0;
-	border: 1px solid black;
-	border-radius: 0.25rem;
-	color: #212529;
-	cursor: default;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.35rem;
+    font-size: 1rem;
+    text-decoration: none;
+    margin-left: 0.5rem;
+    background-color: #f0f0f0;
+    border: 1px solid black;
+    border-radius: 0.25rem;
+    color: #212529;
+    cursor: default;
 }
 
 .singlebutton:hover {
-	background-color: #e2e6ea;
-	border: 1px solid black;
-	color: #212529;
-	text-decoration: none;
+    background-color: #e2e6ea;
+    border: 1px solid black;
+    color: #212529;
+    text-decoration: none;
 }
 
 @media print {
-	.singlebutton {
-		display: none;
-	}
+    .singlebutton {
+        display: none;
+    }
 }
 
 .button-row {
@@ -124,87 +143,87 @@ button {
 }
 
 details > summary {
-	font-weight: 600;
-	letter-spacing: 0.03em;
-	font-size: 0.9rem;
-	color: #212529;
-	transition: color 0.2s ease;
-	margin-top: 1rem;
-	margin-bottom: 7px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    font-size: 0.9rem;
+    color: #212529;
+    transition: color 0.2s ease;
+    margin-top: 1rem;
+    margin-bottom: 7px;
 }
 
 details > summary:hover {
-	color: #0066cc;
+    color: #0066cc;
 }
 
 p {
-	margin-top: 0;
-	padding: 0.5rem 5px;
-	margin-bottom: 0;
+    margin-top: 0;
+    padding: 0.5rem 5px;
+    margin-bottom: 0;
 }
 
 ul, ol {
-	margin-left: 0;
-	margin-right: 0;
-	margin-top: 0.5rem;
-	margin-bottom: 0.5rem;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 ol {
-	padding-left: 2.2rem;
-	list-style-type: decimal;
+    padding-left: 2.2rem;
+    list-style-type: decimal;
 }
 
 ul {
-	padding-left: 1.5rem;
-	list-style-type: disc;
+    padding-left: 1.5rem;
+    list-style-type: disc;
 }
 
 ol ol, ul ul, ol ul, ul ol {
-	padding-left: 0.6rem;
-	margin-top: 0.2rem;
-	list-style-type: "- ";
+    padding-left: 0.6rem;
+    margin-top: 0.2rem;
+    list-style-type: "- ";
 }
 
 li {
-	padding-top: 0.2rem;
+    padding-top: 0.2rem;
 }
 
 label {
-	font-weight: 500;
-	font-size: 0.92rem;
-	margin-bottom: 0.3rem;
+    font-weight: 500;
+    font-size: 0.92rem;
+    margin-bottom: 0.3rem;
 }
 
 ul ul {
-	list-style-type: "- ";
+    list-style-type: "- ";
 }
 
 input, select, textarea {
-	box-shadow: none;
-	border: 1px solid #ccc;
-	height: 1.7rem;
-	font-size: 1rem;
-	font-family: inherit;
-	font-weight: 400;
-	margin-bottom: 0.5rem;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    height: 1.7rem;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
 }
 
 input {
-	padding-left: 0.3rem;
+    padding-left: 0.3rem;
 }
 
 select {
-	height: 2rem;
-	padding-left: 0;
-	padding-top: 0.3rem;
-	padding-bottom: 0.4rem;
+    height: 2rem;
+    padding-left: 0;
+    padding-top: 0.3rem;
+    padding-bottom: 0.4rem;
 }
 
 textarea {
-	padding-left: 0.3rem;
-	padding-top: 0.2rem;
-	line-height: 1.5;
+    padding-left: 0.3rem;
+    padding-top: 0.2rem;
+    line-height: 1.5;
 }
 
 textarea[readonly] {
@@ -218,21 +237,21 @@ textarea[readonly] {
 
 table {
     font-size: 0.92rem;
-	display: table;
-	width: 100%;
-	max-width: 100%;
-	table-layout: fixed;
-	border-collapse: collapse;
-	margin-bottom: 1rem;
+    display: table;
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
 }
 
 th {
-	background-color: lightgrey;
+    background-color: lightgrey;
 }
 
 th, td {
-	padding: 4px 6px;
-	border: 1px solid black;
+    padding: 4px 6px;
+    border: 1px solid black;
     overflow-wrap: anywhere;
 }
 
@@ -286,18 +305,18 @@ th, td {
 }
 
 header {
-	padding-top:0.4rem;
-	padding-bottom: 0.4rem;
-	padding-left: 0.5rem;
-	margin: 0;
-	background-color:#ffecb3;
-/*	border-style: solid;
-	border-width: 0 0 2px; */
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    padding-left: 0.5rem;
+    margin: 0;
+    background-color: #ffecb3;
+    /*	border-style: solid;
+        border-width: 0 0 2px; */
     overflow: hidden;
- 	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
 }
 
 code {
@@ -333,24 +352,24 @@ pre code {
 }
 
 blockquote {
-	border-left: 4px solid #777;
-	margin: 0 0;
-	padding: 3px 6px;
-	color: black;
-	font-style: italic;
+    border-left: 4px solid #777;
+    margin: 0 0;
+    padding: 3px 6px;
+    color: black;
+    font-style: italic;
 }
 
 footer {
-	color: green;
-	font-size: 0.7rem;
-	background-color: transparent;
-	padding: 0.5rem 0;
-	border: none;
+    color: green;
+    font-size: 0.7rem;
+    background-color: transparent;
+    padding: 0.5rem 0;
+    border: none;
 }
 
 #work {
-	margin: 0;
-	padding: 0.5rem 0.5rem;
+    margin: 0;
+    padding: 0.5rem 0.5rem;
     overflow-wrap: break-word;
 }
 
@@ -363,51 +382,51 @@ footer {
 
 
 img {
-	max-width: 100%;
-	max-height: 70vh;
-	height: auto;
+    max-width: 100%;
+    max-height: 70vh;
+    height: auto;
 }
 
 img[alt="Reier"] {
-	max-width: 300px;
-	height: auto;
+    max-width: 300px;
+    height: auto;
 }
 
 img:hover::after {
-	content: attr(title);
-	position: absolute;
-	bottom: 100%;
-	left: 0;
-	background-color: white;
-	color: black;
-	padding: 4px;
-	border-radius: 4px;
-	font-size: 20px;
-	white-space: nowrap;
-	opacity: 0.9;
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background-color: white;
+    color: black;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 20px;
+    white-space: nowrap;
+    opacity: 0.9;
 }
 
 .date {
-	font-style: italic;
+    font-style: italic;
 }
 
 .warning {
-	color: blue;
+    color: blue;
 }
 
 .section {
-	white-space: pre-line;
+    white-space: pre-line;
 }
 
 .linkbutton {
-	display: inline-block;
-	padding: 10px 20px;
-	background-color: #0074d9;
-	color: #fff;
-	text-decoration: none;
-	border-radius: 5px;
-	font-weight: bold;
-	transition: background-color 0.3s;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0074d9;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
 }
 
 #blog-reference {
@@ -448,10 +467,17 @@ img:hover::after {
     overflow-wrap: normal;
 }
 
-#blogposts tr:nth-child(even){background-color: #f2f2f2;}
-#blogposts tr:nth-child(odd){background-color: yellow;}
+#blogposts tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
 
-#blogposts tr:hover {background-color: #ddd;}
+#blogposts tr:nth-child(odd) {
+    background-color: yellow;
+}
+
+#blogposts tr:hover {
+    background-color: #ddd;
+}
 
 #blogposts a {
     text-decoration: none;
@@ -459,43 +485,44 @@ img:hover::after {
 }
 
 #blogpostform {
-	width: 100%;
+    width: 100%;
 }
 
 .state-short {
-	display: none;
+    display: none;
 }
 
 @media (max-width: 480px) {
-	#blogposts .title {
-		display: inline-block;
-		max-width: 18ch;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		vertical-align: bottom;
-	}
+    #blogposts .title {
+        display: inline-block;
+        max-width: 18ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: bottom;
+    }
 
-	#blogposts .state-full {
-		display: none;
-	}
+    #blogposts .state-full {
+        display: none;
+    }
 
-	#blogposts .state-short {
-		display: inline;
-	}
+    #blogposts .state-short {
+        display: inline;
+    }
 
-	#blogposts .hstate {
-		font-size: 0;
-	}
+    #blogposts .hstate {
+        font-size: 0;
+    }
 }
 
 @media (max-width: 768px) {
-	.blogposts-time {
-		display: none;
-	}
-	#blogposts {
-		white-space: normal;
-	}
+    .blogposts-time {
+        display: none;
+    }
+
+    #blogposts {
+        white-space: normal;
+    }
 }
 
 .view-wrapper {
@@ -515,78 +542,78 @@ img:hover::after {
 }
 
 .input-form {
-	display: grid;
-	grid-template-columns: 1fr;
-	flex-direction: column;
-	width: 100%;
-	gap: 0;
-	color: black;
+    display: grid;
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+    color: black;
 }
 
 /* Responsive layout: 2-column form on wider screens, except for elements marked with full-width */
 @media (min-width: 768px) {
-	.input-form {
-		grid-template-columns: repeat(2, 1fr);
-		column-gap: 1rem;
-		row-gap: 0;
-	}
+    .input-form {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 1rem;
+        row-gap: 0;
+    }
 
-	.input-row.full-width {
-		grid-column: span 2;
-	}
+    .input-row.full-width {
+        grid-column: span 2;
+    }
 }
 
 .input-form textarea {
-	resize: vertical;
-	min-height: 100px;
+    resize: vertical;
+    min-height: 100px;
 }
 
 .input-row {
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 #seed {
-	width: 11rem;
-	margin-right: 4rem;
+    width: 11rem;
+    margin-right: 4rem;
 }
 
 #decimalNumber {
-	width: 13rem;
-	margin-right: 4rem;
+    width: 13rem;
+    margin-right: 4rem;
 }
 
 #maxDenominator {
-	width: 13rem;
-	margin-right: 4rem;
+    width: 13rem;
+    margin-right: 4rem;
 }
 
 #maxDeviation {
-	width: 13rem;
-	margin-right: 4rem;
+    width: 13rem;
+    margin-right: 4rem;
 }
 
 /* Specific formatting of header line  */
 .left-top {
-	display: flex;
-	align-items: center;
-	gap: 0;
+    display: flex;
+    align-items: center;
+    gap: 0;
 }
 
 .right-top {
-	display: flex;
-	align-items: center;
-	gap: 0;
+    display: flex;
+    align-items: center;
+    gap: 0;
 }
 
 #homebutton {
-	text-decoration: none;
-	transition: background-color 0.3s ease;
-	font-size: 1.6rem;
-	font-family: 'Courier New', monospace;
-	font-weight: bold;
-	color: blue;
-	display: inline-block;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-size: 1.6rem;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: blue;
+    display: inline-block;
 }
 
 @media (max-width: 480px) {
@@ -596,38 +623,38 @@ img:hover::after {
 }
 
 #techreier {
-	font-weight: bold;
-	white-space:nowrap;
-	text-decoration: none;
-	transition: background-color 0.3s ease;
-	font-size: 1rem;
-	margin: 0;
-	padding: 0;
+    font-weight: bold;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
 }
 
 #language {
-	display: flex;
-	align-items: center;
-	color: green;
-	margin: 0;
-	padding: 0;
-	height: 1rem;
+    display: flex;
+    align-items: center;
+    color: green;
+    margin: 0;
+    padding: 0;
+    height: 1rem;
 }
 
 #languageLabel {
-	font-size: 1rem;
-	margin-top: 0;
-	margin-bottom: 0;
-	margin-right: 0.5rem;
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 0.5rem;
 }
 
 #languageSelect {
-	height: 1.5rem;
-	font-size: 1rem;
-	border: 1px solid darkslategray;
-	width: auto;
-	margin: 0;
-	padding: 0;
+    height: 1.5rem;
+    font-size: 1rem;
+    border: 1px solid darkslategray;
+    width: auto;
+    margin: 0;
+    padding: 0;
 }
 
 #language-selector {
@@ -650,24 +677,24 @@ img:hover::after {
 }
 
 .statusline {
-	display: flex;
-	align-items: center;
-	gap: 1.5rem;
-	margin-top: 0.8rem;
-	margin-bottom: 0.8rem;
-	margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+    margin-left: 0.5rem;
 }
 
 .outputfield {
-	display: flex;
-	align-items: center;
-	gap: 0.3rem;
-	color: black;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: black;
 }
 
 .outputfield p {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 @media (max-width: 550px) {
@@ -677,9 +704,9 @@ img:hover::after {
 }
 
 .checkbox label {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 
@@ -688,17 +715,17 @@ img:hover::after {
     display: flex;
     flex-direction: row;
     gap: 0;
-	background-color: dimgray;
+    background-color: dimgray;
     padding: 0 1rem;
 }
 
 /* Style the links inside the navigation bar */
 .navbar a,
 .dropdown-btn {
-	color: #f2f2f2;
+    color: #f2f2f2;
     padding: 0.8rem 1.2rem;
-	text-decoration: none;
-	font-size: 1rem;
+    text-decoration: none;
+    font-size: 1rem;
     background: none;
     cursor: pointer;
     display: flex;
@@ -706,32 +733,32 @@ img:hover::after {
 }
 
 .dropdown-btn.menu-active {
-	font-weight: bold;
-	text-decoration: underline;
-	text-underline-offset: 6px;
+    font-weight: bold;
+    text-decoration: underline;
+    text-underline-offset: 6px;
 }
 
 /* Change the color of links on hover */
 .navbar a:hover,
 .dropdown:hover .dropdown-btn {
-	background-color: #ddd;
+    background-color: #ddd;
 }
 
 /* Dropdown button */
 .dropdown .dropdown-btn {
-	font-size:1rem;
-	border: none;
-	outline: none;
-	color: white;
-	padding: 0.8rem 0.8rem;
-	background-color: inherit;
-	font-family: inherit;
-	margin: 0;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 0.8rem 0.8rem;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
 }
 
 /* Add a red background color to navbar links on hover */
 .navbar .dropdown:hover .dropdown-btn, .dropdown:hover {
-	background-color: #b22222;
+    background-color: #b22222;
 }
 
 .dropdown {
@@ -753,7 +780,7 @@ img:hover::after {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1000;
     flex-direction: column;
     min-width: 100%;
@@ -784,11 +811,11 @@ img:hover::after {
 }
 
 .dropdown-item {
-	max-width: 30ch;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: block;
+    max-width: 30ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
 }
 
 /* Hide meny items when  */
@@ -806,118 +833,118 @@ img:hover::after {
 
 /* Style for the topic to expand */
 .dropdown-item[data-topic="true"].expandable {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .dropdown-item[data-topic="true"].expandable::after {
-	content: "+";
-	margin-left: 0.5rem;
-	font-weight: bold;
+    content: "+";
+    margin-left: 0.5rem;
+    font-weight: bold;
 }
 
 /* style for the topic to collapse */
 .dropdown-item[data-topic="true"]:not(.expandable) {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .dropdown-item[data-topic="true"]:not(.expandable)::after {
-	content: "−";
-	margin-left: 0.5rem;
-	font-weight: bold;
+    content: "−";
+    margin-left: 0.5rem;
+    font-weight: bold;
 }
 
 /* Validation error text */
 .error {
-	display: block;
-	padding-top: 0;
-	padding-bottom: 0.5rem;
-	margin-top: 0;
-	color: red;
-	font-style: italic;
+    display: block;
+    padding-top: 0;
+    padding-bottom: 0.5rem;
+    margin-top: 0;
+    color: red;
+    font-style: italic;
 }
 
 .result-row {
-	padding: 0.1em 5px;
+    padding: 0.1em 5px;
 }
 
 /* Button and direct link inherits differently, I got a lot of trouble with this.
    To define them separate seems to be the simplest */
 button.dropdown-item {
-	background-color: inherit;
-	border: none;
-	color: black;
-	text-align: left;
-	width: 100%;
-	display: block;
-	padding: 0.4rem 0.6rem;
-	margin: 0;
-	cursor: pointer;
-	box-sizing: border-box;
-	font-size: 1rem;
+    background-color: inherit;
+    border: none;
+    color: black;
+    text-align: left;
+    width: 100%;
+    display: block;
+    padding: 0.4rem 0.6rem;
+    margin: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-size: 1rem;
 }
 
 button.dropdown-item:hover {
-	background-color: #ddd;
+    background-color: #ddd;
 }
 
-a.dropdown-item{
-	border: none;
-	color: black;
-	display:block;
-	float: none;
-	text-align: left;
-	text-decoration: none;
-	margin: 0;
-	padding: 0.4rem 0.6rem;
-	box-sizing: border-box;
-	font-size: 1rem;
+a.dropdown-item {
+    border: none;
+    color: black;
+    display: block;
+    float: none;
+    text-align: left;
+    text-decoration: none;
+    margin: 0;
+    padding: 0.4rem 0.6rem;
+    box-sizing: border-box;
+    font-size: 1rem;
 }
 
 a.dropdown-item:hover {
-	background-color: #ddd;
+    background-color: #ddd;
 }
 
 #loginform {
-	max-width: 95%;
+    max-width: 95%;
 }
 
 #togglePassword {
-	display: inline-block;
-	font-size: 0.92rem;
-	line-height: 1;
-	margin-left: 0.4rem;
-	cursor: pointer;
+    display: inline-block;
+    font-size: 0.92rem;
+    line-height: 1;
+    margin-left: 0.4rem;
+    cursor: pointer;
 }
 
 #password-label {
-	display: flex;
-	align-items: center;
-	padding: 0;
-	margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 0.3rem;
 }
 
 #password-label span:first-child {
-	margin-right: 8px;
+    margin-right: 8px;
 }
 
 #reier {
-	background-color: green;
+    background-color: green;
 }
 
 #bumpWrapper {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 #postBump {
-	display: flex;
-	margin-top: -2px;
- }
+    display: flex;
+    margin-top: -2px;
+}
 
 #postBumpDate {
-	  margin-top: -4px;
-	  white-space: nowrap;
+    margin-top: -4px;
+    white-space: nowrap;
 }
 
 .input-form textarea.summary {
@@ -945,6 +972,44 @@ a.dropdown-item:hover {
 
 #blogPost {
     height: 40vh;
+}
+
+.edrops-graph-svg {
+	background-color: #fafafa;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.plot-area {
+	fill: #ffffff;
+	stroke: #e2e8f0;
+	stroke-width: 1;
+}
+
+.axis-line {
+	stroke: #334155;
+	stroke-width: 2;
+	stroke-linecap: round;
+}
+
+.tick-line {
+	stroke: #64748b;
+	stroke-width: 1.5;
+}
+
+.sub-tick-line {
+	stroke: #94a3b8;
+	stroke-width: 1.0;
+}
+
+.tick-text {
+	font-size: 12px;
+	fill: #475569;
+}
+
+.axis-title {
+	font-size: 13px;
+	font-weight: 600;
+	fill: #1e293b;
 }
 
 @media print {
@@ -1001,6 +1066,8 @@ a.dropdown-item:hover {
         background: none !important;
     }
 }
+
+
 
 
 
