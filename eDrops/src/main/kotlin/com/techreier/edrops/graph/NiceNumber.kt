@@ -1,5 +1,7 @@
 package com.techreier.edrops.graph
 
+import com.techreier.edrops.config.TOLERANCE
+
 //Calculate nice numbers for graph intervals given normalized segment size (value between ticks)
 fun niceNumber(normalized: Double): NiceRange {
 
