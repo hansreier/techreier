@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service
 @Service
 class DiagramService {
 
-    fun buildDiagram(input: GraphInput, plotArea: PlotArea): DiagramResult {
+    fun buildDiagram(input: GraphInput, diagramArea: DiagramArea): DiagramResult {
         if (input.xMax <= input.xMin) throw IllegalArgumentException("xMax must be greater than xMin")
         if (input.yMax <= input.yMin) throw IllegalArgumentException("yMax must be greater than yMin")
         val xSegments =
-            ((plotArea.width / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
+            ((diagramArea.plotWidth / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
         val ySegments =
-            ((plotArea.height / YSEGMENT_PIXELS) + 1 + TOLERANCE).toInt().coerceIn(YSEGMENTS_MIN, YSEGMENTS_MAX)
+            ((diagramArea.plotHeight / YSEGMENT_PIXELS) + 1 + TOLERANCE).toInt().coerceIn(YSEGMENTS_MIN, YSEGMENTS_MAX)
         val xAxisData = axisData(input.xMin, input.xMax, xSegments)
         logger.info("x: wantedSegments: $xSegments xAxisData: $xAxisData")
         val yAxisData = axisData(input.yMin, input.yMax, ySegments)
@@ -25,16 +25,14 @@ class DiagramService {
             yMin = yAxisData.subTickMin,
             yMax = yAxisData.subTickMax
         )
-        val transformer = CoordinateTransformer(input = input, plotArea = plotArea)
+        val transformer = CoordinateTransformer(input = input, diagramArea = diagramArea)
 
         val xAxis = createXAxis(xAxisData, yAxisData.subTickMin, transformer = transformer)
 
         val yAxis = createYAxis(yAxisData, xAxisData.subTickMin, transformer = transformer)
 
         val diagram = Diagram(
-            width = 800.0,
-            height = 500.0,
-            plotArea = plotArea,
+            area = diagramArea,
             axes = listOf(xAxis, yAxis)
         )
 

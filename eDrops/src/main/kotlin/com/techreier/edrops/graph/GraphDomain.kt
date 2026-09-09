@@ -42,11 +42,6 @@ data class DataSeries(
     val statistics: Statistics
 )
 
-data class SubTick(
-    val tickLine: LineSegment,
-    val subTicPoint: Point
-)
-
 data class AxisTick(
     val tickLine: LineSegment,
     val labelPoint: Point? = null,
@@ -69,17 +64,17 @@ data class Axis(
     val title: AxisTitle? = null
 )
 
-data class PlotArea(
-    val x: Double,
-    val y: Double,
+data class DiagramArea(
+    val anchorX: Double,
+    val anchorY: Double,
     val width: Double,
-    val height: Double
+    val height: Double,
+    val plotWidth: Double,
+    val plotHeight: Double
 )
 
 data class Diagram(
-    val width: Double,
-    val height: Double,
-    val plotArea: PlotArea,
+    val area: DiagramArea,
     val axes: List<Axis> = emptyList(),
     val error: String? = null,
 )

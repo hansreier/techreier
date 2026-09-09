@@ -7,7 +7,7 @@
 
         <!-- SVG-graf -->
         <svg th:if="${diagram.error == null}"
-             th:attr="viewBox=|0 0 ${diagram.width} ${diagram.height}|"
+             th:attr="viewBox=|0 0 ${diagram.area.width} ${diagram.area.height}|"
              width="100%"
              height="auto"
              xmlns="http://www.w3.org/2000/svg"
@@ -25,10 +25,10 @@
             </g>
 
             <rect class="plot-area"
-                  th:x="${diagram.plotArea.x}"
-                  th:y="${diagram.plotArea.y}"
-                  th:width="${diagram.plotArea.width}"
-                  th:height="${diagram.plotArea.height}"/>
+                  th:x="${diagram.area.anchorX}"
+                  th:y="${diagram.area.anchorY}"
+                  th:width="${diagram.area.plotWidth}"
+                  th:height="${diagram.area.plotHeight}"/>
             <g class="data-series">
                 <polyline th:each="s : ${polylines}"
                           th:points="${s}"

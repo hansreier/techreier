@@ -5,27 +5,23 @@ class CoordinateTransformer(
     private val xMax: Double,
     private val yMin: Double,
     private val yMax: Double,
-    val plotArea: PlotArea
+    val diagramArea: DiagramArea
 ) {
-    constructor(input: GraphInput, plotArea: PlotArea) : this(
+    constructor(input: GraphInput, diagramArea: DiagramArea) : this(
         xMin = input.xMin,
         xMax = input.xMax,
         yMin = input.yMin,
         yMax = input.yMax,
-        plotArea = plotArea
+        diagramArea = diagramArea
     )
 
     fun mapX(xMath: Double): Double {
         val ratio = (xMath - xMin) / (xMax - xMin)
-        return plotArea.x + (ratio * plotArea.width)
+        return diagramArea.anchorX + (ratio * diagramArea.plotWidth)
     }
 
     fun mapY(yMath: Double): Double {
         val ratio = (yMath - yMin) / (yMax - yMin)
-        return (plotArea.y + plotArea.height) - (ratio * plotArea.height)
-    }
-
-    fun mapPoint(mathPoint: Point): Point {
-        return Point(x = mapX(mathPoint.x), y = mapY(mathPoint.y))
+        return (diagramArea.anchorY + diagramArea.plotHeight) - (ratio * diagramArea.plotHeight)
     }
 }

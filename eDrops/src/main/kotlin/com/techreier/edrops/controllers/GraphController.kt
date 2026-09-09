@@ -6,9 +6,9 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
 import com.techreier.edrops.forms.GraphForm
+import com.techreier.edrops.graph.DiagramArea
 import com.techreier.edrops.graph.DiagramService
 import com.techreier.edrops.graph.GraphService
-import com.techreier.edrops.graph.PlotArea
 import com.techreier.edrops.util.fixed
 import com.techreier.edrops.util.msg
 import jakarta.servlet.http.HttpServletRequest
@@ -74,8 +74,16 @@ class GraphController(
                     mathFunction = { x -> kotlin.math.sin(x) }
                 )
                 val seriesList = listOf(sinusCurve)
-                val plotArea = PlotArea(x = 70.0, y = 40.0, width = 700.0, height = 400.0)
-                val diagramResult = diagramService.buildDiagram(validatedInput, plotArea)
+
+                val diagramArea = DiagramArea(
+                    anchorX = 70.0,
+                    anchorY = 50.0,
+                    width = 800.0,
+                    height = 500.0,
+                    plotWidth = 700.0,
+                    plotHeight = 400.0
+                )
+                val diagramResult = diagramService.buildDiagram(validatedInput, diagramArea)
                 val polylines = diagramService.renderPolylines(seriesList, diagramResult.transformer)
 
                 val xMin = seriesList.minOf { it.statistics.xMin }
