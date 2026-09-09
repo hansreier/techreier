@@ -1,6 +1,12 @@
 package com.techreier.edrops.controllers
 
+import com.techreier.edrops.config.DIAGRAM_HEIGHT
+import com.techreier.edrops.config.DIAGRAM_WIDTH
 import com.techreier.edrops.config.Menu
+import com.techreier.edrops.config.PLOT_ANCHOR_X
+import com.techreier.edrops.config.PLOT_ANCHOR_Y
+import com.techreier.edrops.config.PLOT_HEIGHT
+import com.techreier.edrops.config.PLOT_WIDTH
 import com.techreier.edrops.config.logger
 
 import com.techreier.edrops.data.Docs
@@ -76,12 +82,12 @@ class GraphController(
                 val seriesList = listOf(sinusCurve)
 
                 val diagramArea = DiagramArea(
-                    anchorX = 70.0,
-                    anchorY = 50.0,
-                    width = 800.0,
-                    height = 500.0,
-                    plotWidth = 700.0,
-                    plotHeight = 400.0
+                    width = DIAGRAM_WIDTH,
+                    height = DIAGRAM_HEIGHT,
+                    plotWidth = PLOT_WIDTH,
+                    plotHeight = PLOT_HEIGHT,
+                    plotAnchorX = PLOT_ANCHOR_X,
+                    plotAnchorY = PLOT_ANCHOR_Y,
                 )
                 val diagramResult = diagramService.buildDiagram(validatedInput, diagramArea)
                 val polylines = diagramService.renderPolylines(seriesList, diagramResult.transformer)

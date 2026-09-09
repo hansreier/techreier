@@ -65,12 +65,12 @@ data class Axis(
 )
 
 data class DiagramArea(
-    val anchorX: Double,
-    val anchorY: Double,
     val width: Double,
     val height: Double,
     val plotWidth: Double,
-    val plotHeight: Double
+    val plotHeight: Double,
+    val plotAnchorX: Double,
+    val plotAnchorY: Double,
 )
 
 data class Diagram(

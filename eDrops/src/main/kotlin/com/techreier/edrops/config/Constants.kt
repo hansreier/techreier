@@ -19,16 +19,24 @@ const val USE_COMMONMARK = true
 const val SUBMENU_MIN_ITEMS = 2 //Minimum number of items within a topic sub menu
 const val MENU_SPLIT_SIZE = 10 //Minimum menu size before splitting
 
-// Graåh constants
-const val XSEGMENTS_MIN = 6
+// Graph constants
+const val XSEGMENTS_MIN = 5
 const val XSEGMENTS_MAX = 10
 const val YSEGMENTS_MIN = 4
-const val YSEGMENTS_MAX = 10
+const val YSEGMENTS_MAX = 8
 const val XSEGMENT_PIXELS = 100.0
-const val YSEGMENT_PIXELS = 60.0
+const val YSEGMENT_PIXELS = 100.0
 const val MAX_DECIMALS = 6
 const val TICK_LENGTH = 12.0
 const val SUBTICK_LENGTH = 10.0
 const val X_LABEL_OFFSET = 26.0
 const val Y_LABEL_OFFSET = 16.0
 const val TOLERANCE = 1e-5 // for normalized floating point rounding Int
+
+// Drawing area constants
+const val DIAGRAM_WIDTH = 700.0
+const val DIAGRAM_HEIGHT = 500.0
+const val PLOT_WIDTH = 700.0
+const val PLOT_HEIGHT = 400.0
+const val PLOT_ANCHOR_X  = 70.0
+const val PLOT_ANCHOR_Y = 50.0
