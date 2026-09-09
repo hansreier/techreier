@@ -5,7 +5,6 @@
             Feil ved generering av graf.
         </div>
 
-        <!-- SVG-graf -->
         <svg th:if="${diagram.error == null}"
              th:attr="viewBox=|0 0 ${diagram.area.width} ${diagram.area.height}|"
              width="100%"
@@ -25,8 +24,8 @@
             </g>
 
             <rect class="plot-area"
-                  th:x="${diagram.area.anchorX}"
-                  th:y="${diagram.area.anchorY}"
+                  th:x="${diagram.area.plotAnchorX}"
+                  th:y="${diagram.area.plotAnchorY}"
                   th:width="${diagram.area.plotWidth}"
                   th:height="${diagram.area.plotHeight}"/>
             <g class="data-series">
@@ -37,14 +36,12 @@
                           stroke-width="2.5"/>
             </g>
             <g th:each="axis : ${diagram.axes}" class="axis">
-                <!-- Akselinje -->
                 <line class="axis-line"
                       th:x1="${axis.mainLine.x1}"
                       th:y1="${axis.mainLine.y1}"
                       th:x2="${axis.mainLine.x2}"
                       th:y2="${axis.mainLine.y2}"/>
 
-                <!-- Sub-ticks -->
                 <g th:each="sub : ${axis.subTicks}" class="sub-tick">
                     <line class="sub-tick-line"
                           th:x1="${sub.tickLine.x1}"
@@ -53,7 +50,6 @@
                           th:y2="${sub.tickLine.y2}"/>
                 </g>
 
-                <!-- Hoved-ticks -->
                 <g th:each="tick : ${axis.ticks}" class="tick">
                     <line class="tick-line"
                           th:x1="${tick.tickLine.x1}"
@@ -70,7 +66,6 @@
                     </text>
                 </g>
 
-                <!-- Aksetittel -->
                 <text th:if="${axis.title != null}"
                       class="axis-title"
                       th:x="${axis.title.point.x}"
