@@ -1,10 +1,10 @@
 package com.techreier.edrops.graph
 
+import com.techreier.edrops.config.TOLERANCE
 import org.slf4j.LoggerFactory
 import kotlin.math.*
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
-const val TOLERANCE = 1e-5
 
 fun axisData(min: Double, max: Double, noSegments: Int): AxisData {
 

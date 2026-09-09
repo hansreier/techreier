@@ -34,7 +34,7 @@ class AxisTest {
 
     @Test
     fun usesScientificNotationForExtremeValues() {
-        assertEquals("5E-33", 0.000000000000000000000000000000005.axis())
+        assertEquals("5E-33", 0.000000000000000000000000000000005.axis(minThreshold = 1E-40))
         assertEquals("5E5", 500000.0.axis())
         assertEquals("-5E5", (-500000.0).axis())
     }

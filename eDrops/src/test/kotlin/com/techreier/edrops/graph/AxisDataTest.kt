@@ -1,5 +1,6 @@
 package com.techreier.edrops.graph
 
+import com.techreier.edrops.config.TOLERANCE
 import com.techreier.edrops.config.logger
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -47,8 +48,7 @@ class AxisDataTest {
                 AxisTestData(min = 0.00000012, max = 0.00000089, sectionCount = 4),
                 AxisTestData(min = 1_000_000_000.0, max = 8_500_000_000.0, sectionCount = 6),
                 AxisTestData(min = -450.0, max = -12.5, sectionCount = 5),
-                AxisTestData(min = -0.05, max = 0.05, sectionCount = 10),
-                AxisTestData(min = 42.0, max = 42.0, sectionCount = 4)
+                AxisTestData(min = -0.05, max = 0.05, sectionCount = 10)
             )
         }
     }

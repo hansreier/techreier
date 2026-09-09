@@ -2,21 +2,11 @@ package com.techreier.edrops.graph
 
 
 import com.techreier.edrops.config.*
-import com.techreier.edrops.graph.DiagramService.Companion.SUBTICK_LENGTH
-import com.techreier.edrops.graph.DiagramService.Companion.TICK_LENGTH
-import com.techreier.edrops.graph.DiagramService.Companion.Y_LABEL_OFFSET
 import com.techreier.edrops.util.axis
 import org.springframework.stereotype.Service
 
 @Service
 class DiagramService {
-
-    companion object {
-        const val TICK_LENGTH = 8.0
-        const val SUBTICK_LENGTH = 5.0
-        const val X_LABEL_OFFSET = 22.0
-        const val Y_LABEL_OFFSET = 10.0
-    }
 
     fun buildDiagram(input: GraphInput, plotArea: PlotArea): DiagramResult {
         if (input.xMax <= input.xMin) throw IllegalArgumentException("xMax must be greater than xMin")
