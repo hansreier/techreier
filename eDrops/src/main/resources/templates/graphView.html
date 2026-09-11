@@ -7,8 +7,7 @@
 
         <svg th:if="${diagram.error == null}"
              th:attr="viewBox=|0 0 ${diagram.area.width} ${diagram.area.height}|"
-             width="100%"
-             height="auto"
+             th:style="|aspect-ratio: ${diagram.area.width} / ${diagram.area.height};|"
              xmlns="http://www.w3.org/2000/svg"
              class="edrops-graph-svg">
 
