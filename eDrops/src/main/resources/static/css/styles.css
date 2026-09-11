@@ -544,23 +544,9 @@ img:hover::after {
 .input-form {
     display: grid;
     grid-template-columns: 1fr;
-    flex-direction: column;
     width: 100%;
     gap: 0;
     color: black;
-}
-
-/* Responsive layout: 2-column form on wider screens, except for elements marked with full-width */
-@media (min-width: 768px) {
-    .input-form {
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 1rem;
-        row-gap: 0;
-    }
-
-    .input-row.full-width {
-        grid-column: span 2;
-    }
 }
 
 .input-form textarea {
@@ -573,6 +559,50 @@ img:hover::after {
     flex-direction: column;
 }
 
+.input-form input,
+.input-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .input-form {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 1rem;
+        row-gap: 0;
+    }
+
+    .input-row.full-width {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 767px) {
+    .input-form:has(.small-width) {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 0.5rem;
+    }
+
+    .input-form:has(.small-width) > .input-row:not(.small-width):not(.full-width) {
+        grid-column: span 2;
+    }
+}
+
+@media (min-width: 768px) {
+    .input-form:has(.small-width) {
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 1rem;
+    }
+
+    .input-form:has(.small-width) .input-row.small-width {
+        grid-column: span 1;
+    }
+
+    .input-form:has(.small-width) .input-row.full-width {
+        grid-column: span 4;
+    }
+}
 #seed {
     width: 11rem;
     margin-right: 4rem;

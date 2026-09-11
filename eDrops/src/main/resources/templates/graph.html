@@ -16,31 +16,31 @@
     </details>
     <form th:action="@{/graph}" th:object="${graphForm}" th:method="post">
         <div class="input-form">
-            <div class="input-row">
+            <div class="input-row small-width">
                 <label th:for="xMin" th:text="#{xMin}"></label>
-                <input type="text" id="xMin" th:field="*{xMin}" maxLength="22">
+                <input type="text" id="xMin" th:field="*{xMin}" maxLength="15">
                 <span class="error" th:if="${#fields.hasErrors('xMin')}" th:errors="*{xMin}"></span>
             </div>
-            <div class="input-row">
+            <div class="input-row small-width">
                 <label th:for="xMax" th:text="#{xMax}"></label>
-                <input type="text" id="xMax" th:field="*{xMax}" maxLength="22">
+                <input type="text" id="xMax" th:field="*{xMax}" maxLength="15">
                 <span class="error" th:if="${#fields.hasErrors('xMax')}" th:errors="*{xMax}"></span>
             </div>
-            <div class="input-row">
+            <div class="input-row small-width">
                 <label th:for="yMin" th:text="#{yMin}"></label>
-                <input type="text" id="yMin" th:field="*{yMin}" maxLength="22">
+                <input type="text" id="yMin" th:field="*{yMin}" maxLength="15">
                 <span class="error" th:if="${#fields.hasErrors('yMin')}" th:errors="*{yMin}"></span>
             </div>
-            <div class="input-row">
+            <div class="input-row small-width">
                 <label th:for="yMax" th:text="#{yMax}"></label>
-                <input type="text" id="yMax" th:field="*{yMax}" maxLength="22">
+                <input type="text" id="yMax" th:field="*{yMax}" maxLength="15">
                 <span class="error" th:if="${#fields.hasErrors('yMax')}" th:errors="*{yMax}"></span>
             </div>
-            <div class="input-row">
+            <div class="input-row small-width">
                 <label th:for="xUnit" th:text="#{xTitle}"></label>
                 <input type="text" id="xUnit" th:field="*{xUnit}" maxLength="22">
             </div>
-            <div class="input-row">
+            <div class="input-row small-width">
                 <label th:for="yUnit" th:text="#{yTitle}"></label>
                 <input type="text" id="yUnit" th:field="*{yUnit}" maxLength="22">
             </div>
