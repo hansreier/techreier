@@ -29,12 +29,15 @@ const val YSEGMENT_PIXELS = 100.0
 const val MAX_DECIMALS = 6
 const val TICK_LENGTH = 12.0
 const val SUBTICK_LENGTH = 10.0
-const val X_LABEL_OFFSET = 26.0
+const val X_LABEL_OFFSET = 10.0
 const val Y_LABEL_OFFSET = 16.0
 const val TOLERANCE = 1e-5 // for normalized floating point rounding Int
-const val MIN_HEIGHT_RATIO = 0.16
-const val MAX_HEIGHT_RATIO = 4.0
+const val MIN_HEIGHT_RATIO = 0.2
+const val MAX_HEIGHT_RATIO = 3.0
 const val MIN_HEIGHT_RATIO_FOR_SUBTICS = 0.4
+const val FONT_SCALE = 20.0
+const val MIN_FONT_SCALE = 10.0 //TODO ReierAsk verifty probably too low
+const val MAX_FONT_SCALE = 30.0 // TODO ReierAsk verify probably too big
 
 // Drawing area constants
 const val DIAGRAM_WIDTH = 700.0

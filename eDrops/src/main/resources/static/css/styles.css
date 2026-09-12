@@ -1043,14 +1043,13 @@ a.dropdown-item:hover {
 }
 
 .tick-text {
-	font-size: 14px;
-	fill: #475569;
+    font-size: 14px;
+    fill: #475569;
 }
 
-.axis-title {
-	font-size: 14px;
-	font-weight: 600;
-	fill: #1e293b;
+.title-text {
+    font-size: 14px;
+    fill: #475569;
 }
 
 @media print {

@@ -53,6 +53,11 @@
                     <input type="text" id="heightRatio" th:field="*{heightRatio}" maxLength="22">
                     <span class="error" th:if="${#fields.hasErrors('heightRatio')}" th:errors="*{heightRatio}"></span>
                 </div>
+                <div class="input-row small-width">
+                    <label th:for="fontScale" th:text="#{fontScale}"></label>
+                    <input type="text" id="fontScale" th:field="*{fontScale}" maxLength="22">
+                    <span class="error" th:if="${#fields.hasErrors('fontScale')}" th:errors="*{fontScale}"></span>
+                </div>
             </div>
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>

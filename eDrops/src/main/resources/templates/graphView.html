@@ -12,7 +12,8 @@
              class="edrops-graph-svg">
 
             <g class="graph-header">
-                <text x="20" y="25" class="svg-title-text">
+                <text x="20" y="25" class="title-text"
+                    th:style="|font-size: ${diagram.fontScale}px;|">
                     <tspan th:text="#{yTitle}"></tspan>
                     <tspan>:</tspan>
                     <tspan th:text="${graphForm.yUnit}" dx="4"></tspan>
@@ -58,22 +59,16 @@
 
                     <text th:if="${tick.labelPoint != null and tick.label != null}"
                           class="tick-text"
+                          th:style="|font-size: ${diagram.fontScale}px;|"
+                          dominant-baseline="central"
+                          dy="-0.35em"
                           th:x="${tick.labelPoint.x}"
                           th:y="${tick.labelPoint.y}"
                           th:attr="text-anchor=${tick.textAlignment.name() == 'CENTER' ? 'middle' : (tick.textAlignment.name() == 'END' ? 'end' : 'start')}"
-                          th:text="${tick.label}">0.0
+                          th:text="${tick.label}">
                     </text>
                 </g>
-
-                <text th:if="${axis.title != null}"
-                      class="axis-title"
-                      th:x="${axis.title.point.x}"
-                      th:y="${axis.title.point.y}"
-                      th:attr="transform=${axis.title.rotationDegrees != 0.0 ? '|rotate(' + axis.title.rotationDegrees + ' ' + axis.title.point.x + ' ' + axis.title.point.y + ')|' : null}"
-                      th:text="${axis.title.text}">Akse
-                </text>
             </g>
-
         </svg>
     </div>
 </div>

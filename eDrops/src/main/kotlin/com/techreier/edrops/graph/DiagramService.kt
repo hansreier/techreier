@@ -4,6 +4,9 @@ package com.techreier.edrops.graph
 import com.techreier.edrops.config.*
 import com.techreier.edrops.util.axis
 import org.springframework.stereotype.Service
+import kotlin.math.log10
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 @Service
 class DiagramService {
@@ -27,12 +30,15 @@ class DiagramService {
         )
         val transformer = CoordinateTransformer(limits = limits, diagramArea = diagramArea)
 
-        val xAxis = createXAxis(xAxisData, yAxisData.subTickMin, transformer = transformer)
+        val fontScale = metaData.fontScale * metaData.heightRatio.pow(0.25)
+
+        val xAxis = createXAxis(xAxisData, yAxisData.subTickMin, transformer = transformer, fontScale)
 
         val yAxis = createYAxis(yAxisData, xAxisData.subTickMin, transformer = transformer)
 
         val diagram = Diagram(
             area = diagramArea,
+            fontScale = fontScale,
             axes = listOf(xAxis, yAxis)
         )
 
@@ -54,16 +60,15 @@ class DiagramService {
         axisData: AxisData,
         y: Double,
         transformer: CoordinateTransformer,
+        fontScale: Double
     ): Axis {
         val yPx = transformer.mapY(y)
-
         val ticks = List(axisData.sectionCount + 1) { i ->
             val xValue = axisData.tickMin + (i * axisData.tickStep)
             val xPx = transformer.mapX(xValue)
-
             AxisTick(
                 tickLine = LineSegment(x1 = xPx, y1 = yPx, x2 = xPx, y2 = yPx + TICK_LENGTH),
-                labelPoint = Point(x = xPx, y = yPx + X_LABEL_OFFSET),
+                labelPoint = Point(x = xPx, y = yPx + X_LABEL_OFFSET + fontScale),
                 label = xValue.axis(minThreshold = axisData.subTickStep / 10),
                 textAlignment = TextAlignment.CENTER
             )

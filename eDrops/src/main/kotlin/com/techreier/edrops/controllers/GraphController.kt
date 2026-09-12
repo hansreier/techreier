@@ -74,7 +74,7 @@ class GraphController(
 
         if (input != null) {
             val graphLimits = GraphLimits(input.xMin, input.xMax, input.yMin, input.yMax)
-            val graphMetadate = GraphMetadata(input.heightRatio)
+            val graphMetadate = GraphMetadata(input.heightRatio, input.fontScale)
             try {
 
                 val sinusCurve = graphService.generateSeries(

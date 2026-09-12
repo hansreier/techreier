@@ -6,6 +6,7 @@ data class GraphInput(
     val yMin: Double,
     val yMax: Double,
     val heightRatio: Double,
+    val fontScale: Double,
     val xUnit: String,
     val yUnit: String
 )
@@ -19,6 +20,7 @@ data class GraphLimits(
 
 data class GraphMetadata(
     val heightRatio: Double,
+    val fontScale: Double
 )
 
 enum class AxisPosition {
@@ -89,6 +91,7 @@ data class DiagramArea(
 
 data class Diagram(
     val area: DiagramArea,
+    val fontScale: Double,
     val axes: List<Axis> = emptyList(),
     val error: String? = null,
 )
