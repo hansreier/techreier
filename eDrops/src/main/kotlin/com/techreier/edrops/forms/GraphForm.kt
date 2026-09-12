@@ -1,5 +1,7 @@
 package com.techreier.edrops.forms
 
+import com.techreier.edrops.config.MAX_HEIGHT_RATIO
+import com.techreier.edrops.config.MIN_HEIGHT_RATIO
 import com.techreier.edrops.graph.GraphInput
 import com.techreier.edrops.util.checkDouble
 import com.techreier.edrops.util.checkStringSize
@@ -16,8 +18,8 @@ data class GraphForm(
             value = this.heightRatio,
             field= "heightRatio",
             bindingResult = bindingResult,
-            minValue = 0.2,
-            maxValue = 3.0,
+            minValue = MIN_HEIGHT_RATIO,
+            maxValue = MAX_HEIGHT_RATIO,
             required = true)
         val xMin = checkDouble(this.xMin, "xMin", bindingResult)
         val xMax = checkDouble(this.xMax, "xMax", bindingResult)

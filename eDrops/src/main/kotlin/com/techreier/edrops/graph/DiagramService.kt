@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service
 @Service
 class DiagramService {
 
-    fun buildDiagram(limits: GraphLimits, diagramArea: DiagramArea): DiagramResult {
+    fun buildDiagram(limits: GraphLimits, diagramArea: DiagramArea, metaData: GraphMetadata): DiagramResult {
         if (limits.xMax <= limits.xMin) throw IllegalArgumentException("xMax must be greater than xMin")
         if (limits.yMax <= limits.yMin) throw IllegalArgumentException("yMax must be greater than yMin")
         val xSegments =
             ((diagramArea.plotWidth / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
         val ySegments =
             ((diagramArea.plotHeight / YSEGMENT_PIXELS) + 1 + TOLERANCE).toInt().coerceIn(YSEGMENTS_MIN, YSEGMENTS_MAX)
-        val xAxisData = axisData(limits.xMin, limits.xMax, xSegments)
-        logger.info("x: wantedSegments: $xSegments xAxisData: $xAxisData")
-        val yAxisData = axisData(limits.yMin, limits.yMax, ySegments)
-        logger.info("y: wantedSegments: $ySegments yAxisData: $yAxisData")
+        val xAxisData = axisData(limits.xMin, limits.xMax, xSegments, metaData.heightRatio, true)
+        logger.debug("x: wantedSegments: {} xAxisData: {}", xSegments, xAxisData)
+        val yAxisData = axisData(limits.yMin, limits.yMax, ySegments, metaData.heightRatio, false)
+        logger.debug("y: wantedSegments: {} yAxisData: {}", ySegments, yAxisData)
         val limits = GraphLimits(
             xMin = xAxisData.subTickMin,
             xMax = xAxisData.subTickMax,
@@ -114,17 +114,19 @@ private fun createYAxis(
         )
     }
 
-    val subTicks = List(axisData.subSectionCount + 1) { i ->
-        val subYValue = axisData.subTickMin + (i * axisData.subTickStep)
-        val subYPx = transformer.mapY(subYValue)
+    val subTicks = if (axisData.subSectionsPerSection > 0 ) {
+       List(axisData.subSectionCount + 1) { i ->
+            val subYValue = axisData.subTickMin + (i * axisData.subTickStep)
+            val subYPx = transformer.mapY(subYValue)
 
-        AxisTick(
-            tickLine = LineSegment(x1 = xPx, y1 = subYPx, x2 = xPx - SUBTICK_LENGTH, y2 = subYPx),
-            labelPoint = null,
-            label = null,
-            textAlignment = TextAlignment.END
-        )
-    }
+            AxisTick(
+                tickLine = LineSegment(x1 = xPx, y1 = subYPx, x2 = xPx - SUBTICK_LENGTH, y2 = subYPx),
+                labelPoint = null,
+                label = null,
+                textAlignment = TextAlignment.END
+            )
+        }
+    } else listOf()
 
     val yMinPx = transformer.mapY(axisData.subTickMin)
     val yMaxPx = transformer.mapY(axisData.subTickMax)

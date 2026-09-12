@@ -15,7 +15,7 @@ class AxisDataTest {
     @MethodSource("axisData")
     fun axisDataTest(data: AxisTestData) {
         logger.info("min=${data.min}, max=${data.max} noTics=${data.sectionCount}")
-        val axis = axisData(data.min, data.max, data.sectionCount)
+        val axis = axisData(data.min, data.max, data.sectionCount, 0.5, true )
         logger.info("calc axis: $axis")
         assertThat(axis.subTickMin).isLessThanOrEqualTo(data.min)
         assertThat(axis.subTickMax).isGreaterThanOrEqualTo(data.max)

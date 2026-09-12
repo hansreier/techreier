@@ -1,12 +1,13 @@
 package com.techreier.edrops.graph
 
+import com.techreier.edrops.config.MIN_HEIGHT_RATIO_FOR_SUBTICS
 import com.techreier.edrops.config.TOLERANCE
 import org.slf4j.LoggerFactory
 import kotlin.math.*
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 
-fun axisData(min: Double, max: Double, noSegments: Int): AxisData {
+fun axisData(min: Double, max: Double, noSegments: Int, heightRatio: Double,  xAxis: Boolean): AxisData {
 
     if (max <= min) throw IllegalArgumentException("Max must be greater than min in axis calculation")
 
@@ -18,13 +19,14 @@ fun axisData(min: Double, max: Double, noSegments: Int): AxisData {
     val niceRange = niceNumber(seed)
     logger.info("niceRange={}", niceRange)
     val tickStep = niceRange.result * scale
-    val subSectionsPerSection = niceRange.subTics
+    var subSectionsPerSection = niceRange.subTics
     val subTickStep = tickStep / subSectionsPerSection
     val subTickMin = correctToStep(min, subTickStep, true)
     val subTickMax = correctToStep(max, subTickStep, false)
     val subSectionCount = ((subTickMax - subTickMin) / subTickStep + TOLERANCE).toInt()
     val tickMin = correctToStep(subTickMin, tickStep, false)
     val tickMax = correctToStep(subTickMax, tickStep, true)
+    if ((!xAxis ) && (heightRatio < MIN_HEIGHT_RATIO_FOR_SUBTICS)) subSectionsPerSection = 0
     val sectionCount = ((tickMax - tickMin) / tickStep + TOLERANCE).toInt()
     return AxisData(
         sectionCount, tickStep, tickMin, tickMax,

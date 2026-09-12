@@ -17,6 +17,10 @@ data class GraphLimits(
     val yMax: Double,
 )
 
+data class GraphMetadata(
+    val heightRatio: Double,
+)
+
 enum class AxisPosition {
     LEFT, RIGHT, TOP, BOTTOM
 }

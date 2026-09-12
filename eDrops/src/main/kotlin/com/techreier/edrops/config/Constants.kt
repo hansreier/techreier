@@ -22,7 +22,7 @@ const val MENU_SPLIT_SIZE = 10 //Minimum menu size before splitting
 // Graph constants
 const val XSEGMENTS_MIN = 5
 const val XSEGMENTS_MAX = 10
-const val YSEGMENTS_MIN = 4
+const val YSEGMENTS_MIN = 3
 const val YSEGMENTS_MAX = 8
 const val XSEGMENT_PIXELS = 100.0
 const val YSEGMENT_PIXELS = 100.0
@@ -32,6 +32,9 @@ const val SUBTICK_LENGTH = 10.0
 const val X_LABEL_OFFSET = 26.0
 const val Y_LABEL_OFFSET = 16.0
 const val TOLERANCE = 1e-5 // for normalized floating point rounding Int
+const val MIN_HEIGHT_RATIO = 0.16
+const val MAX_HEIGHT_RATIO = 4.0
+const val MIN_HEIGHT_RATIO_FOR_SUBTICS = 0.4
 
 // Drawing area constants
 const val DIAGRAM_WIDTH = 700.0

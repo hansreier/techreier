@@ -14,6 +14,7 @@ import com.techreier.edrops.forms.GraphForm
 import com.techreier.edrops.graph.DiagramArea
 import com.techreier.edrops.graph.DiagramService
 import com.techreier.edrops.graph.GraphLimits
+import com.techreier.edrops.graph.GraphMetadata
 import com.techreier.edrops.graph.GraphService
 import com.techreier.edrops.util.fixed
 import com.techreier.edrops.util.msg
@@ -73,6 +74,7 @@ class GraphController(
 
         if (input != null) {
             val graphLimits = GraphLimits(input.xMin, input.xMax, input.yMin, input.yMax)
+            val graphMetadate = GraphMetadata(input.heightRatio)
             try {
 
                 val sinusCurve = graphService.generateSeries(
@@ -80,18 +82,16 @@ class GraphController(
                     mathFunction = { x -> kotlin.math.sin(x) }
                 )
 
-                // heightRatio = PLOT_HEIGHT / PLOT_WIDTH  =>
-
                 val seriesList = listOf(sinusCurve)
                 val diagramArea = DiagramArea(
                     width = DIAGRAM_WIDTH,
-                    height = PLOT_WIDTH * input.heightRatio, // + PLOT_ANSHOR_Y
+                    height = PLOT_HEIGHT * input.heightRatio + PLOT_ANCHOR_Y * 2,
                     plotWidth = PLOT_WIDTH,
                     plotHeight = PLOT_HEIGHT * input.heightRatio,
                     plotAnchorX = PLOT_ANCHOR_X,
                     plotAnchorY = PLOT_ANCHOR_Y,
                 )
-                val diagramResult = diagramService.buildDiagram(graphLimits, diagramArea)
+                val diagramResult = diagramService.buildDiagram(graphLimits, diagramArea, graphMetadate)
                 val polylines = diagramService.renderPolylines(seriesList, diagramResult.transformer)
 
                 val xMin = seriesList.minOf { it.statistics.xMin }
