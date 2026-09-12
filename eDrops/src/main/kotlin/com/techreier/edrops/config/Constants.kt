@@ -43,5 +43,5 @@ const val MAX_FONT_SCALE = 30.0 // TODO ReierAsk verify probably too big
 const val DIAGRAM_WIDTH = 700.0
 const val PLOT_WIDTH = 600.0
 const val PLOT_HEIGHT = 400.0
-const val PLOT_ANCHOR_X  = 70.0
-const val PLOT_ANCHOR_Y = 50.0
+const val PLOT_ANCHOR_X  = 100.0
+const val PLOT_ANCHOR_Y = 60.0
