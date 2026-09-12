@@ -41,10 +41,17 @@
                 <div class="input-row small-width">
                     <label th:for="xUnit" th:text="#{xTitle}"></label>
                     <input type="text" id="xUnit" th:field="*{xUnit}" maxLength="22">
+                    <span class="error" th:if="${#fields.hasErrors('xUnit')}" th:errors="*{xUnit}"></span>
                 </div>
                 <div class="input-row small-width">
                     <label th:for="yUnit" th:text="#{yTitle}"></label>
                     <input type="text" id="yUnit" th:field="*{yUnit}" maxLength="22">
+                    <span class="error" th:if="${#fields.hasErrors('yUnit')}" th:errors="*{yUnit}"></span>
+                </div>
+                <div class="input-row small-width">
+                    <label th:for="heightRatio" th:text="#{heightRatio}"></label>
+                    <input type="text" id="heightRatio" th:field="*{heightRatio}" maxLength="22">
+                    <span class="error" th:if="${#fields.hasErrors('heightRatio')}" th:errors="*{heightRatio}"></span>
                 </div>
             </div>
             <div th:if="${#fields.hasGlobalErrors()}">

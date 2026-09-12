@@ -8,24 +8,24 @@ import org.springframework.stereotype.Service
 @Service
 class DiagramService {
 
-    fun buildDiagram(input: GraphInput, diagramArea: DiagramArea): DiagramResult {
-        if (input.xMax <= input.xMin) throw IllegalArgumentException("xMax must be greater than xMin")
-        if (input.yMax <= input.yMin) throw IllegalArgumentException("yMax must be greater than yMin")
+    fun buildDiagram(limits: GraphLimits, diagramArea: DiagramArea): DiagramResult {
+        if (limits.xMax <= limits.xMin) throw IllegalArgumentException("xMax must be greater than xMin")
+        if (limits.yMax <= limits.yMin) throw IllegalArgumentException("yMax must be greater than yMin")
         val xSegments =
             ((diagramArea.plotWidth / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
         val ySegments =
             ((diagramArea.plotHeight / YSEGMENT_PIXELS) + 1 + TOLERANCE).toInt().coerceIn(YSEGMENTS_MIN, YSEGMENTS_MAX)
-        val xAxisData = axisData(input.xMin, input.xMax, xSegments)
+        val xAxisData = axisData(limits.xMin, limits.xMax, xSegments)
         logger.info("x: wantedSegments: $xSegments xAxisData: $xAxisData")
-        val yAxisData = axisData(input.yMin, input.yMax, ySegments)
+        val yAxisData = axisData(limits.yMin, limits.yMax, ySegments)
         logger.info("y: wantedSegments: $ySegments yAxisData: $yAxisData")
-        val input = GraphInput(
+        val limits = GraphLimits(
             xMin = xAxisData.subTickMin,
             xMax = xAxisData.subTickMax,
             yMin = yAxisData.subTickMin,
             yMax = yAxisData.subTickMax
         )
-        val transformer = CoordinateTransformer(input = input, diagramArea = diagramArea)
+        val transformer = CoordinateTransformer(limits = limits, diagramArea = diagramArea)
 
         val xAxis = createXAxis(xAxisData, yAxisData.subTickMin, transformer = transformer)
 

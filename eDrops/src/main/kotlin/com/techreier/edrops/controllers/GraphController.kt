@@ -1,6 +1,5 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.DIAGRAM_HEIGHT
 import com.techreier.edrops.config.DIAGRAM_WIDTH
 import com.techreier.edrops.config.Menu
 import com.techreier.edrops.config.PLOT_ANCHOR_X
@@ -14,6 +13,7 @@ import com.techreier.edrops.data.Docs.DocIndex
 import com.techreier.edrops.forms.GraphForm
 import com.techreier.edrops.graph.DiagramArea
 import com.techreier.edrops.graph.DiagramService
+import com.techreier.edrops.graph.GraphLimits
 import com.techreier.edrops.graph.GraphService
 import com.techreier.edrops.util.fixed
 import com.techreier.edrops.util.msg
@@ -69,27 +69,29 @@ class GraphController(
     ): String {
         logger.info("draw graph")
 
-        val validatedInput = graphForm.validate(bindingResult)
+        val input = graphForm.validate(bindingResult)
 
-        if (validatedInput != null) {
-
+        if (input != null) {
+            val graphLimits = GraphLimits(input.xMin, input.xMax, input.yMin, input.yMax)
             try {
 
                 val sinusCurve = graphService.generateSeries(
-                    input = validatedInput,
+                    limits = graphLimits,
                     mathFunction = { x -> kotlin.math.sin(x) }
                 )
-                val seriesList = listOf(sinusCurve)
 
+                // heightRatio = PLOT_HEIGHT / PLOT_WIDTH  =>
+
+                val seriesList = listOf(sinusCurve)
                 val diagramArea = DiagramArea(
                     width = DIAGRAM_WIDTH,
-                    height = DIAGRAM_HEIGHT,
+                    height = PLOT_WIDTH * input.heightRatio, // + PLOT_ANSHOR_Y
                     plotWidth = PLOT_WIDTH,
-                    plotHeight = PLOT_HEIGHT,
+                    plotHeight = PLOT_HEIGHT * input.heightRatio,
                     plotAnchorX = PLOT_ANCHOR_X,
                     plotAnchorY = PLOT_ANCHOR_Y,
                 )
-                val diagramResult = diagramService.buildDiagram(validatedInput, diagramArea)
+                val diagramResult = diagramService.buildDiagram(graphLimits, diagramArea)
                 val polylines = diagramService.renderPolylines(seriesList, diagramResult.transformer)
 
                 val xMin = seriesList.minOf { it.statistics.xMin }
@@ -116,7 +118,7 @@ class GraphController(
             }
         }
 
-        if (bindingResult.hasErrors() || validatedInput == null) {
+        if (bindingResult.hasErrors() || input == null) {
             logger.info("warn graph input error: $graphForm")
             val docIndex = prepare(model, request, response)
             if (docIndex.index < 0) {

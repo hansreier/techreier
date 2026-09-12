@@ -35,7 +35,6 @@ const val TOLERANCE = 1e-5 // for normalized floating point rounding Int
 
 // Drawing area constants
 const val DIAGRAM_WIDTH = 700.0
-const val DIAGRAM_HEIGHT = 500.0
 const val PLOT_WIDTH = 600.0
 const val PLOT_HEIGHT = 400.0
 const val PLOT_ANCHOR_X  = 70.0

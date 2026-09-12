@@ -4,7 +4,17 @@ data class GraphInput(
     val xMin: Double,
     val xMax: Double,
     val yMin: Double,
-    val yMax: Double
+    val yMax: Double,
+    val heightRatio: Double,
+    val xUnit: String,
+    val yUnit: String
+)
+
+data class GraphLimits(
+    val xMin: Double,
+    val xMax: Double,
+    val yMin: Double,
+    val yMax: Double,
 )
 
 enum class AxisPosition {

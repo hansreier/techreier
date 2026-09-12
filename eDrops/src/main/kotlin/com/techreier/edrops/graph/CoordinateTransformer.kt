@@ -7,11 +7,11 @@ class CoordinateTransformer(
     private val yMax: Double,
     val diagramArea: DiagramArea
 ) {
-    constructor(input: GraphInput, diagramArea: DiagramArea) : this(
-        xMin = input.xMin,
-        xMax = input.xMax,
-        yMin = input.yMin,
-        yMax = input.yMax,
+    constructor(limits: GraphLimits, diagramArea: DiagramArea) : this(
+        xMin = limits.xMin,
+        xMax = limits.xMax,
+        yMin = limits.yMin,
+        yMax = limits.yMax,
         diagramArea = diagramArea
     )
 
