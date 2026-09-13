@@ -33,7 +33,10 @@
                   th:x="${diagram.area.plotAnchorX}"
                   th:y="${diagram.area.plotAnchorY}"
                   th:width="${diagram.area.plotWidth}"
-                  th:height="${diagram.area.plotHeight}"/>
+                  th:height="${diagram.area.plotHeight}"
+                  fill="#ffffff"
+                  stroke="#cbd5e1"
+                  stroke-width="1"/>
 
             <g class="data-series" clip-path="url(#cutGraph)">
                 <polyline th:each="s : ${polylines}"
@@ -78,7 +81,7 @@
                 </g>
 
 
-                
+
 
                 <g class="grid-lines">
                     <line th:each="line : ${axis.gridLines}"
