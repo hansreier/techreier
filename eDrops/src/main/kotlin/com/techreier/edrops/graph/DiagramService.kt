@@ -4,9 +4,8 @@ package com.techreier.edrops.graph
 import com.techreier.edrops.config.*
 import com.techreier.edrops.util.axis
 import org.springframework.stereotype.Service
-import kotlin.math.log10
+import java.lang.Integer.max
 import kotlin.math.pow
-import kotlin.math.sqrt
 
 @Service
 class DiagramService {
@@ -14,14 +13,30 @@ class DiagramService {
     fun buildDiagram(limits: GraphLimits, diagramArea: DiagramArea, metaData: GraphMetadata): DiagramResult {
         if (limits.xMax <= limits.xMin) throw IllegalArgumentException("xMax must be greater than xMin")
         if (limits.yMax <= limits.yMin) throw IllegalArgumentException("yMax must be greater than yMin")
-        val xSegments =
-            ((diagramArea.plotWidth / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
+
+        // Calculate y-axis first, x-axis parameters need to be corrected based on it
         val ySegments =
             ((diagramArea.plotHeight / YSEGMENT_PIXELS) + 1 + TOLERANCE).toInt().coerceIn(YSEGMENTS_MIN, YSEGMENTS_MAX)
-        val xAxisData = axisData(limits.xMin, limits.xMax, xSegments, metaData.heightRatio, true)
-        logger.debug("x: wantedSegments: {} xAxisData: {}", xSegments, xAxisData)
         val yAxisData = axisData(limits.yMin, limits.yMax, ySegments, metaData.heightRatio, false)
         logger.debug("y: wantedSegments: {} yAxisData: {}", ySegments, yAxisData)
+
+        var yValue = yAxisData.tickMin
+        var maxDigits = 0
+        for (i in 1..yAxisData.sectionCount) { // Calculate the label with largest number of digits
+            val label = yValue.axis(minThreshold = yAxisData.subTickStep / 10)
+            maxDigits = max(label.length, maxDigits)
+            yValue += yAxisData.tickStep
+        }
+
+        val fontScale = metaData.fontScale * metaData.heightRatio.pow(FONT_SCALE_EXPONENT)
+        val charWidth = fontScale * X_FONT_FACTOR
+        diagramArea.plotCorrX = (maxDigits * charWidth)  + X_LABEL_OFFSET
+        logger.info("xFontFactor=$X_FONT_FACTOR maxDigits: $maxDigits fontScale=$fontScale, charWidth=$charWidth plotCorrX=${diagramArea.plotCorrX}")
+        // Calculate x-axis
+        val xSegments =
+            (((diagramArea.plotWidth - diagramArea.plotCorrX) / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
+        val xAxisData = axisData(limits.xMin, limits.xMax, xSegments, metaData.heightRatio, true)
+        logger.debug("x: wantedSegments: {} xAxisData: {}", xSegments, xAxisData)
         val limits = GraphLimits(
             xMin = xAxisData.subTickMin,
             xMax = xAxisData.subTickMax,
@@ -29,8 +44,6 @@ class DiagramService {
             yMax = yAxisData.subTickMax
         )
         val transformer = CoordinateTransformer(limits = limits, diagramArea = diagramArea)
-
-        val fontScale = metaData.fontScale * metaData.heightRatio.pow(0.25)
 
         val xAxis = createXAxis(xAxisData, yAxisData.subTickMin, transformer = transformer, fontScale)
 

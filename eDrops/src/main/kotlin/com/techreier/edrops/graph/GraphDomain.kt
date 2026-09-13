@@ -86,6 +86,7 @@ data class DiagramArea(
     val plotWidth: Double,
     val plotHeight: Double,
     val plotAnchorX: Double,
+    var plotCorrX: Double = 0.0,
     val plotAnchorY: Double,
 )
 

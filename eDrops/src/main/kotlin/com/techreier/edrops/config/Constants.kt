@@ -36,12 +36,14 @@ const val MIN_HEIGHT_RATIO = 0.2
 const val MAX_HEIGHT_RATIO = 3.0
 const val MIN_HEIGHT_RATIO_FOR_SUBTICS = 0.4
 const val FONT_SCALE = 20.0
-const val MIN_FONT_SCALE = 10.0 //TODO ReierAsk verifty probably too low
-const val MAX_FONT_SCALE = 30.0 // TODO ReierAsk verify probably too big
+const val FONT_SCALE_EXPONENT = 0.25 // Ueed for Asic tick step: heightRatio.pow(FONT_SCALE_EXPONENT)
+const val MIN_FONT_SCALE = 10.0
+const val MAX_FONT_SCALE = 30.0
+const val X_FONT_FACTOR = 0.6  //Relative space occupied by one character horizontally
 
 // Drawing area constants
 const val DIAGRAM_WIDTH = 700.0
 const val PLOT_WIDTH = 600.0
 const val PLOT_HEIGHT = 400.0
-const val PLOT_ANCHOR_X  = 100.0
+const val PLOT_ANCHOR_X  = 50.0
 const val PLOT_ANCHOR_Y = 60.0
