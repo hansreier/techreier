@@ -30,7 +30,7 @@ class DiagramService {
 
         val fontScale = metaData.fontScale * metaData.heightRatio.pow(FONT_SCALE_EXPONENT)
         val charWidth = fontScale * X_FONT_FACTOR
-        diagramArea.plotCorrX = (maxDigits * charWidth)  + X_LABEL_OFFSET
+        diagramArea.plotCorrX = (maxDigits * charWidth)  + PLOT_LEFT_PADDING
         logger.info("xFontFactor=$X_FONT_FACTOR maxDigits: $maxDigits fontScale=$fontScale, charWidth=$charWidth plotCorrX=${diagramArea.plotCorrX}")
         // Calculate x-axis
         val xSegments =

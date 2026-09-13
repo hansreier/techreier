@@ -47,3 +47,4 @@ const val PLOT_WIDTH = 600.0
 const val PLOT_HEIGHT = 400.0
 const val PLOT_ANCHOR_X  = 50.0
 const val PLOT_ANCHOR_Y = 60.0
+const val PLOT_LEFT_PADDING = 20.0 // Adding padding for y-axis labels
