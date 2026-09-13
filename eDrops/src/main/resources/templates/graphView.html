@@ -23,18 +23,26 @@
                 </text>
             </g>
 
-            <rect class="plot-area"
+            <defs>
+                <clipPath id="cutGraph">
+                    <use href="#plot-area" fill="none" />
+                </clipPath>
+            </defs>
+
+            <rect class="plot-area" id="plot-area"
                   th:x="${diagram.area.plotAnchorX}"
                   th:y="${diagram.area.plotAnchorY}"
                   th:width="${diagram.area.plotWidth}"
                   th:height="${diagram.area.plotHeight}"/>
-            <g class="data-series">
+
+            <g class="data-series" clip-path="url(#cutGraph)">
                 <polyline th:each="s : ${polylines}"
                           th:points="${s}"
                           fill="none"
                           stroke="#2563eb"
                           stroke-width="2.5"/>
             </g>
+
             <g th:each="axis : ${diagram.axes}" class="axis">
                 <line class="axis-line"
                       th:x1="${axis.mainLine.x1}"
