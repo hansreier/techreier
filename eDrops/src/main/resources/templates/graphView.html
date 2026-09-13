@@ -76,6 +76,17 @@
                           th:text="${tick.label}">
                     </text>
                 </g>
+
+
+                
+
+                <g class="grid-lines">
+                    <line th:each="line : ${axis.gridLines}"
+                          th:x1="${line.x1}" th:y1="${line.y1}"
+                          th:x2="${line.x2}" th:y2="${line.y2}"
+                          stroke="#e2e8f0"
+                          stroke-width="1"/>
+                </g>
             </g>
         </svg>
     </div>

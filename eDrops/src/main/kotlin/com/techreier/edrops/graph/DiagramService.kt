@@ -31,7 +31,8 @@ class DiagramService {
         val fontScale = metaData.fontScale * metaData.heightRatio.pow(FONT_SCALE_EXPONENT)
         val charWidth = fontScale * X_FONT_FACTOR
         diagramArea.plotCorrX = (maxDigits * charWidth)  + PLOT_LEFT_PADDING
-        logger.info("xFontFactor=$X_FONT_FACTOR maxDigits: $maxDigits fontScale=$fontScale, charWidth=$charWidth plotCorrX=${diagramArea.plotCorrX}")
+        logger.debug("xFontFactor=$X_FONT_FACTOR maxDigits: $maxDigits fontScale=$fontScale, charWidth=$charWidth plotCorrX=${diagramArea.plotCorrX}")
+
         // Calculate x-axis
         val xSegments =
             (((diagramArea.plotWidth - diagramArea.plotCorrX) / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
@@ -43,11 +44,13 @@ class DiagramService {
             yMin = yAxisData.subTickMin,
             yMax = yAxisData.subTickMax
         )
+        // transform to screen coordinates
         val transformer = CoordinateTransformer(limits = limits, diagramArea = diagramArea)
 
-        val xAxis = createXAxis(xAxisData, yAxisData.subTickMin, transformer = transformer, fontScale)
-
-        val yAxis = createYAxis(yAxisData, xAxisData.subTickMin, transformer = transformer)
+        // create the axes
+        val xAxis = createXAxis(xAxisData, yAxisData.subTickMin, yAxisData.subTickMax,
+            transformer = transformer, fontScale)
+        val yAxis = createYAxis(yAxisData, xAxisData.subTickMin, xMax = xAxisData.subTickMax, transformer = transformer)
 
         val diagram = Diagram(
             area = diagramArea,
@@ -71,17 +74,18 @@ class DiagramService {
 
     private fun createXAxis(
         axisData: AxisData,
-        y: Double,
+        yMin: Double, yMax: Double,
         transformer: CoordinateTransformer,
         fontScale: Double
     ): Axis {
-        val yPx = transformer.mapY(y)
+        val yMinPx = transformer.mapY(yMin)
+        val yMaxPx = transformer.mapY(yMax)
         val ticks = List(axisData.sectionCount + 1) { i ->
             val xValue = axisData.tickMin + (i * axisData.tickStep)
             val xPx = transformer.mapX(xValue)
             AxisTick(
-                tickLine = LineSegment(x1 = xPx, y1 = yPx, x2 = xPx, y2 = yPx + TICK_LENGTH),
-                labelPoint = Point(x = xPx, y = yPx + X_LABEL_OFFSET + fontScale),
+                tickLine = LineSegment(x1 = xPx, y1 = yMinPx, x2 = xPx, y2 = yMinPx + TICK_LENGTH),
+                labelPoint = Point(x = xPx, y = yMinPx + X_LABEL_OFFSET + fontScale),
                 label = xValue.axis(minThreshold = axisData.subTickStep / 10),
                 textAlignment = TextAlignment.CENTER
             )
@@ -92,10 +96,19 @@ class DiagramService {
             val subXPx = transformer.mapX(subXValue)
 
             AxisTick(
-                tickLine = LineSegment(x1 = subXPx, y1 = yPx, x2 = subXPx, y2 = yPx + SUBTICK_LENGTH),
+                tickLine = LineSegment(x1 = subXPx, y1 = yMinPx, x2 = subXPx, y2 = yMinPx + SUBTICK_LENGTH),
                 labelPoint = null,
                 label = null,
                 textAlignment = TextAlignment.CENTER
+            )
+        }
+
+        val gridLines = ticks.map { tick ->
+            LineSegment(
+                x1 = tick.tickLine.x1,
+                y1 = yMinPx,
+                x2 = tick.tickLine.x1,
+                y2 = yMaxPx
             )
         }
 
@@ -103,30 +116,33 @@ class DiagramService {
             position = AxisPosition.BOTTOM,
             mainLine = LineSegment(
                 x1 = transformer.mapX(axisData.subTickMin),
-                y1 = yPx,
+                y1 = yMinPx,
                 x2 = transformer.mapX(axisData.subTickMax),
-                y2 = yPx
+                y2 = yMinPx
             ),
             ticks = ticks,
-            subTicks = subTicks
+            subTicks = subTicks,
+            gridLines = gridLines
         )
     }
 }
 
 private fun createYAxis(
     axisData: AxisData,
-    x: Double,
+    xMin: Double,
+    xMax: Double,
     transformer: CoordinateTransformer,
 ): Axis {
-    val xPx = transformer.mapX(x)
+    val xMinPx = transformer.mapX(xMin)
+    val xMaxPx = transformer.mapX(xMax)
 
     val ticks = List(axisData.sectionCount + 1) { i ->
         val yValue = axisData.tickMin + (i * axisData.tickStep)
         val yPx = transformer.mapY(yValue)
 
         AxisTick(
-            tickLine = LineSegment(x1 = xPx, y1 = yPx, x2 = xPx - TICK_LENGTH, y2 = yPx),
-            labelPoint = Point(x = xPx - Y_LABEL_OFFSET, y = yPx + 4.0),
+            tickLine = LineSegment(x1 = xMinPx, y1 = yPx, x2 = xMinPx - TICK_LENGTH, y2 = yPx),
+            labelPoint = Point(x = xMinPx - Y_LABEL_OFFSET, y = yPx + 4.0),
             label = yValue.axis(minThreshold = axisData.subTickStep / 10),
             textAlignment = TextAlignment.END
         )
@@ -138,7 +154,7 @@ private fun createYAxis(
             val subYPx = transformer.mapY(subYValue)
 
             AxisTick(
-                tickLine = LineSegment(x1 = xPx, y1 = subYPx, x2 = xPx - SUBTICK_LENGTH, y2 = subYPx),
+                tickLine = LineSegment(x1 = xMinPx, y1 = subYPx, x2 = xMinPx - SUBTICK_LENGTH, y2 = subYPx),
                 labelPoint = null,
                 label = null,
                 textAlignment = TextAlignment.END
@@ -146,14 +162,24 @@ private fun createYAxis(
         }
     } else listOf()
 
+    val gridLines = ticks.map { tick ->
+        LineSegment(
+            x1 = xMinPx,
+            y1 = tick.tickLine.y1,
+            x2 = xMaxPx,
+            y2 = tick.tickLine.y2,
+        )
+    }
+
     val yMinPx = transformer.mapY(axisData.subTickMin)
     val yMaxPx = transformer.mapY(axisData.subTickMax)
 
     return Axis(
         position = AxisPosition.LEFT,
-        mainLine = LineSegment(x1 = xPx, y1 = yMinPx, x2 = xPx, y2 = yMaxPx),
+        mainLine = LineSegment(x1 = xMinPx, y1 = yMinPx, x2 = xMinPx, y2 = yMaxPx),
         ticks = ticks,
-        subTicks = subTicks
+        subTicks = subTicks,
+        gridLines = gridLines
     )
 }
 

@@ -77,6 +77,7 @@ data class Axis(
     val mainLine: LineSegment,
     val ticks: List<AxisTick> = emptyList(),
     val subTicks: List<AxisTick> = emptyList(),
+    val gridLines: List<LineSegment> = emptyList(),
     val title: AxisTitle? = null
 )
 
