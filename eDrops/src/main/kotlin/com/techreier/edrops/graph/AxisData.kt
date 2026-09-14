@@ -5,7 +5,7 @@ import com.techreier.edrops.config.TOLERANCE
 import org.slf4j.LoggerFactory
 import kotlin.math.*
 
-private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
+val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
 
 fun axisData(min: Double, max: Double, noSegments: Int, heightRatio: Double,  xAxis: Boolean): AxisData {
 

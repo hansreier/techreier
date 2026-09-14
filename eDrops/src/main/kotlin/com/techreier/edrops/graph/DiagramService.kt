@@ -2,6 +2,7 @@ package com.techreier.edrops.graph
 
 
 import com.techreier.edrops.config.*
+import com.techreier.edrops.config.logger
 import com.techreier.edrops.util.axis
 import org.springframework.stereotype.Service
 import java.lang.Integer.max
@@ -50,8 +51,10 @@ class DiagramService {
         val transformer = CoordinateTransformer(limits = limits, diagramArea = diagramArea)
 
         // create the axes
-        val xAxis = createXAxis(xAxisData, yAxisData.subTickMin, yAxisData.subTickMax,
-            transformer = transformer, fontScale)
+        val xAxis = createXAxis(
+            xAxisData, yAxisData.subTickMin, yAxisData.subTickMax,
+            transformer = transformer, fontScale
+        )
         val yAxis = createYAxis(yAxisData, xAxisData.subTickMin, xMax = xAxisData.subTickMax, transformer = transformer)
 
         val diagram = Diagram(
@@ -78,7 +81,7 @@ class DiagramService {
         axisData: AxisData,
         yMin: Double, yMax: Double,
         transformer: CoordinateTransformer,
-        fontScale: Double
+        fontScale: Double,
     ): Axis {
         val yMinPx = transformer.mapY(yMin)
         val yMaxPx = transformer.mapY(yMax)
@@ -105,14 +108,27 @@ class DiagramService {
             )
         }
 
-        val gridLines = ticks.map { tick ->
-            LineSegment(
-                x1 = tick.tickLine.x1,
-                y1 = yMinPx,
-                x2 = tick.tickLine.x1,
-                y2 = yMaxPx
-            )
-        }
+     //   val xMinPx = subTicks[0].tickLine.x1 + TOLERANCE
+      //  val xMaxPx = subTicks[subTicks.size - 1].tickLine.x1 - TOLERANCE
+
+
+        val xMinPx = transformer.mapX(axisData.subTickMin)
+        val xMaxPx = transformer.mapX(axisData.subTickMax)
+
+        val gridLines = ticks
+            .filter { tick ->
+                tick.tickLine.x1 > (xMinPx + TOLERANCE) && tick.tickLine.x1 < (xMaxPx - TOLERANCE)
+            }
+            .map { tick ->
+                LineSegment(
+                    x1 = tick.tickLine.x1,
+                    y1 = yMinPx,
+                    x2 = tick.tickLine.x1,
+                    y2 = yMaxPx
+                )
+            }
+
+        com.techreier.edrops.graph.logger.info("No of gridlines x: ${gridLines.size}")
 
         return Axis(
             position = AxisPosition.BOTTOM,
@@ -150,8 +166,8 @@ private fun createYAxis(
         )
     }
 
-    val subTicks = if (axisData.subSectionsPerSection > 0 ) {
-       List(axisData.subSectionCount + 1) { i ->
+    val subTicks = if (axisData.subSectionsPerSection > 0) {
+        List(axisData.subSectionCount + 1) { i ->
             val subYValue = axisData.subTickMin + (i * axisData.subTickStep)
             val subYPx = transformer.mapY(subYValue)
 
@@ -164,17 +180,24 @@ private fun createYAxis(
         }
     } else listOf()
 
-    val gridLines = ticks.map { tick ->
-        LineSegment(
-            x1 = xMinPx,
-            y1 = tick.tickLine.y1,
-            x2 = xMaxPx,
-            y2 = tick.tickLine.y2,
-        )
-    }
 
     val yMinPx = transformer.mapY(axisData.subTickMin)
     val yMaxPx = transformer.mapY(axisData.subTickMax)
+
+    val gridLines = ticks
+        .filter { tick ->
+            tick.tickLine.y1 > (yMaxPx + TOLERANCE) && tick.tickLine.y1 < (yMinPx - TOLERANCE)
+        }
+        .map { tick ->
+            LineSegment(
+                x1 = xMinPx,
+                y1 = tick.tickLine.y1,
+                x2 = xMaxPx,
+                y2 = tick.tickLine.y2,
+            )
+        }
+
+    logger.info("No of gridlines y: ${gridLines.size}")
 
     return Axis(
         position = AxisPosition.LEFT,
