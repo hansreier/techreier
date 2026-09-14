@@ -17,7 +17,7 @@ class CoordinateTransformer(
 
     fun mapX(xMath: Double): Double {
         val ratio = (xMath - xMin) / (xMax - xMin)
-        return (diagramArea.plotAnchorX + diagramArea.plotCorrX) + (ratio * (diagramArea.plotWidth - diagramArea.plotCorrX))
+        return (diagramArea.plotAnchorX  + ratio * diagramArea.plotWidth)
     }
 
     fun mapY(yMath: Double): Double {

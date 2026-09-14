@@ -84,10 +84,9 @@ data class Axis(
 data class DiagramArea(
     val width: Double,
     val height: Double,
-    val plotWidth: Double,
+    var plotWidth: Double,
     val plotHeight: Double,
-    val plotAnchorX: Double,
-    var plotCorrX: Double = 0.0,
+    var plotAnchorX: Double,
     val plotAnchorY: Double,
 )
 

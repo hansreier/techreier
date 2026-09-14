@@ -30,12 +30,14 @@ class DiagramService {
 
         val fontScale = metaData.fontScale * metaData.heightRatio.pow(FONT_SCALE_EXPONENT)
         val charWidth = fontScale * X_FONT_FACTOR
-        diagramArea.plotCorrX = (maxDigits * charWidth)  + PLOT_LEFT_PADDING
-        logger.debug("xFontFactor=$X_FONT_FACTOR maxDigits: $maxDigits fontScale=$fontScale, charWidth=$charWidth plotCorrX=${diagramArea.plotCorrX}")
+        val plotCorrX = (maxDigits * charWidth)
+        diagramArea.plotWidth -= plotCorrX
+        diagramArea.plotAnchorX += plotCorrX
+        logger.debug("xFontFactor=$X_FONT_FACTOR maxDigits: $maxDigits fontScale=$fontScale, charWidth=$charWidth plotCorrX=${plotCorrX}")
 
         // Calculate x-axis
         val xSegments =
-            (((diagramArea.plotWidth - diagramArea.plotCorrX) / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
+            ((diagramArea.plotWidth / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
         val xAxisData = axisData(limits.xMin, limits.xMax, xSegments, metaData.heightRatio, true)
         logger.debug("x: wantedSegments: {} xAxisData: {}", xSegments, xAxisData)
         val limits = GraphLimits(
