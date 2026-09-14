@@ -23,12 +23,6 @@
                 </text>
             </g>
 
-            <defs>
-                <clipPath id="cutGraph">
-                    <use href="#plot-area" fill="none" />
-                </clipPath>
-            </defs>
-
             <rect class="plot-area" id="plot-area"
                   th:x="${diagram.area.plotAnchorX}"
                   th:y="${diagram.area.plotAnchorY}"
@@ -38,15 +32,16 @@
                   stroke="#cbd5e1"
                   stroke-width="1"/>
 
-            <g class="data-series" clip-path="url(#cutGraph)">
-                <polyline th:each="s : ${polylines}"
-                          th:points="${s}"
-                          fill="none"
-                          stroke="#2563eb"
-                          stroke-width="2.5"/>
-            </g>
-
             <g th:each="axis : ${diagram.axes}" class="axis">
+
+                <g class="grid-lines">
+                    <line th:each="line : ${axis.gridLines}"
+                          th:x1="${line.x1}" th:y1="${line.y1}"
+                          th:x2="${line.x2}" th:y2="${line.y2}"
+                          stroke="#e2e8f0"
+                          stroke-width="1"/>
+                </g>
+
                 <line class="axis-line"
                       th:x1="${axis.mainLine.x1}"
                       th:y1="${axis.mainLine.y1}"
@@ -80,16 +75,20 @@
                     </text>
                 </g>
 
+            </g>
 
+            <defs>
+                <clipPath id="cutGraph">
+                    <use href="#plot-area" fill="none" />
+                </clipPath>
+            </defs>
 
-
-                <g class="grid-lines">
-                    <line th:each="line : ${axis.gridLines}"
-                          th:x1="${line.x1}" th:y1="${line.y1}"
-                          th:x2="${line.x2}" th:y2="${line.y2}"
-                          stroke="#e2e8f0"
-                          stroke-width="1"/>
-                </g>
+            <g class="data-series" clip-path="url(#cutGraph)">
+                <polyline th:each="s : ${polylines}"
+                          th:points="${s}"
+                          fill="none"
+                          stroke="#2563eb"
+                          stroke-width="2.5"/>
             </g>
         </svg>
     </div>
