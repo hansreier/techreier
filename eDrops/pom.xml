@@ -21,7 +21,6 @@
 		<java.version>25</java.version>
 		<kotlin.version>2.4.10</kotlin.version>
 		<mariadb.version>3.5.9</mariadb.version>
-		<maven-failsafe-plugin.version>3.5.5</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
 		<junit-jupiter.version>6.1.0</junit-jupiter.version>
 		<mockk.version>1.14.9</mockk.version>
@@ -173,30 +172,8 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>${maven-failsafe-plugin.version}</version>
-				<configuration>
-					<skipITs>true</skipITs>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
-				<configuration>
-					<includes>
-						<include>**/*.java</include>
-						<include>**/*.kt</include>
-					</includes>
-					<trimStackTrace>false</trimStackTrace>
-					<excludes>
-						<exclude>**/IT*.java</exclude>
-						<exclude>**/*IT.java</exclude>
-						<exclude>**/IT*.kt</exclude>
-						<exclude>**/*IT.kt</exclude>
-					</excludes>
-				</configuration>
 			</plugin>
 
 			<plugin>

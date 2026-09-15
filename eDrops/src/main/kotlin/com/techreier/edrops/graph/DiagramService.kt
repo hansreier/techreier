@@ -6,6 +6,7 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.util.axis
 import org.springframework.stereotype.Service
 import java.lang.Integer.max
+import kotlin.math.abs
 import kotlin.math.pow
 
 @Service
@@ -96,22 +97,21 @@ class DiagramService {
             )
         }
 
-        val subTicks = List(axisData.subSectionCount + 1) { i ->
-            val subXValue = axisData.subTickMin + (i * axisData.subTickStep)
-            val subXPx = transformer.mapX(subXValue)
-
-            AxisTick(
-                tickLine = LineSegment(x1 = subXPx, y1 = yMinPx, x2 = subXPx, y2 = yMinPx + SUBTICK_LENGTH),
-                labelPoint = null,
-                label = null,
-                textAlignment = TextAlignment.CENTER
-            )
-        }
-
-     //   val xMinPx = subTicks[0].tickLine.x1 + TOLERANCE
-      //  val xMaxPx = subTicks[subTicks.size - 1].tickLine.x1 - TOLERANCE
-
-
+        val subTicks = if (axisData.subSectionsPerSection > 0) {
+            (0..axisData.subSectionCount)
+                .map { i -> axisData.subTickMin + (i * axisData.subTickStep) }
+                .filter { subXValue ->
+                    abs(subXValue.rem(axisData.tickStep)) > TOLERANCE
+                }.map { subXValue ->
+                    val subXPx = transformer.mapX(subXValue)
+                    AxisTick(
+                        tickLine = LineSegment(x1 = subXPx, y1 = yMinPx, x2 = subXPx, y2 = yMinPx + SUBTICK_LENGTH),
+                        labelPoint = null,
+                        label = null,
+                        textAlignment = TextAlignment.CENTER
+                    )
+                }
+        } else listOf()
         val xMinPx = transformer.mapX(axisData.subTickMin)
         val xMaxPx = transformer.mapX(axisData.subTickMax)
 
@@ -167,19 +167,21 @@ private fun createYAxis(
     }
 
     val subTicks = if (axisData.subSectionsPerSection > 0) {
-        List(axisData.subSectionCount + 1) { i ->
-            val subYValue = axisData.subTickMin + (i * axisData.subTickStep)
-            val subYPx = transformer.mapY(subYValue)
-
-            AxisTick(
-                tickLine = LineSegment(x1 = xMinPx, y1 = subYPx, x2 = xMinPx - SUBTICK_LENGTH, y2 = subYPx),
-                labelPoint = null,
-                label = null,
-                textAlignment = TextAlignment.END
-            )
-        }
+        (0..axisData.subSectionCount)
+            .map { i -> axisData.subTickMin + (i * axisData.subTickStep) }
+            .filter { subYValue ->
+                abs((subYValue.rem(axisData.tickStep))) > TOLERANCE
+            }.map { subYValue ->
+                logger.info("subYValue: $subYValue")
+                val subYPx = transformer.mapY(subYValue)
+                AxisTick(
+                    tickLine = LineSegment(x1 = xMinPx, y1 = subYPx, x2 = xMinPx - SUBTICK_LENGTH, y2 = subYPx),
+                    labelPoint = null,
+                    label = null,
+                    textAlignment = TextAlignment.END
+                )
+            }
     } else listOf()
-
 
     val yMinPx = transformer.mapY(axisData.subTickMin)
     val yMaxPx = transformer.mapY(axisData.subTickMax)
