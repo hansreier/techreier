@@ -1,6 +1,7 @@
 package com.techreier.edrops.graph
 
-import com.techreier.edrops.config.MIN_HEIGHT_RATIO_FOR_SUBTICS
+import com.techreier.edrops.config.MAX_HEIGHT_RATIO_FOR_X_SUBTICS
+import com.techreier.edrops.config.MIN_HEIGHT_RATIO_FOR_Y_SUBTICS
 import com.techreier.edrops.config.TOLERANCE
 import org.slf4j.LoggerFactory
 import kotlin.math.*
@@ -26,7 +27,13 @@ fun axisData(min: Double, max: Double, noSegments: Int, heightRatio: Double,  xA
     val subSectionCount = ((subTickMax - subTickMin) / subTickStep + TOLERANCE).toInt()
     val tickMin = correctToStep(subTickMin, tickStep, false)
     val tickMax = correctToStep(subTickMax, tickStep, true)
-    if ((!xAxis ) && (heightRatio < MIN_HEIGHT_RATIO_FOR_SUBTICS)) subSectionsPerSection = 0
+
+    if (xAxis) {
+        if (heightRatio > MAX_HEIGHT_RATIO_FOR_X_SUBTICS) subSectionsPerSection = 0
+    } else {
+        if (heightRatio < MIN_HEIGHT_RATIO_FOR_Y_SUBTICS) subSectionsPerSection = 0
+    }
+
     val sectionCount = ((tickMax - tickMin) / tickStep + TOLERANCE).toInt()
     return AxisData(
         sectionCount, tickStep, tickMin, tickMax,

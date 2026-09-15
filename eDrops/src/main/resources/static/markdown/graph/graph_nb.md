@@ -15,9 +15,9 @@ Enkle antakelser for aksestreker og tekster.
 
 Beregninger kjører på backend. SVG brukes for å tegne graf
 Klient-side WASM for live-animasjon senere.
-Mener at akseprogrammet kan brukes som bakgrunn for WASM animasjon.
+Jeg tror at akseprogrammet kan brukes som bakgrunn for WASM animasjon.  
 
-Siden prosjektet er ambisiøst så vil det ta tid å få alt på plass på fritiden.  
+Siden prosjektet er ambisiøst så vil det ta tid å få alt på plass på fritiden. 
 Siden dette er på internett, blir feilhåndtering og sikkerhet viktlig.  
 
 
