@@ -128,7 +128,7 @@ class DiagramService {
                 )
             }
 
-        com.techreier.edrops.graph.logger.info("No of gridlines x: ${gridLines.size}")
+        logger.debug("No of gridlines x: ${gridLines.size}")
 
         return Axis(
             position = AxisPosition.BOTTOM,
@@ -172,7 +172,6 @@ private fun createYAxis(
             .filter { subYValue ->
                 abs((subYValue.rem(axisData.tickStep))) > TOLERANCE
             }.map { subYValue ->
-                logger.info("subYValue: $subYValue")
                 val subYPx = transformer.mapY(subYValue)
                 AxisTick(
                     tickLine = LineSegment(x1 = xMinPx, y1 = subYPx, x2 = xMinPx - SUBTICK_LENGTH, y2 = subYPx),
@@ -199,7 +198,7 @@ private fun createYAxis(
             )
         }
 
-    logger.info("No of gridlines y: ${gridLines.size}")
+    logger.debug("No of gridlines y: ${gridLines.size}")
 
     return Axis(
         position = AxisPosition.LEFT,
