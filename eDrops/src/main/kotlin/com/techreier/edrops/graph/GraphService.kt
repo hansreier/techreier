@@ -10,7 +10,7 @@ class GraphService {
     fun generateSeries(
         limits: GraphLimits,
         mathFunction: (Double) -> Double,
-        steps: Int = 200
+        steps: Int = 20000
     ): DataSeries {
         val stepSize = (limits.xMax - limits.xMin) / steps
         var yMin = Double.POSITIVE_INFINITY
