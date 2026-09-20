@@ -60,6 +60,7 @@ class CalcDouble<T>(
         }
     }
 
+    // TODO ReierAsk Required at all
     override fun op(operator: Op, number: String): T? {
         try {
             print("$number ")
