@@ -135,4 +135,25 @@ class ExprTest {
         }
     }
 
+    @Test
+    fun multiArgumentOperatorTest() {
+        // Eksempel på uttrykk som bruker en operasjon med flere argumenter uten komma
+        val input = "gyp(12 5)" // eller en annen passende syntaks som parseren tillater
+
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+
+        val expr = Expr(calculator)
+        expr.rotateTraceLevel()
+        expr.rotateTraceLevel()
+        val parsed = expr.parse(input)
+
+        println("Parseren godtok uttrykket: $parsed")
+
+        if (parsed) {
+            expr.calculate()
+            val result = calculator.result()
+            println("Resultat fra GYP-operasjonen: $result")
+        }
+    }
+
 }
