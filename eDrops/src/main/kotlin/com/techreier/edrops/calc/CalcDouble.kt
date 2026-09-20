@@ -60,19 +60,6 @@ class CalcDouble<T>(
         }
     }
 
-    // TODO ReierAsk Required at all
-    override fun op(operator: Op, number: String): T? {
-        try {
-            print("$number ")
-            val b = number.toDouble()
-            stack.push(type.cast(b))
-            return op(operator)
-        } catch (e: Exception) {
-            println("Feil ${operator.abbrev()}: ${e.message}.")
-            return null
-        }
-    }
-
     override fun opr(operator: Op, noArgs: Int) {
         val x: Double
         val y: Double

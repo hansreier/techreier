@@ -65,18 +65,6 @@ class CalcBigDecimal<T>(
         }
     }
 
-   override fun op(operator: Op, number: String): T? {
-        return try {
-            print("$number ")
-            val b = BigDecimal(number)
-            stack.push(type.cast(b))
-            op(operator)
-        } catch (e: Exception) {
-            println("Feil ${operator.abbrev()}: ${e.message}.")
-            null
-        }
-    }
-
     override fun opr(operator: Op, noArgs: Int) {
         val arg = stack.iterator()
         val r = ArrayList<BigDecimal>()

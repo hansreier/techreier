@@ -48,8 +48,6 @@ abstract class Calc<T>(
 
     abstract fun enter(number: String)
 
-    protected abstract fun op(operator: Op, number: String): T?
-
     protected abstract fun opr(operator: Op, noArgs: Int)
 
 
