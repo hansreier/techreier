@@ -95,4 +95,44 @@ class ExprTest {
             fail("Klarte ikke å parse uttrykket: $input")
         }
     }
+
+    @Test
+    fun weirdParenthesisAndMultiVariableMonsterTest() {
+        // Et skikkelig rart parentes-monster med x, y og z, overflødige lag og ulineære krysstermer
+        val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (x - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
+
+        val xVal = 3.0
+        val yVal = 2.0
+        val zVal = 5.0
+
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator)
+
+        // Skru på tracing for å se stakken vrenge seg gjennom marerittet
+        expr.rotateTraceLevel()
+
+        if (expr.parse(input)) {
+            // Legg inn variablene i riktig rekkefølge (x=0, y=1, z=2)
+            calculator.variables.add(xVal)
+            calculator.variables.add(yVal)
+            calculator.variables.add(zVal)
+
+            println("--- Kjører parentesmonsteret med x=$xVal, y=$yVal, z=$zVal ---")
+            expr.calculate()
+            val result = calculator.result()
+            assertNotNull(result)
+
+            // Forventet matematiske fasit for å sjekke om stakken regnet riktig vei
+            val term1 = (Math.pow(xVal, 2.0) + Math.pow(yVal, 2.0)) / (Math.pow(xVal - yVal, 2.0) + 1.0)
+            val term2 = zVal - 1.0
+            val term3 = (2.5 * xVal) / yVal
+            val expected = (term1 * term2) + term3
+
+            assertEquals(expected, result!!, 1e-8) { "Parseren eller stakken rotet det til i monsteret!" }
+            println("Test bestått! Suksess med resultatet: $result")
+        } else {
+            fail("Parseren kollapset totalt av det rare uttrykket: $input")
+        }
+    }
+
 }
