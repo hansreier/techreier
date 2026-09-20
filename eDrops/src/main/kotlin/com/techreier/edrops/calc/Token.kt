@@ -1,38 +1,43 @@
 package com.techreier.edrops.calc
 
 data class Token(
-    var type: TokenType,
-    var operator: Op? = null,
-    var argument: Number? = null,
-    var position: Int
+    val type: TokenType,
+    private val rawOperator: Op? = null,
+    private val rawArgument: Number? = null,
+    val position: Int
 ) {
+    val operator: Op
+        get() = rawOperator ?: throw IllegalStateException("Token er ikke en operator i posisjon $position")
+
+    val argument: Number
+        get() = rawArgument ?: throw IllegalStateException("Token er ikke et tall i posisjon $position")
+
     constructor(operator: Op, position: Int) : this(
         type = TokenType.OPERATOR,
-        operator = operator,
-        argument = null,
+        rawOperator = operator,
+        rawArgument = null,
         position = position
     )
 
     constructor(oper: Oper) : this(
         type = TokenType.OPERATOR,
-        operator = oper.op,
-        argument = null,
+        rawOperator = oper.op,
+        rawArgument = null,
         position = oper.pos
     )
 
     constructor(argument: Number, position: Int) : this(
         type = TokenType.NUMBER,
-        operator = null,
-        argument = argument,
+        rawOperator = null,
+        rawArgument = argument,
         position = position
     )
 
     override fun toString(): String {
         return if (type == TokenType.NUMBER) {
-            "$argument[$position]"
+            "$rawArgument[$position]"
         } else {
-            "$operator[$position]"
+            "$rawOperator[$position]"
         }
     }
-
 }
