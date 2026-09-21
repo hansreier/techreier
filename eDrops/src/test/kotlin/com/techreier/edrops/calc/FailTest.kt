@@ -9,13 +9,13 @@ import org.junit.jupiter.api.Test
 class MissingOperatorTest {
 
     @Test
-    fun missingOperatorTest() { //TODO Reier Ask problems
-        val input = "3x + 5"
-        val xVal = 4.0
+    fun missingOperatorTest() { //TODO Reier almost correct.
+        val input = "3x + 5x^2"
+        val xVal = 1.0
 
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val expr = Expr(calculator)
-
+        expr.traceLevel(Trace.ALL)
         val parsed = expr.parse(input)
         assertTrue(parsed)
         calculator.variables.add(xVal)

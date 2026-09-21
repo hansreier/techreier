@@ -174,6 +174,7 @@ class Expr(var calc: Calc<*>) {
             var plevel = 0
             var o: Oper? = null
             var ox: Oper? = null
+            var lastIsNumber = false
             pos = ParsePosition(0)
 
             do {
@@ -192,6 +193,7 @@ class Expr(var calc: Calc<*>) {
                 if ((i2 > i1) || ((ov != null) && ov.noArgs() == 0)) {
                     numbers++
                     if (ov == null) {
+                        lastIsNumber = true //TODO ReierAsk check added
                         trace("number: $n[$i1] sequence: $numbers")
                         trace("@adding token: $n[$i1]")
                         tokens.add(Token(n, i1))
@@ -200,6 +202,13 @@ class Expr(var calc: Calc<*>) {
                         if (!addToken(ov)) {
                             return false
                         }
+                        if (lastIsNumber) { //TODO ReierAsk, verify. Adding implicit multiplication operatur
+                            if (!addToken( Oper(Op.MULTIPLY,i2))) {
+                                return false
+                            }
+
+                        }
+                        lastIsNumber = false
                         pos.index = i1 + ov.abbrev().length
                     }
                 } else {

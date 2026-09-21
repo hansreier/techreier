@@ -188,4 +188,19 @@ class ExprTest {
         logger.info("Resultat: $result")
     }
 
+    @Test
+    fun OperatorOrderTest() {
+        val input = "5*2^2"
+
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator)
+
+        val parsed = expr.parse(input)
+        assertTrue(parsed)
+
+        expr.calculate()
+        val result = calculator.result()
+        logger.info("Resultat: $result")
+    }
+
 }
