@@ -1,7 +1,7 @@
 package com.techreier.edrops.calc
 
 data class Token(
-    val type: TokenType,
+    val type: TokenType?,
     private val rawOperator: Op? = null,
     private val rawArgument: Number? = null,
     val position: Int
@@ -26,7 +26,7 @@ data class Token(
         position = oper.pos
     )
 
-    constructor(argument: Number, position: Int) : this(
+    constructor(argument: Number?, position: Int) : this(
         type = TokenType.NUMBER,
         rawOperator = null,
         rawArgument = argument,

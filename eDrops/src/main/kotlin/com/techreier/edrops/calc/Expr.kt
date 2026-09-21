@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.config.logger
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.ParsePosition
@@ -8,10 +9,6 @@ import java.util.EnumSet
 import java.util.Locale
 
 class Expr(var calc: Calc<*>) {
-
-    enum class Trace {
-        OFF, STACK, ALL
-    }
 
     var expr: String = ""
         set(value) {
@@ -32,19 +29,24 @@ class Expr(var calc: Calc<*>) {
             Trace.OFF -> {
                 trace = Trace.STACK
                 calc.logOp = true
-                println("trace stack")
+                logger.info("trace stack")
             }
             Trace.STACK -> {
                 trace = Trace.ALL
                 calc.logOp = true
-                println("trace alt")
+                logger.info("trace alt")
             }
             Trace.ALL -> {
                 trace = Trace.OFF
                 calc.logOp = false
-                println("trace av")
+                logger.info("trace av")
             }
         }
+    }
+
+    fun traceLevel(trace: Trace) {
+        this.trace = trace
+        calc.logOp = trace != Trace.OFF
     }
 
     fun op(text: String, pos: Int, set: EnumSet<Op>): Oper? {
@@ -54,16 +56,16 @@ class Expr(var calc: Calc<*>) {
 
     private fun trace(text: String) {
         if (trace == Trace.ALL) {
-            println(text)
+            logger.info(text)
         }
     }
 
     private fun warning(text: String) {
-        println(text)
+        logger.warn(text)
     }
 
     private fun error(text: String) {
-        println(text)
+        logger.error(text)
         calc.logStack()
     }
 
@@ -180,7 +182,7 @@ class Expr(var calc: Calc<*>) {
                     i1++
                 }
                 pos.index = i1
-                n = formatter.parse(expr, pos)
+                n = parseNumber(expr, pos)
                 i2 = pos.index
                 ov = null
                 if (i2 <= i1) {

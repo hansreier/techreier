@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.config.logger
 import java.util.ArrayList
 import java.util.EnumSet
 
@@ -55,7 +56,7 @@ class CalcDouble<T>(
             logOp("$b enter ")
             logStack()
         } catch (e: NumberFormatException) {
-            println("$number : Feil nummer format. ")
+            logger.error("$number : Error. Wrong number format. ")
             logStack()
         }
     }
@@ -201,11 +202,11 @@ class CalcDouble<T>(
                 if (index < variables.size) {
                     r.add(variables[index] as Double)
                 } else {
-                    throw Exception("har ingen verdi")
+                    throw Exception("have no value")
                 }
             }
             else -> {
-                println("Implementering av ${operator.abbrev()} glemt for ${type.simpleName}")
+                logger.error("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}")
             }
         }
 

@@ -1,28 +1,27 @@
 package com.techreier.edrops.calc
 
 
+import com.techreier.edrops.config.logger
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class MissingOperatorTest {
 
     @Test
-    fun missingOperatorTest() {
-        val input = "3x"
+    fun missingOperatorTest() { //TODO Reier Ask problems
+        val input = "3x + 5"
         val xVal = 4.0
 
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val expr = Expr(calculator)
 
         val parsed = expr.parse(input)
-        println("Parseren godtok '$input': $parsed")
-
-        if (parsed) {
-            calculator.variables.add(xVal)
-            expr.calculate()
-
-            val result = calculator.result()
-            println("Resultat fra stakken: $result")
-        }
+        assertTrue(parsed)
+        calculator.variables.add(xVal)
+        expr.calculate()
+        val result = calculator.result()
+        logger.info("input=$input, x=$xVal calculated=$result")
     }
 
     @Test
@@ -60,5 +59,16 @@ class MissingOperatorTest {
             val result = calculator.result()
             println("Resultat: $result") // Skal ideelt sett bli 12.5
         }
+    }
+
+    @Test
+    fun strangeNumberTest() {
+        val input = "5e0 * 2.5"
+
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator)
+
+        val parsed = expr.parse(input)
+        assertFalse(parsed)
     }
 }

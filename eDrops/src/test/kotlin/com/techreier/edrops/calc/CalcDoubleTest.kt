@@ -8,7 +8,6 @@ class CalcDoubleTest {
 
     @Test
     fun addTest() {
-        println("TestAddDouble")
         val calculator = CalcDouble(Double::class.javaObjectType)
         calculator.logStack = false
         calculator.enter(24.0)

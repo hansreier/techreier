@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.config.logger
 import java.util.ArrayDeque
 import java.util.ArrayList
 import java.util.Deque
@@ -34,7 +35,7 @@ abstract class Calc<T>(
     }
 
     fun clear() {
-        println("tømmer stakken")
+        logger.debug("tømmer stakken")
         stack.clear()
     }
 
@@ -57,7 +58,7 @@ abstract class Calc<T>(
             stack.push(type.cast(number))
             op(operator)
         } catch (e: Exception) {
-            println("Feil ${operator.abbrev()}: ${e.message}.")
+            logger.error("Error ${operator.abbrev()}: ${e.message}.")
             null
         }
     }
@@ -94,12 +95,12 @@ abstract class Calc<T>(
                     if (validElements) {
                         opr(operator, noArgs)
                     } else {
-                        println("Alle argumentene er ikke av samme datatype!")
+                        logger.error("All arguments is not of the dame data type!")
                         logStack()
                         return null
                     }
                 } else {
-                    println("Operator ${operator.abbrev()} ugyldig for ${type.simpleName}.")
+                    logger.error("Operator ${operator.abbrev()} invalid for ${type.simpleName}.")
                     logStack()
                     return null
                 }
@@ -110,12 +111,12 @@ abstract class Calc<T>(
                     null
                 }
             } else {
-                println("${operator.abbrev()} : For få argumenter ${stack.size}, skal være $minst$noArgs!")
+                logger.error("${operator.abbrev()} : Too few arguments ${stack.size}, must be $minst$noArgs!")
                 logStack()
                 return null
             }
         } catch (e: Exception) {
-            println("Feil ${operator.abbrev()}: ${e.message}.")
+            logger.error("Error: ${operator.abbrev()}: ${e.message}.")
             logStack()
             return null
         }
@@ -128,11 +129,11 @@ abstract class Calc<T>(
             return if (i1 != null) {
                 stack.first
             } else {
-                println("Ingen verdi!")
+                logger.error("No value!")
                 null
             }
         } catch (e: Exception) {
-            println("Feil ved resultuthenting: ${e.message}.")
+            logger.error("Error when fetching result: ${e.message}.")
             return null
         }
     }
@@ -144,19 +145,19 @@ abstract class Calc<T>(
             try {
                 i1 = stack.peekFirst()
                 if (i1 != null) {
-                    print("${stack.first} ")
-                    print("( ")
+                    logger.info("${stack.first} ")
+                    logger.info("( ")
                     val i = stack.iterator()
                     i.next()
                     while (i.hasNext()) {
-                        print("${i.next()} ")
+                        logger.info("${i.next()} ")
                     }
-                    println(")")
+                    logger.info(")")
                 } else {
-                    println("( )")
+                    logger.info("( )")
                 }
             } catch (e: Exception) {
-                println("Feil ved utskrift av stakk: ${e.message}.")
+                logger.error("Error when printing stack: ${e.message}.")
             }
         }
     }

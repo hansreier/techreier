@@ -10,7 +10,6 @@ class CalcBigDecimalTest {
 
     @Test
     fun precisionAddTest() {
-        println("TestPrecisionBigDecimal")
         val calculator = CalcBigDecimal(BigDecimal::class.javaObjectType)
         calculator.logStack = false
 
@@ -29,7 +28,6 @@ class CalcBigDecimalTest {
 
     @Test
     fun divisionScaleTest() {
-        println("TestDivisionScaleBigDecimal")
         val calculator = CalcBigDecimal(BigDecimal::class.javaObjectType)
         calculator.logStack = false
         calculator.scale = 10

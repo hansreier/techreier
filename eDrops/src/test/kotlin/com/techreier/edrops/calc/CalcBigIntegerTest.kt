@@ -9,7 +9,6 @@ class CalcBigIntegerTest {
 
     @Test
     fun addTest() {
-        println("TestAdd")
         val calculator = CalcBigInteger(BigInteger::class.java)
         calculator.logStack = false
         calculator.enter(24)

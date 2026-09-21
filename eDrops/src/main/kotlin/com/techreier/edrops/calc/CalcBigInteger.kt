@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.config.logger
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
@@ -61,7 +62,7 @@ class CalcBigInteger<T> : Calc<T> {
             logOp("$b enter ")
             logStack()
         } catch (e: NumberFormatException) {
-            println("$number : Feil nummer format. ")
+            logger.error("$number : Feil nummer format. ")
             if (logOp) {
                 logStack()
             }
@@ -122,11 +123,11 @@ class CalcBigInteger<T> : Calc<T> {
                 if (index < variables.size) {
                     r.add(variables[index] as BigInteger)
                 } else {
-                    throw Exception("har ingen verdi")
+                    throw Exception("have no value")
                 }
             }
             else -> {
-                println("Implementering av ${operator.abbrev()} glemt for ${type.simpleName}")
+                logger.error("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}")
             }
         }
 
