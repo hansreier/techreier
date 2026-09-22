@@ -199,14 +199,16 @@ class Expr(var calc: Calc<*>) {
                         tokens.add(Token(n, i1))
                     } else {
                         trace("variable: $ov[$i1] sequence: $numbers")
+                        if (lastIsNumber) { //TODO ReierAsk, verify. Adding implicit multiplication operatur
+
+                            opStack.push ( Oper(Op.MULTIPLY,i2))
+                            //    if (!addToken( Oper(Op.MULTIPLY,i2))) {
+                            //       return false
+                            //  }
+
+                        }
                         if (!addToken(ov)) {
                             return false
-                        }
-                        if (lastIsNumber) { //TODO ReierAsk, verify. Adding implicit multiplication operatur
-                            if (!addToken( Oper(Op.MULTIPLY,i2))) {
-                                return false
-                            }
-
                         }
                         lastIsNumber = false
                         pos.index = i1 + ov.abbrev().length

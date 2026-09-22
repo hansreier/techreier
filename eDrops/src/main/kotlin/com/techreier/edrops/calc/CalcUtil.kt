@@ -15,3 +15,11 @@ fun parseNumber(expr: String?, pos: ParsePosition?): Number? {
     pos.index = initialIndex
     return EN_FORMAT.parse(expr, pos)
 }
+
+// Tilleggsfunksjon for Double beregninger
+fun Calc<Double>.degrees(enabled: Boolean): Calc<Double> {
+    if (this is CalcDouble) {
+        this.degrees = enabled
+    }
+    return this
+}

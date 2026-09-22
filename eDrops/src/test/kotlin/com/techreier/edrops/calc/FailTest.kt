@@ -10,10 +10,11 @@ class MissingOperatorTest {
 
     @Test
     fun missingOperatorTest() { //TODO Reier almost correct.
-        val input = "3x + 5x^2"
-        val xVal = 1.0
+        val input = "2 + 5x^2"
+        val xVal = 2.0
 
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        calculator.degrees(false)
         val expr = Expr(calculator)
         expr.traceLevel(Trace.ALL)
         val parsed = expr.parse(input)
