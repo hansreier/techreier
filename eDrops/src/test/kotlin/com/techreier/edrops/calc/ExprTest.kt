@@ -2,6 +2,7 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.config.logger
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
@@ -201,6 +202,28 @@ class ExprTest {
         expr.calculate()
         val result = calculator.result()
         logger.info("Resultat: $result")
+    }
+
+    @Test
+    fun strangeNumberTest() {
+        val input = "5e0 * 2.5"
+
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator)
+
+        val parsed = expr.parse(input)
+        assertFalse(parsed)
+    }
+
+    @Test
+    fun missingOperatorTest() {
+        val input = "2 + 5x^2"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        calculator.degrees(false)
+        val expr = Expr(calculator)
+        expr.traceLevel(Trace.OFF)
+        val parsed = expr.parse(input)
+        assertFalse(parsed)
     }
 
 }

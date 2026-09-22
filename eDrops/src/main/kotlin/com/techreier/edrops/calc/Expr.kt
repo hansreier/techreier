@@ -110,7 +110,7 @@ class Expr(var calc: Calc<*>) {
                 }
             }
             if (noArgs != o.noArgs()) {
-                error("Feil: ${o.abbrev()} (posisjon ${o.pos + 1}):  Antall argumenter $noArgs skal være ${o.noArgs()}.")
+                error("Error: ${o.abbrev()} (posisjon ${o.pos + 1}):  Antall argumenter $noArgs skal være ${o.noArgs()}.")
                 return false
             }
         }
@@ -193,19 +193,15 @@ class Expr(var calc: Calc<*>) {
                 if ((i2 > i1) || ((ov != null) && ov.noArgs() == 0)) {
                     numbers++
                     if (ov == null) {
-                        lastIsNumber = true //TODO ReierAsk check added
+                        lastIsNumber = true
                         trace("number: $n[$i1] sequence: $numbers")
                         trace("@adding token: $n[$i1]")
                         tokens.add(Token(n, i1))
                     } else {
                         trace("variable: $ov[$i1] sequence: $numbers")
-                        if (lastIsNumber) { //TODO ReierAsk, verify. Adding implicit multiplication operatur
-
-                            opStack.push ( Oper(Op.MULTIPLY,i2))
-                            //    if (!addToken( Oper(Op.MULTIPLY,i2))) {
-                            //       return false
-                            //  }
-
+                        if (lastIsNumber) { //Block implicit multiplicator
+                            error("Error: ${ov.abbrev()} (position ${i2}) Add multiplicator after number")
+                            return false
                         }
                         if (!addToken(ov)) {
                             return false
@@ -288,7 +284,7 @@ class Expr(var calc: Calc<*>) {
                             } else {
                                 if (ox != null) {
                                     if ((ox.isOrdinary()) && (o.isOrdinary()) && (numbers == 0)) {
-                                        error("Feil: ${o.abbrev()} (posisjon ${i1 + 1}) kan ikke følge rett etter ${ox.abbrev()}.")
+                                        error("Error: ${o.abbrev()} (position ${i1 + 1}) can not directly follow ${ox.abbrev()}.")
                                         return false
                                     }
 
@@ -334,7 +330,7 @@ class Expr(var calc: Calc<*>) {
                                 c = expr[i2]
                                 i2++
                             } while ((i2 < expr.length) && (c.isLetterOrDigit()))
-                            error("Feil: ugyldig ord: ${expr.substring(i1, i2)} i posision ${i1 + 1}.")
+                            error("Error: Invalid word: ${expr.substring(i1, i2)} in position ${i1 + 1}.")
                             return false
                         } else {
                             return true
