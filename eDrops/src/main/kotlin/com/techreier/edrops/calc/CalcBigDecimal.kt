@@ -133,7 +133,7 @@ class CalcBigDecimal<T>(
                 if (index < variables.size) {
                     r.add(variables[index] as BigDecimal)
                 } else {
-                    throw Exception("have no value")
+                    throw IllegalStateException("has no value")
                 }
             }
             else -> {

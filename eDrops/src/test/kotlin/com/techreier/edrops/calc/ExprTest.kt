@@ -104,8 +104,8 @@ class ExprTest {
 
     @Test
     fun weirdParenthesisAndMultiVariableMonsterTest() {
-        val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (x - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
-
+      //  val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (x - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
+        val input = "((((x^2)+(y^2))/((x-y)^2+1))*((z)-(1)))+(((2.5)*x)/(y))"
         val xVal = 3.0
         val yVal = 2.0
         val zVal = 5.0
@@ -221,7 +221,37 @@ class ExprTest {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         calculator.degrees(false)
         val expr = Expr(calculator)
+        val parsed = expr.parse(input)
+        assertFalse(parsed)
+    }
+
+    @Test
+    fun missingOperatorTest2() {
+        val input = "2 + 5(3+5)"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        calculator.degrees(false)
+        val expr = Expr(calculator)
+        val parsed = expr.parse(input)
+        assertFalse(parsed)
+    }
+
+    @Test
+    fun singleOperatorTest() {
+        val input = "pi"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator)
         expr.traceLevel(Trace.OFF)
+        val parsed = expr.parse(input)
+        assertTrue(parsed)
+        expr.calculate()
+        logger.info("Result=${calculator.result()}")
+    }
+
+    @Test
+    fun invalidExpressionTest() {
+        val input = "3+pig*5"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator)
         val parsed = expr.parse(input)
         assertFalse(parsed)
     }

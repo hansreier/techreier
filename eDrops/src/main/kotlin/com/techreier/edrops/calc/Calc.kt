@@ -116,7 +116,7 @@ abstract class Calc<T>(
                 return null
             }
         } catch (e: Exception) {
-            logger.error("Error: ${operator.abbrev()}: ${e.message}.")
+            logger.error("Calculation error: ${operator.abbrev()} ${e.message}.")
             logStack()
             return null
         }
@@ -129,7 +129,6 @@ abstract class Calc<T>(
             return if (i1 != null) {
                 stack.first
             } else {
-                logger.error("No value!")
                 null
             }
         } catch (e: Exception) {

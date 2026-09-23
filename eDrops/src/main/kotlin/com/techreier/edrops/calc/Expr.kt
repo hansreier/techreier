@@ -60,12 +60,13 @@ class Expr(var calc: Calc<*>) {
         }
     }
 
-    private fun warning(text: String) {
+    private fun warn(text: String) {
         logger.warn(text)
     }
 
-    private fun error(text: String) {
-        logger.error(text)
+    private fun err(operator: String, pos: Int, text: String) {
+        logger.error("Error: $operator pos=$pos: $text \n" +
+                "${expr.substring(0, pos  + operator.length -1) +"???" + expr.substring(pos + operator.length)} ")
         calc.logStack()
     }
 
@@ -110,7 +111,7 @@ class Expr(var calc: Calc<*>) {
                 }
             }
             if (noArgs != o.noArgs()) {
-                error("Error: ${o.abbrev()} (posisjon ${o.pos + 1}):  Antall argumenter $noArgs skal være ${o.noArgs()}.")
+                err(o.abbrev(),o.pos + 1,  "Number of arguments $noArgs should be ${o.noArgs()}")
                 return false
             }
         }
@@ -191,7 +192,7 @@ class Expr(var calc: Calc<*>) {
                     ov = op(expr, i1, calc.operators)
                 }
                 if ((i2 > i1) || ((ov != null) && ov.noArgs() == 0)) {
-                    numbers++
+                    numbers++ //number (or operator with zero arguments) found
                     if (ov == null) {
                         lastIsNumber = true
                         trace("number: $n[$i1] sequence: $numbers")
@@ -200,16 +201,17 @@ class Expr(var calc: Calc<*>) {
                     } else {
                         trace("variable: $ov[$i1] sequence: $numbers")
                         if (lastIsNumber) { //Block implicit multiplicator
-                            error("Error: ${ov.abbrev()} (position ${i2}) Add multiplicator after number")
-                            return false
-                        }
-                        if (!addToken(ov)) {
+                            err(ov.abbrev(), i2, "Add multiplicator after number")
                             return false
                         }
                         lastIsNumber = false
+                        if (!addToken(ov)) {
+                            return false
+                        }
                         pos.index = i1 + ov.abbrev().length
                     }
                 } else {
+                    lastIsNumber = false
                     o = ov
                     if (o != null) {
                         setLevel(o, ox)
@@ -284,7 +286,7 @@ class Expr(var calc: Calc<*>) {
                             } else {
                                 if (ox != null) {
                                     if ((ox.isOrdinary()) && (o.isOrdinary()) && (numbers == 0)) {
-                                        error("Error: ${o.abbrev()} (position ${i1 + 1}) can not directly follow ${ox.abbrev()}.")
+                                        err(o.abbrev(),i1 + 1, "can not directly follow ${ox.abbrev()}"  )
                                         return false
                                     }
 
@@ -330,7 +332,7 @@ class Expr(var calc: Calc<*>) {
                                 c = expr[i2]
                                 i2++
                             } while ((i2 < expr.length) && (c.isLetterOrDigit()))
-                            error("Error: Invalid word: ${expr.substring(i1, i2)} in position ${i1 + 1}.")
+                            err(expr.substring(i1, i2-1), i1 + 1, "Invalid operator" )
                             return false
                         } else {
                             return true
@@ -361,11 +363,11 @@ class Expr(var calc: Calc<*>) {
             trace("----------------------------------")
 
             if (plevel < 0) {
-                warning("Advarsel: ${-plevel} for mange høyreparenteser.")
+                warn("Advarsel: ${-plevel} for mange høyreparenteser.")
             } else if (plevel > 0) {
-                warning("Advarsel: $plevel for mange venstreparenteser.")
+                warn("Advarsel: $plevel for mange venstreparenteser.")
             } else if (level != 0) {
-                warning("Advarsel: Sluttnivå $level forskjellig fra null, trolig programmeringsfeil!")
+                warn("Advarsel: Sluttnivå $level forskjellig fra null, trolig programmeringsfeil!")
             }
             return true
         } finally {
