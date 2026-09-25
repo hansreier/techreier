@@ -65,8 +65,9 @@ class Expr(var calc: Calc<*>) {
     }
 
     private fun err(operator: String, pos: Int, text: String) {
+        logger.info(expr) //TODO ReierAsk remove
         logger.error("Error: $operator pos=$pos: $text \n" +
-                "${expr.substring(0, pos  + operator.length -1) +"???" + expr.substring(pos + operator.length)} ")
+                "${expr.substring(0, pos  + operator.length -1) +"???" + expr.substring(pos + operator.length -1)} ")
         calc.logStack()
     }
 
@@ -175,12 +176,10 @@ class Expr(var calc: Calc<*>) {
             var plevel = 0
             var o: Oper? = null
             var ox: Oper? = null
-            var lastIsNumber = false
             pos = ParsePosition(0)
-
             do {
                 i1 = pos.index
-                while ((i1 < expr.length - 1) && expr[i1].isWhitespace()) {
+                while ((i1 < expr.length - 1) && (expr[i1].isWhitespace())) {
                     i1++
                 }
                 pos.index = i1
@@ -191,27 +190,22 @@ class Expr(var calc: Calc<*>) {
                     ox = o
                     ov = op(expr, i1, calc.operators)
                 }
+
                 if ((i2 > i1) || ((ov != null) && ov.noArgs() == 0)) {
                     numbers++ //number (or operator with zero arguments) found
+
                     if (ov == null) {
-                        lastIsNumber = true
                         trace("number: $n[$i1] sequence: $numbers")
                         trace("@adding token: $n[$i1]")
                         tokens.add(Token(n, i1))
                     } else {
                         trace("variable: $ov[$i1] sequence: $numbers")
-                        if (lastIsNumber) { //Block implicit multiplicator
-                            err(ov.abbrev(), i2, "Add multiplicator after number")
-                            return false
-                        }
-                        lastIsNumber = false
                         if (!addToken(ov)) {
                             return false
                         }
                         pos.index = i1 + ov.abbrev().length
                     }
                 } else {
-                    lastIsNumber = false
                     o = ov
                     if (o != null) {
                         setLevel(o, ox)
@@ -331,7 +325,7 @@ class Expr(var calc: Calc<*>) {
                             do {
                                 c = expr[i2]
                                 i2++
-                            } while ((i2 < expr.length) && (c.isLetterOrDigit()))
+                            } while ((i2 < expr.length) && ((c.isLetterOrDigit() || (c.toString() == Op.SEPARATOR.abbrev()))))
                             err(expr.substring(i1, i2-1), i1 + 1, "Invalid operator" )
                             return false
                         } else {
