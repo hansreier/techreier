@@ -10,9 +10,7 @@ data class Oper(
 
     fun abbrev(): String = op.abbrev()
 
-    fun level(): Int {
-        return level
-    }
+    fun level(): Int = level
 
     fun level(level: Int) {
         this.level = level
