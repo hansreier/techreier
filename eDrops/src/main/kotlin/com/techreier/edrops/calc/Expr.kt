@@ -8,7 +8,7 @@ import java.util.ArrayDeque
 import java.util.EnumSet
 import java.util.Locale
 
-class Expr(var calc: Calc<*>, expr: String, relaxed: Boolean = false) {
+class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
 
     private val expr: String;
     private val tokens = ArrayList<Token>()
