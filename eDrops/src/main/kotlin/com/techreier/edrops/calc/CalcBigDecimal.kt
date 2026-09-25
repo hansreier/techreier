@@ -128,6 +128,11 @@ class CalcBigDecimal<T>(
                 r.add(arg.next() as BigDecimal)
                 r.add(arg.next() as BigDecimal)
             }
+            Op.SEPARATOR -> { //Separator really does nothing but to be removed
+                val x = arg.next() as BigDecimal
+                r.add(arg.next() as BigDecimal)
+                r.add(x)
+            }
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
                 val index = operator.ordinal - Op.X.ordinal
                 if (index < variables.size) {
