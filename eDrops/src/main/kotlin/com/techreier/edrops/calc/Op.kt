@@ -24,6 +24,7 @@ enum class Op(
     MULTIPLY("*", 2, 1, 1),
     DIVIDE("/", 2, 1, 1),
     POW("^", 2, 1, 0),
+    SEPARATOR(";",2,2,4),
     X2("^2", 1, 1, -1),
     SUM("sum", -1, 1, -1),
     SIN("sin", 1, 1),
@@ -69,7 +70,7 @@ enum class Op(
     fun valid(set: EnumSet<Op>): Boolean = set.contains(this)
 
     companion object {
-        private val basicOperators = EnumSet.of(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW)
+        private val basicOperators = EnumSet.of(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR)
         private val parenthesis = EnumSet.of(LEFTP, RIGHTP)
         private const val defaultLevel = 2
         const val maxLevel = 4
@@ -85,6 +86,7 @@ enum class Op(
             return null
         }
 
+        // Return operator based on abbreviation and enumSet of operators
         fun operator(abbrev: String, set: EnumSet<Op>): Op? {
             for (o in set) {
                 if (o.abbrev == abbrev.trim().lowercase()) {
@@ -94,11 +96,13 @@ enum class Op(
             return null
         }
 
+        // Return operator in text at expression position. Only one return value is accepted
+        // TODO ReierAsk really not difficult to implemtent general x argument return
         fun operator(text: String, pos: Int, set: EnumSet<Op>): Op? {
             val textVar = text.substring(pos).lowercase()
             if (textVar.isNotEmpty()) {
                 for (o in set) {
-                    if ((o.prior >= 0) && (o.noResults == 1)) {
+                    if ((o.prior >= 0) && (o.noResults == 1) || ( o == SEPARATOR)) {
                         if (textVar.startsWith(o.abbrev)) {
                             val p = o.abbrev.length
                             if (textVar.length <= p)
@@ -106,7 +110,7 @@ enum class Op(
                             else {
                                 val c = textVar[p]
                                 when (o.abbrev) {
-                                    "(", ")", "^", "+", "-", "/", "*" -> return o
+                                    "(", ")", "^", "+", "-", "/", "*", SEPARATOR.abbrev -> return o
                                     else -> {
                                         if (!(Character.isLetter(c) || Character.isDigit(c))) {
                                             return o
