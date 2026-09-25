@@ -8,19 +8,16 @@ import java.util.ArrayDeque
 import java.util.EnumSet
 import java.util.Locale
 
-class Expr(var calc: Calc<*>) {
+class Expr(var calc: Calc<*>, expr: String, relaxed: Boolean = false) {
 
-    var expr: String = ""
-        set(value) {
-            field = value.trim()
-        }
-
+    private val expr: String;
     private val tokens = ArrayList<Token>()
     private var level: Int = 0
     private var trace: Trace = Trace.OFF
     private var opStack = ArrayDeque<Oper>()
 
     init {
+        this.expr = expr.trim()
         calc.logOp = false
     }
 
@@ -44,7 +41,7 @@ class Expr(var calc: Calc<*>) {
         }
     }
 
-    fun traceLevel(trace: Trace) {
+    fun trace(trace: Trace) {
         this.trace = trace
         calc.logOp = trace != Trace.OFF
     }
@@ -329,6 +326,7 @@ class Expr(var calc: Calc<*>) {
                             err(expr.substring(i1, i2-1), i1 + 1, "Invalid operator" )
                             return false
                         } else {
+
                             return true
                         }
                     }
@@ -368,10 +366,5 @@ class Expr(var calc: Calc<*>) {
             opStack.clear()
             delP()
         }
-    }
-
-    fun parse(expr: String): Boolean {
-        this.expr = expr
-        return parse()
     }
 }

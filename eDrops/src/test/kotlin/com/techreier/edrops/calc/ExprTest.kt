@@ -1,24 +1,48 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.config.logger
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import java.lang.Math
 import kotlin.test.assertNotNull
 
 class ExprTest {
 
     @Test
+    fun missingMultiplcatorTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val x = 4.0
+        val input = "3(x)"
+
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertTrue(parsed) { "parsing: $input" }
+
+        calculator.variables.add(x)
+        expr.calculate()
+        assertEquals(4.0, calculator.result() as Double, 1e-10)
+        // TODO Add check on rest, and option for error if it is a rest.
+    }
+
+    @Test
+    fun basicOperatorTest() {
+        val calculator: Calc<*> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3 + pi"
+
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertTrue(parsed) { "parsing: $input" }
+
+        expr.calculate()
+        assertEquals(3 + Math.PI, calculator.result() as Double, 1e-10)
+    }
+
+    @Test
     fun simpleExpressionTest() {
-        println("TestExpression")
         val calculator: Calc<*> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3*5- sin(90)"
 
-        val expr = Expr(calculator)
-        val parsed = expr.parse(input)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
         assertTrue(parsed) { "parsing: $input" }
 
         expr.calculate()
@@ -36,12 +60,12 @@ class ExprTest {
         val x2 = 6.0
 
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        val expr = Expr(calculator)
+        val expr = Expr(calculator, input)
 
         expr.rotateTraceLevel()
         expr.rotateTraceLevel()
 
-        if (expr.parse(input)) {
+        if (expr.parse()) {
             calculator.variables.add(x1)
             println("calculating with x1")
             expr.calculate()
@@ -71,11 +95,10 @@ class ExprTest {
         val y2 = 1.5
 
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        val expr = Expr(calculator)
+        val expr = Expr(calculator, input)
 
-        expr.rotateTraceLevel()
-
-        if (expr.parse(input)) {
+        expr.trace(Trace.ALL)
+        if (expr.parse()) {
             calculator.variables.add(x1)
             calculator.variables.add(y1)
 
@@ -111,11 +134,11 @@ class ExprTest {
         val zVal = 5.0
 
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        val expr = Expr(calculator)
+        val expr = Expr(calculator, input)
 
         expr.rotateTraceLevel()
 
-        if (expr.parse(input)) {
+        if (expr.parse()) {
 
             calculator.variables.add(xVal)
             calculator.variables.add(yVal)
@@ -138,14 +161,15 @@ class ExprTest {
 
     @Test
     fun multiArgumentOperatorTest() {
-        val input = "gyp(4 3)" // Math.sqrt(x * x - y * y)
-
+      //  val input = "gyp(4; 3)" // Math.sqrt(x * x - y * y)
+     //   val input = "gyp(4 + 3; 2)"
+        val input = "3 + 2"
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
 
-        val expr = Expr(calculator)
-        expr.traceLevel(Trace.ALL)
-        val parsed = expr.parse(input)
-
+        val expr = Expr(calculator, input)
+        expr.trace(Trace.ALL)
+        val parsed = expr.parse()
+        assertTrue(parsed)
         logger.info("Parseren godtok uttrykket: $parsed")
 
         if (parsed) {
@@ -161,9 +185,9 @@ class ExprTest {
         val input = "5E0 * 2,5"
 
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        val expr = Expr(calculator)
+        val expr = Expr(calculator, input)
 
-        val parsed = expr.parse(input)
+        val parsed = expr.parse()
         assertTrue(parsed)
 
         if (parsed) {
@@ -179,9 +203,9 @@ class ExprTest {
         val input = "5E0"
 
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        val expr = Expr(calculator)
+        val expr = Expr(calculator, input)
 
-        val parsed = expr.parse(input)
+        val parsed = expr.parse()
         assertTrue(parsed)
 
         expr.calculate()
@@ -194,9 +218,9 @@ class ExprTest {
         val input = "5*2^2"
 
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        val expr = Expr(calculator)
+        val expr = Expr(calculator, input)
 
-        val parsed = expr.parse(input)
+        val parsed = expr.parse()
         assertTrue(parsed)
 
         expr.calculate()
@@ -209,29 +233,28 @@ class ExprTest {
         val input = "5e0 * 2.5"
 
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        val expr = Expr(calculator)
+        val expr = Expr(calculator, input)
 
-        val parsed = expr.parse(input)
+        val parsed = expr.parse()
         assertFalse(parsed)
     }
 
     @Test
     fun missingOperatorTest() {
-        val input = "2 + 5x^2"
+        val input = "3x"
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        calculator.degrees(false)
-        val expr = Expr(calculator)
-        val parsed = expr.parse(input)
+        val expr = Expr(calculator, input)
+        expr.trace(Trace.ALL)
+        val parsed = expr.parse()
         assertFalse(parsed)
     }
 
     @Test
     fun missingOperatorTest2() {
-        val input = "2 + 5(3+5)"
+        val input = "3(x+2)"
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        calculator.degrees(false)
-        val expr = Expr(calculator)
-        val parsed = expr.parse(input)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
         assertFalse(parsed)
     }
 
@@ -239,9 +262,9 @@ class ExprTest {
     fun singleOperatorTest() {
         val input = "pi"
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        val expr = Expr(calculator)
-        expr.traceLevel(Trace.OFF)
-        val parsed = expr.parse(input)
+        val expr = Expr(calculator, input)
+        expr.trace(Trace.OFF)
+        val parsed = expr.parse()
         assertTrue(parsed)
         expr.calculate()
         logger.info("Result=${calculator.result()}")
@@ -251,8 +274,8 @@ class ExprTest {
     fun invalidExpressionTest() {
         val input = "3+pig*5"
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        val expr = Expr(calculator)
-        val parsed = expr.parse(input)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
         assertFalse(parsed)
     }
 
