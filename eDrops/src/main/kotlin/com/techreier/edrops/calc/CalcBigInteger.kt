@@ -118,6 +118,11 @@ class CalcBigInteger<T> : Calc<T> {
                 r.add(arg.next() as BigInteger)
                 r.add(arg.next() as BigInteger)
             }
+            Op.SEPARATOR -> { //Separator really does nothing but to be removed
+                val x = arg.next() as BigInteger
+                r.add(arg.next() as BigInteger)
+                r.add(x)
+            }
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
                 val index = operator.ordinal - Op.X.ordinal
                 if (index < variables.size) {
