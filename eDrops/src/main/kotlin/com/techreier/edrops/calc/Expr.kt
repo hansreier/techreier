@@ -4,9 +4,7 @@ import com.techreier.edrops.config.logger
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.ParsePosition
-import java.util.ArrayDeque
-import java.util.EnumSet
-import java.util.Locale
+import java.util.*
 
 class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
 
@@ -14,8 +12,10 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
     private val relaxed: Boolean;
     private val tokens = ArrayList<Token>()
     private var level: Int = 0
+    private var resultSize = 0
     private var trace: Trace = Trace.OFF
     private var opStack = ArrayDeque<Oper>()
+    private var noOfResults = 1
 
     init {
         this.expr = expr.trim()
@@ -117,8 +117,9 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
             }
         }
 
+        resultSize+=  - o.op.noArgs() + o.op.noResults()
         tokens.add(Token(o))
-        trace("@adding token:$o")
+        trace("@adding token:$o level: $resultSize)")
         return true
     }
 
@@ -163,6 +164,7 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
         var os: Oper?
         var ov: Oper?
         var oh: Oper?
+        resultSize = 0
         addP()
         try {
             tokens.clear()
@@ -199,6 +201,7 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
                         trace("number: $n[$i1] sequence: $numbers")
                         trace("@adding token: $n[$i1]")
                         tokens.add(Token(n, i1))
+                        resultSize++
                     } else {
                         trace("variable: $ov[$i1] sequence: $numbers")
                         if (!addToken(ov)) {
@@ -357,6 +360,18 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
                 os = opStack.poll()
             }
             trace("----------------------------------")
+
+            // Warn for unbalanced expression (parenthesis).
+            // Note: The code does not warn for other stupidities like )(
+            // In general this is just ignored if the parser cannot find the use
+            // of this expression leveling.
+            trace("number of results: " + resultSize)
+
+            if ((resultSize != noOfResults)) {
+                error("Feil: Antall resultater " + resultSize + " stemmer ikke med forventet " + noOfResults)
+                return relaxed
+            }
+
 
             if (plevel < 0) {
                 warn("Advarsel: ${-plevel} for mange høyreparenteser.")
