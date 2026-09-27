@@ -11,6 +11,7 @@ import java.util.Locale
 class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
 
     private val expr: String;
+    private val relaxed: Boolean;
     private val tokens = ArrayList<Token>()
     private var level: Int = 0
     private var trace: Trace = Trace.OFF
@@ -18,7 +19,9 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
 
     init {
         this.expr = expr.trim()
+        this.relaxed = relaxed
         calc.logOp = false
+        trace(expr)
     }
 
     fun rotateTraceLevel() {
@@ -131,6 +134,7 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
 
     fun calculate() {
         try {
+            calc.clear() //clear the stack
             calc.logStack = (trace != Trace.OFF)
             for (t in tokens) {
                 if (t.type == TokenType.NUMBER) {
@@ -326,7 +330,7 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
                             err(expr.substring(i1, i2-1), i1 + 1, "Invalid operator" )
                             return false
                         } else {
-
+                            logger.info("Reier was here");
                             return true
                         }
                     }
@@ -356,12 +360,18 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
 
             if (plevel < 0) {
                 warn("Advarsel: ${-plevel} for mange høyreparenteser.")
+                return relaxed
             } else if (plevel > 0) {
                 warn("Advarsel: $plevel for mange venstreparenteser.")
+                return relaxed
             } else if (level != 0) {
-                warn("Advarsel: Sluttnivå $level forskjellig fra null, trolig programmeringsfeil!")
+                warn("Advarsel:Ubalansert struktur i formel")
+                return relaxed
             }
-            return true
+
+            if (opStack.isEmpty()) return true
+            warn("Warning, Stack is not empty, contains ${opStack.size} elements, first is ${opStack.peek()}")
+            return relaxed
         } finally {
             opStack.clear()
             delP()

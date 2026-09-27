@@ -279,4 +279,85 @@ class ExprTest {
         assertFalse(parsed)
     }
 
+    @Test
+    fun MissingRightParenthesisTest() {
+        val input = "3 * (3 + x"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertFalse(parsed)
+    }
+
+    @Test
+    fun MissingLeftParenthesisTest() {
+        val input = "3 + x) * 3"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertFalse(parsed)
+    }
+
+    @Test
+    fun UnbalancedExpressionTest() {
+        val input = "3 + x) * 3("
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertFalse(parsed)
+    }
+
+    @Test
+    fun UnbalancedExpressionTest2() {
+        val input = ")sin(x)) * 3*(2("
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertFalse(parsed)
+    }
+
+    @Test
+    fun TwoExpressions() {
+        val x = 2.0
+        val y = 1.0
+        val input = "x+3 sin(y)"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        calculator.variables.add(x)
+        calculator.variables.add(y)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertTrue(parsed)
+        expr.calculate()
+        logger.info("Result: ${calculator.result()}")
+    }
+
+    @Test
+    fun TwoExpressions2() {
+        val x = 2.0
+        val y = 1.0
+        val input = "x+3 3+3"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        calculator.variables.add(x)
+        calculator.variables.add(y)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertTrue(parsed)
+        expr.calculate()
+        logger.info("Result: ${calculator.result()}")
+    }
+
+    @Test
+    fun TwoExpressions3() {
+        val x = 2.0
+        val y = 1.0
+        val input = "x+3;3+3"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        calculator.variables.add(x)
+        calculator.variables.add(y)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertTrue(parsed)
+        expr.calculate()
+        logger.info("Result: ${calculator.result()}")
+    }
+
 }
