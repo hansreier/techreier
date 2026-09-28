@@ -40,7 +40,7 @@ class ExprTest {
     @Test
     fun simpleExpressionTest() {
         val calculator: Calc<*> = CalcDouble(Double::class.javaObjectType, true)
-        val input = "3*5- sin(90)"
+        val input = "3 * 5 - sin(90)"
 
         val expr = Expr(calculator, input)
         val parsed = expr.parse()
@@ -55,7 +55,7 @@ class ExprTest {
     }
 
     @Test
-    fun xExpressionTest() {
+    fun calculateSeriesTest() {
         val input = "3*x - (x^2 / 4)"
         val x1 = 4.0
         val x2 = 6.0
@@ -68,16 +68,15 @@ class ExprTest {
 
         if (expr.parse()) {
             calculator.variables.add(x1)
-            println("calculating with x1")
+            logger.info("calculating with x1")
             expr.calculate()
             val result1 = calculator.result()
             assertNotNull(result1)
             assertEquals(3 * x1 - (x1 * x1) / 4, result1, 1e-8) { "calculating: $input" }
 
-            println("calculating with x2")
+            logger.info("calculating with x2")
             calculator.variables[0] = x2
             expr.calculate()
-            println("calculated with x2")
             val result2 = calculator.result()
             assertNotNull(result2)
             assertEquals(3 * x2 - (x2 * x2) / 4, result2, 1e-8) { "calculating: $input" }
@@ -86,6 +85,8 @@ class ExprTest {
         }
     }
 
+
+    //TODO ReierAsk this shoould not fail
     @Test
     fun advancedMultiVariableExpressionTest() {
         val input = "(x^3 * y - 2.5 * x * y^2 + 10) / (x^2 + y^2 + 1)"
@@ -103,7 +104,7 @@ class ExprTest {
             calculator.variables.add(x1)
             calculator.variables.add(y1)
 
-            println("--- Kjører med x = $x1, y = $y1 ---")
+            logger.info("first calculation")
             expr.calculate()
             val result1 = calculator.result()
             assertNotNull(result1)
@@ -114,7 +115,7 @@ class ExprTest {
             calculator.variables[0] = x2
             calculator.variables[1] = y2
 
-            println("--- Kjører med x = $x2, y = $y2 ---")
+            logger.info("second calculation")
             expr.calculate()
             val result2 = calculator.result()
             assertNotNull(result2)
@@ -122,7 +123,7 @@ class ExprTest {
             val expected2 = (Math.pow(x2, 3.0) * y2 - 2.5 * x2 * Math.pow(y2, 2.0) + 10) / (Math.pow(x2, 2.0) + Math.pow(y2, 2.0) + 1)
             assertEquals(expected2, result2, 1e-8) { "Feil for x=$x2, y=$y2" }
         } else {
-            fail("Klarte ikke å parse uttrykket: $input")
+            fail("could no parse the expression: $input")
         }
     }
 
@@ -335,15 +336,12 @@ class ExprTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun separatorTest() {
         val x = 4.0
         val y = 2.0
         val input = "gyp (x ; y )"
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val expr = Expr(calculator, input)
-        expr.trace(Trace.ALL)
-
         val parsed = expr.parse()
         assertTrue(parsed)
 
@@ -353,7 +351,14 @@ class ExprTest {
         assertEquals(sqrt(x * x - y * y), calculator.result()!!, 1e-10)
     }
 
-
+    @Test
+    fun standAloneSeparatorTest() {
+        val input = "3 ;"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertFalse(parsed)
+    }
 
     @Test
     fun singleOperatorTest() {
