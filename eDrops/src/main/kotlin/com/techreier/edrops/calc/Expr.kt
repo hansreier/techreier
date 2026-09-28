@@ -109,7 +109,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                 if (t.type == TokenType.NUMBER) {
                     noArgs++
                 } else {
-                    noArgs -= (t.operator.noArgs() - 1)
+                    noArgs -= (t.operator.noArgs() - t.operator.noResults())
                 }
             }
             if (noArgs != o.noArgs()) {

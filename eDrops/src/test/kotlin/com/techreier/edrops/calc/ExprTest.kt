@@ -342,8 +342,10 @@ class ExprTest {
         val input = "gyp (x ; y )"
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val expr = Expr(calculator, input)
+        expr.trace(Trace.ALL)
+
         val parsed = expr.parse()
-        assertTrue(parsed, "parsing: " + input)
+        assertTrue(parsed)
 
         calculator.variables.add(x)
         calculator.variables.add(y)
