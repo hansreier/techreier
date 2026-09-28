@@ -3,6 +3,7 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.config.logger
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import kotlin.math.sqrt
 import kotlin.test.assertNotNull
 
 class ExprTest {
@@ -240,7 +241,17 @@ class ExprTest {
     }
 
     @Test
-    fun missingOperatorTest() {
+    fun variablesMissingOperatorTest() {
+        val input = "1 + xy"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator, input)
+        expr.trace(Trace.ALL)
+        val parsed = expr.parse()
+        assertFalse(parsed)
+    }
+
+    @Test
+    fun missingMultiplicatorTest() {
         val input = "3x"
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val expr = Expr(calculator, input)
@@ -250,13 +261,97 @@ class ExprTest {
     }
 
     @Test
-    fun missingOperatorTest2() {
+    fun missingMultiplicatorTest2() {
         val input = "3(x+2)"
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val expr = Expr(calculator, input)
         val parsed = expr.parse()
         assertFalse(parsed)
     }
+
+    @Test
+    fun remainingExpressionTest() {
+        val input = "y x + sin(90)"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertFalse(parsed)
+    }
+
+    @Test
+    fun remainingExpressionRelaxedTest() {
+        val x = 4.0
+        val y = 2.0
+        val input = "y x + sin(90)"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator, input)
+        expr.relaxed = true
+        val parsed = expr.parse()
+        assertTrue(parsed)
+
+        calculator.variables.add(x)
+        calculator.variables.add(y)
+        expr.calculate()
+        val result = calculator.allResults()
+        assertEquals(2, result.size)
+        assertEquals(2.0, result.first(), 1e-10)
+        assertEquals(5.0, result.last(), 1e-10)
+    }
+
+    @Test
+    fun separatedRelaxedExpressionsTest() {
+        val x = 4.0
+        val input = "x+3; 3+3" // interpreted as two expressions
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator, input)
+        expr.relaxed = true
+        val parsed = expr.parse()
+        assertTrue(parsed)
+
+        calculator.variables.add(x)
+        expr.calculate()
+        val result = calculator.allResults()
+        assertEquals(2, result.size)
+        assertEquals(7.0, result.first(), 1e-10)
+        assertEquals(6.0, result.last(), 1e-10)
+    }
+
+    @Test
+    fun separatedExpressionsTest() {
+        val input = "x+3;sin(90)" // interpreted as two expressions
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertFalse(parsed)
+    }
+
+    @Test
+    fun wrongNumberOfBasicOperatorArgumentsTest() {
+        val input = "x+3 3+3" //interpreted as ekstra arguments to the plus operator
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertFalse(parsed)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun separatorTest() {
+        val x = 4.0
+        val y = 2.0
+        val input = "gyp (x ; y )"
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val expr = Expr(calculator, input)
+        val parsed = expr.parse()
+        assertTrue(parsed, "parsing: " + input)
+
+        calculator.variables.add(x)
+        calculator.variables.add(y)
+        expr.calculate()
+        assertEquals(sqrt(x * x - y * y), calculator.result()!!, 1e-10)
+    }
+
+
 
     @Test
     fun singleOperatorTest() {

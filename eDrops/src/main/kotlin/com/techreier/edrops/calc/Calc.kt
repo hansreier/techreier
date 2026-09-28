@@ -1,14 +1,11 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.config.logger
-import java.util.ArrayDeque
-import java.util.ArrayList
-import java.util.Deque
-import java.util.EnumSet
+import java.util.*
 
 abstract class Calc<T>(
     val type: Class<T>,
-    var logOp: Boolean = false
+    var logOp: Boolean = false,
 ) {
     var stack: Deque<T> = ArrayDeque()
     var variables: ArrayList<T> = ArrayList()
@@ -134,6 +131,17 @@ abstract class Calc<T>(
         } catch (e: Exception) {
             logger.error("Error when fetching result: ${e.message}.")
             return null
+        }
+    }
+
+    fun allResults(): ArrayList<T> {
+        try {
+            val list = ArrayList(stack)
+            Collections.reverse(list)
+            return list
+        } catch (e: java.lang.Exception) {
+            logger.error("Error when collecting all results: ${e.message}.")
+            return ArrayList<T>()
         }
     }
 

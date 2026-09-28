@@ -6,10 +6,10 @@ import java.text.NumberFormat
 import java.text.ParsePosition
 import java.util.*
 
-class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
+class Expr(val calc: Calc<*>, expr: String) {
 
     private val expr: String;
-    private val relaxed: Boolean;
+    public var relaxed: Boolean;
     private val tokens = ArrayList<Token>()
     private var level: Int = 0
     private var resultSize = 0
@@ -19,7 +19,7 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
 
     init {
         this.expr = expr.trim()
-        this.relaxed = relaxed
+        this.relaxed = false
         calc.logOp = false
         trace(expr)
     }
@@ -60,15 +60,16 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
         }
     }
 
-    private fun warn(text: String) {
-        logger.warn(text)
+    private fun warn(text: String, relaxed: Boolean = false) {
+        if (relaxed)
+            logger.warn("warning: $text")
+        else
+            logger.error("error: $text")
     }
 
     private fun err(operator: String, pos: Int, text: String) {
-        logger.info(expr) //TODO ReierAsk remove
         logger.error("Error: $operator pos=$pos: $text \n" +
                 "${expr.substring(0, pos  + operator.length -1) +"???" + expr.substring(pos + operator.length -1)} ")
-        calc.logStack()
     }
 
     private fun setLevel(o: Oper?, ox: Oper?) {
@@ -330,7 +331,7 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
                                 c = expr[i2]
                                 i2++
                             } while ((i2 < expr.length) && ((c.isLetterOrDigit() || (c.toString() == Op.SEPARATOR.abbrev()))))
-                            err(expr.substring(i1, i2-1), i1 + 1, "Invalid operator" )
+                            err(expr.substring(i1, i2), i1 + 1, "Invalid operator" )
                             return false
                         } else {
                             logger.info("Reier was here");
@@ -368,19 +369,18 @@ class Expr(val calc: Calc<*>, expr: String, relaxed: Boolean = false) {
             trace("number of results: " + resultSize)
 
             if ((resultSize != noOfResults)) {
-                error("Feil: Antall resultater " + resultSize + " stemmer ikke med forventet " + noOfResults)
+                warn("$resultSize result values, expected $noOfResults", relaxed)
                 return relaxed
             }
 
-
             if (plevel < 0) {
-                warn("Advarsel: ${-plevel} for mange høyreparenteser.")
+                warn("${-plevel} too many right parentheses", relaxed)
                 return relaxed
             } else if (plevel > 0) {
-                warn("Advarsel: $plevel for mange venstreparenteser.")
+                warn("$plevel too many left parentheses", relaxed)
                 return relaxed
             } else if (level != 0) {
-                warn("Advarsel:Ubalansert struktur i formel")
+                warn("Unbalanced structure in formula", relaxed)
                 return relaxed
             }
 
