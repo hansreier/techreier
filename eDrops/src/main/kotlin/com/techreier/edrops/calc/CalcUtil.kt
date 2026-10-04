@@ -1,19 +1,31 @@
 package com.techreier.edrops.calc
 
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.ParsePosition
 import java.util.Locale
 
-private val NO_FORMAT = NumberFormat.getInstance(Locale.forLanguageTag("nb"))
-private val EN_FORMAT = NumberFormat.getInstance(Locale.ENGLISH)
 
-fun parseNumber(expr: String?, pos: ParsePosition?): Number? {
-    if (expr == null || pos == null) return null
+fun parseDouble(expr: String?, pos: ParsePosition? = ParsePosition(0)): Double? {
+    if (expr == null || pos == null || pos.index >= expr.length) return null
     val initialIndex = pos.index
-    val result = NO_FORMAT.parse(expr, pos)
-    if (result != null) return result
-    pos.index = initialIndex
-    return EN_FORMAT.parse(expr, pos)
+
+    val remaining = expr.substring(pos.index)
+    val preferEnglish = remaining.contains('.')
+
+    val primaryFormat = (NumberFormat.getInstance(if (preferEnglish) Locale.ENGLISH else Locale.forLanguageTag("nb")) as DecimalFormat).apply {
+        isGroupingUsed = false
+    }
+
+    val result = primaryFormat.parse(expr, pos) ?: run {
+        val fallbackFormat = (NumberFormat.getInstance(if (preferEnglish) Locale.forLanguageTag("nb") else Locale.ENGLISH) as DecimalFormat).apply {
+            isGroupingUsed = false
+        }
+        pos.index = initialIndex
+        fallbackFormat.parse(expr, pos)
+    } ?: return null
+
+    return result.toDouble()
 }
 
 // Tilleggsfunksjon for Double beregninger

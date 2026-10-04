@@ -1,6 +1,7 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.config.logger
+import org.springframework.web.client.HttpServerErrorException
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.ParsePosition
@@ -11,6 +12,7 @@ class Expr(val calc: Calc<*>, expr: String) {
     private val expr: String;
     public var relaxed: Boolean;
     private val tokens = ArrayList<Token>()
+    private val xTokens = ArrayList<Token>()
     private var level: Int = 0
     private var resultSize = 0
     private var trace: Trace = Trace.OFF
@@ -49,7 +51,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         calc.logOp = trace != Trace.OFF
     }
 
-    fun op(text: String, pos: Int, set: EnumSet<Op>): Oper? {
+    fun operator(text: String, pos: Int, set: EnumSet<Op>): Oper? {
         val foundOp = Op.operator(text, pos, set) ?: return null
         return Oper(foundOp, pos)
     }
@@ -156,6 +158,53 @@ class Expr(val calc: Calc<*>, expr: String) {
         }
     }
 
+    //one time parse through expression
+    fun preparse(): Boolean {
+        var i1: Int
+        var i2: Int
+        var numbers = 0
+        var number: Number?
+        var pos: ParsePosition
+        var oper: Oper? = null
+        resultSize = 0
+        addP()
+    //    try {
+            xTokens.clear()
+
+            pos = ParsePosition(0)
+        do {
+            i1 = pos.index
+            while ((i1 < expr.length - 1) && (expr[i1].isWhitespace())) {
+                i1++
+            }
+            pos.index = i1
+
+            number =
+            when (calc.type) {
+                Double::class.javaObjectType -> {parseDouble(expr, pos)}
+                else -> throw Exception("Not implemented")
+            }
+
+            i2 = pos.index
+            if (i2 <= i1) {
+                oper = operator(expr, i1, calc.operators)
+            }
+            if (number != null)   { //number
+                xTokens.add(Token(number,i1  ))
+            } else { //operator (including variables and separators)
+                if ((oper == null)) {
+                    logger.info("expression cannot be found")
+                    return false
+                }
+                xTokens.add(Token(oper))
+                pos.index = i1 + oper.abbrev().length
+            }
+        } while (pos.index < expr.length)
+        return true
+    }
+
+
+    // TODO note A few serious bugs found in the original Java code. To be replaced by a recursion based parser.
     fun parse(): Boolean {
         var i1: Int
         var i2: Int
@@ -187,12 +236,12 @@ class Expr(val calc: Calc<*>, expr: String) {
                     i1++
                 }
                 pos.index = i1
-                n = parseNumber(expr, pos)
+                n = parseDouble(expr,  pos)
                 i2 = pos.index
                 ov = null
                 if (i2 <= i1) {
                     ox = o
-                    ov = op(expr, i1, calc.operators)
+                    ov = operator(expr, i1, calc.operators)
                 }
 
                 if ((i2 > i1) || ((ov != null) && ov.noArgs() == 0)) {
@@ -267,7 +316,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                                             while ((i2 < expr.length - 1) && expr[i2].isWhitespace()) {
                                                 i2++
                                             }
-                                            oh = op(expr, i2, Op.basicOperators())
+                                            oh = operator(expr, i2, Op.basicOperators())
                                             trace("$oh to the right of RIGHTP")
                                             if ((oh == null) || (os.op.prior() <= oh.op.prior())) {
                                                 corrLevel(os)
