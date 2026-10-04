@@ -1,7 +1,6 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.config.logger
-import org.springframework.web.client.HttpServerErrorException
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.ParsePosition
@@ -9,10 +8,11 @@ import java.util.*
 
 class Expr(val calc: Calc<*>, expr: String) {
 
-    private val expr: String;
-    public var relaxed: Boolean;
-    private val tokens = ArrayList<Token>()
-    private val xTokens = ArrayList<Token>()
+    private val expr: String
+    var relaxed: Boolean
+    val parseErrors = mutableListOf<ParseError>()
+    public val tokens = ArrayList<Token>()
+    public val xTokens = ArrayList<Token>()
     private var level: Int = 0
     private var resultSize = 0
     private var trace: Trace = Trace.OFF
@@ -33,11 +33,13 @@ class Expr(val calc: Calc<*>, expr: String) {
                 calc.logOp = true
                 logger.info("trace stack")
             }
+
             Trace.STACK -> {
                 trace = Trace.ALL
                 calc.logOp = true
                 logger.info("trace alt")
             }
+
             Trace.ALL -> {
                 trace = Trace.OFF
                 calc.logOp = false
@@ -69,9 +71,28 @@ class Expr(val calc: Calc<*>, expr: String) {
             logger.error("error: $text")
     }
 
+    fun logParseErrors() {
+        parseErrors.forEach { err ->
+            val startPos = (err.position - 40).coerceIn(0, expr.length)
+            val endPos = (err.position + 40).coerceIn(0, expr.length)
+            val indicator = "${expr.substring(startPos, err.position)}???" +
+                    "${if (err.position == expr.length) "" else expr.substring(err.position, endPos)}"
+            val operText = if (err.oper.isNullOrBlank()) "" else "${err.oper} "
+            logger.error("${operText}pos: ${err.position} ${err.key} $indicator")
+        }
+    }
+
+    // TODO Remove used by old parser
     private fun err(operator: String, pos: Int, text: String) {
-        logger.error("Error: $operator pos=$pos: $text \n" +
-                "${expr.substring(0, pos  + operator.length -1) +"???" + expr.substring(pos + operator.length -1)} ")
+        logger.error(
+            "Error: $operator pos=$pos: $text \n" +
+                    "${
+                        expr.substring(
+                            0,
+                            pos + operator.length - 1
+                        ) + "???" + expr.substring(pos + operator.length - 1)
+                    } "
+        )
     }
 
     private fun setLevel(o: Oper?, ox: Oper?) {
@@ -115,12 +136,12 @@ class Expr(val calc: Calc<*>, expr: String) {
                 }
             }
             if (noArgs != o.noArgs()) {
-                err(o.abbrev(),o.pos + 1,  "Number of arguments $noArgs should be ${o.noArgs()}")
+                err(o.abbrev(), o.pos + 1, "Number of arguments $noArgs should be ${o.noArgs()}")
                 return false
             }
         }
 
-        resultSize+=  - o.op.noArgs() + o.op.noResults()
+        resultSize += -o.op.noArgs() + o.op.noResults()
         tokens.add(Token(o))
         trace("@adding token:$o level: $resultSize)")
         return true
@@ -168,10 +189,10 @@ class Expr(val calc: Calc<*>, expr: String) {
         var oper: Oper? = null
         resultSize = 0
         addP()
-    //    try {
-            xTokens.clear()
+        //    try {
+        xTokens.clear()
 
-            pos = ParsePosition(0)
+        pos = ParsePosition(0)
         do {
             i1 = pos.index
             while ((i1 < expr.length - 1) && (expr[i1].isWhitespace())) {
@@ -180,20 +201,23 @@ class Expr(val calc: Calc<*>, expr: String) {
             pos.index = i1
 
             number =
-            when (calc.type) {
-                Double::class.javaObjectType -> {parseDouble(expr, pos)}
-                else -> throw Exception("Not implemented")
-            }
+                when (calc.type) {
+                    Double::class.javaObjectType -> {
+                        parseDouble(expr, pos)
+                    }
+
+                    else -> throw Exception("Not implemented")
+                }
 
             i2 = pos.index
             if (i2 <= i1) {
                 oper = operator(expr, i1, calc.operators)
             }
-            if (number != null)   { //number
-                xTokens.add(Token(number,i1  ))
+            if (number != null) { //number
+                xTokens.add(Token(number, i1))
             } else { //operator (including variables and separators)
                 if ((oper == null)) {
-                    logger.info("expression cannot be found")
+                    parseErrors.add(ParseError("Unparseable", i1))
                     return false
                 }
                 xTokens.add(Token(oper))
@@ -236,7 +260,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                     i1++
                 }
                 pos.index = i1
-                n = parseDouble(expr,  pos)
+                n = parseDouble(expr, pos)
                 i2 = pos.index
                 ov = null
                 if (i2 <= i1) {
@@ -334,7 +358,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                             } else {
                                 if (ox != null) {
                                     if ((ox.isOrdinary()) && (o.isOrdinary()) && (numbers == 0)) {
-                                        err(o.abbrev(),i1 + 1, "can not directly follow ${ox.abbrev()}"  )
+                                        err(o.abbrev(), i1 + 1, "can not directly follow ${ox.abbrev()}")
                                         return false
                                     }
 
@@ -380,10 +404,10 @@ class Expr(val calc: Calc<*>, expr: String) {
                                 c = expr[i2]
                                 i2++
                             } while ((i2 < expr.length) && ((c.isLetterOrDigit() || (c.toString() == Op.SEPARATOR.abbrev()))))
-                            err(expr.substring(i1, i2), i1 + 1, "Invalid operator" )
+                            err(expr.substring(i1, i2), i1 + 1, "Invalid operator")
                             return false
                         } else {
-                            logger.info("Reier was here");
+                            logger.info("Reier was here")
                             return true
                         }
                     }
