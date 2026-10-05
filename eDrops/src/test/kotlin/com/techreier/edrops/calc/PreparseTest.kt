@@ -146,7 +146,7 @@ class PreparseTest {
     }
 
     @Test
-    fun varVarFails() {
+    fun varVarFailsTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "x y"
         val expr = Expr(calculator, input)
@@ -156,13 +156,30 @@ class PreparseTest {
     }
 
     @Test
-    fun varNumberFails() {
+    fun varNumberFailsTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "x 3"
         val expr = Expr(calculator, input)
         val preparsed = expr.preparse()
         expr.logParseErrors()
         assertFalse(preparsed)
+    }
+
+    @Test
+    fun numberVarOKTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3 x"
+        val expr = Expr(calculator, input)
+        val preparsed = expr.preparse()
+        expr.logParseErrors()
+        assertTrue(preparsed)
+        assertThat(expr.xTokens).size().isEqualTo(3)
+        assertEquals(TokenType.NUMBER,expr.xTokens[0].type)
+        assertEquals(3.0,expr.xTokens[0].argument)
+        assertEquals(TokenType.OPERATOR,expr.xTokens[1].type)
+        assertEquals(Op.MULTIPLY,expr.xTokens[1].operator)
+        assertEquals(TokenType.OPERATOR,expr.xTokens[2].type)
+        assertEquals(Op.X,expr.xTokens[2].operator)
     }
 
 }

@@ -241,6 +241,9 @@ class Expr(val calc: Calc<*>, expr: String) {
                             parseErrors.add(ParseError("DoubleVar", i1))
                             return false
                         }
+                        if (xNum) { //insert multiplicator
+                            xTokens.add(Token(Op.MULTIPLY, i1))
+                        }
                         xVar = true; xFunc = false; xOper = false; xNum = false
                     }
                     in basicOperators -> {
