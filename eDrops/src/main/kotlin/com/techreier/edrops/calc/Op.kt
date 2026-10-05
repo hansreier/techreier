@@ -46,6 +46,7 @@ enum class Op(
     YX("yx", 2, 2, -1),
     REMOVE("r", 1, 0, -1),
     EMPTY("c", -1, 0, -1),
+    T("x", 0, 1),
     X("x", 0, 1),
     Y("y", 0, 1),
     Z("z", 0, 1),
@@ -69,7 +70,8 @@ enum class Op(
 
     companion object {
         val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR)
-        private val parenthesis = setOf(LEFTP, RIGHTP)
+        val parenthesis = setOf(LEFTP, RIGHTP)
+        val variables = setOf(T, X, Y, Z, U, V, W)
         private const val defaultLevel = 2
         const val maxLevel = 4
 
@@ -95,7 +97,7 @@ enum class Op(
         }
 
         // Return operator in text at expression position. Only one return value is accepted
-        // TODO ReierAsk really not difficult to implemtent general x argument return
+        // TODO ReierAsk really not difficult to implement general x argument return
         fun operator(text: String, pos: Int, set: Set<Op>): Op? {
             val textVar = text.substring(pos).lowercase()
             if (textVar.isNotEmpty()) {

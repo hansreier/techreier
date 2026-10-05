@@ -1,6 +1,7 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.calc.Op.Companion.basicOperators
+import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.config.logger
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -193,6 +194,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         resultSize = 0
         var xOper = false
         var xFunc = false
+        var xVar = false
         addP()
         //    try {
         xTokens.clear()
@@ -218,7 +220,12 @@ class Expr(val calc: Calc<*>, expr: String) {
             if (i2 <= i1) {
                 oper = operator(expr, i1, calc.operators)
             }
-            if (number != null) { //number
+            if (number != null) {
+                if (xVar) {
+                    parseErrors.add(ParseError("NumberVar", i1))
+                    return false
+                }//number
+                xFunc = false; xOper = false; xVar = false
                 xTokens.add(Token(number, i1))
             } else { //operator (including variables and separators)
                 if ((oper == null)) {
@@ -228,8 +235,16 @@ class Expr(val calc: Calc<*>, expr: String) {
                 when (oper.op) {
                     Op.LEFTP -> { pLevel++ ; leftpPos = i1 ; xFunc = false }
                     Op.RIGHTP -> {pLevel--; xFunc = false }
+                    in variables -> {
+                        xFunc = false; xOper = false
+                        if (xVar) {
+                            parseErrors.add(ParseError("DoubleVar", i1))
+                            return false
+                        }
+                        xVar = true
+                    }
                     in basicOperators -> {
-                       xFunc = false
+                       xFunc = false; xVar = false
                        if (xOper) {
                            parseErrors.add(ParseError("DoubleOper", i1))
                            return false
@@ -237,7 +252,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                         xOper = true
                     }
                     else -> {
-                        xOper = false
+                        xOper = false; xVar = false
                         if (xFunc) {
                             parseErrors.add(ParseError("DoubleFunc", i1))
                             return false

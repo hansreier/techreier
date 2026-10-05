@@ -12,6 +12,7 @@ class PreparseTest {
         val input = "3.0(x)"
         val expr = Expr(calculator, input)
         val parsed = expr.preparse()
+        expr.logParseErrors()
         assertTrue(parsed)
         assertThat(expr.xTokens).size().isEqualTo(4)
         assertEquals(TokenType.NUMBER,expr.xTokens[0].type)
@@ -30,8 +31,8 @@ class PreparseTest {
         val input = "Bullshit"
         val expr = Expr(calculator, input)
         val preparsed = expr.preparse()
-        assertFalse(preparsed)
         expr.logParseErrors()
+        assertFalse(preparsed)
     }
     @Test
     fun longExpressionNotFoundTest() {
@@ -40,8 +41,8 @@ class PreparseTest {
                 "er det, bare tull faktisk"
         val expr = Expr(calculator, input)
         val preparsed = expr.preparse()
-        assertFalse(preparsed)
         expr.logParseErrors()
+        assertFalse(preparsed)
     }
 
     @Test
@@ -50,8 +51,8 @@ class PreparseTest {
         val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (x - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
         val expr = Expr(calculator, input)
         val preparsed = expr.preparse()
-        assertTrue(preparsed)
         expr.logParseErrors()
+        assertTrue(preparsed)
     }
 
     @Test
@@ -60,8 +61,8 @@ class PreparseTest {
         val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (a - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
         val expr = Expr(calculator, input)
         val preparsed = expr.preparse()
-        assertFalse(preparsed)
         expr.logParseErrors()
+        assertFalse(preparsed)
     }
 
     @Test
@@ -70,8 +71,8 @@ class PreparseTest {
         val input = "( sin(x) + cos((y)"
         val expr = Expr(calculator, input)
         val preparsed = expr.preparse()
-        assertFalse(preparsed)
         expr.logParseErrors()
+        assertFalse(preparsed)
     }
 
     @Test
@@ -80,8 +81,8 @@ class PreparseTest {
         val input = "sin(x)) + cos(y)"
         val expr = Expr(calculator, input)
         val preparsed = expr.preparse()
-        assertFalse(preparsed)
         expr.logParseErrors()
+        assertFalse(preparsed)
     }
 
     @Test
@@ -90,8 +91,8 @@ class PreparseTest {
         val input = "5-- 3"
         val expr = Expr(calculator, input)
         val preparsed = expr.preparse()
-        assertFalse(preparsed)
         expr.logParseErrors()
+        assertFalse(preparsed)
     }
 
     @Test
@@ -100,8 +101,8 @@ class PreparseTest {
         val input = "5+- 3"
         val expr = Expr(calculator, input)
         val preparsed = expr.preparse()
-        assertFalse(preparsed)
         expr.logParseErrors()
+        assertFalse(preparsed)
     }
 
     @Test
@@ -110,28 +111,58 @@ class PreparseTest {
         val input = "5 - -3"
         val expr = Expr(calculator, input)
         val preparsed = expr.preparse()
-        assertTrue(preparsed)
         expr.logParseErrors()
+        assertTrue(preparsed)
     }
 
     @Test
-    fun sinsinFailedTest() {
+    fun sinsinFailsTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "sin sin(3)"
         val expr = Expr(calculator, input)
         val preparsed = expr.preparse()
-        assertFalse(preparsed)
         expr.logParseErrors()
+        assertFalse(preparsed)
     }
 
     @Test
-    fun sinFailedTest() {
+    fun sinOKTest() { //TODO ReierAsk evaluate if allow this
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "sin 3"
         val expr = Expr(calculator, input)
         val preparsed = expr.preparse()
-        assertFalse(preparsed)
         expr.logParseErrors()
+        assertTrue(preparsed)
+    }
+
+    @Test
+    fun sinVarOKTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "sin x"
+        val expr = Expr(calculator, input)
+        val preparsed = expr.preparse()
+        expr.logParseErrors()
+        assertTrue(preparsed)
+    }
+
+    @Test
+    fun varVarFails() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "x y"
+        val expr = Expr(calculator, input)
+        val preparsed = expr.preparse()
+        expr.logParseErrors()
+        assertFalse(preparsed)
+    }
+
+    @Test
+    fun varNumberFails() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "x 3"
+        val expr = Expr(calculator, input)
+        val preparsed = expr.preparse()
+        expr.logParseErrors()
+        assertFalse(preparsed)
     }
 
 }
