@@ -64,5 +64,75 @@ class PreparseTest {
         expr.logParseErrors()
     }
 
+    @Test
+    fun leftParenthesisFailedTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "( sin(x) + cos((y)"
+        val expr = Expr(calculator, input)
+        val preparsed = expr.preparse()
+        assertFalse(preparsed)
+        expr.logParseErrors()
+    }
+
+    @Test
+    fun rightParenthesisFailedTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "sin(x)) + cos(y)"
+        val expr = Expr(calculator, input)
+        val preparsed = expr.preparse()
+        assertFalse(preparsed)
+        expr.logParseErrors()
+    }
+
+    @Test
+    fun minusminusFailedTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "5-- 3"
+        val expr = Expr(calculator, input)
+        val preparsed = expr.preparse()
+        assertFalse(preparsed)
+        expr.logParseErrors()
+    }
+
+    @Test
+    fun minusplusFailedTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "5+- 3"
+        val expr = Expr(calculator, input)
+        val preparsed = expr.preparse()
+        assertFalse(preparsed)
+        expr.logParseErrors()
+    }
+
+    @Test
+    fun minusTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "5 - -3"
+        val expr = Expr(calculator, input)
+        val preparsed = expr.preparse()
+        assertTrue(preparsed)
+        expr.logParseErrors()
+    }
+
+    @Test
+    fun sinsinFailedTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "sin sin(3)"
+        val expr = Expr(calculator, input)
+        val preparsed = expr.preparse()
+        assertFalse(preparsed)
+        expr.logParseErrors()
+    }
+
+    @Test
+    fun sinFailedTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "sin 3"
+        val expr = Expr(calculator, input)
+        val preparsed = expr.preparse()
+        assertFalse(preparsed)
+        expr.logParseErrors()
+    }
+
 }
 

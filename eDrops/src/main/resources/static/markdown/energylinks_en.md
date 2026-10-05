@@ -18,7 +18,7 @@ including electricity production and consumption in Norway.
 Data can be downloaded through public APIs, or as Excel sheets / CSV lists.
 Regrettably, pages referring to energy data is not always written in English.
 Below is a short summary of NVEs forecast for electric power production and consumption 
-from the 2021 long term power marked analysis report (numbers in paranthesis) 
+from the 2021 long term power marked analysis report (numbers in parentheses) 
 and the newer 2023 rapport. All numbers are in TWh.
 I suspect that the change in the forecast to a certain extent is caused by political pressure.
 

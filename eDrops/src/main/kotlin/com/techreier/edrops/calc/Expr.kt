@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.Op.Companion.basicOperators
 import com.techreier.edrops.config.logger
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -53,7 +54,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         calc.logOp = trace != Trace.OFF
     }
 
-    fun operator(text: String, pos: Int, set: EnumSet<Op>): Oper? {
+    fun operator(text: String, pos: Int, set: Set<Op>): Oper? {
         val foundOp = Op.operator(text, pos, set) ?: return null
         return Oper(foundOp, pos)
     }
@@ -187,7 +188,11 @@ class Expr(val calc: Calc<*>, expr: String) {
         var number: Number?
         var pos: ParsePosition
         var oper: Oper? = null
+        var pLevel = 0
+        var leftpPos = 0
         resultSize = 0
+        var xOper = false
+        var xFunc = false
         addP()
         //    try {
         xTokens.clear()
@@ -220,12 +225,40 @@ class Expr(val calc: Calc<*>, expr: String) {
                     parseErrors.add(ParseError("Unparseable", i1))
                     return false
                 }
+                when (oper.op) {
+                    Op.LEFTP -> { pLevel++ ; leftpPos = i1 ; xFunc = false }
+                    Op.RIGHTP -> {pLevel--; xFunc = false }
+                    in basicOperators -> {
+                       xFunc = false
+                       if (xOper) {
+                           parseErrors.add(ParseError("DoubleOper", i1))
+                           return false
+                       }
+                        xOper = true
+                    }
+                    else -> {
+                        xOper = false
+                        if (xFunc) {
+                            parseErrors.add(ParseError("DoubleFunc", i1))
+                            return false
+                        }
+                        xFunc = true }
+                }
+                if (pLevel <0) {
+                    parseErrors.add(ParseError("RightPExtra", i1))
+                    return false
+                }
                 xTokens.add(Token(oper))
                 pos.index = i1 + oper.abbrev().length
             }
         } while (pos.index < expr.length)
+        if (pLevel >0) {
+            parseErrors.add(ParseError("LeftPExtra", leftpPos))
+            return false
+        }
         return true
     }
+
 
 
     // TODO note A few serious bugs found in the original Java code. To be replaced by a recursion based parser.

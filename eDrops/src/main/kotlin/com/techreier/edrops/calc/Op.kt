@@ -1,7 +1,5 @@
 package com.techreier.edrops.calc
 
-import java.util.EnumSet
-
 /*
  * Operator parameters:
  *
@@ -67,15 +65,15 @@ enum class Op(
     fun isBasic(): Boolean = basicOperators.contains(this)
     fun isParenthesis(): Boolean = parenthesis.contains(this)
     fun isOrdinary(): Boolean = !(basicOperators.contains(this) || parenthesis.contains(this))
-    fun valid(set: EnumSet<Op>): Boolean = set.contains(this)
+    fun valid(set: Set<Op>): Boolean = set.contains(this)
 
     companion object {
-        private val basicOperators = EnumSet.of(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR)
-        private val parenthesis = EnumSet.of(LEFTP, RIGHTP)
+        val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR)
+        private val parenthesis = setOf(LEFTP, RIGHTP)
         private const val defaultLevel = 2
         const val maxLevel = 4
 
-        fun basicOperators(): EnumSet<Op> = basicOperators
+        fun basicOperators(): Set<Op> = basicOperators
 
         fun operator(abbrev: String): Op? {
             for (o in entries) {
@@ -86,8 +84,8 @@ enum class Op(
             return null
         }
 
-        // Return operator based on abbreviation and enumSet of operators
-        fun operator(abbrev: String, set: EnumSet<Op>): Op? {
+        // Return operator based on abbreviation and set of operators
+        fun operator(abbrev: String, set: Set<Op>): Op? {
             for (o in set) {
                 if (o.abbrev == abbrev.trim().lowercase()) {
                     return o
@@ -98,7 +96,7 @@ enum class Op(
 
         // Return operator in text at expression position. Only one return value is accepted
         // TODO ReierAsk really not difficult to implemtent general x argument return
-        fun operator(text: String, pos: Int, set: EnumSet<Op>): Op? {
+        fun operator(text: String, pos: Int, set: Set<Op>): Op? {
             val textVar = text.substring(pos).lowercase()
             if (textVar.isNotEmpty()) {
                 for (o in set) {
@@ -125,7 +123,7 @@ enum class Op(
             return null
         }
 
-        fun toString(set: EnumSet<Op>): String {
+        fun toString(set: Set<Op>): String {
             val allOp = StringBuilder()
             for (o in set) {
                 allOp.append(o.abbrev).append(" ")
