@@ -195,8 +195,9 @@ class Expr(val calc: Calc<*>, expr: String) {
         var xOper = false
         var xFunc = false
         var xVar = false
+        var xNum = false
         addP()
-        //    try {
+
         xTokens.clear()
 
         pos = ParsePosition(0)
@@ -225,7 +226,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                     parseErrors.add(ParseError("NumberVar", i1))
                     return false
                 }//number
-                xFunc = false; xOper = false; xVar = false
+                xFunc = false; xOper = false; xVar = false; xNum = true;
                 xTokens.add(Token(number, i1))
             } else { //operator (including variables and separators)
                 if ((oper == null)) {
@@ -236,28 +237,25 @@ class Expr(val calc: Calc<*>, expr: String) {
                     Op.LEFTP -> { pLevel++ ; leftpPos = i1 ; xFunc = false }
                     Op.RIGHTP -> {pLevel--; xFunc = false }
                     in variables -> {
-                        xFunc = false; xOper = false
                         if (xVar) {
                             parseErrors.add(ParseError("DoubleVar", i1))
                             return false
                         }
-                        xVar = true
+                        xVar = true; xFunc = false; xOper = false; xNum = false
                     }
                     in basicOperators -> {
-                       xFunc = false; xVar = false
                        if (xOper) {
                            parseErrors.add(ParseError("DoubleOper", i1))
                            return false
                        }
-                        xOper = true
+                        xOper = true; xVar = false; xFunc = false; xNum = false
                     }
                     else -> {
-                        xOper = false; xVar = false
                         if (xFunc) {
                             parseErrors.add(ParseError("DoubleFunc", i1))
                             return false
                         }
-                        xFunc = true }
+                        xFunc = true; xOper = false; xVar = false; xNum = false }
                 }
                 if (pLevel <0) {
                     parseErrors.add(ParseError("RightPExtra", i1))
