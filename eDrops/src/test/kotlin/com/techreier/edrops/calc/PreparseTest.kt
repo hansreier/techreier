@@ -136,11 +136,29 @@ class PreparseTest {
     }
 
     @Test
+    fun numberVariableExponentialTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3x^4"
+        val expr = Expr(calculator, input)
+        assertPreparse(tokens(3.0, Op.MULTIPLY, Op.X,Op.POW, 4.0), expr)
+    }
+
+    @Test
     fun numberLeftParenthesisOKTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3(x+5)"
         val expr = Expr(calculator, input)
         assertPreparse(tokens(3.0, Op.MULTIPLY, Op.LEFTP, Op.X, Op.ADD, 5.0, Op.RIGHTP), expr)
+    }
+
+    //TODO ReierAsk fails x-3, Var Number not allowed wrong in this case
+    @Test
+    fun doubleParenthesisOKTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "(x+5)(x-3)"
+        val expr = Expr(calculator, input)
+        assertPreparse(tokens(Op.LEFTP, Op.X, Op.ADD, 5.0, Op.RIGHTP, 3.0, Op.MULTIPLY,
+            Op.LEFTP, Op.X, Op.SUBTRACT, 3.0, Op.RIGHTP), expr)
     }
 
     private fun assertPreparseFails(expr: Expr) {

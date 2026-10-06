@@ -73,6 +73,7 @@ class Expr(val calc: Calc<*>, expr: String) {
             logger.error("error: $text")
     }
 
+    //TODO ReierAsk a bit to simple err.key is not returned
     fun parseErrorMessage(): String {
         val errorText = StringBuilder()
         parseErrors.forEach { err ->
