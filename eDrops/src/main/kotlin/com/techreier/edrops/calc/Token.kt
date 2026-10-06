@@ -12,7 +12,7 @@ data class Token(
     val argument: Number
         get() = rawArgument ?: throw IllegalStateException("Token er ikke et tall i posisjon $position")
 
-    constructor(operator: Op, position: Int) : this(
+    constructor(operator: Op, position: Int = 0) : this(
         type = TokenType.OPERATOR,
         rawOperator = operator,
         rawArgument = null,
@@ -26,7 +26,7 @@ data class Token(
         position = oper.pos
     )
 
-    constructor(argument: Number?, position: Int) : this(
+    constructor(argument: Number?, position: Int = 0) : this(
         type = TokenType.NUMBER,
         rawOperator = null,
         rawArgument = argument,

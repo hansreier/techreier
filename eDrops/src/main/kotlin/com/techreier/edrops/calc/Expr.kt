@@ -10,11 +10,11 @@ import java.util.*
 
 class Expr(val calc: Calc<*>, expr: String) {
 
-    private val expr: String
+    val expr: String
     var relaxed: Boolean
     val parseErrors = mutableListOf<ParseError>()
-    public val tokens = ArrayList<Token>()
-    public val xTokens = ArrayList<Token>()
+    val tokens = ArrayList<Token>()
+    val xTokens = ArrayList<Token>()
     private var level: Int = 0
     private var resultSize = 0
     private var trace: Trace = Trace.OFF
@@ -73,15 +73,22 @@ class Expr(val calc: Calc<*>, expr: String) {
             logger.error("error: $text")
     }
 
-    fun logParseErrors() {
+    fun parseErrorMessage(): String {
+        val errorText = StringBuilder()
         parseErrors.forEach { err ->
-            val startPos = (err.position - 40).coerceIn(0, expr.length)
-            val endPos = (err.position + 40).coerceIn(0, expr.length)
-            val indicator = "${expr.substring(startPos, err.position)}???" +
-                    "${if (err.position == expr.length) "" else expr.substring(err.position, endPos)}"
+            val indicator = errorIndicator(err.position)
             val operText = if (err.oper.isNullOrBlank()) "" else "${err.oper} "
-            logger.error("${operText}pos: ${err.position} ${err.key} $indicator")
+            errorText.appendLine(indicator)
+            logger.debug("${operText}pos: ${err.position} ${err.key} ${indicator}")
         }
+        return errorText.toString()
+    }
+
+    fun errorIndicator(errPosition: Int): String {
+        val startPos = (errPosition - 40).coerceIn(0, expr.length)
+        val endPos = (errPosition + 40).coerceIn(0, expr.length)
+        return "${expr.substring(startPos, errPosition)}???" +
+                "${if (errPosition == expr.length) "" else expr.substring(errPosition, endPos)}"
     }
 
     // TODO Remove used by old parser
@@ -192,10 +199,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         var pLevel = 0
         var leftpPos = 0
         resultSize = 0
-        var xOper = false
-        var xFunc = false
-        var xVar = false
-        var xNum = false
+        var lastOpType = OpType.EMPTY
         addP()
 
         xTokens.clear()
@@ -222,11 +226,11 @@ class Expr(val calc: Calc<*>, expr: String) {
                 oper = operator(expr, i1, calc.operators)
             }
             if (number != null) {
-                if (xVar) {
+                if (lastOpType == OpType.VARIABLE) {
                     parseErrors.add(ParseError("NumberVar", i1))
                     return false
                 }//number
-                xFunc = false; xOper = false; xVar = false; xNum = true;
+                lastOpType = OpType.NUMBER
                 xTokens.add(Token(number, i1))
             } else { //operator (including variables and separators)
                 if ((oper == null)) {
@@ -234,33 +238,47 @@ class Expr(val calc: Calc<*>, expr: String) {
                     return false
                 }
                 when (oper.op) {
-                    Op.LEFTP -> { pLevel++ ; leftpPos = i1 ; xFunc = false }
-                    Op.RIGHTP -> {pLevel--; xFunc = false }
+                    Op.LEFTP -> {
+                        pLevel++; leftpPos = i1
+                        if (lastOpType == OpType.NUMBER || lastOpType == OpType.VARIABLE) {
+                            xTokens.add(Token(Op.MULTIPLY, i1))
+                        }
+                        lastOpType = OpType.LEFTP
+                    }
+
+                    Op.RIGHTP -> {
+                        pLevel--
+                        lastOpType = OpType.RIGHTP
+                    }
+
                     in variables -> {
-                        if (xVar) {
+                        if (lastOpType == OpType.VARIABLE) {
                             parseErrors.add(ParseError("DoubleVar", i1))
                             return false
                         }
-                        if (xNum) { //insert multiplicator
+                        if (lastOpType == OpType.NUMBER) { //insert multiplicator
                             xTokens.add(Token(Op.MULTIPLY, i1))
                         }
-                        xVar = true; xFunc = false; xOper = false; xNum = false
+                        lastOpType = OpType.VARIABLE
                     }
+
                     in basicOperators -> {
-                       if (xOper) {
-                           parseErrors.add(ParseError("DoubleOper", i1))
-                           return false
-                       }
-                        xOper = true; xVar = false; xFunc = false; xNum = false
+                        if (lastOpType == OpType.OPERATOR) {
+                            parseErrors.add(ParseError("DoubleOper", i1))
+                            return false
+                        }
+                        lastOpType = OpType.OPERATOR
                     }
+
                     else -> {
-                        if (xFunc) {
+                        if (lastOpType == OpType.FUNCTION) {
                             parseErrors.add(ParseError("DoubleFunc", i1))
                             return false
                         }
-                        xFunc = true; xOper = false; xVar = false; xNum = false }
+                        lastOpType = OpType.FUNCTION
+                    }
                 }
-                if (pLevel <0) {
+                if (pLevel < 0) {
                     parseErrors.add(ParseError("RightPExtra", i1))
                     return false
                 }
@@ -268,13 +286,12 @@ class Expr(val calc: Calc<*>, expr: String) {
                 pos.index = i1 + oper.abbrev().length
             }
         } while (pos.index < expr.length)
-        if (pLevel >0) {
+        if (pLevel > 0) {
             parseErrors.add(ParseError("LeftPExtra", leftpPos))
             return false
         }
         return true
     }
-
 
 
     // TODO note A few serious bugs found in the original Java code. To be replaced by a recursion based parser.
