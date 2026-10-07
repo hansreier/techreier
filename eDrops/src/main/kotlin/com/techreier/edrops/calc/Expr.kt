@@ -207,7 +207,7 @@ class Expr(val calc: Calc<*>, expr: String) {
             number = if (!minus || (whitespace && minus)) { //skip number if it is the minus operator
                 when (calc.type) {
                     Double::class.javaObjectType -> {
-                        parseDouble(expr, pos)
+                            parseDouble(expr, pos)
                     }
                     else -> throw Exception("Not implemented") //TODO ReierArk implement for other calculator types
                 }
@@ -217,11 +217,15 @@ class Expr(val calc: Calc<*>, expr: String) {
             if (i2 <= i1) {
                 oper = operator(expr, i1, calc.operators)
             }
-            if (number != null) {
+            if (number != null) { //number
                 if (lastOpType == OpType.VARIABLE) {
                     parseErrors.add(ParseError("NumberVar", i1))
                     return false
-                }//number
+                }
+                if (lastOpType == OpType.NUMBER) {
+                    parseErrors.add(ParseError("NumberNumber", i1))
+                    return false
+                }
                 lastOpType = OpType.NUMBER
                 xTokens.add(Token(number, i1))
             } else { //operator (including variables and separators)
@@ -253,7 +257,7 @@ class Expr(val calc: Calc<*>, expr: String) {
 
                     in variables -> {
                         if (lastOpType == OpType.VARIABLE) {
-                            parseErrors.add(ParseError("DoubleVar", i1, oper.abbrev()))
+                            parseErrors.add(ParseError("VarVar", i1, oper.abbrev()))
                             return false
                         }
                         if (lastOpType == OpType.NUMBER) { //insert multiplicator

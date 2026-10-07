@@ -89,7 +89,15 @@ class PreparseTest {
     }
 
     @Test
-    fun sinsinFailsTest() {
+    fun doubleOperatorFailsTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3 -  - 5"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(expr)
+    }
+
+    @Test
+    fun doubleFunkFailsTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "sin sin(3)"
         val expr = Expr(calculator, input)
@@ -97,7 +105,7 @@ class PreparseTest {
     }
 
     @Test
-    fun sinOKTest() {
+    fun functionNumberOKTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "sin 3"
         val expr = Expr(calculator, input)
@@ -105,7 +113,7 @@ class PreparseTest {
     }
 
     @Test
-    fun sinVarOKTest() {
+    fun functionVariableOKTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "sin x"
         val expr = Expr(calculator, input)
@@ -225,6 +233,13 @@ class PreparseTest {
         assertPreparse(tokens(3, Op.SUBTRACT, Op.LEFTP, -2, Op.RIGHTP),expr)
     }
 
+    @Test
+    fun strangeNumberTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3 * 3..2"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(expr)
+    }
 
     private fun assertPreparseFails(expr: Expr) {
         assertFalse(expr.preparse(), expr.expr)
