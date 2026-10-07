@@ -240,12 +240,20 @@ class Expr(val calc: Calc<*>, expr: String) {
 
                     Op.RIGHTP -> {
                         pLevel--
+                        if (lastOpType == OpType.LEFTP  ) {
+                            parseErrors.add(ParseError("EmptyParenthesis", i1, oper.abbrev()))
+                            return false
+                        }
+                        if (lastOpType == OpType.OPERATOR ) {
+                            parseErrors.add(ParseError("OperatorMisplaced", i1, oper.abbrev()))
+                            return false
+                        }
                         lastOpType = OpType.RIGHTP
                     }
 
                     in variables -> {
                         if (lastOpType == OpType.VARIABLE) {
-                            parseErrors.add(ParseError("DoubleVar", i1))
+                            parseErrors.add(ParseError("DoubleVar", i1, oper.abbrev()))
                             return false
                         }
                         if (lastOpType == OpType.NUMBER) { //insert multiplicator
@@ -256,7 +264,7 @@ class Expr(val calc: Calc<*>, expr: String) {
 
                     in basicOperators -> {
                         if (lastOpType == OpType.OPERATOR) {
-                            parseErrors.add(ParseError("DoubleOper", i1))
+                            parseErrors.add(ParseError("DoubleOper", i1, oper.abbrev()))
                             return false
                         }
                         lastOpType = OpType.OPERATOR
@@ -264,7 +272,7 @@ class Expr(val calc: Calc<*>, expr: String) {
 
                     else -> {
                         if (lastOpType == OpType.FUNCTION) {
-                            parseErrors.add(ParseError("DoubleFunc", i1))
+                            parseErrors.add(ParseError("DoubleFunc", i1, oper.abbrev()))
                             return false
                         }
                         lastOpType = OpType.FUNCTION

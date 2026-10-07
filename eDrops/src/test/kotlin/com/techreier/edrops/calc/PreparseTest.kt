@@ -153,6 +153,22 @@ class PreparseTest {
     }
 
     @Test
+    fun emptyParenthesisFailsTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3()"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(expr)
+    }
+
+    @Test
+    fun OperatorParenthesisFailsTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3(-)"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(expr)
+    }
+
+    @Test
     fun doubleParenthesisOKTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "(x+5)(x-3)"
@@ -184,6 +200,31 @@ class PreparseTest {
         val expr = Expr(calculator, input)
         assertPreparse(tokens(Op.SUBTRACT),expr)
     }
+
+    @Test
+    fun minusNegativeNumberTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3 --2"
+        val expr = Expr(calculator, input)
+        assertPreparse(tokens(3, Op.SUBTRACT, -2),expr)
+    }
+
+    @Test
+    fun minusSpaceNegativeNumberTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3 - -2"
+        val expr = Expr(calculator, input)
+        assertPreparse(tokens(3, Op.SUBTRACT, -2),expr)
+    }
+
+    @Test
+    fun minusParenthesisNegativeNumberTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3 -(-2)"
+        val expr = Expr(calculator, input)
+        assertPreparse(tokens(3, Op.SUBTRACT, Op.LEFTP, -2, Op.RIGHTP),expr)
+    }
+
 
     private fun assertPreparseFails(expr: Expr) {
         assertFalse(expr.preparse(), expr.expr)
