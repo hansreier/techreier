@@ -73,18 +73,6 @@ class Expr(val calc: Calc<*>, expr: String) {
             logger.error("error: $text")
     }
 
-    //TODO ReierAsk a bit to simple err.key is not returned
-    fun parseErrorMessage(): String {
-        val errorText = StringBuilder()
-        parseErrors.forEach { err ->
-            val indicator = errorIndicator(err.position)
-            val operText = if (err.oper.isNullOrBlank()) "" else "${err.oper} "
-            errorText.appendLine(indicator)
-            logger.debug("${operText}pos: ${err.position} ${err.key} ${indicator}")
-        }
-        return errorText.toString()
-    }
-
     fun errorIndicator(errPosition: Int): String {
         val startPos = (errPosition - 40).coerceIn(0, expr.length)
         val endPos = (errPosition + 40).coerceIn(0, expr.length)
@@ -199,6 +187,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         var oper: Oper? = null
         var pLevel = 0
         var leftpPos = 0
+        var whitespace = false
         resultSize = 0
         var lastOpType = OpType.EMPTY
         addP()
@@ -208,19 +197,21 @@ class Expr(val calc: Calc<*>, expr: String) {
         pos = ParsePosition(0)
         do {
             i1 = pos.index
-            while ((i1 < expr.length - 1) && (expr[i1].isWhitespace())) {
+            while ((i1 < expr.length -1) && (expr[i1].isWhitespace())) {
+                whitespace = true
                 i1++
             }
             pos.index = i1
+            val minus = ((expr).isNotEmpty() && (expr[pos.index] == '-'))
 
-            number =
+            number = if (!minus || (whitespace && minus)) { //skip number if it is the minus operator
                 when (calc.type) {
                     Double::class.javaObjectType -> {
                         parseDouble(expr, pos)
                     }
-
-                    else -> throw Exception("Not implemented")
+                    else -> throw Exception("Not implemented") //TODO ReierArk implement for other calculator types
                 }
+            } else null
 
             i2 = pos.index
             if (i2 <= i1) {
@@ -241,7 +232,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                 when (oper.op) {
                     Op.LEFTP -> {
                         pLevel++; leftpPos = i1
-                        if (lastOpType == OpType.NUMBER || lastOpType == OpType.VARIABLE) {
+                        if (lastOpType == OpType.NUMBER || lastOpType == OpType.VARIABLE || lastOpType == OpType.RIGHTP) {
                             xTokens.add(Token(Op.MULTIPLY, i1))
                         }
                         lastOpType = OpType.LEFTP

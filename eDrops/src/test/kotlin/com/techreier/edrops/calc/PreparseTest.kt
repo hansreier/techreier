@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.config.logger
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -151,25 +152,59 @@ class PreparseTest {
         assertPreparse(tokens(3.0, Op.MULTIPLY, Op.LEFTP, Op.X, Op.ADD, 5.0, Op.RIGHTP), expr)
     }
 
-    //TODO ReierAsk fails x-3, Var Number not allowed wrong in this case
     @Test
     fun doubleParenthesisOKTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "(x+5)(x-3)"
         val expr = Expr(calculator, input)
-        assertPreparse(tokens(Op.LEFTP, Op.X, Op.ADD, 5.0, Op.RIGHTP, 3.0, Op.MULTIPLY,
+        assertPreparse(tokens(Op.LEFTP, Op.X, Op.ADD, 5.0, Op.RIGHTP, Op.MULTIPLY,
             Op.LEFTP, Op.X, Op.SUBTRACT, 3.0, Op.RIGHTP), expr)
+    }
+
+    @Test
+    fun emptyTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = ""
+        val expr = Expr(calculator, input)
+        assertPreparseFails(expr)
+    }
+
+    @Test
+    fun spaceTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "   "
+        val expr = Expr(calculator, input)
+        assertPreparseFails(expr)
+    }
+
+    @Test
+    fun justMinusTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "-"
+        val expr = Expr(calculator, input)
+        assertPreparse(tokens(Op.SUBTRACT),expr)
     }
 
     private fun assertPreparseFails(expr: Expr) {
         assertFalse(expr.preparse(), expr.expr)
+        logger.info(errorText(expr))
+    }
+
+    private fun errorText(expr: Expr): String {
+        val errorText = StringBuilder()
+        expr.parseErrors.forEach { err ->
+            val indicator = expr.errorIndicator(err.position)
+            val operText = if (err.oper.isBlank()) "" else "${err.oper} "
+            val errText = "pos=${err.position} op=$operText key=${err.key} ${indicator}"
+            errorText.appendLine(errText)
+        }
+        return errorText.toString()
     }
 
     private fun assertPreparse(expectedTokens: ArrayList<Token>, expr: Expr, strict: Boolean = true) {
         expr.preparse()
         val actualTokens = expr.xTokens
-        expr.parseErrorMessage()
-        assertFalse(expr.parseErrors.isNotEmpty(), "parseError:\n${expr.parseErrorMessage()}")
+        assertFalse(expr.parseErrors.isNotEmpty(), errorText(expr))
 
         if (strict) {
             assertTrue(
