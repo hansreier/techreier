@@ -1,10 +1,8 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.config.logger
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-class PreparseTest {
+class PreparseTest: TestBase() {
 
     @Test
     fun happyTest() {
@@ -241,61 +239,13 @@ class PreparseTest {
         assertPreparseFails(expr)
     }
 
-    private fun assertPreparseFails(expr: Expr) {
-        assertFalse(expr.preparse(), expr.expr)
-        logger.info(errorText(expr))
-    }
-
-    private fun errorText(expr: Expr): String {
-        val errorText = StringBuilder()
-        expr.parseErrors.forEach { err ->
-            val indicator = expr.errorIndicator(err.position)
-            val operText = if (err.oper.isBlank()) "" else "${err.oper} "
-            val errText = "pos=${err.position} op=$operText key=${err.key} ${indicator}"
-            errorText.appendLine(errText)
-        }
-        return errorText.toString()
-    }
-
-    private fun assertPreparse(expectedTokens: ArrayList<Token>, expr: Expr, strict: Boolean = true) {
-        expr.preparse()
-        val actualTokens = expr.xTokens
-        assertFalse(expr.parseErrors.isNotEmpty(), errorText(expr))
-
-        if (strict) {
-            assertTrue(
-                actualTokens.size == expectedTokens.size,
-                "Wrong number of tokens (${actualTokens.size}),should be ${expectedTokens.size}"
-            )
-        } else {
-            assertTrue(
-                actualTokens.size >= expectedTokens.size,
-                "Too few tokens (${actualTokens.size}),should be at least ${expectedTokens.size}"
-            )
-        }
-
-        expectedTokens.forEachIndexed { index, expected ->
-            val actual = actualTokens[index]
-            assertEquals(expected.type, actual.type, "tokentype differs")
-            if (expected.type == TokenType.OPERATOR)
-                assertEquals(expected.operator, actual.operator, "operator differs  \n " +
-                        expr.errorIndicator(actual.position)
-                )
-            else
-                assertEquals(expected.argument, actual.argument, "argument differs \n " +
-                        expr.errorIndicator(actual.position)
-                )
-        }
-    }
-
-    private fun tokens(vararg items: Any): ArrayList<Token> {
-        return arrayListOf(*items.map { item ->
-            when (item) {
-                is Number -> Token(item.toDouble())
-                is Op -> Token(item)
-                else -> throw IllegalArgumentException("Unknown token-type expected: $item")
-            }
-        }.toTypedArray())
+    @Test
+    fun constantsImplisitMultiplicationTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "pi (3+2) 2 e"
+        val expr = Expr(calculator, input)
+        assertPreparse(tokens(Op.PI, Op.MULTIPLY, Op.LEFTP, 3, Op.ADD, 2,
+            Op.RIGHTP, Op.MULTIPLY, 2, Op.MULTIPLY, Op.E), expr)
     }
 
 }

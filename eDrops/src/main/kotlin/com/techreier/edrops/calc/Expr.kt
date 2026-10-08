@@ -1,12 +1,20 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.calc.Op.Companion.basicOperators
-import com.techreier.edrops.calc.Op.Companion.variables
+import com.techreier.edrops.calc.Op.Companion.symbols
 import com.techreier.edrops.config.logger
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.ParsePosition
 import java.util.*
+
+const val MISSING_OPERATOR = "MissingOperator"
+const val UNPARSEABLE = "Unparseable"
+const val EMPTY_PARENTHESIS = "EmptyParenthesis"
+const val TOO_MANY_LEFT_PARANTHESIS = "TooManyLeftParenthesis"
+const val TOO_MANY_RIGHT_PARANTHESIS = "TooManyRightParenthesis"
+const val MISPLACED_OPERATOR = "MisplacedOperator"
+const val MISSING_OPERAND = "MissingOperand"
 
 class Expr(val calc: Calc<*>, expr: String) {
 
@@ -127,10 +135,10 @@ class Expr(val calc: Calc<*>, expr: String) {
                     }
                     break
                 }
-                if (t.type == TokenType.NUMBER) {
-                    noArgs++
-                } else {
-                    noArgs -= (t.operator.noArgs() - t.operator.noResults())
+
+                when (t) {
+                    is NumberToken -> noArgs++
+                    is OperatorToken -> noArgs -= (t.operator.noArgs() - t.operator.noResults())
                 }
             }
             if (noArgs != o.noArgs()) {
@@ -140,7 +148,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         }
 
         resultSize += -o.op.noArgs() + o.op.noResults()
-        tokens.add(Token(o))
+        tokens.add(OperatorToken(o.op, o.pos))
         trace("@adding token:$o level: $resultSize)")
         return true
     }
@@ -160,10 +168,9 @@ class Expr(val calc: Calc<*>, expr: String) {
             calc.clear() //clear the stack
             calc.logStack = (trace != Trace.OFF)
             for (t in tokens) {
-                if (t.type == TokenType.NUMBER) {
-                    calc.enter(t.argument)
-                } else {
-                    if (calc.op(t.operator) == null) {
+                when (t) {
+                    is NumberToken -> calc.enter(t.argument)
+                    is OperatorToken -> if (calc.op(t.operator) == null) {
                         calc.addVarsOnEmptyStack()
                         break
                     }
@@ -218,26 +225,26 @@ class Expr(val calc: Calc<*>, expr: String) {
                 oper = operator(expr, i1, calc.operators)
             }
             if (number != null) { //number
-                if (lastOpType == OpType.VARIABLE) {
-                    parseErrors.add(ParseError("NumberVar", i1))
+                if (lastOpType == OpType.SYMBOL) {
+                    parseErrors.add(ParseError(MISSING_OPERATOR, i1))
                     return false
                 }
                 if (lastOpType == OpType.NUMBER) {
-                    parseErrors.add(ParseError("NumberNumber", i1))
+                    parseErrors.add(ParseError(MISSING_OPERATOR, i1))
                     return false
                 }
                 lastOpType = OpType.NUMBER
-                xTokens.add(Token(number, i1))
+                xTokens.add(NumberToken(number, i1))
             } else { //operator (including variables and separators)
                 if ((oper == null)) {
-                    parseErrors.add(ParseError("Unparseable", i1))
+                    parseErrors.add(ParseError(UNPARSEABLE, i1))
                     return false
                 }
                 when (oper.op) {
                     Op.LEFTP -> {
                         pLevel++; leftpPos = i1
-                        if (lastOpType == OpType.NUMBER || lastOpType == OpType.VARIABLE || lastOpType == OpType.RIGHTP) {
-                            xTokens.add(Token(Op.MULTIPLY, i1))
+                        if (lastOpType == OpType.NUMBER || lastOpType == OpType.SYMBOL || lastOpType == OpType.RIGHTP) {
+                            xTokens.add(OperatorToken(Op.MULTIPLY, i1))
                         }
                         lastOpType = OpType.LEFTP
                     }
@@ -245,30 +252,33 @@ class Expr(val calc: Calc<*>, expr: String) {
                     Op.RIGHTP -> {
                         pLevel--
                         if (lastOpType == OpType.LEFTP  ) {
-                            parseErrors.add(ParseError("EmptyParenthesis", i1, oper.abbrev()))
+                            parseErrors.add(ParseError(EMPTY_PARENTHESIS, i1, oper.abbrev()))
                             return false
                         }
                         if (lastOpType == OpType.OPERATOR ) {
-                            parseErrors.add(ParseError("OperatorMisplaced", i1, oper.abbrev()))
+                            parseErrors.add(ParseError(MISPLACED_OPERATOR, i1, oper.abbrev()))
                             return false
                         }
                         lastOpType = OpType.RIGHTP
                     }
 
-                    in variables -> {
-                        if (lastOpType == OpType.VARIABLE) {
-                            parseErrors.add(ParseError("VarVar", i1, oper.abbrev()))
-                            return false
+                    in symbols -> {
+                        if (lastOpType == OpType.SYMBOL) {
+                            xTokens.add(OperatorToken(Op.MULTIPLY, i1))
                         }
-                        if (lastOpType == OpType.NUMBER) { //insert multiplicator
-                            xTokens.add(Token(Op.MULTIPLY, i1))
+                        if (lastOpType == OpType.NUMBER) {
+                            xTokens.add(OperatorToken(Op.MULTIPLY, i1))
                         }
-                        lastOpType = OpType.VARIABLE
+
+                        if (lastOpType == OpType.RIGHTP) {
+                            xTokens.add(OperatorToken(Op.MULTIPLY, i1))
+                        }
+                        lastOpType = OpType.SYMBOL
                     }
 
                     in basicOperators -> {
                         if (lastOpType == OpType.OPERATOR) {
-                            parseErrors.add(ParseError("DoubleOper", i1, oper.abbrev()))
+                            parseErrors.add(ParseError(MISSING_OPERAND, i1, oper.abbrev()))
                             return false
                         }
                         lastOpType = OpType.OPERATOR
@@ -276,263 +286,25 @@ class Expr(val calc: Calc<*>, expr: String) {
 
                     else -> {
                         if (lastOpType == OpType.FUNCTION) {
-                            parseErrors.add(ParseError("DoubleFunc", i1, oper.abbrev()))
+                            parseErrors.add(ParseError(MISSING_OPERAND, i1, oper.abbrev()))
                             return false
                         }
                         lastOpType = OpType.FUNCTION
                     }
                 }
                 if (pLevel < 0) {
-                    parseErrors.add(ParseError("RightPExtra", i1))
+                    parseErrors.add(ParseError(TOO_MANY_LEFT_PARANTHESIS, i1))
                     return false
                 }
-                xTokens.add(Token(oper))
+                xTokens.add(OperatorToken(oper.op, oper.pos))
                 pos.index = i1 + oper.abbrev().length
             }
         } while (pos.index < expr.length)
         if (pLevel > 0) {
-            parseErrors.add(ParseError("LeftPExtra", leftpPos))
+            parseErrors.add(ParseError(TOO_MANY_RIGHT_PARANTHESIS, leftpPos))
             return false
         }
         return true
     }
 
-
-    // TODO note A few serious bugs found in the original Java code. To be replaced by a recursion based parser.
-    fun parse(): Boolean {
-        var i1: Int
-        var i2: Int
-        var numbers = 0
-        var n: Number?
-        var pos: ParsePosition
-        var os: Oper?
-        var ov: Oper?
-        var oh: Oper?
-        resultSize = 0
-        addP()
-        try {
-            tokens.clear()
-            opStack = ArrayDeque()
-            val formatter = NumberFormat.getInstance(Locale.ENGLISH)
-            formatter.isGroupingUsed = false
-            if (formatter is DecimalFormat) {
-                formatter.isParseBigDecimal = true
-            }
-            level = 0
-            var xlevel = 0
-            var plevel = 0
-            var o: Oper? = null
-            var ox: Oper? = null
-            pos = ParsePosition(0)
-            do {
-                i1 = pos.index
-                while ((i1 < expr.length - 1) && (expr[i1].isWhitespace())) {
-                    i1++
-                }
-                pos.index = i1
-                n = parseDouble(expr, pos)
-                i2 = pos.index
-                ov = null
-                if (i2 <= i1) {
-                    ox = o
-                    ov = operator(expr, i1, calc.operators)
-                }
-
-                if ((i2 > i1) || ((ov != null) && ov.noArgs() == 0)) {
-                    numbers++ //number (or operator with zero arguments) found
-
-                    if (ov == null) {
-                        trace("number: $n[$i1] sequence: $numbers")
-                        trace("@adding token: $n[$i1]")
-                        tokens.add(Token(n, i1))
-                        resultSize++
-                    } else {
-                        trace("variable: $ov[$i1] sequence: $numbers")
-                        if (!addToken(ov)) {
-                            return false
-                        }
-                        pos.index = i1 + ov.abbrev().length
-                    }
-                } else {
-                    o = ov
-                    if (o != null) {
-                        setLevel(o, ox)
-                        trace("operator: $o noArgs: ${o.noArgs()} level: $level prevop: $ox")
-                        if (o.op == Op.LEFTP) {
-                            if (ox != null) {
-                                if ((numbers == 0) && (ox.op != Op.LEFTP) && (ox.op != Op.RIGHTP)) {
-                                    trace("push:$ox (left of LEFTP)")
-                                    opStack.push(ox)
-                                } else {
-                                    if ((ox.op != Op.LEFTP) && (ox.op != Op.RIGHTP)) {
-                                        if (!addToken(ox)) {
-                                            return false
-                                        }
-
-                                        os = opStack.peek()
-                                        while ((os != null) && (os.op != Op.LEFTP)) {
-                                            opStack.remove()
-                                            if (!addToken(os)) {
-                                                return false
-                                            }
-                                            os = opStack.peek()
-                                        }
-                                    }
-                                    ox = null
-                                }
-                            }
-                            trace("push:$o")
-                            opStack.push(o)
-                            plevel++
-                        } else {
-                            if (o.op == Op.RIGHTP) {
-                                plevel--
-                                if (ox != null) {
-                                    if ((ox.op != Op.LEFTP) && (ox.op != Op.RIGHTP)) {
-                                        if (!addToken(ox)) {
-                                            return false
-                                        }
-                                    }
-
-                                    os = opStack.poll()
-                                    trace("Retrieved from stack:$os")
-                                    while ((os != null) && (os.op != Op.LEFTP)) {
-                                        if (!addToken(os)) {
-                                            return false
-                                        }
-                                        os = opStack.poll()
-                                        trace("retreived from stack:$os")
-                                    }
-                                    if (os != null) {
-                                        os = opStack.peek()
-                                        if ((os != null) && (os.op != Op.LEFTP)) {
-                                            i2 = i1 + Op.RIGHTP.abbrev().length
-                                            while ((i2 < expr.length - 1) && expr[i2].isWhitespace()) {
-                                                i2++
-                                            }
-                                            oh = operator(expr, i2, Op.basicOperators())
-                                            trace("$oh to the right of RIGHTP")
-                                            if ((oh == null) || (os.op.prior() <= oh.op.prior())) {
-                                                corrLevel(os)
-                                                while ((os != null) && (os.op != Op.LEFTP)) {
-                                                    opStack.remove()
-                                                    if (!addToken(os)) {
-                                                        return false
-                                                    }
-                                                    os = opStack.peek()
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (ox != null) {
-                                    if ((ox.isOrdinary()) && (o.isOrdinary()) && (numbers == 0)) {
-                                        err(o.abbrev(), i1 + 1, "can not directly follow ${ox.abbrev()}")
-                                        return false
-                                    }
-
-                                    if ((o.isOrdinary() && (numbers > 0)) ||
-                                        (o.isBasic() && (((level < xlevel) || ((level == xlevel) && (numbers > 0))) || ox.op == Op.RIGHTP))
-                                    ) {
-                                        if (ox.op != Op.LEFTP && ox.op != Op.RIGHTP) {
-                                            if (!addToken(ox)) {
-                                                return false
-                                            }
-                                        }
-
-                                        os = opStack.peek()
-                                        corrLevel(os)
-                                        while ((os != null) &&
-                                            (os.op != Op.LEFTP) &&
-                                            (os.isOrdinary() || (os.isBasic() && ((os.level > level) || (os.level == level))))
-                                        ) {
-                                            opStack.remove()
-                                            if (!addToken(os)) {
-                                                return false
-                                            }
-                                            os = opStack.peek()
-                                        }
-                                    } else {
-                                        if (ox.op != Op.LEFTP && ox.op != Op.RIGHTP) {
-                                            trace("push:$ox")
-                                            ox.level = xlevel
-                                            opStack.push(ox)
-                                        }
-                                    }
-                                }
-                                numbers = 0
-                            }
-                        }
-                        o.level = level
-                        xlevel = level
-                    } else {
-                        if (expr.isNotEmpty()) {
-                            var c: Char
-                            i2 = i1
-                            do {
-                                c = expr[i2]
-                                i2++
-                            } while ((i2 < expr.length) && ((c.isLetterOrDigit() || (c.toString() == Op.SEPARATOR.abbrev()))))
-                            err(expr.substring(i1, i2), i1 + 1, "Invalid operator")
-                            return false
-                        } else {
-                            logger.info("Reier was here")
-                            return true
-                        }
-                    }
-                    pos.index = i1 + o.abbrev().length
-                }
-                trace("----------------------------------")
-            } while (pos.index < expr.length)
-
-            trace("Do the remaining operators")
-            os = o
-            corrLevel(o)
-            if ((o != null) && (os.op != Op.RIGHTP) && (os.op != Op.LEFTP)) {
-                if (!addToken(o)) {
-                    return false
-                }
-            }
-            os = opStack.poll()
-            while (os != null) {
-                if ((os.op != Op.RIGHTP) && (os.op != Op.LEFTP)) {
-                    if (!addToken(os)) {
-                        return false
-                    }
-                }
-                os = opStack.poll()
-            }
-            trace("----------------------------------")
-
-            // Warn for unbalanced expression (parenthesis).
-            // Note: The code does not warn for other stupidities like )(
-            // In general this is just ignored if the parser cannot find the use
-            // of this expression leveling.
-            trace("number of results: " + resultSize)
-
-            if ((resultSize != noOfResults)) {
-                warn("$resultSize result values, expected $noOfResults", relaxed)
-                return relaxed
-            }
-
-            if (plevel < 0) {
-                warn("${-plevel} too many right parentheses", relaxed)
-                return relaxed
-            } else if (plevel > 0) {
-                warn("$plevel too many left parentheses", relaxed)
-                return relaxed
-            } else if (level != 0) {
-                warn("Unbalanced structure in formula", relaxed)
-                return relaxed
-            }
-
-            if (opStack.isEmpty()) return true
-            warn("Warning, Stack is not empty, contains ${opStack.size} elements, first is ${opStack.peek()}")
-            return relaxed
-        } finally {
-            opStack.clear()
-            delP()
-        }
-    }
 }

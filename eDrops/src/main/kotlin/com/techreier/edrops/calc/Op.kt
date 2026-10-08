@@ -72,6 +72,8 @@ enum class Op(
         val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR)
         val parenthesis = setOf(LEFTP, RIGHTP)
         val variables = setOf(T, X, Y, Z, U, V, W)
+        val constants = setOf(PI, E)
+        val symbols = variables + constants
         private const val defaultLevel = 2
         const val maxLevel = 4
 
