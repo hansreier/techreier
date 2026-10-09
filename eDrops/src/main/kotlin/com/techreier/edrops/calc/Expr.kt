@@ -233,6 +233,9 @@ class Expr(val calc: Calc<*>, expr: String) {
                     parseErrors.add(ParseError(MISSING_OPERATOR, i1))
                     return false
                 }
+                if (lastOpType == OpType.RIGHTP) {
+                    xTokens.add(OperatorToken(Op.MULTIPLY, i1))
+                }
                 lastOpType = OpType.NUMBER
                 xTokens.add(NumberToken(number, i1))
             } else { //operator (including variables and separators)

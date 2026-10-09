@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 class PreparseTest: TestBase() {
 
     @Test
-    fun happyTest() {
+    fun happyTest(){
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3.0(x)+y"
         val expr = Expr(calculator, input)
@@ -35,7 +35,7 @@ class PreparseTest: TestBase() {
         val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (x - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
         val expr = Expr(calculator, input)
        assertPreparse(tokens(Op.LEFTP,Op.LEFTP,Op.LEFTP,Op.LEFTP, Op.X,Op.POW,2.0,Op.RIGHTP,Op.ADD,Op.LEFTP)
-           ,expr, false)
+           ,expr, 10)
     }
 
     @Test
@@ -242,10 +242,10 @@ class PreparseTest: TestBase() {
     @Test
     fun constantsImplisitMultiplicationTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        val input = "pi (3+2) 2 e"
+        val input = "pi (3+2) 4 e"
         val expr = Expr(calculator, input)
         assertPreparse(tokens(Op.PI, Op.MULTIPLY, Op.LEFTP, 3, Op.ADD, 2,
-            Op.RIGHTP, Op.MULTIPLY, 2, Op.MULTIPLY, Op.E), expr)
+            Op.RIGHTP, Op.MULTIPLY, 4, Op.MULTIPLY, Op.E), expr)
     }
 
 }
