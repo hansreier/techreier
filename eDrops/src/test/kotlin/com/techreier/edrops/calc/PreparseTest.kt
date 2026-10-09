@@ -240,7 +240,7 @@ class PreparseTest: TestBase() {
     }
 
     @Test
-    fun constantsImplisitMultiplicationTest() {
+    fun constantsImplicitMultiplicationTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "pi (3+2) 4 e"
         val expr = Expr(calculator, input)
