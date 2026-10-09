@@ -11,7 +11,7 @@ import java.util.*
 const val MISSING_OPERATOR = "MissingOperator"
 const val UNPARSEABLE = "Unparseable"
 const val EMPTY_PARENTHESIS = "EmptyParenthesis"
-const val MISPLACED_PARENTHESIS = "e"
+const val MISPLACED_PARENTHESIS = "MisplacedParenthesis"
 const val TOO_MANY_LEFT_PARANTHESIS = "TooManyLeftParenthesis"
 const val TOO_MANY_RIGHT_PARANTHESIS = "TooManyRightParenthesis"
 const val MISPLACED_OPERATOR = "MisplacedOperator"
@@ -22,7 +22,7 @@ class Expr(val calc: Calc<*>, expr: String) {
 
     val expr: String
     var relaxed: Boolean
-    val parseErrors = mutableListOf<ParseError>()
+    var parseError: ParseError? = null
     val tokens = ArrayList<Token>()
     val xTokens = ArrayList<Token>()
     private var level: Int = 0
@@ -111,7 +111,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                 }
             }
             if (noArgs != o.noArgs()) { //TODO ReierAsk not possible toa add parameters here (No of arguments)
-                parseErrors.add(ParseError(WRONG_NO_OF_ARGUMENTS, o.pos, o.abbrev()))
+                parseError = ParseError(WRONG_NO_OF_ARGUMENTS, o.pos, o.abbrev())
                 return false
             }
         }
@@ -195,11 +195,11 @@ class Expr(val calc: Calc<*>, expr: String) {
             }
             if (number != null) { //number
                 if (lastOpType == OpType.SYMBOL) {
-                    parseErrors.add(ParseError(MISSING_OPERATOR, i1))
+                    parseError = ParseError(MISSING_OPERATOR, i1)
                     return false
                 }
                 if (lastOpType == OpType.NUMBER) {
-                    parseErrors.add(ParseError(MISSING_OPERATOR, i1))
+                    parseError = ParseError(MISSING_OPERATOR, i1)
                     return false
                 }
                 if (lastOpType == OpType.RIGHTP) {
@@ -209,7 +209,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                 xTokens.add(NumberToken(number, i1))
             } else { //operator (including variables and separators)
                 if ((oper == null)) {
-                    parseErrors.add(ParseError(UNPARSEABLE, i1))
+                    parseError = ParseError(UNPARSEABLE, i1)
                     return false
                 }
                 when (oper.op) {
@@ -219,7 +219,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                             xTokens.add(OperatorToken(Op.MULTIPLY, i1))
                         }
                         if (pos.index == expr.length -1) {
-                            parseErrors.add(ParseError(MISPLACED_PARENTHESIS, i1, oper.abbrev()))
+                            parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.abbrev())
                             return false
                         }
                         lastOpType = OpType.LEFTP
@@ -228,15 +228,15 @@ class Expr(val calc: Calc<*>, expr: String) {
                     Op.RIGHTP -> {
                         pLevel--
                         if (lastOpType == OpType.LEFTP  ) {
-                            parseErrors.add(ParseError(EMPTY_PARENTHESIS, i1, oper.abbrev()))
+                            parseError = ParseError(EMPTY_PARENTHESIS, i1, oper.abbrev())
                             return false
                         }
                         if (lastOpType == OpType.OPERATOR ) {
-                            parseErrors.add(ParseError(MISPLACED_OPERATOR, i1, oper.abbrev()))
+                            parseError = ParseError(MISPLACED_OPERATOR, i1, oper.abbrev())
                             return false
                         }
                         if (pos.index == 0) {
-                            parseErrors.add(ParseError(MISPLACED_PARENTHESIS, i1, oper.abbrev()))
+                            parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.abbrev())
                             return false
                         }
                         lastOpType = OpType.RIGHTP
@@ -258,12 +258,11 @@ class Expr(val calc: Calc<*>, expr: String) {
 
                     in basicOperators -> {
                         if (lastOpType == OpType.OPERATOR) {
-                            parseErrors.add(ParseError(MISSING_OPERAND, i1, oper.abbrev()))
+                            parseError =ParseError(MISSING_OPERAND, i1, oper.abbrev())
                             return false
                         }
-                        logger.info("ReierAsk ${pos.index} ${expr.length}")
                         if ((pos.index == 0)|| pos.index == expr.length -1) {
-                            parseErrors.add(ParseError(MISPLACED_OPERATOR, i1, oper.abbrev()))
+                            parseError = ParseError(MISPLACED_OPERATOR, i1, oper.abbrev())
                             return false
                         }
                         lastOpType = OpType.OPERATOR
@@ -271,14 +270,14 @@ class Expr(val calc: Calc<*>, expr: String) {
 
                     else -> {
                         if (lastOpType == OpType.FUNCTION) {
-                            parseErrors.add(ParseError(MISSING_OPERAND, i1, oper.abbrev()))
+                            parseError = ParseError(MISSING_OPERAND, i1, oper.abbrev())
                             return false
                         }
                         lastOpType = OpType.FUNCTION
                     }
                 }
                 if (pLevel < 0) {
-                    parseErrors.add(ParseError(TOO_MANY_LEFT_PARANTHESIS, i1))
+                    parseError =ParseError(TOO_MANY_LEFT_PARANTHESIS, i1)
                     return false
                 }
                 xTokens.add(OperatorToken(oper.op, oper.pos))
@@ -287,7 +286,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         } while (pos.index < expr.length)
 
         if (pLevel > 0) {
-            parseErrors.add(ParseError(TOO_MANY_RIGHT_PARANTHESIS, leftpPos))
+            parseError = ParseError(TOO_MANY_RIGHT_PARANTHESIS, leftpPos)
             return false
         }
         return true

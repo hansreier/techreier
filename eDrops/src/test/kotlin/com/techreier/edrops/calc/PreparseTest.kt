@@ -250,7 +250,7 @@ class PreparseTest: TestBase() {
     @Test
     fun constantsImplicitMultiplicationTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        val input = "pi (3+2) 4 e"
+        val input = "pi (3+2) 4 eg"
         val expr = Expr(calculator, input)
         assertPreparse(tokens(Op.PI, Op.MULTIPLY, Op.LEFTP, 3, Op.ADD, 2,
             Op.RIGHTP, Op.MULTIPLY, 4, Op.MULTIPLY, Op.E), expr)
@@ -261,7 +261,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "+3"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(MISPLACED_OPERATOR, expr)
     }
 
     @Test
@@ -269,7 +269,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3+"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(MISPLACED_OPERATOR, expr)
     }
 
     @Test
@@ -277,7 +277,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = ")+2"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(MISPLACED_PARENTHESIS, expr)
     }
 
     @Test
@@ -285,7 +285,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3+("
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(MISPLACED_PARENTHESIS, expr)
     }
 
 }

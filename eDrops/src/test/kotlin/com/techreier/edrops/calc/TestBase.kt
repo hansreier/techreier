@@ -12,8 +12,7 @@ open class TestBase() {
         val actualTokens = expr.xTokens
         val actual = actualTokens.toTokenString(min(size, actualTokens.size))
         val expected = expectedTokens.toTokenString(min(size, expectedTokens.size))
-        assertFalse(expr.parseErrors.isNotEmpty(),
-            "${errorText(expr)}\n$actual")
+        assertEquals("Parsed", expr.parseError?.key ?: "Parsed", errorText(expr))
         assertEquals(expected, actual)
         logger.debug(actual)
     }
@@ -25,14 +24,22 @@ open class TestBase() {
         logger.info(errorText(expr))
     }
 
+    protected fun assertPreparseFails(errorKey: String, expr: Expr, size: Int = 1000) {
+        expr.preparse()
+        val errorFound = expr.parseError
+        assertEquals(errorKey, errorFound?.key)
+        val actualTokens = expr.xTokens
+        logger.info(actualTokens.toTokenString(min(size, actualTokens.size)))
+        logger.info(errorText(expr))
+    }
+
     protected fun errorText(expr: Expr): String {
         val errorText = StringBuilder()
-        expr.parseErrors.forEach { err ->
+        val err = expr.parseError?: return ""
             val indicator = expr.errorIndicator(err.position)
             val operText = if (err.oper.isBlank()) "" else "${err.oper} "
             val errText = "pos=${err.position} op=$operText key=${err.key} ${indicator}"
             errorText.appendLine(errText)
-        }
         return errorText.toString()
     }
 
