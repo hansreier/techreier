@@ -15,6 +15,7 @@ const val TOO_MANY_LEFT_PARANTHESIS = "TooManyLeftParenthesis"
 const val TOO_MANY_RIGHT_PARANTHESIS = "TooManyRightParenthesis"
 const val MISPLACED_OPERATOR = "MisplacedOperator"
 const val MISSING_OPERAND = "MissingOperand"
+const val WRONG_NO_OF_ARGUMENTS ="WrongNoOfArguments"
 
 class Expr(val calc: Calc<*>, expr: String) {
 
@@ -88,39 +89,6 @@ class Expr(val calc: Calc<*>, expr: String) {
                 "${if (errPosition == expr.length) "" else expr.substring(errPosition, endPos)}"
     }
 
-    // TODO Remove used by old parser
-    private fun err(operator: String, pos: Int, text: String) {
-        logger.error(
-            "Error: $operator pos=$pos: $text \n" +
-                    "${
-                        expr.substring(
-                            0,
-                            pos + operator.length - 1
-                        ) + "???" + expr.substring(pos + operator.length - 1)
-                    } "
-        )
-    }
-
-    private fun setLevel(o: Oper?, ox: Oper?) {
-        if (o != null) {
-            if (o.op == Op.LEFTP) {
-                level++
-            } else if (ox == null) {
-                level = level + Op.maxLevel - o.op.prior()
-            } else if (o.op == Op.RIGHTP) {
-                level = level + ox.op.prior() - Op.maxLevel - 1
-            } else {
-                level = level + ox.op.prior() - o.op.prior()
-            }
-        }
-    }
-
-    private fun corrLevel(os: Oper?) {
-        if (os != null) {
-            level = level + os.op.prior() - Op.maxLevel
-            trace("$os correct level to $level")
-        }
-    }
 
     private fun addToken(o: Oper): Boolean {
         trace("$o checking arguments:${o.noArgs()}")
@@ -141,8 +109,8 @@ class Expr(val calc: Calc<*>, expr: String) {
                     is OperatorToken -> noArgs -= (t.operator.noArgs() - t.operator.noResults())
                 }
             }
-            if (noArgs != o.noArgs()) {
-                err(o.abbrev(), o.pos + 1, "Number of arguments $noArgs should be ${o.noArgs()}")
+            if (noArgs != o.noArgs()) { //TODO ReierAsk not possible toa add parameters here (No of arguments)
+                parseErrors.add(ParseError(WRONG_NO_OF_ARGUMENTS, o.pos, o.abbrev()))
                 return false
             }
         }
