@@ -240,12 +240,52 @@ class PreparseTest: TestBase() {
     }
 
     @Test
+    fun strangeExponentTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "4-^3 +3"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(expr)
+    }
+
+    @Test
     fun constantsImplicitMultiplicationTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "pi (3+2) 4 e"
         val expr = Expr(calculator, input)
         assertPreparse(tokens(Op.PI, Op.MULTIPLY, Op.LEFTP, 3, Op.ADD, 2,
             Op.RIGHTP, Op.MULTIPLY, 4, Op.MULTIPLY, Op.E), expr)
+    }
+
+    @Test
+    fun misplacedOperatorTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "+3"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(expr)
+    }
+
+    @Test
+    fun misplacedOperator2Test() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3+"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(expr)
+    }
+
+    @Test
+    fun misplacedRightParenthesisTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = ")+2"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(expr)
+    }
+
+    @Test
+    fun misplacedLeftParenthesisTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3+("
+        val expr = Expr(calculator, input)
+        assertPreparseFails(expr)
     }
 
 }

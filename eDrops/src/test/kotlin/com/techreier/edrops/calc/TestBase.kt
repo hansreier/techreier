@@ -21,8 +21,8 @@ open class TestBase() {
     protected fun assertPreparseFails(expr: Expr, size: Int = 1000) {
         assertFalse(expr.preparse(), expr.expr)
         val actualTokens = expr.xTokens
-        logger.debug(actualTokens.toTokenString(min(size, actualTokens.size)))
-        logger.debug(errorText(expr))
+        logger.info(actualTokens.toTokenString(min(size, actualTokens.size)))
+        logger.info(errorText(expr))
     }
 
     protected fun errorText(expr: Expr): String {
