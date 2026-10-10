@@ -1,9 +1,6 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.calc.Op.Companion.basicOperators
-import com.techreier.edrops.calc.Op.Companion.symbols
 import com.techreier.edrops.config.logger
-import java.text.ParsePosition
 import java.util.*
 
 const val MISSING_OPERATOR = "MissingOperator"
@@ -24,11 +21,9 @@ const val SEPARATOR_NOT_IN_FUNCTION = "SeparatorNotInFunction"
 class Expr(val calc: Calc<*>, expr: String) {
 
     val expr: String
-    var relaxed: Boolean
     var parseError: ParseError? = null
     val tokens = ArrayList<Token>()
     val xTokens = ArrayList<Token>()
-    private var level: Int = 0
     private var resultSize = 0
     private var trace: Trace = Trace.OFF
     private var opStack = ArrayDeque<Oper>()
@@ -36,7 +31,6 @@ class Expr(val calc: Calc<*>, expr: String) {
 
     init {
         this.expr = expr.trim()
-        this.relaxed = false
         calc.logOp = false
         trace(expr)
     }
@@ -66,11 +60,6 @@ class Expr(val calc: Calc<*>, expr: String) {
     fun trace(trace: Trace) {
         this.trace = trace
         calc.logOp = trace != Trace.OFF
-    }
-
-    fun operator(text: String, pos: Int, set: Set<Op>): Oper? {
-        val foundOp = Op.operator(text, pos, set) ?: return null
-        return Oper(foundOp, pos)
     }
 
     private fun trace(text: String) {
@@ -131,16 +120,6 @@ class Expr(val calc: Calc<*>, expr: String) {
         return true
     }
 
-    private fun addP() {
-        calc.operators.add(Op.LEFTP)
-        calc.operators.add(Op.RIGHTP)
-    }
-
-    private fun delP() {
-        calc.operators.remove(Op.LEFTP)
-        calc.operators.remove(Op.RIGHTP)
-    }
-
     fun calculate() {
         try {
             calc.clear() //clear the stack
@@ -163,170 +142,11 @@ class Expr(val calc: Calc<*>, expr: String) {
     }
 
     //one time parse through expression
-    fun preparse(): Boolean {
-        var i1: Int
-        var i2: Int
-        var numbers = 0
-        var number: Number?
-        var pos: ParsePosition
-        var oper: Oper? = null
-        var pLevel = 0
-        var leftpPos = 0
-        var whitespace = false
-        resultSize = 0
-        var lastOpType = OpType.EMPTY
-        addP()
-
-        xTokens.clear()
-
-        pos = ParsePosition(0)
-        do {
-            i1 = pos.index
-            while ((i1 < expr.length - 1) && (expr[i1].isWhitespace())) {
-                whitespace = true
-                i1++
-            }
-            pos.index = i1
-            val minus = ((expr).isNotEmpty() && (expr[pos.index] == '-'))
-
-            number = if (!minus || (whitespace && minus)) { //skip number if it is the minus operator
-                when (calc.type) {
-                    Double::class.javaObjectType -> {
-                        parseDouble(expr, pos)
-                    }
-                    else -> throw Exception("Not implemented") //TODO ReierArk implement for other calculator types
-                }
-            } else null
-
-            i2 = pos.index
-            if (i2 <= i1) {
-                oper = operator(expr, i1, calc.operators)
-            }
-
-            if (number == null) {   //operator (including variables and separators)
-
-                if ((oper == null)) {
-                    parseError = ParseError(UNPARSEABLE, i1)
-                    return false
-                }
-                when (oper.op) {
-                    Op.SEPARATOR -> {
-                        if (pLevel <= 0) {
-                            parseError = ParseError(SEPARATOR_NOT_IN_FUNCTION, i1, oper.abbrev())
-                            return false
-                        }
-                        if ((lastOpType == OpType.OPERATOR) || (lastOpType == OpType.LEFTP) || (lastOpType == OpType.SEPARATOR)) {
-                            parseError = ParseError(MISPLACED_SEPARATOR, i1, oper.abbrev())
-                            return false
-                        }
-                        lastOpType = OpType.SEPARATOR
-                    }
-
-                    Op.LEFTP -> {
-                        if (lastOpType == OpType.SEPARATOR) {
-                            parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.abbrev())
-                            return false
-                        }
-                        if (pos.index == expr.length - 1) {
-                            parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.abbrev())
-                            return false
-                        }
-                        if (lastOpType == OpType.NUMBER || lastOpType == OpType.SYMBOL || lastOpType == OpType.RIGHTP) {
-                            xTokens.add(OperatorToken(Op.MULTIPLY, i1))
-                        }
-                        pLevel++; leftpPos = i1
-                        lastOpType = OpType.LEFTP
-                    }
-
-                    Op.RIGHTP -> {
-                        if (lastOpType == OpType.SEPARATOR) {
-                            parseError = ParseError(MISPLACED_SEPARATOR, i1 - 1, oper.abbrev())
-                            return false
-                        }
-                        if (lastOpType == OpType.LEFTP) {
-                            parseError = ParseError(EMPTY_PARENTHESIS, i1, oper.abbrev())
-                            return false
-                        }
-                        if (lastOpType == OpType.OPERATOR) {
-                            parseError = ParseError(MISPLACED_OPERATOR, i1 - 1, oper.abbrev())
-                            return false
-                        }
-                        if (pos.index == 0) {
-                            parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.abbrev())
-                            return false
-                        }
-                        pLevel--
-                        lastOpType = OpType.RIGHTP
-                    }
-
-                    in symbols -> {
-                        if (lastOpType == OpType.SYMBOL) {
-                            xTokens.add(OperatorToken(Op.MULTIPLY, i1))
-                        }
-                        if (lastOpType == OpType.NUMBER) {
-                            xTokens.add(OperatorToken(Op.MULTIPLY, i1))
-                        }
-
-                        if (lastOpType == OpType.RIGHTP) {
-                            xTokens.add(OperatorToken(Op.MULTIPLY, i1))
-                        }
-                        lastOpType = OpType.SYMBOL
-                    }
-
-                    in basicOperators -> {
-                        if (lastOpType == OpType.OPERATOR) {
-                            parseError = ParseError(MISSING_OPERAND, i1, oper.abbrev())
-                            return false
-                        }
-                        if (lastOpType == OpType.SEPARATOR) {
-                            parseError = ParseError(MISSING_OPERAND, i1, oper.abbrev())
-                            return false
-                        }
-                        if ((pos.index == 0) || pos.index == expr.length - 1) {
-                            parseError = ParseError(MISPLACED_OPERATOR, i1, oper.abbrev())
-                            return false
-                        }
-                        lastOpType = OpType.OPERATOR
-                    }
-
-                    else -> {
-
-                        if (lastOpType == OpType.FUNCTION) {
-                            parseError = ParseError(CONSECUTIVE_FUNCTIONS, i1, oper.abbrev())
-                            return false
-                        }
-                        lastOpType = OpType.FUNCTION
-                    }
-                }
-                if (pLevel < 0) {
-                    parseError = ParseError(TOO_MANY_RIGHT_PARENTHESIS, i1)
-                    return false
-                }
-                xTokens.add(OperatorToken(oper.op, oper.pos))
-                pos.index = i1 + oper.abbrev().length
-            } else { //number
-
-                if (lastOpType == OpType.SYMBOL) {
-                    parseError = ParseError(MISSING_OPERATOR, i1)
-                    return false
-                }
-                if (lastOpType == OpType.NUMBER) {
-                    parseError = ParseError(MISSING_OPERATOR, i1)
-                    return false
-                }
-                if (lastOpType == OpType.RIGHTP) {
-                    xTokens.add(OperatorToken(Op.MULTIPLY, i1))
-                }
-                lastOpType = OpType.NUMBER
-                xTokens.add(NumberToken(number, i1))
-            }
-        } while (pos.index < expr.length)
-
-        if (pLevel > 0) {
-            parseError = ParseError(TOO_MANY_LEFT_PARENTHESIS, leftpPos)
-            return false
-        }
-        return true
+    fun preparseWrapper(): Boolean {
+        val preparseResult = preparse(calc, expr)
+        parseError = preparseResult.parseError
+        xTokens.addAll(preparseResult.tokens)
+       if (preparseResult.parseError != null) return false else return true
     }
 
 }

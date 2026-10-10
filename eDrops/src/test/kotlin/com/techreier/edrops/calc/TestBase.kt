@@ -7,7 +7,7 @@ import kotlin.math.min
 open class TestBase() {
 
     protected fun assertPreparse(expectedTokens: ArrayList<Token>, expr: Expr, size: Int= 1000) {
-        expr.preparse()
+        expr.preparseWrapper()
         val actualTokens = expr.xTokens
         val actualTokenString = actualTokens.toTokenString(min(size, actualTokens.size))
         val actual = expr.parseError?.key ?: actualTokenString
@@ -17,7 +17,7 @@ open class TestBase() {
     }
 
     protected fun assertPreparseFails(errorKey: String, expr: Expr, size: Int = 1000) {
-        expr.preparse()
+        expr.preparseWrapper()
         val errorFound = expr.parseError
         val actualTokens = expr.xTokens
         logger.info(expr.errorText())

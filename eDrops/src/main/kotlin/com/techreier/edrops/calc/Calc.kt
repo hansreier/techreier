@@ -13,7 +13,7 @@ abstract class Calc<T>(
     var operators: EnumSet<Op> = EnumSet.of(
         Op.EMPTY, Op.REMOVE, Op.YX, Op.ADD,
         Op.SUBTRACT, Op.DIVIDE, Op.MULTIPLY, Op.X2, Op.SUM, Op.POW,
-        Op.SEPARATOR, Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W
+        Op.SEPARATOR, Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W, Op.LEFTP, Op.RIGHTP
     )
 
     fun saveVarsFromStack() {
