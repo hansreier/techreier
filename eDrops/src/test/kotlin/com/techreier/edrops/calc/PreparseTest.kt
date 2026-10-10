@@ -17,7 +17,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "Bullshit"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(UNPARSEABLE, expr)
     }
 
     @Test
@@ -26,7 +26,7 @@ class PreparseTest: TestBase() {
         val input = "sin dette er forferdelig mange argumenter til en sinus funksjon å være, alt for mange argumenter" +
                 "er det, bare tull faktisk"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(UNPARSEABLE, expr)
     }
 
     @Test
@@ -34,7 +34,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (x - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
         val expr = Expr(calculator, input)
-       assertPreparse(tokens(Op.LEFTP,Op.LEFTP,Op.LEFTP,Op.LEFTP, Op.X,Op.POW,2.0,Op.RIGHTP,Op.ADD,Op.LEFTP)
+        assertPreparse(tokens(Op.LEFTP,Op.LEFTP,Op.LEFTP,Op.LEFTP, Op.X,Op.POW,2.0,Op.RIGHTP,Op.ADD,Op.LEFTP)
            ,expr, 10)
     }
 
@@ -43,7 +43,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (a - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(UNPARSEABLE, expr)
     }
 
     @Test
@@ -51,7 +51,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "( sin(x) + cos((y)"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(TOO_MANY_LEFT_PARENTHESIS,expr)
     }
 
     @Test
@@ -59,7 +59,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "sin(x)) + cos(y)"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(TOO_MANY_RIGHT_PARENTHESIS, expr)
     }
 
     @Test
@@ -67,15 +67,15 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "5-- 3"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(MISSING_OPERAND, expr)
     }
 
     @Test
-    fun minusplusFailsTest() {
+    fun plusMinusFailsTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "5+- 3"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(MISSING_OPERAND, expr)
     }
 
     @Test
@@ -91,7 +91,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3 -  - 5"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(MISSING_OPERAND, expr)
     }
 
     @Test
@@ -99,7 +99,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "sin sin(3)"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(CONSECUTIVE_FUNCTIONS, expr)
     }
 
     @Test
@@ -119,11 +119,11 @@ class PreparseTest: TestBase() {
     }
 
     @Test
-    fun varVarFailsTest() {
+    fun varVarOKTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "x y"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparse(tokens(Op.X, Op.MULTIPLY, Op.Y), expr)
     }
 
     @Test
@@ -131,7 +131,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "x 3"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(MISSING_OPERATOR, expr)
     }
 
     @Test
@@ -143,7 +143,7 @@ class PreparseTest: TestBase() {
     }
 
     @Test
-    fun numberVariableExponentialTest() {
+    fun numberVariableExponentialOKTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3x^4"
         val expr = Expr(calculator, input)
@@ -163,7 +163,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3()"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(EMPTY_PARENTHESIS, expr)
     }
 
     @Test
@@ -171,7 +171,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3(-)"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(MISPLACED_OPERATOR, expr)
     }
 
     @Test
@@ -184,19 +184,27 @@ class PreparseTest: TestBase() {
     }
 
     @Test
-    fun emptyTest() {
+    fun emptyFailsTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = ""
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(UNPARSEABLE, expr)
     }
 
     @Test
-    fun spaceTest() {
+    fun spaceFailsTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "   "
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(UNPARSEABLE, expr)
+    }
+
+    @Test
+    fun justFunctionWithArgumentsTest() { // Will be checked later when parsing
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "sin"
+        val expr = Expr(calculator, input)
+        assertPreparse(tokens(Op.SIN), expr)
     }
 
     @Test
@@ -204,7 +212,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "-"
         val expr = Expr(calculator, input)
-        assertPreparse(tokens(Op.SUBTRACT),expr)
+        assertPreparseFails(MISPLACED_OPERATOR,expr)
     }
 
     @Test
@@ -212,7 +220,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3 --2"
         val expr = Expr(calculator, input)
-        assertPreparse(tokens(3, Op.SUBTRACT, -2),expr)
+        assertPreparse(tokens(3, Op.SUBTRACT, -2), expr)
     }
 
     @Test
@@ -220,7 +228,7 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3 - -2"
         val expr = Expr(calculator, input)
-        assertPreparse(tokens(3, Op.SUBTRACT, -2),expr)
+        assertPreparse(tokens(3, Op.SUBTRACT, -2), expr)
     }
 
     @Test
@@ -228,29 +236,29 @@ class PreparseTest: TestBase() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3 -(-2)"
         val expr = Expr(calculator, input)
-        assertPreparse(tokens(3, Op.SUBTRACT, Op.LEFTP, -2, Op.RIGHTP),expr)
+        assertPreparse(tokens(3, Op.SUBTRACT, Op.LEFTP, -2, Op.RIGHTP), expr)
     }
 
     @Test
-    fun strangeNumberTest() {
+    fun strangeNumberFailsTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "3 * 3..2"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(MISSING_OPERATOR, expr)
     }
 
     @Test
-    fun strangeExponentTest() {
+    fun strangeExponentFailsTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
         val input = "4-^3 +3"
         val expr = Expr(calculator, input)
-        assertPreparseFails(expr)
+        assertPreparseFails(MISSING_OPERAND, expr)
     }
 
     @Test
-    fun constantsImplicitMultiplicationTest() {
+    fun constantsImplicitMultiplicationOKTest() {
         val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
-        val input = "pi (3+2) 4 e)"
+        val input = "pi (3+2) 4 e"
         val expr = Expr(calculator, input)
         assertPreparse(tokens(Op.PI, Op.MULTIPLY, Op.LEFTP, 3, Op.ADD, 2,
             Op.RIGHTP, Op.MULTIPLY, 4, Op.MULTIPLY, Op.E), expr)
@@ -286,6 +294,78 @@ class PreparseTest: TestBase() {
         val input = "3+("
         val expr = Expr(calculator, input)
         assertPreparseFails(MISPLACED_PARENTHESIS, expr)
+    }
+
+    @Test
+    fun separatorOKTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "3+hyp(4;5)"
+        val expr = Expr(calculator, input)
+        assertPreparse(tokens(3, Op.ADD, Op.HYP, Op.LEFTP, 4, Op.SEPARATOR, 5, Op.RIGHTP ), expr)
+    }
+
+    @Test
+    fun lonelySeparatorFailsTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = ";"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(SEPARATOR_NOT_IN_FUNCTION , expr)
+    }
+
+    @Test
+    fun separatorNotInFunctionFailsTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "sin(33); cos(44)"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(SEPARATOR_NOT_IN_FUNCTION , expr)
+    }
+
+    @Test
+    fun separatorAfterLeftParenthesisFailsTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "sin(;33)"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(MISPLACED_SEPARATOR , expr)
+    }
+
+    @Test
+    fun separatorBeforeRightParenthesisFailsTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "sin(33;)"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(MISPLACED_SEPARATOR , expr)
+    }
+
+    @Test
+    fun doubleSeparatorFailsTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "hyp(3; ;4)"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(MISPLACED_SEPARATOR , expr)
+    }
+
+    @Test
+    fun separatorAfterOperatorFailsTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "hyp(+;5)"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(MISPLACED_SEPARATOR , expr)
+    }
+
+    @Test
+    fun separatorBeforerOperatorFailsTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "hyp(3;- 5)"
+        val expr = Expr(calculator, input)
+        assertPreparseFails(MISSING_OPERAND , expr)
+    }
+
+    @Test
+    fun separatorBeforeMinusTest() {
+        val calculator: Calc<Double> = CalcDouble(Double::class.javaObjectType, true)
+        val input = "hyp(x; -5)"
+        val expr = Expr(calculator, input)
+        assertPreparse(tokens(Op.HYP, Op.LEFTP, Op.X, Op.SEPARATOR, -5, Op.RIGHTP) , expr)
     }
 
 }
