@@ -125,7 +125,6 @@ class PreparseTest : TestBase() {
     fun numberVarOKTest() {
         val calc: Calc<Double> = CalcDouble(Double::class.javaObjectType)
         val input = "3 x"
-
         assertPreparse(tokens(3.0, Op.MULTIPLY, Op.X), calc, input)
     }
 
