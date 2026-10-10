@@ -40,3 +40,17 @@ fun Calc<Double>.degrees(enabled: Boolean): Calc<Double> {
     }
     return this
 }
+
+// Return error indicator of expessen given a parseError
+fun errorIndicator(expr: String, parseError: ParseError?): String? {
+    val errPosition = parseError?.position ?: return null
+    val startPos = (errPosition - 40).coerceIn(0, expr.length)
+    val endPos = (errPosition + 40).coerceIn(0, expr.length)
+    return "${expr.substring(startPos, errPosition)}???" +
+            if (errPosition == expr.length) "" else expr.substring(errPosition, endPos)
+}
+
+fun errorText(expr: String, parseError : ParseError?): String? {
+    parseError ?: return null
+    return "${parseError.key}: ${errorIndicator(expr, parseError)}"
+}
