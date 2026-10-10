@@ -213,6 +213,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                     Op.SEPARATOR -> {
                         if (pLevel <= 0) {
                             parseError = ParseError(SEPARATOR_NOT_IN_FUNCTION, i1, oper.abbrev())
+                            return false
                         }
                         if ((lastOpType == OpType.OPERATOR) || (lastOpType == OpType.LEFTP) || (lastOpType == OpType.SEPARATOR)) {
                             parseError = ParseError(MISPLACED_SEPARATOR, i1, oper.abbrev())
