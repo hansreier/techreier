@@ -1,0 +1,16 @@
+package com.techreier.edrops.calc
+
+const val MISSING_OPERATOR = "MissingOperator"
+const val UNPARSEABLE = "Unparseable"
+const val EMPTY_PARENTHESIS = "EmptyParenthesis"
+const val MISPLACED_PARENTHESIS = "MisplacedParenthesis"
+const val TOO_MANY_LEFT_PARENTHESIS = "TooManyLeftParenthesis"
+const val TOO_MANY_RIGHT_PARENTHESIS = "TooManyRightParenthesis"
+const val MISPLACED_OPERATOR = "MisplacedOperator"
+const val MISPLACED_SEPARATOR = "MisplacedSeparator"
+const val MISSING_OPERAND = "MissingOperand"
+const val CONSECUTIVE_FUNCTIONS = "ConsecutiveFunctions"
+const val MISPLACED_FUNCTION = "MisplacedFunction"
+const val FUNCTION_NO_ARGUMENTS = "FuncNoArguments"
+const val WRONG_NO_OF_ARGUMENTS = "WrongNoOfArguments"
+const val SEPARATOR_NOT_IN_FUNCTION = "SeparatorNotInFunction"
