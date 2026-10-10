@@ -75,20 +75,6 @@ class Expr(val calc: Calc<*>, expr: String) {
             logger.error("error: $text")
     }
 
-    fun errorIndicator(): String? {
-        val errPosition = this.parseError?.position ?: return null
-        val startPos = (errPosition - 40).coerceIn(0, expr.length)
-        val endPos = (errPosition + 40).coerceIn(0, expr.length)
-        return "${expr.substring(startPos, errPosition)}???" +
-                "${if (errPosition == expr.length) "" else expr.substring(errPosition, endPos)}"
-    }
-
-    fun errorText(): String? {
-        val parseError = this.parseError ?: return null
-        return "${parseError.key}: ${errorIndicator()}"
-    }
-
-
     private fun addToken(o: Oper): Boolean {
         trace("$o checking arguments:${o.noArgs()}")
 
@@ -139,14 +125,6 @@ class Expr(val calc: Calc<*>, expr: String) {
                 calc.logStack()
             }
         }
-    }
-
-    //one time parse through expression
-    fun preparseWrapper(): Boolean {
-        val preparseResult = preparse(calc, expr)
-        parseError = preparseResult.parseError
-        xTokens.addAll(preparseResult.tokens)
-       if (preparseResult.parseError != null) return false else return true
     }
 
 }
