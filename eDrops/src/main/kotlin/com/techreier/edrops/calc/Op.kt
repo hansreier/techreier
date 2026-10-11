@@ -66,6 +66,10 @@ enum class Op(
     fun isBasic(): Boolean = basicOperators.contains(this)
     fun isParenthesis(): Boolean = parenthesis.contains(this)
     fun isOrdinary(): Boolean = !(basicOperators.contains(this) || parenthesis.contains(this))
+    fun isVariable() : Boolean = variables.contains(this)
+    fun isSymbol(): Boolean = symbols.contains(this)
+    fun isFunction(): Boolean = functions.contains(this)
+
     fun valid(set: Set<Op>): Boolean = set.contains(this)
 
     companion object {
@@ -74,6 +78,7 @@ enum class Op(
         val variables = setOf(T, X, Y, Z, U, V, W)
         val constants = setOf(PI, E)
         val symbols = variables + constants
+        val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, RAD, DEG, EX, LN, LOG10, POW10, HYP, GYP)
         private const val defaultLevel = 2
         const val maxLevel = 4
 

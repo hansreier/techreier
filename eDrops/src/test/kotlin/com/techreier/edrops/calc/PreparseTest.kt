@@ -277,6 +277,18 @@ class PreparseTest : TestBase() {
     }
 
     @Test
+    fun missingSeparatorTwoArgumentFuncFailsTest() {
+        val input = "hyp 3 4"
+        assertPreparseFails(MISSING_OPERATOR, calc, input)
+    }
+
+    @Test
+    fun missingSeparatorTwoArgumentFun2FailsTest() {
+        val input = "hyp(3 4)"
+        assertPreparseFails(MISSING_OPERATOR, calc, input)
+    }
+
+    @Test
     fun separatorAfterOperatorFailsTest() {
         val input = "hyp(+;5)"
         assertPreparseFails(MISPLACED_SEPARATOR, calc, input)

@@ -123,6 +123,27 @@ class Expr(val calc: Calc<*>, expr: String) {
 
     fun recursiveParse(range: Range) {
         val range = removeOuterP(range, rawTokens)
+        var calcStart = range.min
+        var calcEnd = range.min
+        var funcStart = range.min
+        var funcEnd = range.min
+
+        for (i in range.min .. range.max) {
+            val token = rawTokens[i]
+
+            when (token) {
+                is NumberToken -> calcEnd++
+                is OperatorToken -> {
+                    funcStart = i
+                    funcEnd = i
+                    if (token.isFunction()) {
+
+                        }
+
+
+                }
+            }
+        }
     }
 
 }

@@ -23,4 +23,6 @@ fun Token.isPow(): Boolean = this is OperatorToken && this.operator == Op.POW
 fun Token.isLeftP(): Boolean = this is OperatorToken && this.operator == Op.LEFTP
 fun Token.isRightP(): Boolean = this is OperatorToken && this.operator == Op.RIGHTP
 fun Token.isSeparator(): Boolean = this is OperatorToken && this.operator == Op.SEPARATOR
+fun Token.isVariable(): Boolean = this is OperatorToken && this.operator.isVariable()
+fun Token.isFunction(): Boolean = this is OperatorToken && this.operator.isFunction()
 

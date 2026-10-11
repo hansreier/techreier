@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+// TODO ReierAsk Can probably be simplified or changed. Is replaces really by Token class
 data class Oper(
     val op: Op,
     val pos: Int,
