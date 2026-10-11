@@ -125,25 +125,21 @@ class Expr(val calc: Calc<*>, expr: String) {
         val range = removeOuterP(range, rawTokens)
         var calcStart = range.min
         var calcEnd = range.min
-        var funcStart = range.min
-        var funcEnd = range.min
 
-        for (i in range.min .. range.max) {
+        var i = range.min
+        do {
             val token = rawTokens[i]
 
             when (token) {
-                is NumberToken -> calcEnd++
+                is NumberToken -> i++
                 is OperatorToken -> {
-                    funcStart = i
-                    funcEnd = i
                     if (token.isFunction()) {
-
+                        parseArguments(Range(i, range.max), rawTokens)
                         }
-
-
                 }
             }
-        }
+        } while (i <= range.max)
     }
+
 
 }

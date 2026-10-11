@@ -36,6 +36,12 @@ class CalcUtilTest {
         OperatorToken(Op.RIGHTP, 24)
     )
 
+    private val tokenShort = listOf(
+        NumberToken(3, 3),
+        OperatorToken(Op.ADD, 4),
+        NumberToken(4, 5),
+    )
+
     @Test
     fun parseDoubleTest() {
         val double = parseDouble("3.14")
@@ -65,6 +71,15 @@ class CalcUtilTest {
         val preRange = Range(0, tokens.size - 1)
         val expectedRange = Range(2, tokens.size -3)
         val range = removeOuterP(preRange, tokens)
+        assertEquals(expectedRange, range)
+    }
+
+    @Test
+    fun outerNoPTest() {
+        val tokens2 = listOf(NumberToken(3, 1), OperatorToken(Op.ADD, 2), NumberToken(4, 3))
+        val preRange = Range(0, 2)
+        val expectedRange = Range(0, 2)
+        val range = removeOuterP(preRange, tokens2)
         assertEquals(expectedRange, range)
     }
 

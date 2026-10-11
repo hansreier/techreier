@@ -25,4 +25,7 @@ fun Token.isRightP(): Boolean = this is OperatorToken && this.operator == Op.RIG
 fun Token.isSeparator(): Boolean = this is OperatorToken && this.operator == Op.SEPARATOR
 fun Token.isVariable(): Boolean = this is OperatorToken && this.operator.isVariable()
 fun Token.isFunction(): Boolean = this is OperatorToken && this.operator.isFunction()
+fun Token.isOperator(): Boolean = this is OperatorToken && this.operator.isOperator()
+fun Token.isSymbol(): Boolean = this is OperatorToken && this.operator.isSymbol()
+fun Token.isValue(): Boolean = (this is OperatorToken && this.operator.isSymbol()) || this is NumberToken
 

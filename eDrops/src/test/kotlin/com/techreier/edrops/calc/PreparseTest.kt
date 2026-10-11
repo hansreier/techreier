@@ -53,6 +53,19 @@ class PreparseTest : TestBase() {
     }
 
     @Test
+    fun doubleParenthesisOKTest() {
+        val input = "sin((x))"
+        assertPreparse(tokens(Op.SIN, Op.LEFTP, Op.LEFTP, Op.X, Op.RIGHTP, Op.RIGHTP), calc, input)
+    }
+
+    @Test
+    fun doubleParenthesis2OKTest() {
+        val input = "hyp((x;y))"
+        assertPreparse(tokens(Op.HYP, Op.LEFTP, Op.LEFTP, Op.X, Op.SEPARATOR,
+            Op.Y, Op.RIGHTP, Op.RIGHTP), calc, input)
+    }
+
+    @Test
     fun minusminusFailsTest() {
         val calc: Calc<Double> = CalcDouble(Double::class.javaObjectType)
         val input = "5-- 3"
@@ -138,7 +151,7 @@ class PreparseTest : TestBase() {
     }
 
     @Test
-    fun doubleParenthesisOKTest() {
+    fun followingParenthesisOKTest() {
         val input = "(x+5)(x-3)"
         assertPreparse(
             tokens(
@@ -161,9 +174,15 @@ class PreparseTest : TestBase() {
     }
 
     @Test
-    fun justFunctionWithArgumentsTest() { // Will be checked later when parsing
+    fun justFunctionTest() { // Will be checked later when parsing
         val input = "sin"
         assertPreparse(tokens(Op.SIN), calc, input)
+    }
+
+    @Test
+    fun justFunctionEmptyArgumentsTest() { // Will be checked later when parsing
+        val input = "sin()"
+        assertPreparseFails(EMPTY_PARENTHESIS, calc, input)
     }
 
     @Test
@@ -305,6 +324,19 @@ class PreparseTest : TestBase() {
         val input = "hyp(x; -5)"
         assertPreparse(tokens(Op.HYP, Op.LEFTP, Op.X, Op.SEPARATOR, -5, Op.RIGHTP), calc, input)
     }
+
+    @Test
+    fun separatorMissingArgumentTest() {
+        val input = "hyp( ; -5)"
+        assertPreparseFails(MISPLACED_SEPARATOR, calc, input)
+    }
+
+    @Test
+    fun estraSeparatorTest() {
+        val input = "sin( ; -5)"
+        assertPreparseFails(MISPLACED_SEPARATOR, calc, input)
+    }
+
 
 }
 

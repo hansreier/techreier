@@ -17,7 +17,7 @@ data class Oper(
         this.level = level
     }
 
-    fun isBasic(): Boolean = op.isBasic()
+    fun isBasic(): Boolean = op.isOperator()
 
     fun isOrdinary(): Boolean = op.isOrdinary()
 

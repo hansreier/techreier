@@ -50,7 +50,7 @@ fun errorIndicator(expr: String, parseError: ParseError?): String? {
             if (errPosition == expr.length) "" else expr.substring(errPosition, endPos)
 }
 
-fun errorText(expr: String, parseError : ParseError?): String? {
+fun errorText(expr: String, parseError: ParseError?): String? {
     parseError ?: return null
     return "${parseError.key}: ${errorIndicator(expr, parseError)}"
 }
@@ -59,7 +59,8 @@ fun removeOuterP(range: Range, tokens: List<Token>): Range {
     var current = range
     while (current.min < current.max &&
         tokens[current.min].isLeftP() &&
-        tokens[current.max].isRightP()) {
+        tokens[current.max].isRightP()
+    ) {
 
         if (!wrapsWhole(current, tokens)) break
 
@@ -80,4 +81,33 @@ private fun wrapsWhole(range: Range, tokens: List<Token>): Boolean {
     return false
 }
 
+fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
+    var error: ParseError? = null
+    var balance = 0
+    var calculate = true
+    val arguments = ArrayList<Token>()
+    var i = range.min + 1
+    do {
+        when {
+            tokens[i].isValue() -> arguments.add(tokens[i])
+            tokens[i].isLeftP() -> balance++
+            tokens[i].isRightP() -> balance--
+            tokens[i].isSeparator() -> {}
+            tokens[i].isFunction() -> { calculate = false}
+            tokens[i].isOperator() -> { calculate = false}
+            else -> arguments.add(tokens[i])
+        }
+        i++
+    } while ((i <= range.max) && balance > 0)
+
+    val operatorText = (tokens[range.min] as OperatorToken).operator.abbrev()
+    if ((balance != 0) && calculate)  error =
+        ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
+
+    return ArgumentInfo(Range(range.min, i - 1), arguments, calculate, error)
+}
+
+
 data class Range(val min: Int, val max: Int)
+
+data class ArgumentInfo(val range: Range, val tokens: List<Token>, val calculate: Boolean, val error: ParseError?)

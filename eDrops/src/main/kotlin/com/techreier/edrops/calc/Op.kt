@@ -63,9 +63,9 @@ enum class Op(
     fun noResults(): Int = noResults
     fun prior(): Int = prior
 
-    fun isBasic(): Boolean = basicOperators.contains(this)
+    fun isOperator(): Boolean = basicOperators.contains(this)
     fun isParenthesis(): Boolean = parenthesis.contains(this)
-    fun isOrdinary(): Boolean = !(basicOperators.contains(this) || parenthesis.contains(this))
+    fun isOrdinary(): Boolean = !(basicOperators.contains(this) || parenthesis.contains(this)) //TODO ReierAsk used for what
     fun isVariable() : Boolean = variables.contains(this)
     fun isSymbol(): Boolean = symbols.contains(this)
     fun isFunction(): Boolean = functions.contains(this)
