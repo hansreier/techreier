@@ -8,7 +8,7 @@ class Expr(val calc: Calc<*>, expr: String) {
     val expr: String
     var parseError: ParseError? = null
     val tokens = ArrayList<Token>()
-    val xTokens = ArrayList<Token>()
+    private lateinit var rawTokens: List<Token>
     private var resultSize = 0
     private var trace: Trace = Trace.OFF
     private var opStack = ArrayDeque<Oper>()
@@ -20,6 +20,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         trace(expr)
     }
 
+    // TODO Move of delete
     fun rotateTraceLevel() {
         when (trace) {
             Trace.OFF -> {
@@ -110,6 +111,18 @@ class Expr(val calc: Calc<*>, expr: String) {
                 calc.logStack()
             }
         }
+    }
+
+    fun parse(): ParseResult {
+        val result = preparse(calc, expr)
+        if (result.parseError != null) return result
+        rawTokens = result.tokens
+        recursiveParse(Range(0, rawTokens.size -1))
+        return result
+    }
+
+    fun recursiveParse(range: Range) {
+        val range = removeOuterP(range, rawTokens)
     }
 
 }

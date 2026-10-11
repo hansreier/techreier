@@ -2,9 +2,10 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.calc.Op.Companion.basicOperators
 import com.techreier.edrops.calc.Op.Companion.symbols
+import com.techreier.edrops.util.isTrimmed
 import java.text.ParsePosition
 
-//one time parse through expression
+//One time parse through expression, expr must be trimmed
 fun preparse(calc: Calc<*>, expr: String): ParseResult {
     var i1: Int
     var i2: Int
@@ -14,9 +15,9 @@ fun preparse(calc: Calc<*>, expr: String): ParseResult {
     var leftpPos = 0
     var whitespace = false
     var lastOpType = OpType.EMPTY
-    val tokens = mutableListOf<Token>()
+    val tokens = arrayListOf<Token>()
     var parseError: ParseError?
-
+    if (!expr.isTrimmed()) throw IllegalArgumentException("expression to preparse is not trimed")
     val pos = ParsePosition(0)
     do {
         i1 = pos.index
@@ -32,7 +33,7 @@ fun preparse(calc: Calc<*>, expr: String): ParseResult {
                 Double::class.javaObjectType -> {
                     parseDouble(expr, pos)
                 }
-                else -> throw Exception("Not implemented") //TODO ReierArk implement for other calculator types
+                else -> TODO("Implement later")
             }
         } else null
 

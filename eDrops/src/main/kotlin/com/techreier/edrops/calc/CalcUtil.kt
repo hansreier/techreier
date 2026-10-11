@@ -54,3 +54,30 @@ fun errorText(expr: String, parseError : ParseError?): String? {
     parseError ?: return null
     return "${parseError.key}: ${errorIndicator(expr, parseError)}"
 }
+
+fun removeOuterP(range: Range, tokens: List<Token>): Range {
+    var current = range
+    while (current.min < current.max &&
+        tokens[current.min].isLeftP() &&
+        tokens[current.max].isRightP()) {
+
+        if (!wrapsWhole(current, tokens)) break
+
+        current = Range(current.min + 1, current.max - 1)
+    }
+    return current
+}
+
+private fun wrapsWhole(range: Range, tokens: List<Token>): Boolean {
+    var balance = 0
+    for (i in range.min..range.max) {
+        when {
+            tokens[i].isLeftP() -> balance++
+            tokens[i].isRightP() -> balance--
+        }
+        if (balance == 0) return i == range.max
+    }
+    return false
+}
+
+data class Range(val min: Int, val max: Int)

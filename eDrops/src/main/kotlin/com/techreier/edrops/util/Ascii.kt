@@ -155,3 +155,8 @@ fun logTable(
     return result.toString().trim()
 }
 
+fun String.isTrimmed(): Boolean {
+    if (isEmpty()) return true
+    return !first().isWhitespace() && !last().isWhitespace()
+}
+
