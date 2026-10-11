@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 class PreparseTest : TestBase() {
@@ -169,8 +170,10 @@ class PreparseTest : TestBase() {
 
     @Test
     fun spaceFailsTest() {
-        val input = "   "
-        assertPreparseFails(UNPARSEABLE, calc, input)
+        assertThrows(IllegalArgumentException::class.java, {
+            val input = "   "
+            assertPreparse(tokens(), calc, input)
+        })
     }
 
     @Test
