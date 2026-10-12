@@ -121,7 +121,9 @@ class Expr(val calc: Calc<*>, expr: String) {
         if (result.parseError != null) return false
         rawTokens = result.tokens
         logger.info("Parsing")
-        return recursiveParse(Range(0, rawTokens.size - 1))
+        val parsed =  recursiveParse(Range(0, rawTokens.size - 1))
+        logger.info("Parsed")
+        return parsed
     }
 
     fun recursiveParse(range: Range): Boolean {
@@ -130,28 +132,28 @@ class Expr(val calc: Calc<*>, expr: String) {
         var calcStart = range.min
         var calcEnd = range.min
 
-        var i = range.min
+        var index = range.min
         do {
-            when (val token = rawTokens[i]) {
-                is NumberToken -> i++
+            when (val token = rawTokens[index]) {
+                is NumberToken -> index++
                 is OperatorToken -> {
                     when {
                         token.isFunction() -> {
-                            val argumentInfo = parseArguments(Range(i, range.max), rawTokens)
+                            val argumentInfo = parseArguments(Range(index, range.max), rawTokens)
                             parseError = argumentInfo.error
-                            if (parseError != null) {
-                                if (argumentInfo.calculate) {
+                            if (parseError == null) {
+                                if (argumentInfo.push) {
                                     tokens.addAll(argumentInfo.tokens)
                                     tokens.add(token)
-                                }
-                                if (!argumentInfo.calculate) {
+                                    index = argumentInfo.range.max + 1
+                                } else {
                                     recursiveParse(argumentInfo.range)
                                 }
                             }
                         }
 
                         token.isLeftP() -> {
-                            val argumentInfo = findClosure(Range(i, range.max), rawTokens)
+                            val argumentInfo = findClosure(Range(index, range.max), rawTokens)
                             parseError = argumentInfo.error
                             if (parseError != null) {
                                 recursiveParse(argumentInfo.range)
@@ -161,7 +163,8 @@ class Expr(val calc: Calc<*>, expr: String) {
                 }
             }
             if (parseError != null) return false
-        } while (i <= range.max)
+            logger.info("index=$index range.max=${range.max}")
+        } while (index <= range.max)
         return true
     }
 

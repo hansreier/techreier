@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.graph.logger
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.ParsePosition
@@ -84,27 +85,28 @@ private fun wrapsWhole(range: Range, tokens: List<Token>): Boolean {
 fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
     var error: ParseError? = null
     var balance = 0
-    var calculate = true
+    var push = true
     val arguments = ArrayList<Token>()
     var i = range.min + 1
+    val operatorText = (tokens[range.min] as OperatorToken).operator.abbrev()
+    logger.info("parse arguments for $operatorText range=$range")
     do {
         when {
             tokens[i].isValue() -> arguments.add(tokens[i])
             tokens[i].isLeftP() -> balance++
             tokens[i].isRightP() -> balance--
             tokens[i].isSeparator() -> {}
-            tokens[i].isFunction() -> { calculate = false}
-            tokens[i].isOperator() -> { calculate = false}
+            tokens[i].isFunction() -> { push = false}
+            tokens[i].isOperator() -> { push = false}
             else -> arguments.add(tokens[i])
         }
         i++
     } while ((i <= range.max) && balance > 0)
 
-    val operatorText = (tokens[range.min] as OperatorToken).operator.abbrev()
-    if ((balance != 0) && calculate)  error =
+    if ((balance != 0) && push)  error =
         ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
-
-    return ArgumentInfo(Range(range.min, i - 1), arguments, calculate, error)
+    logger.info("arguments found: ${arguments.size} range=$range ")
+    return ArgumentInfo(Range(range.min, i), arguments, push, error)
 }
 
 fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
@@ -134,4 +136,4 @@ fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
 
 data class Range(val min: Int, val max: Int)
 
-data class ArgumentInfo(val range: Range, val tokens: List<Token>, val calculate: Boolean, val error: ParseError?)
+data class ArgumentInfo(val range: Range, val tokens: List<Token>, val push: Boolean, val error: ParseError?)
