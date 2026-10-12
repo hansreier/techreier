@@ -107,6 +107,30 @@ fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
     return ArgumentInfo(Range(range.min, i - 1), arguments, calculate, error)
 }
 
+fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
+    var balance = 0
+    var closingIndex = range.max
+    var error: ParseError? = null
+
+    for (i in range.min..range.max) {
+        when {
+            tokens[i].isLeftP() -> balance++
+            tokens[i].isRightP() -> balance--
+        }
+        if (balance == 0) {
+            closingIndex = i
+            break
+        }
+    }
+
+    if (balance != 0) {
+        val operatorText = (tokens[range.min] as? OperatorToken)?.operator?.abbrev() ?: ""
+        error = ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
+    }
+
+    return ArgumentInfo(Range(range.min, closingIndex), emptyList(), false, error)
+}
+
 
 data class Range(val min: Int, val max: Int)
 

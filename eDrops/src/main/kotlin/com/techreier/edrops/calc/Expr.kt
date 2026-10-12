@@ -94,6 +94,7 @@ class Expr(val calc: Calc<*>, expr: String) {
 
     fun calculate() {
         try {
+            logger.info("calculating")
             calc.clear() //clear the stack
             calc.logStack = (trace != Trace.OFF)
             for (t in tokens) {
@@ -113,32 +114,55 @@ class Expr(val calc: Calc<*>, expr: String) {
         }
     }
 
-    fun parse(): ParseResult {
+    fun parse(): Boolean {
+        logger.info("Preparsing")
         val result = preparse(calc, expr)
-        if (result.parseError != null) return result
+        parseError = result.parseError
+        if (result.parseError != null) return false
         rawTokens = result.tokens
-        recursiveParse(Range(0, rawTokens.size -1))
-        return result
+        logger.info("Parsing")
+        return recursiveParse(Range(0, rawTokens.size - 1))
     }
 
-    fun recursiveParse(range: Range) {
+    fun recursiveParse(range: Range): Boolean {
+        logger.info(("RecursiveParse: $range"))
         val range = removeOuterP(range, rawTokens)
         var calcStart = range.min
         var calcEnd = range.min
 
         var i = range.min
         do {
-            val token = rawTokens[i]
-
-            when (token) {
+            when (val token = rawTokens[i]) {
                 is NumberToken -> i++
                 is OperatorToken -> {
-                    if (token.isFunction()) {
-                        parseArguments(Range(i, range.max), rawTokens)
+                    when {
+                        token.isFunction() -> {
+                            val argumentInfo = parseArguments(Range(i, range.max), rawTokens)
+                            parseError = argumentInfo.error
+                            if (parseError != null) {
+                                if (argumentInfo.calculate) {
+                                    tokens.addAll(argumentInfo.tokens)
+                                    tokens.add(token)
+                                }
+                                if (!argumentInfo.calculate) {
+                                    recursiveParse(argumentInfo.range)
+                                }
+                            }
                         }
+
+                        token.isLeftP() -> {
+                            val argumentInfo = findClosure(Range(i, range.max), rawTokens)
+                            parseError = argumentInfo.error
+                            if (parseError != null) {
+                                recursiveParse(argumentInfo.range)
+                            }
+                        }
+                    }
                 }
             }
+            if (parseError != null) return false
         } while (i <= range.max)
+        return true
     }
 
 
