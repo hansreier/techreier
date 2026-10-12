@@ -61,6 +61,7 @@ class Expr(val calc: Calc<*>, expr: String) {
             logger.error("error: $text")
     }
 
+    /*
     private fun addToken(o: Oper): Boolean {
         trace("$o checking arguments:${o.noArgs()}")
 
@@ -90,7 +91,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         tokens.add(OperatorToken(o.op, o.pos))
         trace("@adding token:$o level: $resultSize)")
         return true
-    }
+    }*/
 
     fun calculate() {
         try {
