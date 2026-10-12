@@ -149,13 +149,14 @@ class Expr(val calc: Calc<*>, expr: String) {
                                 } else {
                                     recursiveParse(argumentInfo.range)
                                 }
+                                index = argumentInfo.range.max + 1
                             }
                         }
 
                         token.isLeftP() -> {
                             val argumentInfo = findClosure(Range(index, range.max), rawTokens)
                             parseError = argumentInfo.error
-                            if (parseError != null) {
+                            if (parseError == null) {
                                 recursiveParse(argumentInfo.range)
                             }
                         }
