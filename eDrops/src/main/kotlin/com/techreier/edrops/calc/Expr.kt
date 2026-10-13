@@ -99,7 +99,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         val range = removeOuterP(rangeIn, rawTokens)
         logger.info("RecursiveParse: $range)")
         logger.info(rawTokens.toExpr(range))
-
+        var lastFunction: Token? = null
 
         var index = range.min
         do {
@@ -107,27 +107,33 @@ class Expr(val calc: Calc<*>, expr: String) {
                 is NumberToken -> index++
                 is OperatorToken -> {
                     when {
+                        token.isLeftP() -> {
+                            val argumentInfo = findClosure(Range(index, range.max), rawTokens)
+                            logger.info("leftP found");
+                            parseError = argumentInfo.error
+                            if (parseError == null) {
+                                recursiveParse(argumentInfo.range)
+                                index = argumentInfo.range.max + 1
+                            }
+                        }
+
                         token.isFunction() -> {
                             val argumentInfo = parseArguments(Range(index, range.max), rawTokens)
                             parseError = argumentInfo.error
                             if (parseError == null) {
                                 if (argumentInfo.push) {
+                                    logger.info("pushing")
                                     tokens.addAll(argumentInfo.tokens)
                                     tokens.add(token)
                                 } else {
                                     logger.info("expression cannot be pushed to stack")
                                     recursiveParse(argumentInfo.range)
+                                    tokens.add(token)
                                 }
                                 index = argumentInfo.range.max + 1
-                            }
-                        }
-
-                        token.isLeftP() -> {
-                            val argumentInfo = findClosure(Range(index, range.max), rawTokens)
-                            logger.info("lefP found");
-                            parseError = argumentInfo.error
-                            if (parseError == null) {
-                                recursiveParse(argumentInfo.range)
+                            } else {
+                                logger.info("parse error: ${parseError?.key}")
+                                return false
                             }
                         }
                     }

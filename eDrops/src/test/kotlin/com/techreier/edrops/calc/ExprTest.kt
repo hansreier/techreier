@@ -47,10 +47,9 @@ class ExprTest {
 
     @Test
     fun functionInfunctionTest2() {
-        calc.stack.push(90.0)
-        calc.saveVarsFromStack()
-        val input = "ln(sin(90))"
+        val input = "ln(sin(180))"
         val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
         if (expr.parse()) expr.calculate()
         val singleResult = calc.stack.peekFirst()
         logger.info("Result = $singleResult")
