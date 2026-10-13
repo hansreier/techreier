@@ -36,7 +36,7 @@ class ExprTest {
     fun functionInfunctionTest() {
         calc.stack.push(90.0)
         calc.saveVarsFromStack()
-        val input = "log10(sin(x))"
+        val input = "log(sin(x))"
         val expr = Expr(calc, input)
         if (expr.parse()) expr.calculate()
         val singleResult = calc.stack.peekFirst()
