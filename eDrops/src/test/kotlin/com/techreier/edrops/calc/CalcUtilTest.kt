@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.config.logger
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -69,7 +70,7 @@ class CalcUtilTest {
     @Test
     fun removeOuterPTest() {
         val preRange = Range(0, tokens.size - 1)
-        val expectedRange = Range(2, tokens.size -3)
+        val expectedRange = Range(2, tokens.size - 3)
         val range = removeOuterP(preRange, tokens)
         assertEquals(expectedRange, range)
     }
@@ -81,6 +82,25 @@ class CalcUtilTest {
         val expectedRange = Range(0, 2)
         val range = removeOuterP(preRange, tokens2)
         assertEquals(expectedRange, range)
+    }
+
+    @Test
+    fun findClosureTest() {
+        val argumentInfo = findClosure(Range(14,tokens.size -1), tokens)
+        logger.info(tokens.toExpr())
+        logger.info(tokens.toExpr(argumentInfo.range))
+        assertEquals(14,  argumentInfo.range.min)
+        assertEquals(22,  argumentInfo.range.max)
+    }
+
+    @Test
+    fun findClosureFailsTest() {
+        val argumentInfo = findClosure(Range(13,tokens.size -1), tokens)
+        logger.info(tokens.toExpr())
+        logger.info(tokens.toExpr(argumentInfo.range))
+        assertNotNull(argumentInfo.error)
+        assertEquals(13,  argumentInfo.range.min)
+        assertEquals(22,  argumentInfo.range.max)
     }
 
 }

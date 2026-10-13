@@ -56,28 +56,28 @@ fun errorText(expr: String, parseError: ParseError?): String? {
     return "${parseError.key}: ${errorIndicator(expr, parseError)}"
 }
 
-fun removeOuterP(range: Range, tokens: List<Token>): Range {
-    var current = range
-    while (current.min < current.max &&
-        tokens[current.min].isLeftP() &&
-        tokens[current.max].isRightP()
+fun removeOuterP(rangeIn: Range, tokens: List<Token>): Range {
+    var min = rangeIn.min
+    var max = rangeIn.max
+    while (min < max &&
+        tokens[min].isLeftP() &&
+        tokens[max].isRightP()
     ) {
-
-        if (!wrapsWhole(current, tokens)) break
-
-        current = Range(current.min + 1, current.max - 1)
+        if (!wrapsWhole(min, max, tokens)) break
+        min++
+        max--
     }
-    return current
+    return Range(min, max)
 }
 
-private fun wrapsWhole(range: Range, tokens: List<Token>): Boolean {
+private fun wrapsWhole(min: Int, max: Int, tokens: List<Token>): Boolean {
     var balance = 0
-    for (i in range.min..range.max) {
+    for (i in min..max) {
         when {
             tokens[i].isLeftP() -> balance++
             tokens[i].isRightP() -> balance--
         }
-        if (balance == 0) return i == range.max
+        if (balance == 0) return (i == max)
     }
     return false
 }
@@ -88,13 +88,15 @@ fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
     var push = true
     val arguments = ArrayList<Token>()
     var i = range.min + 1
+    var min = range.min
+    var max = range.max
     val operatorText = (tokens[range.min] as OperatorToken).operator.abbrev()
     logger.info("parse arguments for $operatorText range=$range")
     do {
         when {
             tokens[i].isValue() -> arguments.add(tokens[i])
-            tokens[i].isLeftP() -> balance++
-            tokens[i].isRightP() -> balance--
+            tokens[i].isLeftP() -> {balance++; if (balance == 1) min = i }
+            tokens[i].isRightP() -> {balance--; if (balance == 1) max = i + 1}
             tokens[i].isSeparator() -> {}
             tokens[i].isFunction() -> { push = false}
             tokens[i].isOperator() -> { push = false}
@@ -106,13 +108,18 @@ fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
     if ((balance != 0) && push)  error =
         ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
     logger.info("arguments found: ${arguments.size} range=$range ")
-    return ArgumentInfo(Range(range.min, i), arguments, push, error)
+    return ArgumentInfo(Range(min, max), arguments, push, error)
 }
 
 fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
     var balance = 0
     var closingIndex = range.max
     var error: ParseError? = null
+
+    if (!tokens[range.min].isLeftP()) {
+        error = ParseError(MISSING_PARENTHESIS, tokens[range.min].position, oper=Op.LEFTP.abbrev())
+        return ArgumentInfo(range, emptyList(), false, error)
+    }
 
     for (i in range.min..range.max) {
         when {
@@ -132,7 +139,6 @@ fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
 
     return ArgumentInfo(Range(range.min, closingIndex), emptyList(), false, error)
 }
-
 
 data class Range(val min: Int, val max: Int)
 

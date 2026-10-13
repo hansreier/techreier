@@ -61,38 +61,6 @@ class Expr(val calc: Calc<*>, expr: String) {
             logger.error("error: $text")
     }
 
-    /*
-    private fun addToken(o: Oper): Boolean {
-        trace("$o checking arguments:${o.noArgs()}")
-
-        if (o.noArgs() != 0) {
-            var noArgs = 0
-            for (i in tokens.size - 1 downTo 0) {
-                val t = tokens[i]
-                if (t.position < o.pos) {
-                    if (o.isBasic()) {
-                        noArgs++
-                    }
-                    break
-                }
-
-                when (t) {
-                    is NumberToken -> noArgs++
-                    is OperatorToken -> noArgs -= (t.operator.noArgs() - t.operator.noResults())
-                }
-            }
-            if (noArgs != o.noArgs()) { //TODO ReierAsk not possible toa add parameters here (No of arguments)
-                parseError = ParseError(WRONG_NO_OF_ARGUMENTS, o.pos, o.abbrev())
-                return false
-            }
-        }
-
-        resultSize += -o.op.noArgs() + o.op.noResults()
-        tokens.add(OperatorToken(o.op, o.pos))
-        trace("@adding token:$o level: $resultSize)")
-        return true
-    }*/
-
     fun calculate() {
         try {
             logger.info("calculating")
@@ -127,11 +95,11 @@ class Expr(val calc: Calc<*>, expr: String) {
         return parsed
     }
 
-    fun recursiveParse(range: Range): Boolean {
-        logger.info(("RecursiveParse: $range"))
-        val range = removeOuterP(range, rawTokens)
-        var calcStart = range.min
-        var calcEnd = range.min
+    fun recursiveParse(rangeIn: Range): Boolean {
+        val range = removeOuterP(rangeIn, rawTokens)
+        logger.info("RecursiveParse: $range)")
+        logger.info(rawTokens.toExpr(range))
+
 
         var index = range.min
         do {
@@ -146,8 +114,8 @@ class Expr(val calc: Calc<*>, expr: String) {
                                 if (argumentInfo.push) {
                                     tokens.addAll(argumentInfo.tokens)
                                     tokens.add(token)
-                                    index = argumentInfo.range.max + 1
                                 } else {
+                                    logger.info("expression cannot be pushed to stack")
                                     recursiveParse(argumentInfo.range)
                                 }
                                 index = argumentInfo.range.max + 1
@@ -156,6 +124,7 @@ class Expr(val calc: Calc<*>, expr: String) {
 
                         token.isLeftP() -> {
                             val argumentInfo = findClosure(Range(index, range.max), rawTokens)
+                            logger.info("lefP found");
                             parseError = argumentInfo.error
                             if (parseError == null) {
                                 recursiveParse(argumentInfo.range)
