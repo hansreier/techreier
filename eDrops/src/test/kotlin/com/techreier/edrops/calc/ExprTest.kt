@@ -47,9 +47,23 @@ class ExprTest {
     }
 
     @Test
+    fun doubleXFunctionTest() {
+        val x = 2.0
+        val input = "hyp(x  ; x)"
+        calc.variables.add(x)
+        val expr = Expr(calc, input)
+        if (expr.parse()) expr.calculate()
+        val singleResult = calc.result()
+        logger.info("Result = $singleResult")
+        assertNotNull(singleResult)
+        assertEquals(2.8284271247461903, singleResult, 1e-9)
+        assertEquals(1, calc.stack.size, "Single result is not returned")
+    }
+
+    @Test
     fun twoArgumentFunctionRightOrderTest() {
-        val x = 4.0;
-        val y = 3.0;
+        val x = 4.0
+        val y = 3.0
         calc.variables.add(x)
         calc.variables.add(y)
         val input = "gyp( x ; y )"
@@ -64,8 +78,8 @@ class ExprTest {
 
     @Test
     fun twoArgumentFunctionWrongOrderTest() {
-        val x = 3.0;
-        val y = 4.0;
+        val x = 3.0
+        val y = 4.0
         calc.variables.add(x)
         calc.variables.add(y)
         val input = "gyp(x;y)"

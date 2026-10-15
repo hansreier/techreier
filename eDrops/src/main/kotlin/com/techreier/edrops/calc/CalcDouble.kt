@@ -179,7 +179,7 @@ class CalcDouble<T>(
                 r.add(arg.next() as Double)
                 r.add(x)
             }
-            Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
+            Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> { //TODO ReierAsk Change to Map later.
                 val index = operator.ordinal - Op.X.ordinal
                 if (index < variables.size) {
                     r.add(variables[index] as Double)
