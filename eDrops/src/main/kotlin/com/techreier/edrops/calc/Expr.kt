@@ -55,8 +55,7 @@ class Expr(val calc: Calc<*>, expr: String) {
 
     fun recursiveParse(rangeIn: Range): Boolean {
         val range = removeOuterP(rangeIn, rawTokens)
-        logger.info("RecursiveParse: $range)")
-        logger.info(rawTokens.toExpr(range))
+        logger.info("Recursive: $range ${rawTokens.toExpr(range)}")
 
         var index = range.min
         do {
