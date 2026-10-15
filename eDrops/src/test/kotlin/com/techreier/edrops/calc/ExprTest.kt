@@ -20,6 +20,50 @@ class ExprTest {
     }
 
     @Test
+    fun simpleFunctionTest() {
+        val input = "sin 90"
+        val expr = Expr(calc, input)
+        if (expr.parse()) expr.calculate()
+        val singleResult = calc.stack.peekFirst()
+        logger.info("Result = $singleResult")
+        assertEquals(1.0, singleResult, 1e-9)
+        assertEquals(1, calc.stack.size, "Single result is not returned")
+    }
+
+    @Test
+    fun twoArgumentFunctionTest() {
+        val input = "hyp(3;4)"
+        val expr = Expr(calc, input)
+        if (expr.parse()) expr.calculate()
+        val singleResult = calc.stack.peekFirst()
+        logger.info("Result = $singleResult")
+        assertEquals(5.0, singleResult, 1e-9)
+        assertEquals(1, calc.stack.size, "Single result is not returned")
+    }
+
+    @Test
+    fun twoArgumentFunctionRightOrderTest() {
+        val input = "gyp(4;3)"
+        val expr = Expr(calc, input)
+        if (expr.parse()) expr.calculate()
+        val singleResult = calc.stack.peekFirst()
+        logger.info("Result = $singleResult")
+        assertEquals(2.6457513110645907, singleResult, 1e-9)
+        assertEquals(1, calc.stack.size, "Single result is not returned")
+    }
+
+    @Test
+    fun twoArgumentFunctionWrongOrderTest() {
+        val input = "gyp(3;4)"
+        val expr = Expr(calc, input)
+        if (expr.parse()) expr.calculate()
+        val singleResult = calc.stack.peekFirst()
+        logger.info("Result = $singleResult")
+        assertEquals(Double.NaN, singleResult)
+        assertEquals(1, calc.stack.size, "Single result is not returned")
+    }
+
+    @Test
     fun happyVariableTest() {
         calc.stack.push(90.0)
         calc.saveVarsFromStack()
@@ -53,7 +97,7 @@ class ExprTest {
         if (expr.parse()) expr.calculate()
         val singleResult = calc.stack.peekFirst()
         logger.info("Result = $singleResult")
-        assertEquals(Double.NEGATIVE_INFINITY, singleResult, 1e-9)
+        assertEquals(Double.NEGATIVE_INFINITY, singleResult)
         assertEquals(1, calc.stack.size, "Single result is not returned")
     }
 }
