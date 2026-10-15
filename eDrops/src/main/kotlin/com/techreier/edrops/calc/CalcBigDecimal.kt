@@ -7,7 +7,6 @@ import java.util.ArrayList
 
 class CalcBigDecimal<T>(
     type: Class<T>,
-    var printOp: Boolean = false
 ) : Calc<T>(type) {
 
     var scale: Int = 20
@@ -19,50 +18,18 @@ class CalcBigDecimal<T>(
     }
 
     override fun enter(number: Number) {
-        val b: BigDecimal? = when (number) {
-            is Double -> BigDecimal.valueOf(number)
-            is Long -> BigDecimal.valueOf(number)
-            is Int -> BigDecimal.valueOf(number.toLong())
-            is BigDecimal -> number
-            else -> null
-        }
-        if (b != null) {
-            stack.push(type.cast(b))
-            logOp("$number enter ")
-            logStack()
-        }
+        val b = if (number is BigDecimal) number else BigDecimal(number.toString())
+
+        stack.push(type.cast(b))
     }
 
-    override fun enter(number: Double) {
-        val b = BigDecimal.valueOf(number)
-        stack.push(type.cast(b))
-        logOp("$b enter ")
-        logStack()
-    }
-
-    override fun enter(number: Int) {
-        val b = BigDecimal.valueOf(number.toLong())
-        stack.push(type.cast(b))
-        logOp("$b enter ")
-        logStack()
-    }
-
-    override fun enter(number: Long) {
-        val b = BigDecimal.valueOf(number)
-        stack.push(type.cast(b))
-        logOp("$b enter ")
-        logStack()
-    }
 
     override fun enter(number: String) {
         try {
             val b = BigDecimal(number)
             stack.push(type.cast(b))
-            logOp("$b enter ")
-            logStack()
         } catch (e: NumberFormatException) {
             logger.error("$number : Feil nummer format. ")
-            logStack()
         }
     }
 

@@ -9,7 +9,6 @@ class CalcDoubleTest {
     @Test
     fun addTest() {
         val calculator = CalcDouble(Double::class.javaObjectType)
-        calculator.logStack = false
         calculator.enter(24.0)
         calculator.enter(26.0)
         calculator.op(Op.ADD)
@@ -19,7 +18,7 @@ class CalcDoubleTest {
             0.0001,
             "24 + 26 + 30"
         )
-        calculator.logStack()
+        calculator.traceStack()
     }
 
     @Test
@@ -31,7 +30,6 @@ class CalcDoubleTest {
         val expr = StringBuilder()
 
         val calculator = CalcDouble(Double::class.javaObjectType)
-        calculator.logStack = false
 
         for (i in 0 until 10) {
             numbers[i] = Random.nextDouble(0.0, 1000.0)
@@ -46,6 +44,6 @@ class CalcDoubleTest {
             expr.append(numbers[i])
         }
         assertEquals(sum, calculator.result() as Double, 0.0001, "Sum:$expr")
-        calculator.logStack()
+        calculator.traceStack()
     }
 }

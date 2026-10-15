@@ -11,7 +11,6 @@ class CalcBigDecimalTest {
     @Test
     fun precisionAddTest() {
         val calculator = CalcBigDecimal(BigDecimal::class.javaObjectType)
-        calculator.logStack = false
 
         calculator.enter(BigDecimal("0.1"))
         calculator.enter(BigDecimal("0.2"))
@@ -23,13 +22,12 @@ class CalcBigDecimalTest {
             calculator.op(Op.ADD, BigDecimal("0.3")),
             "0.1 + 0.2 + 0.3 skal være eksakt 0.6"
         )
-        calculator.logStack()
+        calculator.traceStack()
     }
 
     @Test
     fun divisionScaleTest() {
         val calculator = CalcBigDecimal(BigDecimal::class.javaObjectType)
-        calculator.logStack = false
         calculator.scale = 10
 
         // no float rounding mess
@@ -54,7 +52,6 @@ class CalcBigDecimalTest {
         val expr = StringBuilder()
 
         val calculator = CalcBigDecimal(BigDecimal::class.javaObjectType)
-        calculator.logStack = false
 
         for (i in 0 until 10) {
             calculator.enter(numbers[i])
@@ -68,6 +65,6 @@ class CalcBigDecimalTest {
             expr.append(numbers[i])
         }
         assertEquals(sum, calculator.result(), "Sum:$expr")
-        calculator.logStack()
+        calculator.traceStack()
     }
 }

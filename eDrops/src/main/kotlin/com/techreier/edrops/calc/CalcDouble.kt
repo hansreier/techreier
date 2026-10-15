@@ -6,9 +6,9 @@ import java.util.EnumSet
 
 class CalcDouble<T>(
     type: Class<T>,
-    printOp: Boolean = false
-) : Calc<T>(type, printOp) {
+) : Calc<T>(type) {
     var degrees: Boolean = true
+    var epsilon = 1e-12
 
     init {
         if (type != Double::class.javaObjectType) {
@@ -25,39 +25,16 @@ class CalcDouble<T>(
 
     override fun enter(number: Number) {
         stack.push(type.cast(number.toDouble()))
-        logOp("$number enter ")
-        logStack()
-    }
-
-    override fun enter(number: Double) {
-        stack.push(type.cast(number))
-        logOp("$number enter ")
-        logStack()
-    }
-
-    override fun enter(number: Int) {
-        val b = number.toDouble()
-        stack.push(type.cast(b))
-        logOp("$b enter ")
-        logStack()
-    }
-
-    override fun enter(number: Long) {
-        val b = number.toDouble()
-        stack.push(type.cast(b))
-        logOp("$b enter ")
-        logStack()
+        traceStack()
     }
 
     override fun enter(number: String) {
         try {
             val b = number.toDouble()
             stack.push(type.cast(b))
-            logOp("$b enter ")
-            logStack()
         } catch (e: NumberFormatException) {
             logger.error("$number : Error. Wrong number format. ")
-            logStack()
+            traceStack()
         }
     }
 
@@ -100,9 +77,9 @@ class CalcDouble<T>(
             Op.SIN -> {
                 x = arg.next() as Double
                 if (degrees)
-                    r.add(Math.sin(Math.toRadians(x)))
+                    r.add(Math.sin(Math.toRadians(x)).cleanZero())
                 else
-                    r.add(Math.sin(x))
+                    r.add(Math.sin(x).cleanZero())
             }
             Op.ASIN -> {
                 x = arg.next() as Double
@@ -114,9 +91,9 @@ class CalcDouble<T>(
             Op.COS -> {
                 x = arg.next() as Double
                 if (degrees)
-                    r.add(Math.cos(Math.toRadians(x)))
+                    r.add(Math.cos(Math.toRadians(x)).cleanZero())
                 else
-                    r.add(Math.cos(x))
+                    r.add(Math.cos(x).cleanZero())
             }
             Op.ACOS -> {
                 x = arg.next() as Double
@@ -128,9 +105,9 @@ class CalcDouble<T>(
             Op.TAN -> {
                 x = arg.next() as Double
                 if (degrees)
-                    r.add(Math.tan(Math.toRadians(x)))
+                    r.add(Math.tan(Math.toRadians(x)).cleanZero())
                 else
-                    r.add(Math.tan(x))
+                    r.add(Math.tan(x).cleanZero())
             }
             Op.ATAN -> {
                 x = arg.next() as Double
@@ -223,4 +200,8 @@ class CalcDouble<T>(
             stack.push(type.cast(res))
         }
     }
+
+    //to be used for rounding to zero for some selected functions
+    private fun Double.cleanZero(): Double =
+        if (kotlin.math.abs(this) < epsilon) 0.0 else this
 }

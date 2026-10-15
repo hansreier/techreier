@@ -4,12 +4,11 @@ import com.techreier.edrops.config.logger
 import java.util.*
 
 abstract class Calc<T>(
-    val type: Class<T>,
-    var logOp: Boolean = false,
+    val type: Class<T>
 ) {
     var stack: Deque<T> = ArrayDeque()
     var variables: ArrayList<T> = ArrayList()
-    var logStack: Boolean = true
+    var trace: Trace = Trace.OFF
     var operators: EnumSet<Op> = EnumSet.of(
         Op.EMPTY, Op.REMOVE, Op.YX, Op.ADD,
         Op.SUBTRACT, Op.DIVIDE, Op.MULTIPLY, Op.X2, Op.SUM, Op.POW,
@@ -26,11 +25,6 @@ abstract class Calc<T>(
         stack.addAll(variables)
     }
 
-    fun logOp(text: String) {
-        if (logOp)
-            print(text)
-    }
-
     fun clear() {
         logger.debug("tømmer stakken")
         stack.clear()
@@ -38,20 +32,13 @@ abstract class Calc<T>(
 
     abstract fun enter(number: Number)
 
-    abstract fun enter(number: Double)
-
-    abstract fun enter(number: Int)
-
-    abstract fun enter(number: Long)
-
-    abstract fun enter(number: String)
+    abstract fun enter(number: String)  //Used for future GUI
 
     protected abstract fun opr(operator: Op, noArgs: Int)
 
 
     fun op(operator: Op, number: Number): T? {
         return try {
-            print("$number ")
             stack.push(type.cast(number))
             op(operator)
         } catch (e: Exception) {
@@ -87,21 +74,21 @@ abstract class Calc<T>(
                     }
                 }
 
-                logOp("${operator.abbrev()} ")
+                logger.info("Operator: ${operator.abbrev()} ")
                 if (operators.contains(operator)) {
                     if (validElements) {
                         opr(operator, noArgs)
                     } else {
                         logger.error("All arguments is not of the dame data type!")
-                        logStack()
+                        traceStack()
                         return null
                     }
                 } else {
                     logger.error("Operator ${operator.abbrev()} invalid for ${type.simpleName}.")
-                    logStack()
+                    traceStack()
                     return null
                 }
-                logStack()
+                traceStack()
                 return if (!stack.isEmpty()) {
                     stack.first
                 } else {
@@ -109,12 +96,12 @@ abstract class Calc<T>(
                 }
             } else {
                 logger.error("${operator.abbrev()} : Too few arguments ${stack.size}, must be $minst$noArgs!")
-                logStack()
+                traceStack()
                 return null
             }
         } catch (e: Exception) {
             logger.error("Calculation error: ${operator.abbrev()} ${e.message}.")
-            logStack()
+            traceStack()
             return null
         }
     }
@@ -145,27 +132,16 @@ abstract class Calc<T>(
         }
     }
 
+    fun traceText(text: String) {
+        if (trace == Trace.ALL) {
+            logger.info(text)
+        }
+    }
+
     // Log the stack
-    fun logStack() {
-        val i1: T?
-        if (logStack) {
-            try {
-                i1 = stack.peekFirst()
-                if (i1 != null) {
-                    logger.info("${stack.first} ")
-                    logger.info("( ")
-                    val i = stack.iterator()
-                    i.next()
-                    while (i.hasNext()) {
-                        logger.info("${i.next()} ")
-                    }
-                    logger.info(")")
-                } else {
-                    logger.info("( )")
-                }
-            } catch (e: Exception) {
-                logger.error("Error when printing stack: ${e.message}.")
-            }
+    fun traceStack() {
+        if (trace == Trace.ALL) {
+            logger.info("Stack: {}", stack.joinToString(separator = " ", prefix = "[", postfix = "]"))
         }
     }
 }

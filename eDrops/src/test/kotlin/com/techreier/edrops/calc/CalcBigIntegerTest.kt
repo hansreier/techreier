@@ -10,13 +10,12 @@ class CalcBigIntegerTest {
     @Test
     fun addTest() {
         val calculator = CalcBigInteger(BigInteger::class.java)
-        calculator.logStack = false
         calculator.enter(24)
         calculator.enter(26)
         calculator.op(Op.ADD)
         assertEquals(BigInteger.valueOf(24L + 26L + 30L),
             calculator.op(Op.ADD, BigInteger.valueOf(30)), "24 + 26 + 30")
-        calculator.logStack()
+        calculator.traceStack()
     }
 
     @Test
@@ -28,7 +27,6 @@ class CalcBigIntegerTest {
         val expr = StringBuilder()
 
         val calculator = CalcBigInteger(BigInteger::class.java)
-        calculator.logStack = false
 
         for (i in 0 until 10) {
             numbers[i] = BigInteger.valueOf(Random.nextInt(1000).toLong())
@@ -43,6 +41,6 @@ class CalcBigIntegerTest {
             expr.append(numbers[i])
         }
         assertEquals(sum, calculator.result(), "Sum:$expr")
-        calculator.logStack()
+        calculator.traceStack()
     }
 }

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class PreparseTest : TestBase() {
 
-    val calc = CalcDouble(Double::class.javaObjectType, true)
+    val calc = CalcDouble(Double::class.javaObjectType)
 
     @Test
     fun happyTest() {

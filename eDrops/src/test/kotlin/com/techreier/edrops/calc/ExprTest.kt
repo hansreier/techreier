@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 
 class ExprTest {
 
-    val calc = CalcDouble(Double::class.javaObjectType, true)
+    val calc = CalcDouble(Double::class.javaObjectType)
 
     @Test
     fun happyTest() {
@@ -41,19 +41,19 @@ class ExprTest {
         if (expr.parse()) expr.calculate()
         val singleResult = calc.stack.peekFirst()
         logger.info("Result = $singleResult")
-        assertEquals(1.0, singleResult, 1e-9)
+        assertEquals(0.0, singleResult, 1e-9)
         assertEquals(1, calc.stack.size, "Single result is not returned")
     }
 
     @Test
-    fun functionInfunctionTest2() {
+    fun infinityTest() {
         val input = "ln(sin(180))"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        calc.trace = Trace.ALL
         if (expr.parse()) expr.calculate()
         val singleResult = calc.stack.peekFirst()
         logger.info("Result = $singleResult")
-        assertEquals(1.0, singleResult, 1e-9)
+        assertEquals(Double.NEGATIVE_INFINITY, singleResult, 1e-9)
         assertEquals(1, calc.stack.size, "Single result is not returned")
     }
 }

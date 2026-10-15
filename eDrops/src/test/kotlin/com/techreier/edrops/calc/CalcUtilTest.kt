@@ -3,8 +3,8 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.config.logger
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertNotNull
 
 class CalcUtilTest {
 
@@ -99,8 +99,9 @@ class CalcUtilTest {
         logger.info(tokens.toExpr())
         logger.info(tokens.toExpr(argumentInfo.range))
         assertNotNull(argumentInfo.error)
+        assertEquals(MISSING_PARENTHESIS, argumentInfo.error.key)
         assertEquals(13,  argumentInfo.range.min)
-        assertEquals(22,  argumentInfo.range.max)
+        assertEquals(24,  argumentInfo.range.max)
     }
 
 }

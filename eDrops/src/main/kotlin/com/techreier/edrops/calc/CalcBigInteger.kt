@@ -6,66 +6,32 @@ import java.math.BigInteger
 import java.math.RoundingMode
 import java.util.ArrayList
 
-class CalcBigInteger<T> : Calc<T> {
+class CalcBigInteger<T>(
+    type: Class<T>,
+) : Calc<T>(type) {
 
-    constructor(type: Class<T>, logOp: Boolean) : super(type) {
+    init {
         if (type != BigInteger::class.java) {
-            throw IllegalArgumentException(
-                "Feil type ${type.simpleName} kalkulator, må være av type ${BigInteger::class.java.simpleName}."
-            )
+            throw IllegalArgumentException("Feil parameter ${type.simpleName} , må være ${BigInteger::class.java.simpleName}.")
         }
-        this.logOp = logOp
     }
-
-    constructor(type: Class<T>) : this(type, false)
 
     override fun enter(number: Number) {
-        val b: BigInteger? = when (number) {
-            is BigDecimal -> number.setScale(0, RoundingMode.HALF_EVEN).toBigInteger()
-            is Double -> BigDecimal.valueOf(number).setScale(0, RoundingMode.HALF_EVEN).toBigInteger()
+        val b = when (number) {
             is BigInteger -> number
-            is Long -> BigInteger.valueOf(number)
-            is Int -> BigInteger.valueOf(number.toLong())
-            else -> null
+            is BigDecimal -> number.setScale(0, RoundingMode.HALF_EVEN).toBigInteger()
+            is Double, is Float -> BigDecimal.valueOf(number.toDouble()).setScale(0, RoundingMode.HALF_EVEN).toBigInteger()
+            else -> BigInteger.valueOf(number.toLong())
         }
         stack.push(type.cast(b))
-        logOp("$number enter ")
-        logStack()
-    }
-
-    override fun enter(number: Double) {
-        val b = BigInteger.valueOf(Math.round(number))
-        stack.push(type.cast(b))
-        logOp("$b enter ")
-        logStack()
-    }
-
-    override fun enter(number: Int) {
-        val b = BigInteger.valueOf(number.toLong())
-        stack.push(type.cast(b))
-        logOp("$b enter ")
-        logStack()
-    }
-
-
-    override fun enter(number: Long) {
-        val b = BigInteger.valueOf(number)
-        stack.push(type.cast(b))
-        logOp("$b enter ")
-        logStack()
     }
 
     override fun enter(number: String) {
         try {
             val b = BigInteger(number)
             stack.push(type.cast(b))
-            logOp("$b enter ")
-            logStack()
-        } catch (e: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             logger.error("$number : Feil nummer format. ")
-            if (logOp) {
-                logStack()
-            }
         }
     }
 
