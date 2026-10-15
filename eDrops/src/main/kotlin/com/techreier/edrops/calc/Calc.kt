@@ -106,20 +106,7 @@ abstract class Calc<T>(
         }
     }
 
-    fun result(): T? {
-        val i1: T?
-        try {
-            i1 = stack.peekFirst()
-            return if (i1 != null) {
-                stack.first
-            } else {
-                null
-            }
-        } catch (e: Exception) {
-            logger.error("Error when fetching result: ${e.message}.")
-            return null
-        }
-    }
+    fun result(): T? = stack.peekFirst()
 
     fun allResults(): ArrayList<T> {
         try {

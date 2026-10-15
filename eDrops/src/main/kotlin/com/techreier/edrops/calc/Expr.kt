@@ -38,6 +38,8 @@ class Expr(val calc: Calc<*>, expr: String) {
             }
         } catch (e: Exception) {
             logger.error("Error during calculation: ${e.message}")
+        } finally {
+            calc.variables.clear()
         }
     }
 
@@ -49,6 +51,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         rawTokens = result.tokens
         logger.info("Parsing")
         val parsed =  recursiveParse(Range(0, rawTokens.size - 1))
+        if (!parsed) calc.variables.clear()
         logger.info("Parsed")
         return parsed
     }
