@@ -30,16 +30,15 @@ class Expr(val calc: Calc<*>, expr: String) {
             for (t in tokens) {
                 when (t) {
                     is NumberToken -> calc.enter(t.argument)
-                    is OperatorToken -> if (calc.op(t.operator) == null) {
-                        calc.addVarsOnEmptyStack()
-                        break
-                    }
+                    is OperatorToken -> calc.op(t.operator)
+                 //   is OperatorToken -> if (calc.op(t.operator) == null) {
+                //calc.addVarsOnEmptyStack()
+                 //                    break
+                    //               }
                 }
             }
         } catch (e: Exception) {
             logger.error("Error during calculation: ${e.message}")
-        } finally {
-            calc.variables.clear()
         }
     }
 
@@ -51,7 +50,6 @@ class Expr(val calc: Calc<*>, expr: String) {
         rawTokens = result.tokens
         logger.info("Parsing")
         val parsed =  recursiveParse(Range(0, rawTokens.size - 1))
-        if (!parsed) calc.variables.clear()
         logger.info("Parsed")
         return parsed
     }

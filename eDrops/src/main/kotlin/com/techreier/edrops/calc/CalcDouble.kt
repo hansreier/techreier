@@ -4,16 +4,14 @@ import com.techreier.edrops.config.logger
 import java.util.ArrayList
 import java.util.EnumSet
 
-class CalcDouble<T>(
-    type: Class<T>,
-) : Calc<T>(type) {
+class CalcDouble: Calc<Double>() {
+    override val type: Class<Double> = Double::class.javaObjectType
     var degrees: Boolean = true
     var epsilon = 1e-12
 
+   private val vars = Array(Op.entries.size) { 0.0 }
+
     init {
-        if (type != Double::class.javaObjectType) {
-            throw Exception("Feil parameter ${type.simpleName} kalkulator, må være ${Double::class.java.simpleName}.")
-        }
         operators.addAll(
             EnumSet.of(
                 Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
@@ -23,16 +21,24 @@ class CalcDouble<T>(
         )
     }
 
+    override operator fun set(op: Op, value: Double) {
+        vars[op.ordinal] = value
+    }
+
+    override operator fun get(op: Op): Double {
+        return vars[op.ordinal]
+    }
+
     override fun enter(number: Number) {
-        stack.push(type.cast(number.toDouble()))
+        stack.push(number.toDouble())
         traceStack()
     }
 
     override fun enter(number: String) {
         try {
             val b = number.toDouble()
-            stack.push(type.cast(b))
-        } catch (e: NumberFormatException) {
+            stack.push(b)
+        } catch (_: NumberFormatException) {
             logger.error("$number : Error. Wrong number format. ")
             traceStack()
         }
@@ -164,7 +170,7 @@ class CalcDouble<T>(
             }
             Op.SUM -> {
                 r.add(0.0)
-                for (i in 0 until noArgs) {
+                repeat(noArgs) {
                     val x = arg.next() as Double
                     r[0] = r.first() + x
                 }
@@ -179,25 +185,20 @@ class CalcDouble<T>(
                 r.add(arg.next() as Double)
                 r.add(x)
             }
-            Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> { //TODO ReierAsk Change to Map later.
-                val index = operator.ordinal - Op.X.ordinal
-                if (index < variables.size) {
-                    r.add(variables[index] as Double)
-                } else {
-                    throw IllegalStateException("has no value")
-                }
+            Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
+               r.add(vars[operator.ordinal])
             }
             else -> {
                 logger.error("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}")
             }
         }
 
-        for (i in 0 until noArgs) {
+        repeat(noArgs) {
             stack.poll()
         }
 
         for (res in r) {
-            stack.push(type.cast(res))
+            stack.push(res)
         }
     }
 
@@ -205,3 +206,4 @@ class CalcDouble<T>(
     private fun Double.cleanZero(): Double =
         if (kotlin.math.abs(this) < epsilon) 0.0 else this
 }
+

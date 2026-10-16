@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class PreparseTest : TestBase() {
 
-    val calc = CalcDouble(Double::class.javaObjectType)
+    val calc = CalcDouble()
 
     @Test
     fun happyTest() {
@@ -68,7 +68,6 @@ class PreparseTest : TestBase() {
 
     @Test
     fun minusminusFailsTest() {
-        val calc: Calc<Double> = CalcDouble(Double::class.javaObjectType)
         val input = "5-- 3"
         assertPreparseFails(MISSING_OPERAND, calc, input)
     }

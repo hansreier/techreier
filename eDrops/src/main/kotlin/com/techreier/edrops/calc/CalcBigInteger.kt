@@ -6,14 +6,24 @@ import java.math.BigInteger
 import java.math.RoundingMode
 import java.util.ArrayList
 
-class CalcBigInteger<T>(
-    type: Class<T>,
-) : Calc<T>(type) {
+
+class CalcBigInteger : Calc<BigInteger>() {
+    override val type: Class<BigInteger> = BigInteger::class.java
+
+   private val vars = Array(Op.entries.size) { BigInteger.ZERO }
 
     init {
         if (type != BigInteger::class.java) {
             throw IllegalArgumentException("Feil parameter ${type.simpleName} , må være ${BigInteger::class.java.simpleName}.")
         }
+    }
+
+    override operator fun set(op: Op, value: BigInteger) {
+        vars[op.ordinal] = value
+    }
+
+    override operator fun get(op: Op): BigInteger {
+        return vars[op.ordinal]
     }
 
     override fun enter(number: Number) {
@@ -74,7 +84,7 @@ class CalcBigInteger<T>(
             }
             Op.SUM -> {
                 r.add(BigInteger.ZERO)
-                for (i in 0 until noArgs) {
+               repeat (noArgs) {
                     val x = arg.next() as BigInteger
                     r[0] = r[0].add(x)
                 }
@@ -91,8 +101,8 @@ class CalcBigInteger<T>(
             }
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
                 val index = operator.ordinal - Op.X.ordinal
-                if (index < variables.size) {
-                    r.add(variables[index] as BigInteger)
+                if (index < vars.size) {
+                    r.add(vars[index] as BigInteger)
                 } else {
                     throw IllegalStateException("has no value")
                 }
@@ -102,7 +112,7 @@ class CalcBigInteger<T>(
             }
         }
 
-        for (i in 0 until noArgs) {
+        repeat (noArgs) {
             stack.poll()
         }
 

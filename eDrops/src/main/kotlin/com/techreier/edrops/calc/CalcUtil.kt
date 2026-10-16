@@ -143,3 +143,11 @@ fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
 data class Range(val min: Int, val max: Int)
 
 data class ArgumentInfo(val range: Range, val tokens: List<Token>, val push: Boolean, val error: ParseError?)
+
+operator fun <T> ArrayList<T>.set(op: Op, value: T) {
+    this[op.ordinal] = value
+}
+
+operator fun <T> ArrayList<T>.get(op: Op): T {
+    return this[op.ordinal]
+}

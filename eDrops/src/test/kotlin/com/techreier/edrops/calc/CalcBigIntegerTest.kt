@@ -9,7 +9,7 @@ class CalcBigIntegerTest {
 
     @Test
     fun addTest() {
-        val calculator = CalcBigInteger(BigInteger::class.java)
+        val calculator = CalcBigInteger()
         calculator.enter(24)
         calculator.enter(26)
         calculator.op(Op.ADD)
@@ -26,7 +26,7 @@ class CalcBigIntegerTest {
         var sum = BigInteger.ZERO
         val expr = StringBuilder()
 
-        val calculator = CalcBigInteger(BigInteger::class.java)
+        val calculator = CalcBigInteger()
 
         for (i in 0 until 10) {
             numbers[i] = BigInteger.valueOf(Random.nextInt(1000).toLong())

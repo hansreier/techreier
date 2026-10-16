@@ -8,7 +8,7 @@ class CalcDoubleTest {
 
     @Test
     fun addTest() {
-        val calculator = CalcDouble(Double::class.javaObjectType)
+        val calculator = CalcDouble()
         calculator.enter(24.0)
         calculator.enter(26.0)
         calculator.op(Op.ADD)
@@ -29,7 +29,7 @@ class CalcDoubleTest {
         var sum = 0.0
         val expr = StringBuilder()
 
-        val calculator = CalcDouble(Double::class.javaObjectType)
+        val calculator = CalcDouble()
 
         for (i in 0 until 10) {
             numbers[i] = Random.nextDouble(0.0, 1000.0)

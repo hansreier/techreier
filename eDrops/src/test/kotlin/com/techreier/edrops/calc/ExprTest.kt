@@ -8,7 +8,7 @@ import kotlin.test.fail
 
 class ExprTest {
 
-    val calc = CalcDouble(Double::class.javaObjectType)
+    val calc = CalcDouble()
 
     @Test
     fun happyTest() {
@@ -48,9 +48,8 @@ class ExprTest {
 
     @Test
     fun doubleXFunctionTest() {
-        val x = 2.0
         val input = "hyp(x  ; x)"
-        calc.variables.add(x)
+        calc[Op.X] = 2.0
         val expr = Expr(calc, input)
         if (expr.parse()) expr.calculate()
         val singleResult = calc.result()
@@ -62,10 +61,8 @@ class ExprTest {
 
     @Test
     fun twoArgumentFunctionRightOrderTest() {
-        val x = 4.0
-        val y = 3.0
-        calc.variables.add(x)
-        calc.variables.add(y)
+        calc[Op.X] = 4.0
+        calc[Op.Y] = 3.0
         val input = "gyp( x ; y )"
         val expr = Expr(calc, input)
         if (expr.parse()) expr.calculate()
@@ -78,10 +75,8 @@ class ExprTest {
 
     @Test
     fun twoArgumentFunctionWrongOrderTest() {
-        val x = 3.0
-        val y = 4.0
-        calc.variables.add(x)
-        calc.variables.add(y)
+        calc[Op.X] = 3.0
+        calc[Op.Y] = 4.0
         val input = "gyp(x;y)"
         val expr = Expr(calc, input)
         if (expr.parse()) expr.calculate()
@@ -94,8 +89,7 @@ class ExprTest {
 
     @Test
     fun happyVariableTest() {
-        val x = 90.0
-        calc.variables.add(x)
+        calc[Op.X] = 90.0
         val input = "sin(x)"
         val expr = Expr(calc, input)
         if (expr.parse()) expr.calculate()
@@ -109,8 +103,7 @@ class ExprTest {
 
     @Test
     fun functionInfunctionTest() {
-        val x = 90.0
-        calc.variables.add(x)
+        calc[Op.X] = 90.0
         val input = "ln(sin(x))"
         val expr = Expr(calc, input)
         if (expr.parse()) expr.calculate()
@@ -137,19 +130,17 @@ class ExprTest {
     @Test
     fun calculateSeriesTest() {
         val input = "sin(x)"
-        val x1 = 0.0
-        val x2 = 90.0
         val expr = Expr(calc, input)
         logger.info("calculating with x1")
         if (expr.parse()) {
-            calc.variables.add(x1)
+            calc[Op.X] = 0.0
             expr.calculate()
             val result1 = calc.result()
             assertNotNull(result1)
             assertEquals(0.0, result1, 1e-8, "calculating: " + input)
 
             logger.info("calculating with x2")
-            calc.variables.add(x2)
+            calc[Op.X] = 90.0
             expr.calculate()
             val result2 = calc.result()
             assertNotNull(result2)

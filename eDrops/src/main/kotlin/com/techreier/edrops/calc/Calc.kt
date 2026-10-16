@@ -3,11 +3,11 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.config.logger
 import java.util.*
 
-abstract class Calc<T>(
-    val type: Class<T>
-) {
+abstract class Calc<T>() {
+    abstract val type: Class<T>
     var stack: Deque<T> = ArrayDeque()
-    var variables: ArrayList<T> = ArrayList()
+    val s = Op.entries.size
+
     var trace: Trace = Trace.OFF
     var operators: EnumSet<Op> = EnumSet.of(
         Op.EMPTY, Op.REMOVE, Op.YX, Op.ADD,
@@ -15,20 +15,14 @@ abstract class Calc<T>(
         Op.SEPARATOR, Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W, Op.LEFTP, Op.RIGHTP
     )
 
-    fun saveVarsFromStack() {
-        variables.clear()
-        variables.addAll(stack)
-    }
-
-    fun addVarsOnEmptyStack() {
-        stack.clear()
-        stack.addAll(variables)
-    }
-
     fun clear() {
         logger.debug("tømmer stakken")
         stack.clear()
     }
+
+    abstract operator fun set(op: Op, value: T)
+
+    abstract operator fun get(op: Op): T
 
     abstract fun enter(number: Number)
 
@@ -65,13 +59,14 @@ abstract class Calc<T>(
             if (stack.size >= noArgs) {
                 arg = stack.iterator()
                 var validElements = true
-                for (i in 1..noArgs) {
+                var remaining = noArgs
+                while (remaining > 0) {
                     val t: T = arg.next()
-
                     if (!type.isInstance(t)) {
                         validElements = false
                         break
                     }
+                    remaining--
                 }
 
                 logger.info("Operator: ${operator.abbrev()} ")
@@ -79,7 +74,7 @@ abstract class Calc<T>(
                     if (validElements) {
                         opr(operator, noArgs)
                     } else {
-                        logger.error("All arguments is not of the dame data type!")
+                        logger.error("All arguments is not of the same data type!")
                         traceStack()
                         return null
                     }

@@ -5,9 +5,11 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.ArrayList
 
-class CalcBigDecimal<T>(
-    type: Class<T>,
-) : Calc<T>(type) {
+
+
+class CalcBigDecimal : Calc<BigDecimal>() {
+    override val type: Class<BigDecimal> = BigDecimal::class.java
+    private val vars = Array(Op.entries.size) { BigDecimal.ZERO }
 
     var scale: Int = 20
 
@@ -17,8 +19,16 @@ class CalcBigDecimal<T>(
         }
     }
 
+    override operator fun set(op: Op, value: BigDecimal) {
+        vars[op.ordinal] = value
+    }
+
+    override operator fun get(op: Op): BigDecimal {
+        return vars[op.ordinal]
+    }
+
     override fun enter(number: Number) {
-        val b = if (number is BigDecimal) number else BigDecimal(number.toString())
+        val b = number as? BigDecimal ?: BigDecimal(number.toString())
 
         stack.push(type.cast(b))
     }
@@ -28,7 +38,7 @@ class CalcBigDecimal<T>(
         try {
             val b = BigDecimal(number)
             stack.push(type.cast(b))
-        } catch (e: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             logger.error("$number : Feil nummer format. ")
         }
     }
@@ -84,7 +94,7 @@ class CalcBigDecimal<T>(
             }
             Op.SUM -> {
                 var sum = BigDecimal.ZERO
-                for (i in 0 until noArgs) {
+                repeat(noArgs) {
                     val x = arg.next() as BigDecimal
                     sum = sum.add(x)
                 }
@@ -102,8 +112,8 @@ class CalcBigDecimal<T>(
             }
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
                 val index = operator.ordinal - Op.X.ordinal
-                if (index < variables.size) {
-                    r.add(variables[index] as BigDecimal)
+                if (index < vars.size) {
+                    r.add(vars[index] as BigDecimal)
                 } else {
                     throw IllegalStateException("has no value")
                 }
@@ -113,7 +123,7 @@ class CalcBigDecimal<T>(
             }
         }
 
-        for (i in 0 until noArgs) {
+        repeat(noArgs) {
             stack.poll()
         }
 

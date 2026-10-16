@@ -10,7 +10,7 @@ class CalcBigDecimalTest {
 
     @Test
     fun precisionAddTest() {
-        val calculator = CalcBigDecimal(BigDecimal::class.javaObjectType)
+        val calculator = CalcBigDecimal()
 
         calculator.enter(BigDecimal("0.1"))
         calculator.enter(BigDecimal("0.2"))
@@ -27,7 +27,7 @@ class CalcBigDecimalTest {
 
     @Test
     fun divisionScaleTest() {
-        val calculator = CalcBigDecimal(BigDecimal::class.javaObjectType)
+        val calculator = CalcBigDecimal()
         calculator.scale = 10
 
         // no float rounding mess
@@ -51,7 +51,7 @@ class CalcBigDecimalTest {
         var sum = BigDecimal.ZERO
         val expr = StringBuilder()
 
-        val calculator = CalcBigDecimal(BigDecimal::class.javaObjectType)
+        val calculator = CalcBigDecimal()
 
         for (i in 0 until 10) {
             calculator.enter(numbers[i])
