@@ -168,9 +168,17 @@ fun preparse(calc: Calc<*>, expr: String): ParseResult {
     return ParseResult(tokens, null)
 }
 
-fun findOperator(text: String, pos: Int, set: Set<Op>): Oper? {
+private fun findOperator(text: String, pos: Int, set: Set<Op>): Oper? {
     val foundOp = Op.operator(text, pos, set) ?: return null
     return Oper(foundOp, pos)
 }
 
-data class ParseResult(val tokens: List<Token>, val parseError: ParseError?) {}
+private data class Oper(
+    val op: Op,
+    val pos: Int
+) {
+    fun abbrev(): String = op.abbrev()
+}
+
+data class ParseResult(val tokens: List<Token>, val parseError: ParseError?)
+

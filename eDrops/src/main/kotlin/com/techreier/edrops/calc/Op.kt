@@ -15,14 +15,14 @@ enum class Op(
     private val abbrev: String,
     private val noArgs: Int,
     private val noResults: Int,
-    private val prior: Int
+    private val prior: Int,
 ) {
     ADD("+", 2, 1, 3),
     SUBTRACT("-", 2, 1, 3),
     MULTIPLY("*", 2, 1, 1),
     DIVIDE("/", 2, 1, 1),
     POW("^", 2, 1, 0),
-    SEPARATOR(";",2,2,4),
+    SEPARATOR(";", 2, 2, 4),
     X2("^2", 1, 1, -1),
     SUM("sum", -1, 1, -1),
     SIN("sin", 1, 1),
@@ -65,8 +65,10 @@ enum class Op(
 
     fun isOperator(): Boolean = basicOperators.contains(this)
     fun isParenthesis(): Boolean = parenthesis.contains(this)
-    fun isOrdinary(): Boolean = !(basicOperators.contains(this) || parenthesis.contains(this)) //TODO ReierAsk used for what
-    fun isVariable() : Boolean = variables.contains(this)
+    fun isOrdinary(): Boolean =
+        !(basicOperators.contains(this) || parenthesis.contains(this)) //TODO ReierAsk used for what
+
+    fun isVariable(): Boolean = variables.contains(this)
     fun isSymbol(): Boolean = symbols.contains(this)
     fun isFunction(): Boolean = functions.contains(this)
 
@@ -80,9 +82,6 @@ enum class Op(
         val symbols = variables + constants
         val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, RAD, DEG, EX, LN, LOG10, POW10, HYP, GYP)
         private const val defaultLevel = 2
-        const val maxLevel = 4
-
-        fun basicOperators(): Set<Op> = basicOperators
 
         fun operator(abbrev: String): Op? {
             for (o in entries) {
@@ -103,21 +102,21 @@ enum class Op(
             return null
         }
 
-        // Return operator in text at expression position. Only one return value is accepted
-        // TODO ReierAsk really not difficult to implement general x argument return
+        // Return operator in text at expression position
+        // TODO ReierAsk at the moment separator is the only allowed operator with two return arguments.
         fun operator(text: String, pos: Int, set: Set<Op>): Op? {
             val textVar = text.substring(pos).lowercase()
             if (textVar.isNotEmpty()) {
                 for (o in set) {
-                    if ((o.prior >= 0) && (o.noResults == 1) || ( o == SEPARATOR)) {
+                    if ((o.prior >= 0) && (o.noResults == 1) || (o == SEPARATOR)) { //Can be changed
                         if (textVar.startsWith(o.abbrev)) {
                             val p = o.abbrev.length
                             if (textVar.length <= p)
                                 return o
                             else {
                                 val c = textVar[p]
-                                when (o.abbrev) {
-                                    "(", ")", "^", "+", "-", "/", "*", SEPARATOR.abbrev -> return o
+                                when {
+                                    o.isParenthesis() || o.isOperator() -> return o
                                     else -> {
                                         if (!(Character.isLetter(c) || Character.isDigit(c))) {
                                             return o
