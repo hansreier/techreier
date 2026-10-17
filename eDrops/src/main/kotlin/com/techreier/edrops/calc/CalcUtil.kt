@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.graph.logger
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -83,7 +84,6 @@ private fun wrapsWhole(min: Int, max: Int, tokens: List<Token>): Boolean {
 }
 
 fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
-    var error: ParseError? = null
     var balance = 0
     var push = true
     val arguments = ArrayList<Token>()
@@ -91,34 +91,37 @@ fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
     var min = range.min
     var max = range.max
     val operatorText = (tokens[range.min] as OperatorToken).operator.abbrev()
-    logger.info("parse arguments for $operatorText range=$range")
+    logger.info("parse arguments for $operatorText range=$range expr=${tokens.toExpr(range)}")
     do {
         when {
             tokens[i].isValue() -> arguments.add(tokens[i])
             tokens[i].isLeftP() -> {balance++; if (balance == 1) min = i }
-            tokens[i].isRightP() -> {balance--; if (balance == 1) max = i + 1}
+            tokens[i].isRightP() -> {balance--; if (balance == 0) max = i - 1}
             tokens[i].isSeparator() -> {}
             tokens[i].isFunction() -> { push = false}
             tokens[i].isOperator() -> { push = false}
             else -> arguments.add(tokens[i])
         }
         i++
-    } while ((i <= range.max) && balance > 0)
+    } while ((i <= range.max) && balance > 0) //TODO ReierAsk range.max is wrong
+    logger.info("max: $max")
 
-    if ((balance != 0) && push)  error =
-        ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
+    if ((balance != 0) && push) {
+        val error = ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
+        throw ParseException("Error parsing arguments", error)
+    }
     logger.info("arguments found: ${arguments.size} range=$range ")
-    return ArgumentInfo(Range(min, max), arguments, push, error)
+    return ArgumentInfo(Range(min, max), arguments, push)
 }
 
 fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
     var balance = 0
     var closingIndex = range.max
-    var error: ParseError? = null
+    var error: ParseError
 
     if (!tokens[range.min].isLeftP()) {
         error = ParseError(MISSING_PARENTHESIS, tokens[range.min].position, oper=Op.LEFTP.abbrev())
-        return ArgumentInfo(range, emptyList(), false, error)
+        throw ParseException("Error finding closure of parenthesis", error)
     }
 
     for (i in range.min..range.max) {
@@ -135,14 +138,15 @@ fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
     if (balance != 0) {
         val operatorText = (tokens[range.min] as? OperatorToken)?.operator?.abbrev() ?: ""
         error = ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
+        throw ParseException("Error with closure of parenthesis", error)
     }
 
-    return ArgumentInfo(Range(range.min, closingIndex), emptyList(), false, error)
+    return ArgumentInfo(Range(range.min, closingIndex), emptyList(), false)
 }
 
 data class Range(val min: Int, val max: Int)
 
-data class ArgumentInfo(val range: Range, val tokens: List<Token>, val push: Boolean, val error: ParseError?)
+data class ArgumentInfo(val range: Range, val tokens: List<Token>, val push: Boolean)
 
 operator fun <T> ArrayList<T>.set(op: Op, value: T) {
     this[op.ordinal] = value

@@ -1,6 +1,7 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.graph.logger
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import kotlin.test.assertEquals
@@ -148,5 +149,19 @@ class ExprTest {
         } else {
            fail("expression cannot be parsed")
         }
+    }
+
+    @Test
+    @Disabled
+    fun operatorTest() {
+         val input = "sin(30) + 5"
+        val expr = Expr(calc, input)
+        if (expr.parse()) {
+            logger.info("parse ok, can be calculated")
+            calc.trace = Trace.ALL
+            expr.calculate()
+            calc.result()
+        }
+
     }
 }

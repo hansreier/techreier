@@ -16,12 +16,11 @@ fun List<Token>.toTokenString(size: Int = 200): String {
 }
 
 // Reconstruct tokens for debugging purposes
-fun List<Token>.toExpr(range: Range = Range(0, this.size-1)): String {
+fun List<Token>.toExpr(range: Range = Range(0, this.size - 1)): String {
     val expr = StringBuilder()
     if (range.min >= range.max) return ""
-    for(i in range.min..range.max) {
-        val token = this[i]
-        when(token) {
+    for (i in range.min..range.max) {
+        when (val token = this[i]) {
             is NumberToken -> expr.append(token.argument)
             is OperatorToken -> expr.append(token.operator.abbrev())
         }
@@ -29,7 +28,11 @@ fun List<Token>.toExpr(range: Range = Range(0, this.size-1)): String {
     return expr.toString()
 }
 
-
+fun Token.toTokenString(): String =
+    when (this) {
+        is NumberToken -> this.argument.toString()
+        is OperatorToken -> this.operator.abbrev()
+    }
 
 fun Token.isAdd(): Boolean = this is OperatorToken && this.operator == Op.ADD
 fun Token.isSubtract(): Boolean = this is OperatorToken && this.operator == Op.SUBTRACT

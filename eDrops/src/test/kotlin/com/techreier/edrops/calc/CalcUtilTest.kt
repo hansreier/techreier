@@ -1,10 +1,12 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.exceptions.ParseException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
+import org.junit.jupiter.api.assertThrows
 
 class CalcUtilTest {
 
@@ -35,12 +37,6 @@ class CalcUtilTest {
         OperatorToken(Op.RIGHTP, 22),
         OperatorToken(Op.RIGHTP, 23),
         OperatorToken(Op.RIGHTP, 24)
-    )
-
-    private val tokenShort = listOf(
-        NumberToken(3, 3),
-        OperatorToken(Op.ADD, 4),
-        NumberToken(4, 5),
     )
 
     @Test
@@ -86,22 +82,21 @@ class CalcUtilTest {
 
     @Test
     fun findClosureTest() {
-        val argumentInfo = findClosure(Range(14,tokens.size -1), tokens)
+        val argumentInfo = findClosure(Range(14, tokens.size - 1), tokens)
         logger.info(tokens.toExpr())
         logger.info(tokens.toExpr(argumentInfo.range))
-        assertEquals(14,  argumentInfo.range.min)
-        assertEquals(22,  argumentInfo.range.max)
+        assertEquals(14, argumentInfo.range.min)
+        assertEquals(22, argumentInfo.range.max)
     }
 
     @Test
     fun findClosureFailsTest() {
-        val argumentInfo = findClosure(Range(13,tokens.size -1), tokens)
-        logger.info(tokens.toExpr())
-        logger.info(tokens.toExpr(argumentInfo.range))
-        assertNotNull(argumentInfo.error)
-        assertEquals(MISSING_PARENTHESIS, argumentInfo.error.key)
-        assertEquals(13,  argumentInfo.range.min)
-        assertEquals(24,  argumentInfo.range.max)
+        val e = assertThrows<ParseException> {
+            findClosure(Range(13, tokens.size - 1), tokens)
+        }
+        assertEquals(MISSING_PARENTHESIS, e.parseError.key)
+        assertEquals(13, e.parseError.position)
+        assertEquals("(", e.parseError.oper)
     }
 
 }

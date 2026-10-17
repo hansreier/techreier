@@ -1,6 +1,7 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.config.logger
+import com.techreier.edrops.exceptions.ParseException
 import java.util.*
 
 class Expr(val calc: Calc<*>, expr: String) {
@@ -31,9 +32,9 @@ class Expr(val calc: Calc<*>, expr: String) {
                 when (t) {
                     is NumberToken -> calc.enter(t.argument)
                     is OperatorToken -> calc.op(t.operator)
-                 //   is OperatorToken -> if (calc.op(t.operator) == null) {
-                //calc.addVarsOnEmptyStack()
-                 //                    break
+                    //   is OperatorToken -> if (calc.op(t.operator) == null) {
+                    //calc.addVarsOnEmptyStack()
+                    //                    break
                     //               }
                 }
             }
@@ -44,20 +45,38 @@ class Expr(val calc: Calc<*>, expr: String) {
 
     fun parse(): Boolean {
         logger.info("Preparsing")
-        val result = preparse(calc, expr)
-        parseError = result.parseError
-        if (result.parseError != null) return false
-        rawTokens = result.tokens
-        logger.info("Parsing")
-        val parsed =  recursiveParse(Range(0, rawTokens.size - 1))
-        logger.info("Parsed")
-        return parsed
+        try {
+            val result = preparse(calc, expr)
+            parseError = result.parseError
+            if (result.parseError != null) return false
+            rawTokens = result.tokens
+            logger.info("Parsing")
+            recursiveParse(Range(0, rawTokens.size - 1), 0)
+            logger.info("Parsed")
+        } catch (e: Exception) {
+            when (e) {
+                is ParseException -> {
+                    logger.warn("Parse error: ${e.parseError} ${e.message}")
+                }
+                else -> {
+                    logger.error("Unknown parse error", e)
+                    parseError = ParseError(UNKNOWN_PARSE_ERROR, 0)
+                }
+            }
+            return false
+        }
+        return true
     }
 
-    fun recursiveParse(rangeIn: Range): Boolean {
+    fun recursiveParse(rangeIn: Range, depth: Int) {
+        if (depth > MAX_EXPRESSION_DEPTH) {
+            val token = rawTokens[rangeIn.min]
+            val depthError = ParseError(EXPRESSION_DEPTH_EXCEEDED, token.position, token.toTokenString())
+            throw ParseException("Expression depth exceeded", depthError)
+        }
         val range = removeOuterP(rangeIn, rawTokens)
-        logger.info("Recursive: $range ${rawTokens.toExpr(range)}")
-
+        logger.info("Rec[$depth]: $range ${rawTokens.toExpr(range)}")
+        var leftRange: Range? = null
         var index = range.min
         do {
             when (val token = rawTokens[index]) {
@@ -67,39 +86,37 @@ class Expr(val calc: Calc<*>, expr: String) {
                         token.isLeftP() -> {
                             val argumentInfo = findClosure(Range(index, range.max), rawTokens)
                             logger.info("leftP found")
-                            parseError = argumentInfo.error
-                            if (parseError == null) {
-                                recursiveParse(argumentInfo.range)
-                                index = argumentInfo.range.max + 1
-                            }
+                            recursiveParse(argumentInfo.range, depth + 1)
+                            index = argumentInfo.range.max + 1
                         }
 
                         token.isFunction() -> {
                             val argumentInfo = parseArguments(Range(index, range.max), rawTokens)
-                            parseError = argumentInfo.error
-                            if (parseError == null) {
-                                if (argumentInfo.push) {
-                                    logger.info("pushing")
-                                    tokens.addAll(argumentInfo.tokens)
-                                    tokens.add(token)
-                                } else {
-                                    logger.info("expression cannot be pushed to stack")
-                                    recursiveParse(argumentInfo.range)
-                                    tokens.add(token)
-                                }
-                                index = argumentInfo.range.max + 1
+
+                            if (argumentInfo.push) {
+                                logger.info("pushing")
+                                tokens.addAll(argumentInfo.tokens)
+                                tokens.add(token)
                             } else {
-                                logger.info("parse error: ${parseError?.key}")
-                                return false
+                                logger.info("expression cannot be pushed to stack")
+                                recursiveParse(argumentInfo.range, depth + 1)
+                                tokens.add(token)
                             }
+                            index = argumentInfo.range.max + 1
+
+                        }
+
+                        token.isOperator() -> {
+                            logger.info("operator found")
+                            leftRange = Range(range.min, index - 1)
+                            val argumentInfo = parseArguments(leftRange, rawTokens)
                         }
                     }
                 }
             }
-            if (parseError != null) return false
             logger.info("index=$index range.max=${range.max}")
         } while (index <= range.max)
-        return true
+        logger.info("Recursive: End")
     }
 
 
