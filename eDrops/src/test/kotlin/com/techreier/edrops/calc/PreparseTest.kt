@@ -334,11 +334,10 @@ class PreparseTest : TestBase() {
     }
 
     @Test
-    fun estraSeparatorTest() {
+    fun extraSeparatorTest() {
         val input = "sin( ; -5)"
         assertPreparseFails(MISPLACED_SEPARATOR, calc, input)
     }
-
 
 }
 

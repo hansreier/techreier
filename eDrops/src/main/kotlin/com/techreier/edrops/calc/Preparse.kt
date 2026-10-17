@@ -6,7 +6,7 @@ import com.techreier.edrops.util.isTrimmed
 import java.text.ParsePosition
 
 //One time parse through expression, expr must be trimmed
-fun preparse(calc: Calc<*>, expr: String): ParseResult {
+fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
     var i1: Int
     var i2: Int
     var number: Number?
@@ -17,7 +17,7 @@ fun preparse(calc: Calc<*>, expr: String): ParseResult {
     var lastOpType = OpType.EMPTY
     val tokens = arrayListOf<Token>()
     var parseError: ParseError?
-    if (!expr.isTrimmed()) throw IllegalArgumentException("expression to preparse is not trimed")
+    if (!expr.isTrimmed()) throw IllegalArgumentException("expression to preparse is not trimmed")
     val pos = ParsePosition(0)
     do {
         i1 = pos.index
