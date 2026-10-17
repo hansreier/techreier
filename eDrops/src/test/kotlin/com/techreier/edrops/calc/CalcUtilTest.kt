@@ -69,7 +69,7 @@ class CalcUtilTest {
         val expectedRange = Range(2, tokens.size - 3)
         val range = removeOuterP(preRange, tokens)
         assertEquals(expectedRange, range)
-        val operator = findUnboundOperator(range, Op.ADD, tokens )
+        val operator = findUnboundOperator(range, 3, tokens )
         assertEquals(13, operator)
     }
 

@@ -83,7 +83,7 @@ private fun wrapsWhole(min: Int, max: Int, tokens: List<Token>): Boolean {
     return false
 }
 
-fun findUnboundOperator(range: Range, operator: Op, tokens: List<Token>): Int {
+fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): Int {
     var balance = 0
     for (i in range.min..range.max) {
         val token = tokens[i]
@@ -91,9 +91,10 @@ fun findUnboundOperator(range: Range, operator: Op, tokens: List<Token>): Int {
             token.isLeftP() -> balance++
             token.isRightP() -> balance--
             token is OperatorToken -> {
-                if ((token.operator == operator) && (balance == 0 )) {
+                if ((token.operator.prior() == prior) && (balance == 0 )) {
                     return i
-                }}
+                }
+            }
         }
     }
     return -1
