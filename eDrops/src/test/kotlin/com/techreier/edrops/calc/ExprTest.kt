@@ -94,7 +94,6 @@ class ExprTest {
         val input = "sin(x)"
         val expr = Expr(calc, input)
         if (expr.parse()) expr.calculate()
-     //   val singleResult = calc.stack.peekFirst()
         val singleResult = calc.result()
         logger.info("Result = $singleResult")
         assertNotNull(singleResult)

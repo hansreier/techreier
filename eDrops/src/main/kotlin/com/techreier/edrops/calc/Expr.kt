@@ -56,7 +56,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         } catch (e: Exception) {
             when (e) {
                 is ParseException -> {
-                    logger.warn("Parse error: ${e.parseError} ${e.message}")
+                    logger.warn("${e.message}: ${e.parseError}")
                 }
                 else -> {
                     logger.error("Unknown parse error", e)
@@ -115,7 +115,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                 }
             }
             logger.info("index=$index range.max=${range.max}")
-        } while (index <= range.max)
+        } while (index < range.max)
         logger.info("Recursive: End")
     }
 
