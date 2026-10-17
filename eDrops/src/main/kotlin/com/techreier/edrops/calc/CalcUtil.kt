@@ -103,9 +103,7 @@ fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
             else -> arguments.add(tokens[i])
         }
         i++
-    } while ((i <= range.max) && balance > 0) //TODO ReierAsk range.max is wrong
-    logger.info("max: $max")
-
+    } while ((i <= range.max) && balance > 0)
     if ((balance != 0) && push) {
         val error = ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
         throw ParseException("Error parsing arguments", error)

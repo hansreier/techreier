@@ -74,11 +74,19 @@ class Expr(val calc: Calc<*>, expr: String) {
             val depthError = ParseError(EXPRESSION_DEPTH_EXCEEDED, token.position, token.toTokenString())
             throw ParseException("Expression depth exceeded", depthError)
         }
+        var tokenCount = 0
         val range = removeOuterP(rangeIn, rawTokens)
-        logger.info("Rec[$depth]: $range ${rawTokens.toExpr(range)}")
+   //     logger.info("Rec[$depth]: $range ${rawTokens.toExpr(range)}")
         var leftRange: Range? = null
         var index = range.min
         do {
+            logger.info("Rec[$depth]=$range index=$index ${rawTokens.toExpr(range)}")
+            tokenCount++
+            if (tokenCount > MAX_TOKENS) { //TODO ReierAsk, check in preparse, test relevant during development
+                val token = rawTokens[index]
+                val maxTokensError = ParseError(MAX_TOKENS_EXCEEDED, token.position, token.toTokenString())
+                throw ParseException("Cannot parse more than $MAX_TOKENS tokens", maxTokensError)
+            }
             when (val token = rawTokens[index]) {
                 is NumberToken -> index++
                 is OperatorToken -> {
@@ -110,13 +118,14 @@ class Expr(val calc: Calc<*>, expr: String) {
                             logger.info("operator found")
                             leftRange = Range(range.min, index - 1)
                             val argumentInfo = parseArguments(leftRange, rawTokens)
+                            index = argumentInfo.range.max + 1
                         }
                     }
                 }
             }
             logger.info("index=$index range.max=${range.max}")
         } while (index < range.max)
-        logger.info("Recursive: End")
+        logger.info("Rec[$depth]: End")
     }
 
 
