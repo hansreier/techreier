@@ -64,11 +64,13 @@ class CalcUtilTest {
     }
 
     @Test
-    fun removeOuterPTest() {
+    fun removeOuterPFindOperatorTest() {
         val preRange = Range(0, tokens.size - 1)
         val expectedRange = Range(2, tokens.size - 3)
         val range = removeOuterP(preRange, tokens)
         assertEquals(expectedRange, range)
+        val operator = findUnboundOperator(range, Op.ADD, tokens )
+        assertEquals(13, operator)
     }
 
     @Test
@@ -91,6 +93,16 @@ class CalcUtilTest {
 
     @Test
     fun findClosureFailsTest() {
+        val e = assertThrows<ParseException> {
+            findClosure(Range(13, tokens.size - 1), tokens)
+        }
+        assertEquals(MISSING_PARENTHESIS, e.parseError.key)
+        assertEquals(13, e.parseError.position)
+        assertEquals("(", e.parseError.oper)
+    }
+
+    @Test
+    fun findFirstFreeOperatorTest() {
         val e = assertThrows<ParseException> {
             findClosure(Range(13, tokens.size - 1), tokens)
         }
