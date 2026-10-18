@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.exceptions.CalcException
 import org.slf4j.LoggerFactory
 import java.util.*
 
@@ -32,28 +33,17 @@ abstract class Calc<T>() {
     protected abstract fun opr(operator: Op, noArgs: Int)
 
 
-    fun op(operator: Op, number: Number): T? {
-        return try {
-            stack.push(type.cast(number))
-            op(operator)
-        } catch (e: Exception) {
-            logger.error("Error ${operator.abbrev()}: ${e.message}.")
-            null
-        }
-    }
-
-
     fun op(operator: Op): T? {
         val arg: Iterator<T>
         var noArgs: Int
-        var minst = ""
+        var atLeast = ""
         try {
             noArgs = operator.noArgs()
 
             if (noArgs <= -1000)
                 noArgs = stack.size
             else if (noArgs < 0) {
-                minst = "minst "
+                atLeast = "at least "
                 noArgs = maxOf(stack.size, -noArgs)
             }
 
@@ -70,40 +60,38 @@ abstract class Calc<T>() {
                     remaining--
                 }
 
-             //   traceStack(operator.abbrev())
-
                 if (operators.contains(operator)) {
                     if (validElements) {
                         opr(operator, noArgs)
                     } else {
                         logger.error("All arguments is not of the same data type!")
-                        traceStack(operator.abbrev())
-                        return null
+                        throw CalcException(VARYING_ARGUMENT_TYPES, operator.abbrev())
                     }
                 } else {
                     logger.error("Operator ${operator.abbrev()} invalid for ${type.simpleName}.")
-                    traceStack(operator.abbrev())
-                    return null
+                    throw CalcException(INVALID_ARGUMENT, operator.abbrev())
                 }
-                traceStack(operator.abbrev())
                 return if (!stack.isEmpty()) {
                     stack.first
                 } else {
                     null
                 }
             } else {
-                logger.error("${operator.abbrev()} : Too few arguments ${stack.size}, must be $minst$noArgs!")
-                traceStack(operator.abbrev())
-                return null
+                logger.error("${operator.abbrev()} : Too few arguments ${stack.size}, must be $atLeast$noArgs!")
+                throw CalcException(TOO_FEW_ARGUMENTS, operator.abbrev())
             }
         } catch (e: Exception) {
             logger.error("Calculation error: ${operator.abbrev()} ${e.message}.")
+            throw CalcException(CALCULATION_ERROR, operator.abbrev(), e)
+        } finally {
             traceStack(operator.abbrev())
-            return null
         }
     }
 
-    fun result(): T? = stack.peekFirst()
+    fun result(): T  {
+        if (stack.isEmpty()) throw CalcException(NO_RESULT,"calc")
+        return stack.peekFirst()
+    }
 
     fun allResults(): ArrayList<T> {
         try {

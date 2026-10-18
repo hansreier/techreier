@@ -9,12 +9,16 @@ class CalcDoubleTest {
     @Test
     fun addTest() {
         val calc = CalcDouble()
+        calc.trace = Trace.ALL
         calc.enter(24.0)
         calc.enter(26.0)
+        calc.enter(30.0)
+        calc.op(Op.ADD)
+        calc.op(Op.ADD)
         calc.op(Op.ADD)
         assertEquals(
             24.0 + 26.0 + 30.0,
-            calc.op(Op.ADD, 30.0) as Double,
+            calc.result(),
             0.0001,
             "24 + 26 + 30"
         )
@@ -56,7 +60,7 @@ class CalcDoubleTest {
             }
             expr.append(numbers[i])
         }
-        assertEquals(sum, calc.result() as Double, 0.0001, "Sum:$expr")
+        assertEquals(sum, calc.result(), 0.0001, "Sum:$expr")
         calc.traceStack()
     }
 }

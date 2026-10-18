@@ -14,13 +14,13 @@ class CalcBigDecimalTest {
 
         calc.enter(BigDecimal("0.1"))
         calc.enter(BigDecimal("0.2"))
-        calc.op(Op.ADD) // Gir 0.3 på stakken
+        calc.op(Op.ADD)
 
         // No float rounding mess
         assertEquals(
-            BigDecimal("0.6"),
-            calc.op(Op.ADD, BigDecimal("0.3")),
-            "0.1 + 0.2 + 0.3 skal være eksakt 0.6"
+            BigDecimal("0.3"),
+            calc.result(),
+            "0.1 + 0.2 shall be exact 0.3"
         )
         calc.traceStack()
     }

@@ -4,6 +4,7 @@ const val MAX_EXPRESSION_DEPTH = 100
 const val MAX_TOKENS = 100
 const val OPERATOR_TEXT_LOG_SIZE = 8
 
+// Parsing errors
 const val MISSING_OPERATOR = "MissingOperator"
 const val UNPARSEABLE = "Unparseable"
 const val EMPTY_PARENTHESIS = "EmptyParenthesis"
@@ -19,4 +20,12 @@ const val WRONG_NO_OF_ARGUMENTS = "WrongNoOfArguments"
 const val SEPARATOR_NOT_IN_FUNCTION = "SeparatorNotInFunction"
 const val EXPRESSION_DEPTH_EXCEEDED = "ExpressionDepthExceeded"
 const val MAX_TOKENS_EXCEEDED = "MaxTokensExceeded"
-const val UNKNOWN_PARSE_ERROR ="UnknownParseError"
+const val UNKNOWN_PARSE_ERROR = "UnknownParseError"
+
+// Calculation errors
+const val  UNKNOWN_PUSH_ERROR = "UnknownPushError"
+const val CALCULATION_ERROR = "CalculationError"
+const val TOO_FEW_ARGUMENTS = "TooFewArguments"
+const val INVALID_ARGUMENT = "TooFewArguments"
+const val VARYING_ARGUMENT_TYPES = "VaryingArgumentTypes"
+const val NO_RESULT ="NoResult"

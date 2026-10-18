@@ -1,6 +1,5 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.config.logger
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
@@ -34,12 +33,14 @@ class CalcBigInteger : Calc<BigInteger>() {
             else -> BigInteger.valueOf(number.toLong())
         }
         stack.push(type.cast(b))
+        traceStack(number.toString())
     }
 
     override fun enter(number: String) {
         try {
             val b = BigInteger(number)
             stack.push(type.cast(b))
+            traceStack(number)
         } catch (_: NumberFormatException) {
             logger.error("$number : Feil nummer format. ")
         }

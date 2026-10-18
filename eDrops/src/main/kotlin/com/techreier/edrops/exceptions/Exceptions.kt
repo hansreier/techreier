@@ -19,3 +19,5 @@ class NotAuthorizedException(msg: String) : BlogException(msg, "notAuthorized")
 class ParentBlogException(msg: String) : Exception(msg)
 
 class ParseException(msg: String, val parseError: ParseError) : Exception(msg)
+
+class CalcException(key: String, oper: String  = "", e: Exception? = null) : Exception(key, e)

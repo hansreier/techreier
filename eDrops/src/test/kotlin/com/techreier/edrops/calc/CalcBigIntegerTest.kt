@@ -9,13 +9,14 @@ class CalcBigIntegerTest {
 
     @Test
     fun addTest() {
-        val calculator = CalcBigInteger()
-        calculator.enter(24)
-        calculator.enter(26)
-        calculator.op(Op.ADD)
-        assertEquals(BigInteger.valueOf(24L + 26L + 30L),
-            calculator.op(Op.ADD, BigInteger.valueOf(30)), "24 + 26 + 30")
-        calculator.traceStack()
+        val calc = CalcBigInteger()
+        calc.trace = Trace.ALL
+        calc.enter(24)
+        calc.enter(26)
+        calc.enter(30)
+        calc.op(Op.ADD)
+        calc.op(Op.ADD)
+        assertEquals(80L.toBigInteger(), calc.result(), "24 + 26 + 30")
     }
 
     @Test
