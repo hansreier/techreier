@@ -1,9 +1,10 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.config.logger
+import org.slf4j.LoggerFactory
 import java.util.*
 
 abstract class Calc<T>() {
+    protected val logger = LoggerFactory.getLogger(javaClass.simpleName)
     abstract val type: Class<T>
     var stack: Deque<T> = ArrayDeque()
     val s = Op.entries.size
@@ -69,21 +70,22 @@ abstract class Calc<T>() {
                     remaining--
                 }
 
-                logger.info("Operator: ${operator.abbrev()} ")
+             //   traceStack(operator.abbrev())
+
                 if (operators.contains(operator)) {
                     if (validElements) {
                         opr(operator, noArgs)
                     } else {
                         logger.error("All arguments is not of the same data type!")
-                        traceStack()
+                        traceStack(operator.abbrev())
                         return null
                     }
                 } else {
                     logger.error("Operator ${operator.abbrev()} invalid for ${type.simpleName}.")
-                    traceStack()
+                    traceStack(operator.abbrev())
                     return null
                 }
-                traceStack()
+                traceStack(operator.abbrev())
                 return if (!stack.isEmpty()) {
                     stack.first
                 } else {
@@ -91,12 +93,12 @@ abstract class Calc<T>() {
                 }
             } else {
                 logger.error("${operator.abbrev()} : Too few arguments ${stack.size}, must be $minst$noArgs!")
-                traceStack()
+                traceStack(operator.abbrev())
                 return null
             }
         } catch (e: Exception) {
             logger.error("Calculation error: ${operator.abbrev()} ${e.message}.")
-            traceStack()
+            traceStack(operator.abbrev())
             return null
         }
     }
@@ -121,9 +123,11 @@ abstract class Calc<T>() {
     }
 
     // Log the stack
-    fun traceStack() {
-        if (trace == Trace.ALL) {
-            logger.info("Stack: {}", stack.joinToString(separator = " ", prefix = "[", postfix = "]"))
+    fun traceStack(operation: String = "") {
+        if ((trace == Trace.ALL) || trace == Trace.RPN) {
+            val stack = if (trace == Trace.ALL)  stack.joinToString(separator = " ", prefix = "[", postfix = "]") else ""
+            val paddedOp = operation.padEnd(OPERATOR_TEXT_LOG_SIZE, ' ')
+            logger.info("$paddedOp$stack")
         }
     }
 }

@@ -2,6 +2,7 @@ package com.techreier.edrops.calc
 
 const val MAX_EXPRESSION_DEPTH = 100
 const val MAX_TOKENS = 100
+const val OPERATOR_TEXT_LOG_SIZE = 8
 
 const val MISSING_OPERATOR = "MissingOperator"
 const val UNPARSEABLE = "Unparseable"

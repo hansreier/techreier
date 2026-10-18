@@ -1,5 +1,7 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.config.logger
+
 /*
  * Operator parameters:
  *
@@ -128,6 +130,7 @@ enum class Op(
                     }
                 }
             }
+            logger.info("Operator not found")
             return null
         }
 

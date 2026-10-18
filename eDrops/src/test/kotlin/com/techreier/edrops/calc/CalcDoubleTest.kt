@@ -8,17 +8,30 @@ class CalcDoubleTest {
 
     @Test
     fun addTest() {
-        val calculator = CalcDouble()
-        calculator.enter(24.0)
-        calculator.enter(26.0)
-        calculator.op(Op.ADD)
+        val calc = CalcDouble()
+        calc.enter(24.0)
+        calc.enter(26.0)
+        calc.op(Op.ADD)
         assertEquals(
             24.0 + 26.0 + 30.0,
-            calculator.op(Op.ADD, 30.0) as Double,
+            calc.op(Op.ADD, 30.0) as Double,
             0.0001,
             "24 + 26 + 30"
         )
-        calculator.traceStack()
+        calc.traceStack()
+    }
+
+    @Test
+    fun addMUltiplyPowerTest() {
+        val calc = CalcDouble()
+        calc.trace = Trace.ALL
+        calc.enter(4.0)
+        calc.enter(3.0)
+        calc.enter(5.0)
+        calc.enter(2.0)
+        calc.op(Op.POW)
+        calc.op(Op.MULTIPLY)
+        calc.op(Op.ADD)
     }
 
     @Test
@@ -29,21 +42,21 @@ class CalcDoubleTest {
         var sum = 0.0
         val expr = StringBuilder()
 
-        val calculator = CalcDouble()
+        val calc = CalcDouble()
 
         for (i in 0 until 10) {
             numbers[i] = Random.nextDouble(0.0, 1000.0)
-            calculator.enter(numbers[i])
+            calc.enter(numbers[i])
             if (i > 0) {
                 expr.append("+")
-                calculator.op(Op.ADD)
+                calc.op(Op.ADD)
                 sum += numbers[i]
             } else {
                 sum = numbers[0]
             }
             expr.append(numbers[i])
         }
-        assertEquals(sum, calculator.result() as Double, 0.0001, "Sum:$expr")
-        calculator.traceStack()
+        assertEquals(sum, calc.result() as Double, 0.0001, "Sum:$expr")
+        calc.traceStack()
     }
 }

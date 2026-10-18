@@ -10,34 +10,34 @@ class CalcBigDecimalTest {
 
     @Test
     fun precisionAddTest() {
-        val calculator = CalcBigDecimal()
+        val calc = CalcBigDecimal()
 
-        calculator.enter(BigDecimal("0.1"))
-        calculator.enter(BigDecimal("0.2"))
-        calculator.op(Op.ADD) // Gir 0.3 på stakken
+        calc.enter(BigDecimal("0.1"))
+        calc.enter(BigDecimal("0.2"))
+        calc.op(Op.ADD) // Gir 0.3 på stakken
 
         // No float rounding mess
         assertEquals(
             BigDecimal("0.6"),
-            calculator.op(Op.ADD, BigDecimal("0.3")),
+            calc.op(Op.ADD, BigDecimal("0.3")),
             "0.1 + 0.2 + 0.3 skal være eksakt 0.6"
         )
-        calculator.traceStack()
+        calc.traceStack()
     }
 
     @Test
     fun divisionScaleTest() {
-        val calculator = CalcBigDecimal()
-        calculator.scale = 10
+        val calc = CalcBigDecimal()
+        calc.scale = 10
 
         // no float rounding mess
-        calculator.enter(BigDecimal.ONE)
-        calculator.enter(BigDecimal("3"))
-        calculator.op(Op.DIVIDE)
+        calc.enter(BigDecimal.ONE)
+        calc.enter(BigDecimal("3"))
+        calc.op(Op.DIVIDE)
 
         assertEquals(
             BigDecimal("0.3333333333"),
-            calculator.result(),
+            calc.result(),
             "1 / 3 med skala 10"
         )
     }
@@ -51,20 +51,20 @@ class CalcBigDecimalTest {
         var sum = BigDecimal.ZERO
         val expr = StringBuilder()
 
-        val calculator = CalcBigDecimal()
+        val calc = CalcBigDecimal()
 
         for (i in 0 until 10) {
-            calculator.enter(numbers[i])
+            calc.enter(numbers[i])
             if (i > 0) {
                 expr.append("+")
-                calculator.op(Op.ADD)
+                calc.op(Op.ADD)
                 sum = sum.add(numbers[i])
             } else {
                 sum = numbers[0]
             }
             expr.append(numbers[i])
         }
-        assertEquals(sum, calculator.result(), "Sum:$expr")
-        calculator.traceStack()
+        assertEquals(sum, calc.result(), "Sum:$expr")
+        calc.traceStack()
     }
 }

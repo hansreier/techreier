@@ -1,15 +1,13 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.config.logger
-import java.util.ArrayList
-import java.util.EnumSet
+import java.util.*
 
-class CalcDouble: Calc<Double>() {
+class CalcDouble : Calc<Double>() {
     override val type: Class<Double> = Double::class.javaObjectType
     var degrees: Boolean = true
     var epsilon = 1e-12
 
-   private val vars = Array(Op.entries.size) { 0.0 }
+    private val vars = Array(Op.entries.size) { 0.0 }
 
     init {
         operators.addAll(
@@ -31,7 +29,7 @@ class CalcDouble: Calc<Double>() {
 
     override fun enter(number: Number) {
         stack.push(number.toDouble())
-        traceStack()
+        traceStack(number.toString())
     }
 
     override fun enter(number: String) {
@@ -40,7 +38,7 @@ class CalcDouble: Calc<Double>() {
             stack.push(b)
         } catch (_: NumberFormatException) {
             logger.error("$number : Error. Wrong number format. ")
-            traceStack()
+            traceStack(number)
         }
     }
 
@@ -56,30 +54,36 @@ class CalcDouble: Calc<Double>() {
                 x = arg.next() as Double
                 r.add(x + y)
             }
+
             Op.SUBTRACT -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
                 r.add(x - y)
             }
+
             Op.MULTIPLY -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
                 r.add(x * y)
             }
+
             Op.DIVIDE -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
                 r.add(x / y)
             }
+
             Op.X2 -> {
                 x = arg.next() as Double
                 r.add(x * x)
             }
+
             Op.POW -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
                 r.add(Math.pow(x, y))
             }
+
             Op.SIN -> {
                 x = arg.next() as Double
                 if (degrees)
@@ -87,6 +91,7 @@ class CalcDouble: Calc<Double>() {
                 else
                     r.add(Math.sin(x).cleanZero())
             }
+
             Op.ASIN -> {
                 x = arg.next() as Double
                 if (degrees)
@@ -94,6 +99,7 @@ class CalcDouble: Calc<Double>() {
                 else
                     r.add(Math.asin(x))
             }
+
             Op.COS -> {
                 x = arg.next() as Double
                 if (degrees)
@@ -101,6 +107,7 @@ class CalcDouble: Calc<Double>() {
                 else
                     r.add(Math.cos(x).cleanZero())
             }
+
             Op.ACOS -> {
                 x = arg.next() as Double
                 if (degrees)
@@ -108,6 +115,7 @@ class CalcDouble: Calc<Double>() {
                 else
                     r.add(Math.asin(x))
             }
+
             Op.TAN -> {
                 x = arg.next() as Double
                 if (degrees)
@@ -115,6 +123,7 @@ class CalcDouble: Calc<Double>() {
                 else
                     r.add(Math.tan(x).cleanZero())
             }
+
             Op.ATAN -> {
                 x = arg.next() as Double
                 if (degrees)
@@ -122,52 +131,65 @@ class CalcDouble: Calc<Double>() {
                 else
                     r.add(Math.atan(x))
             }
+
             Op.RAD -> {
                 x = arg.next() as Double
                 r.add(Math.toRadians(x))
             }
+
             Op.DEG -> {
                 x = arg.next() as Double
                 r.add(Math.toDegrees(x))
             }
+
             Op.RADIANS -> {
                 degrees = false
             }
+
             Op.DEGREES -> {
                 degrees = true
             }
+
             Op.EX -> {
                 x = arg.next() as Double
                 r.add(Math.exp(x))
             }
+
             Op.LN -> {
                 x = arg.next() as Double
                 r.add(Math.log(x))
             }
+
             Op.LOG10 -> {
                 x = arg.next() as Double
                 r.add(Math.log10(x))
             }
+
             Op.POW10 -> {
                 x = arg.next() as Double
                 r.add(Math.pow(10.0, x))
             }
+
             Op.HYP -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
                 r.add(Math.hypot(x, y))
             }
+
             Op.GYP -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
                 r.add(Math.sqrt(x * x - y * y))
             }
+
             Op.PI -> {
                 r.add(Math.PI)
             }
+
             Op.E -> {
                 r.add(Math.E)
             }
+
             Op.SUM -> {
                 r.add(0.0)
                 repeat(noArgs) {
@@ -175,19 +197,23 @@ class CalcDouble: Calc<Double>() {
                     r[0] = r.first() + x
                 }
             }
+
             Op.REMOVE, Op.EMPTY -> {}
             Op.YX -> {
                 r.add(arg.next() as Double)
                 r.add(arg.next() as Double)
             }
+
             Op.SEPARATOR -> { //Separator really does nothing but to be removed
                 val x = arg.next() as Double
                 r.add(arg.next() as Double)
                 r.add(x)
             }
+
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
-               r.add(vars[operator.ordinal])
+                r.add(vars[operator.ordinal])
             }
+
             else -> {
                 logger.error("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}")
             }
