@@ -3,10 +3,39 @@ package com.techreier.edrops.calc
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
+import java.math.BigInteger
 import java.math.RoundingMode
 import kotlin.random.Random
 
 class CalcBigDecimalTest {
+
+    @Test
+    fun variousInputTest() {
+        val calc = CalcBigDecimal()
+
+        calc.enter("5")
+        calc.enter(1)
+        calc.op(Op.ADD)
+
+        calc.enter(2L)
+        calc.op(Op.ADD)
+
+        calc.enter(BigInteger.valueOf(3))
+        calc.op(Op.ADD)
+
+        calc.enter(0.4)
+        calc.op(Op.ADD)
+
+        calc.enter(BigDecimal("0.6"))
+        calc.op(Op.ADD)
+
+        assertEquals(
+            BigDecimal("12.0"),
+            calc.result(),
+            "Mixed types"
+        )
+        calc.traceStack()
+    }
 
     @Test
     fun precisionAddTest() {

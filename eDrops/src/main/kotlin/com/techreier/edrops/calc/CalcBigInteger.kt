@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.exceptions.CalcException
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
@@ -26,23 +27,30 @@ class CalcBigInteger : Calc<BigInteger>() {
     }
 
     override fun enter(number: Number) {
-        val b = when (number) {
-            is BigInteger -> number
-            is BigDecimal -> number.setScale(0, RoundingMode.HALF_EVEN).toBigInteger()
-            is Double, is Float -> BigDecimal.valueOf(number.toDouble()).setScale(0, RoundingMode.HALF_EVEN).toBigInteger()
-            else -> BigInteger.valueOf(number.toLong())
+        try {
+            val b = when (number) {
+                is BigInteger -> number
+                is BigDecimal -> number.setScale(0, RoundingMode.HALF_EVEN).toBigInteger()
+                is Double -> BigDecimal.valueOf(number)
+                    .setScale(0, RoundingMode.HALF_EVEN).toBigInteger()
+                else -> BigInteger.valueOf(number.toLong())
+            }
+            stack.push(b)
+        } catch (_: NumberFormatException) {
+            throw CalcException(NUMBER_FORMAT_ERROR, number.toString())
+        } finally {
+            traceStack(number.toString())
         }
-        stack.push(type.cast(b))
-        traceStack(number.toString())
     }
 
     override fun enter(number: String) {
         try {
             val b = BigInteger(number)
-            stack.push(type.cast(b))
-            traceStack(number)
+            stack.push(b)
         } catch (_: NumberFormatException) {
-            logger.error("$number : Feil nummer format. ")
+            throw CalcException(NUMBER_FORMAT_ERROR, number)
+        } finally {
+            traceStack(number)
         }
     }
 

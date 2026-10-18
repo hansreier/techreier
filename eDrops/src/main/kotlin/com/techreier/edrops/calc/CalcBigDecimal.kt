@@ -1,7 +1,8 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.config.logger
+import com.techreier.edrops.exceptions.CalcException
 import java.math.BigDecimal
+import java.math.BigInteger
 import java.math.RoundingMode
 import java.util.ArrayList
 
@@ -28,18 +29,29 @@ class CalcBigDecimal : Calc<BigDecimal>() {
     }
 
     override fun enter(number: Number) {
-        val b = number as? BigDecimal ?: BigDecimal(number.toString())
-
-        stack.push(type.cast(b))
+        try {
+            val b = when (number) {
+                is BigDecimal -> number
+                is BigInteger -> BigDecimal(number)
+                else -> BigDecimal(number.toString())
+            }
+            stack.push(b)
+        } catch (_:NumberFormatException) {
+            throw CalcException(NUMBER_FORMAT_ERROR, number.toString())
+        } finally {
+        traceStack(number.toString())
     }
-
+    }
 
     override fun enter(number: String) {
         try {
             val b = BigDecimal(number)
-            stack.push(type.cast(b))
+            stack.push(b)
         } catch (_: NumberFormatException) {
             logger.error("$number : Feil nummer format. ")
+            throw CalcException(NUMBER_FORMAT_ERROR, number)
+        } finally {
+            traceStack(number)
         }
     }
 

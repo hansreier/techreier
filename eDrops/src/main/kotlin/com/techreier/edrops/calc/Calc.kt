@@ -4,7 +4,7 @@ import com.techreier.edrops.exceptions.CalcException
 import org.slf4j.LoggerFactory
 import java.util.*
 
-abstract class Calc<T>() {
+abstract class Calc<T> {
     protected val logger = LoggerFactory.getLogger(javaClass.simpleName)
     abstract val type: Class<T>
     var stack: Deque<T> = ArrayDeque()
@@ -88,20 +88,15 @@ abstract class Calc<T>() {
         }
     }
 
-    fun result(): T  {
-        if (stack.isEmpty()) throw CalcException(NO_RESULT,"calc")
+    fun result(): T {
+        if (stack.isEmpty()) throw CalcException(NO_RESULT, "calc")
         return stack.peekFirst()
     }
 
     fun allResults(): ArrayList<T> {
-        try {
-            val list = ArrayList(stack)
-            Collections.reverse(list)
-            return list
-        } catch (e: java.lang.Exception) {
-            logger.error("Error when collecting all results: ${e.message}.")
-            return ArrayList<T>()
-        }
+        val list = ArrayList(stack)
+        list.reverse()
+        return list
     }
 
     fun traceText(text: String) {
@@ -113,7 +108,7 @@ abstract class Calc<T>() {
     // Log the stack
     fun traceStack(operation: String = "") {
         if ((trace == Trace.ALL) || trace == Trace.RPN) {
-            val stack = if (trace == Trace.ALL)  stack.joinToString(separator = " ", prefix = "[", postfix = "]") else ""
+            val stack = if (trace == Trace.ALL) stack.joinToString(separator = " ", prefix = "[", postfix = "]") else ""
             val paddedOp = operation.padEnd(OPERATOR_TEXT_LOG_SIZE, ' ')
             logger.info("$paddedOp$stack")
         }

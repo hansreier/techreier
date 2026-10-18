@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.exceptions.CalcException
 import java.util.*
 
 class CalcDouble : Calc<Double>() {
@@ -38,6 +39,8 @@ class CalcDouble : Calc<Double>() {
             stack.push(b)
         } catch (_: NumberFormatException) {
             logger.error("$number : Error. Wrong number format. ")
+            throw CalcException(NUMBER_FORMAT_ERROR, number)
+        } finally {
             traceStack(number)
         }
     }
