@@ -2,7 +2,6 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.exceptions.ParseException
-import java.util.*
 
 class Expr(val calc: Calc<*>, expr: String) {
 
@@ -43,29 +42,14 @@ class Expr(val calc: Calc<*>, expr: String) {
         }
     }
 
-    fun parse(): Boolean {
+    fun parse() {
         logger.info("Preparsing")
-        try {
-            val result = preparse(calc, expr)
-            parseError = result.parseError
-            if (result.parseError != null) return false
-            rawTokens = result.tokens
-            logger.info("Parsing")
-            recursiveParse(Range(0, rawTokens.size - 1), 0)
-            logger.info("Parsed")
-        } catch (e: Exception) {
-            when (e) {
-                is ParseException -> {
-                    logger.warn("${e.message}: ${e.parseError}")
-                }
-                else -> {
-                    logger.error("Unknown parse error", e)
-                    parseError = ParseError(UNKNOWN_PARSE_ERROR, 0)
-                }
-            }
-            return false
-        }
-        return true
+        val result = preparse(calc, expr)
+        result.parseError?.let { throw ParseException("preparsing error", it) }
+        rawTokens = result.tokens
+        logger.info("Parsing")
+        recursiveParse(Range(0, rawTokens.size - 1), 0)
+        logger.info("Parsed")
     }
 
     fun recursiveParse(rangeIn: Range, depth: Int) {
@@ -76,7 +60,7 @@ class Expr(val calc: Calc<*>, expr: String) {
         }
         var tokenCount = 0
         val range = removeOuterP(rangeIn, rawTokens)
-   //     logger.info("Rec[$depth]: $range ${rawTokens.toExpr(range)}")
+        //     logger.info("Rec[$depth]: $range ${rawTokens.toExpr(range)}")
         var leftRange: Range? = null
         var index = range.min
         do {
