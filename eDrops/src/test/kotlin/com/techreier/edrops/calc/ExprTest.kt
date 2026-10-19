@@ -1,7 +1,6 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.graph.logger
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import kotlin.test.assertEquals
@@ -156,10 +155,9 @@ class ExprTest {
 
     }
 
-    @Disabled
     @Test
     fun operatorTest() {
-        val input = "sin(30) + 5"
+        val input = "3 + 5"
         val expr = Expr(calc, input)
         expr.parse()
         logger.info("parse ok, can be calculated")

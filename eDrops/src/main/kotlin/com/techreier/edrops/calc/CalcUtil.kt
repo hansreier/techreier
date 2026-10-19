@@ -83,6 +83,7 @@ private fun wrapsWhole(min: Int, max: Int, tokens: List<Token>): Boolean {
     return false
 }
 
+/* TODO ReierAsk I think this function is not required */
 fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): Int {
     var balance = 0
     for (i in range.min..range.max) {
