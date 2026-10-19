@@ -24,26 +24,17 @@ class Expr(val calc: Calc<*>, expr: String) {
     }
 
     fun calculate() {
-        try {
             logger.info("calculate")
             calc.clear() //clear the stack
             for (t in tokens) {
                 when (t) {
                     is NumberToken -> calc.enter(t.argument)
                     is OperatorToken -> calc.op(t.operator)
-                    //   is OperatorToken -> if (calc.op(t.operator) == null) {
-                    //calc.addVarsOnEmptyStack()
-                    //                    break
-                    //               }
                 }
             }
-        } catch (e: Exception) {
-            logger.error("Error during calculation: ${e.message}")
-        }
     }
 
     fun parse() {
-        logger.info("Preparsing")
         val result = preparse(calc, expr)
         result.parseError?.let { throw ParseException("preparsing error", it) }
         rawTokens = result.tokens
