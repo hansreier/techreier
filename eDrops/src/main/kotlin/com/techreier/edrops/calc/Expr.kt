@@ -54,7 +54,6 @@ class Expr(val calc: Calc<*>, expr: String) {
         //     logger.info("Rec[$depth]: $range ${rawTokens.toExpr(range)}")
         var leftRange: Range? = null
         var index = range.min
-     //   var leftPIndex = 0
         var lastOpIndex = -1
         do {
             logger.info("Rec[$depth]=$range index=$index ${rawTokens.toExpr(range)}")
@@ -76,7 +75,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                             val argumentInfo = findClosure(Range(index, range.max), rawTokens)
                             logger.info("leftP found")
                             recursiveParse(argumentInfo.range, depth + 1)
-                            index = argumentInfo.range.max + 1
+                            index = argumentInfo.range.max + 2
                         }
 
                         token.isFunction() -> {
@@ -91,7 +90,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                                 recursiveParse(argumentInfo.range, depth + 1)
                                 tokens.add(token)
                             }
-                            index = argumentInfo.range.max + 1
+                            index = argumentInfo.range.max + 2
 
                         }
 
@@ -113,8 +112,8 @@ class Expr(val calc: Calc<*>, expr: String) {
                 }
             }
             logger.info("index=$index range.max=${range.max}")
-        } while (index < range.max)
-        if (lastOpIndex > 0) {  // check last operator
+        } while (index <= range.max)
+        if (lastOpIndex >= 0) {  // check last operator
             tokens.add( (rawTokens[lastOpIndex] as OperatorToken))
         }
         logger.info("Rec[$depth]: End")
