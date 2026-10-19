@@ -159,9 +159,9 @@ class ExprTest {
     fun operatorTest() {
         val input = "3 + 5"
         val expr = Expr(calc, input)
+        calc.trace = Trace.ALL
         expr.parse()
         logger.info("parse ok, can be calculated")
-        calc.trace = Trace.ALL
         expr.calculate()
         calc.result()
     }

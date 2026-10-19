@@ -66,6 +66,7 @@ class Expr(val calc: Calc<*>, expr: String) {
             }
             when (val token = rawTokens[index]) {
                 is NumberToken -> {
+                    calc.traceText("add number token: $token")
                     tokens.add(token)
                     index++
                 }
