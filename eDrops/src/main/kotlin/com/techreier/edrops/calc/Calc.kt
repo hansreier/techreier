@@ -90,6 +90,7 @@ abstract class Calc<T> {
 
     fun result(): T {
         if (stack.isEmpty()) throw CalcException(NO_RESULT, "calc")
+        if (stack.size >1) throw CalcException(MULTIPLE_RESULTS, "calc")
         return stack.peekFirst()
     }
 

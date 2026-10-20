@@ -71,6 +71,11 @@ class Expr(val calc: Calc<*>, expr: String) {
                 }
                 is OperatorToken -> {
                     when {
+                        token.isVariable() -> {
+                            calc.traceText("add variable token: $token")
+                            tokens.add(token)
+                            index++
+                        }
                         token.isLeftP() -> {
                             val argumentInfo = findClosure(Range(index, range.max), rawTokens)
                             logger.info("leftP found")
