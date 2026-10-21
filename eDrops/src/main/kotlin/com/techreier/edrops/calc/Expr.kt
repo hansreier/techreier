@@ -129,7 +129,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                             )
                             if (opInfo.push) {
                                 recursiveParse(Range(index + 1, opInfo.endPos), depth + 1)
-                                postphonedOperator = token
+                                tokens.add(token)
                                 index = opInfo.endPos + 1
                             } else {
                                 postphonedOperator = token
