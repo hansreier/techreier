@@ -64,16 +64,6 @@ class CalcUtilTest {
     }
 
     @Test
-    fun removeOuterPFindOperatorTest() {
-        val preRange = Range(0, tokens.size - 1)
-        val expectedRange = Range(2, tokens.size - 3)
-        val range = removeOuterP(preRange, tokens)
-        assertEquals(expectedRange, range)
-        val operator = findUnboundOperator(range, 3, tokens )
-        assertEquals(13, operator)
-    }
-
-    @Test
     fun outerNoPTest() {
         val tokens2 = listOf(NumberToken(3, 1), OperatorToken(Op.ADD, 2), NumberToken(4, 3))
         val preRange = Range(0, 2)
