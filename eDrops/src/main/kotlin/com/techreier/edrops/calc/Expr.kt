@@ -100,7 +100,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                                 logger.info("pushing")
                                 calc.traceText("add arguments: ${argumentInfo.tokens}")
                                 tokens.addAll(argumentInfo.tokens)
-                                calc.traceText("add function token: $token")
+                                calc.traceText("add function: $token")
                                 tokens.add(token)
                             } else {
                                 logger.info("expression cannot be pushed to stack")
