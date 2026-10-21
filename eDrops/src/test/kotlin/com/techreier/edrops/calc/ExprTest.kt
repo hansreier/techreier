@@ -180,8 +180,22 @@ class ExprTest {
     }
 
     @Test
-    fun xxTest() {
-        val input = "5 * 3"
+    fun repeatedMultiplyTest() {
+        val input = "5 * 3 * 4"
+        val expr = Expr(calc, input)
+        calc.trace = Trace.ALL
+        expr.parse()
+        logger.info("parse ok, can be calculated")
+        expr.calculate()
+        calc.result()
+    }
+
+    @Test
+    fun repeatedAddTest() {
+        calc[Op.X] = 8.0
+        calc[Op.Y] = 6.0
+        calc[Op.Z] = 4.0
+        val input = "x + y + z"
         val expr = Expr(calc, input)
         calc.trace = Trace.ALL
         expr.parse()

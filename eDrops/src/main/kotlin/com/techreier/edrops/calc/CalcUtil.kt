@@ -93,7 +93,7 @@ fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): Operator
             token.isLeftP() -> {balance++ ; push = true }
             token.isRightP() -> {balance-- ; push = true }
             token.isFunction() -> push = true
-            token is OperatorToken -> {
+            (token is OperatorToken) && (!token.isVariable()) -> {
                 if (balance == 0) {
                     if (token.operator.prior() >= prior) {
                         return OperatorInfo(i -1, token, push)
