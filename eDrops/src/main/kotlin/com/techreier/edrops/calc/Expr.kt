@@ -52,9 +52,9 @@ class Expr(val calc: Calc<*>, expr: String) {
         var tokenCount = 0
         val range = removeOuterP(rangeIn, rawTokens)
         //     logger.info("Rec[$depth]: $range ${rawTokens.toExpr(range)}")
-        var leftRange: Range? = null
         var index = range.min
-        var lastOpIndex = -1
+        var postphonedOperator: Token? = null
+
         do {
             logger.info("Rec[$depth]=$range index=$index ${rawTokens.toExpr(range)}")
             tokenCount++
@@ -67,13 +67,23 @@ class Expr(val calc: Calc<*>, expr: String) {
                 is NumberToken -> {
                     calc.traceText("add number token: $token")
                     tokens.add(token)
+                    postphonedOperator?.let {
+                        op -> tokens.add(op)
+                        calc.traceText("add operator: $op")
+                    }
+                    postphonedOperator = null
                     index++
                 }
                 is OperatorToken -> {
                     when {
                         token.isVariable() -> {
-                            calc.traceText("add variable token: $token")
+                            calc.traceText("add variable: $token")
                             tokens.add(token)
+                            postphonedOperator?.let {
+                                op -> tokens.add(op)
+                                calc.traceText("add operator: $op")
+                            }
+                            postphonedOperator = null
                             index++
                         }
                         token.isLeftP() -> {
@@ -88,11 +98,14 @@ class Expr(val calc: Calc<*>, expr: String) {
 
                             if (argumentInfo.push) {
                                 logger.info("pushing")
+                                calc.traceText("add arguments: ${argumentInfo.tokens}")
                                 tokens.addAll(argumentInfo.tokens)
+                                calc.traceText("add function token: $token")
                                 tokens.add(token)
                             } else {
                                 logger.info("expression cannot be pushed to stack")
                                 recursiveParse(argumentInfo.range, depth + 1)
+                                calc.traceText("add function: $token")
                                 tokens.add(token)
                             }
                             index = argumentInfo.range.max + 2
@@ -100,27 +113,40 @@ class Expr(val calc: Calc<*>, expr: String) {
                         }
 
                         token.isOperator() -> {
-                            if (lastOpIndex > 0) {  // check last operator
-                                val lastOpToken = (rawTokens[lastOpIndex] as OperatorToken)
-                                if (token.operator.prior() >= lastOpToken.operator.prior()) { // +- 3 */ 2 ^ 1
-                                    tokens.add(lastOpToken)
-                                }
-                            }
                             logger.info("operator found")
-                            leftRange = Range(range.min, index - 1)
-                            if (index == range.max || index == 0 ) throw ParseException("operator at the end ",
-                                ParseError(MISPLACED_OPERATOR, token.position, token.toTokenString()))
-                            lastOpIndex = index
-                            index++
+                            if (index == range.max || index == 0 ) { // misplaced operator check
+                                val posText = if (index == 0) "start" else "end"
+                                throw ParseException(
+                                    "Misplaced operator at $posText of expression",
+                                    ParseError(MISPLACED_OPERATOR, token.position, token.toTokenString())
+                                )
+                            }
+
+                            val opInfo = findUnboundOperator(
+                                range = Range(index + 1, range.max),
+                                prior =  token.operator.prior(),
+                                tokens = rawTokens
+                            )
+                            if (opInfo.push) {
+                                recursiveParse(Range(index + 1, opInfo.endPos), depth + 1)
+                                calc.traceText("add operator: $token")
+                                postphonedOperator = token
+                                index = opInfo.endPos + 1
+                            } else {
+                                calc.traceText("add operator directly: $token")
+                                postphonedOperator = token
+                                index = index + 1
+                            }
+
                         }
                     }
                 }
             }
             logger.info("index=$index range.max=${range.max}")
         } while (index <= range.max)
-        if (lastOpIndex >= 0) {  // check last operator
-            tokens.add( (rawTokens[lastOpIndex] as OperatorToken))
-        }
+
+        postphonedOperator?.let { op -> tokens.add(op) }
+
         logger.info("Rec[$depth]: End")
     }
 
