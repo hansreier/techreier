@@ -170,7 +170,7 @@ class ExprTest {
 
     @Test
     fun operatorsDifferentLevelTest() {
-        val input = "3 + 5 * 3 - 6"
+        val input = "3 + 5 * 4 + 1"
         val expr = Expr(calc, input)
         calc.trace = Trace.ALL
         expr.parse()
@@ -178,4 +178,17 @@ class ExprTest {
         expr.calculate()
         calc.result()
     }
+
+    @Test
+    fun xxTest() {
+        val input = "5 * 3"
+        val expr = Expr(calc, input)
+        calc.trace = Trace.ALL
+        expr.parse()
+        logger.info("parse ok, can be calculated")
+        expr.calculate()
+        calc.result()
+    }
+
+
 }
