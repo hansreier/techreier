@@ -65,7 +65,7 @@ class Expr(val calc: Calc<*>, expr: String) {
             }
             when (val token = rawTokens[index]) {
                 is NumberToken -> {
-                    calc.traceText("add number token: $token")
+                    calc.traceText("add number: $token")
                     tokens.add(token)
                     postphonedOperator?.let {
                         op -> tokens.add(op)
@@ -129,13 +129,11 @@ class Expr(val calc: Calc<*>, expr: String) {
                             )
                             if (opInfo.push) {
                                 recursiveParse(Range(index + 1, opInfo.endPos), depth + 1)
-                                calc.traceText("add operator: $token")
                                 postphonedOperator = token
                                 index = opInfo.endPos + 1
                             } else {
-                                calc.traceText("add operator directly: $token")
                                 postphonedOperator = token
-                                index = index + 1
+                                index += 1
                             }
 
                         }
