@@ -83,22 +83,28 @@ private fun wrapsWhole(min: Int, max: Int, tokens: List<Token>): Boolean {
     return false
 }
 
-/* TODO ReierAsk I think this function is not required */
-fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): Int {
+fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): OperatorInfo {
     var balance = 0
+    var push = false
+
     for (i in range.min..range.max) {
         val token = tokens[i]
         when {
-            token.isLeftP() -> balance++
-            token.isRightP() -> balance--
+            token.isLeftP() -> {balance++ ; push = true }
+            token.isRightP() -> {balance-- ; push = true }
+            token.isFunction() -> push = true
             token is OperatorToken -> {
-                if ((token.operator.prior() == prior) && (balance == 0 )) {
-                    return i
+                if (balance == 0) {
+                    if (token.operator.prior() >= prior) {
+                        return OperatorInfo(i -1, token, push)
+                    } else {
+                        push = true
+                    }
                 }
             }
         }
     }
-    return -1
+    return OperatorInfo( range.max,  null, push)
 }
 
 fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
@@ -163,6 +169,8 @@ fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
 data class Range(val min: Int, val max: Int)
 
 data class ArgumentInfo(val range: Range, val tokens: List<Token>, val push: Boolean)
+
+data class OperatorInfo(val endPos: Int, val token : Token?, val push: Boolean)
 
 operator fun <T> ArrayList<T>.set(op: Op, value: T) {
     this[op.ordinal] = value
