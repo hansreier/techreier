@@ -234,7 +234,7 @@ class ExprTest {
 
     @Test
     fun withParanthesisTest() { //TODO Fails
-
+        calc.trace = Trace.ALL
         val input = "(3 + 5 * (2 + 3) )/ 2"
         val expr = Expr(calc, input)
         expr.parse()
@@ -242,6 +242,18 @@ class ExprTest {
         val result = calc.result()
 
         assertEquals(14.0, result, 1e-8)
+    }
+
+    @Test
+    fun withParanthesisSimpleTest() { //TODO Fails
+        calc.trace = Trace.ALL
+        val input = "(3 + 5) * 2"
+        val expr = Expr(calc, input)
+        expr.parse()
+        expr.calculate()
+        val result = calc.result()
+
+        assertEquals(16.0, result, 1e-8)
     }
 
     @Test

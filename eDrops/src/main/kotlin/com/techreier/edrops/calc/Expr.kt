@@ -79,7 +79,12 @@ class Expr(val calc: Calc<*>, expr: String) {
                         token.isLeftP() -> {
                             val argumentInfo = findClosure(Range(index, range.max), rawTokens)
                             recursiveParse(argumentInfo.range, depth + 1)
-                            index = argumentInfo.range.max + 2
+                            index = argumentInfo.range.max + 1
+                            postphonedOperator?.let {
+                                    op -> tokens.add(op)
+                                trace("add operator: ${(op as OperatorToken).operator.abbrev()}")
+                            }
+                            postphonedOperator = null
                         }
 
                         token.isFunction() -> {
