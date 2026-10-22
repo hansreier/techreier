@@ -202,6 +202,17 @@ class ExprTest {
     }
 
     @Test
+    fun priorityTest() {
+        val input = "5 + 3 * 4"
+        val expr = Expr(calc, input)
+        calc.trace = Trace.ALL
+        expr.parse()
+        logger.info("parse ok, can be calculated")
+        expr.calculate()
+        calc.result()
+    }
+
+    @Test
     fun repeatedAddTest() {
         calc[Op.X] = 8.0
         calc[Op.Y] = 6.0
