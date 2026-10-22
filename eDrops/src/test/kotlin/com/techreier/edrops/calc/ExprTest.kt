@@ -181,13 +181,14 @@ class ExprTest {
 
     @Test
     fun operatorsAndFunctionTest() {
-        val input = "3 + sin(9 * 10) * 2 + 1"
+        val input = "3 + sin(9 * 10)^2 * 2 + 1"
         val expr = Expr(calc, input)
         calc.trace = Trace.ALL
         expr.parse()
         logger.info("parse ok, can be calculated")
         expr.calculate()
-        calc.result()
+        val result = calc.result()
+        assertEquals(6.0, result, 1e-8, "calculation: " + input)
     }
 
     @Test
@@ -198,7 +199,8 @@ class ExprTest {
         expr.parse()
         logger.info("parse ok, can be calculated")
         expr.calculate()
-        calc.result()
+        val result = calc.result()
+        assertEquals(60.0, result, 1e-8, "calculation: " + input)
     }
 
     @Test
@@ -209,7 +211,8 @@ class ExprTest {
         expr.parse()
         logger.info("parse ok, can be calculated")
         expr.calculate()
-        calc.result()
+        val result = calc.result()
+        assertEquals(17.0, result, 1e-8, "calculation: " + input)
     }
 
     @Test
@@ -223,7 +226,8 @@ class ExprTest {
         expr.parse()
         logger.info("parse ok, can be calculated")
         expr.calculate()
-        calc.result()
+        val result = calc.result()
+        assertEquals(18.0, result, 1e-8, "calculation: " + input)
     }
 
 
