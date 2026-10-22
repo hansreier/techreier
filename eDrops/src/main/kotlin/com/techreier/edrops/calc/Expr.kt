@@ -6,21 +6,12 @@ import com.techreier.edrops.exceptions.ParseException
 class Expr(val calc: Calc<*>, expr: String) {
 
     val expr: String
-    var parseError: ParseError? = null
     val tokens = ArrayList<Token>()
     private lateinit var rawTokens: List<Token>
 
     init {
         this.expr = expr.trim()
         calc.traceText(expr)
-    }
-
-
-    private fun warn(text: String, relaxed: Boolean = false) {
-        if (relaxed)
-            logger.warn("warning: $text")
-        else
-            logger.error("error: $text")
     }
 
     fun calculate() {
@@ -88,7 +79,6 @@ class Expr(val calc: Calc<*>, expr: String) {
                         }
                         token.isLeftP() -> {
                             val argumentInfo = findClosure(Range(index, range.max), rawTokens)
-                            logger.info("leftP found")
                             recursiveParse(argumentInfo.range, depth + 1)
                             index = argumentInfo.range.max + 2
                         }
@@ -97,7 +87,6 @@ class Expr(val calc: Calc<*>, expr: String) {
                             val argumentInfo = parseArguments(Range(index, range.max), rawTokens)
 
                             if (argumentInfo.push) {
-                                logger.info("pushing")
                                 calc.traceText("add arguments: ${argumentInfo.tokens}")
                                 tokens.addAll(argumentInfo.tokens)
                                 calc.traceText("add function: $token")
@@ -113,7 +102,6 @@ class Expr(val calc: Calc<*>, expr: String) {
                         }
 
                         token.isOperator() -> {
-                            logger.info("operator found")
                             if (index == range.max || index == 0 ) { // misplaced operator check
                                 val posText = if (index == 0) "start" else "end"
                                 throw ParseException(
@@ -140,7 +128,6 @@ class Expr(val calc: Calc<*>, expr: String) {
                     }
                 }
             }
-            logger.info("index=$index range.max=${range.max}")
         } while (index <= range.max)
 
         postphonedOperator?.let { op -> tokens.add(op) }
