@@ -268,7 +268,7 @@ class ExprTest {
         val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (x - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
 
         val expr = Expr(calc, input)
-        calc.trace = Trace.ALL
+        calc.trace = Trace.RPN
         expr.parse()
         expr.calculate()
         val result = calc.result()

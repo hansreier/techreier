@@ -1,16 +1,15 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.config.logger
 import com.techreier.edrops.exceptions.ParseException
+import org.slf4j.LoggerFactory
 
 class Expr(val calc: Calc<*>, expr: String) {
-    val trace = calc.trace
-    val expr: String
+    protected val logger = LoggerFactory.getLogger(javaClass.simpleName)
+    val expr: String = expr.trim()
     val tokens = ArrayList<Token>()
     private lateinit var rawTokens: List<Token>
 
     init {
-        this.expr = expr.trim()
         trace("Expression: $expr")
     }
 
@@ -71,7 +70,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                             tokens.add(token)
                             postphonedOperator?.let {
                                 op -> tokens.add(op)
-                                trace("add operator: $op")
+                                trace("add operator: ${(op as OperatorToken).operator.abbrev()}")
                             }
                             postphonedOperator = null
                             index++
@@ -133,16 +132,13 @@ class Expr(val calc: Calc<*>, expr: String) {
             }
         } while (index <= range.max)
 
-        postphonedOperator?.let { op -> tokens.add(op) }
-
         trace("Recur[$depth]: End")
     }
 
     private fun trace(text: String) {
-        if (trace != Trace.OFF)   {
+        if (calc.trace != Trace.OFF)   {
             logger.info(text)
         }
     }
-
 
 }
