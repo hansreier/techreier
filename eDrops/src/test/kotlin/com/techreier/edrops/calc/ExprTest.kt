@@ -180,6 +180,17 @@ class ExprTest {
     }
 
     @Test
+    fun operatorsAndFunctionTest() {
+        val input = "3 + sin(9 * 10) * 2 + 1"
+        val expr = Expr(calc, input)
+        calc.trace = Trace.ALL
+        expr.parse()
+        logger.info("parse ok, can be calculated")
+        expr.calculate()
+        calc.result()
+    }
+
+    @Test
     fun repeatedMultiplyTest() {
         val input = "5 * 3 * 4"
         val expr = Expr(calc, input)
