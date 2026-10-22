@@ -96,7 +96,7 @@ fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): Operator
             (token is OperatorToken) && (!token.isVariable()) -> {
                 if (balance == 0) {
                     if (token.operator.prior() >= prior) {
-                        return OperatorInfo(i - 1, token, push)
+                        return OperatorInfo(i - 1,  push)
                     } else {
                         push = true
                     }
@@ -104,7 +104,7 @@ fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): Operator
             }
         }
     }
-    return OperatorInfo( range.max,  null, push)
+    return OperatorInfo( range.max,   push)
 }
 
 fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
@@ -170,7 +170,7 @@ data class Range(val min: Int, val max: Int)
 
 data class ArgumentInfo(val range: Range, val tokens: List<Token>, val push: Boolean)
 
-data class OperatorInfo(val endPos: Int, val token : Token?, val push: Boolean)
+data class OperatorInfo(val endPos: Int,  val push: Boolean)
 
 operator fun <T> ArrayList<T>.set(op: Op, value: T) {
     this[op.ordinal] = value
