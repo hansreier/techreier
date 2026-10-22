@@ -139,7 +139,7 @@ class Expr(val calc: Calc<*>, expr: String) {
     }
 
     private fun trace(text: String) {
-        if (trace != Trace.ALL)  {
+        if (trace != Trace.OFF)   {
             logger.info(text)
         }
     }
