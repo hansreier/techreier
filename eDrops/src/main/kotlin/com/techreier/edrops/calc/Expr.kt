@@ -9,10 +9,6 @@ class Expr(val calc: Calc<*>, expr: String) {
     val tokens = ArrayList<Token>()
     private lateinit var rawTokens: List<Token>
 
-    init {
-        trace("Expression: $expr")
-    }
-
     fun calculate() {
             trace("calculate")
             calc.clear() //clear the stack
@@ -25,6 +21,7 @@ class Expr(val calc: Calc<*>, expr: String) {
     }
 
     fun parse() {
+        trace("Expression: $expr")
         trace("Preparsing")
         val result = preparse(calc, expr)
         result.parseError?.let { throw ParseException("preparsing error", it) }
