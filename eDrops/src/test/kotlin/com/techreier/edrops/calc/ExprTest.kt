@@ -13,6 +13,7 @@ class ExprTest {
     fun happyTest() {
         val input = "sin(90)"
         val expr = Expr(calc, input)
+        calc.trace = Trace.ALL
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()

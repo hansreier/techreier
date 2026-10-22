@@ -115,7 +115,7 @@ fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
     var min = range.min
     var max = range.max
     val operatorText = (tokens[range.min] as OperatorToken).operator.abbrev()
-    logger.info("parse arguments for $operatorText range=$range expr=${tokens.toExpr(range)}")
+    logger.debug("parse arguments for $operatorText range=$range expr=${tokens.toExpr(range)}")
     do {
         when {
             tokens[i].isValue() -> arguments.add(tokens[i])
@@ -132,7 +132,7 @@ fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
         val error = ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
         throw ParseException("Error parsing arguments", error)
     }
-    logger.info("arguments found: ${arguments.size} range=$range ")
+    logger.debug("arguments found: ${arguments.size} range=$range ")
     return ArgumentInfo(Range(min, max), arguments, push)
 }
 

@@ -4,18 +4,18 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.exceptions.ParseException
 
 class Expr(val calc: Calc<*>, expr: String) {
-
+    val trace = calc.trace
     val expr: String
     val tokens = ArrayList<Token>()
     private lateinit var rawTokens: List<Token>
 
     init {
         this.expr = expr.trim()
-        calc.traceText(expr)
+        trace("formula=$expr")
     }
 
     fun calculate() {
-            logger.info("calculate")
+            trace("calculate")
             calc.clear() //clear the stack
             for (t in tokens) {
                 when (t) {
@@ -26,12 +26,13 @@ class Expr(val calc: Calc<*>, expr: String) {
     }
 
     fun parse() {
+        trace("Preparsing")
         val result = preparse(calc, expr)
         result.parseError?.let { throw ParseException("preparsing error", it) }
         rawTokens = result.tokens
-        logger.info("Parsing")
+        trace("Parsing")
         recursiveParse(Range(0, rawTokens.size - 1), 0)
-        logger.info("Parsed")
+        trace("Parsed")
     }
 
     fun recursiveParse(rangeIn: Range, depth: Int) {
@@ -42,12 +43,11 @@ class Expr(val calc: Calc<*>, expr: String) {
         }
         var tokenCount = 0
         val range = removeOuterP(rangeIn, rawTokens)
-        //     logger.info("Rec[$depth]: $range ${rawTokens.toExpr(range)}")
         var index = range.min
         var postphonedOperator: Token? = null
 
         do {
-            logger.info("Rec[$depth]=$range index=$index ${rawTokens.toExpr(range)}")
+            trace("Recur[$depth]=$range index=$index ${rawTokens.toExpr(range)}")
             tokenCount++
             if (tokenCount > MAX_TOKENS) { //TODO ReierAsk, check in preparse, test relevant during development
                 val token = rawTokens[index]
@@ -56,11 +56,11 @@ class Expr(val calc: Calc<*>, expr: String) {
             }
             when (val token = rawTokens[index]) {
                 is NumberToken -> {
-                    calc.traceText("add number: $token")
+                    trace("add number: ${token.argument}")
                     tokens.add(token)
                     postphonedOperator?.let {
                         op -> tokens.add(op)
-                        calc.traceText("add operator: $op")
+                        trace("add operator: ${(op as OperatorToken).operator.abbrev()}")
                     }
                     postphonedOperator = null
                     index++
@@ -68,11 +68,11 @@ class Expr(val calc: Calc<*>, expr: String) {
                 is OperatorToken -> {
                     when {
                         token.isVariable() -> {
-                            calc.traceText("add variable: $token")
+                            trace("add variable: ${token.operator.abbrev()}")
                             tokens.add(token)
                             postphonedOperator?.let {
                                 op -> tokens.add(op)
-                                calc.traceText("add operator: $op")
+                                trace("add operator: $op")
                             }
                             postphonedOperator = null
                             index++
@@ -87,14 +87,13 @@ class Expr(val calc: Calc<*>, expr: String) {
                             val argumentInfo = parseArguments(Range(index, range.max), rawTokens)
 
                             if (argumentInfo.push) {
-                                calc.traceText("add arguments: ${argumentInfo.tokens}")
+                                trace("add args: ${argumentInfo.tokens}")
                                 tokens.addAll(argumentInfo.tokens)
-                                calc.traceText("add function: $token")
+                                trace("add func: ${token.operator.abbrev()}")
                                 tokens.add(token)
                             } else {
-                                logger.info("expression cannot be pushed to stack")
                                 recursiveParse(argumentInfo.range, depth + 1)
-                                calc.traceText("add function: $token")
+                                trace("add func: ${token.operator.abbrev()}")
                                 tokens.add(token)
                             }
                             index = argumentInfo.range.max + 2
@@ -132,7 +131,13 @@ class Expr(val calc: Calc<*>, expr: String) {
 
         postphonedOperator?.let { op -> tokens.add(op) }
 
-        logger.info("Rec[$depth]: End")
+        trace("Recur[$depth]: End")
+    }
+
+    private fun trace(text: String) {
+        if (trace != Trace.ALL)  {
+            logger.info(text)
+        }
     }
 
 
