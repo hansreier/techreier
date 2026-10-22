@@ -11,7 +11,7 @@ class Expr(val calc: Calc<*>, expr: String) {
 
     init {
         this.expr = expr.trim()
-        trace("formula=$expr")
+        trace("Expression: $expr")
     }
 
     fun calculate() {
@@ -86,7 +86,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                             val argumentInfo = parseArguments(Range(index, range.max), rawTokens)
 
                             if (argumentInfo.push) {
-                                trace("add args: ${argumentInfo.tokens}")
+                                trace("add args:${argumentInfo.tokens.toTokenString()}")
                                 tokens.addAll(argumentInfo.tokens)
                                 trace("add func: ${token.operator.abbrev()}")
                                 tokens.add(token)

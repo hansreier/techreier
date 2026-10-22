@@ -3,6 +3,7 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.graph.logger
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
+import kotlin.math.pow
 import kotlin.test.assertEquals
 
 class ExprTest {
@@ -38,6 +39,7 @@ class ExprTest {
 
     @Test
     fun twoArgumentFunctionTest() {
+        calc.trace = Trace.ALL
         val input = "hyp(3;4)"
         val expr = Expr(calc, input)
         expr.parse()
@@ -225,11 +227,46 @@ class ExprTest {
         val expr = Expr(calc, input)
         calc.trace = Trace.ALL
         expr.parse()
-        logger.info("parse ok, can be calculated")
         expr.calculate()
         val result = calc.result()
         assertEquals(18.0, result, 1e-8, "calculation: " + input)
     }
 
+    @Test
+    fun withParanthesisTest() { //TODO Fails
+
+        val input = "(3 + 5 * (2 + 3) )/ 2"
+        val expr = Expr(calc, input)
+        expr.parse()
+        expr.calculate()
+        val result = calc.result()
+
+        assertEquals(14.0, result, 1e-8)
+    }
+
+    @Test
+    fun weirdParenthesisAndMultiVariableMonsterTest() {
+        val x = 3.0
+        val y = 6.0
+        val z = 5.0
+        calc[Op.X] = x
+        calc[Op.Y] = y
+        calc[Op.Z] = z
+
+        val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (x - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
+
+        val expr = Expr(calc, input)
+        calc.trace = Trace.ALL
+        expr.parse()
+        expr.calculate()
+        val result = calc.result()
+
+        val term1 = (x.pow(2.0) + y.pow(2.0)) / ((x - y).pow(2.0) + 1.0)
+        val term2 = z - 1.0
+        val term3 = (2.5 * x) / y
+        val expected = (term1 * term2) + term3
+
+        assertEquals(expected, result, 1e-8)
+    }
 
 }

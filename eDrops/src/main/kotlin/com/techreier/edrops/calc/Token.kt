@@ -7,7 +7,7 @@ data class OperatorToken(val operator: Op, val pos: Int) : Token(pos)
 // Used to get the list of token to compare and or print
 fun List<Token>.toTokenString(size: Int = 200): String {
     val cut = take(size)
-    return cut.joinToString(separator = " | ", prefix = " $size [ ", postfix = " ]") { token ->
+    return cut.joinToString(separator = " | ", prefix = " ${cut.size} [ ", postfix = " ]") { token ->
         when (token) {
             is NumberToken -> token.argument.toString()
             is OperatorToken -> token.operator.abbrev()
@@ -24,6 +24,7 @@ fun List<Token>.toExpr(range: Range = Range(0, this.size - 1)): String {
             is NumberToken -> expr.append(token.argument)
             is OperatorToken -> expr.append(token.operator.abbrev())
         }
+        expr.append(' ')
     }
     return expr.toString()
 }
