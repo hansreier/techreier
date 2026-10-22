@@ -45,9 +45,8 @@ class Expr(val calc: Calc<*>, expr: String) {
         val range = removeOuterP(rangeIn, rawTokens)
         var index = range.min
         var postphonedOperator: Token? = null
-
+        trace("Recur[$depth] ${rawTokens.toExpr(range)}")
         do {
-            trace("Recur[$depth]=$range index=$index ${rawTokens.toExpr(range)}")
             tokenCount++
             if (tokenCount > MAX_TOKENS) { //TODO ReierAsk, check in preparse, test relevant during development
                 val token = rawTokens[index]
