@@ -10,18 +10,20 @@ class Expr(val calc: Calc<*>, expr: String) {
     private lateinit var rawTokens: List<Token>
 
     fun calculate() {
-            trace("calculate")
-            calc.clear() //clear the stack
-            for (t in tokens) {
-                when (t) {
-                    is NumberToken -> calc.enter(t.argument)
-                    is OperatorToken -> calc.op(t.operator)
-                }
+        trace("calculate")
+        calc.clear() //clear the stack
+        for (t in tokens) {
+            when (t) {
+                is NumberToken -> calc.enter(t.argument)
+                is OperatorToken -> calc.op(t.operator)
             }
+        }
     }
 
     fun parse() {
         trace("Expression: $expr")
+        trace("checking variables")
+        checkVariables(calc)
         trace("Preparsing")
         val result = preparse(calc, expr)
         result.parseError?.let { throw ParseException("preparsing error", it) }
@@ -53,31 +55,33 @@ class Expr(val calc: Calc<*>, expr: String) {
                 is NumberToken -> {
                     trace("add number: ${token.argument}")
                     tokens.add(token)
-                    postphonedOperator?.let {
-                        op -> tokens.add(op)
+                    postphonedOperator?.let { op ->
+                        tokens.add(op)
                         trace("add operator: ${(op as OperatorToken).operator.abbrev()}")
                     }
                     postphonedOperator = null
                     index++
                 }
+
                 is OperatorToken -> {
                     when {
                         token.isVariable() -> {
                             trace("add variable: ${token.operator.abbrev()}")
                             tokens.add(token)
-                            postphonedOperator?.let {
-                                op -> tokens.add(op)
+                            postphonedOperator?.let { op ->
+                                tokens.add(op)
                                 trace("add operator: ${(op as OperatorToken).operator.abbrev()}")
                             }
                             postphonedOperator = null
                             index++
                         }
+
                         token.isLeftP() -> {
                             val argumentInfo = findClosure(Range(index, range.max), rawTokens)
                             recursiveParse(argumentInfo.range, depth + 1)
                             index = argumentInfo.range.max + 1
-                            postphonedOperator?.let {
-                                    op -> tokens.add(op)
+                            postphonedOperator?.let { op ->
+                                tokens.add(op)
                                 trace("add operator: ${(op as OperatorToken).operator.abbrev()}")
                             }
                             postphonedOperator = null
@@ -101,7 +105,7 @@ class Expr(val calc: Calc<*>, expr: String) {
                         }
 
                         token.isOperator() -> {
-                            if (index == range.max || index == 0 ) { // misplaced operator check
+                            if (index == range.max || index == 0) { // misplaced operator check
                                 val posText = if (index == 0) "start" else "end"
                                 throw ParseException(
                                     "Misplaced operator at $posText of expression",
@@ -111,7 +115,7 @@ class Expr(val calc: Calc<*>, expr: String) {
 
                             val opInfo = findUnboundOperator(
                                 range = Range(index + 1, range.max),
-                                prior =  token.operator.prior(),
+                                prior = token.operator.prior(),
                                 tokens = rawTokens
                             )
                             if (opInfo.push) {
@@ -133,7 +137,7 @@ class Expr(val calc: Calc<*>, expr: String) {
     }
 
     private fun trace(text: String) {
-        if ((calc.trace == Trace.ALL) || calc.trace == Trace.PARSE)   {
+        if ((calc.trace == Trace.ALL) || calc.trace == Trace.PARSE) {
             logger.info(text)
         }
     }

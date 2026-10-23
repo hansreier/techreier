@@ -5,6 +5,7 @@ const val MAX_TOKENS = 100
 const val OPERATOR_TEXT_LOG_SIZE = 8
 
 // Parsing errors
+const val ILLEGAL_VARIABLES = "IllegalVariables"
 const val MISSING_OPERATOR = "MissingOperator"
 const val UNPARSEABLE = "Unparseable"
 const val EMPTY_PARENTHESIS = "EmptyParenthesis"

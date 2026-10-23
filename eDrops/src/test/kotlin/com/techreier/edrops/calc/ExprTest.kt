@@ -1,8 +1,10 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.graph.logger
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
+import org.junit.jupiter.api.assertThrows
 import kotlin.math.pow
 import kotlin.test.assertEquals
 
@@ -104,17 +106,19 @@ class ExprTest {
     @Test
     fun notExistingVariableTest() {
         calc[Op.ADD] = 90.0
+        calc[Op.SIN] = 90.0
         val input = "sin(x)"
         val expr = Expr(calc, input)
-        expr.parse()
-        expr.calculate()
-        val singleResult = calc.result()
-        logger.info("Result = $singleResult")
-
+        val e = assertThrows<ParseException> {
+            expr.parse()
+        }
+        assertEquals(ILLEGAL_VARIABLES, e.parseError.key)
+        assertEquals("ADD SIN", e.parseError.oper)
+        logger.info("Result = ${e.message} ${e.parseError} ")
     }
 
     @Test
-    fun functionInfunctionTest() {
+    fun functionInFunctionTest() {
         calc[Op.X] = 90.0
         val input = "ln(sin(x))"
         val expr = Expr(calc, input)

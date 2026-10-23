@@ -8,7 +8,7 @@ class CalcDouble : Calc<Double>() {
     var degrees: Boolean = true
     var epsilon = 1e-12
 
-    private val vars: MutableMap<Op, Double> = EnumMap(Op::class.java)
+    override val vars: MutableMap<Op, Double> = EnumMap(Op::class.java)
 
     init {
         operators.addAll(

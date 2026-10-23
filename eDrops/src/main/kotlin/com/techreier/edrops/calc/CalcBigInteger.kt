@@ -12,7 +12,7 @@ import kotlin.collections.set
 class CalcBigInteger : Calc<BigInteger>() {
     override val type: Class<BigInteger> = BigInteger::class.java
 
-    private val vars: MutableMap<Op, BigInteger> = EnumMap(Op::class.java)
+    override val vars: MutableMap<Op, BigInteger> = EnumMap(Op::class.java)
 
 
     init {

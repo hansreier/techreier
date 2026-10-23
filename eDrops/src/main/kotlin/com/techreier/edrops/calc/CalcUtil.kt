@@ -115,7 +115,7 @@ fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
     var min = range.min
     var max = range.max
     val operatorText = (tokens[range.min] as OperatorToken).operator.abbrev()
-    logger.debug("parse arguments for $operatorText range=$range expr=${tokens.toExpr(range)}")
+    logger.debug("parse arguments for {} range={} expr={}", operatorText, range, tokens.toExpr(range))
     do {
         when {
             tokens[i].isValue() -> arguments.add(tokens[i])
@@ -132,7 +132,7 @@ fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
         val error = ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
         throw ParseException("Error parsing arguments", error)
     }
-    logger.debug("arguments found: ${arguments.size} range=$range ")
+    logger.debug("arguments found: {} range={} ", arguments.size, range)
     return ArgumentInfo(Range(min, max), arguments, push)
 }
 
@@ -164,6 +164,16 @@ fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
     }
 
     return ArgumentInfo(Range(range.min, closingIndex), emptyList(), false)
+}
+
+fun checkVariables(calc: Calc<*>) {
+    val illegalOps = calc.vars.keys.filter { it !in Op.variables }
+    if (illegalOps.isNotEmpty()) {
+        throw ParseException(
+            "Illegal variables found",
+            ParseError(ILLEGAL_VARIABLES, 0, illegalOps.joinToString(" "))
+        )
+    }
 }
 
 data class Range(val min: Int, val max: Int)
