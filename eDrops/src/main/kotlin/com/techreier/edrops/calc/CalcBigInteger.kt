@@ -5,12 +5,15 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
 import java.util.ArrayList
+import java.util.EnumMap
+import kotlin.collections.set
 
 
 class CalcBigInteger : Calc<BigInteger>() {
     override val type: Class<BigInteger> = BigInteger::class.java
 
-   private val vars = Array(Op.entries.size) { BigInteger.ZERO }
+    private val vars: MutableMap<Op, BigInteger> = EnumMap(Op::class.java)
+
 
     init {
         if (type != BigInteger::class.java) {
@@ -19,11 +22,12 @@ class CalcBigInteger : Calc<BigInteger>() {
     }
 
     override operator fun set(op: Op, value: BigInteger) {
-        vars[op.ordinal] = value
+        vars[op] = value
     }
 
     override operator fun get(op: Op): BigInteger {
-        return vars[op.ordinal]
+        val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev()}")
+        return variable
     }
 
     override fun enter(number: Number) {
@@ -109,12 +113,9 @@ class CalcBigInteger : Calc<BigInteger>() {
                 r.add(x)
             }
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
-                val index = operator.ordinal - Op.X.ordinal
-                if (index < vars.size) {
-                    r.add(vars[index] as BigInteger)
-                } else {
-                    throw IllegalStateException("has no value")
-                }
+                val variable = vars[operator]
+                variable ?: throw (IllegalArgumentException("Unknown variable: ${operator.abbrev()}"))
+                r.add(variable)
             }
             else -> {
                 logger.error("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}")

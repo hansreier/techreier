@@ -8,7 +8,7 @@ class CalcDouble : Calc<Double>() {
     var degrees: Boolean = true
     var epsilon = 1e-12
 
-    private val vars = Array(Op.entries.size) { 0.0 }
+    private val vars: MutableMap<Op, Double> = EnumMap(Op::class.java)
 
     init {
         operators.addAll(
@@ -21,11 +21,12 @@ class CalcDouble : Calc<Double>() {
     }
 
     override operator fun set(op: Op, value: Double) {
-        vars[op.ordinal] = value // TODO ReierAsk vars[op.abbrev] = value
+        vars[op] = value
     }
 
     override operator fun get(op: Op): Double {
-        return vars[op.ordinal] // TODO ReierAsk return vars[op.abbrev]
+        val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev()}")
+        return variable
     }
 
     override fun enter(number: Number) {
@@ -214,7 +215,9 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
-                r.add(vars[operator.ordinal]) //TODO ReierAsk r.add(vars[operator.abbrev])
+                val variable = vars[operator]
+                variable ?: throw (IllegalArgumentException("Unknown variable: ${operator.abbrev()}"))
+                r.add(variable) //TODO ReierAsk r.add(vars[operator.abbrev])
             }
 
             else -> {

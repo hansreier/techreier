@@ -110,4 +110,5 @@ abstract class Calc<T> {
             logger.info("$paddedOp$stack")
         }
     }
+
 }

@@ -18,7 +18,6 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()
-        logger.info("Result = $singleResult")
         assertNotNull(singleResult)
         assertEquals(1.0, singleResult, 1e-9)
         assertEquals(1, calc.stack.size, "Single result is not returned")
@@ -31,7 +30,6 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()
-        logger.info("Result = $singleResult")
         assertNotNull(singleResult)
         assertEquals(1.0, singleResult, 1e-9)
         assertEquals(1, calc.stack.size, "Single result is not returned")
@@ -45,7 +43,6 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()
-        logger.info("Result = $singleResult")
         assertNotNull(singleResult)
         assertEquals(5.0, singleResult, 1e-9)
         assertEquals(1, calc.stack.size, "Single result is not returned")
@@ -59,7 +56,6 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()
-        logger.info("Result = $singleResult")
         assertNotNull(singleResult)
         assertEquals(2.8284271247461903, singleResult, 1e-9)
         assertEquals(1, calc.stack.size, "Single result is not returned")
@@ -74,7 +70,6 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()
-        logger.info("Result = $singleResult")
         assertNotNull(singleResult)
         assertEquals(2.6457513110645907, singleResult, 1e-9)
         assertEquals(1, calc.stack.size, "Single result is not returned")
@@ -89,7 +84,6 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()
-        logger.info("Result = $singleResult")
         assertNotNull(singleResult)
         assertEquals(Double.NaN, singleResult)
         assertEquals(1, calc.stack.size, "Single result is not returned")
@@ -103,10 +97,20 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()
-        logger.info("Result = $singleResult")
-        //   assertNotNull(singleResult)
         assertEquals(1.0, singleResult, 1e-9)
         assertEquals(1, calc.stack.size, "Single result is not returned")
+    }
+
+    @Test
+    fun notExistingVariableTest() {
+        calc[Op.ADD] = 90.0
+        val input = "sin(x)"
+        val expr = Expr(calc, input)
+        expr.parse()
+        expr.calculate()
+        val singleResult = calc.result()
+        logger.info("Result = $singleResult")
+
     }
 
     @Test
@@ -117,7 +121,6 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()
-        logger.info("Result = $singleResult")
         assertNotNull(singleResult)
         assertEquals(0.0, singleResult, 1e-9)
         assertEquals(1, calc.stack.size, "Single result is not returned")
@@ -131,7 +134,6 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()
-        logger.info("Result = $singleResult")
         assertNotNull(singleResult)
         assertEquals(Double.NEGATIVE_INFINITY, singleResult)
         assertEquals(1, calc.stack.size, "Single result is not returned")
@@ -166,7 +168,6 @@ class ExprTest {
         val expr = Expr(calc, input)
         calc.trace = Trace.ALL
         expr.parse()
-        logger.info("parse ok, can be calculated")
         expr.calculate()
         assertEquals(2.0, calc.result())
     }
@@ -177,7 +178,6 @@ class ExprTest {
         val expr = Expr(calc, input)
         calc.trace = Trace.ALL
         expr.parse()
-        logger.info("parse ok, can be calculated")
         expr.calculate()
         calc.result()
     }
@@ -188,7 +188,6 @@ class ExprTest {
         val expr = Expr(calc, input)
         calc.trace = Trace.ALL
         expr.parse()
-        logger.info("parse ok, can be calculated")
         expr.calculate()
         val result = calc.result()
         assertEquals(6.0, result, 1e-8, "calculation: " + input)
@@ -200,7 +199,6 @@ class ExprTest {
         val expr = Expr(calc, input)
         calc.trace = Trace.ALL
         expr.parse()
-        logger.info("parse ok, can be calculated")
         expr.calculate()
         val result = calc.result()
         assertEquals(60.0, result, 1e-8, "calculation: " + input)
@@ -212,7 +210,6 @@ class ExprTest {
         val expr = Expr(calc, input)
         calc.trace = Trace.ALL
         expr.parse()
-        logger.info("parse ok, can be calculated")
         expr.calculate()
         val result = calc.result()
         assertEquals(17.0, result, 1e-8, "calculation: " + input)
