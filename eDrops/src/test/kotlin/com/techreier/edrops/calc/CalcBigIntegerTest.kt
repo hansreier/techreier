@@ -11,6 +11,7 @@ class CalcBigIntegerTest {
     @Test
     fun variousInputTest() {
         val calc = CalcBigInteger()
+        calc.trace = Trace.ALL
 
         calc.enter("5")
         calc.enter(1)
@@ -33,7 +34,6 @@ class CalcBigIntegerTest {
             calc.result(),
             "Mixed types"
         )
-        calc.traceStack()
     }
 
     @Test
@@ -71,6 +71,5 @@ class CalcBigIntegerTest {
             expr.append(numbers[i])
         }
         assertEquals(sum, calculator.result(), "Sum:$expr")
-        calculator.traceStack()
     }
 }

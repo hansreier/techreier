@@ -89,8 +89,10 @@ abstract class Calc<T> {
     }
 
     fun result(): T {
+        traceStack("Result: ", true)
         if (stack.isEmpty()) throw CalcException(NO_RESULT, "calc")
-        if (stack.size >1) throw CalcException(MULTIPLE_RESULTS, "calc")
+        if (stack.size >1) throw
+            CalcException(MULTIPLE_RESULTS, "calc")
         return stack.peekFirst()
     }
 
@@ -100,16 +102,10 @@ abstract class Calc<T> {
         return list
     }
 
-    fun traceText(text: String) {
-        if (trace == Trace.ALL) {
-            logger.info(text)
-        }
-    }
-
     // Log the stack
-    fun traceStack(operation: String = "") {
-        if ((trace == Trace.ALL) || trace == Trace.RPN) {
-            val stack = if (trace == Trace.ALL) stack.joinToString(separator = " ", prefix = "[", postfix = "]") else ""
+    fun traceStack(operation: String = "", forced: Boolean = false) {
+        if ((trace == Trace.ALL) || (trace == Trace.RPN) || (forced && (trace != Trace.OFF))) {
+            val stack = stack.joinToString(separator = " ", prefix = "[", postfix = "]")
             val paddedOp = operation.padEnd(OPERATOR_TEXT_LOG_SIZE, ' ')
             logger.info("$paddedOp$stack")
         }

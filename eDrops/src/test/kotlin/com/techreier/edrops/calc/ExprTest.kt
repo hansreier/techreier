@@ -245,7 +245,7 @@ class ExprTest {
     }
 
     @Test
-    fun withParanthesisSimpleTest() { //TODO Fails
+    fun withParanthesisSimpleTest() {
         calc.trace = Trace.ALL
         val input = "(3 + 5) * 2"
         val expr = Expr(calc, input)
@@ -254,6 +254,19 @@ class ExprTest {
         val result = calc.result()
 
         assertEquals(16.0, result, 1e-8)
+    }
+
+    @Test
+    fun basicAndFunctionTest() {
+        calc[Op.X] = 90.0
+        calc[Op.Y] = 90.0
+        val input = "sin(x) + cos(x - 90)"
+        val expr = Expr(calc, input)
+        expr.parse()
+        expr.calculate()
+        val result = calc.result()
+
+        assertEquals(2.0, result, 1e-8)
     }
 
     @Test

@@ -133,7 +133,7 @@ class Expr(val calc: Calc<*>, expr: String) {
     }
 
     private fun trace(text: String) {
-        if (calc.trace != Trace.OFF)   {
+        if ((calc.trace == Trace.ALL) || calc.trace == Trace.PARSE)   {
             logger.info(text)
         }
     }
