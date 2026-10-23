@@ -21,11 +21,11 @@ class CalcDouble : Calc<Double>() {
     }
 
     override operator fun set(op: Op, value: Double) {
-        vars[op.ordinal] = value
+        vars[op.ordinal] = value // TODO ReierAsk vars[op.abbrev] = value
     }
 
     override operator fun get(op: Op): Double {
-        return vars[op.ordinal]
+        return vars[op.ordinal] // TODO ReierAsk return vars[op.abbrev]
     }
 
     override fun enter(number: Number) {
@@ -214,7 +214,7 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
-                r.add(vars[operator.ordinal])
+                r.add(vars[operator.ordinal]) //TODO ReierAsk r.add(vars[operator.abbrev])
             }
 
             else -> {
