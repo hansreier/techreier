@@ -2,6 +2,7 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.exceptions.CalcException
 import java.util.*
+import kotlin.collections.forEach
 
 class CalcDouble : Calc<Double>() {
     override val type: Class<Double> = Double::class.javaObjectType
@@ -22,6 +23,10 @@ class CalcDouble : Calc<Double>() {
 
     override operator fun set(op: Op, value: Double) {
         vars[op] = value
+    }
+
+    fun setAll(newVars: Map<Op, Double>) {
+        vars.putAll(newVars)
     }
 
     override operator fun get(op: Op): Double {
