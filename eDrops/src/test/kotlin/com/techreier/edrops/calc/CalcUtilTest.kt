@@ -4,6 +4,7 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.exceptions.ParseException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertThrows
@@ -46,6 +47,39 @@ class CalcUtilTest {
         assertThat(double).isInstanceOf(Double::class.javaObjectType)
         assertThat(double).isEqualTo(3.14)
     }
+
+    @Test
+    fun parseMinusTest() {
+        val double = parseDouble("-3.14")
+        assertNotNull(double)
+        assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        assertThat(double).isEqualTo(- 3.14)
+    }
+
+    @Test
+    fun parseSeparateMinusTest() {
+        val double = parseDouble("- 3.14")
+        assertNull(double)
+    }
+
+    @Test
+    fun parseNothingTest() {
+        val double = parseDouble("")
+        assertNull(double)
+    }
+
+    @Test
+    fun parseWhiteSpaceTest() {
+        val double = parseDouble("  ")
+        assertNull(double)
+    }
+
+    @Test
+    fun parseWhiteSpaceNumberTest() {
+        val double = parseDouble(" -3")
+        assertNull(double)
+    }
+
 
     @Test
     fun parseDoubleNorwegianTest() {
