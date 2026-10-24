@@ -13,8 +13,8 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
     var oper: Oper? = null
     var pLevel = 0
     var leftpPos = 0
-    var whitespace = false
     var lastOpType = OpType.EMPTY
+    var lastIsNumber = false
     val tokens = arrayListOf<Token>()
     var parseError: ParseError?
     if (!expr.isTrimmed()) throw IllegalArgumentException("expression to preparse is not trimmed")
@@ -22,13 +22,13 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
     do {
         i1 = pos.index
         while ((i1 < expr.length - 1) && (expr[i1].isWhitespace())) {
-            whitespace = true
             i1++
         }
         pos.index = i1
-        val minus = ((expr).isNotEmpty() && (expr[pos.index] == '-'))
 
-        number = if (!minus || whitespace) { // skip number if it is the minus operator
+        val subtract = ((lastOpType == OpType.SYMBOL ) || lastIsNumber) &&  (expr[pos.index] == '-')
+
+        number = if (!subtract) { // skip number if it is the minus operator
             when (calc.type) { // parse text to number based on number format allowed in the calculator
                 Double::class.javaObjectType -> {
                     parseDouble(expr, pos)
@@ -36,6 +36,8 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                 else -> TODO("Implement later")
             }
         } else null
+        lastIsNumber =  (number != null )
+
 
         i2 = pos.index
         if (i2 <= i1) { // Find operator if it exists

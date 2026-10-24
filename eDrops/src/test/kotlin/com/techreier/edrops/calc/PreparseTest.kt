@@ -67,6 +67,49 @@ class PreparseTest : TestBase() {
     }
 
     @Test
+    fun compressedSubtractTest() {
+        val input = "5-3"
+        assertPreparse(tokens(5,Op.SUBTRACT, 3), calc, input)
+    }
+
+    @Test
+    fun subtractTest() {
+        val input = "5- 3"
+        assertPreparse(tokens(5,Op.SUBTRACT, 3), calc, input)
+    }
+
+    @Test
+    fun subtractFromVariableTest() {
+        val input = "x- 3"
+        assertPreparse(tokens(Op.X, Op.SUBTRACT, 3), calc, input)
+    }
+
+    @Test
+    fun subtractFromConstantTest() {
+        val input = "pi- 3"
+        assertPreparse(tokens(Op.PI, Op.SUBTRACT, 3), calc, input)
+    }
+
+    @Test
+    fun subtractVariableFromConstantTest() {
+        val input = "pi- x"
+        assertPreparse(tokens(Op.PI, Op.SUBTRACT, Op.X), calc, input)
+    }
+
+
+    @Test
+    fun negativeNumberAfterOperatorTest() {
+        val input = "2^-2"
+        assertPreparse(tokens(2, Op.POW, -2), calc, input)
+    }
+
+    @Test
+    fun negativeNumberAfterRightParantesisTest() {
+        val input = "2(-2)"
+        assertPreparse(tokens(2, Op.MULTIPLY, Op.LEFTP, -2, Op.RIGHTP), calc,   input)
+    }
+
+    @Test
     fun minusminusFailsTest() {
         val input = "5-- 3"
         assertPreparseFails(MISSING_OPERAND, calc, input)

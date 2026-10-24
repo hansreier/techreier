@@ -156,6 +156,8 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                                 prior = token.operator.prior(),
                                 tokens = rawTokens
                             )
+
+
                             if (opInfo.push) {
                                 recursiveParse(Range(index + 1, opInfo.endPos), depth + 1)
                                 tokens.add(token)
