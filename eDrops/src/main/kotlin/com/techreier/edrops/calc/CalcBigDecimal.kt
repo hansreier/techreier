@@ -4,8 +4,7 @@ import com.techreier.edrops.exceptions.CalcException
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
-import java.util.ArrayList
-import java.util.EnumMap
+import java.util.*
 
 
 class CalcBigDecimal : Calc<BigDecimal>() {
@@ -25,9 +24,23 @@ class CalcBigDecimal : Calc<BigDecimal>() {
         vars[op] = value
     }
 
+    override fun setAll(newVars: Map<Op, BigDecimal>) {
+        vars.putAll(newVars)
+    }
+
     override operator fun get(op: Op): BigDecimal {
         val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev()}")
         return variable
+    }
+
+    //TODO Too simple parsing
+    override fun parseValue(input: String): BigDecimal {
+        try {
+            return input.toBigDecimal()
+        } catch (_: NumberFormatException) {
+            logger.error("$input : Error. Wrong BigDecimal format. ")
+            throw CalcException(BIG_DECIMAL_FORMAT_ERROR, input)
+        }
     }
 
     override fun enter(number: Number) {
@@ -38,24 +51,13 @@ class CalcBigDecimal : Calc<BigDecimal>() {
                 else -> BigDecimal(number.toString())
             }
             stack.push(b)
-        } catch (_:NumberFormatException) {
-            throw CalcException(NUMBER_FORMAT_ERROR, number.toString())
-        } finally {
-        traceStack(number.toString())
-    }
-    }
-
-    override fun enter(number: String) {
-        try {
-            val b = BigDecimal(number)
-            stack.push(b)
         } catch (_: NumberFormatException) {
-            logger.error("$number : Feil nummer format. ")
-            throw CalcException(NUMBER_FORMAT_ERROR, number)
+            throw CalcException(BIG_DECIMAL_FORMAT_ERROR, number.toString())
         } finally {
-            traceStack(number)
+            traceStack(number.toString())
         }
     }
+
 
     override fun opr(operator: Op, noArgs: Int) {
         val arg = stack.iterator()
@@ -67,25 +69,30 @@ class CalcBigDecimal : Calc<BigDecimal>() {
                 val x = arg.next() as BigDecimal
                 r.add(x.add(y))
             }
+
             Op.SUBTRACT -> {
                 val y = arg.next() as BigDecimal
                 val x = arg.next() as BigDecimal
                 r.add(x.subtract(y))
             }
+
             Op.MULTIPLY -> {
                 val y = arg.next() as BigDecimal
                 val x = arg.next() as BigDecimal
                 r.add(x.multiply(y))
             }
+
             Op.DIVIDE -> {
                 val y = arg.next() as BigDecimal
                 val x = arg.next() as BigDecimal
                 r.add(x.divide(y, scale, RoundingMode.HALF_UP))
             }
+
             Op.X2 -> {
                 val x = arg.next() as BigDecimal
                 r.add(x.multiply(x))
             }
+
             Op.POW -> {
                 val y = arg.next() as BigDecimal
                 val x = arg.next() as BigDecimal
@@ -106,6 +113,7 @@ class CalcBigDecimal : Calc<BigDecimal>() {
                 }
                 r.add(finalRd)
             }
+
             Op.SUM -> {
                 var sum = BigDecimal.ZERO
                 repeat(noArgs) {
@@ -114,21 +122,25 @@ class CalcBigDecimal : Calc<BigDecimal>() {
                 }
                 r.add(sum)
             }
+
             Op.REMOVE, Op.EMPTY -> {}
             Op.YX -> {
                 r.add(arg.next() as BigDecimal)
                 r.add(arg.next() as BigDecimal)
             }
+
             Op.SEPARATOR -> { //Separator really does nothing but to be removed
                 val x = arg.next() as BigDecimal
                 r.add(arg.next() as BigDecimal)
                 r.add(x)
             }
+
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
                 val variable = vars[operator]
                 variable ?: throw (IllegalArgumentException("Unknown variable: ${operator.abbrev()}"))
                 r.add(variable)
             }
+
             else -> {
                 logger.error("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}.")
             }

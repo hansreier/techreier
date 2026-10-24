@@ -2,7 +2,6 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.exceptions.CalcException
 import java.util.*
-import kotlin.collections.forEach
 
 class CalcDouble : Calc<Double>() {
     override val type: Class<Double> = Double::class.javaObjectType
@@ -25,7 +24,7 @@ class CalcDouble : Calc<Double>() {
         vars[op] = value
     }
 
-    fun setAll(newVars: Map<Op, Double>) {
+    override fun setAll(newVars: Map<Op, Double>) {
         vars.putAll(newVars)
     }
 
@@ -34,21 +33,17 @@ class CalcDouble : Calc<Double>() {
         return variable
     }
 
+    override fun parseValue(input: String): Double {
+        try {
+            return input.toDouble()
+        } catch (_: NumberFormatException) {
+            throw CalcException(DOUBLE_FORMAT_ERROR, input)
+        }
+    }
+
     override fun enter(number: Number) {
         stack.push(number.toDouble())
         traceStack(number.toString())
-    }
-
-    override fun enter(number: String) {
-        try {
-            val b = number.toDouble()
-            stack.push(b)
-        } catch (_: NumberFormatException) {
-            logger.error("$number : Error. Wrong number format. ")
-            throw CalcException(NUMBER_FORMAT_ERROR, number)
-        } finally {
-            traceStack(number)
-        }
     }
 
     override fun opr(operator: Op, noArgs: Int) {

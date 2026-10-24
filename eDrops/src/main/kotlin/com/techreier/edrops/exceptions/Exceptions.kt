@@ -18,6 +18,6 @@ class NotAuthorizedException(msg: String) : BlogException(msg, "notAuthorized")
 
 class ParentBlogException(msg: String) : Exception(msg)
 
-class ParseException(msg: String, val parseError: ParseError) : Exception(msg)
+class ParseException(msg: String, val parseError: ParseError) : Exception("$msg [Feiltype: $parseError]")
 
-class CalcException(key: String, oper: String  = "", e: Exception? = null) : Exception(key, e)
+class CalcException(key: String, oper: String  = "", e: Exception? = null) : Exception("$key for $oper", e)

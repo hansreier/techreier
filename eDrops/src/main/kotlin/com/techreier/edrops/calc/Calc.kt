@@ -25,11 +25,22 @@ abstract class Calc<T> {
 
     abstract operator fun set(op: Op, value: T)
 
+    abstract fun parseValue(input: String): T
+
+    abstract fun setAll(newVars: Map<Op, T>)
+
     abstract operator fun get(op: Op): T
 
     abstract fun enter(number: Number)
 
-    abstract fun enter(number: String)  //Used for future GUI
+    fun enter(number: String) {
+        try {
+            val value = parseValue(number)
+            stack.push(value)
+        } finally {
+            traceStack(number)
+        }
+    }
 
     protected abstract fun opr(operator: Op, noArgs: Int)
 

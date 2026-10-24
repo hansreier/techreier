@@ -114,4 +114,5 @@ class CalcDoubleTest {
         }
         assertEquals(sum, calc.result(), 0.0001, "Sum:$expr")
     }
+
 }

@@ -3,11 +3,48 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.exceptions.ParseException
 import org.slf4j.LoggerFactory
 
-class Expr(val calc: Calc<*>, expr: String) {
+class Expr<T>(val calc: Calc<T>, expr: String) {
     protected val logger = LoggerFactory.getLogger(javaClass.simpleName)
     val expr: String = expr.trim()
     val tokens = ArrayList<Token>()
     private lateinit var rawTokens: List<Token>
+
+    //TODO Move to multiline parser later
+    fun setVars(input: String) {
+        input.split(";").forEach { assignment ->
+            val parts = assignment.split("=")
+            if (parts.size == 2) {
+                val variableName = parts[0].trim().uppercase()
+                val rawValue = parts[1].trim()
+                try {
+                    val op = Op.valueOf(variableName)
+                    this[op] = calc.parseValue(rawValue)
+                } catch (e: IllegalArgumentException) { //TODO Add position later?
+                    throw ParseException("Cannot parse number", ParseError(VARIABLE_NOT_FOUND, 0, variableName ))
+                }
+            }
+        }
+    }
+
+    operator fun set(op: Op, value: T) {
+        calc[op] = value
+    }
+
+    fun setAll(newVars: Map<Op, T>) {
+        calc.setAll(newVars)
+    }
+
+    operator fun get(op: Op): T {
+        return calc[op]
+    }
+
+    fun trace(trace: Trace) {
+        calc.trace = trace
+    }
+
+    fun result(): T {
+        return calc.result()
+    }
 
     fun calculate() {
         trace("calculate")

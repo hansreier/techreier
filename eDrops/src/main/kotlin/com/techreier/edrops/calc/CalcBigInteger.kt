@@ -25,9 +25,23 @@ class CalcBigInteger : Calc<BigInteger>() {
         vars[op] = value
     }
 
+    override fun setAll(newVars: Map<Op, BigInteger>) {
+        vars.putAll(newVars)
+    }
+
     override operator fun get(op: Op): BigInteger {
         val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev()}")
         return variable
+    }
+
+    // TODO Too simple parsing
+    override fun parseValue(input: String): BigInteger {
+        try {
+            return input.toBigInteger()
+        } catch (_: NumberFormatException) {
+            logger.error("$input : Error. Wrong BigInteger format. ")
+            throw CalcException(BIG_INTEGER_FORMAT_ERROR, input)
+        }
     }
 
     override fun enter(number: Number) {
@@ -41,20 +55,9 @@ class CalcBigInteger : Calc<BigInteger>() {
             }
             stack.push(b)
         } catch (_: NumberFormatException) {
-            throw CalcException(NUMBER_FORMAT_ERROR, number.toString())
+            throw CalcException(BIG_INTEGER_FORMAT_ERROR, number.toString())
         } finally {
             traceStack(number.toString())
-        }
-    }
-
-    override fun enter(number: String) {
-        try {
-            val b = BigInteger(number)
-            stack.push(b)
-        } catch (_: NumberFormatException) {
-            throw CalcException(NUMBER_FORMAT_ERROR, number)
-        } finally {
-            traceStack(number)
         }
     }
 
