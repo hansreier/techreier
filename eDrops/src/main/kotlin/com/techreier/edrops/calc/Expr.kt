@@ -10,6 +10,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
     private lateinit var rawTokens: List<Token>
 
     //TODO Move to multiline parser later
+    //TODO Exception handling is not good enough
     fun setVars(input: String) {
         input.split(";").forEach { assignment ->
             val parts = assignment.split("=")

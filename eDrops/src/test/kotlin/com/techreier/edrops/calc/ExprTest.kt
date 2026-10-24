@@ -356,4 +356,14 @@ class ExprTest {
         }
         assertEquals(VARIABLE_NOT_FOUND, e.parseError.key)
     }
+
+    @Test
+    fun setIllegalVariableExpressionFailsTest() {
+        val calc = CalcDouble()
+        val expr = Expr(calc, "x + y -z")
+        val e = assertThrows<ParseException> {
+            expr.setVars("snuppa")
+        }
+        assertEquals(VARIABLE_NOT_FOUND, e.parseError.key)
+    }
 }
