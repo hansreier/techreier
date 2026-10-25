@@ -44,7 +44,7 @@ fun parseArguments(rangeIn: Range, tokens: List<Token>): ArgumentInfo {
             }
         }
         i++
-    } while (((i <= rangeIn.max) && (balance > 0)) || (!parenthesis && (arguments.size < noExpectedArgs)))
+    } while ((i <= rangeIn.max) && ((balance > 0) || (!parenthesis && (arguments.size < noExpectedArgs))))
 
 val range = if (parenthesis) Range(min, max) else Range(min, min)
 
