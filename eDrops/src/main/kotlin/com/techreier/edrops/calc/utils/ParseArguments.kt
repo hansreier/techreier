@@ -30,8 +30,8 @@ fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
     do {
         when {
             tokens[i].isValue() -> arguments.add(tokens[i])
-            tokens[i].isLeftP() -> {balance++; if (balance == 1) min = i + 1; parenthesis = true }
-            tokens[i].isRightP() -> {balance--; if (balance == 0) max = i - 1; parenthesis = true }
+            tokens[i].isLeftP() -> {balance++;  min++; parenthesis = true }
+            tokens[i].isRightP() -> {balance--; max--; parenthesis = true }
             tokens[i].isSeparator() -> {}
             tokens[i].isFunction() -> { push = false}
             tokens[i].isOperator() -> { push = false}

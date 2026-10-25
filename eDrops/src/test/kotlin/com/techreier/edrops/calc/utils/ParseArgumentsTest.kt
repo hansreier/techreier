@@ -24,6 +24,23 @@ class ParseArgumentsTest {
     }
 
     @Test
+    fun oneArgumentNoParenthesisWithRemainderTest() {
+        val tokens = listOf(
+            OperatorToken(Op.SIN, 0),
+            NumberToken(90, 1),
+            OperatorToken(Op.COS, 2),
+            NumberToken(0, 3),
+        )
+        val range = Range(0, 3)
+        val argumentInfo = parseArguments(range, tokens)
+        assertThat(argumentInfo.tokens).hasSize(1)
+        assertThat(argumentInfo.range).isEqualTo(Range(1, 1))
+        assertThat(argumentInfo.nextPos).isEqualTo(2)
+        assertThat(argumentInfo.push).isTrue()
+        assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[1])
+    }
+
+    @Test
     fun oneArgumentParenthesisTest() {
         val tokens = listOf(
             OperatorToken(Op.SIN, 0),
@@ -33,12 +50,32 @@ class ParseArgumentsTest {
             OperatorToken(Op.RIGHTP, 4),
             OperatorToken(Op.RIGHTP, 5),
         )
-        val range = Range(0, 1)
+        val range = Range(0, 5)
         val argumentInfo = parseArguments(range, tokens)
         assertThat(argumentInfo.tokens).hasSize(1)
         assertThat(argumentInfo.range).isEqualTo(Range(3, 3))
+        assertThat(argumentInfo.nextPos).isEqualTo(6)
+        assertThat(argumentInfo.push).isTrue()
+        assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[3])
+    }
+
+    @Test
+    fun TwoArgumentsTest() {
+        val tokens = listOf(
+            OperatorToken(Op.HYP, 0),
+            OperatorToken(Op.LEFTP, 1),
+            NumberToken(4, 2),
+            NumberToken(3, 3),
+            OperatorToken(Op.RIGHTP, 4),
+            OperatorToken(Op.RIGHTP, 5),
+        )
+        val range = Range(0, 5)
+        val argumentInfo = parseArguments(range, tokens)
+        assertThat(argumentInfo.tokens).hasSize(2)
+        assertThat(argumentInfo.range).isEqualTo(Range(2, 3))
         assertThat(argumentInfo.nextPos).isEqualTo(4)
         assertThat(argumentInfo.push).isTrue()
-        assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[2])
+        assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[3])
+        assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[4])
     }
 }
