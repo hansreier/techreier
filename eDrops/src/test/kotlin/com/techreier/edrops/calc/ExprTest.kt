@@ -281,7 +281,7 @@ class ExprTest {
         val y = 6.0
         val z = 5.0
         calc.setAll(mapOf(Op.X to x, Op.Y to y, Op.Z to z))
-        calc.trace = Trace.RPN
+        calc.trace = Trace.ALL
 
         val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (x - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
 
@@ -360,7 +360,49 @@ class ExprTest {
         assertEquals(8.0, expr.result() )
     }
 
+    @Test
+    fun negativeNumberPowerTest() {
+        val input = "-2^2"
 
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(4.0, expr.result(), 1e-9 )
+    }
+
+    @Test
+    fun negativeNumberPower2Test() {
+        val input = "3 - -2^2"
+
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(-1.0, expr.result(), 1e-9 )
+    }
+
+    @Test
+    fun negativeNumberPower2FailsTest() {
+        val input = "3 -2^2"
+
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        val e = assertThrows <ParseException> { expr.parse() }
+        assertEquals(MISSING_OPERATOR, e.parseError.key)
+    }
+
+    @Test
+    fun negativeVariableTest() {
+        val input = "-x"
+
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr[Op.X] = 2.0
+        expr.parse()
+        expr.calculate()
+        assertEquals(-2.0, expr.result(), 1e-9 )
+    }
 
 
     //TODO Move to separate test class
@@ -395,9 +437,20 @@ class ExprTest {
         assertEquals(VARIABLE_NOT_FOUND, e.parseError.key)
     }
 
-    @Disabled
     @Test
-    fun setIllegalVariableExpressionFailsTest() { //Parser need to be improved
+    fun multipleNegateAndSubtractTest() {
+        val calc = CalcDouble()
+        val expr = Expr(calc, "-x - -y")
+        expr.trace(Trace.ALL)
+        expr.setVars("x=10; y=4")
+        expr.parse()
+        expr.calculate()
+        assertEquals(-6.0, calc.result())
+    }
+
+    @Test
+    @Disabled
+    fun setIllegalVariableExpressionFailsTest() { //TODO ReierAsk Variable parser need to be improved
         val calc = CalcDouble()
         val expr = Expr(calc, "x + y -z")
         val e = assertThrows<ParseException> {

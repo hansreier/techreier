@@ -14,6 +14,12 @@ class PreparseTest : TestBase() {
     }
 
     @Test
+    fun emptyTest() {
+        val input = ""
+        assertPreparseFails(UNPARSEABLE, calc, input)
+    }
+
+    @Test
     fun expressionNotFoundTest() {
         val input = "Bullshit"
         assertPreparseFails(UNPARSEABLE, calc, input)
@@ -69,7 +75,7 @@ class PreparseTest : TestBase() {
     @Test
     fun compressedSubtractTest() {
         val input = "5-3"
-        assertPreparse(tokens(5,Op.SUBTRACT, 3), calc, input)
+        assertPreparseFails(MISSING_OPERATOR, calc, input)
     }
 
     @Test
@@ -94,6 +100,20 @@ class PreparseTest : TestBase() {
     fun subtractVariableFromConstantTest() {
         val input = "pi- x"
         assertPreparse(tokens(Op.PI, Op.SUBTRACT, Op.X), calc, input)
+    }
+
+
+
+    @Test
+    fun negativeNumberOnlyTest() {
+        val input = "-2"
+        assertPreparse(tokens(-2), calc, input)
+    }
+
+    @Test
+    fun illegalSubtractTest() {
+        val input = "- 2"
+        assertPreparseFails(MISPLACED_OPERATOR, calc, input)
     }
 
 
@@ -195,7 +215,7 @@ class PreparseTest : TestBase() {
 
     @Test
     fun followingParenthesisOKTest() {
-        val input = "(x+5)(x-3)"
+        val input = "(x + 5)(x - 3)"
         assertPreparse(
             tokens(
                 Op.LEFTP, Op.X, Op.ADD, 5.0, Op.RIGHTP, Op.MULTIPLY,
@@ -233,7 +253,7 @@ class PreparseTest : TestBase() {
     @Test
     fun justMinusTest() {
         val input = "-"
-        assertPreparseFails(MISPLACED_OPERATOR, calc, input)
+        assertPreparse(tokens(Op.NEGATE), calc, input)
     }
 
     @Test
@@ -246,6 +266,18 @@ class PreparseTest : TestBase() {
     fun minusSpaceNegativeNumberTest() {
         val input = "3 - -2"
         assertPreparse(tokens(3, Op.SUBTRACT, -2), calc, input)
+    }
+
+    @Test
+    fun negateTest() {
+        val input = "-x"
+        assertPreparse(tokens(Op.NEGATE, Op.X), calc, input)
+    }
+
+    @Test
+    fun negateTest2() {
+        val input = "- x"
+        assertPreparse(tokens(Op.NEGATE, Op.X), calc, input)
     }
 
     @Test
@@ -361,7 +393,7 @@ class PreparseTest : TestBase() {
     @Test
     fun separatorBeforerOperatorFailsTest() {
         val input = "hyp(3;- 5)"
-        assertPreparseFails(MISSING_OPERAND, calc, input)
+        assertPreparse(tokens(Op.HYP, Op.LEFTP,  3, Op.SEPARATOR, Op.NEGATE, 5, Op.RIGHTP), calc, input)
     }
 
     @Test

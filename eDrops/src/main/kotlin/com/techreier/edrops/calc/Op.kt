@@ -35,6 +35,7 @@ enum class Op(
     ATAN("atan", 1, 1),
     RAD("rad", 1, 1),
     DEG("deg", 1, 1),
+    NEGATE("negate", 1, 1),
     RADIANS("radians", 0, 0, -1),
     DEGREES("degrees", 0, 0, -1),
     EX("e^", 1, 1),
@@ -82,7 +83,7 @@ enum class Op(
         val variables = setOf(X, Y, Z, U, V, W)
         val constants = setOf(PI, E)
         val symbols = variables + constants
-        val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, RAD, DEG, EX, LN, LOG10, POW10, HYP, GYP)
+        val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, RAD, DEG, EX, LN, LOG10, POW10, HYP, GYP, NEGATE)
         private const val defaultLevel = 2
 
         fun operator(abbrev: String): Op? {

@@ -15,7 +15,7 @@ class CalcDouble : Calc<Double>() {
             EnumSet.of(
                 Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
                 Op.ATAN, Op.RAD, Op.DEG, Op.RADIANS, Op.DEGREES, Op.EX, Op.LN,
-                Op.LOG10, Op.POW10, Op.E, Op.PI, Op.HYP, Op.GYP
+                Op.LOG10, Op.POW10, Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE
             )
         )
     }
@@ -75,6 +75,11 @@ class CalcDouble : Calc<Double>() {
                 y = arg.next() as Double
                 x = arg.next() as Double
                 r.add(x / y)
+            }
+
+            Op.NEGATE -> {
+                x = arg.next() as Double
+                r.add(-x)
             }
 
             Op.X2 -> {

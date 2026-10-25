@@ -14,52 +14,57 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
     var pLevel = 0
     var leftpPos = 0
     var lastOpType = OpType.EMPTY
-    var lastIsNumber = false
     val tokens = arrayListOf<Token>()
     var parseError: ParseError?
     if (!expr.isTrimmed()) throw IllegalArgumentException("expression to preparse is not trimmed")
     val pos = ParsePosition(0)
     do {
+        var whitespace = false
         i1 = pos.index
         while ((i1 < expr.length - 1) && (expr[i1].isWhitespace())) {
+            whitespace = true
             i1++
         }
         pos.index = i1
 
-        val subtract = ((lastOpType == OpType.SYMBOL ) || lastIsNumber) &&  (expr[pos.index] == '-')
+        val minus = ((expr).isNotEmpty() && (expr[pos.index] == '-'))
 
-        number = if (!subtract) { // skip number if it is the minus operator
+        number =
             when (calc.type) { // parse text to number based on number format allowed in the calculator
                 Double::class.javaObjectType -> {
                     parseDouble(expr, pos)
                 }
+
                 else -> TODO("Implement later")
             }
-        } else null
-        lastIsNumber =  (number != null )
 
-
-        i2 = pos.index
-        if (i2 <= i1) { // Find operator if it exists
-            val foundOp = Op.operator(expr, i1, calc.operators)
-            oper = foundOp ?. let { Oper(foundOp, pos.index) }
+        if ((number == null) && minus && ((lastOpType == OpType.LEFTP) || lastOpType == OpType.OPERATOR
+                    || lastOpType == OpType.EMPTY || lastOpType == OpType.SEPARATOR)) {
+            oper = Oper(Op.NEGATE, i1)
+            i1 = i1 - Op.NEGATE.abbrev().length + 1
+        } else {
+            i2 = pos.index
+            if (i2 <= i1) { // Find operator if it exists
+                val foundOp = Op.operator(expr, i1, calc.operators)
+                oper = foundOp?.let { Oper(foundOp, pos.index) }
+            }
         }
 
         if (number == null) {   //operator (including variables and separators)
 
             if ((oper == null)) {
                 parseError = ParseError(UNPARSEABLE, i1)
-                return ParseResult( tokens, parseError)
+                return ParseResult(tokens, parseError)
             }
             when (oper.op) {
                 Op.SEPARATOR -> {
                     if (pLevel <= 0) {
                         parseError = ParseError(SEPARATOR_NOT_IN_FUNCTION, i1, oper.op.abbrev())
-                        return ParseResult( tokens, parseError)
+                        return ParseResult(tokens, parseError)
                     }
                     if ((lastOpType == OpType.OPERATOR) || (lastOpType == OpType.LEFTP) || (lastOpType == OpType.SEPARATOR)) {
                         parseError = ParseError(MISPLACED_SEPARATOR, i1, oper.op.abbrev())
-                        return ParseResult( tokens, parseError)
+                        return ParseResult(tokens, parseError)
                     }
                     lastOpType = OpType.SEPARATOR
                 }
@@ -67,7 +72,7 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                 Op.LEFTP -> {
                     if (lastOpType == OpType.SEPARATOR) {
                         parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.op.abbrev())
-                        return ParseResult( tokens, parseError)
+                        return ParseResult(tokens, parseError)
                     }
                     if (pos.index == expr.length - 1) {
                         parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.op.abbrev())
@@ -83,7 +88,7 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                 Op.RIGHTP -> {
                     if (lastOpType == OpType.SEPARATOR) {
                         parseError = ParseError(MISPLACED_SEPARATOR, i1 - 1, oper.op.abbrev())
-                        return ParseResult( tokens, parseError)
+                        return ParseResult(tokens, parseError)
                     }
                     if (lastOpType == OpType.LEFTP) {
                         parseError = ParseError(EMPTY_PARENTHESIS, i1, oper.op.abbrev())
@@ -95,7 +100,7 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                     }
                     if (pos.index == 0) {
                         parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.op.abbrev())
-                        return ParseResult( tokens, parseError)
+                        return ParseResult(tokens, parseError)
                     }
                     pLevel--
                     lastOpType = OpType.RIGHTP
@@ -142,7 +147,7 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
             }
             if (pLevel < 0) {
                 parseError = ParseError(TOO_MANY_RIGHT_PARENTHESIS, i1)
-                return ParseResult( tokens, parseError)
+                return ParseResult(tokens, parseError)
             }
             tokens.add(OperatorToken(oper.op, oper.pos))
             pos.index = i1 + oper.op.abbrev().length
@@ -154,7 +159,7 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
             }
             if (lastOpType == OpType.NUMBER) {
                 parseError = ParseError(MISSING_OPERATOR, i1)
-                return ParseResult( tokens, parseError)
+                return ParseResult(tokens, parseError)
             }
             if (lastOpType == OpType.RIGHTP) {
                 tokens.add(OperatorToken(Op.MULTIPLY, i1))
@@ -173,7 +178,7 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
 
 private data class Oper(
     val op: Op,
-    val pos: Int
+    val pos: Int,
 )
 
 data class ParseResult(val tokens: List<Token>, val parseError: ParseError?)

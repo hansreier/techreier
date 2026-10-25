@@ -151,6 +151,13 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                                 )
                             }
 
+                            if (token.isPow()) {
+                              //  do {
+//
+                             //   }
+
+                            }
+
                             val opInfo = findUnboundOperator(
                                 range = Range(index + 1, range.max),
                                 prior = token.operator.prior(),
