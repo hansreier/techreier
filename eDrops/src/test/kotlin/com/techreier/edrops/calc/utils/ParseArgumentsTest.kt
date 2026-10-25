@@ -65,17 +65,17 @@ class ParseArgumentsTest {
             OperatorToken(Op.HYP, 0),
             OperatorToken(Op.LEFTP, 1),
             NumberToken(4, 2),
-            NumberToken(3, 3),
-            OperatorToken(Op.RIGHTP, 4),
-            OperatorToken(Op.RIGHTP, 5),
+            OperatorToken(Op.SEPARATOR, 3),
+            NumberToken(3, 4),
+            OperatorToken(Op.RIGHTP, 5)
         )
         val range = Range(0, 5)
         val argumentInfo = parseArguments(range, tokens)
         assertThat(argumentInfo.tokens).hasSize(2)
         assertThat(argumentInfo.range).isEqualTo(Range(2, 3))
-        assertThat(argumentInfo.nextPos).isEqualTo(4)
+        assertThat(argumentInfo.nextPos).isEqualTo(6)
         assertThat(argumentInfo.push).isTrue()
-        assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[3])
-        assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[4])
+        assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[2])
+        assertThat(argumentInfo.tokens[1]).isEqualTo(tokens[4])
     }
 }
