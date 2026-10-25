@@ -1,5 +1,11 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.utils.Range
+import com.techreier.edrops.calc.utils.checkVariables
+import com.techreier.edrops.calc.utils.findClosure
+import com.techreier.edrops.calc.utils.findUnboundOperator
+import com.techreier.edrops.calc.utils.parseArguments
+import com.techreier.edrops.calc.utils.removeOuterP
 import com.techreier.edrops.exceptions.ParseException
 import org.slf4j.LoggerFactory
 
@@ -87,7 +93,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
             if (tokenCount > MAX_TOKENS) { //TODO ReierAsk, check in preparse, test relevant during development
                 val token = rawTokens[index]
                 val maxTokensError = ParseError(MAX_TOKENS_EXCEEDED, token.position, token.toTokenString())
-                throw ParseException("Cannot parse more than $MAX_TOKENS tokens", maxTokensError)
+                throw ParseException("Cannot parse more than $MAX_TOKENS tokens on the same level", maxTokensError)
             }
             when (val token = rawTokens[index]) {
                 is NumberToken -> {
@@ -117,7 +123,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                         token.isLeftP() -> {
                             val argumentInfo = findClosure(Range(index, range.max), rawTokens)
                             recursiveParse(argumentInfo.range, depth + 1)
-                            index = argumentInfo.range.max + 1
+                            index = argumentInfo.nextPos
                             postphonedOperator?.let { op ->
                                 tokens.add(op)
                                 trace("add operator: ${(op as OperatorToken).operator.abbrev()}")
@@ -138,7 +144,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                                 trace("add func: ${token.operator.abbrev()}")
                                 tokens.add(token)
                             }
-                            index = argumentInfo.range.max + 2
+                            index = argumentInfo.nextPos
 
                         }
 

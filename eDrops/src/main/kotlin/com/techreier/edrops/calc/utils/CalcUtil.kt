@@ -1,7 +1,17 @@
-package com.techreier.edrops.calc
+package com.techreier.edrops.calc.utils
 
+import com.techreier.edrops.calc.Calc
+import com.techreier.edrops.calc.CalcDouble
+import com.techreier.edrops.calc.ILLEGAL_VARIABLES
+import com.techreier.edrops.calc.Op
+import com.techreier.edrops.calc.OperatorToken
+import com.techreier.edrops.calc.ParseError
+import com.techreier.edrops.calc.Token
+import com.techreier.edrops.calc.isFunction
+import com.techreier.edrops.calc.isLeftP
+import com.techreier.edrops.calc.isRightP
+import com.techreier.edrops.calc.isVariable
 import com.techreier.edrops.exceptions.ParseException
-import com.techreier.edrops.graph.logger
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.ParsePosition
@@ -43,7 +53,7 @@ fun Calc<Double>.degrees(enabled: Boolean): Calc<Double> {
     return this
 }
 
-// Return error indicator of expessen given a parseError
+// Return error indicator of expression given a parseError
 fun errorIndicator(expr: String, parseError: ParseError?): String? {
     val errPosition = parseError?.position ?: return null
     val startPos = (errPosition - 40).coerceIn(0, expr.length)
@@ -107,65 +117,6 @@ fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): Operator
     return OperatorInfo( range.max,   push)
 }
 
-fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
-    var balance = 0
-    var push = true
-    val arguments = ArrayList<Token>()
-    var i = range.min + 1
-    var min = range.min
-    var max = range.max
-    val operatorText = (tokens[range.min] as OperatorToken).operator.abbrev()
-    logger.debug("parse arguments for {} range={} expr={}", operatorText, range, tokens.toExpr(range))
-    do {
-        when {
-            tokens[i].isValue() -> arguments.add(tokens[i])
-            tokens[i].isLeftP() -> {balance++; if (balance == 1) min = i + 1 }
-            tokens[i].isRightP() -> {balance--; if (balance == 0) max = i - 1}
-            tokens[i].isSeparator() -> {}
-            tokens[i].isFunction() -> { push = false}
-            tokens[i].isOperator() -> { push = false}
-            else -> arguments.add(tokens[i])
-        }
-        i++
-    } while ((i <= range.max) && balance > 0)
-    if ((balance != 0) && push) {
-        val error = ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
-        throw ParseException("Error parsing arguments", error)
-    }
-    logger.debug("arguments found: {} range={} ", arguments.size, range)
-    return ArgumentInfo(Range(min, max), arguments, push)
-}
-
-fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
-    var balance = 0
-    var closingIndex = range.max
-    var error: ParseError
-
-    if (!tokens[range.min].isLeftP()) {
-        error = ParseError(MISSING_PARENTHESIS, tokens[range.min].position, oper=Op.LEFTP.abbrev())
-        throw ParseException("Error finding closure of parenthesis", error)
-    }
-
-    for (i in range.min..range.max) {
-        when {
-            tokens[i].isLeftP() -> balance++
-            tokens[i].isRightP() -> balance--
-        }
-        if (balance == 0) {
-            closingIndex = i
-            break
-        }
-    }
-
-    if (balance != 0) {
-        val operatorText = (tokens[range.min] as? OperatorToken)?.operator?.abbrev() ?: ""
-        error = ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
-        throw ParseException("Error with closure of parenthesis", error)
-    }
-
-    return ArgumentInfo(Range(range.min, closingIndex), emptyList(), false)
-}
-
 fun checkVariables(calc: Calc<*>) {
     val illegalOps = calc.vars.keys.filter { it !in Op.variables }
     if (illegalOps.isNotEmpty()) {
@@ -178,7 +129,7 @@ fun checkVariables(calc: Calc<*>) {
 
 data class Range(val min: Int, val max: Int)
 
-data class ArgumentInfo(val range: Range, val tokens: List<Token>, val push: Boolean)
+data class ArgumentInfo(val range: Range, val nextPos: Int, val tokens: List<Token>, val push: Boolean)
 
 data class OperatorInfo(val endPos: Int,  val push: Boolean)
 

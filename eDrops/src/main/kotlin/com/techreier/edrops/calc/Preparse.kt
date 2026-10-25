@@ -2,6 +2,7 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.calc.Op.Companion.basicOperators
 import com.techreier.edrops.calc.Op.Companion.symbols
+import com.techreier.edrops.calc.utils.parseDouble
 import com.techreier.edrops.util.isTrimmed
 import java.text.ParsePosition
 
@@ -19,10 +20,8 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
     if (!expr.isTrimmed()) throw IllegalArgumentException("expression to preparse is not trimmed")
     val pos = ParsePosition(0)
     do {
-        var whitespace = false
         i1 = pos.index
         while ((i1 < expr.length - 1) && (expr[i1].isWhitespace())) {
-            whitespace = true
             i1++
         }
         pos.index = i1
@@ -136,12 +135,12 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                     lastOpType = OpType.OPERATOR
                 }
 
-                else -> {
+                else -> { //TODO ReierAsk check what to do with this problem for functions without arguments
 
-                    if (lastOpType == OpType.FUNCTION) {
-                        parseError = ParseError(CONSECUTIVE_FUNCTIONS, i1, oper.op.abbrev())
-                        return ParseResult(tokens, parseError)
-                    }
+              //      if (lastOpType == OpType.FUNCTION) {
+              //          parseError = ParseError(CONSECUTIVE_FUNCTIONS, i1, oper.op.abbrev())
+              //          return ParseResult(tokens, parseError)
+               //     }
                     lastOpType = OpType.FUNCTION
                 }
             }
