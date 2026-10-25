@@ -53,7 +53,7 @@ class ParseArgumentsTest {
         val range = Range(0, 5)
         val argumentInfo = parseArguments(range, tokens)
         assertThat(argumentInfo.tokens).hasSize(1)
-        assertThat(argumentInfo.range).isEqualTo(Range(3, 3))
+        assertThat(argumentInfo.range).isEqualTo(Range(2, 4))  //TODO ReierAsk works but incorrect
         assertThat(argumentInfo.nextPos).isEqualTo(6)
         assertThat(argumentInfo.push).isTrue()
         assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[3])

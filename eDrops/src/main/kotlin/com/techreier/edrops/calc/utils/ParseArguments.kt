@@ -1,58 +1,73 @@
 package com.techreier.edrops.calc.utils
 
-import com.techreier.edrops.calc.MISPLACED_PARENTHESIS
-import com.techreier.edrops.calc.OperatorToken
-import com.techreier.edrops.calc.ParseError
-import com.techreier.edrops.calc.Token
-import com.techreier.edrops.calc.WRONG_ARGUMENT_COUNT
-import com.techreier.edrops.calc.isFunction
-import com.techreier.edrops.calc.isLeftP
-import com.techreier.edrops.calc.isOperator
-import com.techreier.edrops.calc.isRightP
-import com.techreier.edrops.calc.isSeparator
-import com.techreier.edrops.calc.isValue
-import com.techreier.edrops.calc.toExpr
+import com.techreier.edrops.calc.*
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.graph.logger
-import java.util.ArrayList
 
-fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
+fun parseArguments(rangeIn: Range, tokens: List<Token>): ArgumentInfo {
     var balance = 0
     var push = true
     val arguments = ArrayList<Token>()
-    var i = range.min + 1
-    var min = range.min + 1
-    var max = range.max
+    var i = rangeIn.min + 1
+    var min = rangeIn.min + 1
+    var max = rangeIn.max
     var parenthesis = false
-    val noExpectedArgs = (tokens[range.min] as OperatorToken).operator.noArgs()
-    val operatorText = (tokens[range.min] as OperatorToken).operator.abbrev()
-    logger.info("parse arguments for {} range={} expr={}", operatorText, range, tokens.toExpr(range))
+    var up = false
+    var updown = false
+    val noExpectedArgs = (tokens[rangeIn.min] as OperatorToken).operator.noArgs()
+    val operatorText = (tokens[rangeIn.min] as OperatorToken).operator.abbrev()
+    logger.info("parse arguments for {} range={} expr={}", operatorText, rangeIn, tokens.toExpr(rangeIn))
     do {
         when {
             tokens[i].isValue() -> arguments.add(tokens[i])
-            tokens[i].isLeftP() -> {balance++;  min++; parenthesis = true }
-            tokens[i].isRightP() -> {balance--; max--; parenthesis = true }
+            tokens[i].isLeftP() -> {
+                balance++
+                parenthesis = true
+                if (up) updown = true
+                if (balance == 1) min = i + 1
+            }
+
+            tokens[i].isRightP() -> {
+                balance--
+                parenthesis = true
+                up = true
+                if (balance == 0) max = i - 1
+            }
+
             tokens[i].isSeparator() -> {}
-            tokens[i].isFunction() -> { push = false}
-            tokens[i].isOperator() -> { push = false}
+            tokens[i].isFunction() -> {
+                push = false
+            }
+
+            tokens[i].isOperator() -> {
+                push = false
+            }
+       //     else -> arguments.add(tokens[i])
+
         }
         i++
-    } while (((i <= range.max) && (balance > 0) ) || (!parenthesis && (arguments.size < noExpectedArgs)))
+    } while (((i <= rangeIn.max) && (balance > 0)) || (!parenthesis && (arguments.size < noExpectedArgs)))
 
-    if (!parenthesis) {
-        max = min
-    }
-    val range = Range(min, max)
+val range = if (parenthesis) Range(min, max) else Range(min, min)
+
     logger.info("arguments found for {} range={} count: {}", operatorText, range, arguments.size)
 
-    if (push && (balance != 0) ) {
+    if (balance != 0) {
         val error = ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
         throw ParseException("Error parsing arguments", error)
     }
-    if (push && (arguments.size  != noExpectedArgs)) {
-        val error = ParseError(WRONG_ARGUMENT_COUNT, tokens[range.min].position, operatorText)
-        throw ParseException("Error parsing arguments", error)
+
+    if (push) {
+        if (arguments.size != noExpectedArgs) {
+            val error = ParseError(WRONG_ARGUMENT_COUNT, tokens[range.min].position, operatorText)
+            throw ParseException("Error parsing arguments", error)
+        }
+        if (updown) {
+            val error = ParseError(PARENTHESIS_MESS, tokens[range.min].position, operatorText)
+            throw ParseException("Error parsing arguments", error)
+        }
+
     }
 
-    return ArgumentInfo(range,i, arguments, push)
+    return ArgumentInfo(range, i, arguments, push)
 }
