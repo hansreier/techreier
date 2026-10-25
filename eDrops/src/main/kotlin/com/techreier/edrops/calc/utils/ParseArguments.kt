@@ -45,11 +45,11 @@ fun parseArguments(range: Range, tokens: List<Token>): ArgumentInfo {
     val range = Range(min, max)
     logger.info("arguments found for {} range={} count: {}", operatorText, range, arguments.size)
 
-    if ((balance != 0) && push) {
+    if (push && (balance != 0) ) {
         val error = ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
         throw ParseException("Error parsing arguments", error)
     }
-    if (arguments.size  != noExpectedArgs) {
+    if (push && (arguments.size  != noExpectedArgs)) {
         val error = ParseError(WRONG_ARGUMENT_COUNT, tokens[range.min].position, operatorText)
         throw ParseException("Error parsing arguments", error)
     }

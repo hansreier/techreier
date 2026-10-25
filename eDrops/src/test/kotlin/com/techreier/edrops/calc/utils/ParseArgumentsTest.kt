@@ -60,7 +60,7 @@ class ParseArgumentsTest {
     }
 
     @Test
-    fun TwoArgumentsTest() {
+    fun twoArgumentsTest() {
         val tokens = listOf(
             OperatorToken(Op.HYP, 0),
             OperatorToken(Op.LEFTP, 1),
@@ -77,5 +77,22 @@ class ParseArgumentsTest {
         assertThat(argumentInfo.push).isTrue()
         assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[2])
         assertThat(argumentInfo.tokens[1]).isEqualTo(tokens[4])
+    }
+
+    @Test
+    fun argumentWithOperatorSetsPushToFalseTest() {
+        val tokens = listOf(
+            OperatorToken(Op.SIN, 0),
+            OperatorToken(Op.LEFTP, 1),
+            NumberToken(3, 2),
+            OperatorToken(Op.ADD, 3),
+            NumberToken(5, 4),
+            OperatorToken(Op.RIGHTP, 5)
+        )
+        val range = Range(0, 5)
+        val argumentInfo = parseArguments(range, tokens)
+        assertThat(argumentInfo.push).isFalse()
+        assertThat(argumentInfo.range).isEqualTo(Range(2, 4))
+        assertThat(argumentInfo.nextPos).isEqualTo(6)
     }
 }
