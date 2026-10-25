@@ -132,19 +132,26 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                         }
 
                         token.isFunction() -> {
-                            val argumentInfo = parseArguments(Range(index, range.max), rawTokens)
-
-                            if (argumentInfo.push) {
-                                trace("add args:${argumentInfo.tokens.toTokenString()}")
-                                tokens.addAll(argumentInfo.tokens)
+                            if (token.isNegate()) {
+                                val argumentInfo = parseArguments(Range(index + 1, range.max), rawTokens)
+                                recursiveParse(Range(argumentInfo.range.min -2, argumentInfo.range.max +1), depth + 1)
                                 trace("add func: ${token.operator.abbrev()}")
                                 tokens.add(token)
+                                index = argumentInfo.nextPos
                             } else {
-                                recursiveParse(argumentInfo.range, depth + 1)
-                                trace("add func: ${token.operator.abbrev()}")
-                                tokens.add(token)
+                                val argumentInfo = parseArguments(Range(index, range.max), rawTokens)
+                                if (argumentInfo.push) {
+                                    trace("add args:${argumentInfo.tokens.toTokenString()}")
+                                    tokens.addAll(argumentInfo.tokens)
+                                    trace("add func: ${token.operator.abbrev()}")
+                                    tokens.add(token)
+                                } else {
+                                    recursiveParse(argumentInfo.range, depth + 1)
+                                    trace("add func: ${token.operator.abbrev()}")
+                                    tokens.add(token)
+                                }
+                                index = argumentInfo.nextPos + 1
                             }
-                            index = argumentInfo.nextPos
 
                         }
 

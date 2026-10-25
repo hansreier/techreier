@@ -50,4 +50,6 @@ fun Token.isFunction(): Boolean = this is OperatorToken && this.operator.isFunct
 fun Token.isOperator(): Boolean = this is OperatorToken && this.operator.isOperator()
 fun Token.isSymbol(): Boolean = this is OperatorToken && this.operator.isSymbol()
 fun Token.isValue(): Boolean = (this is OperatorToken && this.operator.isSymbol()) || this is NumberToken
+fun Token.isNegate(): Boolean = (this is OperatorToken && this.operator == Op.NEGATE)
+
 
