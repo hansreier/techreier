@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.utils.errorText
 import com.techreier.edrops.config.logger
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.math.min
