@@ -33,11 +33,25 @@ class ExprTest {
     fun simpleFunctionTest() {
         val input = "sin 90"
         val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
         expr.parse()
         expr.calculate()
-        val singleResult = calc.result()
+        val singleResult = expr.result()
         assertNotNull(singleResult)
         assertEquals(1.0, singleResult, 1e-9)
+        assertEquals(1, calc.stack.size, "Single result is not returned")
+    }
+
+    @Test
+    fun simpleFunctionsTest() { //TODO Fails
+        val input = "sin 90 + cos 0"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        val singleResult = expr.result()
+        assertNotNull(singleResult)
+        assertEquals(2.0, singleResult, 1e-9)
         assertEquals(1, calc.stack.size, "Single result is not returned")
     }
 
@@ -446,6 +460,27 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         assertEquals(-6.0, calc.result())
+    }
+
+    @Test
+    fun negateFunctionTest() {
+        val calc = CalcDouble()
+        val expr = Expr(calc, "-sin(x) + cos(y)")
+        expr.trace(Trace.ALL)
+        expr.setVars("x=90; y=0")
+        expr.parse()
+        expr.calculate()
+        assertEquals(0.0, calc.result())
+    }
+
+    @Test
+    fun negateParenthesisTest() {
+        val calc = CalcDouble()
+        val expr = Expr(calc, "-(3+5)")
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(-8.0, calc.result())
     }
 
     @Test
