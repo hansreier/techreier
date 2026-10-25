@@ -42,8 +42,6 @@ fun parseArguments(rangeIn: Range, tokens: List<Token>): ArgumentInfo {
             tokens[i].isOperator() -> {
                 push = false
             }
-       //     else -> arguments.add(tokens[i])
-
         }
         i++
     } while (((i <= rangeIn.max) && (balance > 0)) || (!parenthesis && (arguments.size < noExpectedArgs)))
