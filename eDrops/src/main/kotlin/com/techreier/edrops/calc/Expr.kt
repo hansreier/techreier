@@ -164,11 +164,9 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                                 )
                             }
 
-                            if (token.isPow()) {
-                              //  do {
-//
-                             //   }
-
+                            if (token.isPow()) { //TODO ReierAsk Exception cases
+                                recursiveParse(Range(index + 1, tokens.size), depth + 1)
+                                tokens.add(token)
                             }
 
                             val opInfo = findUnboundOperator(
