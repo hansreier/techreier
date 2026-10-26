@@ -16,6 +16,11 @@ fun parseArguments(rangeIn: Range, tokens: List<Token>): ArgumentInfo {
     var updown = false
     val noExpectedArgs = (tokens[rangeIn.min] as OperatorToken).operator.noArgs()
     val operatorText = (tokens[rangeIn.min] as OperatorToken).operator.abbrev()
+    //TODO ReierAsk Missing guards for wrong values
+    if (rangeIn.min >= rangeIn.max) {
+        val error = ParseError(MISSING_PARENTHESIS, 0, "error")
+        throw ParseException("Error parsing arguments", error)
+    }
     logger.info("parse arguments for {} range={} expr={}", operatorText, rangeIn, tokens.toExpr(rangeIn))
     do {
         when {

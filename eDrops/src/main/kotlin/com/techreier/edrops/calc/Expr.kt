@@ -26,7 +26,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                 try {
                     val op = Op.valueOf(variableName)
                     this[op] = calc.parseValue(rawValue)
-                } catch (e: IllegalArgumentException) { //TODO Add position later?
+                } catch (_: IllegalArgumentException) { //TODO Add position later?
                     throw ParseException("Cannot parse number", ParseError(VARIABLE_NOT_FOUND, 0, variableName ))
                 }
             }
@@ -132,7 +132,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                         }
 
                         token.isFunction() -> {
-                            if (token.isNegate()) {
+                            if (token.isNegate() && ( index < rawTokens.size -1 ) && rawTokens[index + 1].isFunction() ) {
                                 val argumentInfo = parseArguments(Range(index + 1, range.max), rawTokens)
                                 recursiveParse(Range(argumentInfo.range.min -2, argumentInfo.range.max +1), depth + 1)
                                 trace("add func: ${token.operator.abbrev()}")
@@ -150,7 +150,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                                     trace("add func: ${token.operator.abbrev()}")
                                     tokens.add(token)
                                 }
-                                index = argumentInfo.nextPos + 1
+                                index = argumentInfo.nextPos
                             }
 
                         }
