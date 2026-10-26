@@ -178,7 +178,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                             )
 
 
-                            if (opInfo.push) {
+                            if (!opInfo.push) {
                                 recursiveParse(Range(index + 1, opInfo.endPos), depth + 1)
                                 tokens.add(token)
                                 index = opInfo.endPos + 1
