@@ -374,6 +374,22 @@ class ExprTest {
         assertEquals(8.0, expr.result() )
     }
 
+    //TODO ReierAsk more teste
+    @Test
+    fun powerPriorityTest2() {
+        val x = 2.0
+        val y = 3.0
+        val z = 1.0
+        val input = "x^(y - 1*2)^z"
+
+        val expr = Expr(calc, input)
+        expr.setAll(mapOf(Op.X to x, Op.Y to y, Op.Z to z))
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(8.0, expr.result() )
+    }
+
     @Test
     fun negativeNumberPowerTest() {
         val input = "-2^2"
