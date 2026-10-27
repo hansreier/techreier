@@ -529,7 +529,6 @@ class ExprTest {
 
     @Test
     fun negateParenthesisTest() {
-        val calc = CalcDouble()
         val expr = Expr(calc, "-(3+5)")
         expr.trace(Trace.ALL)
         expr.parse()
@@ -538,9 +537,36 @@ class ExprTest {
     }
 
     @Test
+    fun overFlowTest() {
+        val expr = Expr(calc, "9^9^9")
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(Double.POSITIVE_INFINITY, expr.result())
+    }
+
+    @Test
+    fun parenthesisHellTest() {
+        val input = "((((((((((((((((((((((((((((((((((((((((((((((((((1))))))))))))))))))))))))))))))))))))))))))))))))))"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(1.0, expr.result())
+    }
+
+    @Test
+    fun UnicodeTest() {
+        val input = "a\u200B + 2"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        val e = assertThrows <ParseException> { expr.parse() }
+        assertThat(e.parseError.key).contains(UNPARSEABLE)
+    }
+
+    @Test
     @Disabled
     fun setIllegalVariableExpressionFailsTest() { //TODO ReierAsk Variable parser need to be improved
-        val calc = CalcDouble()
         val expr = Expr(calc, "x + y -z")
         val e = assertThrows<ParseException> {
             expr.setVars("snuppa")
