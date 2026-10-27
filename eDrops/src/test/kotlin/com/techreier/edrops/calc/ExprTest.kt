@@ -17,6 +17,30 @@ class ExprTest {
     val calc = CalcDouble()
 
     @Test
+    fun happy42Test() {
+        val input = "42"
+        val expr = Expr(calc, input)
+        calc.trace = Trace.ALL
+        expr.parse()
+        expr.calculate()
+        val singleResult = calc.result()
+        assertNotNull(singleResult)
+        assertEquals(42.0, singleResult, 1e-9)
+    }
+
+    @Test
+    fun happySingleVariableTest() {
+        val input = "x"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr[Op.X] = 90.0
+        expr.parse()
+        expr.calculate()
+        val singleResult = calc.result()
+        assertEquals(90.0, singleResult, 1e-9)
+    }
+
+    @Test
     fun happyTest() {
         val input = "sin(90)"
         val expr = Expr(calc, input)
@@ -43,7 +67,7 @@ class ExprTest {
     }
 
     @Test
-    fun simpleFunctionsTest() { //TODO Fails
+    fun simpleFunctionsTest() {
         val input = "sin 90 + cos 0"
         val expr = Expr(calc, input)
         expr.trace(Trace.ALL)
@@ -374,7 +398,6 @@ class ExprTest {
         assertEquals(8.0, expr.result() )
     }
 
-    //TODO ReierAsk more teste
     @Test
     fun powerPriorityTest2() {
         val x = 2.0
@@ -388,6 +411,21 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         assertEquals(8.0, expr.result() )
+    }
+
+    @Test
+    fun priorityTest3() {
+        val x = 5.0
+        val y = 2.0
+        val z = 3.0
+        val input = "x + 2 * y^3^2 - 12 / z"
+
+        val expr = Expr(calc, input)
+        expr.setAll(mapOf(Op.X to x, Op.Y to y, Op.Z to z))
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(1025.0, expr.result() )
     }
 
     @Test

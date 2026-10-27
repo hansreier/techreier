@@ -178,7 +178,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                             } else {
                                 if (token.isPow()) { //TODO ReierAsk Exception cases
                                     if (index < rawTokens.size) {
-                                        recursiveParse(Range(index + 1, tokens.size), depth + 1)
+                                        recursiveParse(Range(index + 1, opInfo.endPos), depth + 1)
                                         trace("add operator: ${token.operator.abbrev()}")
                                         tokens.add(token)
                                         index++
