@@ -363,7 +363,7 @@ class ExprTest {
     fun powerPriorityTest() {
         val x = 2.0
         val y = 3.0
-        val z = 2.0
+        val z = 1.0
         val input = "x^y^z"
 
         val expr = Expr(calc, input)

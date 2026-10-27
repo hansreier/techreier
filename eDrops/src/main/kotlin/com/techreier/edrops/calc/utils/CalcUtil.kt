@@ -9,6 +9,7 @@ import com.techreier.edrops.calc.ParseError
 import com.techreier.edrops.calc.Token
 import com.techreier.edrops.calc.isFunction
 import com.techreier.edrops.calc.isLeftP
+import com.techreier.edrops.calc.isPow
 import com.techreier.edrops.calc.isRightP
 import com.techreier.edrops.calc.isVariable
 import com.techreier.edrops.exceptions.ParseException
@@ -105,7 +106,7 @@ fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): Operator
             token.isFunction() -> push = false
             (token is OperatorToken) && (!token.isVariable()) -> {
                 if (balance == 0) {
-                    if (token.operator.prior() >= prior) {
+                    if ((token.operator.prior() >= prior) && !token.isPow()) {
                         return OperatorInfo(i - 1,  push)
                     } else {
                         push = false
