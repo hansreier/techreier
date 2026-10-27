@@ -90,7 +90,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
         trace("Recur[$depth] ${rawTokens.toExpr(range)}")
         do {
             tokenCount++
-            if (tokenCount > MAX_TOKENS) { //TODO ReierAsk, check in preparse, test relevant during development
+            if (tokenCount > MAX_TOKENS) {
                 val token = rawTokens[index]
                 val maxTokensError = ParseError(MAX_TOKENS_EXCEEDED, token.position, token.toTokenString())
                 throw ParseException("Cannot parse more than $MAX_TOKENS tokens on the same level", maxTokensError)
