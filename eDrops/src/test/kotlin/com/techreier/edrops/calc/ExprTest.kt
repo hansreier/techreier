@@ -574,6 +574,16 @@ class ExprTest {
     }
 
     @Test
+    fun negateTest() {
+        val input = "negate(-3)"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(3.0, expr.result())
+    }
+
+    @Test
     fun emptyTest() {
         val input = ""
         val expr = Expr(calc, input)
