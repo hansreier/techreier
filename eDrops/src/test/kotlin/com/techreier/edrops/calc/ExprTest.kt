@@ -556,7 +556,7 @@ class ExprTest {
     }
 
     @Test
-    fun UnicodeTest() {
+    fun unicodeTest() {
         val input = "a\u200B + 2"
         val expr = Expr(calc, input)
         expr.trace(Trace.ALL)
@@ -565,7 +565,7 @@ class ExprTest {
     }
 
     @Test
-    fun RepeatedOperatorTest() {
+    fun repeatedOperatorTest() {
         val input = "2^^3"
         val expr = Expr(calc, input)
         expr.trace(Trace.ALL)
@@ -574,7 +574,7 @@ class ExprTest {
     }
 
     @Test
-    fun EmptyTest() {
+    fun emptyTest() {
         val input = ""
         val expr = Expr(calc, input)
         expr.trace(Trace.ALL)
