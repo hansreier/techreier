@@ -565,6 +565,15 @@ class ExprTest {
     }
 
     @Test
+    fun RepeatedOperatorTest() {
+        val input = "2^^3"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        val e = assertThrows <ParseException> { expr.parse() }
+        assertThat(e.parseError.key).contains(MISSING_OPERAND)
+    }
+
+    @Test
     @Disabled
     fun setIllegalVariableExpressionFailsTest() { //TODO ReierAsk Variable parser need to be improved
         val expr = Expr(calc, "x + y -z")
