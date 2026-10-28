@@ -561,7 +561,7 @@ class ExprTest {
         val expr = Expr(calc, input)
         expr.trace(Trace.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
-        assertThat(e.parseError.key).contains(UNPARSEABLE)
+        assertThat(e.parseError.key).isEqualTo(UNPARSEABLE)
     }
 
     @Test
@@ -570,7 +570,19 @@ class ExprTest {
         val expr = Expr(calc, input)
         expr.trace(Trace.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
-        assertThat(e.parseError.key).contains(MISSING_OPERAND)
+        assertThat(e.parseError.key).isEqualTo(MISSING_OPERAND)
+    }
+
+    @Test
+    fun EmptyTest() {
+        val input = ""
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        val e = assertThrows <ParseException> {
+            expr.parse()
+        }
+        logger.info(e.message)
+        assertThat(e.parseError.key).isEqualTo(UNPARSEABLE)
     }
 
     @Test
