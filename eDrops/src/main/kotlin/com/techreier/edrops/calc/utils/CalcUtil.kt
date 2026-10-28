@@ -128,7 +128,11 @@ fun checkVariables(calc: Calc<*>) {
     }
 }
 
-data class Range(val min: Int, val max: Int)
+data class Range(val min: Int, val max: Int) {
+    init {
+        require(min >= 0 && max >= 0) { "Range values cannot be negative: min=$min, max=$max" }
+    }
+}
 
 data class ArgumentInfo(val range: Range, val nextPos: Int, val tokens: List<Token>, val push: Boolean)
 
