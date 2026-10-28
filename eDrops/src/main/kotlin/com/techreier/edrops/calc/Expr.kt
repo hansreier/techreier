@@ -7,7 +7,6 @@ import com.techreier.edrops.calc.utils.findUnboundOperator
 import com.techreier.edrops.calc.utils.parseArguments
 import com.techreier.edrops.calc.utils.removeOuterP
 import com.techreier.edrops.exceptions.ParseException
-import jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyles
 import org.slf4j.LoggerFactory
 
 class Expr<T>(val calc: Calc<T>, expr: String) {
@@ -181,7 +180,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                                     tokens.add(token)
                                     index = opInfo.endPos + 1
                                 } else {
-                                    if (token.isPow()) { //TODO ReierAsk Exception cases
+                                    if (token.isPow()) {
                                         if (index < rawTokens.size) {
                                             recursiveParse(Range(index + 1, opInfo.endPos), depth + 1)
                                             trace("add operator: ${token.operator.abbrev()}")
