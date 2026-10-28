@@ -14,7 +14,7 @@ fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
     var balance = 0
     var closingIndex = range.max
     var error: ParseError
-
+    if (range.max < range.min) throw IllegalStateException("min ${range.min} > max ${range.max}")
     if (!tokens[range.min].isLeftP()) {
         error = ParseError(MISSING_PARENTHESIS, tokens[range.min].position, oper = Op.LEFTP.abbrev())
         throw ParseException("Error finding closure of parenthesis", error)

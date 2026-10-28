@@ -97,6 +97,7 @@ private fun wrapsWhole(min: Int, max: Int, tokens: List<Token>): Boolean {
 fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): OperatorInfo {
     var balance = 0
     var push = true
+    if (range.max < range.min) throw IllegalStateException("min ${range.min} > max ${range.max}")
 
     for (i in range.min..range.max) {
         val token = tokens[i]
