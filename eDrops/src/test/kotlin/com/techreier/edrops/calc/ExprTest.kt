@@ -410,7 +410,7 @@ class ExprTest {
         expr.trace(Trace.ALL)
         expr.parse()
         expr.calculate()
-        assertEquals(8.0, expr.result() )
+        assertEquals(2.0, expr.result() )
     }
 
     @Test

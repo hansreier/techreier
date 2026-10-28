@@ -74,4 +74,24 @@ class CalcUtilTest {
         val range = removeOuterP(preRange, tokens)
         org.junit.jupiter.api.Assertions.assertEquals(expectedRange, range)
     }
+
+    @Test
+    fun outerNoInnerContents() {
+        val tokens = listOf(OperatorToken(Op.LEFTP,  1) , OperatorToken(Op.LEFTP, 2),
+            OperatorToken(Op.RIGHTP, 3), OperatorToken(Op.RIGHTP, 4))
+        val preRange = Range(0, 3)
+        val expectedRange = Range(2, 1)
+        val range = removeOuterP(preRange, tokens)
+        org.junit.jupiter.api.Assertions.assertEquals(expectedRange, range)
+    }
+
+    @Test
+    fun outerContents() {
+        val tokens = listOf(OperatorToken(Op.LEFTP,  1) , OperatorToken(Op.LEFTP, 2),
+            NumberToken(33.0, 3), OperatorToken(Op.RIGHTP, 4), OperatorToken(Op.RIGHTP, 5))
+        val preRange = Range(0, 4)
+        val expectedRange = Range(2, 2)
+        val range = removeOuterP(preRange, tokens)
+        org.junit.jupiter.api.Assertions.assertEquals(expectedRange, range)
+    }
 }
