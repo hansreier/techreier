@@ -10,9 +10,10 @@ import com.techreier.edrops.exceptions.ParseException
 import org.slf4j.LoggerFactory
 
 class Expr<T>(val calc: Calc<T>, expr: String) {
-    protected val logger = LoggerFactory.getLogger(javaClass.simpleName)
+    private val logger = LoggerFactory.getLogger(javaClass.simpleName)
     val expr: String = expr.trim()
     val tokens = ArrayList<Token>()
+    var target: Op = Op.X
     private lateinit var rawTokens: List<Token>
 
     //TODO Move to multiline parser later
