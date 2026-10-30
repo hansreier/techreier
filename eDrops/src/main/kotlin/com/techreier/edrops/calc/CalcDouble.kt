@@ -12,12 +12,10 @@ class CalcDouble : Calc<Double>() {
     override val vars: MutableMap<Op, Double> = EnumMap(Op::class.java)
 
     init {
-        operators.addAll(
-            EnumSet.of(
-                Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
-                Op.ATAN, Op.RAD, Op.DEG, Op.RADIANS, Op.DEGREES, Op.EX, Op.LN,
-                Op.LOG10, Op.POW10, Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE
-            )
+        operators += setOf(
+            Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
+            Op.ATAN, Op.RAD, Op.DEG, Op.RADIANS, Op.DEGREES, Op.EX, Op.LN,
+            Op.LOG10, Op.POW10, Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE
         )
     }
 

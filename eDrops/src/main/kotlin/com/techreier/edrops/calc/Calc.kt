@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.exceptions.CalcException
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -12,11 +13,11 @@ abstract class Calc<T> {
     val s = Op.entries.size
 
     var trace: Trace = Trace.OFF
-    var operators: EnumSet<Op> = EnumSet.of(
+    var operators = setOf(
         Op.EMPTY, Op.REMOVE, Op.YX, Op.ADD,
         Op.SUBTRACT, Op.DIVIDE, Op.MULTIPLY, Op.X2, Op.SUM, Op.POW,
-        Op.SEPARATOR, Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W, Op.DX, Op.LEFTP, Op.RIGHTP, Op.NEGATE
-    )
+        Op.SEPARATOR, Op.LEFTP, Op.RIGHTP, Op.NEGATE
+    ) + variables
 
     fun clear() {
         logger.debug("tømmer stakken")
