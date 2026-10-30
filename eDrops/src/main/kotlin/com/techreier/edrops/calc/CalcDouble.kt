@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.exceptions.CalcException
 import java.util.*
 
@@ -219,10 +220,10 @@ class CalcDouble : Calc<Double>() {
                 r.add(x)
             }
 
-            Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W, Op.DX -> {  //TODO Reier  better error message if not found
+            in variables -> {
                 val variable = vars[operator]
                 variable ?: throw (IllegalArgumentException("Unknown variable: ${operator.abbrev()}"))
-                r.add(variable) //TODO ReierAsk r.add(vars[operator.abbrev])
+                r.add(variable)
             }
 
             else -> {
