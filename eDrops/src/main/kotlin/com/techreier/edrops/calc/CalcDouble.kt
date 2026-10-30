@@ -219,7 +219,7 @@ class CalcDouble : Calc<Double>() {
                 r.add(x)
             }
 
-            Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
+            Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W, Op.DX -> {  //TODO Reier  better error message if not found
                 val variable = vars[operator]
                 variable ?: throw (IllegalArgumentException("Unknown variable: ${operator.abbrev()}"))
                 r.add(variable) //TODO ReierAsk r.add(vars[operator.abbrev])

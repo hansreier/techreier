@@ -49,6 +49,7 @@ enum class Op(
     YX("yx", 2, 2, -1),
     REMOVE("r", 1, 0, -1),
     EMPTY("c", -1, 0, -1),
+    DX("dx", 0,1 ),
     T("x", 0, 1),
     X("x", 0, 1),
     Y("y", 0, 1),
@@ -80,7 +81,7 @@ enum class Op(
     companion object {
         val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR)
         val parenthesis = setOf(LEFTP, RIGHTP)
-        val variables = setOf(X, Y, Z, U, V, W)
+        val variables = setOf(X, Y, Z, U, V, W, DX)
         val constants = setOf(PI, E)
         val symbols = variables + constants
         val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, RAD, DEG, EX, LN, LOG10, POW10, HYP, GYP, NEGATE)

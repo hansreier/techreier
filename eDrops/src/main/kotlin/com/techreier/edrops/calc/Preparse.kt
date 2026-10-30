@@ -43,7 +43,7 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
             i2 = pos.index
             if (i2 <= i1) { // Find operator if it exists
                 val foundOp = Op.operator(expr, i1, calc.operators)
-                oper = foundOp?.let { Oper(foundOp, pos.index) }
+                oper = foundOp?.let { Oper(foundOp, pos.index) } //TODO ReierAsk Variables must be defines three places
             }
         }
 
