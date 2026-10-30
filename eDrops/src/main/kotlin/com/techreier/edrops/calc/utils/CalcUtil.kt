@@ -56,10 +56,16 @@ fun Calc<Double>.degrees(enabled: Boolean): Calc<Double> {
 
 // Return error indicator of expression given a parseError
 fun errorIndicator(expr: String, parseError: ParseError?): String? {
+    val cleanExpr = expr
+        .replace("\r\n", " ")
+        .replace('\n', ' ')
+        .replace('\r', ' ')
+        .replace('\t', ' ')
+        .replace('\u00A0', ' ')
     val errPosition = parseError?.position ?: return null
-    val startPos = (errPosition - 40).coerceIn(0, expr.length)
-    val endPos = (errPosition + 40).coerceIn(0, expr.length)
-    return "${expr.substring(startPos, errPosition)}???" +
+    val startPos = (errPosition - 40).coerceIn(0, cleanExpr.length)
+    val endPos = (errPosition + 40).coerceIn(0, cleanExpr.length)
+    return "${cleanExpr.substring(startPos, errPosition)}???" +
             if (errPosition == expr.length) "" else expr.substring(errPosition, endPos)
 }
 
@@ -102,13 +108,19 @@ fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): Operator
     for (i in range.min..range.max) {
         val token = tokens[i]
         when {
-            token.isLeftP() -> {balance++ ; push = false }
-            token.isRightP() -> {balance-- ; push = false }
+            token.isLeftP() -> {
+                balance++; push = false
+            }
+
+            token.isRightP() -> {
+                balance--; push = false
+            }
+
             token.isFunction() -> push = false
             (token is OperatorToken) && (!token.isVariable()) -> {
                 if (balance == 0) {
                     if ((token.operator.prior() >= prior) && !token.isPow()) {
-                        return OperatorInfo(i - 1,  push)
+                        return OperatorInfo(i - 1, push)
                     } else {
                         push = false
                     }
@@ -116,7 +128,30 @@ fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): Operator
             }
         }
     }
-    return OperatorInfo( range.max,   push)
+    return OperatorInfo(range.max, push)
+}
+
+//Split multiExpresssion based on separator ;
+fun splitMultiExpr(text: String): List<Pair<String, Int>> {
+    val result = mutableListOf<Pair<String, Int>>()
+    var depth = 0
+    var startIndex = 0
+    for (i in text.indices) {
+        when (text[i]) {
+            '(', '[', '{' -> depth++
+            ')', ']', '}' -> if (depth > 0) depth--
+            ';' -> {
+                if (depth == 0) {
+                    result.add(Pair(text.substring(startIndex, i), startIndex))
+                    startIndex = i + 1
+                }
+            }
+        }
+    }
+    if (startIndex < text.length) {
+        result.add(Pair(text.substring(startIndex), startIndex))
+    }
+    return result
 }
 
 fun checkVariables(calc: Calc<*>) {
@@ -137,7 +172,7 @@ data class Range(val min: Int, val max: Int) {
 
 data class ArgumentInfo(val range: Range, val nextPos: Int, val tokens: List<Token>, val push: Boolean)
 
-data class OperatorInfo(val endPos: Int,  val push: Boolean)
+data class OperatorInfo(val endPos: Int, val push: Boolean)
 
 operator fun <T> ArrayList<T>.set(op: Op, value: T) {
     this[op.ordinal] = value
@@ -146,3 +181,10 @@ operator fun <T> ArrayList<T>.set(op: Op, value: T) {
 operator fun <T> ArrayList<T>.get(op: Op): T {
     return this[op.ordinal]
 }
+
+fun String.sanitize(): String = this
+    .replace("\r\n", " ")
+    .replace('\n', ' ')
+    .replace('\r', ' ')
+    .replace('\t', ' ')
+    .replace('\u00A0', ' ')

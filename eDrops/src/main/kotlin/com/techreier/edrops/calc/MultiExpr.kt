@@ -1,26 +1,48 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.utils.sanitize
+import com.techreier.edrops.calc.utils.splitMultiExpr
 import com.techreier.edrops.exceptions.ParseException
 
 class MultiExpr<T> (val calc: Calc<T>,  multiExpr: String) {
 
-    val multiExpr = multiExpr.trim()
+    val multiExpr = multiExpr.sanitize()
     val exprList = mutableListOf<Expr<T>>()
 
-    //TODO Exception handling is not good enough
     fun parse() {
-        multiExpr.split(";").forEach { assignment ->
-            val parts = assignment.split("=")
-            if (parts.size == 2) {
-                val variableName = parts[0].trim().uppercase()
+        splitMultiExpr(multiExpr).forEach { (assignment, globalAssignmentOffset) ->
+            val trimmed = assignment.trim()
+            if (trimmed.isEmpty()) return@forEach
+
+            val eqIndex = assignment.indexOf('=')
+            if (eqIndex != -1) {
+                val rawVarPart = assignment.substring(0, eqIndex)
+                val variableName = rawVarPart.trim().uppercase()
+
+                val targetOp = try {
+                    Op.valueOf(variableName)
+                } catch (_: IllegalArgumentException) {
+                    val varPos = globalAssignmentOffset + rawVarPart.indexOf(variableName.lowercase())
+                    throw ParseException("Cannot parse variable", ParseError(VARIABLE_NOT_FOUND, varPos, variableName))
+                }
+
+                val exprText = assignment.substring(eqIndex + 1)
+
+                val exprTextOffset = globalAssignmentOffset + eqIndex + 1
+
                 try {
-                    val expr = Expr(calc, parts[1])
+                    val expr = Expr(calc, exprText)
                     expr.trace(Trace.ALL)
                     expr.parse()
-                    expr.target = Op.valueOf(variableName)
+                    expr.target = targetOp
                     exprList.add(expr)
-                } catch (_: IllegalArgumentException) { //TODO Add position later?
-                    throw ParseException("Cannot parse number", ParseError(VARIABLE_NOT_FOUND, 0, variableName ))
+                } catch (e: ParseException) {
+                    val adjustedError = ParseError(
+                        e.parseError.key,
+                        e.parseError.position + exprTextOffset,
+                        e.parseError.oper
+                    )
+                    throw ParseException(e.message ?: "Parse error", adjustedError)
                 }
             }
         }

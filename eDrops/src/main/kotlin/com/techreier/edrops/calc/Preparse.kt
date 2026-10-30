@@ -3,10 +3,9 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.calc.Op.Companion.basicOperators
 import com.techreier.edrops.calc.Op.Companion.symbols
 import com.techreier.edrops.calc.utils.parseDouble
-import com.techreier.edrops.util.isTrimmed
 import java.text.ParsePosition
 
-//One time parse through expression, expr must be trimmed
+//One time parse through expression, expr must be sanitized and trimmed
 fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
     var i1: Int
     var i2: Int
@@ -17,7 +16,6 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
     var lastOpType = OpType.EMPTY
     val tokens = arrayListOf<Token>()
     var parseError: ParseError?
-    if (!expr.isTrimmed()) throw IllegalArgumentException("expression to preparse is not trimmed")
     val pos = ParsePosition(0)
     do {
         i1 = pos.index
@@ -38,7 +36,7 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
             }
 
         if ((number == null) && minus && ((lastOpType == OpType.LEFTP) || lastOpType == OpType.OPERATOR
-                    || lastOpType == OpType.EMPTY || lastOpType == OpType.SEPARATOR)) {
+                    || lastOpType == OpType.NEGATE  || lastOpType == OpType.EMPTY || lastOpType == OpType.SEPARATOR)) {
             oper = Oper(Op.NEGATE, i1)
             i1 = i1 - Op.NEGATE.abbrev().length + 1
         } else {
@@ -49,7 +47,7 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
             }
         }
 
-        if (number == null) {   //operator (including variables and separators)
+        if (number == null) {   // Operator (including variables and separators)
 
             if ((oper == null)) {
                 parseError = ParseError(UNPARSEABLE, i1)
@@ -105,6 +103,14 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                     lastOpType = OpType.RIGHTP
                 }
 
+                Op.NEGATE -> {
+                    if (lastOpType == OpType.NEGATE){ //Todo ReierAsk
+                        parseError = ParseError(CONSECUTIVE_NEGATE, i1, oper.op.abbrev())
+                        return ParseResult(tokens, parseError)
+                    }
+                    lastOpType = OpType.NEGATE
+                }
+
                 in symbols -> {
                     if (lastOpType == OpType.SYMBOL) {
                         tokens.add(OperatorToken(Op.MULTIPLY, i1))
@@ -137,10 +143,10 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
 
                 else -> { //TODO ReierAsk check what to do with this problem for functions without arguments
 
-              //      if (lastOpType == OpType.FUNCTION) {
-              //          parseError = ParseError(CONSECUTIVE_FUNCTIONS, i1, oper.op.abbrev())
-              //          return ParseResult(tokens, parseError)
-               //     }
+                    if (lastOpType == OpType.FUNCTION){
+                        parseError = ParseError(CONSECUTIVE_FUNCTIONS, i1, oper.op.abbrev())
+                        return ParseResult(tokens, parseError)
+                    }
                     lastOpType = OpType.FUNCTION
                 }
             }

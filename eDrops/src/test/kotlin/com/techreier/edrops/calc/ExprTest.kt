@@ -1,11 +1,8 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.exceptions.CalcException
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.graph.logger
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertThrows
@@ -476,41 +473,12 @@ class ExprTest {
     //TODO Move to separate test class
 
     @Test
-    fun setVariablesAsStringTest() {
-        val calc = CalcDouble()
-        val expr = Expr(calc, "x + y -z")
-        expr.setVars("x=3; y=5; z=4")
-        expr.parse()
-        expr.calculate()
-        Assertions.assertEquals(4.0, calc.result())
-    }
-
-    @Test
-    fun setVariablesAsStringFailsTest() {
-        val calc = CalcDouble()
-        val expr = Expr(calc, "x + y -z")
-        val e = assertThrows<CalcException> {
-            expr.setVars("x=3; y=5;z=gg")
-        }
-        assertThat(e.message).startsWith("DoubleFormatError")
-    }
-
-    @Test
-    fun setIllegalVariableAsStringFailsTest() {
-        val calc = CalcDouble()
-        val expr = Expr(calc, "x + y -z")
-        val e = assertThrows<ParseException> {
-            expr.setVars("x=3; y=5; zz=3")
-        }
-        assertEquals(VARIABLE_NOT_FOUND, e.parseError.key)
-    }
-
-    @Test
     fun multipleNegateAndSubtractTest() {
         val calc = CalcDouble()
         val expr = Expr(calc, "-x - -y")
         expr.trace(Trace.ALL)
-        expr.setVars("x=10; y=4")
+        expr[Op.X] = 10.0
+        expr[Op.Y] = 4.0
         expr.parse()
         expr.calculate()
         assertEquals(-6.0, calc.result())
@@ -521,7 +489,8 @@ class ExprTest {
         val calc = CalcDouble()
         val expr = Expr(calc, "-sin(x) + cos(y)")
         expr.trace(Trace.ALL)
-        expr.setVars("x=90; y=0")
+        expr[Op.X] = 90.0
+        expr[Op.Y] = 0.0
         expr.parse()
         expr.calculate()
         assertEquals(0.0, calc.result())
@@ -535,6 +504,24 @@ class ExprTest {
         expr.calculate()
         assertEquals(-8.0, calc.result())
     }
+
+    @Test
+    fun minusNegateTest() {  //Returns error
+        val expr = Expr(calc, "--(3+5)")
+        expr.trace(Trace.ALL)
+        val e = assertThrows <ParseException> { expr.parse() }
+        assertEquals(CONSECUTIVE_NEGATE, e.parseError.key)
+    }
+
+    @Test
+    fun operatorNegateTest() {  //Returns error
+        val expr = Expr(calc, " 3 * - 3")
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(-9.0 , calc.result())
+    }
+
 
     @Test
     fun overFlowTest() {
@@ -593,15 +580,5 @@ class ExprTest {
         }
         logger.info(e.message)
         assertThat(e.parseError.key).isEqualTo(UNPARSEABLE)
-    }
-
-    @Test
-    @Disabled
-    fun setIllegalVariableExpressionFailsTest() { //TODO ReierAsk Variable parser need to be improved
-        val expr = Expr(calc, "x + y -z")
-        val e = assertThrows<ParseException> {
-            expr.setVars("snuppa")
-        }
-        assertEquals(VARIABLE_NOT_FOUND, e.parseError.key)
     }
 }

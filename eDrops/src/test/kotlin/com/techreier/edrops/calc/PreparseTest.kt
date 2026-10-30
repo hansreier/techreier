@@ -1,6 +1,5 @@
 package com.techreier.edrops.calc
 
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 class PreparseTest : TestBase() {
@@ -111,13 +110,6 @@ class PreparseTest : TestBase() {
     }
 
     @Test
-    fun illegalSubtractTest() {
-        val input = "- 2"
-        assertPreparseFails(MISPLACED_OPERATOR, calc, input)
-    }
-
-
-    @Test
     fun negativeNumberAfterOperatorTest() {
         val input = "2^-2"
         assertPreparse(tokens(2, Op.POW, -2), calc, input)
@@ -130,18 +122,6 @@ class PreparseTest : TestBase() {
     }
 
     @Test
-    fun minusminusFailsTest() {
-        val input = "5-- 3"
-        assertPreparseFails(MISSING_OPERAND, calc, input)
-    }
-
-    @Test
-    fun plusMinusFailsTest() {
-        val input = "5+- 3"
-        assertPreparseFails(MISSING_OPERAND, calc, input)
-    }
-
-    @Test
     fun minusTest() {
         val input = "5 - -3"
         assertPreparse(tokens(5.0, Op.SUBTRACT, -3.0), calc, input)
@@ -149,7 +129,7 @@ class PreparseTest : TestBase() {
 
     @Test
     fun doubleOperatorFailsTest() {
-        val input = "3 -  - 5"
+        val input = "3 *  / 5"
         assertPreparseFails(MISSING_OPERAND, calc, input)
     }
 
@@ -208,12 +188,6 @@ class PreparseTest : TestBase() {
     }
 
     @Test
-    fun OperatorParenthesisFailsTest() {
-        val input = "3(-)"
-        assertPreparseFails(MISPLACED_OPERATOR, calc, input)
-    }
-
-    @Test
     fun followingParenthesisOKTest() {
         val input = "(x + 5)(x - 3)"
         assertPreparse(
@@ -232,10 +206,8 @@ class PreparseTest : TestBase() {
 
     @Test
     fun spaceFailsTest() {
-        assertThrows(IllegalArgumentException::class.java, {
             val input = "   "
-            assertPreparse(tokens(), calc, input)
-        })
+            assertPreparseFails(UNPARSEABLE, calc, input)
     }
 
     @Test
