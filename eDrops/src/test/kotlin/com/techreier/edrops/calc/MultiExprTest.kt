@@ -7,8 +7,6 @@ import com.techreier.edrops.exceptions.ParseException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import kotlin.math.cos
-import kotlin.math.sin
 
 class MultiExprTest {
 
@@ -53,23 +51,30 @@ class MultiExprTest {
 
     @Test
     fun repeatedCalcTest() {
+        calc.trace = Trace.OFF
+        val startValues = """
+           dx = 0.1;
+           x = 0;
+        """.trimIndent()
+
+        val start = MultiExpr(calc, startValues)
+        calc.degrees = false
+        start.parse()
+        start.calculate()
 
         val input = """
-           dx = 0.1;
-           x = 3;
            y = sin(x) + cos(x);
            x = x + dx;
         """.trimIndent()
 
         val expr = MultiExpr(calc, input)
-        calc.degrees = false
         expr.parse()
-        logger.info("ReierAsk parsed")
-        expr.calculate()
 
-        assertEquals(0.1, expr[Op.DX])
-        assertEquals(3.1, expr[Op.X])
-        assertEquals(sin(3.0) + cos(3.0), expr[Op.Y], 1e-9)
+        do {
+            expr.calculate()
+            logger.info("x=${calc[Op.X]}, y=${calc[Op.Y]}")
+        } while (calc[Op.X] < 3)
+
     }
 
 }

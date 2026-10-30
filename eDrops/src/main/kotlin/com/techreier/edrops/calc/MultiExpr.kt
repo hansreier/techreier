@@ -32,7 +32,7 @@ class MultiExpr<T> (val calc: Calc<T>,  multiExpr: String) {
 
                 try {
                     val expr = Expr(calc, exprText)
-                    expr.trace(Trace.ALL)
+                    expr.trace(Trace.OFF)
                     expr.parse()
                     expr.target = targetOp
                     exprList.add(expr)
