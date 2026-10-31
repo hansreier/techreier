@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.graph.logger
 import org.assertj.core.api.Assertions.assertThat
@@ -469,9 +470,6 @@ class ExprTest {
         assertEquals(-2.0, expr.result(), 1e-9 )
     }
 
-
-    //TODO Move to separate test class
-
     @Test
     fun multipleNegateAndSubtractTest() {
         val calc = CalcDouble()
@@ -552,12 +550,15 @@ class ExprTest {
     }
 
     @Test
-    fun repeatedOperatorTest() {
+    fun repeatedOperatorFailsTest() {
         val input = "2^^3"
         val expr = Expr(calc, input)
         expr.trace(Trace.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
         assertThat(e.parseError.key).isEqualTo(MISSING_OPERAND)
+        val errorIndicator = errorIndicator(expr.expr, e.parseError)
+        logger.info("Error indicator: $errorIndicator")
+        assertEquals( "2^???^3", errorIndicator)
     }
 
     @Test
