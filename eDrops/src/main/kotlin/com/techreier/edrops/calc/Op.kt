@@ -72,6 +72,7 @@ enum class Op(
     fun isOrdinary(): Boolean =
         !(basicOperators.contains(this) || parenthesis.contains(this)) //TODO ReierAsk used for what
 
+    fun isConstant(): Boolean = constants.contains(this)
     fun isVariable(): Boolean = variables.contains(this)
     fun isSymbol(): Boolean = symbols.contains(this)
     fun isFunction(): Boolean = functions.contains(this)

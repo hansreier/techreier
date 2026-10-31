@@ -109,8 +109,9 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
 
                     is OperatorToken -> {
                         when {
-                            token.isVariable() -> {
-                                trace("add variable: ${token.operator.abbrev()}")
+                            token.isSymbol() -> {
+                                val typeName = if (token.isVariable()) "variable" else "constant"
+                                trace("add $typeName: ${token.operator.abbrev()}")
                                 tokens.add(token)
                                 postphonedOperator?.let { op ->
                                     tokens.add(op)
