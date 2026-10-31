@@ -20,4 +20,6 @@ class ParentBlogException(msg: String) : Exception(msg)
 
 class ParseException(msg: String, val parseError: ParseError) : Exception("$msg [Feiltype: $parseError]")
 
+class VariableException(msg: String, val variable: String) : Exception(msg)
+
 class CalcException(key: String, oper: String  = "", e: Exception? = null) : Exception("$key for $oper", e)
