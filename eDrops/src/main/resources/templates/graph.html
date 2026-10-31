@@ -9,11 +9,6 @@
 <body>
 <div layout:fragment="content">
     <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"></h1>
-    <details id="graph-details" open>
-        <summary th:text="#{details}"></summary>
-        <div class="container" th:utext="${docText}"></div>
-        <br>
-    </details>
     <form th:action="@{/graph}" th:object="${graphForm}" th:method="post">
         <details id="input-details" open>
             <summary th:text="#{graphInput}"></summary>
@@ -66,6 +61,11 @@
         <button type="submit" th:text="#{action.draw}"></button>
     </form>
     <div th:insert="~{graphView :: graphView(${graph})}"></div>
+    <details id="graph-details" open>
+        <summary th:text="#{details}"></summary>
+        <div class="container" th:utext="${docText}"></div>
+        <br>
+    </details>
 </div>
 </body>
 </html>
