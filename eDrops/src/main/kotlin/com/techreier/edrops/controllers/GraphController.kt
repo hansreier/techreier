@@ -3,9 +3,11 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.calc.CalcDouble
 import com.techreier.edrops.calc.Expr
 import com.techreier.edrops.calc.utils.degrees
+import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.config.*
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
+import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.exceptions.VariableException
 import com.techreier.edrops.forms.GraphForm
 import com.techreier.edrops.graph.*
@@ -68,9 +70,9 @@ class GraphController(
         if (input != null) {
             val graphLimits = GraphLimits(input.xMin, input.xMax, input.yMin, input.yMax)
             val graphMetadata = GraphMetadata(input.heightRatio, input.fontScale)
+            val expr = Expr(CalcDouble(), input.yUnit)
             try {
                 logger.info("Graphlimits: ${graphLimits}")
-                val expr = Expr(CalcDouble(), input.yUnit)
                 expr.calc.degrees(false)
                 expr.variable(input.xUnit)
                 expr.parse()
@@ -108,6 +110,11 @@ class GraphController(
                 when (ex) {
                     is IllegalArgumentException -> bindingResult.reject("error.range")
                     is VariableException -> bindingResult.reject("error.noVariable")
+                    is ParseException -> {
+                        val errorText = errorIndicator(expr.expr, ex.parseError) ?: ""
+                        ex.parseError.position
+                        bindingResult.reject("error.parse",  arrayOf(errorText), "")
+                    }
                     else -> {
                         logger.warn("error in graph calculation: ${ex.message}")
                         bindingResult.reject("error.calcGraph")
