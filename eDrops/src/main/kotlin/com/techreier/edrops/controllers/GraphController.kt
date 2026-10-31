@@ -7,6 +7,7 @@ import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.config.*
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
+import com.techreier.edrops.exceptions.CalcException
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.exceptions.VariableException
 import com.techreier.edrops.forms.GraphForm
@@ -112,8 +113,13 @@ class GraphController(
                     is VariableException -> bindingResult.reject("error.noVariable")
                     is ParseException -> {
                         val errorText = errorIndicator(expr.expr, ex.parseError) ?: ""
+                        val errorCode = "error.parse.${ex.parseError.key}"
                         ex.parseError.position
-                        bindingResult.reject("error.parse",  arrayOf(errorText), "")
+                        bindingResult.reject(errorCode,  arrayOf(errorText), "")
+                    }
+                    is CalcException -> {
+                        bindingResult.reject("error.calc")
+
                     }
                     else -> {
                         logger.warn("error in graph calculation: ${ex.message}")
