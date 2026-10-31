@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.calc.utils.Range
 import com.techreier.edrops.calc.utils.checkVariables
 import com.techreier.edrops.calc.utils.findClosure
@@ -8,6 +9,8 @@ import com.techreier.edrops.calc.utils.parseArguments
 import com.techreier.edrops.calc.utils.removeOuterP
 import com.techreier.edrops.calc.utils.sanitize
 import com.techreier.edrops.exceptions.ParseException
+import com.techreier.edrops.exceptions.VariableException
+import ognl.Ognl.setValue
 import org.slf4j.LoggerFactory
 
 class Expr<T>(val calc: Calc<T>, expr: String) {
@@ -15,10 +18,16 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
     val expr: String = expr.sanitize()
     val tokens = ArrayList<Token>()
     var target: Op = Op.X
+    var singleVariable: Op? = null
     private lateinit var rawTokens: List<Token>
 
     operator fun set(op: Op, value: T) {
         calc[op] = value
+    }
+
+    fun variable(name: String ): Op? {
+        singleVariable =  Op.operator(name, variables)
+        return singleVariable
     }
 
     fun setAll(newVars: Map<Op, T>) {
@@ -46,6 +55,12 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                 is OperatorToken -> calc.op(t.operator)
             }
         }
+    }
+
+    fun calc(number: T): T {
+        this[singleVariable  ?: throw VariableException("singleVariable","")] = number
+        calculate()
+        return result()
     }
 
     fun parse() {

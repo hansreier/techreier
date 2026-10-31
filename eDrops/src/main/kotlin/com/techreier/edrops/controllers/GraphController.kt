@@ -1,21 +1,14 @@
 package com.techreier.edrops.controllers
 
-import com.techreier.edrops.config.DIAGRAM_WIDTH
-import com.techreier.edrops.config.Menu
-import com.techreier.edrops.config.PLOT_ANCHOR_X
-import com.techreier.edrops.config.PLOT_ANCHOR_Y
-import com.techreier.edrops.config.PLOT_HEIGHT
-import com.techreier.edrops.config.PLOT_WIDTH
-import com.techreier.edrops.config.logger
-
+import com.techreier.edrops.calc.CalcDouble
+import com.techreier.edrops.calc.Expr
+import com.techreier.edrops.calc.utils.degrees
+import com.techreier.edrops.config.*
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
+import com.techreier.edrops.exceptions.VariableException
 import com.techreier.edrops.forms.GraphForm
-import com.techreier.edrops.graph.DiagramArea
-import com.techreier.edrops.graph.DiagramService
-import com.techreier.edrops.graph.GraphLimits
-import com.techreier.edrops.graph.GraphMetadata
-import com.techreier.edrops.graph.GraphService
+import com.techreier.edrops.graph.*
 import com.techreier.edrops.util.fixed
 import com.techreier.edrops.util.msg
 import jakarta.servlet.http.HttpServletRequest
@@ -27,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import kotlin.math.sin
 
 const val GRAPH = "graph"
 const val GRAPH_DIR = "/$GRAPH"
@@ -37,7 +29,7 @@ const val GRAPH_DIR = "/$GRAPH"
 class GraphController(
     val ctx: Context,
     private val graphService: GraphService,
-    private val diagramService: DiagramService
+    private val diagramService: DiagramService,
 ) : BaseController(ctx) {
 
     @GetMapping
@@ -45,7 +37,7 @@ class GraphController(
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
-        redirectAttributes: RedirectAttributes
+        redirectAttributes: RedirectAttributes,
     ): String {
         logger.info("Graph page")
         val xUnit = msg(ctx.messageSource, "xUnit")
@@ -78,12 +70,16 @@ class GraphController(
             val graphMetadata = GraphMetadata(input.heightRatio, input.fontScale)
             try {
                 logger.info("Graphlimits: ${graphLimits}")
-                val sinusCurve = graphService.generateSeries(
+                val expr = Expr(CalcDouble(), input.yUnit)
+                expr.calc.degrees(false)
+                expr.variable(input.xUnit)
+                expr.parse()
+                val curve = graphService.generateSeries(
                     limits = graphLimits,
-                    mathFunction = { x -> sin(x) }
+                    mathFunction = { x -> expr.calc(x) }
                 )
 
-                val seriesList = listOf(sinusCurve)
+                val seriesList = listOf(curve)
                 val diagramArea = DiagramArea(
                     width = DIAGRAM_WIDTH,
                     height = PLOT_HEIGHT * input.heightRatio + PLOT_ANCHOR_Y * 2,
@@ -109,12 +105,13 @@ class GraphController(
                 redirectAttributes.addFlashAttribute("diagram", diagramResult.diagram)
                 redirectAttributes.addFlashAttribute("polylines", polylines)
             } catch (ex: Exception) {
-                if (ex is IllegalArgumentException) {
-                    bindingResult.reject("error.range")
-                }
-                else {
-                    logger.warn("error in graph calculation: ${ex.message}")
-                    bindingResult.reject("error.calcGraph")
+                when (ex) {
+                    is IllegalArgumentException -> bindingResult.reject("error.range")
+                    is VariableException -> bindingResult.reject("error.noVariable")
+                    else -> {
+                        logger.warn("error in graph calculation: ${ex.message}")
+                        bindingResult.reject("error.calcGraph")
+                    }
                 }
             }
         }
@@ -136,7 +133,7 @@ class GraphController(
     private fun prepare(
         model: Model,
         request: HttpServletRequest,
-        response: HttpServletResponse
+        response: HttpServletResponse,
     ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response, Menu.LAB)
         val docIndex = Docs.getDocIndex(Docs.graph, blogParams.oldLangCode, blogParams.usedLangCode, GRAPH)
