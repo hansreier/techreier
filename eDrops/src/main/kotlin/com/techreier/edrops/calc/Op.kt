@@ -24,7 +24,7 @@ enum class Op(
     MULTIPLY("*", 2, 1, 1),
     DIVIDE("/", 2, 1, 1),
     POW("^", 2, 1, 0),
-    SEPARATOR(";", 2, 2, 4),
+    SEPARATOR(";", 2, 0, 4),
     X2("^2", 1, 1, -1),
     SUM("sum", -1, 1, -1),
     SIN("sin", 1, 1),
@@ -108,8 +108,9 @@ enum class Op(
             return null
         }
 
-        // Return operator in text at expression position
-        // TODO ReierAsk at the moment separator is the only allowed operator with two return arguments.
+        // Return operator in text at expression position. Function used only in preparsing
+        // At the moment separator is the only exception to rule (Removed before calculation)
+        //TODO ReierAsk Only one return argument allowed. Any usecase for more?
         fun operator(text: String, pos: Int, set: Set<Op>): Op? {
             val textVar = text.substring(pos).lowercase()
             if (textVar.isNotEmpty()) {
