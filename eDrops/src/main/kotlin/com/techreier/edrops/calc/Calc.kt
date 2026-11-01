@@ -93,10 +93,24 @@ abstract class Calc<T> {
                 logger.error("${operator.abbrev()} : Too few arguments ${stack.size}, must be $atLeast$noArgs!")
                 throw CalcException(TOO_FEW_ARGUMENTS, operator.abbrev())
             }
+
         } catch (e: Exception) {
             logger.error("Calculation error: ${operator.abbrev()} ${e.message}.")
-            throw CalcException(CALCULATION_ERROR, operator.abbrev(), e)
-        } finally {
+            when (e) {
+                is CalcException -> {
+                    throw CalcException (e.key, e.oper, e.detailMessage)
+                }
+                is ArithmeticException -> {
+                    throw CalcException(CALCULATION_ERROR, operator.abbrev(), e.message)
+                }
+                is IllegalArgumentException -> {
+                    throw CalcException(INVALID_ARGUMENT, operator.abbrev(), e.message)
+                }
+                else -> {
+                    throw e
+                }
+            }
+        }  finally {
             traceStack(operator.abbrev())
         }
     }
@@ -104,8 +118,7 @@ abstract class Calc<T> {
     fun result(): T {
         traceStack("Result: ", true)
         if (stack.isEmpty()) throw CalcException(NO_RESULT, "calc")
-        if (stack.size >1) throw
-            CalcException(MULTIPLE_RESULTS, "calc")
+        if (stack.size > 1) throw CalcException(MULTIPLE_RESULTS, "calc")
         return stack.peekFirst()
     }
 

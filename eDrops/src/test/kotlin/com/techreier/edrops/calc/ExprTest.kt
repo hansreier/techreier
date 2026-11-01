@@ -582,4 +582,16 @@ class ExprTest {
         logger.info(e.message)
         assertThat(e.parseError.key).isEqualTo(UNPARSEABLE)
     }
+
+    @Test
+    fun constantTest() {
+        calc.degrees = false
+        val input = "sin(pi)"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        calc.degrees = true
+        assertEquals(0.0, expr.result(), 1e-9)
+    }
 }

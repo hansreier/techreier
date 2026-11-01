@@ -115,15 +115,21 @@ class GraphController(
                         val errorText = errorIndicator(expr.expr, ex.parseError) ?: ""
                         val errorCode = "error.parse.${ex.parseError.key}"
                         ex.parseError.position
-                        bindingResult.reject(errorCode,  arrayOf(errorText), "")
+                        bindingResult.reject(errorCode,  arrayOf(errorText), "parse error")
                     }
                     is CalcException -> {
-                        bindingResult.reject("error.calc")
-
+                        val message =  ex.detailMessage?.let { ": $it" } ?: ""
+                        val args = arrayOf(ex.oper + message)
+                        val errorCode = "error.calc.${ex.key}"
+                        bindingResult.reject(errorCode, args, "calculation error")
+                    }
+                    is ArithmeticException -> {
+                        val args = arrayOf(ex.message ?: "")
+                        bindingResult.reject("error.calcGraph", args, "graph calculation error")
                     }
                     else -> {
-                        logger.warn("error in graph calculation: ${ex.message}")
-                        bindingResult.reject("error.calcGraph")
+                        logger.error("Unrecoverable error in graph calculation: ${ex.message}")
+                        throw ex
                     }
                 }
             }

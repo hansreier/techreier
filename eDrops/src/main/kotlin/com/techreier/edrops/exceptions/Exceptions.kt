@@ -18,8 +18,9 @@ class NotAuthorizedException(msg: String) : BlogException(msg, "notAuthorized")
 
 class ParentBlogException(msg: String) : Exception(msg)
 
-class ParseException(msg: String, val parseError: ParseError) : Exception("$msg [Feiltype: $parseError]")
+class ParseException(msg: String, val parseError: ParseError) : Exception("$msg [Error type: $parseError]")
 
 class VariableException(msg: String, val variable: String) : Exception(msg)
 
-class CalcException(key: String, oper: String  = "", e: Exception? = null) : Exception("$key for $oper", e)
+class CalcException(val key: String, val oper: String, val detailMessage: String? = null) :
+    Exception("$key for $oper ${detailMessage?.let {": $it"} ?: "" }")

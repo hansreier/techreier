@@ -220,7 +220,7 @@ class CalcDouble : Calc<Double>() {
 
             in variables -> {
                 val variable = vars[operator]
-                variable ?: throw (IllegalArgumentException("Unknown variable: ${operator.abbrev()}"))
+                variable ?: throw (CalcException(UNKNOWN_VARIABLE, operator.abbrev()))
                 r.add(variable)
             }
 
