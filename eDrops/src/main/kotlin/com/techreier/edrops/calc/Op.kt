@@ -62,7 +62,7 @@ enum class Op(
     LEFTP("(", -1, 1, 4),
     RIGHTP(")", -1, 1, 4);
 
-    constructor(abbrev: String, noArgs: Int, noResults: Int) : this(abbrev, noArgs, noResults, defaultLevel)
+    constructor(abbrev: String, noArgs: Int, noResults: Int) : this(abbrev, noArgs, noResults, DEFAULT_LEVEL)
 
     fun abbrev(): String = abbrev
     fun noArgs(): Int = noArgs
@@ -87,8 +87,8 @@ enum class Op(
         val variables = setOf(T, X, Y, Z, U, V, W, DX)
         val constants = setOf(PI, E, RANDOM) // Functions without arguments is considered as a quasi-constant
         val symbols = variables + constants
-        val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, SQR, SQRT, DEG, EX, LN, LOG10, POW10, HYP, GYP, NEGATE)
-        private const val defaultLevel = 2
+        val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, SQR, SQRT, DEG, EX, LN, LOG10, POW10, HYP, GYP, NEGATE, RAD)
+        private const val DEFAULT_LEVEL = 2
 
         fun operator(abbrev: String): Op? {
             for (o in entries) {

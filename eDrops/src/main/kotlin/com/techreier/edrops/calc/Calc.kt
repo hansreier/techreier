@@ -15,8 +15,8 @@ abstract class Calc<T> {
     var trace: Trace = Trace.OFF
     //Common operators for all calculators
     var operators = setOf(
-        Op.EMPTY, Op.REMOVE, Op.YX, Op.ADD,Op.LOG10, Op.POW10,
-        Op.SUBTRACT, Op.DIVIDE, Op.MULTIPLY, Op.SQR, Op.SUM, Op.POW,
+        Op.ADD,Op.LOG10, Op.POW10,
+        Op.SUBTRACT, Op.DIVIDE, Op.MULTIPLY, Op.SQR, Op.POW,
         Op.SEPARATOR, Op.LEFTP, Op.RIGHTP, Op.NEGATE
     ) + variables
 

@@ -1,5 +1,9 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.Op.Companion.basicOperators
+import com.techreier.edrops.calc.Op.Companion.constants
+import com.techreier.edrops.calc.Op.Companion.functions
+import com.techreier.edrops.calc.Op.Companion.parenthesis
 import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.exceptions.CalcException
 import java.lang.Math.random
@@ -32,6 +36,13 @@ class CalcDouble : Calc<Double>() {
             Op.ATAN, Op.RAD, Op.DEG, Op.EX, Op.LN, Op.SQRT,
             Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM
         )
+
+        //Check for consistency in set of enums
+        val missing = operators.filter { it !in (functions + constants +basicOperators + variables + parenthesis) }
+        require(missing.isEmpty()) {
+            "Operators missing in operator lists: $missing"
+        }
+
     }
 
     override operator fun set(op: Op, value: Double) {

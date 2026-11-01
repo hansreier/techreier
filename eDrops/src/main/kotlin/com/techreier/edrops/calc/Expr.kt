@@ -194,6 +194,10 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                                 }
 
                             }
+                            else -> {
+                                throw ParseException("Operator mismatch, check lists in Calc and Op ",
+                                    ParseError(OPERATOR_MISMATCH, token.position, token.operator.abbrev()))
+                            }
                         }
                     }
                 }
