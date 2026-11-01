@@ -1,5 +1,8 @@
 package com.techreier.edrops.graph
 
+import com.techreier.edrops.config.DEFAULT_STEPS
+import com.techreier.edrops.config.MAX_STEPS
+import com.techreier.edrops.config.MIN_STEPS
 import org.springframework.stereotype.Service
 import kotlin.math.max
 import kotlin.math.min
@@ -10,9 +13,10 @@ class GraphService {
     fun generateSeries(
         limits: GraphLimits,
         mathFunction: (Double) -> Double,
-        steps: Int = 20000
+        steps: Int = DEFAULT_STEPS
     ): DataSeries {
-        val stepSize = (limits.xMax - limits.xMin) / steps
+        val safeSteps = steps.coerceIn(MIN_STEPS, MAX_STEPS)
+        val stepSize = (limits.xMax - limits.xMin) / safeSteps
         var yMin = Double.POSITIVE_INFINITY
         var yMax = Double.NEGATIVE_INFINITY
 

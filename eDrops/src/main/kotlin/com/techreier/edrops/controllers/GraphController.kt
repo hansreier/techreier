@@ -74,7 +74,7 @@ class GraphController(
             val expr = Expr(CalcDouble(), input.yUnit)
             try {
                 logger.info("Graphlimits: ${graphLimits}")
-                expr.calc.degrees(false)
+                expr.calc.degrees(input.degrees)
                 expr.variable(input.xUnit)
                 expr.parse()
                 val curve = graphService.generateSeries(

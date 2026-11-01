@@ -41,6 +41,9 @@ const val FONT_SCALE_EXPONENT = 0.25 // Ueed for Asic tick step: heightRatio.pow
 const val MIN_FONT_SCALE = 10.0
 const val MAX_FONT_SCALE = 30.0
 const val X_FONT_FACTOR = 0.50  //Relative space occupied by one character horizontally
+const val MIN_STEPS = 100
+const val MAX_STEPS = 5000
+const val DEFAULT_STEPS = 1000
 
 // Drawing area constants
 const val DIAGRAM_WIDTH = 700.0

@@ -58,10 +58,10 @@
                     <div class="input-row">
                         <label for="postBump" id="postBumpLabel" th:text="#{postBump}"></label>
                         <div id="bumpWrapper">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" id="postBump" th:field="*{bump}"/>
-                                    </label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="postBump" th:field="*{bump}"/>
+                                </label>
                             </div>
                             <span id="postBumpDate"
                                 th:if="${bumped != null}"

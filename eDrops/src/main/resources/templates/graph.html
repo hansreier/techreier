@@ -34,14 +34,9 @@
                     <span class="error" th:if="${#fields.hasErrors('yMax')}" th:errors="*{yMax}"></span>
                 </div>
                 <div class="input-row small-width">
-                    <label th:for="xUnit" th:text="#{xTitle}"></label>
-                    <input type="text" id="xUnit" th:field="*{xUnit}" maxLength="22">
-                    <span class="error" th:if="${#fields.hasErrors('xUnit')}" th:errors="*{xUnit}"></span>
-                </div>
-                <div class="input-row small-width">
-                    <label th:for="yUnit" th:text="#{yTitle}"></label>
-                    <input type="text" id="yUnit" th:field="*{yUnit}" maxLength="22">
-                    <span class="error" th:if="${#fields.hasErrors('yUnit')}" th:errors="*{yUnit}"></span>
+                    <label th:for="steps" th:text="#{steps}"></label>
+                    <input type="text" id="steps" th:field="*{steps}" maxLength="15">
+                    <span class="error" th:if="${#fields.hasErrors('steps')}" th:errors="*{steps}"></span>
                 </div>
                 <div class="input-row small-width">
                     <label th:for="heightRatio" th:text="#{heightRatio}"></label>
@@ -52,6 +47,22 @@
                     <label th:for="fontScale" th:text="#{fontScale}"></label>
                     <input type="text" id="fontScale" th:field="*{fontScale}" maxLength="22">
                     <span class="error" th:if="${#fields.hasErrors('fontScale')}" th:errors="*{fontScale}"></span>
+                </div>
+                <div class="input-row small-width">
+                    <label th:for="xUnit" th:text="#{xTitle}"></label>
+                    <input type="text" id="xUnit" th:field="*{xUnit}" maxLength="22">
+                    <span class="error" th:if="${#fields.hasErrors('xUnit')}" th:errors="*{xUnit}"></span>
+                </div>
+                <div class="input-row full-width">
+                    <label th:for="yUnit" th:text="#{yTitle}"></label>
+                    <input type="text" id="yUnit" th:field="*{yUnit}" maxLength="22">
+                    <span class="error" th:if="${#fields.hasErrors('yUnit')}" th:errors="*{yUnit}"></span>
+                </div>
+                <div class="input-row small-width">
+                    <div class="checkbox">
+                        <label class="checkbox-container" for="degrees" th:text="#{degrees}"></label>
+                        <input type="checkbox" id="degrees" th:field="*{degrees}"/>
+                    </div>
                 </div>
             </div>
             <div th:if="${#fields.hasGlobalErrors()}">
