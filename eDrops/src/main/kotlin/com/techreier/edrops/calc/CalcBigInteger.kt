@@ -110,11 +110,6 @@ class CalcBigInteger : Calc<BigInteger>() {
                 r.add(arg.next() as BigInteger)
                 r.add(arg.next() as BigInteger)
             }
-            Op.SEPARATOR -> { //Separator really does nothing but to be removed
-                val x = arg.next() as BigInteger
-                r.add(arg.next() as BigInteger)
-                r.add(x)
-            }
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
                 val variable = vars[operator]
                 variable ?: throw (IllegalArgumentException("Unknown variable: ${operator.abbrev()}"))

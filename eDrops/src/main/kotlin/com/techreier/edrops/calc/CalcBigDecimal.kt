@@ -129,12 +129,6 @@ class CalcBigDecimal : Calc<BigDecimal>() {
                 r.add(arg.next() as BigDecimal)
             }
 
-            Op.SEPARATOR -> { //Separator really does nothing but to be removed
-                val x = arg.next() as BigDecimal
-                r.add(arg.next() as BigDecimal)
-                r.add(x)
-            }
-
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
                 val variable = vars[operator]
                 variable ?: throw (IllegalArgumentException("Unknown variable: ${operator.abbrev()}"))

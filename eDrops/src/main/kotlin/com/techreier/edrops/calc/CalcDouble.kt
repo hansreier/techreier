@@ -230,12 +230,6 @@ class CalcDouble : Calc<Double>() {
                 r.add(arg.next() as Double)
             }
 
-            Op.SEPARATOR -> { //Separator really does nothing but to be removed
-                val x = arg.next() as Double
-                r.add(arg.next() as Double)
-                r.add(x)
-            }
-
             in variables -> {
                 val variable = vars[operator]
                 variable ?: throw (CalcException(UNKNOWN_VARIABLE, operator.abbrev()))
