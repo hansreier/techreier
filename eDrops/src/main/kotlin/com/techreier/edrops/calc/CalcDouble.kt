@@ -29,7 +29,7 @@ class CalcDouble : Calc<Double>() {
     init {
         operators += setOf(
             Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
-            Op.ATAN, Op.RAD, Op.DEG, Op.RADIANS, Op.DEGREES, Op.EX, Op.LN,
+            Op.ATAN, Op.RAD, Op.DEG, Op.EX, Op.LN,
             Op.LOG10, Op.POW10, Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM
         )
     }
@@ -163,14 +163,6 @@ class CalcDouble : Calc<Double>() {
             Op.DEG -> {
                 x = arg.next() as Double
                 r.add(Math.toDegrees(x))
-            }
-
-            Op.RADIANS -> {
-                degrees = false
-            }
-
-            Op.DEGREES -> {
-                degrees = true
             }
 
             Op.EX -> {
