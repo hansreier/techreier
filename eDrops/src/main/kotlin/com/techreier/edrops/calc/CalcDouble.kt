@@ -4,6 +4,20 @@ import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.exceptions.CalcException
 import java.lang.Math.random
 import java.util.*
+import kotlin.math.E
+import kotlin.math.PI
+import kotlin.math.acos
+import kotlin.math.asin
+import kotlin.math.atan
+import kotlin.math.cos
+import kotlin.math.exp
+import kotlin.math.hypot
+import kotlin.math.ln
+import kotlin.math.log10
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
+import kotlin.math.tan
 
 class CalcDouble : Calc<Double>() {
     override val type: Class<Double> = Double::class.javaObjectType
@@ -90,47 +104,47 @@ class CalcDouble : Calc<Double>() {
             Op.POW -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
-                r.add(Math.pow(x, y))
+                r.add(x.pow(y))
             }
 
             Op.SIN -> {
                 x = arg.next() as Double
                 if (degrees)
-                    r.add(Math.sin(Math.toRadians(x)).cleanZero())
+                    r.add(sin(Math.toRadians(x)).cleanZero())
                 else
-                    r.add(Math.sin(x).cleanZero())
+                    r.add(sin(x).cleanZero())
             }
 
             Op.ASIN -> {
                 x = arg.next() as Double
                 if (degrees)
-                    r.add(Math.toDegrees(Math.asin(x)))
+                    r.add(Math.toDegrees(asin(x)))
                 else
-                    r.add(Math.asin(x))
+                    r.add(asin(x))
             }
 
             Op.COS -> {
                 x = arg.next() as Double
                 if (degrees)
-                    r.add(Math.cos(Math.toRadians(x)).cleanZero())
+                    r.add(cos(Math.toRadians(x)).cleanZero())
                 else
-                    r.add(Math.cos(x).cleanZero())
+                    r.add(cos(x).cleanZero())
             }
 
             Op.ACOS -> {
                 x = arg.next() as Double
                 if (degrees)
-                    r.add(Math.toDegrees(Math.asin(x)))
+                    r.add(Math.toDegrees(acos(x)))
                 else
-                    r.add(Math.asin(x))
+                    r.add(asin(x))
             }
 
             Op.TAN -> {
                 x = arg.next() as Double
                 if (degrees)
-                    r.add(Math.tan(Math.toRadians(x)).cleanZero())
+                    r.add(tan(Math.toRadians(x)).cleanZero())
                 else
-                    r.add(Math.tan(x).cleanZero())
+                    r.add(tan(x).cleanZero())
             }
 
             Op.ATAN -> {
@@ -138,7 +152,7 @@ class CalcDouble : Calc<Double>() {
                 if (degrees)
                     r.add(Math.toDegrees(Math.atan(x)))
                 else
-                    r.add(Math.atan(x))
+                    r.add(atan(x))
             }
 
             Op.RAD -> {
@@ -161,42 +175,42 @@ class CalcDouble : Calc<Double>() {
 
             Op.EX -> {
                 x = arg.next() as Double
-                r.add(Math.exp(x))
+                r.add(exp(x))
             }
 
             Op.LN -> {
                 x = arg.next() as Double
-                r.add(Math.log(x))
+                r.add(ln(x))
             }
 
             Op.LOG10 -> {
                 x = arg.next() as Double
-                r.add(Math.log10(x))
+                r.add(log10(x))
             }
 
             Op.POW10 -> {
                 x = arg.next() as Double
-                r.add(Math.pow(10.0, x))
+                r.add(10.0.pow(x))
             }
 
             Op.HYP -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
-                r.add(Math.hypot(x, y))
+                r.add(hypot(x, y))
             }
 
             Op.GYP -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
-                r.add(Math.sqrt(x * x - y * y))
+                r.add(sqrt(x * x - y * y))
             }
 
             Op.PI -> {
-                r.add(Math.PI)
+                r.add(PI)
             }
 
             Op.E -> {
-                r.add(Math.E)
+                r.add(E)
             }
             Op.RANDOM -> {
                 r.add(random())

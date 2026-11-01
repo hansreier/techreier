@@ -43,7 +43,7 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
             i2 = pos.index
             if (i2 <= i1) { // Find operator if it exists
                 val foundOp = Op.operator(expr, i1, calc.operators)
-                oper = foundOp?.let { Oper(foundOp, pos.index) } //TODO ReierAsk Variables must be defines three places
+                oper = foundOp?.let { Oper(foundOp, pos.index) }
             }
         }
 
@@ -141,7 +141,7 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                     lastOpType = OpType.OPERATOR
                 }
 
-                else -> { //TODO ReierAsk check what to do with this problem for functions without arguments
+                else -> { //Function without arguments should be defined as constants
 
                     if (lastOpType == OpType.FUNCTION){
                         parseError = ParseError(CONSECUTIVE_FUNCTIONS, i1, oper.op.abbrev())
