@@ -594,4 +594,14 @@ class ExprTest {
         calc.degrees = true
         assertEquals(0.0, expr.result(), 1e-9)
     }
+
+    @Test
+    fun randomTest() {
+        val input = "10 random"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertThat(expr.result()).isBetween(0.0, 10.0)
+    }
 }

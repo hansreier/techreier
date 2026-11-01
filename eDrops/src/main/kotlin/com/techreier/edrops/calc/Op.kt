@@ -47,10 +47,11 @@ enum class Op(
     E("e", 0, 1),
     PI("pi", 0, 1),
     YX("yx", 2, 2, -1),
+    RANDOM("random", 0, 1),
     REMOVE("r", 1, 0, -1),
     EMPTY("c", -1, 0, -1),
     DX("dx", 0,1 ),
-    T("x", 0, 1),
+    T("t", 0, 1),
     X("x", 0, 1),
     Y("y", 0, 1),
     Z("z", 0, 1),
@@ -83,7 +84,7 @@ enum class Op(
         val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR)
         val parenthesis = setOf(LEFTP, RIGHTP)
         val variables = setOf(T, X, Y, Z, U, V, W, DX)
-        val constants = setOf(PI, E)
+        val constants = setOf(PI, E, RANDOM) // Functions without arguments is considered as a quasi-constant
         val symbols = variables + constants
         val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, RAD, DEG, EX, LN, LOG10, POW10, HYP, GYP, NEGATE)
         private const val defaultLevel = 2

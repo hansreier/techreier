@@ -2,6 +2,7 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.exceptions.CalcException
+import java.lang.Math.random
 import java.util.*
 
 class CalcDouble : Calc<Double>() {
@@ -15,7 +16,7 @@ class CalcDouble : Calc<Double>() {
         operators += setOf(
             Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
             Op.ATAN, Op.RAD, Op.DEG, Op.RADIANS, Op.DEGREES, Op.EX, Op.LN,
-            Op.LOG10, Op.POW10, Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE
+            Op.LOG10, Op.POW10, Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM
         )
     }
 
@@ -196,6 +197,9 @@ class CalcDouble : Calc<Double>() {
 
             Op.E -> {
                 r.add(Math.E)
+            }
+            Op.RANDOM -> {
+                r.add(random())
             }
 
             Op.SUM -> {
