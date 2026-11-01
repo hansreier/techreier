@@ -604,4 +604,24 @@ class ExprTest {
         expr.calculate()
         assertThat(expr.result()).isBetween(0.0, 10.0)
     }
+
+    @Test
+    fun sqrtSqrTest() {
+        val input = "sqrt(sqr(2))"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(2.0, expr.result(), 1e-9)
+    }
+
+    @Test
+    fun log10Pow10Test() {
+        val input = "log10(pow10(2))"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(2.0, expr.result(), 1e-9)
+    }
 }

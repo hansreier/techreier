@@ -89,7 +89,7 @@ class CalcBigInteger : Calc<BigInteger>() {
                 x = arg.next() as BigInteger
                 r.add(x.divide(y))
             }
-            Op.X2 -> {
+            Op.SQR -> {
                 x = arg.next() as BigInteger
                 r.add(x.multiply(x))
             }
@@ -97,6 +97,19 @@ class CalcBigInteger : Calc<BigInteger>() {
                 y = arg.next() as BigInteger
                 x = arg.next() as BigInteger
                 r.add(x.pow(y.intValueExact()))
+            }
+            Op.POW10 -> {
+                val x = arg.next() as BigInteger
+                r.add(BigInteger.TEN.pow(x.intValueExact()))
+            }
+            Op.LOG10 -> {
+                val x = arg.next() as BigInteger
+                val logVal = if (x > BigInteger.ZERO) {
+                    BigInteger.valueOf((x.toString().length - 1).toLong())
+                } else {
+                    BigInteger.ZERO
+                }
+                r.add(logVal)
             }
             Op.SUM -> {
                 r.add(BigInteger.ZERO)

@@ -13,9 +13,10 @@ abstract class Calc<T> {
     val s = Op.entries.size
 
     var trace: Trace = Trace.OFF
+    //Common operators for all calculators
     var operators = setOf(
-        Op.EMPTY, Op.REMOVE, Op.YX, Op.ADD,
-        Op.SUBTRACT, Op.DIVIDE, Op.MULTIPLY, Op.X2, Op.SUM, Op.POW,
+        Op.EMPTY, Op.REMOVE, Op.YX, Op.ADD,Op.LOG10, Op.POW10,
+        Op.SUBTRACT, Op.DIVIDE, Op.MULTIPLY, Op.SQR, Op.SUM, Op.POW,
         Op.SEPARATOR, Op.LEFTP, Op.RIGHTP, Op.NEGATE
     ) + variables
 

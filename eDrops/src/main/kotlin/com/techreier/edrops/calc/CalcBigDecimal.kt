@@ -3,6 +3,7 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.exceptions.CalcException
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.math.MathContext
 import java.math.RoundingMode
 import java.util.*
 
@@ -88,9 +89,14 @@ class CalcBigDecimal : Calc<BigDecimal>() {
                 r.add(x.divide(y, scale, RoundingMode.HALF_UP))
             }
 
-            Op.X2 -> {
+            Op.SQR -> {
                 val x = arg.next() as BigDecimal
-                r.add(x.multiply(x))
+                r.add(x * x)
+            }
+
+            Op.SQRT -> {
+                val x = arg.next() as BigDecimal
+                r.add(x.sqrt(MathContext.DECIMAL128)) //TODO verify DECIMAL120
             }
 
             Op.POW -> {
@@ -112,6 +118,25 @@ class CalcBigDecimal : Calc<BigDecimal>() {
                     rd
                 }
                 r.add(finalRd)
+            }
+
+            Op.POW10 -> {
+                val x = arg.next() as BigDecimal
+                val exp = x.toInt() // Forventer heltallseksponent for 10^
+
+                val result = if (exp >= 0) {
+                    BigDecimal.ONE.movePointRight(exp)
+                } else {
+                    BigDecimal.ONE.movePointLeft(-exp)
+                }
+
+                r.add(result)
+            }
+
+            Op.LOG10 -> {
+                val x = arg.next() as BigDecimal
+                val logResult = Math.log10(x.toDouble())
+                r.add(BigDecimal.valueOf(logResult))
             }
 
             Op.SUM -> {

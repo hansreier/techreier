@@ -29,8 +29,8 @@ class CalcDouble : Calc<Double>() {
     init {
         operators += setOf(
             Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
-            Op.ATAN, Op.RAD, Op.DEG, Op.EX, Op.LN,
-            Op.LOG10, Op.POW10, Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM
+            Op.ATAN, Op.RAD, Op.DEG, Op.EX, Op.LN, Op.SQRT,
+            Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM
         )
     }
 
@@ -96,9 +96,14 @@ class CalcDouble : Calc<Double>() {
                 r.add(-x)
             }
 
-            Op.X2 -> {
+            Op.SQR -> {
                 x = arg.next() as Double
                 r.add(x * x)
+            }
+
+            Op.SQRT -> {
+                x = arg.next() as Double
+                r.add(sqrt(x))
             }
 
             Op.POW -> {
