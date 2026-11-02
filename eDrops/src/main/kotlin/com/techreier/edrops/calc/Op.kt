@@ -25,8 +25,10 @@ enum class Op(
     DIVIDE("/", 2, 1, 1),
     POW("^", 2, 1, 0),
     SEPARATOR(";", 2, 0, 4),
-    SQR("sqr", 1, 1, 1),
-    SQRT("sqrt", 1, 1, 1),
+    ABS("abs", 1, 1 ),
+    SIGN("sign", 1, 1 ),
+    SQR("sqr", 1, 1 ),
+    SQRT("sqrt", 1, 1 ),
     SUM("sum", -1, 1, -1),
     SIN("sin", 1, 1),
     COS("cos", 1, 1),
@@ -41,6 +43,7 @@ enum class Op(
     DEGREES("degrees", 0, 0, -1),
     EX("e^", 1, 1),
     LN("ln", 1, 1),
+    LOG2("log2", 1, 1),
     LOG10("log10", 1, 1),
     POW10("pow10", 1, 1 ),
     HYP("hyp", 2, 1),
@@ -87,7 +90,8 @@ enum class Op(
         val variables = setOf(T, X, Y, Z, U, V, W, DX)
         val constants = setOf(PI, E, RANDOM) // Functions without arguments is considered as a quasi-constant
         val symbols = variables + constants
-        val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, SQR, SQRT, DEG, EX, LN, LOG10, POW10, HYP, GYP, NEGATE, RAD)
+        val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, SQR, SQRT, DEG, EX, LN, LOG10, LOG2,
+            POW10, HYP, GYP, NEGATE, RAD, ABS, SIGN)
         private const val DEFAULT_LEVEL = 2
 
         fun operator(abbrev: String): Op? {

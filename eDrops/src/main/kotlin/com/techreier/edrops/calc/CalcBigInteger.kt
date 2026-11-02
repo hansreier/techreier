@@ -98,6 +98,21 @@ class CalcBigInteger : Calc<BigInteger>() {
                 x = arg.next() as BigInteger
                 r.add(x.divide(y))
             }
+            Op.NEGATE -> {
+                x = arg.next() as BigInteger
+                r.add(-x)
+            }
+
+            Op.ABS -> {
+                x = arg.next() as BigInteger
+                r.add(x.abs())
+            }
+
+            Op.SIGN -> {
+                val x = arg.next() as BigInteger
+                r.add(BigInteger.valueOf(x.signum().toLong()))
+            }
+
             Op.SQR -> {
                 x = arg.next() as BigInteger
                 r.add(x.multiply(x))

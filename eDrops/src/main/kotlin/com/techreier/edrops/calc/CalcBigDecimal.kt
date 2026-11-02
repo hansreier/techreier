@@ -71,31 +71,48 @@ class CalcBigDecimal : Calc<BigDecimal>() {
 
     override fun opr(operator: Op, noArgs: Int) {
         val arg = stack.iterator()
+        val x: BigDecimal
+        val y: BigDecimal
         val r = ArrayList<BigDecimal>()
 
         when (operator) {
             Op.ADD -> {
-                val y = arg.next() as BigDecimal
-                val x = arg.next() as BigDecimal
+                y = arg.next() as BigDecimal
+                x = arg.next() as BigDecimal
                 r.add(x.add(y))
             }
 
             Op.SUBTRACT -> {
-                val y = arg.next() as BigDecimal
-                val x = arg.next() as BigDecimal
+                y = arg.next() as BigDecimal
+                x = arg.next() as BigDecimal
                 r.add(x.subtract(y))
             }
 
             Op.MULTIPLY -> {
-                val y = arg.next() as BigDecimal
-                val x = arg.next() as BigDecimal
+                y = arg.next() as BigDecimal
+                x = arg.next() as BigDecimal
                 r.add(x.multiply(y))
             }
 
             Op.DIVIDE -> {
-                val y = arg.next() as BigDecimal
-                val x = arg.next() as BigDecimal
+                y = arg.next() as BigDecimal
+                x = arg.next() as BigDecimal
                 r.add(x.divide(y, scale, RoundingMode.HALF_UP))
+            }
+
+            Op.NEGATE -> {
+                x = arg.next() as BigDecimal
+                r.add(-x)
+            }
+
+            Op.ABS -> {
+                x = arg.next() as BigDecimal
+                r.add(x.abs())
+            }
+
+            Op.SIGN -> {
+                x = arg.next() as BigDecimal
+                r.add(BigDecimal.valueOf(x.signum().toLong()))
             }
 
             Op.SQR -> {

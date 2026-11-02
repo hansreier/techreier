@@ -655,5 +655,25 @@ class ExprTest {
         assertEquals(35.0, expr.result(), 1e-9)
     }
 
+    @Test
+    fun absSignTest() {
+        val input = "sign(abs(-3))"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(1.0, expr.result(), 1e-9)
+    }
+
+    @Test
+    fun radDegTest() {
+        val input = "deg(rad(90))"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(90.0, expr.result(), 1e-9)
+    }
+
 
 }

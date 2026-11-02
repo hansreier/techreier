@@ -10,6 +10,7 @@ import java.lang.Math.random
 import java.util.*
 import kotlin.math.E
 import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.acos
 import kotlin.math.asin
 import kotlin.math.atan
@@ -18,7 +19,9 @@ import kotlin.math.exp
 import kotlin.math.hypot
 import kotlin.math.ln
 import kotlin.math.log10
+import kotlin.math.log2
 import kotlin.math.pow
+import kotlin.math.sign
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.math.tan
@@ -33,7 +36,7 @@ class CalcDouble : Calc<Double>() {
     init {
         operators += setOf(
             Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
-            Op.ATAN, Op.RAD, Op.DEG, Op.EX, Op.LN, Op.SQRT,
+            Op.ATAN, Op.RAD, Op.DEG, Op.EX, Op.LN, Op.LOG2, Op.SQRT,
             Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM
         )
 
@@ -105,6 +108,16 @@ class CalcDouble : Calc<Double>() {
             Op.NEGATE -> {
                 x = arg.next() as Double
                 r.add(-x)
+            }
+
+            Op.ABS -> {
+                x = arg.next() as Double
+                r.add(abs(x))
+            }
+
+            Op.SIGN -> {
+                x = arg.next() as Double
+                r.add(sign(x))
             }
 
             Op.SQR -> {
@@ -196,6 +209,11 @@ class CalcDouble : Calc<Double>() {
                 r.add(log10(x))
             }
 
+            Op.LOG2 -> {
+                x = arg.next() as Double
+                r.add(log2(x))
+            }
+
             Op.POW10 -> {
                 x = arg.next() as Double
                 r.add(10.0.pow(x))
@@ -260,6 +278,6 @@ class CalcDouble : Calc<Double>() {
 
     //to be used for rounding to zero for some selected functions
     private fun Double.cleanZero(): Double =
-        if (kotlin.math.abs(this) < epsilon) 0.0 else this
+        if (abs(this) < epsilon) 0.0 else this
 }
 
