@@ -223,7 +223,7 @@ class ExprTest {
         calc.trace = Trace.ALL
         expr.parse()
         expr.calculate()
-        calc.result()
+        assertEquals(24.0,calc.result(), 1e-9)
     }
 
     @Test
@@ -250,13 +250,13 @@ class ExprTest {
 
     @Test
     fun priorityTest() {
-        val input = "5 + 3 * 4"
+        val input = "sin 90 + 3 * 4^2"
         val expr = Expr(calc, input)
         calc.trace = Trace.ALL
         expr.parse()
         expr.calculate()
         val result = calc.result()
-        assertEquals(17.0, result, 1e-8, "calculation: " + input)
+        assertEquals(49.0, result, 1e-8, "calculation: " + input)
     }
 
     @Test
@@ -274,7 +274,7 @@ class ExprTest {
     }
 
     @Test
-    fun withParanthesisTest() { //TODO Fails
+    fun withParanthesisTest() {
         calc.trace = Trace.ALL
         val input = "(3 + 5 * (2 + 3) )/ 2"
         val expr = Expr(calc, input)
@@ -674,6 +674,5 @@ class ExprTest {
         expr.calculate()
         assertEquals(90.0, expr.result(), 1e-9)
     }
-
 
 }
