@@ -63,15 +63,15 @@
                     </div>
                 </div>
             </div>
-            <div class="input-row full-width">
-                <label th:for="yUnit" th:text="#{yTitle}"></label>
-                <input type="text" id="yUnit" th:field="*{yUnit}" maxLength="200">
-                <span class="error" th:if="${#fields.hasErrors('yUnit')}" th:errors="*{yUnit}"></span>
-            </div>
-            <div th:if="${#fields.hasGlobalErrors()}">
-                <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
-            </div>
         </details>
+        <div class="input-row full-width">
+            <label th:for="yUnit" th:text="#{yTitle}"></label>
+            <input type="text" id="yUnit" th:field="*{yUnit}" maxLength="200">
+            <span class="error" th:if="${#fields.hasErrors('yUnit')}" th:errors="*{yUnit}"></span>
+        </div>
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
         <button type="submit" th:text="#{action.draw}"></button>
     </form>
     <div th:insert="~{graphView :: graphView(${graph})}"></div>

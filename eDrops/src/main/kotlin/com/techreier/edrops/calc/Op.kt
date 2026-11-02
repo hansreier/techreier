@@ -19,12 +19,12 @@ enum class Op(
     private val noResults: Int,
     private val prior: Int,
 ) {
-    ADD("+", 2, 1, 3),
-    SUBTRACT("-", 2, 1, 3),
-    MULTIPLY("*", 2, 1, 1),
-    DIVIDE("/", 2, 1, 1),
-    POW("^", 2, 1, 0),
-    SEPARATOR(";", 2, 0, 4),
+    ADD("+", 2, 1, 5),
+    SUBTRACT("-", 2, 1, 5),
+    MULTIPLY("*", 2, 1, 4),
+    DIVIDE("/", 2, 1, 4),
+    POW("^", 2, 1, 3),
+    SEPARATOR(";", 2, 0, 0),
     ABS("abs", 1, 1 ),
     SIGN("sign", 1, 1 ),
     SQR("sqr", 1, 1 ),
@@ -62,8 +62,8 @@ enum class Op(
     U("u", 0, 1),
     V("v", 0, 1),
     W("w", 0, 1),
-    LEFTP("(", -1, 1, 4),
-    RIGHTP(")", -1, 1, 4);
+    LEFTP("(", -1, 1, 1),
+    RIGHTP(")", -1, 1, 1);
 
     constructor(abbrev: String, noArgs: Int, noResults: Int) : this(abbrev, noArgs, noResults, DEFAULT_LEVEL)
 
