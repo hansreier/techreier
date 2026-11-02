@@ -24,8 +24,9 @@ class DiagramService {
 
         var yValue = yAxisData.tickMin
         var maxDigits = 0
-        for (i in 1..yAxisData.sectionCount) { // Calculate the label with largest number of digits
-            val label = yValue.axis(minThreshold = yAxisData.subTickStep / 10)
+        for (i in 0..yAxisData.sectionCount) { // Calculate the label with largest number of digits
+            val label = yValue.axis(minThreshold = yAxisData.subTickStep / 10)  //Not correct E format
+            logger.info("label: {}", label)
             maxDigits = max(label.length, maxDigits)
             yValue += yAxisData.tickStep
         }
