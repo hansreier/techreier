@@ -1,5 +1,10 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.Op.Companion.basicOperators
+import com.techreier.edrops.calc.Op.Companion.constants
+import com.techreier.edrops.calc.Op.Companion.functions
+import com.techreier.edrops.calc.Op.Companion.parenthesis
+import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.exceptions.CalcException
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -18,6 +23,10 @@ class CalcBigDecimal : Calc<BigDecimal>() {
     init {
         if (type != BigDecimal::class.java) {
             throw IllegalArgumentException("Feil parameter ${type.simpleName} , må være ${BigDecimal::class.java.simpleName}.")
+        }
+        val missing = operators.filter { it !in (functions + constants +basicOperators + variables + parenthesis) }
+        require(missing.isEmpty()) {
+            "Operators missing in operator lists: $missing"
         }
     }
 

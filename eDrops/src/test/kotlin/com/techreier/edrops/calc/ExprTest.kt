@@ -624,4 +624,36 @@ class ExprTest {
         expr.calculate()
         assertEquals(2.0, expr.result(), 1e-9)
     }
+
+    @Test
+    fun sinAsinTest() {
+        val input = "asin(sin(35))"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(35.0, expr.result(), 1e-9)
+    }
+
+    @Test
+    fun cosAcosTest() {
+        val input = "acos(cos(35))"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(35.0, expr.result(), 1e-9)
+    }
+
+    @Test
+    fun tanAtanTest() {
+        val input = "atan(tan(35))"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(35.0, expr.result(), 1e-9)
+    }
+
+
 }
