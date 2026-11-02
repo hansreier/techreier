@@ -6,7 +6,7 @@ data class GraphInput(
     val yMin: Double,
     val yMax: Double,
     val steps: Int,
-    val degrees: Boolean,
+    val radians: Boolean,
     val heightRatio: Double,
     val fontScale: Double,
     val xUnit: String,

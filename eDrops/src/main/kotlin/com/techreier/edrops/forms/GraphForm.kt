@@ -19,7 +19,7 @@ data class GraphForm(
     var xMin: String = 0.0.fixed(1), var xMax: String = 30.0.fixed(1),
     var yMin: String = (-1.5).fixed(5), var yMax: String = 1.5.fixed(),
     var steps: String = DEFAULT_STEPS.toString(),
-    var degrees: Boolean = false,
+    var radians: Boolean = true,
     var xUnit: String = "x", var yUnit: String = "y",
     var heightRatio: String = 0.65.fixed(2), var fontScale: String = FONT_SCALE.fixed()
 ) {
@@ -36,6 +36,6 @@ data class GraphForm(
         val yUnit = checkStringSize(this.yUnit, 200, "yUnit", bindingResult, 1)
         if (xMin == null || xMax == null || yMin == null || yMax == null || fontScale == null
             || !xUnit || !yUnit || heightRatio == null || steps == null) return null
-        return GraphInput(xMin, xMax, yMin, yMax, steps, degrees, heightRatio, fontScale,this.xUnit, this.yUnit)
+        return GraphInput(xMin, xMax, yMin, yMax, steps, radians, heightRatio, fontScale,this.xUnit, this.yUnit)
     }
 }
