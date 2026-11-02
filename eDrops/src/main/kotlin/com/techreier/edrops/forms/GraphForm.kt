@@ -33,7 +33,7 @@ data class GraphForm(
         val yMax = checkDouble(this.yMax, "yMax", bindingResult)
         val steps = checkInt(this.steps,"steps", bindingResult, MIN_STEPS, MAX_STEPS)
         val xUnit = checkStringSize(this.xUnit, 20, "xUnit", bindingResult, 1)
-        val yUnit = checkStringSize(this.yUnit, 20, "yUnit", bindingResult, 1)
+        val yUnit = checkStringSize(this.yUnit, 200, "yUnit", bindingResult, 1)
         if (xMin == null || xMax == null || yMin == null || yMax == null || fontScale == null
             || !xUnit || !yUnit || heightRatio == null || steps == null) return null
         return GraphInput(xMin, xMax, yMin, yMax, steps, degrees, heightRatio, fontScale,this.xUnit, this.yUnit)
