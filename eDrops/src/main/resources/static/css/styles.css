@@ -1011,6 +1011,16 @@ a.dropdown-item:hover {
     font-family: monospace;
 }
 
+.operator-help-container {
+    background-color: #f5f5f5;
+    padding: 6px 8px;
+    font-size: 0.9rem;
+}
+
+.operator-help-container div {
+    margin-bottom: 1em;
+}
+
 #blogPost {
     height: 40vh;
 }

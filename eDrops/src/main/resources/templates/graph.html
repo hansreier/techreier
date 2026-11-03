@@ -5,6 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
 <head>
     <title>Graph</title>
+    <script th:src="@{/js/operatorhelp.js(v=${built})}"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -73,7 +74,9 @@
             <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
         </div>
         <button type="submit" th:text="#{action.draw}"></button>
+        <button type="button" th:text="#{action.help}" onclick="toggleOperatorHelp()"></button>
     </form>
+    <div th:insert="~{operatorHelp :: operatorHelp}"></div>
     <div th:insert="~{graphView :: graphView(${graph})}"></div>
     <details id="graph-details" open>
         <summary th:text="#{details}"></summary>

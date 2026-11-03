@@ -4,6 +4,7 @@ import com.techreier.edrops.calc.CalcDouble
 import com.techreier.edrops.calc.Expr
 import com.techreier.edrops.calc.utils.degrees
 import com.techreier.edrops.calc.utils.errorIndicator
+import com.techreier.edrops.calc.utils.operatorHelp
 import com.techreier.edrops.config.*
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
@@ -52,6 +53,7 @@ class GraphController(
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
         }
+        operatorHelp(model)
         return "graph"
     }
 

@@ -675,4 +675,14 @@ class ExprTest {
         assertEquals(90.0, expr.result(), 1e-9)
     }
 
+    @Test
+    fun expLnTest() {
+        val input = "exp(ln(55000))"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(55000.0, expr.result(), 1e-9)
+    }
+
 }

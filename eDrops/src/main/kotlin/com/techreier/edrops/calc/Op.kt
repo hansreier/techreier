@@ -41,7 +41,7 @@ enum class Op(
     NEGATE("negate", 1, 1),
     RADIANS("radians", 0, 0, -1),
     DEGREES("degrees", 0, 0, -1),
-    EX("e^", 1, 1),
+    EX("exp", 1, 1),
     LN("ln", 1, 1),
     LOG2("log2", 1, 1),
     LOG10("log10", 1, 1),

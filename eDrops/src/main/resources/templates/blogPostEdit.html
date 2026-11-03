@@ -30,8 +30,8 @@
                 <button type="submit" th:text="#{action.viewMode}" name="action" th:value="view"></button>
                 <button type="button" th:text="#{action.help}" onclick="toggleMarkdownHelp()"></button>
             </div>
-            <h1 th:text="${blogHeadline}"/>
-            <h2 th:text="${postHeadline}"/>
+            <h1 th:text="${blogHeadline}"></h1>
+            <h2 th:text="${postHeadline}"></h2>
             <details id="post-details" open>
                 <summary th:text="#{details}"></summary>
                 <div class="input-form">
