@@ -12,7 +12,6 @@ import com.techreier.edrops.config.logger
  *                     = -1000 : stack size (including zero)
  * priority = - 1 (not to be used in expressions by the parser
  */
-
 enum class Op(
     private val abbrev: String,
     private val noArgs: Int,
