@@ -1,9 +1,18 @@
+
 <div th:fragment="operatorHelp">
-    <div id="operator-help-container" class="operator-help-container" style="display: none; ">
-        <div th:text="#{calchelp.operators} + ': ' + ${operatorText}"></div>
-        <div th:text="#{calchelp.functions} + ': ' + ${funcText}"></div>
-        <div th:text="#{calchelp.constants} + ': ' + ${constText}"></div>
-        <div th:text="#{calchelp.parenthesis} + ': ' + ${parenthesisText}"></div>
-        <div th:text="#{calchelp.variables} + ': ' + ${varText}"></div>
+    <div id="operator-help-container" class="operator-help-container" style="display: none;">
+        <div class="help-grid" style="display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 0.5rem; font-size: 0.85rem;">
+            <div th:text="#{calchelp.operators}"></div>
+            <div th:text="${operatorText}"></div>
+
+            <div th:text="#{calchelp.functions}"></div>
+            <div th:text="${funcText}"></div>
+
+            <div th:text="#{calchelp.constants}"></div>
+            <div th:text="${constText}"></div>
+
+            <div th:text="#{calchelp.variables}"></div>
+            <div th:text="${varText}"></div>
+        </div>
     </div>
 </div>
