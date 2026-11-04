@@ -2,6 +2,7 @@ package com.techreier.edrops.calc
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -49,6 +50,29 @@ class CalcDoubleTest {
         calc.op(Op.ADD)
         assertEquals(
             24.0 + 26.0 + 30.0,
+            calc.result(),
+            0.0001,
+            "24 + 26 + 30"
+        )
+    }
+
+    @Test
+    @Disabled
+    fun sumTest() { //Enable later
+        val calc = CalcDouble()
+        calc.trace = Trace.ALL
+     //   calc.enter(100)
+        calc.enter(1.0)
+        calc.enter(2.0)
+        calc.op(Op.SUBTRACT)
+        calc.enter(24.0)
+        calc.enter(26.0)
+        calc.enter(30.0)
+        calc.op(Op.SUM)
+        calc.enter(2)
+        calc.op(Op.MULTIPLY)
+        assertEquals(
+            ((1-2) + 24.0 + 26.0 + 30.0) * 2,
             calc.result(),
             0.0001,
             "24 + 26 + 30"
