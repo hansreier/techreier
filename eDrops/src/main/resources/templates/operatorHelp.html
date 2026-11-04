@@ -1,7 +1,7 @@
 
 <div th:fragment="operatorHelp">
-    <div id="operator-help-container" class="operator-help-container" style="display: none;">
-        <div class="help-grid" style="display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 0.5rem; font-size: 0.85rem;">
+    <div id="operator-help-container" class="operator-help-container" style="display: none; padding-bottom: 0; margin-bottom: 0;">
+        <div class="help-grid" style="display: grid; grid-template-columns: auto 1fr; grid-template-rows: repeat(4, auto); gap: 0.25rem 0.5rem; font-size: 0.85rem; margin-bottom: 0; padding-bottom: 0;">
             <div th:text="#{calchelp.operators}"></div>
             <div th:text="${operatorText}"></div>
 
