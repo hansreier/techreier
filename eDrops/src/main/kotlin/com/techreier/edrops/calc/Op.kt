@@ -56,12 +56,42 @@ enum class Op(
     EMPTY("c", -1, 0, -1),
     DX("dx", 0,1 ),
     T("t", 0, 1),
+    T0("t0", 0, 1),
+    T1("t1", 0, 1),
+    DT("dt", 0, 1),
     X("x", 0, 1),
+    X0("x0", 0, 1),
+    X1("x1", 0, 1),
     Y("y", 0, 1),
+    Y0("y0", 0, 1),
+    Y1("y1", 0, 1),
+    DY("dy", 0, 1),
     Z("z", 0, 1),
+    Z0("z0", 0, 1),
+    Z1("z1", 0, 1),
+    DZ("dz", 0, 1),
     U("u", 0, 1),
+    U0("u0", 0, 1),
+    U1("u1", 0, 1),
+    DU("du", 0, 1),
     V("v", 0, 1),
+    V0("v0", 0, 1),
+    V1("v1", 0, 1),
+    DV("dv", 0, 1),
     W("w", 0, 1),
+    W0("w0", 0, 1),
+    W1("w1", 0, 1),
+    DW("dw", 0, 1),
+    A("a", 0, 1),
+    A0("a0", 0, 1),
+    A1("a1", 0, 1),
+    DA("da", 0, 1),
+    M("m", 0, 1),
+    F("f", 0, 1),
+    K("k", 0, 1),
+    P("p", 0, 1),
+    Q("q", 0, 1),
+    S("s", 0, 1),
     LEFTP("(", -1, 1, 1),
     RIGHTP(")", -1, 1, 1);
 
@@ -87,7 +117,7 @@ enum class Op(
     companion object {
         val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR)
         val parenthesis = setOf(LEFTP, RIGHTP)
-        val variables = setOf(T, X, Y, Z, U, V, W, DX)
+        val variables = setOf(T, T0, T1, DT, X, X0, X1, Y, Y0, Y1, DY, Z, Z0, Z1, DZ, U, U0, U1, DU, V, V0, V1, DV, W, W0, W1, DW, A, A0, A1, DA, M, F, K, P, Q, S, DX)
         val constants = setOf(PI, E, RANDOM) // Functions without arguments is considered as a quasi-constant
         val symbols = variables + constants
         val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, SQR, SQRT, DEG, EX, LN, LOG10, LOG2,
