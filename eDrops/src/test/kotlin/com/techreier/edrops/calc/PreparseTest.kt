@@ -42,7 +42,7 @@ class PreparseTest : TestBase() {
 
     @Test
     fun longExpressionFailsTest() {
-        val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (a - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
+        val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (ugg - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
         assertPreparseFails(UNPARSEABLE, calc, input)
     }
 

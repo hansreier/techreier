@@ -48,7 +48,9 @@ enum class Op(
     HYP("hyp", 2, 1),
     GYP("gyp", 2, 1),
     E("e", 0, 1),
+    C( "c",0,1),
     PI("pi", 0, 1),
+    G("g", 0, 1),
     YX("yx", 2, 2, -1),
     RANDOM("random", 0, 1),
     REMOVE("r", 1, 0, -1),
@@ -103,9 +105,6 @@ enum class Op(
 
     fun isOperator(): Boolean = basicOperators.contains(this)
     fun isParenthesis(): Boolean = parenthesis.contains(this)
-    fun isOrdinary(): Boolean =
-        !(basicOperators.contains(this) || parenthesis.contains(this)) //TODO ReierAsk used for what
-
     fun isConstant(): Boolean = constants.contains(this)
     fun isVariable(): Boolean = variables.contains(this)
     fun isSymbol(): Boolean = symbols.contains(this)
@@ -116,8 +115,8 @@ enum class Op(
     companion object {
         val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR)
         val parenthesis = setOf(LEFTP, RIGHTP)
-        val variables = setOf(T, T0, T1, DT, X, X0, X1, Y, Y0, Y1, DY, Z, Z0, Z1, DZ, U, U0, U1, DU, V, V0, V1, DV, W, W0, W1, DW, A, A0, A1, DA, M, F, K, P, Q, S, DX)
-        val constants = setOf(PI, E, RANDOM) // Functions without arguments is considered as a quasi-constant
+        val variables = setOf(G, T, T0, T1, DT, X, X0, X1, Y, Y0, Y1, DY, Z, Z0, Z1, DZ, U, U0, U1, DU, V, V0, V1, DV, W, W0, W1, DW, A, A0, A1, DA, M, F, K, P, Q, S, DX)
+        val constants = setOf(PI, E, C, RANDOM) // Functions without arguments is considered as a quasi-constant
         val symbols = variables + constants
         val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, SQR, SQRT, DEG, EX, LN, LOG10, LOG2,
             POW10, HYP, GYP, NEGATE, RAD, ABS, SIGN)
