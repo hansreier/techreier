@@ -53,7 +53,7 @@ class ExprTest {
 
     @Test
     fun simpleFunctionTest() {
-        val input = "sin 90"
+        val input = "sin(90)"
         val expr = Expr(calc, input)
         expr.trace(Trace.ALL)
         expr.parse()
@@ -66,7 +66,7 @@ class ExprTest {
 
     @Test
     fun simpleFunctionsTest() {
-        val input = "sin 90 + cos 0"
+        val input = "sin(90) + cos(0)"
         val expr = Expr(calc, input)
         expr.trace(Trace.ALL)
         expr.parse()
@@ -250,7 +250,7 @@ class ExprTest {
 
     @Test
     fun priorityTest() {
-        val input = "sin 90 + 3 * 4^2"
+        val input = "sin(90) + 3 * 4^2"
         val expr = Expr(calc, input)
         calc.trace = Trace.ALL
         expr.parse()

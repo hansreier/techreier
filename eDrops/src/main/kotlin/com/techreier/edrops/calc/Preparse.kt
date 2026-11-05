@@ -112,6 +112,10 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                 }
 
                 in symbols -> {
+                    if (lastOpType == OpType.FUNCTION){
+                        parseError = ParseError(MISSING_PARENTHESIS, i1, oper.op.abbrev())
+                        return ParseResult(tokens, parseError)
+                    }
                     if (lastOpType == OpType.SYMBOL) {
                         tokens.add(OperatorToken(Op.MULTIPLY, i1))
                     }
@@ -126,6 +130,10 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                 }
 
                 in basicOperators -> {
+                    if (lastOpType == OpType.FUNCTION){
+                        parseError = ParseError(MISSING_PARENTHESIS, i1, oper.op.abbrev())
+                        return ParseResult(tokens, parseError)
+                    }
                     if (lastOpType == OpType.OPERATOR) {
                         parseError = ParseError(MISSING_OPERAND, i1, oper.op.abbrev())
                         return ParseResult(tokens, parseError)
@@ -157,7 +165,10 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
             tokens.add(OperatorToken(oper.op, oper.pos))
             pos.index = i1 + oper.op.abbrev().length
         } else { //number
-
+            if (lastOpType == OpType.FUNCTION) {
+                parseError = ParseError(MISSING_PARENTHESIS, i1)
+                return ParseResult(tokens, parseError)
+            }
             if (lastOpType == OpType.SYMBOL) {
                 parseError = ParseError(MISSING_OPERATOR, i1)
                 return ParseResult(tokens, parseError)

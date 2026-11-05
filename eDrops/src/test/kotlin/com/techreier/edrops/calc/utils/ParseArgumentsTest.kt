@@ -8,40 +8,9 @@ import org.junit.jupiter.api.Test
 
 class ParseArgumentsTest {
 
-    @Test
-    fun oneArgumentNoParenthesisTest() {
-        val tokens = listOf(
-            OperatorToken(Op.SIN, 0),
-            NumberToken(90, 1),
-        )
-        val range = Range(0, 1)
-        val argumentInfo = parseArguments(range, tokens)
-        assertThat(argumentInfo.tokens).hasSize(1)
-        assertThat(argumentInfo.range).isEqualTo(Range(1, 1))
-        assertThat(argumentInfo.nextPos).isEqualTo(2)
-        assertThat(argumentInfo.push).isTrue()
-        assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[1])
-    }
 
     @Test
-    fun oneArgumentNoParenthesisWithRemainderTest() {
-        val tokens = listOf(
-            OperatorToken(Op.SIN, 0),
-            NumberToken(90, 1),
-            OperatorToken(Op.COS, 2),
-            NumberToken(0, 3),
-        )
-        val range = Range(0, 3)
-        val argumentInfo = parseArguments(range, tokens)
-        assertThat(argumentInfo.tokens).hasSize(1)
-        assertThat(argumentInfo.range).isEqualTo(Range(1, 1))
-        assertThat(argumentInfo.nextPos).isEqualTo(2)
-        assertThat(argumentInfo.push).isTrue()
-        assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[1])
-    }
-
-    @Test
-    fun oneArgumentParenthesisTest() {
+    fun oneArgumentTest() {
         val tokens = listOf(
             OperatorToken(Op.SIN, 0),
             OperatorToken(Op.LEFTP, 1),
