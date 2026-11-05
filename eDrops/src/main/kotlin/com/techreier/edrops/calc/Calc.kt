@@ -47,17 +47,13 @@ abstract class Calc<T> {
     protected abstract fun opr(operator: Op, noArgs: Int)
 
 
-    fun op(operator: Op): T? {
+    fun operate(operator: Op, noRealArgs: Int = operator.noArgs()): T? {
         val arg: Iterator<T>
-        var noArgs: Int
-        var atLeast = ""
+        var noArgs = noRealArgs
         try {
-            noArgs = operator.noArgs()
-
-            if (noArgs <= -1000)
+            if (noArgs <= -1000) // Allow for RPN direct input of variable number of arguments.
                 noArgs = stack.size
             else if (noArgs < 0) {
-                atLeast = "at least "
                 noArgs = maxOf(stack.size, -noArgs)
             }
 
@@ -65,7 +61,7 @@ abstract class Calc<T> {
                 arg = stack.iterator()
                 var validElements = true
                 var remaining = noArgs
-                while (remaining > 0) {
+                while (remaining > 0) { // check if all arguments are of the same type
                     val t: T = arg.next()
                     if (!type.isInstance(t)) {
                         validElements = false
@@ -91,7 +87,7 @@ abstract class Calc<T> {
                     null
                 }
             } else {
-                logger.error("${operator.abbrev()} : Too few arguments ${stack.size}, must be $atLeast$noArgs!")
+                logger.error("${operator.abbrev()} : Too few arguments ${stack.size}, must be $noArgs! or more")
                 throw CalcException(TOO_FEW_ARGUMENTS, operator.abbrev())
             }
 

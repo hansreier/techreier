@@ -10,7 +10,6 @@ import com.techreier.edrops.calc.utils.removeOuterP
 import com.techreier.edrops.calc.utils.sanitize
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.exceptions.VariableException
-import ognl.Ognl.setValue
 import org.slf4j.LoggerFactory
 
 class Expr<T>(val calc: Calc<T>, expr: String) {
@@ -52,7 +51,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
         for (t in tokens) {
             when (t) {
                 is NumberToken -> calc.enter(t.argument)
-                is OperatorToken -> calc.op(t.operator)
+                is OperatorToken -> calc.operate(t.operator, t.noArgs)
             }
         }
     }

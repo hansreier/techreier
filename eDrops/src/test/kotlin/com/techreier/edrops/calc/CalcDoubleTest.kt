@@ -16,19 +16,19 @@ class CalcDoubleTest {
 
         calc.enter("5")
         calc.enter(1)
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         calc.enter(2L)
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         calc.enter(BigInteger.valueOf(3))
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         calc.enter(0.4)
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         calc.enter(BigDecimal("0.6"))
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         assertEquals(
             12.0,
@@ -45,8 +45,8 @@ class CalcDoubleTest {
         calc.enter(24.0)
         calc.enter(26.0)
         calc.enter(30.0)
-        calc.op(Op.ADD)
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
+        calc.operate(Op.ADD)
         assertEquals(
             24.0 + 26.0 + 30.0,
             calc.result(),
@@ -62,13 +62,13 @@ class CalcDoubleTest {
      //   calc.enter(100)
         calc.enter(1.0)
         calc.enter(2.0)
-        calc.op(Op.SUBTRACT)
+        calc.operate(Op.SUBTRACT)
         calc.enter(24.0)
         calc.enter(26.0)
         calc.enter(30.0)
-        calc.op(Op.SUM)
+        calc.operate(Op.SUM)
         calc.enter(2)
-        calc.op(Op.MULTIPLY)
+        calc.operate(Op.MULTIPLY)
         assertEquals(
             ((1-2) + 24.0 + 26.0 + 30.0) * 2,
             calc.result(),
@@ -85,9 +85,9 @@ class CalcDoubleTest {
         calc.enter(3.0)
         calc.enter(5.0)
         calc.enter(2.0)
-        calc.op(Op.POW)
-        calc.op(Op.MULTIPLY)
-        calc.op(Op.ADD)
+        calc.operate(Op.POW)
+        calc.operate(Op.MULTIPLY)
+        calc.operate(Op.ADD)
         assertEquals(
             4.0 + 3 * 5*5,
             calc.result(),
@@ -102,10 +102,10 @@ class CalcDoubleTest {
         calc.trace = Trace.ALL
         calc.enter(4.0)
         calc.enter(3.0)
-        calc.op(Op.POW)
+        calc.operate(Op.POW)
         calc.enter(5.0)
         calc.enter(2.0)
-        calc.op(Op.MULTIPLY)
+        calc.operate(Op.MULTIPLY)
         val allResults = calc.allResults()
         assertThat(allResults).hasSize(2)
     }
@@ -127,7 +127,7 @@ class CalcDoubleTest {
             calc.enter(numbers[i])
             if (i > 0) {
                 expr.append("+")
-                calc.op(Op.ADD)
+                calc.operate(Op.ADD)
                 sum += numbers[i]
             } else {
                 sum = numbers[0]

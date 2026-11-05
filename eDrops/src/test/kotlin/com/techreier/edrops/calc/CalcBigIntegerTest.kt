@@ -15,19 +15,19 @@ class CalcBigIntegerTest {
 
         calc.enter("5")
         calc.enter(1)
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         calc.enter(2L)
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         calc.enter(BigInteger.valueOf(3))
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         calc.enter(0.4)
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         calc.enter(BigDecimal("0.6"))
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         assertEquals(
             BigInteger("12"),
@@ -43,8 +43,8 @@ class CalcBigIntegerTest {
         calc.enter(24)
         calc.enter(26)
         calc.enter(30)
-        calc.op(Op.ADD)
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
+        calc.operate(Op.ADD)
         assertEquals(80L.toBigInteger(), calc.result(), "24 + 26 + 30")
     }
 
@@ -63,7 +63,7 @@ class CalcBigIntegerTest {
             calculator.enter(numbers[i])
             if (i > 0) {
                 expr.append("+")
-                calculator.op(Op.ADD)
+                calculator.operate(Op.ADD)
                 sum = sum.add(numbers[i])
             } else {
                 sum = numbers[0]

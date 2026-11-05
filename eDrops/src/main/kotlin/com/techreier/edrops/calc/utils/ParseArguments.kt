@@ -68,7 +68,7 @@ val range = if (parenthesis) Range(min, max) else Range(min, min)
 
     if (push) {
         if (noExpectedArgs <0) { //Function with variable no of arguments allowed.
-            function.noArgs = noExpectedArgs
+            function.noArgs = arguments.size
         } else {
             if (arguments.size != noExpectedArgs) {
                 val error = ParseError(WRONG_ARGUMENT_COUNT, tokens[range.min].position, operatorText)

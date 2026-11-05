@@ -700,7 +700,6 @@ class ExprTest {
         val input = "hyp(1; 2; 3)"
         val expr = Expr(calc, input)
         expr.trace(Trace.ALL)
-        expr.parse()
         val e = assertThrows <ParseException> { expr.parse() }
         assertEquals(WRONG_ARGUMENT_COUNT, e.parseError.key)
     }

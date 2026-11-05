@@ -15,19 +15,19 @@ class CalcBigDecimalTest {
 
         calc.enter("5")
         calc.enter(1)
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         calc.enter(2L)
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         calc.enter(BigInteger.valueOf(3))
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         calc.enter(0.4)
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         calc.enter(BigDecimal("0.6"))
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         assertEquals(
             BigDecimal("12.0"),
@@ -43,7 +43,7 @@ class CalcBigDecimalTest {
 
         calc.enter(BigDecimal("0.1"))
         calc.enter(BigDecimal("0.2"))
-        calc.op(Op.ADD)
+        calc.operate(Op.ADD)
 
         // No float rounding mess
         assertEquals(
@@ -62,7 +62,7 @@ class CalcBigDecimalTest {
         // no float rounding mess
         calc.enter(BigDecimal.ONE)
         calc.enter(BigDecimal("3"))
-        calc.op(Op.DIVIDE)
+        calc.operate(Op.DIVIDE)
 
         assertEquals(
             BigDecimal("0.3333333333"),
@@ -86,7 +86,7 @@ class CalcBigDecimalTest {
             calc.enter(numbers[i])
             if (i > 0) {
                 expr.append("+")
-                calc.op(Op.ADD)
+                calc.operate(Op.ADD)
                 sum = sum.add(numbers[i])
             } else {
                 sum = numbers[0]
