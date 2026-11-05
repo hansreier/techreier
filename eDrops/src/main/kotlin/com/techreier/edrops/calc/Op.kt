@@ -25,6 +25,8 @@ enum class Op(
     POW("^", 2, 1, 3),
     SEPARATOR(";", 2, 0, 0),
     ABS("abs", 1, 1 ),
+    MAX("max", -1, 1),
+    MIN("min", -1, 1),
     SIGN("sign", 1, 1 ),
     SQR("sqr", 1, 1 ),
     SQRT("sqrt", 1, 1 ),
@@ -119,7 +121,7 @@ enum class Op(
         val constants = setOf(PI, E, C, RANDOM) // Functions without arguments is considered as a quasi-constant
         val symbols = variables + constants
         val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, SQR, SQRT, DEG, EX, LN, LOG10, LOG2,
-            POW10, HYP, GYP, NEGATE, RAD, ABS, SIGN, SUM)
+            POW10, HYP, GYP, NEGATE, RAD, ABS, SIGN, SUM, MAX, MIN)
         private const val DEFAULT_LEVEL = 2
 
         fun operator(abbrev: String): Op? {

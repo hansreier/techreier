@@ -117,15 +117,18 @@ class CalcBigInteger : Calc<BigInteger>() {
                 x = arg.next() as BigInteger
                 r.add(x.multiply(x))
             }
+
             Op.POW -> {
                 y = arg.next() as BigInteger
                 x = arg.next() as BigInteger
                 r.add(x.pow(y.intValueExact()))
             }
+
             Op.POW10 -> {
                 val x = arg.next() as BigInteger
                 r.add(BigInteger.TEN.pow(x.intValueExact()))
             }
+
             Op.LOG10 -> {
                 val x = arg.next() as BigInteger
                 val logVal = if (x > BigInteger.ZERO) {
@@ -135,6 +138,7 @@ class CalcBigInteger : Calc<BigInteger>() {
                 }
                 r.add(logVal)
             }
+
             Op.SUM -> {
                 r.add(BigInteger.ZERO)
                repeat (noArgs) {
@@ -142,6 +146,23 @@ class CalcBigInteger : Calc<BigInteger>() {
                     r[0] = r[0].add(x)
                 }
             }
+
+            Op.MAX -> {
+                var maximum = arg.next() as BigInteger
+                repeat(noArgs - 1) {
+                    maximum = maximum.max(arg.next() as BigInteger)
+                }
+                r.add(maximum)
+            }
+
+            Op.MIN -> {
+                var minimum = arg.next() as BigInteger
+                repeat(noArgs - 1) {
+                    minimum = minimum.min(arg.next() as BigInteger)
+                }
+                r.add(minimum)
+            }
+
             Op.REMOVE, Op.EMPTY -> {}
             Op.YX -> {
                 r.add(arg.next() as BigInteger)

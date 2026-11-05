@@ -20,6 +20,8 @@ import kotlin.math.hypot
 import kotlin.math.ln
 import kotlin.math.log10
 import kotlin.math.log2
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sign
 import kotlin.math.sin
@@ -37,7 +39,7 @@ class CalcDouble : Calc<Double>() {
         operators += setOf(
             Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
             Op.ATAN, Op.RAD, Op.DEG, Op.EX, Op.LN, Op.LOG2, Op.SQRT,
-            Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM, Op.SUM
+            Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM
         )
 
         //Check for consistency in set of enums
@@ -248,6 +250,22 @@ class CalcDouble : Calc<Double>() {
                     val x = arg.next() as Double
                     r[0] = r.first() + x
                 }
+            }
+
+            Op.MAX -> {
+                var maximum = arg.next() as Double
+                repeat(noArgs - 1) {
+                    maximum = max(maximum, arg.next() as Double)
+                }
+                r.add(maximum)
+            }
+
+            Op.MIN -> {
+                var minimum = arg.next() as Double
+                repeat(noArgs - 1) {
+                    minimum = min(minimum, arg.next() as Double)
+                }
+                r.add(minimum)
             }
 
             Op.REMOVE, Op.EMPTY -> {}

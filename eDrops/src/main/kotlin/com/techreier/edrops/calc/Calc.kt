@@ -17,7 +17,8 @@ abstract class Calc<T> {
     var operators = setOf(
         Op.ADD,Op.LOG10, Op.POW10,
         Op.SUBTRACT, Op.DIVIDE, Op.MULTIPLY, Op.SQR, Op.POW,
-        Op.SEPARATOR, Op.LEFTP, Op.RIGHTP, Op.NEGATE, Op.ABS, Op.SIGN
+        Op.SEPARATOR, Op.LEFTP, Op.RIGHTP, Op.NEGATE, Op.ABS, Op.SIGN,
+        Op.SUM, Op.MAX, Op.MIN
     ) + variables
 
     fun clear() {

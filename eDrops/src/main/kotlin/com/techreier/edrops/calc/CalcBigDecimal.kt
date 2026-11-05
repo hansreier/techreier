@@ -174,6 +174,22 @@ class CalcBigDecimal : Calc<BigDecimal>() {
                 r.add(sum)
             }
 
+            Op.MAX -> {
+                var maximum = arg.next() as BigDecimal
+                repeat(noArgs - 1) {
+                    maximum = maximum.max(arg.next() as BigDecimal)
+                }
+                r.add(maximum)
+            }
+
+            Op.MIN -> {
+                var minimum = arg.next() as BigDecimal
+                repeat(noArgs - 1) {
+                    minimum = minimum.min(arg.next() as BigDecimal)
+                }
+                r.add(minimum)
+            }
+
             Op.REMOVE, Op.EMPTY -> {}
             Op.YX -> {
                 r.add(arg.next() as BigDecimal)
