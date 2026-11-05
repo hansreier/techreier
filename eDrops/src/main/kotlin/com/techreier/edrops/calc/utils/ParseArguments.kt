@@ -16,7 +16,7 @@ fun parseArguments(rangeIn: Range, tokens: List<Token>): ArgumentInfo {
     var updown = false
     if (rangeIn.max >= tokens.size) throw(IllegalStateException("Range exceed max size ${tokens.size} of token array"))
     if (rangeIn.min >= rangeIn.max) {
-        val error = ParseError(MISSING_PARENTHESIS, 0, "error")
+        val error = ParseError(MISSING_PARENTHESIS, tokens[rangeIn.min].position, "error")
         throw ParseException("Error parsing arguments", error)
     }
     val function = (tokens[rangeIn.min] as OperatorToken)
