@@ -4,7 +4,7 @@ import com.techreier.edrops.calc.utils.Range
 
 sealed class Token(val position: Int)
 data class NumberToken(val argument: Number, val pos: Int) : Token(pos)
-data class OperatorToken(val operator: Op, val pos: Int) : Token(pos)
+data class OperatorToken(val operator: Op,  val pos: Int, var noArgs: Int = operator.noArgs()) : Token(pos)
 
 // Used to get the list of token to compare and or print
 fun List<Token>.toTokenString(size: Int = 200): String {

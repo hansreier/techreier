@@ -19,7 +19,13 @@ fun parseArguments(rangeIn: Range, tokens: List<Token>): ArgumentInfo {
         val error = ParseError(MISSING_PARENTHESIS, 0, "error")
         throw ParseException("Error parsing arguments", error)
     }
-    val noExpectedArgs = (tokens[rangeIn.min] as OperatorToken).operator.noArgs()
+    val function = (tokens[rangeIn.min] as OperatorToken)
+    val noOperatorArgs = function.operator.noArgs()
+    val noExpectedArgs = function.noArgs
+    if (noOperatorArgs != noExpectedArgs) { //Should really not be posssible, but
+        val error = ParseError(WRONG_ARGUMENT_COUNT, tokens[rangeIn.min].position, function.operator.abbrev())
+        throw ParseException("Error parsing arguments", error)
+    }
     val operatorText = (tokens[rangeIn.min] as OperatorToken).operator.abbrev()
     logger.info("parse arguments for {} range={} expr={}", operatorText, rangeIn, tokens.toExpr(rangeIn))
     do {
@@ -61,9 +67,13 @@ val range = if (parenthesis) Range(min, max) else Range(min, min)
     }
 
     if (push) {
-        if (arguments.size != noExpectedArgs) {
-            val error = ParseError(WRONG_ARGUMENT_COUNT, tokens[range.min].position, operatorText)
-            throw ParseException("Error parsing arguments", error)
+        if (noExpectedArgs <0) { //Function with variable no of arguments allowed.
+            function.noArgs = noExpectedArgs
+        } else {
+            if (arguments.size != noExpectedArgs) {
+                val error = ParseError(WRONG_ARGUMENT_COUNT, tokens[range.min].position, operatorText)
+                throw ParseException("Error parsing arguments", error)
+            }
         }
         if (updown) {
             val error = ParseError(PARENTHESIS_MESS, tokens[range.min].position, operatorText)

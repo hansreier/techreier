@@ -37,7 +37,7 @@ class CalcDouble : Calc<Double>() {
         operators += setOf(
             Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
             Op.ATAN, Op.RAD, Op.DEG, Op.EX, Op.LN, Op.LOG2, Op.SQRT,
-            Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM
+            Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM, Op.SUM
         )
 
         //Check for consistency in set of enums

@@ -2,7 +2,6 @@ package com.techreier.edrops.calc
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -57,7 +56,6 @@ class CalcDoubleTest {
     }
 
     @Test
-    @Disabled
     fun sumTest() { //Enable later
         val calc = CalcDouble()
         calc.trace = Trace.ALL

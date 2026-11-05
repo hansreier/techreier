@@ -685,4 +685,23 @@ class ExprTest {
         assertEquals(55000.0, expr.result(), 1e-9)
     }
 
+    @Test
+    fun sumTest() {
+        val input = "sum(1; 2; 3; 4; 5)"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(15.0, expr.result(), 1e-9)
+    }
+
+    @Test
+    fun hypWrongNoOfArgumentsTest() {
+        val input = "hyp(1; 2; 3)"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        val e = assertThrows <ParseException> { expr.parse() }
+        assertEquals(WRONG_ARGUMENT_COUNT, e.parseError.key)
+    }
 }
