@@ -57,7 +57,7 @@ fun parseArguments(rangeIn: Range, tokens: List<Token>): ArgumentInfo {
         i++
     } while ((i <= rangeIn.max) && ((balance > 0) || (!parenthesis && (arguments.size < noExpectedArgs))))
 
-val range = if (parenthesis) Range(min, max) else Range(min, min)
+val range = if (parenthesis) Range(min, max) else Range(min, min) //Required for Negate function
 
     logger.info("arguments found for {} range={} count: {}", operatorText, range, arguments.size)
 
@@ -67,7 +67,7 @@ val range = if (parenthesis) Range(min, max) else Range(min, min)
     }
 
     if (push) {
-        if (noExpectedArgs <0) { //Function with variable no of arguments allowed.
+        if (noExpectedArgs <0) { //Function with variable arguments allowed.
             function.noArgs = arguments.size
         } else {
             if (arguments.size != noExpectedArgs) {
