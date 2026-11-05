@@ -187,4 +187,4 @@ fun String.sanitize(): String = this
     .replace('\n', ' ')
     .replace('\r', ' ')
     .replace('\t', ' ')
-    .replace('\u00A0', ' ')
+    .replace('\u00A0', ' ').trim()
