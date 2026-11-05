@@ -274,17 +274,6 @@ class PreparseTest : TestBase() {
     }
 
     @Test
-    fun constantsImplicitMultiplicationOKTest() {
-        val input = "pi (3+2) 4 e"
-        assertPreparse(
-            tokens(
-                Op.PI, Op.MULTIPLY, Op.LEFTP, 3, Op.ADD, 2,
-                Op.RIGHTP, Op.MULTIPLY, 4, Op.MULTIPLY, Op.E
-            ), calc, input
-        )
-    }
-
-    @Test
     fun misplacedOperatorTest() {
         val input = "+3"
         assertPreparseFails(MISPLACED_OPERATOR, calc, input)

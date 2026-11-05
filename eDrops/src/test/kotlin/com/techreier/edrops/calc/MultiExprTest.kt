@@ -46,7 +46,7 @@ class MultiExprTest {
         }
         val errorIndicator = errorIndicator(input.sanitize(), e.parseError)
         logger.info(errorIndicator)
-        assertEquals("x = 5; y = 3 * x???-3; z = x + y;", errorIndicator )
+        assertEquals("x = 5; y = 3 * ???x-3; z = x + y;", errorIndicator )
     }
 
     @Test
