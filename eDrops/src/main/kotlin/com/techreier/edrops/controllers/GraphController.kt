@@ -145,6 +145,7 @@ class GraphController(
                 return "redirect:/$HOME_DIR"
             }
             model.addAttribute("graphForm", graphForm)
+            operatorHelp(model)
             return GRAPH
         }
 
