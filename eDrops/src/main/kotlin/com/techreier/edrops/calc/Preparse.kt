@@ -151,8 +151,15 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
 
                 else -> { //Function without arguments should be defined as constants
 
-                    if (lastOpType == OpType.FUNCTION){
+                    if (lastOpType == OpType.SYMBOL || (lastOpType == OpType.NUMBER)){
+                        tokens.add(OperatorToken(Op.MULTIPLY, i1))
+                    }
+                    if ((lastOpType == OpType.FUNCTION) ){
                         parseError = ParseError(CONSECUTIVE_FUNCTIONS, i1, oper.op.abbrev())
+                        return ParseResult(tokens, parseError)
+                    }
+                    if ((lastOpType == OpType.RIGHTP) ){
+                        parseError = ParseError(MISSING_OPERATOR, i1, oper.op.abbrev())
                         return ParseResult(tokens, parseError)
                     }
                     lastOpType = OpType.FUNCTION
