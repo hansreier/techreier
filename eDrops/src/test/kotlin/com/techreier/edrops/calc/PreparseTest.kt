@@ -140,20 +140,6 @@ class PreparseTest : TestBase() {
         assertPreparseFails(CONSECUTIVE_FUNCTIONS, calc, input)
     }
 
-    @Disabled
-    @Test
-    fun functionNumberOKTest() {
-        val input = "sin 3"
-        assertPreparse(tokens(Op.SIN, 3.0), calc, input)
-    }
-
-    @Disabled
-    @Test
-    fun functionVariableOKTest() {
-        val input = "sin x"
-        assertPreparse(tokens(Op.SIN, Op.X), calc, input)
-    }
-
     @Test
     fun varVarOKTest() {
         val input = "x y"

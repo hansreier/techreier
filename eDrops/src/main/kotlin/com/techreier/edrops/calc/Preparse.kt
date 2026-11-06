@@ -122,7 +122,10 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                     if (lastOpType == OpType.NUMBER) {
                         tokens.add(OperatorToken(Op.MULTIPLY, i1))
                     }
-
+                    if (lastOpType == OpType.RIGHTP) {
+                        parseError = ParseError(MISSING_OPERATOR, i1, oper.op.abbrev())
+                        return ParseResult(tokens, parseError)
+                    }
                     lastOpType = OpType.SYMBOL
                 }
 
@@ -171,6 +174,10 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                 return ParseResult(tokens, parseError)
             }
             if (lastOpType == OpType.NUMBER) {
+                parseError = ParseError(MISSING_OPERATOR, i1)
+                return ParseResult(tokens, parseError)
+            }
+            if (lastOpType == OpType.RIGHTP) {
                 parseError = ParseError(MISSING_OPERATOR, i1)
                 return ParseResult(tokens, parseError)
             }
