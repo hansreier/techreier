@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertThrows
+import kotlin.Double.Companion.NaN
 import kotlin.math.pow
 import kotlin.test.assertEquals
 
@@ -134,7 +135,7 @@ class ExprTest {
         expr.calculate()
         val singleResult = calc.result()
         assertNotNull(singleResult)
-        assertEquals(Double.NaN, singleResult)
+        assertEquals(NaN, singleResult)
         assertEquals(1, calc.stack.size, "Single result is not returned")
     }
 
@@ -727,5 +728,27 @@ class ExprTest {
         expr.trace(Trace.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
         assertEquals(WRONG_ARGUMENT_COUNT, e.parseError.key)
+    }
+
+    @Test
+    fun selectTrueFalseTest() {
+        val input = "select(select(x; true; false) ;false ;true)"
+        val expr = Expr(calc, input)
+        expr[Op.X] = TRUE
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(FALSE, expr.result(), 1e-9)
+    }
+
+    @Test
+    fun selectNaNTest() {
+        val input = "select(5; 3; 2)"
+        val expr = Expr(calc, input)
+        expr[Op.X] = TRUE
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(NaN, expr.result())
     }
 }

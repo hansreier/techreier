@@ -108,6 +108,14 @@ class CalcBigInteger : Calc<BigInteger>() {
                 r.add(x.abs())
             }
 
+            Op.TRUE -> {
+                r.add(BigInteger.ONE)
+            }
+
+            Op.FALSE -> {
+                r.add(BigInteger.ZERO)
+            }
+
             Op.SIGN -> {
                 val x = arg.next() as BigInteger
                 r.add(BigInteger.valueOf(x.signum().toLong()))

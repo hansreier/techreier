@@ -3,6 +3,9 @@ package com.techreier.edrops.calc
 const val MAX_EXPRESSION_DEPTH = 100
 const val MAX_TOKENS = 1000
 const val OPERATOR_TEXT_LOG_SIZE = 8
+const val EPSILON = 1e-12
+const val TRUE = 1.0
+const val FALSE = 0.0
 
 // Parsing errors
 const val ILLEGAL_VARIABLES = "IllegalVariables"

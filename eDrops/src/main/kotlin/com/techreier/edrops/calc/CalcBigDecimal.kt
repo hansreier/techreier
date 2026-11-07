@@ -190,6 +190,14 @@ class CalcBigDecimal : Calc<BigDecimal>() {
                 r.add(minimum)
             }
 
+            Op.TRUE -> {
+                r.add(BigDecimal.ONE)
+            }
+
+            Op.FALSE -> {
+                r.add(BigDecimal.ZERO)
+            }
+
             Op.REMOVE, Op.EMPTY -> {}
             Op.YX -> {
                 r.add(arg.next() as BigDecimal)

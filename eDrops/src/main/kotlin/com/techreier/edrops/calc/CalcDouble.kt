@@ -31,7 +31,6 @@ import kotlin.math.tan
 class CalcDouble : Calc<Double>() {
     override val type: Class<Double> = Double::class.javaObjectType
     var radians: Boolean = true
-    var epsilon = 1e-12
 
     override val vars: MutableMap<Op, Double> = EnumMap(Op::class.java)
 
@@ -39,7 +38,7 @@ class CalcDouble : Calc<Double>() {
         operators += setOf(
             Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
             Op.ATAN, Op.RAD, Op.DEG, Op.EX, Op.LN, Op.LOG2, Op.SQRT,
-            Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM
+            Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM, Op.SELECT
         )
 
         //Check for consistency in set of enums
@@ -237,6 +236,25 @@ class CalcDouble : Calc<Double>() {
                 r.add(PI)
             }
 
+            Op.TRUE -> {
+                r.add(1.0)
+            }
+
+            Op.FALSE -> {
+                r.add(0.0)
+            }
+
+            Op.SELECT -> { //Mimics an IF statement
+                y = arg.next() as Double
+                x = arg.next() as Double
+                val flag = arg.next() as Double
+                r.add(when {
+                    abs(flag) < EPSILON -> y
+                    abs(flag - 1.0) < EPSILON -> x
+                    else -> Double.NaN
+                })
+            }
+
             Op.E -> {
                 r.add(E)
             }
@@ -296,6 +314,6 @@ class CalcDouble : Calc<Double>() {
 
     //to be used for rounding to zero for some selected functions
     private fun Double.cleanZero(): Double =
-        if (abs(this) < epsilon) 0.0 else this
+        if (abs(this) < EPSILON) 0.0 else this
 }
 
