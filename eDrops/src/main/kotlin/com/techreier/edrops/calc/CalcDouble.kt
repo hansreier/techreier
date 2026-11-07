@@ -30,7 +30,7 @@ import kotlin.math.tan
 
 class CalcDouble : Calc<Double>() {
     override val type: Class<Double> = Double::class.javaObjectType
-    var degrees: Boolean = true
+    var radians: Boolean = true
     var epsilon = 1e-12
 
     override val vars: MutableMap<Op, Double> = EnumMap(Op::class.java)
@@ -107,12 +107,6 @@ class CalcDouble : Calc<Double>() {
                 r.add(x / y)
             }
 
-            Op.SEPARATOR -> { // Reverse order trick
-                val x = arg.next() as Double
-                r.add(arg.next() as Double)
-                r.add(x)
-            }
-
             Op.NEGATE -> {
                 x = arg.next() as Double
                 r.add(-x)
@@ -146,50 +140,50 @@ class CalcDouble : Calc<Double>() {
 
             Op.SIN -> {
                 x = arg.next() as Double
-                if (degrees)
-                    r.add(sin(Math.toRadians(x)).cleanZero())
-                else
+                if (radians)
                     r.add(sin(x).cleanZero())
+                else
+                    r.add(sin(Math.toRadians(x)).cleanZero())
             }
 
             Op.ASIN -> {
                 x = arg.next() as Double
-                if (degrees)
-                    r.add(Math.toDegrees(asin(x)))
-                else
+                if (radians)
                     r.add(asin(x))
+                else
+                    r.add(Math.toDegrees(asin(x)))
             }
 
             Op.COS -> {
                 x = arg.next() as Double
-                if (degrees)
-                    r.add(cos(Math.toRadians(x)).cleanZero())
-                else
+                if (radians)
                     r.add(cos(x).cleanZero())
+                else
+                    r.add(cos(Math.toRadians(x)).cleanZero())
             }
 
             Op.ACOS -> {
                 x = arg.next() as Double
-                if (degrees)
-                    r.add(Math.toDegrees(acos(x)))
-                else
+                if (radians)
                     r.add(asin(x))
+                else
+                    r.add(Math.toDegrees(acos(x)))
             }
 
             Op.TAN -> {
                 x = arg.next() as Double
-                if (degrees)
-                    r.add(tan(Math.toRadians(x)).cleanZero())
-                else
+                if (radians)
                     r.add(tan(x).cleanZero())
+                else
+                    r.add(tan(Math.toRadians(x)).cleanZero())
             }
 
             Op.ATAN -> {
                 x = arg.next() as Double
-                if (degrees)
-                    r.add(Math.toDegrees(Math.atan(x)))
-                else
+                if (radians)
                     r.add(atan(x))
+                else
+                    r.add(Math.toDegrees(Math.atan(x)))
             }
 
             Op.RAD -> {

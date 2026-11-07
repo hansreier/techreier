@@ -23,7 +23,7 @@ enum class Op(
     MULTIPLY("*", 2, 1, 4),
     DIVIDE("/", 2, 1, 4),
     POW("^", 2, 1, 3),
-    SEPARATOR(";", 2, 2, 0),
+    SEPARATOR(";", 2, 2, -1),
     ABS("abs", 1, 1 ),
     MAX("max", -1, 1),
     MIN("min", -1, 1),

@@ -105,12 +105,6 @@ class CalcBigDecimal : Calc<BigDecimal>() {
                 r.add(-x)
             }
 
-            Op.SEPARATOR -> {
-                val x = arg.next() as BigDecimal
-                r.add(arg.next() as BigDecimal)
-                r.add(x)
-            }
-
             Op.ABS -> {
                 x = arg.next() as BigDecimal
                 r.add(x.abs())

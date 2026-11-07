@@ -4,6 +4,7 @@ import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.graph.logger
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertThrows
@@ -12,7 +13,13 @@ import kotlin.test.assertEquals
 
 class ExprTest {
 
-    val calc = CalcDouble()
+    lateinit var calc: CalcDouble
+
+    @BeforeEach
+    fun setUp() {
+        calc = CalcDouble()
+        calc.radians = false
+    }
 
     @Test
     fun happy42Test() {
@@ -484,7 +491,6 @@ class ExprTest {
 
     @Test
     fun negateFunctionTest() {
-        val calc = CalcDouble()
         val expr = Expr(calc, "-sin(x) + cos(y)")
         expr.trace(Trace.ALL)
         expr[Op.X] = 90.0
@@ -585,13 +591,12 @@ class ExprTest {
 
     @Test
     fun constantTest() {
-        calc.degrees = false
+        calc.radians = true
         val input = "sin(pi)"
         val expr = Expr(calc, input)
         expr.trace(Trace.ALL)
         expr.parse()
         expr.calculate()
-        calc.degrees = true
         assertEquals(0.0, expr.result(), 1e-9)
     }
 

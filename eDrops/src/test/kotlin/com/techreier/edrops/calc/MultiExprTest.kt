@@ -58,7 +58,6 @@ class MultiExprTest {
         """.trimIndent()
 
         val start = MultiExpr(calc, startValues)
-        calc.degrees = false
         start.parse()
         start.calculate()
 

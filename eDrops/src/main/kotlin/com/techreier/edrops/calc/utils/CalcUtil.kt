@@ -47,9 +47,9 @@ fun parseDouble(expr: String?, pos: ParsePosition? = ParsePosition(0)): Double? 
 }
 
 // Tilleggsfunksjon for Double beregninger
-fun Calc<Double>.degrees(enabled: Boolean): Calc<Double> {
+fun Calc<Double>.radians(enabled: Boolean): Calc<Double> {
     if (this is CalcDouble) {
-        this.degrees = enabled
+        this.radians = enabled
     }
     return this
 }

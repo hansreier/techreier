@@ -176,7 +176,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                                 if (!opInfo.push) {
                                     recursiveParse(Range(index + 1, opInfo.endPos), depth + 1)
                                     trace("add operator: ${token.operator.abbrev()}")
-                                    tokens.add(token)
+                                    if (!token.isSeparator()) tokens.add(token)
                                     index = opInfo.endPos + 1
                                 } else {
                                     if (token.isPow()) {
@@ -187,7 +187,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                                             index++
                                         }
                                     } else {
-                                        postphonedOperator = token
+                                        if (!token.isSeparator()) postphonedOperator = token
                                     }
                                     index++
                                 }

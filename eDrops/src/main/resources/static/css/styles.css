@@ -1013,7 +1013,7 @@ a.dropdown-item:hover {
 
 .operator-help-container {
     display: none;
-    margin: 0;
+    margin-bottom: 1rem;
     padding: 6px 8px;
     background-color: #f5f5f5;
     font-size: 0.9rem;

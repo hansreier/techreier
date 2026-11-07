@@ -2,7 +2,7 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.calc.CalcDouble
 import com.techreier.edrops.calc.Expr
-import com.techreier.edrops.calc.utils.degrees
+import com.techreier.edrops.calc.utils.radians
 import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.calc.utils.operatorHelp
 import com.techreier.edrops.config.*
@@ -76,7 +76,7 @@ class GraphController(
             val expr = Expr(CalcDouble(), input.yUnit)
             try {
                 logger.info("Graphlimits: ${graphLimits}")
-                expr.calc.degrees(!input.radians)
+                expr.calc.radians(input.radians)
                 expr.variable(input.xUnit)
                 expr.parse()
                 val curve = graphService.generateSeries(
