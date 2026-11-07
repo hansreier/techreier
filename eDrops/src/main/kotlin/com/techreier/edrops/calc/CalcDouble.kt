@@ -107,6 +107,12 @@ class CalcDouble : Calc<Double>() {
                 r.add(x / y)
             }
 
+            Op.SEPARATOR -> { // Reverse order trick
+                val x = arg.next() as Double
+                r.add(arg.next() as Double)
+                r.add(x)
+            }
+
             Op.NEGATE -> {
                 x = arg.next() as Double
                 r.add(-x)

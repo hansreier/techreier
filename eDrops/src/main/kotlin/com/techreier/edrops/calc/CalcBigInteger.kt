@@ -103,6 +103,12 @@ class CalcBigInteger : Calc<BigInteger>() {
                 r.add(-x)
             }
 
+            Op.SEPARATOR -> {
+                val x = arg.next() as BigInteger
+                r.add(arg.next() as BigInteger)
+                r.add(x)
+            }
+
             Op.ABS -> {
                 x = arg.next() as BigInteger
                 r.add(x.abs())

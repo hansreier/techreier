@@ -696,6 +696,26 @@ class ExprTest {
     }
 
     @Test
+    fun sumAdvancedExpressionTest() {
+        val input = "sum(sin(90); 2; cos(0))"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(4.0, expr.result(), 1e-9)
+    }
+
+    @Test
+    fun sumGiganticExpressionTest() {
+        val input = "sum(max(sin(90);2;3) + 2; 2; cos(0))"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(8.0, expr.result(), 1e-9)
+    }
+
+    @Test
     fun hypWrongNoOfArgumentsTest() {
         val input = "hyp(1; 2; 3)"
         val expr = Expr(calc, input)
