@@ -13,38 +13,54 @@ import com.techreier.edrops.calc.isPow
 import com.techreier.edrops.calc.isRightP
 import com.techreier.edrops.calc.isVariable
 import com.techreier.edrops.exceptions.ParseException
-import java.text.DecimalFormat
-import java.text.NumberFormat
 import java.text.ParsePosition
 import java.util.*
 
-
+// Standard methods like ParseDouble, Scanner and NumberFormat and Regex all fails
+// Instructed AI agent and it wrote it by hand like this, like I would have done it
 fun parseDouble(expr: String?, pos: ParsePosition? = ParsePosition(0)): Double? {
-    if (expr == null || pos == null || pos.index >= expr.length) return null
-    val initialIndex = pos.index
+    if (expr == null || pos == null) return null
+    val start = pos.index
+    if (start < 0 || start >= expr.length) return null
+    val len = expr.length
+    var i = start
 
-    val remaining = expr.substring(pos.index)
-    val preferEnglish = remaining.contains('.')
+    // Optional leading minus sign, must be directly followed by digits or a decimal separator.
+    // A leading '+' is never part of a number, it is always an operator.
+    if (expr[i] == '-') i++
 
-    val primaryFormat =
-        (NumberFormat.getInstance(if (preferEnglish) Locale.ENGLISH else Locale.forLanguageTag("nb")) as DecimalFormat).apply {
-            isGroupingUsed = false
-        }
+    val intDigitsStart = i
+    while (i < len && expr[i].isDigit()) i++
+    val intDigitCount = i - intDigitsStart
 
-    val parseResult = primaryFormat.parse(expr, pos)
-
-    val result = if (parseResult != null) {
-        parseResult
-    } else {
-        val fallbackFormat = NumberFormat.getInstance(
-            if (preferEnglish) Locale.forLanguageTag("nb") else Locale.ENGLISH
-        ) as DecimalFormat
-        fallbackFormat.isGroupingUsed = false
-        pos.index = initialIndex
-        fallbackFormat.parse(expr, pos) ?: return null
+    // Optional fractional part, accepting both norwegian comma and english dot.
+    // A dangling separator without trailing digits (e.g. "3.") is still consumed, matching Double.parseDouble.
+    var fracDigitCount = 0
+    if (i < len && (expr[i] == '.' || expr[i] == ',')) {
+        i++
+        val fracDigitsStart = i
+        while (i < len && expr[i].isDigit()) i++
+        fracDigitCount = i - fracDigitsStart
     }
-    return result.toDouble()
+
+    if (intDigitCount == 0 && fracDigitCount == 0) return null
+
+    // Optional exponent part, e.g. 1E-5 or 1e+5
+    if (i < len && (expr[i] == 'e' || expr[i] == 'E')) {
+        var j = i + 1
+        if (j < len && (expr[j] == '+' || expr[j] == '-')) j++
+        val expDigitsStart = j
+        while (j < len && expr[j].isDigit()) j++
+        if (j > expDigitsStart) i = j
+    }
+
+    val numberText = expr.substring(start, i).replace(',', '.')
+    val result = numberText.toDoubleOrNull() ?: return null
+    pos.index = i
+    return result
 }
+
+
 
 // Tilleggsfunksjon for Double beregninger
 fun Calc<Double>.radians(enabled: Boolean): Calc<Double> {

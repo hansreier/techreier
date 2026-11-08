@@ -4,6 +4,7 @@ import com.techreier.edrops.calc.NumberToken
 import com.techreier.edrops.calc.Op
 import com.techreier.edrops.calc.OperatorToken
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 
@@ -13,16 +14,24 @@ class CalcUtilTest {
     fun parseDoubleTest() {
         val double = parseDouble("3.14")
         assertNotNull(double)
-        Assertions.assertThat(double).isInstanceOf(Double::class.javaObjectType)
-        Assertions.assertThat(double).isEqualTo(3.14)
+        assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        assertThat(double).isEqualTo(3.14)
     }
 
     @Test
-    fun parseMinusTest() {
-        val double = parseDouble("-3.14")
+    fun parseDoubleExponentTest() {
+        val double = parseDouble("1E-5+3")
         assertNotNull(double)
-        Assertions.assertThat(double).isInstanceOf(Double::class.javaObjectType)
-        Assertions.assertThat(double).isEqualTo(- 3.14)
+        assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        assertThat(double).isEqualTo(1.0E-5)
+    }
+
+    @Test
+    fun parseDoubleLowercaseExponentTest() {
+        val double = parseDouble("2.0e+3")
+        assertNotNull(double)
+        assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        assertThat(double).isEqualTo(2.0E3)
     }
 
     @Test
@@ -77,8 +86,10 @@ class CalcUtilTest {
 
     @Test
     fun outerNoInnerContents() {
-        val tokens = listOf(OperatorToken(Op.LEFTP,  1) , OperatorToken(Op.LEFTP, 2),
-            OperatorToken(Op.RIGHTP, 3), OperatorToken(Op.RIGHTP, 4))
+        val tokens = listOf(
+            OperatorToken(Op.LEFTP, 1), OperatorToken(Op.LEFTP, 2),
+            OperatorToken(Op.RIGHTP, 3), OperatorToken(Op.RIGHTP, 4)
+        )
         val preRange = Range(0, 3)
         val expectedRange = Range(2, 1)
         val range = removeOuterP(preRange, tokens)
@@ -87,8 +98,10 @@ class CalcUtilTest {
 
     @Test
     fun outerContents() {
-        val tokens = listOf(OperatorToken(Op.LEFTP,  1) , OperatorToken(Op.LEFTP, 2),
-            NumberToken(33.0, 3), OperatorToken(Op.RIGHTP, 4), OperatorToken(Op.RIGHTP, 5))
+        val tokens = listOf(
+            OperatorToken(Op.LEFTP, 1), OperatorToken(Op.LEFTP, 2),
+            NumberToken(33.0, 3), OperatorToken(Op.RIGHTP, 4), OperatorToken(Op.RIGHTP, 5)
+        )
         val preRange = Range(0, 4)
         val expectedRange = Range(2, 2)
         val range = removeOuterP(preRange, tokens)
