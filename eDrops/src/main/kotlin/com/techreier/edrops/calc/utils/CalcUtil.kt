@@ -17,7 +17,7 @@ import java.text.ParsePosition
 import java.util.*
 
 // Standard methods like ParseDouble, Scanner and NumberFormat and Regex all fails
-// Instructed AI agent and it wrote it by hand like this, like I would have done it
+// Instructed AI agent, and it wrote it by hand like this, like I would have done it
 fun parseDouble(expr: String?, pos: ParsePosition? = ParsePosition(0)): Double? {
     if (expr == null || pos == null) return null
     val start = pos.index
@@ -33,7 +33,7 @@ fun parseDouble(expr: String?, pos: ParsePosition? = ParsePosition(0)): Double? 
     while (i < len && expr[i].isDigit()) i++
     val intDigitCount = i - intDigitsStart
 
-    // Optional fractional part, accepting both norwegian comma and english dot.
+    // Optional fractional part, accepting both Norwegian comma and english dot.
     // A dangling separator without trailing digits (e.g. "3.") is still consumed, matching Double.parseDouble.
     var fracDigitCount = 0
     if (i < len && (expr[i] == '.' || expr[i] == ',')) {
@@ -62,7 +62,7 @@ fun parseDouble(expr: String?, pos: ParsePosition? = ParsePosition(0)): Double? 
 
 
 
-// Tilleggsfunksjon for Double beregninger
+// Additional function for Double
 fun Calc<Double>.radians(enabled: Boolean): Calc<Double> {
     if (this is CalcDouble) {
         this.radians = enabled
@@ -147,7 +147,7 @@ fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): Operator
     return OperatorInfo(range.max, push)
 }
 
-//Split multiExpresssion based on separator ;
+//Split multiExpression based on separator ;
 fun splitMultiExpr(text: String): List<Pair<String, Int>> {
     val result = mutableListOf<Pair<String, Int>>()
     var depth = 0
