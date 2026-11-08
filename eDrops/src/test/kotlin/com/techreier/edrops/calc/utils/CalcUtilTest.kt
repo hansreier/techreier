@@ -19,8 +19,24 @@ class CalcUtilTest {
     }
 
     @Test
-    fun parseDoubleExponentTest() {
+    fun parseDoubleExponentAddTest() {
         val double = parseDouble("1E-5+3")
+        assertNotNull(double)
+        assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        assertThat(double).isEqualTo(1.0E-5)
+    }
+
+    @Test
+    fun parseDoubleExponentFuncTest3() {
+        val double = parseDouble("1E-5abs")
+        assertNotNull(double)
+        assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        assertThat(double).isEqualTo(1.0E-5)
+    }
+
+    @Test
+    fun parseDoubleExponentSubtractTest2() {
+        val double = parseDouble("1E-5-3")
         assertNotNull(double)
         assertThat(double).isInstanceOf(Double::class.javaObjectType)
         assertThat(double).isEqualTo(1.0E-5)
@@ -32,6 +48,22 @@ class CalcUtilTest {
         assertNotNull(double)
         assertThat(double).isInstanceOf(Double::class.javaObjectType)
         assertThat(double).isEqualTo(2.0E3)
+    }
+
+    @Test
+    fun parseDoubleWrongExponentTest() {  //e+ is interpreted as the rest of the expression
+        val double = parseDouble("2.0e+")
+        assertNotNull(double)
+        assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        assertThat(double).isEqualTo(2.0)
+    }
+
+    @Test
+    fun parseDoubleOnlyETest() { //e is interpreted as the rest of the expression
+        val double = parseDouble("2.0e-x")
+        assertNotNull(double)
+        assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        assertThat(double).isEqualTo(2.0)
     }
 
     @Test
@@ -61,7 +93,7 @@ class CalcUtilTest {
 
     @Test
     fun parseDoubleNorwegianTest() {
-        val double = parseDouble("3,14")
+        val double = parseDouble("3,14e-")
         assertNotNull(double)
         Assertions.assertThat(double).isInstanceOf(Double::class.javaObjectType)
         Assertions.assertThat(double).isEqualTo(3.14)
@@ -70,6 +102,22 @@ class CalcUtilTest {
     @Test
     fun parseDoubleIntegerTest() {
         val double = parseDouble("3")
+        assertNotNull(double)
+        Assertions.assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        Assertions.assertThat(double).isEqualTo(3.0)
+    }
+
+    @Test
+    fun parseDoubleDotTest() {
+        val double = parseDouble("3.")
+        assertNotNull(double)
+        Assertions.assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        Assertions.assertThat(double).isEqualTo(3.0)
+    }
+
+    @Test
+    fun parseDoubleCommaTest() {
+        val double = parseDouble("3,")
         assertNotNull(double)
         Assertions.assertThat(double).isInstanceOf(Double::class.javaObjectType)
         Assertions.assertThat(double).isEqualTo(3.0)
