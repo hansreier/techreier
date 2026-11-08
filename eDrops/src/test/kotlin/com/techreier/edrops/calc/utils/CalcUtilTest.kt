@@ -51,6 +51,30 @@ class CalcUtilTest {
     }
 
     @Test
+    fun parseDoubleLowercaseExponentNoPlusTest() {
+        val double = parseDouble("2.0e3")
+        assertNotNull(double)
+        assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        assertThat(double).isEqualTo(2.0E3)
+    }
+
+    @Test
+    fun parseDoubleExponentCommaTest() {
+        val double = parseDouble("2.0E,3")
+        assertNotNull(double)
+        assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        assertThat(double).isEqualTo(2.0)
+    }
+
+    @Test
+    fun parseDoubleExponentDotTest() {
+        val double = parseDouble("2.0E0.3")
+        assertNotNull(double)
+        assertThat(double).isInstanceOf(Double::class.javaObjectType)
+        assertThat(double).isEqualTo(2.0)
+    }
+
+    @Test
     fun parseDoubleWrongExponentTest() {  //e+ is interpreted as the rest of the expression
         val double = parseDouble("2.0e+")
         assertNotNull(double)
