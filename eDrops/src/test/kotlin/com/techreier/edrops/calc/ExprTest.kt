@@ -751,4 +751,135 @@ class ExprTest {
         expr.calculate()
         assertEquals(NaN, expr.result())
     }
+
+    @Test
+    fun greaterThanTrueTest() {
+        val input = "5 > 3"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(TRUE, expr.result())
+    }
+
+    @Test
+    fun greaterThanFalseTest() {
+        val input = "3 > 5"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(FALSE, expr.result())
+    }
+
+    @Test
+    fun lessThanTrueTest() {
+        val input = "3 < 5"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(TRUE, expr.result())
+    }
+
+    @Test
+    fun lessThanFalseTest() {
+        val input = "5 < 3"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(FALSE, expr.result())
+    }
+
+    @Test
+    fun greaterThanOrEqualEqualTest() {
+        val input = "5 >= 5"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(TRUE, expr.result())
+    }
+
+    @Test
+    fun greaterThanOrEqualFalseTest() {
+        val input = "4 >= 5"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(FALSE, expr.result())
+    }
+
+    @Test
+    fun lessThanOrEqualEqualTest() {
+        val input = "5 <= 5"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(TRUE, expr.result())
+    }
+
+    @Test
+    fun lessThanOrEqualFalseTest() {
+        val input = "6 <= 5"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(FALSE, expr.result())
+    }
+
+    @Test
+    fun equalPrecisionTest() {
+        val input = "0.1 + 0.2 == 0.3"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(TRUE, expr.result())
+    }
+
+    @Test
+    fun notEqualTrueTest() {
+        val input = "5 != 3"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(TRUE, expr.result())
+    }
+
+    @Test
+    fun notEqualPrecisionFalseTest() {
+        val input = "0.1 + 0.2 != 0.3"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(FALSE, expr.result())
+    }
+
+    @Test
+    fun selectWithComparisonTrueTest() {
+        val input = "select(5 > 3; 10; 20)"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(10.0, expr.result())
+    }
+
+    @Test
+    fun selectWithComparisonFalseTest() {
+        val input = "select(0.1 + 0.2 != 0.3; 10; 20)"
+        val expr = Expr(calc, input)
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(20.0, expr.result())
+    }
+
 }

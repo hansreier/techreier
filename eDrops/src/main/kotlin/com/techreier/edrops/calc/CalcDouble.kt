@@ -38,7 +38,8 @@ class CalcDouble : Calc<Double>() {
         operators += setOf(
             Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
             Op.ATAN, Op.RAD, Op.DEG, Op.EX, Op.LN, Op.LOG2, Op.SQRT,
-            Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM, Op.SELECT
+            Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM,
+            Op.SELECT, Op.GT, Op.LT, Op.GTE, Op.LTE, Op.EQ, Op.NEQ
         )
 
         //Check for consistency in set of enums
@@ -104,6 +105,42 @@ class CalcDouble : Calc<Double>() {
                 y = arg.next() as Double
                 x = arg.next() as Double
                 r.add(x / y)
+            }
+
+            Op.GT -> {
+                y = arg.next() as Double
+                x = arg.next() as Double
+                r.add(if (x - y > tol(x, y)) 1.0 else 0.0)
+            }
+
+            Op.LT -> {
+                y = arg.next() as Double
+                x = arg.next() as Double
+                r.add(if (y - x > tol(x, y)) 1.0 else 0.0)
+            }
+
+            Op.GTE -> {
+                y = arg.next() as Double
+                x = arg.next() as Double
+                r.add(if (x - y >= -tol(x, y)) 1.0 else 0.0)
+            }
+
+            Op.LTE -> {
+                y = arg.next() as Double
+                x = arg.next() as Double
+                r.add(if (y - x >= -tol(x, y)) 1.0 else 0.0)
+            }
+
+            Op.EQ -> {
+                y = arg.next() as Double
+                x = arg.next() as Double
+                r.add(if (abs(x - y) <= tol(x, y)) 1.0 else 0.0)
+            }
+
+            Op.NEQ -> {
+                y = arg.next() as Double
+                x = arg.next() as Double
+                r.add(if (abs(x - y) > tol(x, y)) 1.0 else 0.0)
             }
 
             Op.NEGATE -> {
@@ -299,7 +336,9 @@ class CalcDouble : Calc<Double>() {
             }
 
             else -> {
+                val errorText = "Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}"
                 logger.error("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}")
+                throw (CalcException(UNKNOWN_OPERATOR, operator.abbrev(), errorText))
             }
         }
 
@@ -315,5 +354,9 @@ class CalcDouble : Calc<Double>() {
     //to be used for rounding to zero for some selected functions
     private fun Double.cleanZero(): Double =
         if (abs(this) < EPSILON) 0.0 else this
+
+    // Qualy Double equals
+    private fun tol(x: Double, y: Double) = EPSILON * maxOf(1.0, abs(x), abs(y))
+
 }
 

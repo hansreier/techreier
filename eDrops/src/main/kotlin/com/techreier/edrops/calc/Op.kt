@@ -13,17 +13,23 @@ import com.techreier.edrops.config.logger
  * priority = - 1 (not to be used in expressions by the parser
  */
 enum class Op(
-    private val abbrev: String,
-    private val noArgs: Int,
-    private val noResults: Int,
-    private val prior: Int,
+    val abbrev: String,
+    val noArgs: Int,
+    val noResults: Int,
+    val prior: Int,
 ) {
+    GT(">", 2, 1, 6),
+    LT("<", 2, 1, 6),
+    GTE(">=", 2, 1, 6),
+    LTE("<=", 2, 1, 6),
+    EQ("==", 2, 1, 6),
+    NEQ("!=", 2, 1, 6),
     ADD("+", 2, 1, 5),
     SUBTRACT("-", 2, 1, 5),
     MULTIPLY("*", 2, 1, 4),
     DIVIDE("/", 2, 1, 4),
     POW("^", 2, 1, 3),
-    SEPARATOR(";", 2, 2, -1),
+    SEPARATOR(";", 2, 2, 7), //TOSO ReierAsk was -1
     ABS("abs", 1, 1 ),
     MAX("max", -1, 1),
     MIN("min", -1, 1),
@@ -118,7 +124,7 @@ enum class Op(
     fun valid(set: Set<Op>): Boolean = set.contains(this)
 
     companion object {
-        val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR)
+        val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR, GT, LT, GTE, LTE, EQ, NEQ)
         val parenthesis = setOf(LEFTP, RIGHTP)
         val variables = setOf(G, T, T0, T1, DT, X, X0, X1, Y, Y0, Y1, DY, Z, Z0, Z1, DZ, U, U0, U1, DU, V, V0, V1, DV, W, W0, W1, DW, A, A0, A1, DA, M, F, K, P, Q, S, DX)
         val constants = setOf(PI, E, C, TRUE, FALSE, RANDOM) // Functions without arguments is considered as a quasi-constant
@@ -149,7 +155,7 @@ enum class Op(
         // Return operator in text at expression position. Function used only in preparsing
         // At the moment separator is the only exception to rule (Removed before calculation)
         //TODO ReierAsk Only one return argument allowed. Any usecase for more?
-        fun operator(text: String, pos: Int, set: Set<Op>): Op? {
+        fun operator2(text: String, pos: Int, set: Set<Op>): Op? {
             val textVar = text.substring(pos).lowercase()
             if (textVar.isNotEmpty()) {
                 for (o in set) {
@@ -172,6 +178,26 @@ enum class Op(
                         }
                     }
                 }
+            }
+            logger.info("Operator not found")
+            return null
+        }
+
+        fun operator(text: String, pos: Int, set: Set<Op>): Op? {
+            val textVar = text.substring(pos).lowercase()
+            if (textVar.isNotEmpty()) {
+                val validOps = set.filter { (it.prior >= 0 && it.noResults == 1) || it == SEPARATOR }
+
+                val match = if (textVar[0].isLetter()) {
+                    val word = textVar.takeWhile { it.isLetterOrDigit() }
+                    validOps.find { it.abbrev == word }
+                } else {
+                    validOps
+                        .filter { textVar.startsWith(it.abbrev) }
+                        .maxByOrNull { it.abbrev.length }
+                }
+
+                if (match != null) return match
             }
             logger.info("Operator not found")
             return null
