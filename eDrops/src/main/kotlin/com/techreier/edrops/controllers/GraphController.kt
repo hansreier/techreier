@@ -1,6 +1,7 @@
 package com.techreier.edrops.controllers
 
 import com.techreier.edrops.calc.CalcDouble
+import com.techreier.edrops.calc.EPSILON
 import com.techreier.edrops.calc.Expr
 import com.techreier.edrops.calc.utils.radians
 import com.techreier.edrops.calc.utils.errorIndicator
@@ -13,7 +14,7 @@ import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.exceptions.VariableException
 import com.techreier.edrops.forms.GraphForm
 import com.techreier.edrops.graph.*
-import com.techreier.edrops.util.fixed
+import com.techreier.edrops.util.float
 import com.techreier.edrops.util.msg
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import kotlin.math.abs
 
 const val GRAPH = "graph"
 const val GRAPH_DIR = "/$GRAPH"
@@ -98,13 +100,18 @@ class GraphController(
 
                 val xMin = seriesList.minOf { it.statistics.xMin }
                 val xMax = seriesList.maxOf { it.statistics.xMax }
-                val yMin = seriesList.minOf { it.statistics.yMin }
-                val yMax = seriesList.maxOf { it.statistics.yMax }
-
-                graphForm.xMin = xMin.fixed()
-                graphForm.xMax = xMax.fixed()
-                graphForm.yMin = yMin.fixed(5)
-                graphForm.yMax = yMax.fixed(5)
+                var yMin = seriesList.minOf { it.statistics.yMin }
+                var yMax = seriesList.maxOf { it.statistics.yMax }
+                val ySize = (abs(yMax)+ abs(yMin)) / 2
+                if ((yMax - yMin) / ySize < EPSILON) {
+                    val ykorr = ySize / 10.0
+                    yMin -= ykorr
+                    yMax += ykorr
+                }
+                graphForm.xMin = xMin.float()
+                graphForm.xMax = xMax.float()
+                graphForm.yMin = yMin.float(5)
+                graphForm.yMax = yMax.float(5)
 
                 redirectAttributes.addFlashAttribute("graphForm", graphForm)
                 redirectAttributes.addFlashAttribute("diagram", diagramResult.diagram)
