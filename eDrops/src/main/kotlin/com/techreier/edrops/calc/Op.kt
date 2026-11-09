@@ -25,6 +25,7 @@ enum class Op(
     EQ("==", 2, 1, 6),
     NEQ("!=", 2, 1, 6),
     ADD("+", 2, 1, 5),
+    NOT("!", 1, 1, 7),
     SUBTRACT("-", 2, 1, 5),
     MULTIPLY("*", 2, 1, 4),
     DIVIDE("/", 2, 1, 4),
@@ -130,7 +131,7 @@ enum class Op(
         val constants = setOf(PI, E, C, TRUE, FALSE, RANDOM) // Functions without arguments is considered as a quasi-constant
         val symbols = variables + constants
         val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, SQR, SQRT, DEG, EX, LN, LOG10, LOG2,
-            POW10, HYP, GYP, NEGATE, RAD, ABS, SIGN, SUM, MAX, MIN, SELECT)
+            POW10, HYP, GYP, NEGATE, NOT, RAD, ABS, SIGN, SUM, MAX, MIN, SELECT)
         private const val DEFAULT_LEVEL = 2
 
         fun operator(abbrev: String): Op? {
@@ -154,35 +155,7 @@ enum class Op(
 
         // Return operator in text at expression position. Function used only in preparsing
         // At the moment separator is the only exception to rule (Removed before calculation)
-        //TODO ReierAsk Only one return argument allowed. Any usecase for more?
-        fun operator2(text: String, pos: Int, set: Set<Op>): Op? {
-            val textVar = text.substring(pos).lowercase()
-            if (textVar.isNotEmpty()) {
-                for (o in set) {
-                    if ((o.prior >= 0) && (o.noResults == 1) || (o == SEPARATOR)) { //Can be changed
-                        if (textVar.startsWith(o.abbrev)) {
-                            val p = o.abbrev.length
-                            if (textVar.length <= p)
-                                return o
-                            else {
-                                val c = textVar[p]
-                                when {
-                                    o.isParenthesis() || o.isOperator() -> return o
-                                    else -> {
-                                        if (!(Character.isLetter(c) || Character.isDigit(c))) {
-                                            return o
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            logger.info("Operator not found")
-            return null
-        }
-
+        // TODO ReierAsk Only one return argument allowed. Any usecase for more?
         fun operator(text: String, pos: Int, set: Set<Op>): Op? {
             val textVar = text.substring(pos).lowercase()
             if (textVar.isNotEmpty()) {

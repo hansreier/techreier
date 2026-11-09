@@ -39,7 +39,7 @@ class CalcDouble : Calc<Double>() {
             Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
             Op.ATAN, Op.RAD, Op.DEG, Op.EX, Op.LN, Op.LOG2, Op.SQRT,
             Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM,
-            Op.SELECT, Op.GT, Op.LT, Op.GTE, Op.LTE, Op.EQ, Op.NEQ
+            Op.SELECT, Op.GT, Op.LT, Op.GTE, Op.LTE, Op.EQ, Op.NEQ, Op.NOT
         )
 
         //Check for consistency in set of enums
@@ -279,6 +279,15 @@ class CalcDouble : Calc<Double>() {
 
             Op.FALSE -> {
                 r.add(0.0)
+            }
+
+            Op.NOT -> {
+                x = arg.next() as Double
+                r.add(when {
+                    abs(x) < EPSILON -> 1.0
+                    abs(x - 1.0) < EPSILON -> 0.0
+                    else -> Double.NaN
+                })
             }
 
             Op.SELECT -> { //Mimics an IF statement

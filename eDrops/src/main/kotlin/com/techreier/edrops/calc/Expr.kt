@@ -132,7 +132,7 @@ class Expr<T>(val calc: Calc<T>, expr: String) {
                             }
 
                             token.isFunction() -> {
-                                if (token.isNegate() && (index < rawTokens.size - 1) && rawTokens[index + 1].isFunction()) {
+                                if ((token.isNegate() || token.isNot() )&& (index < rawTokens.size - 1) && rawTokens[index + 1].isFunction()) {
                                     val argumentInfo = parseArguments(Range(index + 1, range.max), rawTokens)
                                     recursiveParse(
                                         Range(argumentInfo.range.min - 2, argumentInfo.range.max + 1),

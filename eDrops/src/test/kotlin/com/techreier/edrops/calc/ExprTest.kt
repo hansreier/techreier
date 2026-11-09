@@ -4,6 +4,7 @@ import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.graph.logger
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
@@ -519,7 +520,7 @@ class ExprTest {
     }
 
     @Test
-    fun operatorNegateTest() {  //Returns error
+    fun operatorNegateTest() {
         val expr = Expr(calc, " 3 * - 3")
         expr.trace(Trace.ALL)
         expr.parse()
@@ -527,6 +528,14 @@ class ExprTest {
         assertEquals(-9.0 , calc.result())
     }
 
+    @Test
+    fun functionNegateTest() {
+        val expr = Expr(calc, "NEGATE -2")
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(2.0 , calc.result())
+    }
 
     @Test
     fun overFlowTest() {
@@ -880,6 +889,35 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         assertEquals(20.0, expr.result())
+    }
+
+    @Test
+    fun notTest() {
+        val expr = Expr(calc, "!(!x)")
+        expr[Op.X] = TRUE
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(TRUE , calc.result())
+    }
+
+    @Test
+    fun notAdvancedTest() {
+        val expr = Expr(calc, "!x + 5")
+        expr[Op.X] = TRUE
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(5.0 , calc.result())
+    }
+
+    @Test
+    fun notAtEndTest() {  //TODO ReierAsk Probably move to test of the argument function
+        val expr = Expr(calc, " 3 !")
+        expr[Op.X] = TRUE
+        expr.trace(Trace.ALL)
+        val e = assertThrows(ParseException::class.java) { expr.parse() }
+        assertEquals(MISSING_ARGUMENTS , e.parseError.key)
     }
 
 }

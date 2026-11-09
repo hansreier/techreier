@@ -52,5 +52,6 @@ fun Token.isSymbol(): Boolean = this is OperatorToken && this.operator.isSymbol(
 fun Token.isConstant(): Boolean = this is OperatorToken && this.operator.isConstant()
 fun Token.isValue(): Boolean = (this is OperatorToken && this.operator.isSymbol()) || this is NumberToken
 fun Token.isNegate(): Boolean = (this is OperatorToken && this.operator == Op.NEGATE)
+fun Token.isNot(): Boolean = (this is OperatorToken && this.operator == Op.NOT)
 
 

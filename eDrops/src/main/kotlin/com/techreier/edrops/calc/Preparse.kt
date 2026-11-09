@@ -104,11 +104,19 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                 }
 
                 Op.NEGATE -> {
-                    if (lastOpType == OpType.NEGATE){ //Todo ReierAsk
+                    if (lastOpType == OpType.NEGATE){
                         parseError = ParseError(CONSECUTIVE_NEGATE, i1, oper.op.abbrev())
                         return ParseResult(tokens, parseError)
                     }
                     lastOpType = OpType.NEGATE
+                }
+
+                Op.NOT -> {
+                    if (lastOpType == OpType.UNARY){
+                        parseError = ParseError(CONSECUTIVE_UNARY, i1, oper.op.abbrev())
+                        return ParseResult(tokens, parseError)
+                    }
+                    lastOpType = OpType.UNARY
                 }
 
                 in symbols -> {
@@ -134,6 +142,11 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                         parseError = ParseError(MISSING_PARENTHESIS, i1, oper.op.abbrev())
                         return ParseResult(tokens, parseError)
                     }
+                    if (lastOpType == OpType.UNARY){
+                        parseError = ParseError(MISPLACED_OPERATOR, i1, oper.op.abbrev())
+                        return ParseResult(tokens, parseError)
+                    }
+
                     if (lastOpType == OpType.OPERATOR) {
                         parseError = ParseError(MISSING_OPERAND, i1, oper.op.abbrev())
                         return ParseResult(tokens, parseError)
