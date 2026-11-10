@@ -6,8 +6,6 @@ import com.techreier.edrops.calc.Op.Companion.functions
 import com.techreier.edrops.calc.Op.Companion.parenthesis
 import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.exceptions.CalcException
-import java.lang.Math.random
-import java.util.*
 import kotlin.Double.Companion.NaN
 import kotlin.math.E
 import kotlin.math.PI
@@ -28,12 +26,16 @@ import kotlin.math.sign
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.math.tan
+import kotlin.random.Random
+
+private const val DEGREES_TO_RADIANS = PI / 180
+private const val RADIANS_TO_DEGREES = 180 / PI
 
 class CalcDouble : Calc<Double>() {
     override val type: Class<Double> = Double::class.javaObjectType
     var radians: Boolean = true
 
-    override val vars: MutableMap<Op, Double> = EnumMap(Op::class.java)
+    override val vars: MutableMap<Op, Double> = mutableMapOf()
 
     init {
         operators += setOf(
@@ -213,7 +215,7 @@ class CalcDouble : Calc<Double>() {
                 if (radians)
                     r.add(sin(x).cleanZero())
                 else
-                    r.add(sin(Math.toRadians(x)).cleanZero())
+                    r.add(sin(x * DEGREES_TO_RADIANS).cleanZero())
             }
 
             Op.ASIN -> {
@@ -221,7 +223,7 @@ class CalcDouble : Calc<Double>() {
                 if (radians)
                     r.add(asin(x))
                 else
-                    r.add(Math.toDegrees(asin(x)))
+                    r.add(asin(x) * RADIANS_TO_DEGREES)
             }
 
             Op.COS -> {
@@ -229,7 +231,7 @@ class CalcDouble : Calc<Double>() {
                 if (radians)
                     r.add(cos(x).cleanZero())
                 else
-                    r.add(cos(Math.toRadians(x)).cleanZero())
+                    r.add(cos(x * DEGREES_TO_RADIANS).cleanZero())
             }
 
             Op.ACOS -> {
@@ -237,7 +239,7 @@ class CalcDouble : Calc<Double>() {
                 if (radians)
                     r.add(asin(x))
                 else
-                    r.add(Math.toDegrees(acos(x)))
+                    r.add(acos(x) * RADIANS_TO_DEGREES)
             }
 
             Op.TAN -> {
@@ -245,7 +247,7 @@ class CalcDouble : Calc<Double>() {
                 if (radians)
                     r.add(tan(x).cleanZero())
                 else
-                    r.add(tan(Math.toRadians(x)).cleanZero())
+                    r.add(tan(x * DEGREES_TO_RADIANS).cleanZero())
             }
 
             Op.ATAN -> {
@@ -253,17 +255,17 @@ class CalcDouble : Calc<Double>() {
                 if (radians)
                     r.add(atan(x))
                 else
-                    r.add(Math.toDegrees(Math.atan(x)))
+                r.add(atan(x) * RADIANS_TO_DEGREES)
             }
 
             Op.RAD -> {
                 x = arg.next() as Double
-                r.add(Math.toRadians(x))
+            r.add(x * DEGREES_TO_RADIANS)
             }
 
             Op.DEG -> {
                 x = arg.next() as Double
-                r.add(Math.toDegrees(x))
+            r.add(x * RADIANS_TO_DEGREES)
             }
 
             Op.EX -> {
@@ -339,7 +341,7 @@ class CalcDouble : Calc<Double>() {
                 r.add(E)
             }
             Op.RANDOM -> {
-                r.add(random())
+                r.add(Random.nextDouble())
             }
 
             Op.SUM -> {

@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory
 import java.util.*
 
 abstract class Calc<T> {
-    protected val logger = LoggerFactory.getLogger(javaClass.simpleName)
+    protected val logger = LoggerFactory.getLogger(this::class.simpleName)
     abstract val type: Class<T>
     abstract val vars: MutableMap<Op, T>
     var stack: Deque<T> = ArrayDeque()

@@ -5,8 +5,8 @@ import com.techreier.edrops.config.*
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.util.axis
 import org.springframework.stereotype.Service
-import java.lang.Integer.max
 import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.pow
 
 @Service
