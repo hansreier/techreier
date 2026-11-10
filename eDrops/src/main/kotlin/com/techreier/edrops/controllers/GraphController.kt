@@ -102,9 +102,9 @@ class GraphController(
                 val xMax = seriesList.maxOf { it.statistics.xMax }
                 var yMin = seriesList.minOf { it.statistics.yMin }
                 var yMax = seriesList.maxOf { it.statistics.yMax }
-                val ySize = (abs(yMax)+ abs(yMin)) / 2
-                if ((yMax - yMin) / ySize < EPSILON) {
-                    val ykorr = ySize / 10.0
+                val ySize = (abs(yMax) + abs(yMin)) / 2
+                if (ySize == 0.0 || (yMax - yMin) / ySize < EPSILON) {
+                    val ykorr = if (ySize == 0.0) 1.0 else ySize / 10.0
                     yMin -= ykorr
                     yMax += ykorr
                 }
