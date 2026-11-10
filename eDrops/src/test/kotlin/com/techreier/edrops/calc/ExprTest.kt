@@ -986,4 +986,17 @@ class ExprTest {
         assertEquals(MISSING_ARGUMENTS , e.parseError.key)
     }
 
+    @Test
+    fun relationalAsymmetryTest() {
+        val expr1 = Expr(calc, "3 < 5")
+        expr1.parse()
+        expr1.calculate()
+        assertEquals(TRUE, expr1.result())
+
+        val expr2 = Expr(calc, "5 < 3")
+        expr2.parse()
+        expr2.calculate()
+        assertEquals(FALSE, expr2.result())
+    }
+
 }

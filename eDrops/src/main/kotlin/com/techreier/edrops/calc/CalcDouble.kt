@@ -111,37 +111,51 @@ class CalcDouble : Calc<Double>() {
             Op.GT -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
-                r.add(if (x - y > tol(x, y)) 1.0 else 0.0)
+                if (isNotNan(x,y))
+                    r.add(if (x - y > tol(x, y)) 1.0 else 0.0)
+                else
+                    r.add(NaN)
             }
 
             Op.LT -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
-                r.add(if (y - x > tol(x, y)) 1.0 else 0.0)
+                if (isNotNan(x,y))
+                    r.add(if (y - x > tol(x, y)) 1.0 else 0.0)
+                else
+                    r.add(NaN)
             }
 
             Op.GTE -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
-                r.add(if (x - y >= -tol(x, y)) 1.0 else 0.0)
+                if (isNotNan(x,y))
+                    r.add(if (x - y >= -tol(x, y)) 1.0 else 0.0)
+                else r.add(NaN)
             }
 
             Op.LTE -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
-                r.add(if (y - x >= -tol(x, y)) 1.0 else 0.0)
+                if (isNotNan(x,y))
+                    r.add(if (y - x >= -tol(x, y)) 1.0 else 0.0)
+                else r.add(NaN)
             }
 
             Op.EQ -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
-                r.add(if (abs(x - y) <= tol(x, y)) 1.0 else 0.0)
+                if (isNotNan(x,y))
+                    r.add(if (abs(x - y) <= tol(x, y)) 1.0 else 0.0)
+                else r.add(NaN)
             }
 
             Op.NEQ -> {
                 y = arg.next() as Double
                 x = arg.next() as Double
-                r.add(if (abs(x - y) > tol(x, y)) 1.0 else 0.0)
+                if (isNotNan(x,y))
+                    r.add(if (abs(x - y) > tol(x, y)) 1.0 else 0.0)
+                else r.add(NaN)
             }
 
 
@@ -304,7 +318,7 @@ class CalcDouble : Calc<Double>() {
             Op.NOT -> {
                 x = arg.next() as Double
                 if (isValidBooleans(x))
-                    r.add( if (abs(x) < EPSILON) 1.0 else 0.0)
+                    r.add( if (x < 0.5) 1.0 else 0.0)
                 else
                     r.add(NaN)
             }
@@ -386,6 +400,10 @@ class CalcDouble : Calc<Double>() {
 
     fun isValidBooleans(vararg values: Double): Boolean {
         return values.all { (abs(it) < EPSILON) || (abs(it - 1.0) < EPSILON) }
+    }
+
+    fun isNotNan(vararg values: Double): Boolean {
+        return values.all { !it.isNaN() }
     }
 
     // Qualy Double equals
