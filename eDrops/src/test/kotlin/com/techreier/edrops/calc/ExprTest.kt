@@ -912,7 +912,7 @@ class ExprTest {
     }
 
     @Test
-    fun notAtEndTest() {  //TODO ReierAsk Probably move to test of the argument function
+    fun notAtEndTest() {
         val expr = Expr(calc, " 3 !")
         expr[Op.X] = TRUE
         expr.trace(Trace.ALL)

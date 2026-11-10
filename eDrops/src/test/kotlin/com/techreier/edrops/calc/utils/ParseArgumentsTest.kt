@@ -9,6 +9,22 @@ import org.junit.jupiter.api.Test
 class ParseArgumentsTest {
 
 
+
+    @Test
+    fun oneArgumentNoParentheisTest() { // Input: A function as unary operator
+        val tokens = listOf(
+            OperatorToken(Op.NOT, 0),
+            OperatorToken(Op.X, 1),
+        )
+        val range = Range(0, 1)
+        val argumentInfo = parseArguments(range, tokens)
+        assertThat(argumentInfo.tokens).hasSize(1)
+        assertThat(argumentInfo.range).isEqualTo(Range(1, 1))
+        assertThat(argumentInfo.nextPos).isEqualTo(2)
+        assertThat(argumentInfo.push).isTrue()
+        assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[1])
+    }
+
     @Test
     fun oneArgumentTest() {
         val tokens = listOf(
@@ -22,7 +38,7 @@ class ParseArgumentsTest {
         val range = Range(0, 5)
         val argumentInfo = parseArguments(range, tokens)
         assertThat(argumentInfo.tokens).hasSize(1)
-        assertThat(argumentInfo.range).isEqualTo(Range(2, 4))  //TODO ReierAsk works but incorrect
+        assertThat(argumentInfo.range).isEqualTo(Range(2, 4))
         assertThat(argumentInfo.nextPos).isEqualTo(6)
         assertThat(argumentInfo.push).isTrue()
         assertThat(argumentInfo.tokens[0]).isEqualTo(tokens[3])

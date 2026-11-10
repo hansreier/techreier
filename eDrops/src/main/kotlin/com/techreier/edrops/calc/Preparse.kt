@@ -2,6 +2,7 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.calc.Op.Companion.basicOperators
 import com.techreier.edrops.calc.Op.Companion.symbols
+import com.techreier.edrops.calc.Op.Companion.unaryOperators
 import com.techreier.edrops.calc.utils.parseDouble
 import java.text.ParsePosition
 
@@ -103,20 +104,20 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
                     lastOpType = OpType.RIGHTP
                 }
 
-                Op.NEGATE -> {
+                in unaryOperators -> {
                     if (lastOpType == OpType.NEGATE){
                         parseError = ParseError(CONSECUTIVE_NEGATE, i1, oper.op.abbrev())
                         return ParseResult(tokens, parseError)
                     }
-                    lastOpType = OpType.NEGATE
-                }
-
-                Op.NOT -> {
                     if (lastOpType == OpType.UNARY){
                         parseError = ParseError(CONSECUTIVE_UNARY, i1, oper.op.abbrev())
                         return ParseResult(tokens, parseError)
                     }
-                    lastOpType = OpType.UNARY
+                    if (oper.op == Op.NEGATE) {
+                        lastOpType = OpType.NEGATE
+                    } else {
+                        lastOpType = OpType.UNARY
+                    }
                 }
 
                 in symbols -> {
@@ -211,6 +212,10 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
         return ParseResult(tokens, parseError)
     }
     return ParseResult(tokens, null)
+}
+
+private enum class OpType {
+    NUMBER, FUNCTION, SYMBOL, OPERATOR, UNARY, SEPARATOR, LEFTP, RIGHTP, EMPTY, NEGATE
 }
 
 private data class Oper(

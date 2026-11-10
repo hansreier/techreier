@@ -126,12 +126,14 @@ enum class Op(
 
     companion object {
         val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR, GT, LT, GTE, LTE, EQ, NEQ)
+        val unaryOperators = setOf(NEGATE, NOT)
         val parenthesis = setOf(LEFTP, RIGHTP)
-        val variables = setOf(G, T, T0, T1, DT, X, X0, X1, Y, Y0, Y1, DY, Z, Z0, Z1, DZ, U, U0, U1, DU, V, V0, V1, DV, W, W0, W1, DW, A, A0, A1, DA, M, F, K, P, Q, S, DX)
+        val variables = setOf(G, T, T0, T1, DT, X, X0, X1, Y, Y0, Y1, DY, Z, Z0, Z1, DZ, U, U0, U1, DU, V, V0, V1,
+            DV, W, W0, W1, DW, A, A0, A1, DA, M, F, K, P, Q, S, DX)
         val constants = setOf(PI, E, C, TRUE, FALSE, RANDOM) // Functions without arguments is considered as a quasi-constant
         val symbols = variables + constants
         val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, SQR, SQRT, DEG, EX, LN, LOG10, LOG2,
-            POW10, HYP, GYP, NEGATE, NOT, RAD, ABS, SIGN, SUM, MAX, MIN, SELECT)
+            POW10, HYP, GYP, RAD, ABS, SIGN, SUM, MAX, MIN, SELECT) + unaryOperators
         private const val DEFAULT_LEVEL = 2
 
         fun operator(abbrev: String): Op? {
