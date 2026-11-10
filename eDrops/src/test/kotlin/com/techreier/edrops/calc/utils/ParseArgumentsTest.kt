@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test
 
 class ParseArgumentsTest {
 
-
-
     @Test
     fun oneArgumentNoParentheisTest() { // Input: A function as unary operator
         val tokens = listOf(
