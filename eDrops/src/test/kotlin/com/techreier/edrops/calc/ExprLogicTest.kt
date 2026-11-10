@@ -276,4 +276,15 @@ class ExprLogicTest {
         assertEquals(FALSE, expr2.result())
     }
 
+    @Test
+    fun logicNaNTest() {
+        val input = "sin(x) && true"
+        val expr = Expr(calc, input)
+        expr[Op.X] = 3.0
+        expr.trace(Trace.ALL)
+        expr.parse()
+        expr.calculate()
+        assertEquals(NaN, expr.result())
+    }
+
 }
