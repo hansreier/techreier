@@ -5,6 +5,7 @@ import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.graph.logger
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
@@ -889,6 +890,71 @@ class ExprTest {
         expr.parse()
         expr.calculate()
         assertEquals(20.0, expr.result())
+    }
+
+    @Test
+    fun selectWithGreaterThanTrueTest() {
+        val input = "select(5 > 3; 10; 20)"
+        val expr = Expr(calc, input)
+        expr.parse()
+        expr.calculate()
+        assertEquals(10.0, expr.result())
+    }
+
+    @Test
+    fun relationalOperatorsWithToleranceTest() {
+        val input = "0.1 + 0.2 == 0.3"
+        val expr = Expr(calc, input)
+        expr.parse()
+        expr.calculate()
+        assertEquals(1.0, expr.result())
+    }
+
+    @Test
+    fun logicalAndValidTest() {
+        val input = "true && true"
+        val expr = Expr(calc, input)
+        expr.parse()
+        expr.trace(Trace.ALL)
+        expr.calculate()
+        assertEquals(TRUE, expr.result())
+    }
+
+    @Test
+    fun logicalOrTest() {
+        val input = "false || true"
+        val expr = Expr(calc, input)
+        expr.parse()
+        expr.trace(Trace.ALL)
+        expr.calculate()
+        assertEquals(TRUE, expr.result())
+    }
+
+    @Test
+    fun logicalAndInvalidInputNanTest() {
+        val input = "true && 5"
+        val expr = Expr(calc, input)
+        expr.parse()
+        expr.calculate()
+        assertTrue(expr.result().isNaN())
+    }
+
+    @Test
+    fun relationalOperatorNanPropagationTest() {
+        val input = "(0 / 0) > 3"
+        val expr = Expr(calc, input)
+        expr.parse()
+        expr.calculate()
+        assertTrue(expr.result().isNaN())
+    }
+
+    @Test
+    fun complexLogicalAndSelectTest() {
+        val input = "select((10 >= 5) && (2 < 3); 100; 200)"
+        val expr = Expr(calc, input)
+        expr.parse()
+        expr.calculate()
+        assertEquals(100.0, expr.result())
     }
 
     @Test

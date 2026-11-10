@@ -8,6 +8,7 @@ import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.exceptions.CalcException
 import java.lang.Math.random
 import java.util.*
+import kotlin.Double.Companion.NaN
 import kotlin.math.E
 import kotlin.math.PI
 import kotlin.math.abs
@@ -39,7 +40,7 @@ class CalcDouble : Calc<Double>() {
             Op.SIN, Op.COS, Op.TAN, Op.ASIN, Op.ACOS,
             Op.ATAN, Op.RAD, Op.DEG, Op.EX, Op.LN, Op.LOG2, Op.SQRT,
             Op.E, Op.PI, Op.HYP, Op.GYP, Op.NEGATE, Op.RANDOM,
-            Op.SELECT, Op.GT, Op.LT, Op.GTE, Op.LTE, Op.EQ, Op.NEQ, Op.NOT
+            Op.SELECT, Op.GT, Op.LT, Op.GTE, Op.LTE, Op.EQ, Op.NEQ, Op.NOT, Op.AND, Op.OR
         )
 
         //Check for consistency in set of enums
@@ -141,6 +142,25 @@ class CalcDouble : Calc<Double>() {
                 y = arg.next() as Double
                 x = arg.next() as Double
                 r.add(if (abs(x - y) > tol(x, y)) 1.0 else 0.0)
+            }
+
+
+            Op.AND -> {
+                y = arg.next() as Double
+                x = arg.next() as Double
+                if (isValidBooleans(x,y))
+                    r.add(if ((x > 0.5) && (y > 0.5))  1.0 else 0.0)
+                else
+                    r.add(NaN)
+            }
+
+            Op.OR -> {
+                y = arg.next() as Double
+                x = arg.next() as Double
+                if (isValidBooleans(x,y))
+                    r.add(if ((x > 0.5) || (y > 0.5))  1.0 else 0.0)
+                else
+                    r.add(NaN)
             }
 
             Op.NEGATE -> {
@@ -283,22 +303,22 @@ class CalcDouble : Calc<Double>() {
 
             Op.NOT -> {
                 x = arg.next() as Double
-                r.add(when {
-                    abs(x) < EPSILON -> 1.0
-                    abs(x - 1.0) < EPSILON -> 0.0
-                    else -> Double.NaN
-                })
+                if (isValidBooleans(x))
+                    r.add( if (abs(x) < EPSILON) 1.0 else 0.0)
+                else
+                    r.add(NaN)
             }
 
-            Op.SELECT -> { //Mimics an IF statement
-                y = arg.next() as Double
-                x = arg.next() as Double
+            Op.SELECT -> { // Mimics an IF statement
+                val y = arg.next() as Double
+                val x = arg.next() as Double
                 val flag = arg.next() as Double
-                r.add(when {
-                    abs(flag) < EPSILON -> y
-                    abs(flag - 1.0) < EPSILON -> x
-                    else -> Double.NaN
-                })
+
+                if (isValidBooleans(flag)) {
+                    r.add(if (abs(flag) < EPSILON) y else x)
+                } else {
+                    r.add(NaN)
+                }
             }
 
             Op.E -> {
@@ -363,6 +383,10 @@ class CalcDouble : Calc<Double>() {
     //to be used for rounding to zero for some selected functions
     private fun Double.cleanZero(): Double =
         if (abs(this) < EPSILON) 0.0 else this
+
+    fun isValidBooleans(vararg values: Double): Boolean {
+        return values.all { (abs(it) < EPSILON) || (abs(it - 1.0) < EPSILON) }
+    }
 
     // Qualy Double equals
     private fun tol(x: Double, y: Double) = EPSILON * maxOf(1.0, abs(x), abs(y))

@@ -26,11 +26,13 @@ enum class Op(
     NEQ("!=", 2, 1, 6),
     ADD("+", 2, 1, 5),
     NOT("!", 1, 1, 7),
+    AND("&&", 2, 1, 8),
+    OR("||", 2, 1, 9),
     SUBTRACT("-", 2, 1, 5),
     MULTIPLY("*", 2, 1, 4),
     DIVIDE("/", 2, 1, 4),
     POW("^", 2, 1, 3),
-    SEPARATOR(";", 2, 2, 7), //TOSO ReierAsk was -1
+    SEPARATOR(";", 2, 2, 10),
     ABS("abs", 1, 1 ),
     MAX("max", -1, 1),
     MIN("min", -1, 1),
@@ -125,7 +127,7 @@ enum class Op(
     fun valid(set: Set<Op>): Boolean = set.contains(this)
 
     companion object {
-        val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR, GT, LT, GTE, LTE, EQ, NEQ)
+        val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR, GT, LT, GTE, LTE, EQ, NEQ, AND, OR)
         val unaryOperators = setOf(NEGATE, NOT)
         val parenthesis = setOf(LEFTP, RIGHTP)
         val variables = setOf(G, T, T0, T1, DT, X, X0, X1, Y, Y0, Y1, DY, Z, Z0, Z1, DZ, U, U0, U1, DU, V, V0, V1,
