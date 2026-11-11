@@ -22,7 +22,6 @@ abstract class Calc<T: Any> {
     ) + variables
 
     fun clear() {
-        Trace.info("tømmer stakken")
         stack.clear()
     }
 
