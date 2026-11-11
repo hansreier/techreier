@@ -2,7 +2,6 @@ package com.techreier.edrops.calc.utils
 
 import com.techreier.edrops.calc.*
 import com.techreier.edrops.exceptions.ParseException
-import com.techreier.edrops.graph.logger
 
 fun parseArguments(rangeIn: Range, tokens: List<Token>): ArgumentInfo {
     var balance = 0
@@ -27,7 +26,7 @@ fun parseArguments(rangeIn: Range, tokens: List<Token>): ArgumentInfo {
         throw ParseException("Error parsing arguments", error)
     }
     val operatorText = (tokens[rangeIn.min] as OperatorToken).operator.abbrev()
-    logger.info("parse arguments for {} range={} expr={}", operatorText, rangeIn, tokens.toExpr(rangeIn))
+    Trace.info("parse arguments for $operatorText range=${rangeIn} expr=${tokens.toExpr(rangeIn)}")
     do {
         when {
             tokens[i].isValue() -> arguments.add(tokens[i])
@@ -59,7 +58,7 @@ fun parseArguments(rangeIn: Range, tokens: List<Token>): ArgumentInfo {
 
 val range = if (parenthesis) Range(min, max) else Range(min, min) //Required for Negate function
 
-    logger.info("arguments found for {} range={} count: {}", operatorText, range, arguments.size)
+    Trace.info("arguments found for $operatorText range=${range} count=$arguments.size")
 
     if (balance != 0) {
         val error = ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)

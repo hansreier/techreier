@@ -1,8 +1,8 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.utils.Trace
 import com.techreier.edrops.calc.utils.TraceLevel
 import com.techreier.edrops.exceptions.ParseException
-import com.techreier.edrops.graph.logger
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -41,7 +41,7 @@ class ExprVariableTest {
         }
         assertEquals(ILLEGAL_VARIABLES, e.parseError.key)
         assertEquals("ADD SIN", e.parseError.oper)
-        logger.info("Result = ${e.message} ${e.parseError} ")
+        Trace.info("Result = ${e.message} ${e.parseError} ")
     }
 
     @Test
