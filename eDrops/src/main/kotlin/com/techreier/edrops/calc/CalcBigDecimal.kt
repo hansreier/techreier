@@ -10,18 +10,20 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.MathContext
 import java.math.RoundingMode
+import kotlin.reflect.KClass
+import kotlin.reflect.cast
 
 
 class CalcBigDecimal : Calc<BigDecimal>() {
-    override val type: Class<BigDecimal> = BigDecimal::class.java
+    override val type: KClass<BigDecimal> = BigDecimal::class
 
     override val vars: MutableMap<Op, BigDecimal> = mutableMapOf()
 
     var scale: Int = 20
 
     init {
-        if (type != BigDecimal::class.java) {
-            throw IllegalArgumentException("Feil parameter ${type.simpleName} , må være ${BigDecimal::class.java.simpleName}.")
+        if (type != BigDecimal::class) {
+            throw IllegalArgumentException("Feil parameter ${type.simpleName} , må være ${BigDecimal::class}.")
         }
         val missing = operators.filter { it !in (functions + constants +basicOperators + variables + parenthesis) }
         require(missing.isEmpty()) {

@@ -3,10 +3,11 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.exceptions.CalcException
 import org.slf4j.LoggerFactory
+import kotlin.reflect.KClass
 
-abstract class Calc<T> {
+abstract class Calc<T: Any> {
     protected val logger = LoggerFactory.getLogger(this::class.simpleName)
-    abstract val type: Class<T>
+    abstract val type: KClass<T>
     abstract val vars: MutableMap<Op, T>
     val stack = ArrayDeque<T>()
     val s = Op.entries.size
@@ -38,11 +39,7 @@ abstract class Calc<T> {
     fun enter(number: String) {
         try {
             val value = parseValue(number)
-            if (value != null) {
-                stack.addLast(value)
-            } else {
-                throw CalcException(NULL_VALUE, "null","calculation aborted with null value")
-            }
+            stack.addLast(value)
         } finally {
             traceStack(number)
         }

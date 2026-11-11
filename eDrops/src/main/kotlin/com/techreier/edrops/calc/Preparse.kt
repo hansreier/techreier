@@ -7,7 +7,7 @@ import com.techreier.edrops.calc.utils.parseDouble
 import java.text.ParsePosition
 
 //One time parse through expression, expr must be sanitized and trimmed
-fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
+fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
     var i1: Int
     var i2: Int
     var number: Number?
@@ -29,7 +29,7 @@ fun <T> preparse(calc: Calc<T>, expr: String): ParseResult {
 
         number =
             when (calc.type) { // parse text to number based on number format allowed in the calculator
-                Double::class.javaObjectType -> {
+                Double::class -> {
                     parseDouble(expr, pos)
                 }
 

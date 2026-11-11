@@ -4,7 +4,7 @@ import com.techreier.edrops.calc.utils.sanitize
 import com.techreier.edrops.calc.utils.splitMultiExpr
 import com.techreier.edrops.exceptions.ParseException
 
-class MultiExpr<T> (val calc: Calc<T>,  multiExpr: String) {
+class MultiExpr<T : Any> (val calc: Calc<T>, multiExpr: String) {
 
     val multiExpr = multiExpr.sanitize()
     val exprList = mutableListOf<Expr<T>>()

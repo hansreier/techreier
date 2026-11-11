@@ -27,12 +27,13 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.math.tan
 import kotlin.random.Random
+import kotlin.reflect.KClass
 
 private const val DEGREES_TO_RADIANS = PI / 180
 private const val RADIANS_TO_DEGREES = 180 / PI
 
 class CalcDouble : Calc<Double>() {
-    override val type: Class<Double> = Double::class.javaObjectType
+    override val type: KClass<Double> = Double::class
     var radians: Boolean = true
 
     override val vars: MutableMap<Op, Double> = mutableMapOf()
