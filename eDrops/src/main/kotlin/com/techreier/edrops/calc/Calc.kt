@@ -3,13 +3,12 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.exceptions.CalcException
 import org.slf4j.LoggerFactory
-import java.util.*
 
 abstract class Calc<T> {
     protected val logger = LoggerFactory.getLogger(this::class.simpleName)
     abstract val type: Class<T>
     abstract val vars: MutableMap<Op, T>
-    val stack = kotlin.collections.ArrayDeque<T>()
+    val stack = ArrayDeque<T>()
     val s = Op.entries.size
 
     var trace: Trace = Trace.OFF
