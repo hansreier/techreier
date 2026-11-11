@@ -108,6 +108,10 @@ class GraphController(
                     yMin -= ykorr
                     yMax += ykorr
                 }
+                if (yMax < yMin ) {
+                    yMin = -1.0
+                    yMax = 1.0
+                }
                 graphForm.xMin = xMin.float()
                 graphForm.xMax = xMax.float()
                 graphForm.yMin = yMin.float(5)
