@@ -1,8 +1,9 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.utils.Trace
+import com.techreier.edrops.calc.utils.TraceLevel
 import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.exceptions.ParseException
-import com.techreier.edrops.graph.logger
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -23,7 +24,7 @@ class ExprErrorTest {
         val input = "3 -2^2"
 
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
         assertEquals(MISSING_OPERATOR, e.parseError.key)
     }
@@ -31,7 +32,7 @@ class ExprErrorTest {
     @Test
     fun minusNegateTest() {  //Returns error
         val expr = Expr(calc, "--(3+5)")
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
         assertEquals(CONSECUTIVE_NEGATE, e.parseError.key)
     }
@@ -40,7 +41,7 @@ class ExprErrorTest {
     fun unicodeTest() {
         val input = "a\u200B + 2"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
         assertThat(e.parseError.key).isEqualTo(UNPARSEABLE)
     }
@@ -49,11 +50,11 @@ class ExprErrorTest {
     fun repeatedOperatorFailsTest() {
         val input = "2^^3"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
         assertThat(e.parseError.key).isEqualTo(MISSING_OPERAND)
         val errorIndicator = errorIndicator(expr.expr, e.parseError)
-        logger.info("Error indicator: $errorIndicator")
+        Trace.info("Error indicator: $errorIndicator")
         assertEquals( "2^???^3", errorIndicator)
     }
 
@@ -61,11 +62,11 @@ class ExprErrorTest {
     fun emptyTest() {
         val input = ""
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         val e = assertThrows <ParseException> {
             expr.parse()
         }
-        logger.info(e.message)
+        Trace.error(e.message)
         assertThat(e.parseError.key).isEqualTo(UNPARSEABLE)
     }
 

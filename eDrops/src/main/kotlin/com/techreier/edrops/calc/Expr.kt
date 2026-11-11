@@ -2,6 +2,8 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.calc.utils.Range
+import com.techreier.edrops.calc.utils.Trace
+import com.techreier.edrops.calc.utils.TraceLevel
 import com.techreier.edrops.calc.utils.checkVariables
 import com.techreier.edrops.calc.utils.findClosure
 import com.techreier.edrops.calc.utils.findUnboundOperator
@@ -10,10 +12,8 @@ import com.techreier.edrops.calc.utils.removeOuterP
 import com.techreier.edrops.calc.utils.sanitize
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.exceptions.VariableException
-import org.slf4j.LoggerFactory
 
 class Expr<T : Any>(val calc: Calc<T>, expr: String) {
-    private val logger = LoggerFactory.getLogger(javaClass.simpleName)
     val expr: String = expr.sanitize()
     val tokens = ArrayList<Token>()
     var target: Op = Op.X
@@ -37,8 +37,8 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
         return calc[op]
     }
 
-    fun trace(trace: Trace) {
-        calc.trace = trace
+    fun trace(tracelevel: TraceLevel) {
+        calc.tracelevel = tracelevel
     }
 
     fun result(): T {
@@ -202,14 +202,14 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                 }
             } while (index <= range.max)
         } else {
-            logger.warn("Calling recursive parse without token that can be calculated")
+            Trace.warn("Calling recursive parse without token that can be calculated")
         }
         trace("Recur[$depth]: End")
     }
 
     private fun trace(text: String) {
-        if ((calc.trace == Trace.ALL) || calc.trace == Trace.PARSE) {
-            logger.info(text)
+        if ((calc.tracelevel == TraceLevel.ALL) || calc.tracelevel == TraceLevel.PARSE) {
+            println("[TRACE] $text")
         }
     }
 

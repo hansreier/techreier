@@ -1,8 +1,9 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.utils.Trace
+import com.techreier.edrops.calc.utils.TraceLevel
 import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.calc.utils.sanitize
-import com.techreier.edrops.config.logger
 import com.techreier.edrops.exceptions.ParseException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -45,13 +46,13 @@ class MultiExprTest {
             expr.parse()
         }
         val errorIndicator = errorIndicator(input.sanitize(), e.parseError)
-        logger.info(errorIndicator)
+        Trace.info(errorIndicator)
         assertEquals("x = 5; y = 3 * ???x-3; z = x + y;", errorIndicator )
     }
 
     @Test
     fun repeatedCalcTest() {
-        calc.trace = Trace.OFF
+        calc.tracelevel = TraceLevel.OFF
         val startValues = """
            dx = 0.1;
            x = 0;
@@ -71,7 +72,7 @@ class MultiExprTest {
 
         do {
             expr.calculate()
-            logger.info("x=${calc[Op.X]}, y=${calc[Op.Y]}")
+            Trace.info("x=${calc[Op.X]}, y=${calc[Op.Y]}")
         } while (calc[Op.X] < 3)
 
     }

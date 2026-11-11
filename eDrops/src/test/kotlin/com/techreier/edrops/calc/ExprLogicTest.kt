@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.utils.TraceLevel
 import com.techreier.edrops.exceptions.ParseException
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -22,7 +23,7 @@ class ExprLogicTest {
         val input = "select(select(x; true; false) ;false ;true)"
         val expr = Expr(calc, input)
         expr[Op.X] = TRUE
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(FALSE, expr.result(), 1e-9)
@@ -33,7 +34,7 @@ class ExprLogicTest {
         val input = "select(5; 3; 2)"
         val expr = Expr(calc, input)
         expr[Op.X] = TRUE
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(NaN, expr.result())
@@ -43,7 +44,7 @@ class ExprLogicTest {
     fun greaterThanTrueTest() {
         val input = "5 > 3"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(TRUE, expr.result())
@@ -53,7 +54,7 @@ class ExprLogicTest {
     fun greaterThanFalseTest() {
         val input = "3 > 5"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(FALSE, expr.result())
@@ -63,7 +64,7 @@ class ExprLogicTest {
     fun lessThanTrueTest() {
         val input = "3 < 5"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(TRUE, expr.result())
@@ -73,7 +74,7 @@ class ExprLogicTest {
     fun lessThanFalseTest() {
         val input = "5 < 3"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(FALSE, expr.result())
@@ -83,7 +84,7 @@ class ExprLogicTest {
     fun greaterThanOrEqualEqualTest() {
         val input = "5 >= 5"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(TRUE, expr.result())
@@ -93,7 +94,7 @@ class ExprLogicTest {
     fun greaterThanOrEqualFalseTest() {
         val input = "4 >= 5"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(FALSE, expr.result())
@@ -103,7 +104,7 @@ class ExprLogicTest {
     fun lessThanOrEqualEqualTest() {
         val input = "5 <= 5"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(TRUE, expr.result())
@@ -113,7 +114,7 @@ class ExprLogicTest {
     fun lessThanOrEqualFalseTest() {
         val input = "6 <= 5"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(FALSE, expr.result())
@@ -123,7 +124,7 @@ class ExprLogicTest {
     fun equalPrecisionTest() {
         val input = "0.1 + 0.2 == 0.3"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(TRUE, expr.result())
@@ -133,7 +134,7 @@ class ExprLogicTest {
     fun notEqualTrueTest() {
         val input = "5 != 3"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(TRUE, expr.result())
@@ -143,7 +144,7 @@ class ExprLogicTest {
     fun notEqualPrecisionFalseTest() {
         val input = "0.1 + 0.2 != 0.3"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(FALSE, expr.result())
@@ -153,7 +154,7 @@ class ExprLogicTest {
     fun selectWithComparisonTrueTest() {
         val input = "select(5 > 3; 10; 20)"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(10.0, expr.result())
@@ -163,7 +164,7 @@ class ExprLogicTest {
     fun selectWithComparisonFalseTest() {
         val input = "select(0.1 + 0.2 != 0.3; 10; 20)"
         val expr = Expr(calc, input)
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(20.0, expr.result())
@@ -192,7 +193,7 @@ class ExprLogicTest {
         val input = "true && true"
         val expr = Expr(calc, input)
         expr.parse()
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.calculate()
         assertEquals(TRUE, expr.result())
     }
@@ -202,7 +203,7 @@ class ExprLogicTest {
         val input = "false || true"
         val expr = Expr(calc, input)
         expr.parse()
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.calculate()
         assertEquals(TRUE, expr.result())
     }
@@ -238,7 +239,7 @@ class ExprLogicTest {
     fun notTest() {
         val expr = Expr(calc, "!(!x)")
         expr[Op.X] = TRUE
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(TRUE , calc.result())
@@ -248,7 +249,7 @@ class ExprLogicTest {
     fun notAdvancedTest() {
         val expr = Expr(calc, "!x + 5")
         expr[Op.X] = TRUE
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(5.0 , calc.result())
@@ -258,7 +259,7 @@ class ExprLogicTest {
     fun notAtEndTest() {
         val expr = Expr(calc, " 3 !")
         expr[Op.X] = TRUE
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         val e = assertThrows(ParseException::class.java) { expr.parse() }
         assertEquals(MISSING_ARGUMENTS , e.parseError.key)
     }
@@ -281,7 +282,7 @@ class ExprLogicTest {
         val input = "sin(x) && true"
         val expr = Expr(calc, input)
         expr[Op.X] = 3.0
-        expr.trace(Trace.ALL)
+        expr.trace(TraceLevel.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(NaN, expr.result())

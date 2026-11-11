@@ -1,6 +1,6 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.config.logger
+import com.techreier.edrops.calc.utils.Trace
 
 /*
  * Operator parameters:
@@ -176,7 +176,7 @@ enum class Op(
 
                 if (match != null) return match
             }
-            logger.info("Operator not found")
+            Trace.error("Operator not found")
             return null
         }
 

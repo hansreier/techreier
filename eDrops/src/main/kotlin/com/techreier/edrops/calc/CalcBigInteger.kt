@@ -5,6 +5,7 @@ import com.techreier.edrops.calc.Op.Companion.constants
 import com.techreier.edrops.calc.Op.Companion.functions
 import com.techreier.edrops.calc.Op.Companion.parenthesis
 import com.techreier.edrops.calc.Op.Companion.variables
+import com.techreier.edrops.calc.utils.Trace
 import com.techreier.edrops.exceptions.CalcException
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -48,7 +49,7 @@ class CalcBigInteger : Calc<BigInteger>() {
         try {
             return input.toBigInteger()
         } catch (_: NumberFormatException) {
-            logger.error("$input : Error. Wrong BigInteger format. ")
+            Trace.error("$input : Error. Wrong BigInteger format. ")
             throw CalcException(BIG_INTEGER_FORMAT_ERROR, input)
         }
     }
@@ -182,7 +183,7 @@ class CalcBigInteger : Calc<BigInteger>() {
                 r.add(variable)
             }
             else -> {
-                logger.error("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}")
+                Trace.error("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}")
             }
         }
 

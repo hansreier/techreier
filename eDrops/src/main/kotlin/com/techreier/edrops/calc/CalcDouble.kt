@@ -5,6 +5,7 @@ import com.techreier.edrops.calc.Op.Companion.constants
 import com.techreier.edrops.calc.Op.Companion.functions
 import com.techreier.edrops.calc.Op.Companion.parenthesis
 import com.techreier.edrops.calc.Op.Companion.variables
+import com.techreier.edrops.calc.utils.Trace
 import com.techreier.edrops.exceptions.CalcException
 import kotlin.Double.Companion.NaN
 import kotlin.math.E
@@ -383,7 +384,7 @@ class CalcDouble : Calc<Double>() {
 
             else -> {
                 val errorText = "Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}"
-                logger.error("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}")
+                Trace.error("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}")
                 throw (CalcException(UNKNOWN_OPERATOR, operator.abbrev(), errorText))
             }
         }
