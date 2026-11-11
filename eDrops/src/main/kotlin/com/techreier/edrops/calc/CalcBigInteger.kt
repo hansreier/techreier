@@ -61,7 +61,7 @@ class CalcBigInteger : Calc<BigInteger>() {
                     .setScale(0, RoundingMode.HALF_EVEN).toBigInteger()
                 else -> BigInteger.valueOf(number.toLong())
             }
-            stack.push(b)
+            stack.addFirst(b)
         } catch (_: NumberFormatException) {
             throw CalcException(BIG_INTEGER_FORMAT_ERROR, number.toString())
         } finally {
@@ -78,32 +78,32 @@ class CalcBigInteger : Calc<BigInteger>() {
 
         when (operator) {
             Op.ADD -> {
-                y = arg.next() as BigInteger
-                x = arg.next() as BigInteger
+                y = arg.next()
+                x = arg.next()
                 r.add(x.add(y))
             }
             Op.SUBTRACT -> {
-                y = arg.next() as BigInteger
-                x = arg.next() as BigInteger
+                y = arg.next()
+                x = arg.next()
                 r.add(x.subtract(y))
             }
             Op.MULTIPLY -> {
-                y = arg.next() as BigInteger
-                x = arg.next() as BigInteger
+                y = arg.next()
+                x = arg.next()
                 r.add(x.multiply(y))
             }
             Op.DIVIDE -> {
-                y = arg.next() as BigInteger
-                x = arg.next() as BigInteger
+                y = arg.next()
+                x = arg.next()
                 r.add(x.divide(y))
             }
             Op.NEGATE -> {
-                x = arg.next() as BigInteger
+                x = arg.next()
                 r.add(-x)
             }
 
             Op.ABS -> {
-                x = arg.next() as BigInteger
+                x = arg.next()
                 r.add(x.abs())
             }
 
@@ -116,28 +116,28 @@ class CalcBigInteger : Calc<BigInteger>() {
             }
 
             Op.SIGN -> {
-                val x = arg.next() as BigInteger
+                val x = arg.next()
                 r.add(BigInteger.valueOf(x.signum().toLong()))
             }
 
             Op.SQR -> {
-                x = arg.next() as BigInteger
+                x = arg.next()
                 r.add(x.multiply(x))
             }
 
             Op.POW -> {
-                y = arg.next() as BigInteger
-                x = arg.next() as BigInteger
+                y = arg.next()
+                x = arg.next()
                 r.add(x.pow(y.intValueExact()))
             }
 
             Op.POW10 -> {
-                val x = arg.next() as BigInteger
+                val x = arg.next()
                 r.add(BigInteger.TEN.pow(x.intValueExact()))
             }
 
             Op.LOG10 -> {
-                val x = arg.next() as BigInteger
+                val x = arg.next()
                 val logVal = if (x > BigInteger.ZERO) {
                     BigInteger.valueOf((x.toString().length - 1).toLong())
                 } else {
@@ -149,31 +149,31 @@ class CalcBigInteger : Calc<BigInteger>() {
             Op.SUM -> {
                 r.add(BigInteger.ZERO)
                repeat (noArgs) {
-                    val x = arg.next() as BigInteger
+                    val x = arg.next()
                     r[0] = r[0].add(x)
                 }
             }
 
             Op.MAX -> {
-                var maximum = arg.next() as BigInteger
+                var maximum = arg.next()
                 repeat(noArgs - 1) {
-                    maximum = maximum.max(arg.next() as BigInteger)
+                    maximum = maximum.max(arg.next() )
                 }
                 r.add(maximum)
             }
 
             Op.MIN -> {
-                var minimum = arg.next() as BigInteger
+                var minimum = arg.next()
                 repeat(noArgs - 1) {
-                    minimum = minimum.min(arg.next() as BigInteger)
+                    minimum = minimum.min(arg.next() )
                 }
                 r.add(minimum)
             }
 
             Op.REMOVE, Op.EMPTY -> {}
             Op.YX -> {
-                r.add(arg.next() as BigInteger)
-                r.add(arg.next() as BigInteger)
+                r.add(arg.next())
+                r.add(arg.next())
             }
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
                 val variable = vars[operator]
@@ -186,11 +186,11 @@ class CalcBigInteger : Calc<BigInteger>() {
         }
 
         repeat (noArgs) {
-            stack.poll()
+            stack.removeFirst()
         }
 
         for (res in r) {
-            stack.push(type.cast(res))
+            stack.addFirst(type.cast(res))
         }
     }
 }

@@ -9,7 +9,7 @@ abstract class Calc<T> {
     protected val logger = LoggerFactory.getLogger(this::class.simpleName)
     abstract val type: Class<T>
     abstract val vars: MutableMap<Op, T>
-    var stack: Deque<T> = ArrayDeque()
+    val stack = kotlin.collections.ArrayDeque<T>()
     val s = Op.entries.size
 
     var trace: Trace = Trace.OFF
@@ -39,7 +39,11 @@ abstract class Calc<T> {
     fun enter(number: String) {
         try {
             val value = parseValue(number)
-            stack.push(value)
+            if (value != null) {
+                stack.addLast(value)
+            } else {
+                throw CalcException(NULL_VALUE, "null","calculation aborted with null value")
+            }
         } finally {
             traceStack(number)
         }
@@ -83,7 +87,7 @@ abstract class Calc<T> {
                     throw CalcException(INVALID_ARGUMENT, operator.abbrev())
                 }
                 return if (!stack.isEmpty()) {
-                    stack.first
+                    stack.first()
                 } else {
                     null
                 }
@@ -117,7 +121,7 @@ abstract class Calc<T> {
         traceStack("Result: ", true)
         if (stack.isEmpty()) throw CalcException(NO_RESULT, "calc")
         if (stack.size > 1) throw CalcException(MULTIPLE_RESULTS, "calc")
-        return stack.peekFirst()
+        return stack.first()
     }
 
     fun allResults(): ArrayList<T> {

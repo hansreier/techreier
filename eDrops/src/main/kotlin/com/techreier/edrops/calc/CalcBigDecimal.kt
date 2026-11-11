@@ -60,7 +60,7 @@ class CalcBigDecimal : Calc<BigDecimal>() {
                 is BigInteger -> BigDecimal(number)
                 else -> BigDecimal(number.toString())
             }
-            stack.push(b)
+            stack.addFirst(b)
         } catch (_: NumberFormatException) {
             throw CalcException(BIG_DECIMAL_FORMAT_ERROR, number.toString())
         } finally {
@@ -77,57 +77,57 @@ class CalcBigDecimal : Calc<BigDecimal>() {
 
         when (operator) {
             Op.ADD -> {
-                y = arg.next() as BigDecimal
-                x = arg.next() as BigDecimal
+                y = arg.next()
+                x = arg.next()
                 r.add(x.add(y))
             }
 
             Op.SUBTRACT -> {
-                y = arg.next() as BigDecimal
-                x = arg.next() as BigDecimal
+                y = arg.next()
+                x = arg.next()
                 r.add(x.subtract(y))
             }
 
             Op.MULTIPLY -> {
-                y = arg.next() as BigDecimal
-                x = arg.next() as BigDecimal
+                y = arg.next()
+                x = arg.next()
                 r.add(x.multiply(y))
             }
 
             Op.DIVIDE -> {
-                y = arg.next() as BigDecimal
-                x = arg.next() as BigDecimal
+                y = arg.next()
+                x = arg.next()
                 r.add(x.divide(y, scale, RoundingMode.HALF_UP))
             }
 
             Op.NEGATE -> {
-                x = arg.next() as BigDecimal
+                x = arg.next()
                 r.add(-x)
             }
 
             Op.ABS -> {
-                x = arg.next() as BigDecimal
+                x = arg.next()
                 r.add(x.abs())
             }
 
             Op.SIGN -> {
-                x = arg.next() as BigDecimal
+                x = arg.next()
                 r.add(BigDecimal.valueOf(x.signum().toLong()))
             }
 
             Op.SQR -> {
-                val x = arg.next() as BigDecimal
+                val x = arg.next()
                 r.add(x * x)
             }
 
             Op.SQRT -> {
-                val x = arg.next() as BigDecimal
+                val x = arg.next()
                 r.add(x.sqrt(MathContext.DECIMAL128)) //TODO verify DECIMAL120
             }
 
             Op.POW -> {
-                val y = arg.next() as BigDecimal
-                val x = arg.next() as BigDecimal
+                val y = arg.next()
+                val x = arg.next()
                 val rd: BigDecimal
                 val yInt = y.toInt()
 
@@ -147,7 +147,7 @@ class CalcBigDecimal : Calc<BigDecimal>() {
             }
 
             Op.POW10 -> {
-                val x = arg.next() as BigDecimal
+                val x = arg.next()
                 val exp = x.toInt() // Forventer heltallseksponent for 10^
 
                 val result = if (exp >= 0) {
@@ -160,7 +160,7 @@ class CalcBigDecimal : Calc<BigDecimal>() {
             }
 
             Op.LOG10 -> {
-                val x = arg.next() as BigDecimal
+                val x = arg.next()
                 val logResult = Math.log10(x.toDouble())
                 r.add(BigDecimal.valueOf(logResult))
             }
@@ -168,24 +168,24 @@ class CalcBigDecimal : Calc<BigDecimal>() {
             Op.SUM -> {
                 var sum = BigDecimal.ZERO
                 repeat(noArgs) {
-                    val x = arg.next() as BigDecimal
+                    val x = arg.next()
                     sum = sum.add(x)
                 }
                 r.add(sum)
             }
 
             Op.MAX -> {
-                var maximum = arg.next() as BigDecimal
+                var maximum = arg.next()
                 repeat(noArgs - 1) {
-                    maximum = maximum.max(arg.next() as BigDecimal)
+                    maximum = maximum.max(arg.next() )
                 }
                 r.add(maximum)
             }
 
             Op.MIN -> {
-                var minimum = arg.next() as BigDecimal
+                var minimum = arg.next()
                 repeat(noArgs - 1) {
-                    minimum = minimum.min(arg.next() as BigDecimal)
+                    minimum = minimum.min(arg.next())
                 }
                 r.add(minimum)
             }
@@ -200,8 +200,8 @@ class CalcBigDecimal : Calc<BigDecimal>() {
 
             Op.REMOVE, Op.EMPTY -> {}
             Op.YX -> {
-                r.add(arg.next() as BigDecimal)
-                r.add(arg.next() as BigDecimal)
+                r.add(arg.next())
+                r.add(arg.next())
             }
 
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
@@ -216,11 +216,11 @@ class CalcBigDecimal : Calc<BigDecimal>() {
         }
 
         repeat(noArgs) {
-            stack.poll()
+            stack.removeFirst()
         }
 
         for (res in r) {
-            stack.push(type.cast(res))
+            stack.addFirst(type.cast(res))
         }
     }
 }

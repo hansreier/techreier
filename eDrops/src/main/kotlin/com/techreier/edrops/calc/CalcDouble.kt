@@ -75,7 +75,7 @@ class CalcDouble : Calc<Double>() {
     }
 
     override fun enter(number: Number) {
-        stack.push(number.toDouble())
+        stack.addFirst(number.toDouble())
         traceStack(number.toString())
     }
 
@@ -87,32 +87,32 @@ class CalcDouble : Calc<Double>() {
 
         when (operator) {
             Op.ADD -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 r.add(x + y)
             }
 
             Op.SUBTRACT -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 r.add(x - y)
             }
 
             Op.MULTIPLY -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 r.add(x * y)
             }
 
             Op.DIVIDE -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 r.add(x / y)
             }
 
             Op.GT -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 if (isNotNan(x,y))
                     r.add(if (x - y > tol(x, y)) 1.0 else 0.0)
                 else
@@ -120,8 +120,8 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.LT -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 if (isNotNan(x,y))
                     r.add(if (y - x > tol(x, y)) 1.0 else 0.0)
                 else
@@ -129,32 +129,32 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.GTE -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 if (isNotNan(x,y))
                     r.add(if (x - y >= -tol(x, y)) 1.0 else 0.0)
                 else r.add(NaN)
             }
 
             Op.LTE -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 if (isNotNan(x,y))
                     r.add(if (y - x >= -tol(x, y)) 1.0 else 0.0)
                 else r.add(NaN)
             }
 
             Op.EQ -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 if (isNotNan(x,y))
                     r.add(if (abs(x - y) <= tol(x, y)) 1.0 else 0.0)
                 else r.add(NaN)
             }
 
             Op.NEQ -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 if (isNotNan(x,y))
                     r.add(if (abs(x - y) > tol(x, y)) 1.0 else 0.0)
                 else r.add(NaN)
@@ -162,8 +162,8 @@ class CalcDouble : Calc<Double>() {
 
 
             Op.AND -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 if (isValidBooleans(x,y))
                     r.add(if ((x > 0.5) && (y > 0.5))  1.0 else 0.0)
                 else
@@ -171,8 +171,8 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.OR -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 if (isValidBooleans(x,y))
                     r.add(if ((x > 0.5) || (y > 0.5))  1.0 else 0.0)
                 else
@@ -180,38 +180,38 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.NEGATE -> {
-                x = arg.next() as Double
+                x = arg.next()
                 r.add(-x)
             }
 
             Op.ABS -> {
-                x = arg.next() as Double
+                x = arg.next()
                 r.add(abs(x))
             }
 
             Op.SIGN -> {
-                x = arg.next() as Double
+                x = arg.next()
                 r.add(sign(x))
             }
 
             Op.SQR -> {
-                x = arg.next() as Double
+                x = arg.next()
                 r.add(x * x)
             }
 
             Op.SQRT -> {
-                x = arg.next() as Double
+                x = arg.next()
                 r.add(sqrt(x))
             }
 
             Op.POW -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 r.add(x.pow(y))
             }
 
             Op.SIN -> {
-                x = arg.next() as Double
+                x = arg.next()
                 if (radians)
                     r.add(sin(x).cleanZero())
                 else
@@ -219,7 +219,7 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.ASIN -> {
-                x = arg.next() as Double
+                x = arg.next()
                 if (radians)
                     r.add(asin(x))
                 else
@@ -227,7 +227,7 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.COS -> {
-                x = arg.next() as Double
+                x = arg.next()
                 if (radians)
                     r.add(cos(x).cleanZero())
                 else
@@ -235,7 +235,7 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.ACOS -> {
-                x = arg.next() as Double
+                x = arg.next()
                 if (radians)
                     r.add(asin(x))
                 else
@@ -243,7 +243,7 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.TAN -> {
-                x = arg.next() as Double
+                x = arg.next()
                 if (radians)
                     r.add(tan(x).cleanZero())
                 else
@@ -251,7 +251,7 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.ATAN -> {
-                x = arg.next() as Double
+                x = arg.next()
                 if (radians)
                     r.add(atan(x))
                 else
@@ -259,49 +259,49 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.RAD -> {
-                x = arg.next() as Double
+                x = arg.next()
             r.add(x * DEGREES_TO_RADIANS)
             }
 
             Op.DEG -> {
-                x = arg.next() as Double
+                x = arg.next()
             r.add(x * RADIANS_TO_DEGREES)
             }
 
             Op.EX -> {
-                x = arg.next() as Double
+                x = arg.next()
                 r.add(exp(x))
             }
 
             Op.LN -> {
-                x = arg.next() as Double
+                x = arg.next()
                 r.add(ln(x))
             }
 
             Op.LOG10 -> {
-                x = arg.next() as Double
+                x = arg.next()
                 r.add(log10(x))
             }
 
             Op.LOG2 -> {
-                x = arg.next() as Double
+                x = arg.next()
                 r.add(log2(x))
             }
 
             Op.POW10 -> {
-                x = arg.next() as Double
+                x = arg.next()
                 r.add(10.0.pow(x))
             }
 
             Op.HYP -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 r.add(hypot(x, y))
             }
 
             Op.GYP -> {
-                y = arg.next() as Double
-                x = arg.next() as Double
+                y = arg.next()
+                x = arg.next()
                 r.add(sqrt(x * x - y * y))
             }
 
@@ -318,7 +318,7 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.NOT -> {
-                x = arg.next() as Double
+                x = arg.next()
                 if (isValidBooleans(x))
                     r.add( if (x < 0.5) 1.0 else 0.0)
                 else
@@ -326,9 +326,9 @@ class CalcDouble : Calc<Double>() {
             }
 
             Op.SELECT -> { // Mimics an IF statement
-                val y = arg.next() as Double
-                val x = arg.next() as Double
-                val flag = arg.next() as Double
+                val y = arg.next()
+                val x = arg.next()
+                val flag = arg.next()
 
                 if (isValidBooleans(flag)) {
                     r.add(if (abs(flag) < EPSILON) y else x)
@@ -347,31 +347,31 @@ class CalcDouble : Calc<Double>() {
             Op.SUM -> {
                 r.add(0.0)
                 repeat(noArgs) {
-                    val x = arg.next() as Double
+                    val x = arg.next()
                     r[0] = r.first() + x
                 }
             }
 
             Op.MAX -> {
-                var maximum = arg.next() as Double
+                var maximum = arg.next()
                 repeat(noArgs - 1) {
-                    maximum = max(maximum, arg.next() as Double)
+                    maximum = max(maximum, arg.next())
                 }
                 r.add(maximum)
             }
 
             Op.MIN -> {
-                var minimum = arg.next() as Double
+                var minimum = arg.next()
                 repeat(noArgs - 1) {
-                    minimum = min(minimum, arg.next() as Double)
+                    minimum = min(minimum, arg.next())
                 }
                 r.add(minimum)
             }
 
             Op.REMOVE, Op.EMPTY -> {}
             Op.YX -> {
-                r.add(arg.next() as Double)
-                r.add(arg.next() as Double)
+                r.add(arg.next())
+                r.add(arg.next())
             }
 
             in variables -> {
@@ -388,11 +388,11 @@ class CalcDouble : Calc<Double>() {
         }
 
         repeat(noArgs) {
-            stack.poll()
+            stack.removeFirst()
         }
 
         for (res in r) {
-            stack.push(res)
+            stack.addFirst(res)
         }
     }
 
