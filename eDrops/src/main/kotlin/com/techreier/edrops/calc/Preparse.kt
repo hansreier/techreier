@@ -4,7 +4,6 @@ import com.techreier.edrops.calc.Op.Companion.basicOperators
 import com.techreier.edrops.calc.Op.Companion.symbols
 import com.techreier.edrops.calc.Op.Companion.unaryOperators
 import com.techreier.edrops.calc.utils.parseDouble
-import java.text.ParsePosition
 
 //One time parse through expression, expr must be sanitized and trimmed
 fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
@@ -225,3 +224,4 @@ private data class Oper(
 
 data class ParseResult(val tokens: List<Token>, val parseError: ParseError?)
 
+class ParsePosition(var index: Int = 0)
