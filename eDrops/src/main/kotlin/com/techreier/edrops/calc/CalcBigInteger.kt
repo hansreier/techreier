@@ -10,14 +10,13 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
 import java.util.ArrayList
-import java.util.EnumMap
 import kotlin.collections.set
 
 
 class CalcBigInteger : Calc<BigInteger>() {
     override val type: Class<BigInteger> = BigInteger::class.java
 
-    override val vars: MutableMap<Op, BigInteger> = EnumMap(Op::class.java)
+    override val vars: MutableMap<Op, BigInteger> = mutableMapOf()
 
 
     init {

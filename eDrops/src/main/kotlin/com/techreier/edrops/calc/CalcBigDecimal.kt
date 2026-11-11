@@ -16,7 +16,7 @@ import java.util.*
 class CalcBigDecimal : Calc<BigDecimal>() {
     override val type: Class<BigDecimal> = BigDecimal::class.java
 
-    override val vars: MutableMap<Op, BigDecimal> = EnumMap(Op::class.java)
+    override val vars: MutableMap<Op, BigDecimal> = mutableMapOf()
 
     var scale: Int = 20
 
