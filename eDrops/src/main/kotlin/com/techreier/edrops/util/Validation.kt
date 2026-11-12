@@ -157,6 +157,19 @@ fun <T, K> Iterable<T>.checkDuplicates(keySelector: (T) -> K) {
     }
 }
 
+// Returns false if any value is NaN, NEGATIVE_INFINITY or POSITIVE_INFINITY, otherwise true
+fun checkDoubleValues(vararg values: Double): Boolean {
+    println("DEBUG checkDoubleValues: ${values.joinToString()}")
+    return values.none {
+        it.isNaN()
+                || it == Double.NEGATIVE_INFINITY
+                || it == Double.POSITIVE_INFINITY
+
+    }
+}
+
+
+
 
 
 

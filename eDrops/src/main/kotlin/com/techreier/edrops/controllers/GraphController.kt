@@ -102,15 +102,18 @@ class GraphController(
                 val xMax = seriesList.maxOf { it.statistics.xMax }
                 var yMin = seriesList.minOf { it.statistics.yMin }
                 var yMax = seriesList.maxOf { it.statistics.yMax }
+                var yAxisOk = true
                 val ySize = (abs(yMax) + abs(yMin)) / 2
                 if (ySize == 0.0 || (yMax - yMin) / ySize < EPSILON) {
                     val ykorr = if (ySize == 0.0) 1.0 else ySize / 10.0
                     yMin -= ykorr
                     yMax += ykorr
+                    yAxisOk = false
                 }
                 if (yMax < yMin ) {
                     yMin = -1.0
                     yMax = 1.0
+                    yAxisOk = false
                 }
                 graphForm.xMin = xMin.float()
                 graphForm.xMax = xMax.float()
@@ -120,6 +123,7 @@ class GraphController(
                 redirectAttributes.addFlashAttribute("graphForm", graphForm)
                 redirectAttributes.addFlashAttribute("diagram", diagramResult.diagram)
                 redirectAttributes.addFlashAttribute("polylines", polylines)
+                redirectAttributes.addFlashAttribute("yAxisOk", yAxisOk)
             } catch (ex: Exception) {
                 when (ex) {
                     is IllegalArgumentException -> bindingResult.reject("error.range")
