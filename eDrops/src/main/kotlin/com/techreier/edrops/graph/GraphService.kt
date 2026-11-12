@@ -19,12 +19,14 @@ class GraphService {
         val stepSize = (limits.xMax - limits.xMin) / safeSteps
         var yMin = Double.POSITIVE_INFINITY
         var yMax = Double.NEGATIVE_INFINITY
+        var invalid = false
 
         val points = (0..steps).mapNotNull { i ->
             val xMath = limits.xMin + (i * stepSize)
             val yMath = mathFunction(xMath)
 
             if (yMath.isNaN() || yMath.isInfinite()) {
+                invalid = true
                 null
             } else {
                 yMin = min(yMin, yMath)
@@ -35,7 +37,8 @@ class GraphService {
 
         return DataSeries(
             points = points,
-            statistics = Statistics(limits.xMin, limits.xMax, yMin, yMax)
+            statistics = Statistics(limits.xMin, limits.xMax, yMin, yMax),
+            invalid = invalid
         )
     }
 }

@@ -57,7 +57,8 @@ data class DataSeries(
     val label: String? = null,
     val points: List<Point> = emptyList(),
     val error: String? = null,
-    val statistics: Statistics
+    val statistics: Statistics,
+    val invalid: Boolean
 )
 
 data class AxisTick(

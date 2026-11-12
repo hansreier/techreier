@@ -73,8 +73,8 @@
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
         </div>
-        <div th:if="${yAxisOk != null && !yAxisOk}" >
-             <p class="error" th:text="#{error.ResetAxis}"></p>
+        <div th:if="${invalid != null && invalid}" >
+             <p class="error" th:text="#{error.invalidValues}"></p>
         </div>
         <button type="submit" th:text="#{action.draw}"></button>
         <button type="button" th:text="#{action.help}" onclick="toggleOperatorHelp()"></button>
