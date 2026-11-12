@@ -1,8 +1,8 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.calc.Op.Companion.variables
-import com.techreier.edrops.calc.utils.Trace
-import com.techreier.edrops.calc.utils.TraceLevel
+import com.techreier.edrops.util.Trace
+import com.techreier.edrops.calc.utils.TraceScope
 import com.techreier.edrops.exceptions.CalcException
 import kotlin.reflect.KClass
 
@@ -12,7 +12,7 @@ abstract class Calc<T: Any> {
     val stack = ArrayDeque<T>()
     val s = Op.entries.size
 
-    var tracelevel: TraceLevel = TraceLevel.OFF
+    var tracelScope: TraceScope = TraceScope.OFF
     //Common operators for all calculators
     var operators = setOf(
         Op.ADD,Op.LOG10, Op.POW10,
@@ -127,7 +127,7 @@ abstract class Calc<T: Any> {
 
     // Log the stack
     fun traceStack(operation: String = "", forced: Boolean = false) {
-        if ((tracelevel == TraceLevel.ALL) || (tracelevel == TraceLevel.RPN) || (forced && (tracelevel != TraceLevel.OFF))) {
+        if ((tracelScope == TraceScope.ALL) || (tracelScope == TraceScope.RPN) || (forced && (tracelScope != TraceScope.OFF))) {
             val stack = stack.joinToString(separator = " ", prefix = "[", postfix = "]")
             val paddedOp = operation.padEnd(OPERATOR_TEXT_LOG_SIZE, ' ')
             Trace.info("$paddedOp$stack")

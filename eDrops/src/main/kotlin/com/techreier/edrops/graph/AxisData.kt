@@ -1,6 +1,6 @@
 package com.techreier.edrops.graph
 
-import com.techreier.edrops.calc.utils.Trace
+import com.techreier.edrops.util.Trace
 import com.techreier.edrops.config.MAX_HEIGHT_RATIO_FOR_X_SUBTICS
 import com.techreier.edrops.config.MIN_HEIGHT_RATIO_FOR_Y_SUBTICS
 import com.techreier.edrops.config.TOLERANCE
@@ -14,9 +14,9 @@ fun axisData(min: Double, max: Double, noSegments: Int, heightRatio: Double,  xA
     val log10 = floor(log10(delta) + TOLERANCE).toLong()
     val scale = 10.0.pow(log10.toDouble())
     val seed = delta / scale
-    Trace.info("delta=$delta scale=$scale seed=$seed")
+    Trace.debug("delta=$delta scale=$scale seed=$seed")
     val niceRange = niceNumber(seed)
-    Trace.info("niceRange=$niceRange")
+    Trace.debug("niceRange=$niceRange")
     val tickStep = niceRange.result * scale
     var subSectionsPerSection = niceRange.subTics
     val subTickStep = tickStep / subSectionsPerSection

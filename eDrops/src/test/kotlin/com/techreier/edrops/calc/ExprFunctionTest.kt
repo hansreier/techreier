@@ -1,7 +1,7 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.calc.utils.Trace
-import com.techreier.edrops.calc.utils.TraceLevel
+import com.techreier.edrops.util.Trace
+import com.techreier.edrops.calc.utils.TraceScope
 import com.techreier.edrops.exceptions.ParseException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -26,7 +26,7 @@ class ExprFunctionTest {
     fun happyTest() {
         val input = "sin(90)"
         val expr = Expr(calc, input)
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()
@@ -39,7 +39,7 @@ class ExprFunctionTest {
     fun simpleFunctionTest() {
         val input = "sin(90)"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         val singleResult = expr.result()
@@ -52,7 +52,7 @@ class ExprFunctionTest {
     fun simpleFunctionsTest() {
         val input = "sin(90) + cos(0)"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         val singleResult = expr.result()
@@ -63,7 +63,7 @@ class ExprFunctionTest {
 
     @Test
     fun twoArgumentFunctionTest() {
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
         val input = "hyp(3;4)"
         val expr = Expr(calc, input)
         expr.parse()
@@ -144,7 +144,7 @@ class ExprFunctionTest {
     fun infinityTest() {
         val input = "ln(sin(180))"
         val expr = Expr(calc, input)
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()
@@ -178,7 +178,7 @@ class ExprFunctionTest {
     fun operatorsAndFunctionTest() {
         val input = "3 + sin(9 * 10)^2 * 2 + 1"
         val expr = Expr(calc, input)
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
         expr.parse()
         expr.calculate()
         val result = calc.result()
@@ -189,7 +189,7 @@ class ExprFunctionTest {
     fun priorityTest() {
         val input = "sin(90) + 3 * 4^2"
         val expr = Expr(calc, input)
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
         expr.parse()
         expr.calculate()
         val result = calc.result()
@@ -200,7 +200,7 @@ class ExprFunctionTest {
     fun powerSinTest() {
         val input = "2^sin(90)"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(2.0, expr.result(), 1E-9 )
@@ -210,7 +210,7 @@ class ExprFunctionTest {
     fun basicAndFunctionTest() {
         val input = "sin(x) + cos(x - 90)"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr[Op.X] = 90.0
         expr[Op.Y] = 90.0
         expr.parse()
@@ -223,7 +223,7 @@ class ExprFunctionTest {
     @Test
     fun negateFunctionTest() {
         val expr = Expr(calc, "-sin(x) + cos(y)")
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr[Op.X] = 90.0
         expr[Op.Y] = 0.0
         expr.parse()
@@ -234,7 +234,7 @@ class ExprFunctionTest {
     @Test
     fun functionNegateTest() {
         val expr = Expr(calc, "NEGATE -2")
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(2.0 , calc.result())
@@ -244,7 +244,7 @@ class ExprFunctionTest {
     fun negateTest() {
         val input = "negate(-3)"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(3.0, expr.result())
@@ -255,7 +255,7 @@ class ExprFunctionTest {
         calc.radians = true
         val input = "sin(pi)"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(0.0, expr.result(), 1e-9)
@@ -265,7 +265,7 @@ class ExprFunctionTest {
     fun randomTest() {
         val input = "10 random"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertThat(expr.result()).isBetween(0.0, 10.0)
@@ -275,7 +275,7 @@ class ExprFunctionTest {
     fun sqrtSqrTest() {
         val input = "sqrt(sqr(2))"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(2.0, expr.result(), 1e-9)
@@ -285,7 +285,7 @@ class ExprFunctionTest {
     fun log10Pow10Test() {
         val input = "log10(pow10(2))"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(2.0, expr.result(), 1e-9)
@@ -295,7 +295,7 @@ class ExprFunctionTest {
     fun sinAsinTest() {
         val input = "asin(sin(35))"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(35.0, expr.result(), 1e-9)
@@ -305,7 +305,7 @@ class ExprFunctionTest {
     fun cosAcosTest() {
         val input = "acos(cos(35))"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(35.0, expr.result(), 1e-9)
@@ -315,7 +315,7 @@ class ExprFunctionTest {
     fun tanAtanTest() {
         val input = "atan(tan(35))"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(35.0, expr.result(), 1e-9)
@@ -325,7 +325,7 @@ class ExprFunctionTest {
     fun absSignTest() {
         val input = "sign(abs(-3))"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(1.0, expr.result(), 1e-9)
@@ -335,7 +335,7 @@ class ExprFunctionTest {
     fun radDegTest() {
         val input = "deg(rad(90))"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(90.0, expr.result(), 1e-9)
@@ -345,7 +345,7 @@ class ExprFunctionTest {
     fun expLnTest() {
         val input = "exp(ln(55000))"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(55000.0, expr.result(), 1e-9)
@@ -355,7 +355,7 @@ class ExprFunctionTest {
     fun sumTest() {
         val input = "sum(1; 2; 3; 4; 5)"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(15.0, expr.result(), 1e-9)
@@ -365,7 +365,7 @@ class ExprFunctionTest {
     fun sumAdvancedExpressionTest() {
         val input = "sum(sin(90); 2; cos(0))"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(4.0, expr.result(), 1e-9)
@@ -375,7 +375,7 @@ class ExprFunctionTest {
     fun sumGiganticExpressionTest() {
         val input = "sum(max(sin(90);2;3) + 2; 2; cos(0))"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(8.0, expr.result(), 1e-9)
@@ -385,7 +385,7 @@ class ExprFunctionTest {
     fun hypWrongNoOfArgumentsTest() {
         val input = "hyp(1; 2; 3)"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
         assertEquals(WRONG_ARGUMENT_COUNT, e.parseError.key)
     }

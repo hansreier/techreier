@@ -1,7 +1,7 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.calc.utils.Trace
-import com.techreier.edrops.calc.utils.TraceLevel
+import com.techreier.edrops.util.Trace
+import com.techreier.edrops.calc.utils.TraceScope
 import com.techreier.edrops.exceptions.ParseException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -22,7 +22,7 @@ class ExprVariableTest {
     fun happySingleVariableTest() {
         val input = "x"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr[Op.X] = 90.0
         expr.parse()
         expr.calculate()
@@ -50,7 +50,7 @@ class ExprVariableTest {
         calc[Op.Y] = 6.0
         val input = "3 + x - y - 3"
         val expr = Expr(calc, input)
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
         expr.parse()
         expr.calculate()
         assertEquals(2.0, calc.result())
@@ -63,7 +63,7 @@ class ExprVariableTest {
         calc[Op.Z] = 4.0
         val input = "x + y + z"
         val expr = Expr(calc, input)
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
         expr.parse()
         expr.calculate()
         val result = calc.result()
@@ -76,7 +76,7 @@ class ExprVariableTest {
         val y = 6.0
         val z = 5.0
         calc.setAll(mapOf(Op.X to x, Op.Y to y, Op.Z to z))
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
 
         val input = "(( ( (x ^ 2) + (y ^ 2) ) / ( (x - y) ^ 2 + 1 ) ) * ( (z) - (1) ) ) + ( ( (2.5) * x ) / ( y ) )"
 
@@ -98,7 +98,7 @@ class ExprVariableTest {
         val x = 2.0
         val y = 3.0
         calc.setAll(mapOf(Op.X to x, Op.Y to y))
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
 
         val input = "x^y"
 
@@ -117,7 +117,7 @@ class ExprVariableTest {
 
         val expr = Expr(calc, input)
         expr.setAll(mapOf(Op.X to x, Op.Y to y, Op.Z to z))
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(8.0, expr.result() )
@@ -132,7 +132,7 @@ class ExprVariableTest {
 
         val expr = Expr(calc, input)
         expr.setAll(mapOf(Op.X to x, Op.Y to y, Op.Z to z))
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(2.0, expr.result() )
@@ -147,7 +147,7 @@ class ExprVariableTest {
 
         val expr = Expr(calc, input)
         expr.setAll(mapOf(Op.X to x, Op.Y to y, Op.Z to z))
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(1025.0, expr.result() )
@@ -158,7 +158,7 @@ class ExprVariableTest {
         val input = "-x"
 
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr[Op.X] = 2.0
         expr.parse()
         expr.calculate()
@@ -169,7 +169,7 @@ class ExprVariableTest {
     fun multipleNegateAndSubtractTest() {
         val calc = CalcDouble()
         val expr = Expr(calc, "-x - -y")
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr[Op.X] = 10.0
         expr[Op.Y] = 4.0
         expr.parse()

@@ -1,5 +1,7 @@
 package com.techreier.edrops.config
 
+import com.techreier.edrops.util.TraceLevel
+
 const val MAX_SEGMENT_SIZE = 30
 const val MAX_STATE_SIZE = 20
 const val MAX_TITLE_SIZE = 80
@@ -51,3 +53,6 @@ const val PLOT_WIDTH = 600.0
 const val PLOT_HEIGHT = 400.0
 const val PLOT_ANCHOR_X  = 24.0
 const val PLOT_ANCHOR_Y = 60.0
+
+//Set trace for calc and plot, cannot use logback with Wasm.
+val traceLevel: TraceLevel = TraceLevel.INFO

@@ -1,7 +1,7 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.calc.utils.Trace
-import com.techreier.edrops.calc.utils.TraceLevel
+import com.techreier.edrops.util.Trace
+import com.techreier.edrops.calc.utils.TraceScope
 import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.calc.utils.sanitize
 import com.techreier.edrops.exceptions.ParseException
@@ -52,7 +52,7 @@ class MultiExprTest {
 
     @Test
     fun repeatedCalcTest() {
-        calc.tracelevel = TraceLevel.OFF
+        calc.tracelScope = TraceScope.OFF
         val startValues = """
            dx = 0.1;
            x = 0;

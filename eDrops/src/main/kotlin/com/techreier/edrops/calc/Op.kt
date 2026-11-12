@@ -1,6 +1,6 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.calc.utils.Trace
+import com.techreier.edrops.util.Trace
 
 /*
  * Operator parameters:

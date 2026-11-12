@@ -1,6 +1,6 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.calc.utils.TraceLevel
+import com.techreier.edrops.calc.utils.TraceScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
@@ -19,7 +19,7 @@ class ExprArithmeticTest {
     fun happy42Test() {
         val input = "42"
         val expr = Expr(calc, input)
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
         expr.parse()
         expr.calculate()
         val singleResult = calc.result()
@@ -31,7 +31,7 @@ class ExprArithmeticTest {
     fun operatorsDifferentLevelTest() {
         val input = "3 + 5 * 4 + 1"
         val expr = Expr(calc, input)
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
         expr.parse()
         expr.calculate()
         assertEquals(24.0,calc.result(), 1e-9)
@@ -41,7 +41,7 @@ class ExprArithmeticTest {
     fun repeatedMultiplyTest() {
         val input = "5 * 3 * 4"
         val expr = Expr(calc, input)
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
         expr.parse()
         expr.calculate()
         val result = calc.result()
@@ -50,7 +50,7 @@ class ExprArithmeticTest {
 
     @Test
     fun withParanthesisTest() {
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
         val input = "(3 + 5 * (2 + 3) )/ 2"
         val expr = Expr(calc, input)
         expr.parse()
@@ -62,7 +62,7 @@ class ExprArithmeticTest {
 
     @Test
     fun withParanthesisSimpleTest() {
-        calc.tracelevel = TraceLevel.ALL
+        calc.tracelScope = TraceScope.ALL
         val input = "(3 + 5) * 2"
         val expr = Expr(calc, input)
         expr.parse()
@@ -76,7 +76,7 @@ class ExprArithmeticTest {
     fun closeMinusTest() {
         val input = "2^-2(4)"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(1.0, expr.result(), 1E-9 )
@@ -86,7 +86,7 @@ class ExprArithmeticTest {
     fun minusMinusTest() {
         val input = "3- -3"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(6.0, expr.result() )
@@ -97,7 +97,7 @@ class ExprArithmeticTest {
         val input = "-2^2"
 
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(4.0, expr.result(), 1e-9 )
@@ -108,7 +108,7 @@ class ExprArithmeticTest {
         val input = "3 - -2^2"
 
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(-1.0, expr.result(), 1e-9 )
@@ -117,7 +117,7 @@ class ExprArithmeticTest {
     @Test
     fun operatorNegateTest() {
         val expr = Expr(calc, " 3 * - 3")
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(-9.0 , calc.result())
@@ -126,7 +126,7 @@ class ExprArithmeticTest {
     @Test
     fun negateParenthesisTest() {
         val expr = Expr(calc, "-(3+5)")
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(-8.0, calc.result())
@@ -135,7 +135,7 @@ class ExprArithmeticTest {
     @Test
     fun overFlowTest() {
         val expr = Expr(calc, "9^9^9")
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(Double.POSITIVE_INFINITY, expr.result())
@@ -145,7 +145,7 @@ class ExprArithmeticTest {
     fun parenthesisHellTest() {
         val input = "((((((((((((((((((((((((((((((((((((((((((((((((((1))))))))))))))))))))))))))))))))))))))))))))))))))"
         val expr = Expr(calc, input)
-        expr.trace(TraceLevel.ALL)
+        expr.trace(TraceScope.ALL)
         expr.parse()
         expr.calculate()
         assertEquals(1.0, expr.result())

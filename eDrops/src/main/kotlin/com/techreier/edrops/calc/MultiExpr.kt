@@ -1,6 +1,6 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.calc.utils.TraceLevel
+import com.techreier.edrops.calc.utils.TraceScope
 import com.techreier.edrops.calc.utils.sanitize
 import com.techreier.edrops.calc.utils.splitMultiExpr
 import com.techreier.edrops.exceptions.ParseException
@@ -33,7 +33,7 @@ class MultiExpr<T : Any> (val calc: Calc<T>, multiExpr: String) {
 
                 try {
                     val expr = Expr(calc, exprText)
-                    expr.trace(TraceLevel.OFF)
+                    expr.trace(TraceScope.OFF)
                     expr.parse()
                     expr.target = targetOp
                     exprList.add(expr)

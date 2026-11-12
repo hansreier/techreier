@@ -2,8 +2,8 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.calc.utils.Range
-import com.techreier.edrops.calc.utils.Trace
-import com.techreier.edrops.calc.utils.TraceLevel
+import com.techreier.edrops.util.Trace
+import com.techreier.edrops.calc.utils.TraceScope
 import com.techreier.edrops.calc.utils.checkVariables
 import com.techreier.edrops.calc.utils.findClosure
 import com.techreier.edrops.calc.utils.findUnboundOperator
@@ -37,8 +37,8 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
         return calc[op]
     }
 
-    fun trace(tracelevel: TraceLevel) {
-        calc.tracelevel = tracelevel
+    fun trace(tracelevel: TraceScope) {
+        calc.tracelScope = tracelevel
     }
 
     fun result(): T {
@@ -208,7 +208,7 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
     }
 
     private fun trace(text: String) {
-        if ((calc.tracelevel == TraceLevel.ALL) || calc.tracelevel == TraceLevel.PARSE) {
+        if ((calc.tracelScope == TraceScope.ALL) || calc.tracelScope == TraceScope.PARSE) {
             println("[TRACE] $text")
         }
     }

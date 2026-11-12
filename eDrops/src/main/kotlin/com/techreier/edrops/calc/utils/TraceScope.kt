@@ -1,5 +1,5 @@
 package com.techreier.edrops.calc.utils
 
-enum class TraceLevel {
+enum class TraceScope {
     OFF, PARSE, RPN, ALL
 }
