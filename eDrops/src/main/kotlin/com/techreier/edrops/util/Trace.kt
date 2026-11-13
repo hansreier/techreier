@@ -16,7 +16,7 @@ enum class TraceScope {
 }
 
 object Trace {
-    var level: TraceLevel = TraceLevel.DEBUG
+    var level: TraceLevel = TraceLevel.INFO
 
     fun debug(text: String? = "") = debug(TraceScope.DEFAULT, text)
     fun debug(scope: TraceScope, text: String? = "") {

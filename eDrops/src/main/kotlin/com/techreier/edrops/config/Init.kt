@@ -2,6 +2,8 @@ package com.techreier.edrops.config
 
 import com.techreier.edrops.data.Initial
 import com.techreier.edrops.dbservice.InitService
+import com.techreier.edrops.util.Trace
+import com.techreier.edrops.util.TraceLevel
 import com.techreier.edrops.util.buildVersion
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
@@ -13,6 +15,7 @@ class Init(
     initService: InitService,
 ) {
     init {
+        Trace.level = TraceLevel.INFO //Set trace level for calculation and plot
         val buildVersion = buildVersion(appConfig.buildTime)
         logger.info("App name: ${appConfig.appname} built: ${buildVersion}")
         if (!appConfig.auth) {
