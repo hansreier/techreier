@@ -2,6 +2,7 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.util.Trace
 import com.techreier.edrops.exceptions.ParseException
+import com.techreier.edrops.util.TraceLevel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -19,6 +20,8 @@ class ExprFunctionTest {
         calc = CalcDouble()
         // Trigonometric tests expect degrees
         calc.radians = false
+        Trace.level = TraceLevel.TRACE
+        Trace.trace("")
     }
 
     @Test

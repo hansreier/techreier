@@ -1,6 +1,7 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.util.Trace
+import com.techreier.edrops.util.TraceScope
 
 /*
  * Operator parameters:
@@ -176,7 +177,7 @@ enum class Op(
 
                 if (match != null) return match
             }
-            Trace.error("Operator not found")
+            Trace.error(TraceScope.CALC,"Operator not found")
             return null
         }
 

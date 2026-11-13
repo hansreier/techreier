@@ -4,13 +4,22 @@ import com.techreier.edrops.util.Trace
 import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.calc.utils.sanitize
 import com.techreier.edrops.exceptions.ParseException
+import com.techreier.edrops.util.TraceLevel
+import com.techreier.edrops.util.TraceScope
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class MultiExprTest {
 
     val calc = CalcDouble()
+
+    @BeforeEach
+    fun setUp() {
+        Trace.level = TraceLevel.TRACE
+        Trace.trace("")
+    }
 
     @Test
     fun happyTest() {
@@ -70,7 +79,7 @@ class MultiExprTest {
 
         do {
             expr.calculate()
-            Trace.info("x=${calc[Op.X]}, y=${calc[Op.Y]}")
+            Trace.trace(TraceScope.CALC,"x=${calc[Op.X]}, y=${calc[Op.Y]}")
         } while (calc[Op.X] < 3)
 
     }

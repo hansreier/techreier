@@ -15,7 +15,7 @@ class ExprArithmeticTest {
     fun setUp() {
         calc = CalcDouble()
         Trace.level = TraceLevel.TRACE
-        Trace.debug("")
+        Trace.trace("")
     }
 
     @Test
