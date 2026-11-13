@@ -12,15 +12,12 @@ enum class TraceLevel(val weight: Int) {
 
 enum class TraceScope {
     DEFAULT, GRAPH, PARSE, CALC;
-
-    // Låser alle tagger til nøyaktig 7 tegn med padding
     val tag: String get() = name.padEnd(7, ' ')
 }
 
 object Trace {
     var level: TraceLevel = TraceLevel.DEBUG
 
-    // --- DEBUG ---
     fun debug(text: String? = "") = debug(TraceScope.DEFAULT, text)
     fun debug(scope: TraceScope, text: String? = "") {
         if (level.weight >= TraceLevel.DEBUG.weight) {
@@ -28,7 +25,6 @@ object Trace {
         }
     }
 
-    // --- TRACE ---
     fun trace(text: String? = "") = trace(TraceScope.DEFAULT, text)
     fun trace(scope: TraceScope, text: String? = "") {
         if (level.weight >= TraceLevel.TRACE.weight) {
@@ -36,7 +32,6 @@ object Trace {
         }
     }
 
-    // --- INFO ---
     fun info(text: String? = "") = info(TraceScope.DEFAULT, text)
     fun info(scope: TraceScope, text: String? = "") {
         if (level.weight >= TraceLevel.INFO.weight) {
@@ -44,7 +39,6 @@ object Trace {
         }
     }
 
-    // --- WARN ---
     fun warn(text: String? = "") = warn(TraceScope.DEFAULT, text)
     fun warn(scope: TraceScope, text: String? = "") {
         if (level.weight >= TraceLevel.WARN.weight) {
@@ -52,7 +46,6 @@ object Trace {
         }
     }
 
-    // --- ERROR ---
     fun error(text: String? = "") = error(TraceScope.DEFAULT, text)
     fun error(scope: TraceScope, text: String? = "") {
         if (level.weight >= TraceLevel.ERROR.weight) {

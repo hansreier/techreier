@@ -1,5 +1,7 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.util.Trace
+import com.techreier.edrops.util.TraceLevel
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
@@ -12,6 +14,8 @@ class ExprArithmeticTest {
     @BeforeEach
     fun setUp() {
         calc = CalcDouble()
+        Trace.level = TraceLevel.TRACE
+        Trace.debug("")
     }
 
     @Test

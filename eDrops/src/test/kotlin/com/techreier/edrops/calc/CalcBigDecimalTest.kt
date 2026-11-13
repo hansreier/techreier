@@ -1,6 +1,9 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.util.Trace
+import com.techreier.edrops.util.TraceLevel
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -8,6 +11,12 @@ import java.math.RoundingMode
 import kotlin.random.Random
 
 class CalcBigDecimalTest {
+
+    @BeforeEach
+    fun setTrace() {
+        Trace.level = TraceLevel.INFO
+        Trace.trace("")
+    }
 
     @Test
     fun variousInputTest() {
@@ -96,4 +105,5 @@ class CalcBigDecimalTest {
         assertEquals(sum, calc.result(), "Sum:$expr")
         calc.traceStack()
     }
+
 }

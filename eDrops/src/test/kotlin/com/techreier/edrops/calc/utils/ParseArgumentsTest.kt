@@ -3,10 +3,19 @@ package com.techreier.edrops.calc.utils
 import com.techreier.edrops.calc.NumberToken
 import com.techreier.edrops.calc.Op
 import com.techreier.edrops.calc.OperatorToken
+import com.techreier.edrops.util.Trace
+import com.techreier.edrops.util.TraceLevel
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class ParseArgumentsTest {
+
+    @BeforeEach
+    fun setTrace() {
+        Trace.level = TraceLevel.DEBUG
+        Trace.debug("")
+    }
 
     @Test
     fun oneArgumentNoParentheisTest() { // Input: A function as unary operator

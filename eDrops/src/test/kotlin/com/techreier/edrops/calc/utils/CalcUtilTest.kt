@@ -3,12 +3,21 @@ package com.techreier.edrops.calc.utils
 import com.techreier.edrops.calc.NumberToken
 import com.techreier.edrops.calc.Op
 import com.techreier.edrops.calc.OperatorToken
+import com.techreier.edrops.util.Trace
+import com.techreier.edrops.util.TraceLevel
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 
 class CalcUtilTest {
+
+    @BeforeEach
+    fun setTrace() {
+        Trace.level = TraceLevel.INFO
+        Trace.debug("")
+    }
 
     @Test
     fun parseDoubleTest() {
