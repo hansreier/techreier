@@ -1,11 +1,19 @@
 package com.techreier.edrops.calc
 
-import org.junit.jupiter.api.Disabled
+import com.techreier.edrops.util.Trace
+import com.techreier.edrops.util.TraceLevel
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class PreparseTest : TestBase() {
 
     val calc = CalcDouble()
+
+    @BeforeEach
+    fun setUp() {
+        Trace.level = TraceLevel.TRACE
+        Trace.trace("")
+    }
 
     @Test
     fun happyTest() {
