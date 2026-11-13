@@ -2,8 +2,8 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.util.Trace
-import com.techreier.edrops.calc.utils.TraceScope
 import com.techreier.edrops.exceptions.CalcException
+import com.techreier.edrops.util.TraceScope
 import kotlin.reflect.KClass
 
 abstract class Calc<T: Any> {
@@ -12,7 +12,6 @@ abstract class Calc<T: Any> {
     val stack = ArrayDeque<T>()
     val s = Op.entries.size
 
-    var tracelScope: TraceScope = TraceScope.OFF
     //Common operators for all calculators
     var operators = setOf(
         Op.ADD,Op.LOG10, Op.POW10,
@@ -74,11 +73,11 @@ abstract class Calc<T: Any> {
                     if (validElements) {
                         opr(operator, noArgs)
                     } else {
-                        Trace.error("All arguments is not of the same data type!")
+                        Trace.error(TraceScope.CALC,"All arguments is not of the same data type!")
                         throw CalcException(VARYING_ARGUMENT_TYPES, operator.abbrev())
                     }
                 } else {
-                    Trace.error("Operator ${operator.abbrev()} invalid for ${type.simpleName}.")
+                    Trace.error(TraceScope.CALC,"Operator ${operator.abbrev()} invalid for ${type.simpleName}.")
                     throw CalcException(INVALID_ARGUMENT, operator.abbrev())
                 }
                 return if (!stack.isEmpty()) {
@@ -87,12 +86,12 @@ abstract class Calc<T: Any> {
                     null
                 }
             } else {
-                Trace.error("${operator.abbrev()} : Too few arguments ${stack.size}, must be $noArgs! or more")
+                Trace.error(TraceScope.CALC,"${operator.abbrev()} : Too few arguments ${stack.size}, must be $noArgs! or more")
                 throw CalcException(TOO_FEW_ARGUMENTS, operator.abbrev())
             }
 
         } catch (e: Exception) {
-            Trace.error("Calculation error: ${operator.abbrev()} ${e.message}.")
+            Trace.error(TraceScope.CALC,"Calculation error: ${operator.abbrev()} ${e.message}.")
             when (e) {
                 is CalcException -> {
                     throw CalcException (e.key, e.oper, e.detailMessage)
@@ -113,7 +112,7 @@ abstract class Calc<T: Any> {
     }
 
     fun result(): T {
-        traceStack("Result: ", true)
+        traceStack("Result: ")
         if (stack.isEmpty()) throw CalcException(NO_RESULT, "calc")
         if (stack.size > 1) throw CalcException(MULTIPLE_RESULTS, "calc")
         return stack.first()
@@ -126,12 +125,10 @@ abstract class Calc<T: Any> {
     }
 
     // Log the stack
-    fun traceStack(operation: String = "", forced: Boolean = false) {
-        if ((tracelScope == TraceScope.ALL) || (tracelScope == TraceScope.RPN) || (forced && (tracelScope != TraceScope.OFF))) {
+    fun traceStack(operation: String = "") {
             val stack = stack.joinToString(separator = " ", prefix = "[", postfix = "]")
             val paddedOp = operation.padEnd(OPERATOR_TEXT_LOG_SIZE, ' ')
-            Trace.info("$paddedOp$stack")
-        }
+            Trace.trace(TraceScope.CALC,"$paddedOp$stack")
     }
 
 }

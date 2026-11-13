@@ -55,4 +55,4 @@ const val PLOT_ANCHOR_X  = 24.0
 const val PLOT_ANCHOR_Y = 60.0
 
 //Set trace for calc and plot, cannot use logback with Wasm.
-val traceLevel: TraceLevel = TraceLevel.INFO
+var traceLevel: TraceLevel = TraceLevel.INFO

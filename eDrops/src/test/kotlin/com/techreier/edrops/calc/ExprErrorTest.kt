@@ -1,7 +1,6 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.util.Trace
-import com.techreier.edrops.calc.utils.TraceScope
 import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.exceptions.ParseException
 import org.assertj.core.api.Assertions.assertThat
@@ -22,9 +21,7 @@ class ExprErrorTest {
     @Test
     fun negativeNumberPower2FailsTest() {
         val input = "3 -2^2"
-
         val expr = Expr(calc, input)
-        expr.trace(TraceScope.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
         assertEquals(MISSING_OPERATOR, e.parseError.key)
     }
@@ -32,7 +29,6 @@ class ExprErrorTest {
     @Test
     fun minusNegateTest() {  //Returns error
         val expr = Expr(calc, "--(3+5)")
-        expr.trace(TraceScope.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
         assertEquals(CONSECUTIVE_NEGATE, e.parseError.key)
     }
@@ -41,7 +37,6 @@ class ExprErrorTest {
     fun unicodeTest() {
         val input = "a\u200B + 2"
         val expr = Expr(calc, input)
-        expr.trace(TraceScope.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
         assertThat(e.parseError.key).isEqualTo(UNPARSEABLE)
     }
@@ -50,7 +45,6 @@ class ExprErrorTest {
     fun repeatedOperatorFailsTest() {
         val input = "2^^3"
         val expr = Expr(calc, input)
-        expr.trace(TraceScope.ALL)
         val e = assertThrows <ParseException> { expr.parse() }
         assertThat(e.parseError.key).isEqualTo(MISSING_OPERAND)
         val errorIndicator = errorIndicator(expr.expr, e.parseError)
@@ -62,7 +56,6 @@ class ExprErrorTest {
     fun emptyTest() {
         val input = ""
         val expr = Expr(calc, input)
-        expr.trace(TraceScope.ALL)
         val e = assertThrows <ParseException> {
             expr.parse()
         }

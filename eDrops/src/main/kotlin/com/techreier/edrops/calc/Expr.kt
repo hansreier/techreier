@@ -3,7 +3,6 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.calc.utils.Range
 import com.techreier.edrops.util.Trace
-import com.techreier.edrops.calc.utils.TraceScope
 import com.techreier.edrops.calc.utils.checkVariables
 import com.techreier.edrops.calc.utils.findClosure
 import com.techreier.edrops.calc.utils.findUnboundOperator
@@ -12,6 +11,8 @@ import com.techreier.edrops.calc.utils.removeOuterP
 import com.techreier.edrops.calc.utils.sanitize
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.exceptions.VariableException
+import com.techreier.edrops.util.Trace.trace
+import com.techreier.edrops.util.TraceScope
 
 class Expr<T : Any>(val calc: Calc<T>, expr: String) {
     val expr: String = expr.sanitize()
@@ -35,10 +36,6 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
 
     operator fun get(op: Op): T {
         return calc[op]
-    }
-
-    fun trace(tracelevel: TraceScope) {
-        calc.tracelScope = tracelevel
     }
 
     fun result(): T {
@@ -138,7 +135,7 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                                         Range(argumentInfo.range.min - 2, argumentInfo.range.max + 1),
                                         depth + 1
                                     )
-                                    trace("add func: ${token.operator.abbrev()}")
+                                    trace(TraceScope.PARSE, "add func: ${token.operator.abbrev()}")
                                     tokens.add(token)
                                     index = argumentInfo.nextPos
                                 } else {
@@ -205,12 +202,6 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
             Trace.warn("Calling recursive parse without token that can be calculated")
         }
         trace("Recur[$depth]: End")
-    }
-
-    private fun trace(text: String) {
-        if ((calc.tracelScope == TraceScope.ALL) || calc.tracelScope == TraceScope.PARSE) {
-            println("[TRACE] $text")
-        }
     }
 
 }

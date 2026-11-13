@@ -1,6 +1,5 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.calc.utils.TraceScope
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -13,7 +12,6 @@ class CalcDoubleTest {
     @Test
     fun variousInputTest() {
         val calc = CalcDouble()
-        calc.tracelScope = TraceScope.ALL
 
         calc.enter("5")
         calc.enter(1)
@@ -42,7 +40,6 @@ class CalcDoubleTest {
     @Test
     fun addTest() {
         val calc = CalcDouble()
-        calc.tracelScope = TraceScope.ALL
         calc.enter(24.0)
         calc.enter(26.0)
         calc.enter(30.0)
@@ -59,8 +56,6 @@ class CalcDoubleTest {
     @Test
     fun sumTest() { //Enable later
         val calc = CalcDouble()
-        calc.tracelScope = TraceScope.ALL
-     //   calc.enter(100)
         calc.enter(1.0)
         calc.enter(2.0)
         calc.operate(Op.SUBTRACT)
@@ -81,7 +76,6 @@ class CalcDoubleTest {
     @Test
     fun addMUltiplyPowerTest() {
         val calc = CalcDouble()
-        calc.tracelScope = TraceScope.ALL
         calc.enter(4.0)
         calc.enter(3.0)
         calc.enter(5.0)
@@ -100,7 +94,6 @@ class CalcDoubleTest {
     @Test
     fun AllResultsTest() {
         val calc = CalcDouble()
-        calc.tracelScope = TraceScope.ALL
         calc.enter(4.0)
         calc.enter(3.0)
         calc.operate(Op.POW)
@@ -121,7 +114,6 @@ class CalcDoubleTest {
         val expr = StringBuilder()
 
         val calc = CalcDouble()
-        calc.tracelScope = TraceScope.ALL
 
         for (i in 0 until 10) {
             numbers[i] = Random.nextDouble(0.0, 1000.0)

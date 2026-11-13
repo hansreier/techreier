@@ -1,6 +1,5 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.calc.utils.TraceScope
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
@@ -12,7 +11,6 @@ class CalcBigIntegerTest {
     @Test
     fun variousInputTest() {
         val calc = CalcBigInteger()
-        calc.tracelScope = TraceScope.ALL
 
         calc.enter("5")
         calc.enter(1)
@@ -40,7 +38,6 @@ class CalcBigIntegerTest {
     @Test
     fun addTest() {
         val calc = CalcBigInteger()
-        calc.tracelScope = TraceScope.ALL
         calc.enter(24)
         calc.enter(26)
         calc.enter(30)
