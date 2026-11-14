@@ -34,6 +34,8 @@ class AppConfig {
     @NotNull(message = "Missing trace level for plot and calculations")
     lateinit var traceLevel: TraceLevel
 
+    var traceTimestamp: Boolean = false
+
     var auth: Boolean = true
 
     private val serverStartTime: String = Instant.now().toString()

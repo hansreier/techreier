@@ -4,6 +4,7 @@ import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.util.Trace
 import com.techreier.edrops.exceptions.CalcException
 import com.techreier.edrops.util.Scope
+import com.techreier.edrops.util.Trace.err
 import kotlin.reflect.KClass
 
 abstract class Calc<T: Any> {
@@ -73,11 +74,11 @@ abstract class Calc<T: Any> {
                     if (validElements) {
                         opr(operator, noArgs)
                     } else {
-                        Trace.error(Scope.CALC,"All arguments is not of the same data type!")
+                        err(Scope.CALC,"All arguments is not of the same data type!")
                         throw CalcException(VARYING_ARGUMENT_TYPES, operator.abbrev())
                     }
                 } else {
-                    Trace.error(Scope.CALC,"Operator ${operator.abbrev()} invalid for ${type.simpleName}.")
+                    err(Scope.CALC,"Operator ${operator.abbrev()} invalid for ${type.simpleName}.")
                     throw CalcException(INVALID_ARGUMENT, operator.abbrev())
                 }
                 return if (!stack.isEmpty()) {
@@ -86,12 +87,12 @@ abstract class Calc<T: Any> {
                     null
                 }
             } else {
-                Trace.error(Scope.CALC,"${operator.abbrev()} : Too few arguments ${stack.size}, must be $noArgs! or more")
+                err(Scope.CALC,"${operator.abbrev()} : Too few arguments ${stack.size}, must be $noArgs! or more")
                 throw CalcException(TOO_FEW_ARGUMENTS, operator.abbrev())
             }
 
         } catch (e: Exception) {
-            Trace.error(Scope.CALC,"Calculation error: ${operator.abbrev()} ${e.message}.")
+            err(Scope.CALC,"Calculation error: ${operator.abbrev()} ${e.message}.")
             when (e) {
                 is CalcException -> {
                     throw CalcException (e.key, e.oper, e.detailMessage)

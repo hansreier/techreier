@@ -7,6 +7,7 @@ import com.techreier.edrops.util.Trace.debug
 import com.techreier.edrops.util.Trace.level
 import com.techreier.edrops.util.TraceLevel
 import com.techreier.edrops.util.Scope
+import com.techreier.edrops.util.Trace.err
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -65,7 +66,7 @@ class ExprErrorTest {
         val e = assertThrows <ParseException> {
             expr.parse()
         }
-        Trace.error(Scope.PARSE,e.message)
+        err(Scope.PARSE,e.message)
         assertThat(e.parseError.key).isEqualTo(UNPARSEABLE)
     }
 

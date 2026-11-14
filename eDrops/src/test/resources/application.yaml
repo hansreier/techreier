@@ -3,6 +3,7 @@ app:
   user: Reier
   password: ${PASSWORD:Passord}
   media-path: file:/var/media
+  trace-level: "DEBUG"
 
 spring:
   profiles:

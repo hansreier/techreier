@@ -3,6 +3,7 @@ package com.techreier.edrops.config
 import com.techreier.edrops.data.Initial
 import com.techreier.edrops.dbservice.InitService
 import com.techreier.edrops.util.Trace.level
+import com.techreier.edrops.util.Trace.timestamp
 import com.techreier.edrops.util.buildVersion
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
@@ -15,6 +16,7 @@ class Init(
 ) {
     init {
         level = appConfig.traceLevel
+        timestamp = appConfig.traceTimestamp
         val buildVersion = buildVersion(appConfig.buildTime)
         logger.info("App name: ${appConfig.appname} built: ${buildVersion} traceLevel: $level")
         if (!appConfig.auth) {

@@ -14,6 +14,9 @@ import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.exceptions.VariableException
 import com.techreier.edrops.forms.GraphForm
 import com.techreier.edrops.graph.*
+import com.techreier.edrops.util.Trace.info
+import com.techreier.edrops.util.Trace.err
+import com.techreier.edrops.util.Trace.resetTimer
 import com.techreier.edrops.util.float
 import com.techreier.edrops.util.msg
 import jakarta.servlet.http.HttpServletRequest
@@ -72,11 +75,13 @@ class GraphController(
         val input = graphForm.validate(bindingResult)
 
         if (input != null) {
+            resetTimer()
+            info("Start graph")
             val graphLimits = GraphLimits(input.xMin, input.xMax, input.yMin, input.yMax)
             val graphMetadata = GraphMetadata(input.heightRatio, input.fontScale)
             val expr = Expr(CalcDouble(), input.yUnit)
             try {
-                logger.info("Graphlimits: ${graphLimits}")
+                info("Graphlimits: ${graphLimits}")
                 expr.calc.radians(input.radians)
                 expr.variable(input.xUnit)
                 expr.parse()
@@ -141,15 +146,17 @@ class GraphController(
                         bindingResult.reject("error.calcGraph", args, "graph calculation error")
                     }
                     else -> {
-                        logger.error("Unrecoverable error in graph calculation: ${ex.message}")
+                        err("Unrecoverable error in graph calculation: ${ex.message}")
                         throw ex
                     }
                 }
+            } finally {
+                info("End graph")
             }
         }
 
         if (bindingResult.hasErrors() || input == null) {
-            logger.info("warn graph input error: $graphForm")
+            info("warn graph input error: $graphForm")
             val docIndex = prepare(model, request, response)
             if (docIndex.index < 0) {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
