@@ -2,8 +2,7 @@ package com.techreier.edrops.config
 
 import com.techreier.edrops.data.Initial
 import com.techreier.edrops.dbservice.InitService
-import com.techreier.edrops.util.Trace
-import com.techreier.edrops.util.TraceLevel
+import com.techreier.edrops.util.Trace.level
 import com.techreier.edrops.util.buildVersion
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
@@ -15,9 +14,9 @@ class Init(
     initService: InitService,
 ) {
     init {
-        Trace.level = TraceLevel.DEBUG //Set trace level for calculation and plot
+        level = appConfig.traceLevel
         val buildVersion = buildVersion(appConfig.buildTime)
-        logger.info("App name: ${appConfig.appname} built: ${buildVersion}")
+        logger.info("App name: ${appConfig.appname} built: ${buildVersion} traceLevel: $level")
         if (!appConfig.auth) {
             logger.warn("Admin user auth is off, turn on and redeploy if production")
         }

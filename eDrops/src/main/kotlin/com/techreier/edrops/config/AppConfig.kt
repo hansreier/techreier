@@ -1,5 +1,6 @@
 package com.techreier.edrops.config
 
+import com.techreier.edrops.util.TraceLevel
 import jakarta.validation.constraints.NotNull
 import org.springframework.boot.autoconfigure.web.ErrorProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -29,6 +30,9 @@ class AppConfig {
 
     @NotNull(message = "Missing path for media files")
     lateinit var mediaPath: String
+
+    @NotNull(message = "Missing trace level for plot and calculations")
+    lateinit var traceLevel: TraceLevel
 
     var auth: Boolean = true
 
