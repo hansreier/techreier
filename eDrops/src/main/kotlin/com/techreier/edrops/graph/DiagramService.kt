@@ -3,7 +3,7 @@ package com.techreier.edrops.graph
 
 import com.techreier.edrops.util.Trace
 import com.techreier.edrops.config.*
-import com.techreier.edrops.util.TraceScope
+import com.techreier.edrops.util.Scope
 import com.techreier.edrops.util.axis
 import org.springframework.stereotype.Service
 import kotlin.math.abs
@@ -21,13 +21,13 @@ class DiagramService {
         val ySegments =
             ((diagramArea.plotHeight / YSEGMENT_PIXELS) + 1 + TOLERANCE).toInt().coerceIn(YSEGMENTS_MIN, YSEGMENTS_MAX)
         val yAxisData = axisData(limits.yMin, limits.yMax, ySegments, metaData.heightRatio, false)
-        Trace.debug(TraceScope.GRAPH,"y: wantedSegments=$ySegments yAxisData=${yAxisData}")
+        Trace.debug(Scope.GRAPH,"y: wantedSegments=$ySegments yAxisData=${yAxisData}")
 
         var yValue = yAxisData.tickMin
         var maxDigits = 0
         for (i in 0..yAxisData.sectionCount) { // Calculate the label with largest number of digits
             val label = yValue.axis(minThreshold = yAxisData.subTickStep / 10)  //Not correct E format
-            Trace.debug(TraceScope.GRAPH,"label=$label")
+            Trace.debug(Scope.GRAPH,"label=$label")
             maxDigits = max(label.length, maxDigits)
             yValue += yAxisData.tickStep
         }
@@ -37,13 +37,13 @@ class DiagramService {
         val plotCorrX = (maxDigits * charWidth)
         diagramArea.plotWidth -= plotCorrX
         diagramArea.plotAnchorX += plotCorrX
-        Trace.debug(TraceScope.GRAPH,"xFontFactor=$X_FONT_FACTOR maxDigits: $maxDigits fontScale=$fontScale, charWidth=$charWidth plotCorrX=${plotCorrX}")
+        Trace.debug(Scope.GRAPH,"xFontFactor=$X_FONT_FACTOR maxDigits: $maxDigits fontScale=$fontScale, charWidth=$charWidth plotCorrX=${plotCorrX}")
 
         // Calculate x-axis
         val xSegments =
             ((diagramArea.plotWidth / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
         val xAxisData = axisData(limits.xMin, limits.xMax, xSegments, metaData.heightRatio, true)
-        Trace.debug(TraceScope.GRAPH,"x: wantedSegments=$xSegments xAxisData: ${xAxisData}")
+        Trace.debug(Scope.GRAPH,"x: wantedSegments=$xSegments xAxisData: ${xAxisData}")
         val limits = GraphLimits(
             xMin = xAxisData.subTickMin,
             xMax = xAxisData.subTickMax,
@@ -130,7 +130,7 @@ class DiagramService {
                 )
             }
 
-        Trace.debug(TraceScope.GRAPH,"No of gridlines x: ${gridLines.size}")
+        Trace.debug(Scope.GRAPH,"No of gridlines x: ${gridLines.size}")
 
         return Axis(
             position = AxisPosition.BOTTOM,
@@ -200,7 +200,7 @@ private fun createYAxis(
             )
         }
 
-    Trace.debug(TraceScope.GRAPH,"No of gridlines y: ${gridLines.size}")
+    Trace.debug(Scope.GRAPH,"No of gridlines y: ${gridLines.size}")
 
     return Axis(
         position = AxisPosition.LEFT,

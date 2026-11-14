@@ -1,8 +1,10 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.util.Trace
+import com.techreier.edrops.util.Trace.info
+import com.techreier.edrops.util.Trace.level
+import com.techreier.edrops.util.Trace.trace
 import com.techreier.edrops.util.TraceLevel
-import com.techreier.edrops.util.TraceScope
+import com.techreier.edrops.util.Scope
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -11,8 +13,8 @@ class OpTest {
 
     @BeforeEach
     fun setUp() {
-        Trace.level = TraceLevel.TRACE
-        Trace.trace("")
+        level = TraceLevel.INFO
+        trace("")
     }
 
     @Test
@@ -20,11 +22,11 @@ class OpTest {
         val calcOps = CalcDouble().operators
         val supportedFunctions = Op.functions.filter { it in calcOps }.toSet()
 
-        Trace.info(TraceScope.CALC, Op.toString(Op.basicOperators))
-        Trace.info(TraceScope.CALC,Op.toString(supportedFunctions))
-        Trace.info(TraceScope.CALC,Op.toString(Op.constants))
-        Trace.info(TraceScope.CALC,Op.toString(Op.parenthesis))
-        Trace.info(TraceScope.CALC,Op.toString(Op.variables))
+        info(Scope.CALC, Op.toString(Op.basicOperators))
+        info(Scope.CALC,Op.toString(supportedFunctions))
+        info(Scope.CALC,Op.toString(Op.constants))
+        info(Scope.CALC,Op.toString(Op.parenthesis))
+        info(Scope.CALC,Op.toString(Op.variables))
 
 
         assertTrue(Op.basicOperators.isNotEmpty())

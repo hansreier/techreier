@@ -4,6 +4,7 @@ import com.techreier.edrops.calc.NumberToken
 import com.techreier.edrops.calc.Op
 import com.techreier.edrops.calc.OperatorToken
 import com.techreier.edrops.util.Trace
+import com.techreier.edrops.util.Trace.debug
 import com.techreier.edrops.util.TraceLevel
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
@@ -16,7 +17,7 @@ class CalcUtilTest {
     @BeforeEach
     fun setTrace() {
         Trace.level = TraceLevel.INFO
-        Trace.debug("")
+        debug("")
     }
 
     @Test

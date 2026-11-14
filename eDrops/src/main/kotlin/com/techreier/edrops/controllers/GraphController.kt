@@ -45,7 +45,6 @@ class GraphController(
         model: Model,
         redirectAttributes: RedirectAttributes,
     ): String {
-        logger.info("Graph page")
         val xUnit = msg(ctx.messageSource, "xUnit")
         val yUnit = msg(ctx.messageSource, "yUnit")
         val graphForm = model.getAttribute("graphForm")

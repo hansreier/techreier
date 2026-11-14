@@ -15,7 +15,7 @@ class Init(
     initService: InitService,
 ) {
     init {
-        Trace.level = TraceLevel.INFO //Set trace level for calculation and plot
+        Trace.level = TraceLevel.DEBUG //Set trace level for calculation and plot
         val buildVersion = buildVersion(appConfig.buildTime)
         logger.info("App name: ${appConfig.appname} built: ${buildVersion}")
         if (!appConfig.auth) {

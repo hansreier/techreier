@@ -7,8 +7,10 @@ import com.techreier.edrops.calc.OperatorToken
 import com.techreier.edrops.calc.toExpr
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.util.Trace
+import com.techreier.edrops.util.Trace.debug
+import com.techreier.edrops.util.Trace.level
 import com.techreier.edrops.util.TraceLevel
-import com.techreier.edrops.util.TraceScope
+import com.techreier.edrops.util.Scope
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -18,8 +20,8 @@ class FindClosureTest {
 
     @BeforeEach
     fun setTrace() {
-        Trace.level = TraceLevel.INFO
-        Trace.debug("")
+        level = TraceLevel.INFO
+        debug("")
     }
 
     // (((3 + 4) * (5 - 1) + (6 / (2 + 1))))
@@ -55,8 +57,8 @@ class FindClosureTest {
     @Test
     fun findClosureTest() {
         val argumentInfo = findClosure(Range(14, tokens.size - 1), tokens)
-        Trace.debug(TraceScope.CALC, tokens.toExpr())
-        Trace.debug(TraceScope.CALC, tokens.toExpr(argumentInfo.range))
+        debug(Scope.CALC, tokens.toExpr())
+        debug(Scope.CALC, tokens.toExpr(argumentInfo.range))
         Assertions.assertEquals(14, argumentInfo.range.min)
         Assertions.assertEquals(22, argumentInfo.range.max)
     }

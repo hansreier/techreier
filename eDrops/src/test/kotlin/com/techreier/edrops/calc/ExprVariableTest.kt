@@ -2,6 +2,8 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.util.Trace
 import com.techreier.edrops.exceptions.ParseException
+import com.techreier.edrops.util.Trace.debug
+import com.techreier.edrops.util.Trace.level
 import com.techreier.edrops.util.TraceLevel
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -16,8 +18,8 @@ class ExprVariableTest {
     @BeforeEach
     fun setUp() {
         calc = CalcDouble()
-        Trace.level = TraceLevel.INFO
-        Trace.trace("")
+        level = TraceLevel.INFO
+        debug("")
     }
 
     @Test

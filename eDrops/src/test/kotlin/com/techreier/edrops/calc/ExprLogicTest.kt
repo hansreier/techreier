@@ -1,7 +1,8 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.exceptions.ParseException
-import com.techreier.edrops.util.Trace
+import com.techreier.edrops.util.Trace.debug
+import com.techreier.edrops.util.Trace.level
 import com.techreier.edrops.util.TraceLevel
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -17,8 +18,8 @@ class ExprLogicTest {
     @BeforeEach
     fun setUp() {
         calc = CalcDouble()
-        Trace.level = TraceLevel.TRACE
-        Trace.trace("")
+        level = TraceLevel.DEBUG
+        debug("")
     }
 
     @Test

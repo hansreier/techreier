@@ -11,8 +11,9 @@ import com.techreier.edrops.calc.utils.removeOuterP
 import com.techreier.edrops.calc.utils.sanitize
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.exceptions.VariableException
+import com.techreier.edrops.util.Trace.debug
 import com.techreier.edrops.util.Trace.trace
-import com.techreier.edrops.util.TraceScope
+import com.techreier.edrops.util.Scope
 
 class Expr<T : Any>(val calc: Calc<T>, expr: String) {
     val expr: String = expr.sanitize()
@@ -43,7 +44,7 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
     }
 
     fun calculate() {
-        trace(TraceScope.PARSE, "calculate")
+        trace(Scope.CALC, "calculate")
         calc.clear() //clear the stack
         for (t in tokens) {
             when (t) {
@@ -60,16 +61,16 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
     }
 
     fun parse() {
-        trace(TraceScope.PARSE,"Expression: $expr")
-        trace(TraceScope.PARSE, "checking variables")
+        debug(Scope.PARSE,"Expression: $expr")
+        debug(Scope.PARSE, "checking variables")
         checkVariables(calc)
-        trace(TraceScope.PARSE,"Preparsing")
+        debug(Scope.PARSE,"Preparsing")
         val result = preparse(calc, expr)
         result.parseError?.let { throw ParseException("preparsing error", it) }
         rawTokens = result.tokens
-        trace(TraceScope.PARSE,"Parsing")
+        debug(Scope.PARSE,"Parsing")
         recursiveParse(Range(0, rawTokens.size - 1), 0)
-        trace(TraceScope.PARSE,"Parsed")
+        debug(Scope.PARSE,"Parsed")
     }
 
     fun recursiveParse(rangeIn: Range, depth: Int) {
@@ -83,7 +84,7 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
         if (range.max >= range.min) {
             var index = range.min
             var postphonedOperator: Token? = null
-            trace(TraceScope.PARSE,"Recur[$depth] ${rawTokens.toExpr(range)}")
+            debug(Scope.PARSE,"Recur[$depth] ${rawTokens.toExpr(range)}")
             do {
                 tokenCount++
                 if (tokenCount > MAX_TOKENS) {
@@ -93,11 +94,11 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                 }
                 when (val token = rawTokens[index]) {
                     is NumberToken -> {
-                        trace(TraceScope.PARSE,"add number: ${token.argument}")
+                        debug(Scope.PARSE,"add number: ${token.argument}")
                         tokens.add(token)
                         postphonedOperator?.let { op ->
                             tokens.add(op)
-                            trace(TraceScope.PARSE,"add operator: ${(op as OperatorToken).operator.abbrev()}")
+                            debug(Scope.PARSE,"add operator: ${(op as OperatorToken).operator.abbrev()}")
                         }
                         postphonedOperator = null
                         index++
@@ -107,11 +108,11 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                         when {
                             token.isSymbol() -> {
                                 val typeName = if (token.isVariable()) "variable" else "constant"
-                                trace(TraceScope.PARSE,"add $typeName: ${token.operator.abbrev()}")
+                                debug(Scope.PARSE,"add $typeName: ${token.operator.abbrev()}")
                                 tokens.add(token)
                                 postphonedOperator?.let { op ->
                                     tokens.add(op)
-                                    trace(TraceScope.PARSE,"add operator: ${(op as OperatorToken).operator.abbrev()}")
+                                    debug(Scope.PARSE,"add operator: ${(op as OperatorToken).operator.abbrev()}")
                                 }
                                 postphonedOperator = null
                                 index++
@@ -123,7 +124,7 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                                 index = argumentInfo.nextPos
                                 postphonedOperator?.let { op ->
                                     tokens.add(op)
-                                    trace(TraceScope.PARSE,"add operator: ${(op as OperatorToken).operator.abbrev()}")
+                                    debug(Scope.PARSE,"add operator: ${(op as OperatorToken).operator.abbrev()}")
                                 }
                                 postphonedOperator = null
                             }
@@ -135,19 +136,19 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                                         Range(argumentInfo.range.min - 2, argumentInfo.range.max + 1),
                                         depth + 1
                                     )
-                                    trace(TraceScope.PARSE, "add func: ${token.operator.abbrev()}")
+                                    debug(Scope.PARSE, "add func: ${token.operator.abbrev()}")
                                     tokens.add(token)
                                     index = argumentInfo.nextPos
                                 } else {
                                     val argumentInfo = parseArguments(Range(index, range.max), rawTokens)
                                     if (argumentInfo.push) {
-                                        trace(TraceScope.PARSE,"add args:${argumentInfo.tokens.toTokenString()}")
+                                        debug(Scope.PARSE,"add args:${argumentInfo.tokens.toTokenString()}")
                                         tokens.addAll(argumentInfo.tokens)
-                                        trace(TraceScope.PARSE,"add func: ${token.operator.abbrev()}")
+                                        debug(Scope.PARSE,"add func: ${token.operator.abbrev()}")
                                         tokens.add(token)
                                     } else {
                                         recursiveParse(argumentInfo.range, depth + 1)
-                                        trace(TraceScope.PARSE,"add func: ${token.operator.abbrev()}")
+                                        debug(Scope.PARSE,"add func: ${token.operator.abbrev()}")
                                         tokens.add(token)
                                     }
                                     index = argumentInfo.nextPos
@@ -172,14 +173,14 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
 
                                 if (!opInfo.push) {
                                     recursiveParse(Range(index + 1, opInfo.endPos), depth + 1)
-                                    trace(TraceScope.PARSE,"add operator: ${token.operator.abbrev()}")
+                                    debug(Scope.PARSE,"add operator: ${token.operator.abbrev()}")
                                     if (!token.isSeparator()) tokens.add(token)
                                     index = opInfo.endPos + 1
                                 } else {
                                     if (token.isPow()) {
                                         if (index < rawTokens.size) {
                                             recursiveParse(Range(index + 1, opInfo.endPos), depth + 1)
-                                            trace(TraceScope.PARSE,"add operator: ${token.operator.abbrev()}")
+                                            debug(Scope.PARSE,"add operator: ${token.operator.abbrev()}")
                                             tokens.add(token)
                                             index++
                                         }
@@ -199,9 +200,9 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                 }
             } while (index <= range.max)
         } else {
-            Trace.warn(TraceScope.PARSE,"Calling recursive parse without token that can be calculated")
+            Trace.warn(Scope.PARSE,"Calling recursive parse without token that can be calculated")
         }
-        trace(TraceScope.PARSE,"Recur[$depth]: End")
+        debug(Scope.PARSE,"Recur[$depth]: End")
     }
 
 }

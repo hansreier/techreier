@@ -3,8 +3,10 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.util.Trace
 import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.exceptions.ParseException
+import com.techreier.edrops.util.Trace.debug
+import com.techreier.edrops.util.Trace.level
 import com.techreier.edrops.util.TraceLevel
-import com.techreier.edrops.util.TraceScope
+import com.techreier.edrops.util.Scope
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -18,8 +20,8 @@ class ExprErrorTest {
     @BeforeEach
     fun setUp() {
         calc = CalcDouble()
-        Trace.level = TraceLevel.INFO
-        Trace.trace("")
+        level = TraceLevel.INFO
+        debug("")
     }
 
     @Test
@@ -52,7 +54,7 @@ class ExprErrorTest {
         val e = assertThrows <ParseException> { expr.parse() }
         assertThat(e.parseError.key).isEqualTo(MISSING_OPERAND)
         val errorIndicator = errorIndicator(expr.expr, e.parseError)
-        Trace.trace(TraceScope.PARSE,"Error indicator: $errorIndicator")
+        Trace.trace(Scope.PARSE,"Error indicator: $errorIndicator")
         assertEquals( "2^???^3", errorIndicator)
     }
 
@@ -63,7 +65,7 @@ class ExprErrorTest {
         val e = assertThrows <ParseException> {
             expr.parse()
         }
-        Trace.error(TraceScope.PARSE,e.message)
+        Trace.error(Scope.PARSE,e.message)
         assertThat(e.parseError.key).isEqualTo(UNPARSEABLE)
     }
 

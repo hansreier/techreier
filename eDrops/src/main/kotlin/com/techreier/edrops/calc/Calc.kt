@@ -3,7 +3,7 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.util.Trace
 import com.techreier.edrops.exceptions.CalcException
-import com.techreier.edrops.util.TraceScope
+import com.techreier.edrops.util.Scope
 import kotlin.reflect.KClass
 
 abstract class Calc<T: Any> {
@@ -73,11 +73,11 @@ abstract class Calc<T: Any> {
                     if (validElements) {
                         opr(operator, noArgs)
                     } else {
-                        Trace.error(TraceScope.CALC,"All arguments is not of the same data type!")
+                        Trace.error(Scope.CALC,"All arguments is not of the same data type!")
                         throw CalcException(VARYING_ARGUMENT_TYPES, operator.abbrev())
                     }
                 } else {
-                    Trace.error(TraceScope.CALC,"Operator ${operator.abbrev()} invalid for ${type.simpleName}.")
+                    Trace.error(Scope.CALC,"Operator ${operator.abbrev()} invalid for ${type.simpleName}.")
                     throw CalcException(INVALID_ARGUMENT, operator.abbrev())
                 }
                 return if (!stack.isEmpty()) {
@@ -86,12 +86,12 @@ abstract class Calc<T: Any> {
                     null
                 }
             } else {
-                Trace.error(TraceScope.CALC,"${operator.abbrev()} : Too few arguments ${stack.size}, must be $noArgs! or more")
+                Trace.error(Scope.CALC,"${operator.abbrev()} : Too few arguments ${stack.size}, must be $noArgs! or more")
                 throw CalcException(TOO_FEW_ARGUMENTS, operator.abbrev())
             }
 
         } catch (e: Exception) {
-            Trace.error(TraceScope.CALC,"Calculation error: ${operator.abbrev()} ${e.message}.")
+            Trace.error(Scope.CALC,"Calculation error: ${operator.abbrev()} ${e.message}.")
             when (e) {
                 is CalcException -> {
                     throw CalcException (e.key, e.oper, e.detailMessage)
@@ -128,7 +128,7 @@ abstract class Calc<T: Any> {
     fun traceStack(operation: String = "") {
             val stack = stack.joinToString(separator = " ", prefix = "[", postfix = "]")
             val paddedOp = operation.padEnd(OPERATOR_TEXT_LOG_SIZE, ' ')
-            Trace.trace(TraceScope.CALC,"$paddedOp$stack")
+            Trace.trace(Scope.CALC,"$paddedOp$stack")
     }
 
 }

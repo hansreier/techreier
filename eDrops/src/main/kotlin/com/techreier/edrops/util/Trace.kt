@@ -10,7 +10,7 @@ enum class TraceLevel(val weight: Int) {
     TRACE(5)
 }
 
-enum class TraceScope {
+enum class Scope {
     DEFAULT, GRAPH, PARSE, CALC;
     val tag: String get() = name.padEnd(7, ' ')
 }
@@ -18,36 +18,36 @@ enum class TraceScope {
 object Trace {
     var level: TraceLevel = TraceLevel.INFO
 
-    fun debug(text: String? = "") = debug(TraceScope.DEFAULT, text)
-    fun debug(scope: TraceScope, text: String? = "") {
+    fun debug(text: String? = "") = debug(Scope.DEFAULT, text)
+    fun debug(scope: Scope, text: String? = "") {
         if (level.weight >= TraceLevel.DEBUG.weight) {
             println("[DEBUG] [${scope.tag}] $text")
         }
     }
 
-    fun trace(text: String? = "") = trace(TraceScope.DEFAULT, text)
-    fun trace(scope: TraceScope, text: String? = "") {
+    fun trace(text: String? = "") = trace(Scope.DEFAULT, text)
+    fun trace(scope: Scope, text: String? = "") {
         if (level.weight >= TraceLevel.TRACE.weight) {
             println("[TRACE] [${scope.tag}] $text")
         }
     }
 
-    fun info(text: String? = "") = info(TraceScope.DEFAULT, text)
-    fun info(scope: TraceScope, text: String? = "") {
+    fun info(text: String? = "") = info(Scope.DEFAULT, text)
+    fun info(scope: Scope, text: String? = "") {
         if (level.weight >= TraceLevel.INFO.weight) {
             println("[INFO ] [${scope.tag}] $text")
         }
     }
 
-    fun warn(text: String? = "") = warn(TraceScope.DEFAULT, text)
-    fun warn(scope: TraceScope, text: String? = "") {
+    fun warn(text: String? = "") = warn(Scope.DEFAULT, text)
+    fun warn(scope: Scope, text: String? = "") {
         if (level.weight >= TraceLevel.WARN.weight) {
             println("[WARN ] [${scope.tag}] $text")
         }
     }
 
-    fun error(text: String? = "") = error(TraceScope.DEFAULT, text)
-    fun error(scope: TraceScope, text: String? = "") {
+    fun error(text: String? = "") = error(Scope.DEFAULT, text)
+    fun error(scope: Scope, text: String? = "") {
         if (level.weight >= TraceLevel.ERROR.weight) {
             println("[ERROR] [${scope.tag}] $text")
         }

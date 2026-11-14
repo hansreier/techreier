@@ -1,6 +1,7 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.util.Trace
+import com.techreier.edrops.util.Trace.level
+import com.techreier.edrops.util.Trace.trace
 import com.techreier.edrops.util.TraceLevel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -13,8 +14,8 @@ class CalcBigIntegerTest {
 
     @BeforeEach
     fun setTrace() {
-        Trace.level = TraceLevel.INFO
-        Trace.trace("")
+        level = TraceLevel.INFO
+        trace("")
     }
 
     @Test
