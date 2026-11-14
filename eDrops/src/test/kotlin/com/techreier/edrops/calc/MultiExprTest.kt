@@ -27,7 +27,9 @@ class MultiExprTest {
     fun happyTest() {
 
         val input = """
+            // A very simple happy expression to parse;
             x = 5;
+            // And then we calculate y og z;
             y = 3 * x;
             z = x + y;
         """.trimIndent()

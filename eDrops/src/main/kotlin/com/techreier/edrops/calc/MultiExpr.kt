@@ -13,6 +13,7 @@ class MultiExpr<T : Any> (val calc: Calc<T>, multiExpr: String) {
         splitMultiExpr(multiExpr).forEach { (assignment, globalAssignmentOffset) ->
             val trimmed = assignment.trim()
             if (trimmed.isEmpty()) return@forEach
+            if (trimmed.startsWith("//")) return@forEach
 
             val eqIndex = assignment.indexOf('=')
             if (eqIndex != -1) {
