@@ -1,6 +1,5 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.util.Trace
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.util.Trace.debug
 import com.techreier.edrops.util.Trace.level
@@ -156,7 +155,7 @@ class ExprFunctionTest {
     fun calculateSeriesTest() {
         val input = "sin(x)"
         val expr = Expr(calc, input)
-        Trace.info("calculating with x1")
+        debug("calculating with x1")
         expr.parse()
         calc[Op.X] = 0.0
         expr.calculate()
@@ -164,7 +163,7 @@ class ExprFunctionTest {
         assertNotNull(result1)
         assertEquals(0.0, result1, 1e-8, "calculating: " + input)
 
-        Trace.info("calculating with x2")
+        debug("calculating with x2")
         calc[Op.X] = 90.0
         expr.calculate()
         val result2 = calc.result()

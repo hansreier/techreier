@@ -113,7 +113,7 @@ spring:
 app:
   auth: false
   media-path: "file:C:/media/"
-  trace-level: INFO
+  trace-level: DEBUG
   trace-timestamp: true
 logging:
   level:
@@ -149,7 +149,9 @@ spring:
   thymeleaf:
     cache: true
   web.resources.cache.period: 3600
-app.trace-level: INFO
+app:
+  trace-timestamp: true
+  trace-level: INFO
 
 ---
 spring:
