@@ -37,11 +37,11 @@ class CalcBigInteger : Calc<BigInteger>() {
         vars[op] = BigInteger.ZERO
     }
 
-    override fun setAll(newVars: Map<Op, BigInteger>) {
+    override fun setAll(newVars: Map<OpI, BigInteger>) {
         vars.putAll(newVars)
     }
 
-    override operator fun get(op: Op): BigInteger {
+    override operator fun get(op: OpI): BigInteger {
         val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev}")
         return variable
     }

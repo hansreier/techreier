@@ -48,15 +48,18 @@ class MultiExprTest {
 
         val input = """
             // A very simple happy expression to parse;
-            reier = 3  + 5;
-            x = reier + 3
+            y = 1;
+            reier = 4  + y;
+            x = reier + 3;
+            z = x + reier + y;
         """.trimIndent()
 
         val expr = MultiExpr(calc, input)
         expr.parse()
         expr.calculate()
-
-        assertEquals(5.0, expr[Op.X])
+      //  assertEquals(5.0, expr[Op.REIER]) //TODO ReierAsk fix
+        assertEquals(8.0, expr[Op.X])
+        assertEquals(14.0, expr[Op.Z])
     }
 
     @Test

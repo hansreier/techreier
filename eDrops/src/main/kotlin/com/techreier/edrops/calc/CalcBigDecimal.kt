@@ -40,11 +40,11 @@ class CalcBigDecimal : Calc<BigDecimal>() {
         vars[op] = BigDecimal.ZERO
     }
 
-    override fun setAll(newVars: Map<Op, BigDecimal>) {
+    override fun setAll(newVars: Map<OpI, BigDecimal>) {
         vars.putAll(newVars)
     }
 
-    override operator fun get(op: Op): BigDecimal {
+    override operator fun get(op: OpI): BigDecimal {
         val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev}")
         return variable
     }

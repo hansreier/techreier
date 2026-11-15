@@ -29,7 +29,7 @@ const val CONSECUTIVE_UNARY = "ConsecutiveUnary"
 const val SEPARATOR_NOT_IN_FUNCTION = "SeparatorNotInFunction"
 const val EXPRESSION_DEPTH_EXCEEDED = "ExpressionDepthExceeded"
 const val MAX_TOKENS_EXCEEDED = "MaxTokensExceeded"
-const val VARIABLE_NOT_FOUND ="VariableNotFound"
+const val VARIABLE_NOT_FOUND ="VariableNotFound" //TODO ReierAsk, probably remove
 
 // Calculation errors
 const val CALCULATION_ERROR = "CalculationError"

@@ -64,13 +64,14 @@ class CalcDouble : Calc<Double>() {
     override fun set(op: OpI) {
         operators += op
         vars[op] = 0.0
+        customVariables += op
     }
 
-    override fun setAll(newVars: Map<Op, Double>) {
+    override fun setAll(newVars: Map<OpI, Double>) {
         vars.putAll(newVars)
     }
 
-    override operator fun get(op: Op): Double {
+    override operator fun get(op: OpI): Double {
         val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev}")
         return variable
     }

@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
 abstract class Calc<T: Any> {
     abstract val type: KClass<T>
     abstract val vars: MutableMap<OpI, T>
-    var customVariables: Set<VariableOp> = emptySet()
+    var customVariables: Set<OpI> = emptySet()  //TODO ReierAsk old code VariableOp
     val stack = ArrayDeque<T>()
     val s = Op.entries.size
 
@@ -32,9 +32,9 @@ abstract class Calc<T: Any> {
 
     abstract fun parseValue(input: String): T
 
-    abstract fun setAll(newVars: Map<Op, T>)
+    abstract fun setAll(newVars: Map<OpI, T>)
 
-    abstract operator fun get(op: Op): T
+    abstract operator fun get(op: OpI): T
 
     abstract fun enter(number: Number)
 

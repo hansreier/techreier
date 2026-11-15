@@ -20,6 +20,8 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
     var parseError: ParseError?
     val pos = ParsePosition(0)
     Trace.info(Scope.PARSE,"Preparsing: $expr")
+    Trace.info(Scope.PARSE,"Predefinerte variable: ${calc.customVariables}")
+    Trace.info(Scope.PARSE,"Predefinerte vars: ${calc.vars}")
     do {
         i1 = pos.index
         while ((i1 < expr.length - 1) && (expr[i1].isWhitespace())) {
@@ -45,7 +47,7 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
         } else {
             i2 = pos.index
             if (i2 <= i1) { // Find operator if it exists
-                val foundOp = Op.operator(expr, i1, calc.operators + calc.customVariables)
+                val foundOp = Op.operator(expr, i1, calc.operators + calc.customVariables) //TODO ReierASK not customVariables?
                 oper = foundOp?.let { Oper(foundOp, pos.index) }
             }
         }
@@ -123,6 +125,7 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
                 }
 
                 in symbols + calc.customVariables -> {
+
                     if (lastOpType == OpType.FUNCTION){
                         parseError = ParseError(MISSING_PARENTHESIS, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
@@ -166,7 +169,12 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
                 }
 
                 else -> { //Function without arguments should be defined as constants
-
+                    if (! oper.op.isFunction()) {  // Only functions in here of programming error, really
+                        Trace.err(Scope.PARSE,"Preparsing operator ${oper.op.abbrev} off track, programming error")
+                        parseError = ParseError(UNPARSEABLE, i1, oper.op.abbrev)
+                        return ParseResult(tokens, parseError)
+                    }
+                    Trace.info(Scope.PARSE,"found function: ${oper.op}")
                     if (lastOpType == OpType.SYMBOL || (lastOpType == OpType.NUMBER)){
                         tokens.add(OperatorToken(Op.MULTIPLY, i1))
                     }

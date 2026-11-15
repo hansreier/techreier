@@ -22,11 +22,6 @@ class MultiExpr<T : Any> (val calc: Calc<T>, multiExpr: String) {
             if (eqIndex != -1) {
                 val rawVarPart = assignment.substring(0, eqIndex)
                 val variableName = rawVarPart.trim().lowercase()
-
-            //    val reier = VariableOp("reier")
-             //   calc.set(reier)
-              //  calc.customVariables = setOf(reier)
-
                 val existingOp = Op.entries.find { it.name.equals(variableName, ignoreCase = true) }
 
                 val targetOp = if (existingOp == null) {
@@ -38,9 +33,7 @@ class MultiExpr<T : Any> (val calc: Calc<T>, multiExpr: String) {
                     existingOp
                 }
 
-
                 val exprText = assignment.substring(eqIndex + 1)
-
                 val exprTextOffset = globalAssignmentOffset + eqIndex + 1
 
                 try {
@@ -61,10 +54,14 @@ class MultiExpr<T : Any> (val calc: Calc<T>, multiExpr: String) {
     }
 
     fun calculate() {
+        Trace.info(Scope.CALC,"calculating multi expressions")
         exprList.forEach { expr ->
+            Trace.info(Scope.CALC, "Expression: ${expr.expr}")
             expr.calculate()
             val target = expr.target
-            expr[target] = expr.result()
+            val result = expr.result()
+            Trace.info(Scope.CALC, "Resultat: $result")
+            expr[target] = result
         }
     }
 

@@ -58,5 +58,5 @@ object Trace {
     fun warn(scope: Scope, text: String? = "") = log(TraceLevel.WARN, "WARN ", scope, text)
 
     fun err(text: String? = "") = err(Scope.DEFAULT, text)
-    fun err(scope: Scope, text: String? = "") = log(TraceLevel.ERR, "ERR", scope, text)
+    fun err(scope: Scope, text: String? = "") = log(TraceLevel.ERR, "ERR  ", scope, text)
 }

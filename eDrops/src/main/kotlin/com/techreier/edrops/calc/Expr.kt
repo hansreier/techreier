@@ -31,7 +31,7 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
         return singleVariable
     }
 
-    fun setAll(newVars: Map<Op, T>) {
+    fun setAll(newVars: Map<OpI, T>) {
         calc.setAll(newVars)
     }
 
