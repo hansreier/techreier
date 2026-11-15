@@ -37,7 +37,7 @@ class CalcDouble : Calc<Double>() {
     override val type: KClass<Double> = Double::class
     var radians: Boolean = true
 
-    override val vars: MutableMap<Op, Double> = mutableMapOf()
+    override val vars: MutableMap<OpI, Double> = mutableMapOf()
 
     init {
         operators += setOf(
@@ -47,6 +47,8 @@ class CalcDouble : Calc<Double>() {
             Op.SELECT, Op.GT, Op.LT, Op.GTE, Op.LTE, Op.EQ, Op.NEQ, Op.NOT, Op.AND, Op.OR
         )
 
+  //     operators += customSymbols TODO ReierAsk cannot work, remoee
+
         //Check for consistency in set of enums
         val missing = operators.filter { it !in (functions + constants +basicOperators + variables + parenthesis) }
         require(missing.isEmpty()) {
@@ -55,8 +57,13 @@ class CalcDouble : Calc<Double>() {
 
     }
 
-    override operator fun set(op: Op, value: Double) {
+    override operator fun set(op: OpI, value: Double) {
         vars[op] = value
+    }
+
+    override fun set(op: OpI) {
+        operators += op
+        vars[op] = 0.0
     }
 
     override fun setAll(newVars: Map<Op, Double>) {
@@ -64,7 +71,7 @@ class CalcDouble : Calc<Double>() {
     }
 
     override operator fun get(op: Op): Double {
-        val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev()}")
+        val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev}")
         return variable
     }
 
@@ -81,7 +88,7 @@ class CalcDouble : Calc<Double>() {
         traceStack(number.toString())
     }
 
-    override fun opr(operator: Op, noArgs: Int) {
+    override fun opr(operator: OpI, noArgs: Int) {
         val x: Double
         val y: Double
         val arg = stack.iterator()
@@ -376,16 +383,16 @@ class CalcDouble : Calc<Double>() {
                 r.add(arg.next())
             }
 
-            in variables -> {
+            in (variables + customVariables) -> {
                 val variable = vars[operator]
-                variable ?: throw (CalcException(UNKNOWN_VARIABLE, operator.abbrev()))
+                variable ?: throw (CalcException(UNKNOWN_VARIABLE, operator.abbrev))
                 r.add(variable)
             }
 
             else -> {
-                val errorText = "Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}"
-                err("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}")
-                throw (CalcException(UNKNOWN_OPERATOR, operator.abbrev(), errorText))
+                val errorText = "Implementation of ${operator.abbrev} forgotten for ${type.simpleName}"
+                err("Implementation of ${operator.abbrev} forgotten for ${type.simpleName}")
+                throw (CalcException(UNKNOWN_OPERATOR, operator.abbrev, errorText))
             }
         }
 

@@ -9,12 +9,13 @@ import kotlin.reflect.KClass
 
 abstract class Calc<T: Any> {
     abstract val type: KClass<T>
-    abstract val vars: MutableMap<Op, T>
+    abstract val vars: MutableMap<OpI, T>
+    var customVariables: Set<VariableOp> = emptySet()
     val stack = ArrayDeque<T>()
     val s = Op.entries.size
 
     //Common operators for all calculators
-    var operators = setOf(
+    var operators: Set<OpI>  = setOf(
         Op.ADD,Op.LOG10, Op.POW10,
         Op.SUBTRACT, Op.DIVIDE, Op.MULTIPLY, Op.SQR, Op.POW,
         Op.SEPARATOR, Op.LEFTP, Op.RIGHTP, Op.NEGATE, Op.ABS, Op.SIGN,
@@ -25,7 +26,9 @@ abstract class Calc<T: Any> {
         stack.clear()
     }
 
-    abstract operator fun set(op: Op, value: T)
+    abstract operator fun set(op: OpI, value: T)
+
+    abstract fun set(op: OpI)
 
     abstract fun parseValue(input: String): T
 
@@ -44,10 +47,10 @@ abstract class Calc<T: Any> {
         }
     }
 
-    protected abstract fun opr(operator: Op, noArgs: Int)
+    protected abstract fun opr(operator: OpI, noArgs: Int)
 
 
-    fun operate(operator: Op, noRealArgs: Int = operator.noArgs()): T? {
+    fun operate(operator: OpI, noRealArgs: Int = operator.noArgs): T? {
         val arg: Iterator<T>
         var noArgs = noRealArgs
         try {
@@ -69,17 +72,17 @@ abstract class Calc<T: Any> {
                     }
                     remaining--
                 }
-
+                //TODO ReierAsk user defined variable is not in this st
                 if (operators.contains(operator)) {
                     if (validElements) {
                         opr(operator, noArgs)
                     } else {
                         err(Scope.CALC,"All arguments is not of the same data type!")
-                        throw CalcException(VARYING_ARGUMENT_TYPES, operator.abbrev())
+                        throw CalcException(VARYING_ARGUMENT_TYPES, operator.abbrev)
                     }
                 } else {
-                    err(Scope.CALC,"Operator ${operator.abbrev()} invalid for ${type.simpleName}.")
-                    throw CalcException(INVALID_ARGUMENT, operator.abbrev())
+                    err(Scope.CALC,"Operator ${operator.abbrev} invalid for ${type.simpleName}.")
+                    throw CalcException(INVALID_ARGUMENT, operator.abbrev)
                 }
                 return if (!stack.isEmpty()) {
                     stack.first()
@@ -87,28 +90,28 @@ abstract class Calc<T: Any> {
                     null
                 }
             } else {
-                err(Scope.CALC,"${operator.abbrev()} : Too few arguments ${stack.size}, must be $noArgs! or more")
-                throw CalcException(TOO_FEW_ARGUMENTS, operator.abbrev())
+                err(Scope.CALC,"${operator.abbrev} : Too few arguments ${stack.size}, must be $noArgs! or more")
+                throw CalcException(TOO_FEW_ARGUMENTS, operator.abbrev)
             }
 
         } catch (e: Exception) {
-            err(Scope.CALC,"Calculation error: ${operator.abbrev()} ${e.message}.")
+            err(Scope.CALC,"Calculation error: ${operator.abbrev} ${e.message}.")
             when (e) {
                 is CalcException -> {
                     throw CalcException (e.key, e.oper, e.detailMessage)
                 }
                 is ArithmeticException -> {
-                    throw CalcException(CALCULATION_ERROR, operator.abbrev(), e.message)
+                    throw CalcException(CALCULATION_ERROR, operator.abbrev, e.message)
                 }
                 is IllegalArgumentException -> {
-                    throw CalcException(INVALID_ARGUMENT, operator.abbrev(), e.message)
+                    throw CalcException(INVALID_ARGUMENT, operator.abbrev, e.message)
                 }
                 else -> {
                     throw e
                 }
             }
         }  finally {
-            traceStack(operator.abbrev())
+            traceStack(operator.abbrev)
         }
     }
 

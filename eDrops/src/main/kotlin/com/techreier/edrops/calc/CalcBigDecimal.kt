@@ -17,8 +17,7 @@ import kotlin.reflect.cast
 
 class CalcBigDecimal : Calc<BigDecimal>() {
     override val type: KClass<BigDecimal> = BigDecimal::class
-
-    override val vars: MutableMap<Op, BigDecimal> = mutableMapOf()
+    override val vars: MutableMap<OpI, BigDecimal> = mutableMapOf()
 
     var scale: Int = 20
 
@@ -32,8 +31,13 @@ class CalcBigDecimal : Calc<BigDecimal>() {
         }
     }
 
-    override operator fun set(op: Op, value: BigDecimal) {
+    override operator fun set(op: OpI, value: BigDecimal) {
         vars[op] = value
+    }
+
+    override fun set(op: OpI) {
+        vars[op] = BigDecimal.ZERO
+        vars[op] = BigDecimal.ZERO
     }
 
     override fun setAll(newVars: Map<Op, BigDecimal>) {
@@ -41,7 +45,7 @@ class CalcBigDecimal : Calc<BigDecimal>() {
     }
 
     override operator fun get(op: Op): BigDecimal {
-        val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev()}")
+        val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev}")
         return variable
     }
 
@@ -71,7 +75,7 @@ class CalcBigDecimal : Calc<BigDecimal>() {
     }
 
 
-    override fun opr(operator: Op, noArgs: Int) {
+    override fun opr(operator: OpI, noArgs: Int) {
         val arg = stack.iterator()
         val x: BigDecimal
         val y: BigDecimal
@@ -208,12 +212,12 @@ class CalcBigDecimal : Calc<BigDecimal>() {
 
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
                 val variable = vars[operator]
-                variable ?: throw (IllegalArgumentException("Unknown variable: ${operator.abbrev()}"))
+                variable ?: throw (IllegalArgumentException("Unknown variable: ${operator.abbrev}"))
                 r.add(variable)
             }
 
             else -> {
-                err("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}.")
+                err("Implementation of ${operator.abbrev} forgotten for ${type.simpleName}.")
             }
         }
 

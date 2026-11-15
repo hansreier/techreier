@@ -16,7 +16,7 @@ fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
     var error: ParseError
     if (range.max < range.min) throw IllegalStateException("min ${range.min} > max ${range.max}")
     if (!tokens[range.min].isLeftP()) {
-        error = ParseError(MISSING_PARENTHESIS, tokens[range.min].position, oper = Op.LEFTP.abbrev())
+        error = ParseError(MISSING_PARENTHESIS, tokens[range.min].position, oper = Op.LEFTP.abbrev)
         throw ParseException("Error finding closure of parenthesis", error)
     }
 
@@ -32,7 +32,7 @@ fun findClosure(range: Range, tokens: List<Token>): ArgumentInfo {
     }
 
     if (balance != 0) {
-        val operatorText = (tokens[range.min] as? OperatorToken)?.operator?.abbrev() ?: ""
+        val operatorText = (tokens[range.min] as? OperatorToken)?.operator?.abbrev ?: ""
         error = ParseError(MISPLACED_PARENTHESIS, tokens[range.min].position, operatorText)
         throw ParseException("Error with closure of parenthesis", error)
     }

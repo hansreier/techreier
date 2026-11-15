@@ -3,6 +3,8 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.calc.utils.sanitize
 import com.techreier.edrops.calc.utils.splitMultiExpr
 import com.techreier.edrops.exceptions.ParseException
+import com.techreier.edrops.util.Scope
+import com.techreier.edrops.util.Trace
 
 class MultiExpr<T : Any> (val calc: Calc<T>, multiExpr: String) {
 
@@ -12,20 +14,30 @@ class MultiExpr<T : Any> (val calc: Calc<T>, multiExpr: String) {
     fun parse() {
         splitMultiExpr(multiExpr).forEach { (assignment, globalAssignmentOffset) ->
             val trimmed = assignment.trim()
+            Trace.info(Scope.PARSE,"Multiexpr: $assignment")
             if (trimmed.isEmpty()) return@forEach
             if (trimmed.startsWith("//")) return@forEach
 
             val eqIndex = assignment.indexOf('=')
             if (eqIndex != -1) {
                 val rawVarPart = assignment.substring(0, eqIndex)
-                val variableName = rawVarPart.trim().uppercase()
+                val variableName = rawVarPart.trim().lowercase()
 
-                val targetOp = try {
-                    Op.valueOf(variableName)
-                } catch (_: IllegalArgumentException) {
-                    val varPos = globalAssignmentOffset + rawVarPart.indexOf(variableName.lowercase())
-                    throw ParseException("Cannot parse variable", ParseError(VARIABLE_NOT_FOUND, varPos, variableName))
+            //    val reier = VariableOp("reier")
+             //   calc.set(reier)
+              //  calc.customVariables = setOf(reier)
+
+                val existingOp = Op.entries.find { it.name.equals(variableName, ignoreCase = true) }
+
+                val targetOp = if (existingOp == null) {
+                    Trace.info(Scope.PARSE,"new variable: $variableName")
+                    val newOp = VariableOp(variableName)
+                    calc.set(newOp)
+                    newOp
+                } else {
+                    existingOp
                 }
+
 
                 val exprText = assignment.substring(eqIndex + 1)
 

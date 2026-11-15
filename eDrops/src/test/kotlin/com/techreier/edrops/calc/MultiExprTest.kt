@@ -44,6 +44,22 @@ class MultiExprTest {
     }
 
     @Test
+    fun reierTest() {
+
+        val input = """
+            // A very simple happy expression to parse;
+            reier = 3  + 5;
+            x = reier + 3
+        """.trimIndent()
+
+        val expr = MultiExpr(calc, input)
+        expr.parse()
+        expr.calculate()
+
+        assertEquals(5.0, expr[Op.X])
+    }
+
+    @Test
     fun parseErrorTest() {
 
         val input = """

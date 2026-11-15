@@ -18,11 +18,11 @@ import com.techreier.edrops.util.Scope
 class Expr<T : Any>(val calc: Calc<T>, expr: String) {
     val expr: String = expr.sanitize()
     val tokens = ArrayList<Token>()
-    var target: Op = Op.X
+    lateinit var target: OpI
     var singleVariable: Op? = null
     private lateinit var rawTokens: List<Token>
 
-    operator fun set(op: Op, value: T) {
+    operator fun set(op: OpI, value: T) {
         calc[op] = value
     }
 
@@ -63,7 +63,7 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
     fun parse() {
         debug(Scope.PARSE,"Expression: $expr")
         debug(Scope.PARSE, "checking variables")
-        checkVariables(calc)
+    //    checkVariables(calc) TODO ReierAsk remove check.
         debug(Scope.PARSE,"Preparsing")
         val result = preparse(calc, expr)
         result.parseError?.let { throw ParseException("preparsing error", it) }
@@ -98,7 +98,7 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                         tokens.add(token)
                         postphonedOperator?.let { op ->
                             tokens.add(op)
-                            debug(Scope.PARSE,"add operator: ${(op as OperatorToken).operator.abbrev()}")
+                            debug(Scope.PARSE,"add operator: ${(op as OperatorToken).operator.abbrev}")
                         }
                         postphonedOperator = null
                         index++
@@ -108,11 +108,11 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                         when {
                             token.isSymbol() -> {
                                 val typeName = if (token.isVariable()) "variable" else "constant"
-                                debug(Scope.PARSE,"add $typeName: ${token.operator.abbrev()}")
+                                debug(Scope.PARSE,"add $typeName: ${token.operator.abbrev}")
                                 tokens.add(token)
                                 postphonedOperator?.let { op ->
                                     tokens.add(op)
-                                    debug(Scope.PARSE,"add operator: ${(op as OperatorToken).operator.abbrev()}")
+                                    debug(Scope.PARSE,"add operator: ${(op as OperatorToken).operator.abbrev}")
                                 }
                                 postphonedOperator = null
                                 index++
@@ -124,7 +124,7 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                                 index = argumentInfo.nextPos
                                 postphonedOperator?.let { op ->
                                     tokens.add(op)
-                                    debug(Scope.PARSE,"add operator: ${(op as OperatorToken).operator.abbrev()}")
+                                    debug(Scope.PARSE,"add operator: ${(op as OperatorToken).operator.abbrev}")
                                 }
                                 postphonedOperator = null
                             }
@@ -136,7 +136,7 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                                         Range(argumentInfo.range.min - 2, argumentInfo.range.max + 1),
                                         depth + 1
                                     )
-                                    debug(Scope.PARSE, "add func: ${token.operator.abbrev()}")
+                                    debug(Scope.PARSE, "add func: ${token.operator.abbrev}")
                                     tokens.add(token)
                                     index = argumentInfo.nextPos
                                 } else {
@@ -144,11 +144,11 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                                     if (argumentInfo.push) {
                                         debug(Scope.PARSE,"add args:${argumentInfo.tokens.toTokenString()}")
                                         tokens.addAll(argumentInfo.tokens)
-                                        debug(Scope.PARSE,"add func: ${token.operator.abbrev()}")
+                                        debug(Scope.PARSE,"add func: ${token.operator.abbrev}")
                                         tokens.add(token)
                                     } else {
                                         recursiveParse(argumentInfo.range, depth + 1)
-                                        debug(Scope.PARSE,"add func: ${token.operator.abbrev()}")
+                                        debug(Scope.PARSE,"add func: ${token.operator.abbrev}")
                                         tokens.add(token)
                                     }
                                     index = argumentInfo.nextPos
@@ -167,20 +167,20 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
 
                                 val opInfo = findUnboundOperator(
                                     range = Range(index + 1, range.max),
-                                    prior = token.operator.prior(),
+                                    prior = token.operator.prior,
                                     tokens = rawTokens
                                 )
 
                                 if (!opInfo.push) {
                                     recursiveParse(Range(index + 1, opInfo.endPos), depth + 1)
-                                    debug(Scope.PARSE,"add operator: ${token.operator.abbrev()}")
+                                    debug(Scope.PARSE,"add operator: ${token.operator.abbrev}")
                                     if (!token.isSeparator()) tokens.add(token)
                                     index = opInfo.endPos + 1
                                 } else {
                                     if (token.isPow()) {
                                         if (index < rawTokens.size) {
                                             recursiveParse(Range(index + 1, opInfo.endPos), depth + 1)
-                                            debug(Scope.PARSE,"add operator: ${token.operator.abbrev()}")
+                                            debug(Scope.PARSE,"add operator: ${token.operator.abbrev}")
                                             tokens.add(token)
                                             index++
                                         }
@@ -193,7 +193,7 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
                             }
                             else -> {
                                 throw ParseException("Operator mismatch, check lists in Calc and Op ",
-                                    ParseError(OPERATOR_MISMATCH, token.position, token.operator.abbrev()))
+                                    ParseError(OPERATOR_MISMATCH, token.position, token.operator.abbrev))
                             }
                         }
                     }

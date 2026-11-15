@@ -4,7 +4,7 @@ import com.techreier.edrops.calc.utils.Range
 
 sealed class Token(val position: Int)
 data class NumberToken(val argument: Number, val pos: Int) : Token(pos)
-data class OperatorToken(val operator: Op,  val pos: Int, var noArgs: Int = operator.noArgs()) : Token(pos)
+data class OperatorToken(val operator: OpI,  val pos: Int, var noArgs: Int = operator.noArgs) : Token(pos)
 
 // Used to get the list of token to compare and or print
 fun List<Token>.toTokenString(size: Int = 200): String {
@@ -12,7 +12,7 @@ fun List<Token>.toTokenString(size: Int = 200): String {
     return cut.joinToString(separator = " | ", prefix = " ${cut.size} [ ", postfix = " ]") { token ->
         when (token) {
             is NumberToken -> token.argument.toString()
-            is OperatorToken -> token.operator.abbrev()
+            is OperatorToken -> token.operator.abbrev
         }
     }
 }
@@ -24,7 +24,7 @@ fun List<Token>.toExpr(range: Range = Range(0, this.size - 1)): String {
     for (i in range.min..range.max) {
         when (val token = this[i]) {
             is NumberToken -> expr.append(token.argument)
-            is OperatorToken -> expr.append(token.operator.abbrev())
+            is OperatorToken -> expr.append(token.operator.abbrev)
         }
         expr.append(' ')
     }
@@ -34,7 +34,7 @@ fun List<Token>.toExpr(range: Range = Range(0, this.size - 1)): String {
 fun Token.toTokenString(): String =
     when (this) {
         is NumberToken -> this.argument.toString()
-        is OperatorToken -> this.operator.abbrev()
+        is OperatorToken -> this.operator.abbrev
     }
 
 fun Token.isAdd(): Boolean = this is OperatorToken && this.operator == Op.ADD

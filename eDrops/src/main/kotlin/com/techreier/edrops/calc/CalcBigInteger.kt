@@ -17,9 +17,7 @@ import kotlin.reflect.cast
 
 class CalcBigInteger : Calc<BigInteger>() {
     override val type: KClass<BigInteger> = BigInteger::class
-
-    override val vars: MutableMap<Op, BigInteger> = mutableMapOf()
-
+    override val vars: MutableMap<OpI, BigInteger> = mutableMapOf()
 
     init {
         if (type != BigInteger::class) {
@@ -31,8 +29,12 @@ class CalcBigInteger : Calc<BigInteger>() {
         }
     }
 
-    override operator fun set(op: Op, value: BigInteger) {
+    override operator fun set(op: OpI, value: BigInteger) {
         vars[op] = value
+    }
+
+    override fun set(op: OpI) {
+        vars[op] = BigInteger.ZERO
     }
 
     override fun setAll(newVars: Map<Op, BigInteger>) {
@@ -40,7 +42,7 @@ class CalcBigInteger : Calc<BigInteger>() {
     }
 
     override operator fun get(op: Op): BigInteger {
-        val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev()}")
+        val variable = vars[op] ?: throw IllegalArgumentException("No variable ${op.abbrev}")
         return variable
     }
 
@@ -71,7 +73,7 @@ class CalcBigInteger : Calc<BigInteger>() {
         }
     }
 
-    override fun opr(operator: Op, noArgs: Int) {
+    override fun opr(operator: OpI, noArgs: Int) {
         val arg = stack.iterator()
         val r = ArrayList<BigInteger>()
 
@@ -179,11 +181,11 @@ class CalcBigInteger : Calc<BigInteger>() {
             }
             Op.X, Op.Y, Op.Z, Op.U, Op.V, Op.W -> {
                 val variable = vars[operator]
-                variable ?: throw (IllegalArgumentException("Unknown variable: ${operator.abbrev()}"))
+                variable ?: throw (IllegalArgumentException("Unknown variable: ${operator.abbrev}"))
                 r.add(variable)
             }
             else -> {
-                err("Implementation of ${operator.abbrev()} forgotten for ${type.simpleName}")
+                err("Implementation of ${operator.abbrev} forgotten for ${type.simpleName}")
             }
         }
 

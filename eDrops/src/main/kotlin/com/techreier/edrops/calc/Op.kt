@@ -14,11 +14,11 @@ import com.techreier.edrops.util.Trace.err
  * priority = - 1 (not to be used in expressions by the parser
  */
 enum class Op(
-    val abbrev: String,
-    val noArgs: Int,
-    val noResults: Int,
-    val prior: Int,
-) {
+    override val abbrev: String,
+    override val noArgs: Int,
+    override val noResults: Int,
+    override val prior: Int,
+) : OpI {
     GT(">", 2, 1, 6),
     LT("<", 2, 1, 6),
     GTE(">=", 2, 1, 6),
@@ -113,17 +113,15 @@ enum class Op(
 
     constructor(abbrev: String, noArgs: Int, noResults: Int) : this(abbrev, noArgs, noResults, DEFAULT_LEVEL)
 
-    fun abbrev(): String = abbrev
     fun noArgs(): Int = noArgs
     fun noResults(): Int = noResults
-    fun prior(): Int = prior
 
-    fun isOperator(): Boolean = basicOperators.contains(this)
-    fun isParenthesis(): Boolean = parenthesis.contains(this)
-    fun isConstant(): Boolean = constants.contains(this)
-    fun isVariable(): Boolean = variables.contains(this)
-    fun isSymbol(): Boolean = symbols.contains(this)
-    fun isFunction(): Boolean = functions.contains(this)
+    override fun isOperator(): Boolean = basicOperators.contains(this)
+    override fun isParenthesis(): Boolean = parenthesis.contains(this)
+    override fun isConstant(): Boolean = constants.contains(this)
+    override fun isVariable(): Boolean = variables.contains(this)
+    override fun isSymbol(): Boolean = symbols.contains(this)
+    override fun isFunction(): Boolean = functions.contains(this)
 
     fun valid(set: Set<Op>): Boolean = set.contains(this)
 
@@ -137,7 +135,7 @@ enum class Op(
         val symbols = variables + constants
         val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, SQR, SQRT, DEG, EX, LN, LOG10, LOG2,
             POW10, HYP, GYP, RAD, ABS, SIGN, SUM, MAX, MIN, SELECT) + unaryOperators
-        private const val DEFAULT_LEVEL = 2
+        const val DEFAULT_LEVEL = 2
 
         fun operator(abbrev: String): Op? {
             for (o in entries) {
@@ -161,14 +159,16 @@ enum class Op(
         // Return operator in text at expression position. Function used only in preparsing
         // At the moment separator is the only exception to rule (Removed before calculation)
         // TODO ReierAsk Only one return argument allowed. Any usecase for more?
-        fun operator(text: String, pos: Int, set: Set<Op>): Op? {
+        fun operator(text: String, pos: Int, set: Set<OpI>): OpI? {
             val textVar = text.substring(pos).lowercase()
             if (textVar.isNotEmpty()) {
                 val validOps = set.filter { (it.prior >= 0 && it.noResults == 1) || it == SEPARATOR }
 
                 val match = if (textVar[0].isLetter()) {
                     val word = textVar.takeWhile { it.isLetterOrDigit() }
-                    validOps.find { it.abbrev == word }
+                    validOps.find {
+                        it.abbrev == word
+                    }
                 } else {
                     validOps
                         .filter { textVar.startsWith(it.abbrev) }

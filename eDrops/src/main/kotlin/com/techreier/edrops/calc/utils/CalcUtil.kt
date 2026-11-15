@@ -134,7 +134,7 @@ fun findUnboundOperator(range: Range, prior: Int, tokens: List<Token>): Operator
             token.isFunction() -> push = false
             (token is OperatorToken) && (!token.isVariable()) -> {
                 if (balance == 0) {
-                    if ((token.operator.prior() >= prior) && !token.isPow()) {
+                    if ((token.operator.prior >= prior) && !token.isPow()) {
                         return OperatorInfo(i - 1, push)
                     } else {
                         push = false
@@ -169,6 +169,7 @@ fun splitMultiExpr(text: String): List<Pair<String, Int>> {
     return result
 }
 
+//TODO ReierAsk Not used any more because user defined variables is allowed
 fun checkVariables(calc: Calc<*>) {
     val illegalOps = calc.vars.keys.filter { it !in Op.variables }
     if (illegalOps.isNotEmpty()) {

@@ -21,13 +21,13 @@ fun parseArguments(rangeIn: Range, tokens: List<Token>): ArgumentInfo {
         throw ParseException("Error parsing arguments", error)
     }
     val function = (tokens[rangeIn.min] as OperatorToken)
-    val noOperatorArgs = function.operator.noArgs()
+    val noOperatorArgs = function.operator.noArgs
     val noExpectedArgs = function.noArgs
     if (noOperatorArgs != noExpectedArgs) { //Should really not be posssible, but
-        val error = ParseError(WRONG_ARGUMENT_COUNT, tokens[rangeIn.min].position, function.operator.abbrev())
+        val error = ParseError(WRONG_ARGUMENT_COUNT, tokens[rangeIn.min].position, function.operator.abbrev)
         throw ParseException("Error parsing arguments", error)
     }
-    val operatorText = (tokens[rangeIn.min] as OperatorToken).operator.abbrev()
+    val operatorText = (tokens[rangeIn.min] as OperatorToken).operator.abbrev
     debug(Scope.PARSE,"parse arguments for $operatorText range=${rangeIn} expr=${tokens.toExpr(rangeIn)}")
     do {
         when {

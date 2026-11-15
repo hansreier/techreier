@@ -4,6 +4,8 @@ import com.techreier.edrops.calc.Op.Companion.basicOperators
 import com.techreier.edrops.calc.Op.Companion.symbols
 import com.techreier.edrops.calc.Op.Companion.unaryOperators
 import com.techreier.edrops.calc.utils.parseDouble
+import com.techreier.edrops.util.Scope
+import com.techreier.edrops.util.Trace
 
 //One time parse through expression, expr must be sanitized and trimmed
 fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
@@ -17,6 +19,7 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
     val tokens = arrayListOf<Token>()
     var parseError: ParseError?
     val pos = ParsePosition(0)
+    Trace.info(Scope.PARSE,"Preparsing: $expr")
     do {
         i1 = pos.index
         while ((i1 < expr.length - 1) && (expr[i1].isWhitespace())) {
@@ -38,29 +41,29 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
         if ((number == null) && minus && ((lastOpType == OpType.LEFTP) || lastOpType == OpType.OPERATOR
                     || lastOpType == OpType.NEGATE  || lastOpType == OpType.EMPTY || lastOpType == OpType.SEPARATOR)) {
             oper = Oper(Op.NEGATE, i1)
-            i1 = i1 - Op.NEGATE.abbrev().length + 1
+            i1 = i1 - Op.NEGATE.abbrev.length + 1
         } else {
             i2 = pos.index
             if (i2 <= i1) { // Find operator if it exists
-                val foundOp = Op.operator(expr, i1, calc.operators)
+                val foundOp = Op.operator(expr, i1, calc.operators + calc.customVariables)
                 oper = foundOp?.let { Oper(foundOp, pos.index) }
             }
         }
 
         if (number == null) {   // Operator (including variables and separators)
 
-            if ((oper == null)) {
+            if ((oper == null)) { //TODO ReierAsk does not know custom variable
                 parseError = ParseError(UNPARSEABLE, i1)
                 return ParseResult(tokens, parseError)
             }
             when (oper.op) {
                 Op.SEPARATOR -> {
                     if (pLevel <= 0) {
-                        parseError = ParseError(SEPARATOR_NOT_IN_FUNCTION, i1, oper.op.abbrev())
+                        parseError = ParseError(SEPARATOR_NOT_IN_FUNCTION, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if ((lastOpType == OpType.OPERATOR) || (lastOpType == OpType.LEFTP) || (lastOpType == OpType.SEPARATOR)) {
-                        parseError = ParseError(MISPLACED_SEPARATOR, i1, oper.op.abbrev())
+                        parseError = ParseError(MISPLACED_SEPARATOR, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     lastOpType = OpType.SEPARATOR
@@ -68,11 +71,11 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
 
                 Op.LEFTP -> {
                     if (lastOpType == OpType.SEPARATOR) {
-                        parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.op.abbrev())
+                        parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if (pos.index == expr.length - 1) {
-                        parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.op.abbrev())
+                        parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if (lastOpType == OpType.NUMBER || lastOpType == OpType.SYMBOL || lastOpType == OpType.RIGHTP) {
@@ -84,19 +87,19 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
 
                 Op.RIGHTP -> {
                     if (lastOpType == OpType.SEPARATOR) {
-                        parseError = ParseError(MISPLACED_SEPARATOR, i1 - 1, oper.op.abbrev())
+                        parseError = ParseError(MISPLACED_SEPARATOR, i1 - 1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if (lastOpType == OpType.LEFTP) {
-                        parseError = ParseError(EMPTY_PARENTHESIS, i1, oper.op.abbrev())
+                        parseError = ParseError(EMPTY_PARENTHESIS, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if (lastOpType == OpType.OPERATOR) {
-                        parseError = ParseError(MISPLACED_OPERATOR, i1 - 1, oper.op.abbrev())
+                        parseError = ParseError(MISPLACED_OPERATOR, i1 - 1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if (pos.index == 0) {
-                        parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.op.abbrev())
+                        parseError = ParseError(MISPLACED_PARENTHESIS, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     pLevel--
@@ -105,11 +108,11 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
 
                 in unaryOperators -> {
                     if (lastOpType == OpType.NEGATE){
-                        parseError = ParseError(CONSECUTIVE_NEGATE, i1, oper.op.abbrev())
+                        parseError = ParseError(CONSECUTIVE_NEGATE, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if (lastOpType == OpType.UNARY){
-                        parseError = ParseError(CONSECUTIVE_UNARY, i1, oper.op.abbrev())
+                        parseError = ParseError(CONSECUTIVE_UNARY, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if (oper.op == Op.NEGATE) {
@@ -119,9 +122,9 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
                     }
                 }
 
-                in symbols -> {
+                in symbols + calc.customVariables -> {
                     if (lastOpType == OpType.FUNCTION){
-                        parseError = ParseError(MISSING_PARENTHESIS, i1, oper.op.abbrev())
+                        parseError = ParseError(MISSING_PARENTHESIS, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if (lastOpType == OpType.SYMBOL) {
@@ -131,32 +134,32 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
                         tokens.add(OperatorToken(Op.MULTIPLY, i1))
                     }
                     if (lastOpType == OpType.RIGHTP) {
-                        parseError = ParseError(MISSING_OPERATOR, i1, oper.op.abbrev())
+                        parseError = ParseError(MISSING_OPERATOR, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     lastOpType = OpType.SYMBOL
                 }
 
                 in basicOperators -> {
-                    if (lastOpType == OpType.FUNCTION){
-                        parseError = ParseError(MISSING_PARENTHESIS, i1, oper.op.abbrev())
+                    if (lastOpType == OpType.FUNCTION){ //TODO ReierAsk assumes this incorrectly
+                        parseError = ParseError(MISSING_PARENTHESIS, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if (lastOpType == OpType.UNARY){
-                        parseError = ParseError(MISPLACED_OPERATOR, i1, oper.op.abbrev())
+                        parseError = ParseError(MISPLACED_OPERATOR, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
 
                     if (lastOpType == OpType.OPERATOR) {
-                        parseError = ParseError(MISSING_OPERAND, i1, oper.op.abbrev())
+                        parseError = ParseError(MISSING_OPERAND, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if (lastOpType == OpType.SEPARATOR) {
-                        parseError = ParseError(MISSING_OPERAND, i1, oper.op.abbrev())
+                        parseError = ParseError(MISSING_OPERAND, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if ((pos.index == 0) || pos.index == expr.length - 1) {
-                        parseError = ParseError(MISPLACED_OPERATOR, i1, oper.op.abbrev())
+                        parseError = ParseError(MISPLACED_OPERATOR, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     lastOpType = OpType.OPERATOR
@@ -168,11 +171,11 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
                         tokens.add(OperatorToken(Op.MULTIPLY, i1))
                     }
                     if ((lastOpType == OpType.FUNCTION) ){
-                        parseError = ParseError(CONSECUTIVE_FUNCTIONS, i1, oper.op.abbrev())
+                        parseError = ParseError(CONSECUTIVE_FUNCTIONS, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     if ((lastOpType == OpType.RIGHTP) ){
-                        parseError = ParseError(MISSING_OPERATOR, i1, oper.op.abbrev())
+                        parseError = ParseError(MISSING_OPERATOR, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }
                     lastOpType = OpType.FUNCTION
@@ -183,7 +186,7 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
                 return ParseResult(tokens, parseError)
             }
             tokens.add(OperatorToken(oper.op, oper.pos))
-            pos.index = i1 + oper.op.abbrev().length
+            pos.index = i1 + oper.op.abbrev.length
         } else { //number
             if (lastOpType == OpType.FUNCTION) {
                 parseError = ParseError(MISSING_PARENTHESIS, i1)
@@ -218,7 +221,7 @@ private enum class OpType {
 }
 
 private data class Oper(
-    val op: Op,
+    val op: OpI,
     val pos: Int,
 )
 
