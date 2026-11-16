@@ -2,7 +2,7 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.calc.Op.Companion.DEFAULT_LEVEL
 
-data class VariableOp(
+data class VarOp(
     override val abbrev: String,
     override val noArgs: Int = 0,
     override val noResults: Int = 1,

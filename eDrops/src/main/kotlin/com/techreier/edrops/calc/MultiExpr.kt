@@ -26,7 +26,7 @@ class MultiExpr<T : Any> (val calc: Calc<T>, multiExpr: String) {
 
                 val targetOp = if (existingOp == null) {
                     Trace.info(Scope.PARSE,"new variable: $variableName")
-                    val newOp = VariableOp(variableName)
+                    val newOp = VarOp(variableName)
                     calc.set(newOp)
                     newOp
                 } else {
@@ -65,11 +65,11 @@ class MultiExpr<T : Any> (val calc: Calc<T>, multiExpr: String) {
         }
     }
 
-    operator fun set(op: Op, value: T) {
+    operator fun set(op: OpI, value: T) {
         calc[op] = value
     }
 
-    operator fun get(op: Op): T {
+    operator fun get(op: OpI): T {
         return calc[op]
     }
 }
