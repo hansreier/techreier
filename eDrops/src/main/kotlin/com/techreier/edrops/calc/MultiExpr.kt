@@ -6,7 +6,7 @@ import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.util.Scope
 import com.techreier.edrops.util.Trace
 
-class MultiExpr<T : Any> (val calc: Calc<T>, multiExpr: String) {
+class MultiExpr<T : Any>(val calc: Calc<T>, multiExpr: String) {
 
     val multiExpr = multiExpr.sanitize()
     val exprList = mutableListOf<Expr<T>>()
@@ -14,47 +14,48 @@ class MultiExpr<T : Any> (val calc: Calc<T>, multiExpr: String) {
     fun parse() {
         splitMultiExpr(multiExpr).forEach { (assignment, globalAssignmentOffset) ->
             val trimmed = assignment.trim()
-            Trace.info(Scope.PARSE,"Multiexpr: $assignment")
+            Trace.info(Scope.PARSE, "Multiexpr: $assignment")
             if (trimmed.isEmpty()) return@forEach
             if (trimmed.startsWith("//")) return@forEach
 
             val eqIndex = assignment.indexOf('=')
-            if (eqIndex != -1) {
-                val rawVarPart = assignment.substring(0, eqIndex)
-                val variableName = rawVarPart.trim().lowercase()
-                val existingOp = Op.entries.find { it.name.equals(variableName, ignoreCase = true) }
+            val exprText = assignment.substring(eqIndex + 1)
+            val exprTextOffset = globalAssignmentOffset + eqIndex + 1
 
-                val targetOp = if (existingOp == null) {
-                    Trace.info(Scope.PARSE,"new variable: $variableName")
-                    val newOp = VarOp(variableName)
-                    calc.set(newOp)
-                    newOp
-                } else {
-                    existingOp
-                }
+            try {
+                if (eqIndex != -1) {
+                    val rawVarPart = assignment.substring(0, eqIndex)
+                    val variableName = rawVarPart.trim().lowercase()
+                    val existingOp = Op.entries.find { it.name.equals(variableName, ignoreCase = true) }
 
-                val exprText = assignment.substring(eqIndex + 1)
-                val exprTextOffset = globalAssignmentOffset + eqIndex + 1
+                    val targetOp = if (existingOp == null) {
+                        Trace.info(Scope.PARSE, "new variable: $variableName")
+                        val newOp = VarOp(variableName)
+                        calc.set(newOp)
+                        newOp
+                    } else {
+                        if (existingOp.isVariable()) {
+                            existingOp
+                        } else {
+                            throw ParseException("Variable exists", ParseError(ILLEGAL_VARIABLES, -1, variableName))
+                        }
+                    }
 
-                try {
                     val expr = Expr(calc, exprText)
                     expr.parse()
                     expr.target = targetOp
                     exprList.add(expr)
-                } catch (e: ParseException) {
-                    val adjustedError = ParseError(
-                        e.parseError.key,
-                        e.parseError.position + exprTextOffset,
-                        e.parseError.oper
-                    )
-                    throw ParseException(e.message ?: "Parse error", adjustedError)
                 }
+
+            } catch (e: ParseException) {
+                e.parseError.position += exprTextOffset
+                throw e
             }
         }
     }
 
     fun calculate() {
-        Trace.info(Scope.CALC,"calculating multi expressions")
+        Trace.info(Scope.CALC, "calculating multi expressions")
         exprList.forEach { expr ->
             Trace.info(Scope.CALC, "Expression: ${expr.expr}")
             expr.calculate()

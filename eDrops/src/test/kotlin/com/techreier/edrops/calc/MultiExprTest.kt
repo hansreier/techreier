@@ -44,7 +44,7 @@ class MultiExprTest {
     }
 
     @Test
-    fun reierTest() {
+    fun userDefinedVariableTest() {
 
         val input = """
             // A very simple happy expression to parse;
@@ -61,6 +61,26 @@ class MultiExprTest {
         assertEquals(5.0, expr[VarOp("reier")])
         assertEquals(8.0, expr[VarOp("hans")])
         assertEquals(14.0, expr[Op.Z])
+    }
+
+    @Test
+    fun illegalUserDefinedVariableTest() {
+
+        val input = """
+            // Should really fail;
+            y = 1;
+            sin = 4  + y;
+            hans = sin + 3;
+          
+        """.trimIndent()
+
+        val e = assertThrows<ParseException> {
+            val expr = MultiExpr(calc, input)
+            expr.parse()
+        }
+        val errorIndicator = errorIndicator(input.sanitize(), e.parseError)
+        Trace.info(errorIndicator)
+        assertEquals(ILLEGAL_VARIABLES, e.parseError.key)
     }
 
     @Test
