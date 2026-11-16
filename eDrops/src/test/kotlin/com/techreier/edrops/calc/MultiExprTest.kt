@@ -44,17 +44,45 @@ class MultiExprTest {
     }
 
     @Test
+    fun semiColonForgottenTest() {
+
+        val input = """
+            x = 5
+            y = 3 * x
+            z = x + y
+        """.trimIndent()
+
+        val expr = MultiExpr(calc, input)
+        assertThrows<ParseException> { expr.parse() }
+    }
+
+    @Test
+    fun assignmentForgottenTest() {
+
+        val input = "sin(x)"
+
+        val expr = MultiExpr(calc, input)
+        expr.parse()
+        expr.calculate()
+
+
+     //   assertThrows<ParseException> { expr.parse() }
+    }
+
+    @Test
     fun userDefinedVariableTest() {
 
         val input = """
             // A very simple happy expression to parse;
             y = 1;
             reier = 4  + y;
+            reier = reier;
             hans = reier + 3;
             z = hans + reier + y;
         """.trimIndent()
 
         val expr = MultiExpr(calc, input)
+
         expr.parse()
         expr.calculate()
         assertEquals(1.0, expr[Op.Y])
