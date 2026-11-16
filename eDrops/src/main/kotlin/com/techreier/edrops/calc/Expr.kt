@@ -3,7 +3,6 @@ package com.techreier.edrops.calc
 import com.techreier.edrops.calc.Op.Companion.variables
 import com.techreier.edrops.calc.utils.Range
 import com.techreier.edrops.util.Trace
-import com.techreier.edrops.calc.utils.checkVariables
 import com.techreier.edrops.calc.utils.findClosure
 import com.techreier.edrops.calc.utils.findUnboundOperator
 import com.techreier.edrops.calc.utils.parseArguments
@@ -63,7 +62,6 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
     fun parse() {
         debug(Scope.PARSE,"Expression: $expr")
         debug(Scope.PARSE, "checking variables")
-    //    checkVariables(calc) TODO ReierAsk remove check.
         debug(Scope.PARSE,"Preparsing")
         val result = preparse(calc, expr)
         result.parseError?.let { throw ParseException("preparsing error", it) }

@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
 abstract class Calc<T: Any> {
     abstract val type: KClass<T>
     abstract val vars: MutableMap<OpI, T>
-    var customVariables: Set<OpI> = emptySet()  //TODO ReierAsk old code VariableOp
+    var customVariables: Set<OpI> = emptySet()
     val stack = ArrayDeque<T>()
     val s = Op.entries.size
 
@@ -72,7 +72,7 @@ abstract class Calc<T: Any> {
                     }
                     remaining--
                 }
-                //TODO ReierAsk user defined variable is not in this st
+
                 if (operators.contains(operator)) {
                     if (validElements) {
                         opr(operator, noArgs)

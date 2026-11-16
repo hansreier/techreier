@@ -2,7 +2,6 @@ package com.techreier.edrops.calc.utils
 
 import com.techreier.edrops.calc.Calc
 import com.techreier.edrops.calc.CalcDouble
-import com.techreier.edrops.calc.ILLEGAL_VARIABLES
 import com.techreier.edrops.calc.Op
 import com.techreier.edrops.calc.OperatorToken
 import com.techreier.edrops.calc.ParseError
@@ -13,7 +12,6 @@ import com.techreier.edrops.calc.isLeftP
 import com.techreier.edrops.calc.isPow
 import com.techreier.edrops.calc.isRightP
 import com.techreier.edrops.calc.isVariable
-import com.techreier.edrops.exceptions.ParseException
 
 // Standard methods like ParseDouble, Scanner and NumberFormat and Regex all fails
 // Instructed AI agent, and it wrote it by hand like this, like I would have done it
@@ -167,17 +165,6 @@ fun splitMultiExpr(text: String): List<Pair<String, Int>> {
         result.add(Pair(text.substring(startIndex), startIndex))
     }
     return result
-}
-
-//TODO ReierAsk Not used any more because user defined variables is allowed
-fun checkVariables(calc: Calc<*>) {
-    val illegalOps = calc.vars.keys.filter { it !in Op.variables }
-    if (illegalOps.isNotEmpty()) {
-        throw ParseException(
-            "Illegal variables found",
-            ParseError(ILLEGAL_VARIABLES, 0, illegalOps.joinToString(" "))
-        )
-    }
 }
 
 data class Range(val min: Int, val max: Int) {

@@ -47,14 +47,14 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
         } else {
             i2 = pos.index
             if (i2 <= i1) { // Find operator if it exists
-                val foundOp = Op.operator(expr, i1, calc.operators + calc.customVariables) //TODO ReierASK not customVariables?
+                val foundOp = Op.operator(expr, i1, calc.operators + calc.customVariables)
                 oper = foundOp?.let { Oper(foundOp, pos.index) }
             }
         }
 
         if (number == null) {   // Operator (including variables and separators)
 
-            if ((oper == null)) { //TODO ReierAsk does not know custom variable
+            if ((oper == null)) {
                 parseError = ParseError(UNPARSEABLE, i1)
                 return ParseResult(tokens, parseError)
             }
@@ -144,7 +144,7 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
                 }
 
                 in basicOperators -> {
-                    if (lastOpType == OpType.FUNCTION){ //TODO ReierAsk assumes this incorrectly
+                    if (lastOpType == OpType.FUNCTION){
                         parseError = ParseError(MISSING_PARENTHESIS, i1, oper.op.abbrev)
                         return ParseResult(tokens, parseError)
                     }

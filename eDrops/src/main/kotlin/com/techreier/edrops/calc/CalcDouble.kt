@@ -47,8 +47,6 @@ class CalcDouble : Calc<Double>() {
             Op.SELECT, Op.GT, Op.LT, Op.GTE, Op.LTE, Op.EQ, Op.NEQ, Op.NOT, Op.AND, Op.OR
         )
 
-  //     operators += customSymbols TODO ReierAsk cannot work, remoee
-
         //Check for consistency in set of enums
         val missing = operators.filter { it !in (functions + constants +basicOperators + variables + parenthesis) }
         require(missing.isEmpty()) {

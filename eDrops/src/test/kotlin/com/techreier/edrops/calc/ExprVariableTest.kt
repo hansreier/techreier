@@ -1,12 +1,10 @@
 package com.techreier.edrops.calc
 
-import com.techreier.edrops.util.Trace
-import com.techreier.edrops.exceptions.ParseException
+import com.techreier.edrops.exceptions.CalcException
 import com.techreier.edrops.util.Trace.debug
 import com.techreier.edrops.util.Trace.level
 import com.techreier.edrops.util.TraceLevel
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.math.pow
@@ -34,20 +32,15 @@ class ExprVariableTest {
         assertEquals(90.0, singleResult, 1e-9)
     }
 
-    // TODO ReierAsk remove test or change
-    @Disabled
     @Test
     fun notExistingVariableTest() {
         calc[Op.ADD] = 90.0
         calc[Op.SIN] = 90.0
         val input = "sin(x)"
         val expr = Expr(calc, input)
-        val e = assertThrows<ParseException> {
-            expr.parse()
-        }
-        assertEquals(ILLEGAL_VARIABLES, e.parseError.key)
-        assertEquals("ADD SIN", e.parseError.oper)
-        Trace.info("Result = ${e.message} ${e.parseError} ")
+        expr.parse()
+        val e = assertThrows<CalcException> { expr.calculate() }
+        assertEquals(UNKNOWN_VARIABLE, e.key)
     }
 
     @Test
