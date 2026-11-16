@@ -108,6 +108,7 @@ enum class Op(
     P("p", 0, 1),
     Q("q", 0, 1),
     S("s", 0, 1),
+    RESULT("result", 0, 1),
     LEFTP("(", -1, 1, 1),
     RIGHTP(")", -1, 1, 1);
 
@@ -130,7 +131,7 @@ enum class Op(
         val unaryOperators = setOf(NEGATE, NOT)
         val parenthesis = setOf(LEFTP, RIGHTP)
         val variables = setOf(G, T, T0, T1, DT, X, X0, X1, Y, Y0, Y1, DY, Z, Z0, Z1, DZ, U, U0, U1, DU, V, V0, V1,
-            DV, W, W0, W1, DW, A, A0, A1, DA, M, F, K, P, Q, S, DX)
+            DV, W, W0, W1, DW, A, A0, A1, DA, M, F, K, P, Q, S, DX, RESULT)
         val constants = setOf(PI, E, C, TRUE, FALSE, RANDOM) // Functions without arguments is considered as a quasi-constant
         val symbols = variables + constants
         val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, SQR, SQRT, DEG, EX, LN, LOG10, LOG2,

@@ -45,6 +45,11 @@ class MultiExpr<T : Any>(val calc: Calc<T>, multiExpr: String) {
                     expr.parse()
                     expr.target = targetOp
                     exprList.add(expr)
+                } else {
+                    val expr = Expr(calc, assignment)
+                    expr.parse()
+                    expr.target = Op.RESULT
+                    exprList.add(expr)
                 }
 
             } catch (e: ParseException) {

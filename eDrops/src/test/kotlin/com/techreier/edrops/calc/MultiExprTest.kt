@@ -21,6 +21,7 @@ class MultiExprTest {
     fun setUp() {
         level = TraceLevel.INFO
         trace("")
+        calc.radians = false
     }
 
     @Test
@@ -44,6 +45,51 @@ class MultiExprTest {
     }
 
     @Test
+    fun happyOneExpressionTest() {
+
+        val input = """
+            // A very simple happy expression to parse;
+            x = sin(90)+cos(90)
+        """.trimIndent()
+
+        val expr = MultiExpr(calc, input)
+        expr.parse()
+        expr.calculate()
+
+        assertEquals(1.0, expr[Op.X])
+    }
+
+    @Test
+    fun noAssigmentTest() {
+
+        val input = "sin(90)"
+
+        val expr = MultiExpr(calc, input)
+        expr.parse()
+        expr.calculate()
+
+        assertEquals(1.0, expr[Op.RESULT])
+
+    }
+
+    @Test
+    fun noAssignmentMultiExpressionTest() {
+
+        val input = """
+            x = 90;
+            sin(x);
+            result+3
+        """.trimIndent()
+
+        val expr = MultiExpr(calc, input)
+        expr.parse()
+        expr.calculate()
+
+        assertEquals(4.0, expr[Op.RESULT])
+
+    }
+
+    @Test
     fun semiColonForgottenTest() {
 
         val input = """
@@ -54,19 +100,6 @@ class MultiExprTest {
 
         val expr = MultiExpr(calc, input)
         assertThrows<ParseException> { expr.parse() }
-    }
-
-    @Test
-    fun assignmentForgottenTest() {
-
-        val input = "sin(x)"
-
-        val expr = MultiExpr(calc, input)
-        expr.parse()
-        expr.calculate()
-
-
-     //   assertThrows<ParseException> { expr.parse() }
     }
 
     @Test
