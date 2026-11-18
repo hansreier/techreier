@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html lang="en" th:lang="${langCode}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{template.html}">
+<head>
+    <title>Graph</title>
+    <script th:src="@{/js/operatorhelp.js(v=${built})}"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"></h1>
+    <form th:action="@{/calc}" th:object="${calcForm}" th:method="post">
+        <details id="input-details" open>
+            <summary th:text="#{graphInput}"></summary>
+            <div class="input-form">
+                <div class="input-row small-width">
+                    <label th:for="xMin" th:text="#{xMin}"></label>
+                    <input type="text" id="xMin" th:field="*{xMin}" maxLength="15">
+                    <span class="error" th:if="${#fields.hasErrors('xMin')}" th:errors="*{xMin}"></span>
+                </div>
+                <div class="input-row small-width">
+                    <label th:for="xMax" th:text="#{xMax}"></label>
+                    <input type="text" id="xMax" th:field="*{xMax}" maxLength="15">
+                    <span class="error" th:if="${#fields.hasErrors('xMax')}" th:errors="*{xMax}"></span>
+                </div>
+                <div class="input-row small-width">
+                    <label th:for="yMin" th:text="#{yMin}"></label>
+                    <input type="text" id="yMin" th:field="*{yMin}" maxLength="15">
+                    <span class="error" th:if="${#fields.hasErrors('yMin')}" th:errors="*{yMin}"></span>
+                </div>
+                <div class="input-row small-width">
+                    <label th:for="yMax" th:text="#{yMax}"></label>
+                    <input type="text" id="yMax" th:field="*{yMax}" maxLength="15">
+                    <span class="error" th:if="${#fields.hasErrors('yMax')}" th:errors="*{yMax}"></span>
+                </div>
+                <div class="input-row small-width">
+                    <label th:for="steps" th:text="#{steps}"></label>
+                    <input type="text" id="steps" th:field="*{steps}" maxLength="15">
+                    <span class="error" th:if="${#fields.hasErrors('steps')}" th:errors="*{steps}"></span>
+                </div>
+                <div class="input-row small-width">
+                    <label th:for="heightRatio" th:text="#{heightRatio}"></label>
+                    <input type="text" id="heightRatio" th:field="*{heightRatio}" maxLength="22">
+                    <span class="error" th:if="${#fields.hasErrors('heightRatio')}" th:errors="*{heightRatio}"></span>
+                </div>
+                <div class="input-row small-width">
+                    <label th:for="fontScale" th:text="#{fontScale}"></label>
+                    <input type="text" id="fontScale" th:field="*{fontScale}" maxLength="22">
+                    <span class="error" th:if="${#fields.hasErrors('fontScale')}" th:errors="*{fontScale}"></span>
+                </div>
+                <div class="input-row small-width">
+                    <label th:for="xUnit" th:text="#{xTitle}"></label>
+                    <input type="text" id="xUnit" th:field="*{xUnit}" maxLength="22">
+                    <span class="error" th:if="${#fields.hasErrors('xUnit')}" th:errors="*{xUnit}"></span>
+                </div>
+
+                <div class="input-row small-width">
+                    <label id="radiansLabel" for="radians" th:text="#{radians}"></label>
+                    <div id="radiansWrapper">
+                        <div class="checkbox">
+                            <input type="checkbox" id="radians" th:field="*{radians}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </details>
+        <div class="input-row full-width">
+            <label th:for="yUnit" th:text="#{yTitle}"></label>
+            <input type="text" id="yUnit" th:field="*{yUnit}" maxLength="200">
+            <span class="error" th:if="${#fields.hasErrors('yUnit')}" th:errors="*{yUnit}"></span>
+        </div>
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
+        <div th:if="${invalid != null && invalid}" >
+             <p class="error" th:text="#{error.invalidValues}"></p>
+        </div>
+        <button type="submit" th:text="#{action.draw}"></button>
+        <button type="button" th:text="#{action.help}" onclick="toggleOperatorHelp()"></button>
+    </form>
+    <div th:insert="~{operatorHelp :: operatorHelp}"></div>
+    <div th:insert="~{graphView :: graphView(${graph})}"></div>
+    <details id="calc-details" open>
+        <summary th:text="#{details}"></summary>
+        <div class="container" th:utext="${docText}"></div>
+        <br>
+    </details>
+</div>
+</body>
+</html>

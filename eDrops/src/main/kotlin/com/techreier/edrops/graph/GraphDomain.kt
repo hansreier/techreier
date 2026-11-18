@@ -22,7 +22,9 @@ data class GraphLimits(
 
 data class GraphMetadata(
     val heightRatio: Double,
-    val fontScale: Double
+    val fontScale: Double,
+    val xUnit: String,
+    val yUnit: String
 )
 
 enum class AxisPosition {
@@ -98,4 +100,6 @@ data class Diagram(
     val fontScale: Double,
     val axes: List<Axis> = emptyList(),
     val error: String? = null,
+    val xUnit: String,
+    val yUnit: String
 )

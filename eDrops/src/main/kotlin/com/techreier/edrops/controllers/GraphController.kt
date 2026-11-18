@@ -78,7 +78,7 @@ class GraphController(
             resetTimer()
             info("Start graph")
             val graphLimits = GraphLimits(input.xMin, input.xMax, input.yMin, input.yMax)
-            val graphMetadata = GraphMetadata(input.heightRatio, input.fontScale)
+            val graphMetadata = GraphMetadata(input.heightRatio, input.fontScale, input.xUnit, input.yUnit)
             val expr = Expr(CalcDouble(), input.yUnit)
             try {
                 info("Graphlimits: ${graphLimits}")

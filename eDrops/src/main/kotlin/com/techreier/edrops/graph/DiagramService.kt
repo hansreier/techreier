@@ -63,7 +63,9 @@ class DiagramService {
         val diagram = Diagram(
             area = diagramArea,
             fontScale = fontScale,
-            axes = listOf(xAxis, yAxis)
+            axes = listOf(xAxis, yAxis),
+            xUnit = metaData.xUnit,
+            yUnit = metaData.yUnit
         )
 
         return DiagramResult(diagram, transformer)

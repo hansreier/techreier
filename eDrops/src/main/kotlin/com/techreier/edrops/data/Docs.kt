@@ -94,8 +94,13 @@ object Docs {
 
     val graph =
         arrayOf(
-            MenuItem("graph", c.defaultNo, "Tegne graf"),
-            MenuItem("graph", c.defaultEn, "Draw graph")
+            MenuItem("graph", c.defaultNo, "Kurvetegner"),
+            MenuItem("graph", c.defaultEn, "Curve plotter")
+        )
+    val calc =
+        arrayOf(
+            MenuItem("calc", c.defaultNo, "Mattelab"),
+            MenuItem("calc", c.defaultEn, "Calc lab")
         )
 
     val energy =
