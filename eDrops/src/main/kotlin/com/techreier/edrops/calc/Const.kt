@@ -30,7 +30,6 @@ const val CONSECUTIVE_UNARY = "ConsecutiveUnary"
 const val SEPARATOR_NOT_IN_FUNCTION = "SeparatorNotInFunction"
 const val EXPRESSION_DEPTH_EXCEEDED = "ExpressionDepthExceeded"
 const val MAX_TOKENS_EXCEEDED = "MaxTokensExceeded"
-const val VARIABLE_NOT_FOUND ="VariableNotFound" //TODO ReierAsk, probably remove
 
 // Calculation errors
 const val CALCULATION_ERROR = "CalculationError"
@@ -44,3 +43,19 @@ const val DOUBLE_FORMAT_ERROR = "DoubleFormatError"
 const val BIG_INTEGER_FORMAT_ERROR = "BigIntegerFormatError"
 const val BIG_DECIMAL_FORMAT_ERROR = "BigDecimalFormatError"
 const val UNKNOWN_OPERATOR = "UnknownOperator"
+
+// Just an example for the expression parser
+val QUADRATIC_EQUATION = """
+    // Quadriation equation
+    // a*x^2 + b*x + c = 0
+    x = 2;
+    a = 1;
+    b = -5;
+    c = 6;
+    d = sqrt(b^2 - 4 * a * c);
+    // Solution
+    x1 = (-b + d) / (2 * a); 
+    x2 = (-b - d) / (2 * a);
+    // Calculate formula
+    y = a * x^2 + b * x + c
+""".trimIndent()

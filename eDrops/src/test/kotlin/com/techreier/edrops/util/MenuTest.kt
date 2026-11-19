@@ -113,7 +113,7 @@ class MenuTest {
                 langCode = NB,
                 segment ="$TOPIC_TECH$i",
                 topicKey = TOPIC_TECH,
-                subject = "C$TOPIC_TECH"))
+                subject = "C0$TOPIC_TECH"))
         }
         for (i in 1..noLeisure) {
             menuItems.add(MenuItem(

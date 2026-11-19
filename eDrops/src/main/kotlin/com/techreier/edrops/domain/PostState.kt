@@ -11,7 +11,7 @@ enum class PostState (val short: String) {
     BENCHED("Be"),
     BACKUP("Bk"),
     ARCHIVED("Ar"),
-    DEPRECATED("Dp)"),
+    DEPRECATED("Dp"),
     UNKNOWN("??");
 
     // Observe: When called from database, be nice and accept everything

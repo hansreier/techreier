@@ -204,7 +204,7 @@ class CalcBigDecimal : Calc<BigDecimal>() {
                 r.add(BigDecimal.ZERO)
             }
 
-            Op.REMOVE, Op.EMPTY -> {}
+            Op.REMOVE -> {}
             Op.YX -> {
                 r.add(arg.next())
                 r.add(arg.next())

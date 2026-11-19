@@ -30,7 +30,7 @@ class MultiExpr<T : Any>(val calc: Calc<T>, multiExpr: String) {
                 if (eqIndex != -1) {
                     val rawVarPart = assignment.substring(0, eqIndex)
                     val variableName = rawVarPart.trim().lowercase()
-                    val existingOp = Op.entries.find { it.name.equals(variableName, ignoreCase = true) }
+                    val existingOp = Op.entries.find { it.abbrev.equals(variableName, ignoreCase = true) }
 
                     val targetOp = if (existingOp == null) {
                         Trace.info(Scope.PARSE, "new variable: $variableName")

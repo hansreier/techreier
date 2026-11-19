@@ -972,6 +972,16 @@ a.dropdown-item:hover {
     background-color: green;
 }
 
+#calcInput {
+    width: 100%;
+    min-height: 20rem;
+    font-family: monospace;
+    font-size: 1rem;
+    line-height: 1.4;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
 #bumpWrapper {
     display: flex;
     align-items: center;
