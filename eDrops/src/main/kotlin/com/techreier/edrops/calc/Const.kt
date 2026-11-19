@@ -6,6 +6,7 @@ const val OPERATOR_TEXT_LOG_SIZE = 8
 const val EPSILON = 1e-12
 const val TRUE = 1.0
 const val FALSE = 0.0
+const val LOOP_SEPARATOR = "---"
 
 // Parsing errors
 const val ILLEGAL_VARIABLES = "IllegalVariables"

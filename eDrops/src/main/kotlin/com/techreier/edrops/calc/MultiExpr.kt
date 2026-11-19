@@ -17,6 +17,10 @@ class MultiExpr<T : Any>(val calc: Calc<T>, multiExpr: String) {
             Trace.info(Scope.PARSE, "Multiexpr: $assignment")
             if (trimmed.isEmpty()) return@forEach
             if (trimmed.startsWith("//")) return@forEach
+            if (trimmed.startsWith(LOOP_SEPARATOR)) {
+                exprList.add(Expr(calc, LOOP_SEPARATOR))
+                return@forEach
+            }
 
             val eqIndex = assignment.indexOf('=')
             val exprText = assignment.substring(eqIndex + 1)
@@ -63,6 +67,7 @@ class MultiExpr<T : Any>(val calc: Calc<T>, multiExpr: String) {
         Trace.info(Scope.CALC, "calculating multi expressions")
         exprList.forEach { expr ->
             Trace.info(Scope.CALC, "Expression: ${expr.expr}")
+
             expr.calculate()
             val target = expr.target
             val result = expr.result()
