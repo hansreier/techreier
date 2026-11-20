@@ -13,6 +13,7 @@ import com.techreier.edrops.exceptions.CalcException
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.forms.CalcForm
 import com.techreier.edrops.util.Trace.info
+import com.techreier.edrops.util.axis
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
@@ -76,7 +77,7 @@ class CalcController(
             val errorIndicator = errorIndicator(input.sanitize(), e.parseError)
             model.addAttribute("errorText", errorIndicator)
         } catch (e: CalcException) {
-            val args = arrayOf(e.message ?: "")
+            val args = arrayOf(e.oper ?: "")
             bindingResult.reject("error.calc." + e.key, args, "calculation error")
             model.addAttribute("errorText", e.detailMessage)
         }
@@ -92,7 +93,10 @@ class CalcController(
             return CALC
         }
         redirectAttributes.addFlashAttribute("calcForm", calcForm)
-        redirectAttributes.addFlashAttribute("vars", calc.vars)
+        val formattedVars = calc.vars.entries.associate { (op, value) ->
+            op to value.axis(5)
+        }
+        redirectAttributes.addFlashAttribute("vars", formattedVars)
         operatorHelp(model)
         return "redirect:$CALC_DIR"
     }

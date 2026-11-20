@@ -31,8 +31,7 @@
         <table id="calcResult" th:if="${vars != null and !vars.isEmpty()}">
             <tbody>
             <tr th:each="var : ${vars}">
-                <td th:text="${var.key.abbrev}"></td>
-                <td th:text="${var.value}"></td>
+                <td th:text="|${var.key.abbrev} = ${var.value}|"></td>
             </tr>
             </tbody>
         </table>

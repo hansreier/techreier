@@ -983,6 +983,19 @@ a.dropdown-item:hover {
     resize: vertical;
 }
 
+#calcResult {
+    border-collapse: collapse;
+    border: none;
+    margin-top: 1.5rem;
+    margin-left: 0.5rem;
+    font-size: 1.05rem;
+}
+
+#calcResult td {
+    border: none;
+    padding: 0.1rem 0;
+}
+
 #bumpWrapper {
     display: flex;
     align-items: center;
