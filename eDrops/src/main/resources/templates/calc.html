@@ -6,29 +6,36 @@
 <head>
     <title>Graph</title>
     <script th:src="@{/js/operatorhelp.js(v=${built})}"></script>
+    <script th:src="@{/js/clearcalc.js(v=${built})}"></script>
 </head>
 <body>
 <div layout:fragment="content">
     <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"></h1>
     <form th:action="@{/calc}" th:object="${calcForm}" th:method="post">
-        <details id="input-details" open>
-            <summary th:text="#{graphInput}"></summary>
-            <div class="input-form">
-                <div class="input-row full-width">
-                    <label th:for="calcInput" th:text="#{xMin}"></label>
-                    <textarea spellcheck="false" autocorrect=off autocapitalize="off" class="calcInput"
-                              id="calcInput" th:field="*{calcInput}"></textarea>
-                </div>
+        <div class="input-form">
+            <div class="input-row full-width">
+                <label th:for="calcInput" th:text="#{calcInput}"></label>
+                <textarea spellcheck="false" autocorrect=off autocapitalize="off" class="calcInput"
+                          id="calcInput" th:field="*{calcInput}"></textarea>
             </div>
-        </details>
+        </div>
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
         </div>
-        <div th:if="${errorText != null}" >
+        <div th:if="${errorText != null}">
             <p class="error" th:text="${errorText}"></p>
         </div>
         <button type="submit" th:text="#{action.calculate}"></button>
+        <button type="button" onclick="clearCalc()" th:text="#{clear}"></button>
         <button type="button" th:text="#{action.help}" onclick="toggleOperatorHelp()"></button>
+        <table id="calcResult" th:if="${vars != null and !vars.isEmpty()}">
+            <tbody>
+            <tr th:each="var : ${vars}">
+                <td th:text="${var.key.abbrev}"></td>
+                <td th:text="${var.value}"></td>
+            </tr>
+            </tbody>
+        </table>
     </form>
     <div th:insert="~{operatorHelp :: operatorHelp}"></div>
     <div th:insert="~{graphView :: graphView(${graph})}"></div>

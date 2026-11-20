@@ -12,8 +12,6 @@ import com.techreier.edrops.data.Docs.DocIndex
 import com.techreier.edrops.exceptions.CalcException
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.forms.CalcForm
-import com.techreier.edrops.graph.DiagramService
-import com.techreier.edrops.graph.GraphService
 import com.techreier.edrops.util.Trace.info
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -32,8 +30,6 @@ const val CALC_DIR = "/$CALC"
 @RequestMapping(CALC_DIR)
 class CalcController(
     val ctx: Context,
-    private val graphService: GraphService,
-    private val diagramService: DiagramService,
 ) : BaseController(ctx) {
 
     @GetMapping
@@ -95,7 +91,8 @@ class CalcController(
             operatorHelp(model)
             return CALC
         }
-        model.addAttribute("calcForm", calcForm)
+        redirectAttributes.addFlashAttribute("calcForm", calcForm)
+        redirectAttributes.addFlashAttribute("vars", calc.vars)
         operatorHelp(model)
         return "redirect:$CALC_DIR"
     }

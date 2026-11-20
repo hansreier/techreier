@@ -1,5 +1,6 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.utils.maskComments
 import com.techreier.edrops.calc.utils.sanitize
 import com.techreier.edrops.calc.utils.splitMultiExpr
 import com.techreier.edrops.exceptions.ParseException
@@ -8,7 +9,7 @@ import com.techreier.edrops.util.Trace
 
 class MultiExpr<T : Any>(val calc: Calc<T>, multiExpr: String) {
 
-    val multiExpr = multiExpr.sanitize()
+    val multiExpr = maskComments(multiExpr).sanitize()
     val exprList = mutableListOf<Expr<T>>()
 
     fun parse() {

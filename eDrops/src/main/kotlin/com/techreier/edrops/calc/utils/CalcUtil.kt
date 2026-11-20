@@ -167,6 +167,25 @@ fun splitMultiExpr(text: String): List<Pair<String, Int>> {
     return result
 }
 
+fun maskComments(text: String): String {
+    val chars = text.toCharArray()
+    var inComment = false
+    for (i in chars.indices) {
+        val ch = chars[i]
+        if (inComment) {
+            if (ch == '\n' || ch == '\r') {
+                inComment = false
+            } else {
+                chars[i] = ' '
+            }
+        } else if (ch == '/' && i + 1 < chars.size && chars[i + 1] == '/') {
+            inComment = true
+            chars[i] = ' '
+        }
+    }
+    return chars.concatToString()
+}
+
 data class Range(val min: Int, val max: Int) {
     init {
         require(min >= 0 && max >= 0) { "Range values cannot be negative: min=$min, max=$max" }

@@ -46,7 +46,7 @@ const val UNKNOWN_OPERATOR = "UnknownOperator"
 
 // Just an example for the expression parser
 val QUADRATIC_EQUATION = """
-    // Quadriation equation
+    // Quadratic equation
     // a*x^2 + b*x + c = 0
     x = 2;
     a = 1;

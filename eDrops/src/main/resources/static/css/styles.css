@@ -974,7 +974,8 @@ a.dropdown-item:hover {
 
 #calcInput {
     width: 100%;
-    min-height: 20rem;
+    height: 18rem;
+    min-height: 6rem;
     font-family: monospace;
     font-size: 1rem;
     line-height: 1.4;
