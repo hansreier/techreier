@@ -67,6 +67,7 @@ class Expr<T : Any>(val calc: Calc<T>, expr: String) {
         result.parseError?.let { throw ParseException("preparsing error", it) }
         rawTokens = result.tokens
         debug(Scope.PARSE,"Parsing")
+        if (rawTokens.isEmpty()) return
         recursiveParse(Range(0, rawTokens.size - 1), 0)
         debug(Scope.PARSE,"Parsed")
     }

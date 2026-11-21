@@ -205,8 +205,8 @@ operator fun <T> ArrayList<T>.get(op: Op): T {
 }
 
 fun String.sanitize(): String = this
-    .replace("\r\n", " ")
+    .replace("\r\n", "  ")
     .replace('\n', ' ')
     .replace('\r', ' ')
     .replace('\t', ' ')
-    .replace('\u00A0', ' ').trim()
+    .replace('\u00A0', ' ')

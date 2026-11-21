@@ -78,7 +78,7 @@ class MultiExprTest {
         val input = """
             x = 90;
             sin(x);
-            result+3
+            res+3
         """.trimIndent()
 
         val expr = MultiExpr(calc, input)
@@ -147,12 +147,7 @@ class MultiExprTest {
     @Test
     fun parseErrorTest() {
 
-        val input = """
-            x = 5;
-            y = 3 * x-3;
-            z = x + y;
-        """.trimIndent()
-
+        val input = "   x = 5;   y = 3 * x-3;   z = x + y;   "
 
         val e = assertThrows<ParseException> {
             val expr = MultiExpr(calc, input)
@@ -160,7 +155,7 @@ class MultiExprTest {
         }
         val errorIndicator = errorIndicator(input.sanitize(), e.parseError)
         Trace.info(errorIndicator)
-        assertEquals("x = 5; y = 3 * ???x-3; z = x + y;", errorIndicator )
+        assertEquals("   x = 5;   y = 3 * x???-3;   z = x + y;   ", errorIndicator )
     }
 
     @Test
@@ -187,6 +182,28 @@ class MultiExprTest {
             trace(Scope.CALC,"x=${calc[Op.X]}, y=${calc[Op.Y]}")
         } while (calc[Op.X] < 3)
 
+    }
+
+    @Test
+    fun emptyInMiddleTest() {
+        val input = "   x = 5;   ;   y = x + 2; x  "
+
+        val expr = MultiExpr(calc, input)
+        expr.parse()
+        expr.calculate()
+
+        assertEquals(5.0, calc[Op.X])
+        assertEquals(7.0, calc[Op.Y])
+        assertEquals(5.0, calc[Op.RES])
+    }
+
+    @Test
+    fun emptyTest() {
+        val input = "  ;   ;   "
+
+        val expr = MultiExpr(calc, input)
+        expr.parse()
+        expr.calculate()
     }
 
 }

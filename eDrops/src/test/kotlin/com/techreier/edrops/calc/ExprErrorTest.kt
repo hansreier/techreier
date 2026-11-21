@@ -2,12 +2,12 @@ package com.techreier.edrops.calc
 
 import com.techreier.edrops.util.Trace
 import com.techreier.edrops.calc.utils.errorIndicator
+import com.techreier.edrops.exceptions.CalcException
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.util.Trace.debug
 import com.techreier.edrops.util.Trace.level
 import com.techreier.edrops.util.TraceLevel
 import com.techreier.edrops.util.Scope
-import com.techreier.edrops.util.Trace.err
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -61,13 +61,14 @@ class ExprErrorTest {
 
     @Test
     fun emptyTest() {
-        val input = ""
+        val input = "  "
         val expr = Expr(calc, input)
-        val e = assertThrows <ParseException> {
-            expr.parse()
+        expr.parse()
+        expr.calculate()
+        val ex = assertThrows<CalcException> {
+            expr.result()
         }
-        err(Scope.PARSE,e.message)
-        assertThat(e.parseError.key).isEqualTo(UNPARSEABLE)
+        assertEquals(NO_RESULT , ex.key)
     }
 
 }

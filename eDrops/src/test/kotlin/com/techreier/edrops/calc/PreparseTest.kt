@@ -24,8 +24,8 @@ class PreparseTest : TestBase() {
 
     @Test
     fun emptyTest() {
-        val input = ""
-        assertPreparseFails(UNPARSEABLE, calc, input)
+        val input = "  "
+        assertPreparse(tokens(), calc, input)
     }
 
     @Test
@@ -194,18 +194,6 @@ class PreparseTest : TestBase() {
                 Op.LEFTP, Op.X, Op.SUBTRACT, 3.0, Op.RIGHTP
             ), calc, input
         )
-    }
-
-    @Test
-    fun emptyFailsTest() {
-        val input = ""
-        assertPreparseFails(UNPARSEABLE, calc, input)
-    }
-
-    @Test
-    fun spaceFailsTest() {
-            val input = "   "
-            assertPreparseFails(UNPARSEABLE, calc, input)
     }
 
     @Test

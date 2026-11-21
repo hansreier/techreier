@@ -24,10 +24,11 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
     Trace.info(Scope.PARSE,"Predefinerte vars: ${calc.vars}")
     do {
         i1 = pos.index
-        while ((i1 < expr.length - 1) && (expr[i1].isWhitespace())) {
+        while ((i1 < expr.length) && (expr[i1].isWhitespace())) {
             i1++
         }
         pos.index = i1
+        if (i1 >= expr.length) break
 
         val minus = ((expr).isNotEmpty() && (expr[pos.index] == '-'))
 
