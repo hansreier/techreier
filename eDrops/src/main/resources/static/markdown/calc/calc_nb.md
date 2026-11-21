@@ -1,51 +1,45 @@
-Plotting av funksjoner
+Slik gjør du for å regne.
 
-- Første kjøring: Standard aksegrenser
-- Neste: Dynamiske min/maks-grenser
+Det enkleste er er bare å trykke "Beregne" i eksemplet for løsning av en annengradslikning.
+Du får også litt hjelp med liste som viser tilgjengelige matematiske symboler, funksjoner, konstanter og predefinerte variable.
+Du kan bruke de predefinerte variablene eller definere dine egne før likhetstegnet.
+Variable brukes til mellomregning, så rekkefølgen på uttrykk er helt vesentlig. 
+Muigheten for kommentarer er der også.
+Det er viktig å huske på at du ALLTID må ha ; mellom uttrykk. 
+Semikolon brukes også som skilletegn i funksjoner som takler flere parametre. 
+Den bryr seg ikke om linjeskift.
+Resultatene vises under med alle beregnede variabelverdier.
 
-Enkle antakelser for aksestreker og tekster.
+Det anbefales å bruke klipp og lim mot en enkel teksteditor.
+Når din sesjon er slutt og du navigerer bort så vil du miste inndata og beregninger.
+Du kan bruke samme teknikk for å kopiere fra resultater og inn i tekstfeltet.
+Husk at alt er funksjoner eller enkle tilordninger av variable.
+Kalkulatoren er en flyttalls kalkulator.
+Du har likevel tilgang til logiske operasjoner som vil returnere true (1) eller false (0)
+Du kan regne videre med true og false som det var vanlige verdier.
+Husk at verdier forskjellig fra 1 eller 0, ikke vil bli godtatt i logiske operasjoner.
+Du kan bruke norsk , eller engelsk . som desimalskilletegn.
+Det er regler som tillater implisitt multiplikasjon i visse tilfeller.
+Husk at det ikke kan være skilletegn mellom minus og tallet for negative tall.
+Hvis du glemmer dette blir - tolket som minus.
 
-### Målet for prosjektet
+Tips: select (x > 0 ; y = sin(x), y = cos(x));
+Select funksjoen er måtem du kan få betinget beregning på.
 
-- Modul for å tegne akser og grafer med SVG (utført)
-- Modul for matematiske funksjoner / RPN-basert (utført)
-- Matematisk funksjon settes inn av bruker med min og max verdier
-- Import fra regneark eller API, for eksempel for energiberegninger
-- Vurdere å lagre data i databasen for plotting
-- Tidsbaserte simuleringer (krever WASM)
+Trigonometriske funksjoner regner vanligvis med radianer.
 
-Beregninger kjører på backend.
-Klient-side WASM for live-animasjon senere.
-Jeg tror at akseprogrammet kan brukes som bakgrunn for WASM-animasjon.
-
-Siden prosjektet er ambisiøst, vil det ta tid å få alt på plass på fritiden.
-Siden dette er på internett, vil feilhåndtering og sikkerhet være viktig.
-
-### Om parseren
+### Om kalkulatoren
 
 Deler:
-- Preparse: Enkle syntakssjekker og tokenisering
+- Preparse: Enkle syntaks-sjekker og tokenisering
 - Parse: Omorganisering av tokens ved hjelp av en rekursiv parser til en instruksjonsliste for RPN
-- Calculate: Utføre RPN-beregninger på stakken ved hjelp av RPN-instruksjonslisten
+- Beregne: Utføre RPN-beregninger på stakken ved hjelp av RPN-instruksjonslisten
+- Variable: Det er utvidet til å takle variable i parser og beregning
+- Tavle: En digital tavle der fleruttrykk beregnes i sekvens
+- Resultat: Visning av variabler med beregnede verdier fra tavla
 
 Parseren returnerer en kompilert liste med tokens som skal brukes til påfølgende beregninger.
-
-Til bruk for simuleringer har jeg utvidet kalkulatoren til å kunne gjøre sekvensiell parsing og beregning basert på flere uttrykk. 
-Dette introduserer behovet for å lese og skrive til variabler. 
-Dette støttes både i den enkle uttrykksanalysatoren og i den utvidede flertrykksanalysatoren. 
-Bare forhåndsdefinerte variabler er tillatt, ikke brukerdefinerte. 
-Dette er både en fordel og en ulempe. Variablene trenger ikke å deklareres og kan hentes veldig raskt av CPU-en.
-Ulempen er at det er ufleksibelt. Jeg planlegger å forhåndsdefinere alle variabler som virkelig trengs for en simulering,
-så det burde ikke være et stort problem.
-
-### Om grafmodulen
-
-Deler:
-- Input-parametre på HTML-skjema
-- Beregne akse
-- Tegne akse
-- Parse funksjon
-- Tegne kurve(r) basert på trinnvis input og beregning
-
-Bare én variabel er tillatt. Du kan velge x-aksevariabel blant de forhåndsdefinerte variablene.
-Du definerer en funksjon som skal brukes for y-aksen.
+Dette gir grunnlaget for repeterbare beregninger uten ny parsing av matematiske formler. 
+Med reperbare beregninger er det lett å utvide med tidsbaserte simuleringer basert på fysiske lover. 
+Resultat lagres bare midlertidig og ikke i noen database.
+Det anbefales foreløpig å bruke klikk og lim inn i en enkel teksteditor.

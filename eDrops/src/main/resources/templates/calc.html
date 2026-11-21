@@ -37,7 +37,7 @@
         </table>
     </form>
     <div th:insert="~{operatorHelp :: operatorHelp}"></div>
-    <div th:insert="~{graphView :: graphView(${graph})}"></div>
+    <!--div th:insert="~{graphView :: graphView(${graph})}"></div-->
     <details id="calc-details" open>
         <summary th:text="#{details}"></summary>
         <div class="container" th:utext="${docText}"></div>
