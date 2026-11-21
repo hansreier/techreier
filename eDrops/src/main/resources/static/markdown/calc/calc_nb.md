@@ -40,5 +40,5 @@ Deler:
 
 Parseren returnerer en kompilert liste med tokens som skal brukes til påfølgende beregninger.
 Dette gir grunnlaget for repeterbare beregninger uten ny parsing av matematiske formler. 
-Med reperbare beregninger er det lett å utvide med tidsbaserte simuleringer basert på fysiske lover. 
+Med reperbare beregninger er det lett å utvide med grafikk; inkludert tidsbaserte simuleringer basert på fysiske lover. 
 Resultat lagres bare midlertidig og ikke i noen database.

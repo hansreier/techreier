@@ -39,6 +39,6 @@ Parts:
 - Result: Display of variables with calculated values from the board
 
 The parser returns a compiled list of tokens to be used for subsequent calculations.
-This provides the foundation for repeatable calculations without re-parsing mathematical formulas.
-With repeatable calculations, it is easy to extend with time-based simulations based on physical laws.
+This provides the foundation for repeatable calculations without reparsing mathematical formulas.
+With repeatable calculations, it is easy to extend with graphics; including time-based simulations based on physical laws.
 Results are only stored temporarily and not in any database.
