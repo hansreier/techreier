@@ -77,7 +77,7 @@ class CalcController(
             val errorIndicator = errorIndicator(input.sanitize(), e.parseError)
             model.addAttribute("errorText", errorIndicator)
         } catch (e: CalcException) {
-            val args = arrayOf(e.oper ?: "")
+            val args = arrayOf(e.oper)
             bindingResult.reject("error.calc." + e.key, args, "calculation error")
             model.addAttribute("errorText", e.detailMessage)
         }
@@ -94,7 +94,7 @@ class CalcController(
         }
         redirectAttributes.addFlashAttribute("calcForm", calcForm)
         val formattedVars = calc.vars.entries.associate { (op, value) ->
-            op to value.axis(5)
+            op to value.axis(12)
         }
         redirectAttributes.addFlashAttribute("vars", formattedVars)
         operatorHelp(model)

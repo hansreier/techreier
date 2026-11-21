@@ -68,7 +68,7 @@ class MultiExprTest {
         expr.parse()
         expr.calculate()
 
-        assertEquals(1.0, expr[Op.RESULT])
+        assertEquals(1.0, expr[Op.RES])
 
     }
 
@@ -85,7 +85,7 @@ class MultiExprTest {
         expr.parse()
         expr.calculate()
 
-        assertEquals(4.0, expr[Op.RESULT])
+        assertEquals(4.0, expr[Op.RES])
 
     }
 

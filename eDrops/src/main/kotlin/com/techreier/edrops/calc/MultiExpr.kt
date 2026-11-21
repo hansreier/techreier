@@ -53,7 +53,7 @@ class MultiExpr<T : Any>(val calc: Calc<T>, multiExpr: String) {
                 } else {
                     val expr = Expr(calc, assignment)
                     expr.parse()
-                    expr.target = Op.RESULT
+                    expr.target = Op.RES
                     exprList.add(expr)
                 }
 
