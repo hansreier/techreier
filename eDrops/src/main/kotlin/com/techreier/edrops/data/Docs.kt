@@ -80,6 +80,12 @@ object Docs {
 
         )
 
+    val lab =
+        arrayOf(
+            MenuItem("lab", c.defaultNo, "Om lab"),
+            MenuItem("lab", c.defaultEn, "About lab")
+        )
+
     val collatz =
         arrayOf(
             MenuItem("collatz", c.defaultNo, "Collatz"),
