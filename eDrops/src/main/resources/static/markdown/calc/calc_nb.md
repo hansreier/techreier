@@ -39,7 +39,7 @@ sin(90)
 ```
 
 Uten semikolonet tolkes dette som `radians = false * sin(90)`,
-noe som tilordner 0 til radians i stedet for å beregne sin(90) i grader.  
+noe som tilordner 0 (false) til radians i stedet for å beregne sin(90) i grader.  
 
 ### Om kalkulatoren
 

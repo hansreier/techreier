@@ -42,7 +42,7 @@ sin(90)
 ```
 
 Without the semicolon, this is interpreted as `radians = false * sin(90)`, 
-which assigns 0 to radians instead of calculating sin(90) in degrees.
+which assigns 0 (false) to radians instead of calculating sin(90) in degrees.
 
 ### About the calculator
 
