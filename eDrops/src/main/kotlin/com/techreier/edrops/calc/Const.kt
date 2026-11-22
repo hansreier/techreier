@@ -47,6 +47,7 @@ const val UNKNOWN_OPERATOR = "UnknownOperator"
 // Fake other variable types in presentation
 const val PRIOR_BOOLEAN = -1
 const val PRIOR_INTEGER = -2
+const val PRIOR_IGNORE_PARSE = -10
 
 // Just an example for the expression parser
 val QUADRATIC_EQUATION = """

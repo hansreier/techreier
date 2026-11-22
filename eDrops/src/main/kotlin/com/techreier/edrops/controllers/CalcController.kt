@@ -75,7 +75,7 @@ class CalcController(
             expr.calculate()
         } catch (e: ParseException) {
             val err = e.parseError
-            logger.info("feilnøkkel: ${"error.parse." +err.key}")
+            logger.warn("feilnøkkel: ${"error.parse." +err.key} operator=${err}")
             val args = arrayOf(err.oper)
             bindingResult.reject("error.parse." + err.key, args, "parse error")
             val errorIndicator = errorIndicator(input.sanitize(), e.parseError)
@@ -86,7 +86,7 @@ class CalcController(
             model.addAttribute("errorText", e.detailMessage)
         }
         if (bindingResult.hasErrors() ) {
-            info("warn graph input error: $calcForm")
+            info("calc input error: $calcForm")
             val docIndex = prepare(model, request, response)
             if (docIndex.index < 0) {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")

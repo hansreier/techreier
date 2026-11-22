@@ -6,7 +6,7 @@ data class VarOp(
     override val abbrev: String,
     override val noArgs: Int = 0,
     override val noResults: Int = 1,
-    override val prior: Int = DEFAULT_LEVEL
+    override val prior: Int = if (abbrev.startsWith("?")) PRIOR_BOOLEAN else DEFAULT_LEVEL
 ) : OpI {
     override fun isSymbol(): Boolean = true
     override fun isVariable(): Boolean = true

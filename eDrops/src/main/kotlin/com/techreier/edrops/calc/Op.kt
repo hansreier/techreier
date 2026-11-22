@@ -52,7 +52,7 @@ enum class Op(
     DEG("deg", 1, 1),
     NEGATE("negate", 1, 1),
     RADIANS("radians", 0, 1, PRIOR_BOOLEAN),
-    DEGREES("degrees", 0, 0, -1),
+    DEGREES("degrees", 0, 0, PRIOR_IGNORE_PARSE),
     EX("exp", 1, 1),
     LN("ln", 1, 1),
     LOG2("log2", 1, 1),
@@ -66,9 +66,9 @@ enum class Op(
     G("g", 0, 1),
     FALSE("false",   0,  1),
     TRUE("true",  0,  1),
-    YX("yx", 2, 2, -1),
+    YX("yx", 2, 2, PRIOR_IGNORE_PARSE),
     RANDOM("random", 0, 1),
-    REMOVE("r", 1, 0, -1),
+    REMOVE("r", 1, 0, PRIOR_IGNORE_PARSE),
     DX("dx", 0,1 ),
     T("t", 0, 1),
     DT("dt", 0, 1),
@@ -139,7 +139,7 @@ enum class Op(
         fun operator(text: String, pos: Int, set: Set<OpI>): OpI? {
             val textVar = text.substring(pos).lowercase()
             if (textVar.isNotEmpty()) {
-                val validOps = set.filter { (it.prior >= 0 && it.noResults == 1) || it == SEPARATOR }
+                val validOps = set.filter { (it.prior != PRIOR_IGNORE_PARSE && it.noResults == 1) || it == SEPARATOR }
 
                 val match = if (textVar[0].isLetter()) {
                     val word = textVar.takeWhile { it.isLetterOrDigit() }

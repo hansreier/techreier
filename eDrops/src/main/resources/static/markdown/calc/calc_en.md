@@ -19,7 +19,8 @@ However, you still have access to logical operations that return true (1) or fal
 You can continue calculating with true and false as if they were regular numbers.
 The simple assumptions are that >=0.5 is true, and <0.5 or NaN is false.
 When storing values in a Boolean variable, it is normalized to 0 and 1.
-So far this is used only for the predefined radians variable, you can set it to true or false.
+You define boolean variables, by using ? as the first letter.
+Predefined boolean variables, like `radians` are defined without this.  
 
 You can use Norwegian `,` or English `.` as the decimal separator.
 Certain rules allow implicit multiplication in specific cases.
@@ -29,11 +30,10 @@ Certain rules allow implicit multiplication in specific cases.
 Tip: `select (x > 0 ; y = sin(x) ; y = cos(x));`
 The select function is how you achieve conditional calculations.
 
-Trigonometric functions normally calculate in radians.
-
 **Remember to end each statement with a semicolon.**
 
 Without it, separate expressions are interpreted as one expression.
+Trigonometric functions use radians, but can be set to degrees using the radians variable.
 
 ```
 radians = false;

@@ -19,18 +19,18 @@ Du har likevel tilgang til logiske operasjoner som returnerer true (1) eller fal
 Du kan regne videre med true og false som om de var vanlige tall.
 De enkle antagelsene er at >=0.5 er true, og <0.5 eller NaN er false.
 Når verdier lagres i en boolsk variabel, normaliseres de til 0 og 1.
-Foreløpig brukes dette kun for den forhåndsdefinerte radians-variabelen, som du kan sette til true eller false.
+Du definerer variable som boolske, med å la ? være første tegn.
+Predefinerte boolske variable, som `radians`, skrives uten ?.
 
 **Negative tall kan ikke ha mellomrom etter minus.**
 
 Tips: `select (x > 0 ; y = sin(x), y = cos(x));`
 Select funksjonen er måten du kan få betinget beregning på.
 
-Trigonometriske funksjoner regnes med radianer.
-
 **Husk å avslutte hvert uttrykk med semikolon.**
 
 Uten semikolon tolkes separate uttrykk som ett samlet uttrykk.
+Trigonometriske funksjoner bruker radianer som standard, men kan settes til grader med radians variabelen.
 
 ```
 radians = false;

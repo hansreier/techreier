@@ -20,8 +20,8 @@ fun <T : Any> preparse(calc: Calc<T>, expr: String): ParseResult {
     var parseError: ParseError?
     val pos = ParsePosition(0)
     Trace.info(Scope.PARSE,"Preparsing: $expr")
-    Trace.info(Scope.PARSE,"Predefinerte variable: ${calc.customVariables}")
-    Trace.info(Scope.PARSE,"Predefinerte vars: ${calc.vars}")
+    Trace.info(Scope.PARSE,"Brukerdefinerte variable: ${calc.customVariables}")
+    Trace.info(Scope.PARSE,"Predefinerte variable: ${calc.vars}")
     do {
         i1 = pos.index
         while ((i1 < expr.length) && (expr[i1].isWhitespace())) {
