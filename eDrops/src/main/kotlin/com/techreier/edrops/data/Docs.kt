@@ -49,6 +49,8 @@ object Docs {
             MenuItem("links", c.defaultEn, "My links"),
             MenuItem("website", c.defaultNo, "Nettsted"),
             MenuItem("website", c.defaultEn, "Website"),
+            MenuItem("lab", c.defaultNo, "Om lab"),
+            MenuItem("lab", c.defaultEn, "About lab"),
             MenuItem("coderwanted", c.defaultNo, "Programmerer ønskes"),
             MenuItem("coderwanted", c.defaultEn, "Programmer wanted"),
             MenuItem("readme", c.codingNo, "README"),
@@ -78,12 +80,6 @@ object Docs {
             MenuItem("jottacloud", c.codingNo, "Jottacloud"),
             MenuItem("jottacloud", c.codingEn, "Jottacloud"),
 
-        )
-
-    val lab =
-        arrayOf(
-            MenuItem("lab", c.defaultNo, "Om lab"),
-            MenuItem("lab", c.defaultEn, "About lab")
         )
 
     val collatz =

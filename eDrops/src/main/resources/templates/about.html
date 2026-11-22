@@ -8,7 +8,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"/>
+    <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"></h1>
     <div class="container" th:utext="${docText}"></div>
     <div th:if="${doc.segment == 'responsive'}">
         <div id="deviceInfo" class="info"></div>

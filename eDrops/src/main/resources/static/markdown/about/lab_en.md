@@ -1,4 +1,4 @@
-## About the lab
+## My digial cyber laboratory
 
 *(AI translated from Norwegian)*
 
@@ -6,6 +6,12 @@ This is an all-digital lab and junk room. My father had a physical lab like this
 This is my attempt at doing the same without cluttering up my entire home office.
 Because of that, you will find a lot of odd and varied stuff here.
 Not everything is finished, and much of it is still under development.
+
+A note on the word "cyber": 
+Before the IT security industry hijacked the term, *cyber* actually came from *cybernetics*—the 1940s science of control, 
+feedback loops, and systems (from the Greek *kybernetes*, meaning steersman). 
+I use it in its original meaning, I perfectly fits with the simulation engine I plan to build. 
+
 
 ### The goal of the lab
 

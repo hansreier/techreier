@@ -1,9 +1,13 @@
-## Om lab
+## Mitt digitale cyberlaboratorium
 
 Dette er en heldigital lab og roterom. Min far hadde en slik fysisk labb på NTH.
 Dette er mitt forsøk som ikke roter til hele hjemmekontoret.
 Derfor vil det være mye rart og forskjellig her.
 Alt er ikke ferdig og mye er under utvikling.
+
+En liten merknad om ordet «cyber»:
+Før IT-sikkerhetsbransjen kuppet begrepet, kom cyber faktisk fra kybernetikk (cybernetics), som var 1940-tallets vitenskap om styring, tilbakekoblingssløyfer og systemer (fra gresk kybernetes, som betyr rormann eller styrmann).
+Jeg bruker det i sin opprinnelige betydning, fordi det passer perfekt til simuleringsmotoren jeg planlegger å bygge.
 
 ### Målet for labben
 
