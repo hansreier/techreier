@@ -21,15 +21,14 @@ De enkle antagelsene er at >=0.5 er true, og <0.5 eller NaN er false.
 Når verdier lagres i en boolsk variabel, normaliseres de til 0 og 1.
 Foreløpig brukes dette kun for den forhåndsdefinerte radians-variabelen, som du kan sette til true eller false.
 
-***Husk at det ikke kan være skilletegn mellom minus og tallet for negative tall.
-Hvis du glemmer dette blir - tolket som minus.***
+**Negative tall kan ikke ha mellomrom etter minus.**
 
 Tips: `select (x > 0 ; y = sin(x), y = cos(x));`
 Select funksjonen er måten du kan få betinget beregning på.
 
 Trigonometriske funksjoner regnes med radianer.
 
-**Husk å avslutte hvert uttrykk med semikolon (;).**
+**Husk å avslutte hvert uttrykk med semikolon.**
 
 Uten semikolon tolkes separate uttrykk som ett samlet uttrykk.
 

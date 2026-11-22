@@ -24,15 +24,14 @@ So far this is used only for the predefined radians variable, you can set it to 
 You can use Norwegian `,` or English `.` as the decimal separator.
 Certain rules allow implicit multiplication in specific cases.
 
-***Remember that there cannot be any space between the minus sign and the number for negative numbers.
-If you forget this, `-` will be interpreted as subtraction.***
+**Negative numbers cannot have a space after minus.**
 
 Tip: `select (x > 0 ; y = sin(x) ; y = cos(x));`
 The select function is how you achieve conditional calculations.
 
 Trigonometric functions normally calculate in radians.
 
-**Remember to end each statement with a semicolon (;)**.
+**Remember to end each statement with a semicolon.**
 
 Without it, separate expressions are interpreted as one expression.
 
