@@ -2,6 +2,7 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.calc.CalcDouble
 import com.techreier.edrops.calc.MultiExpr
+import com.techreier.edrops.calc.Op
 import com.techreier.edrops.calc.utils.VarType
 import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.calc.utils.operatorHelp
@@ -97,8 +98,10 @@ class CalcController(
         }
         redirectAttributes.addFlashAttribute("calcForm", calcForm)
 
-        //TODO ReierAsk change when VarType.INTEGER is used e.g. for graph types
-        val formattedVars = calc.vars.entries.associate { (op, value) ->
+        //TODO ReierAsk change when VarType.INTEGER is used e.g. for graph types. Radians is tempoararily removed
+        val formattedVars = calc.vars.entries
+            .filter { (op, _) -> op != Op.RADIANS }
+            .associate { (op, value) ->
             val formatted = when (op.varType) {
                 VarType.BOOLEAN -> if (value > 0.5) "true" else "false"
                 VarType.INTEGER -> if (value.isFinite()) value.roundToInt().toString() else value.axis(12)
