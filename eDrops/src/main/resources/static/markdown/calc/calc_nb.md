@@ -9,24 +9,37 @@ I spørsmålstegn-knappen finner du en oversikt over tilgjengelige matematiske s
 - **Linjeskift og kommentarer:** Kalkulatoren bryr seg ikke om linjeskift, og du kan legge inn kommentarer i koden.
 - **Resultater:** Alle beregnede variabelverdier vises under inntastingsfeltet.
 
-Det anbefales å bruke klipp og lim mot en enkel teksteditor.
-Når din sesjon er slutt og du navigerer bort så vil du miste inndata og beregninger.
-Du kan bruke samme teknikk for å kopiere fra resultater og inn i tekstfeltet.
-Husk at alt er funksjoner eller enkle tilordninger av variable.
-Kalkulatoren er en flyttalls kalkulator.
-Du har likevel tilgang til logiske operasjoner som vil returnere true (1) eller false (0)
-Du kan regne videre med true og false som det var vanlige verdier.
-Husk at verdier forskjellig fra 1 eller 0, ikke vil bli godtatt i logiske operasjoner.
-Du kan bruke norsk , eller engelsk . som desimalskilletegn.
-Det er regler som tillater implisitt multiplikasjon i visse tilfeller.  
+Det anbefales å bruke kopier og lim inn med en enkel teksteditor.
+All inndata og alle beregninger går tapt når økten utløper eller du forlater siden.
+Du kan bruke samme teknikk for å kopiere fra resultatene tilbake til inndatafeltet.
+Husk at alt enten er funksjoner eller enkle variabeltilordninger.
+Kalkulatoren er en flyttallskalkulator.
+
+Du har likevel tilgang til logiske operasjoner som returnerer true (1) eller false (0).
+Du kan regne videre med true og false som om de var vanlige tall.
+De enkle antagelsene er at >=0.5 er true, og <0.5 eller NaN er false.
+Når verdier lagres i en boolsk variabel, normaliseres de til 0 og 1.
+Foreløpig brukes dette kun for den forhåndsdefinerte radians-variabelen, som du kan sette til true eller false.  
 
 ***Husk at det ikke kan være skilletegn mellom minus og tallet for negative tall.
 Hvis du glemmer dette blir - tolket som minus.***
 
-Tips: select (x > 0 ; y = sin(x), y = cos(x));
-Select funksjoen er måten du kan få betinget beregning på.
+Tips: `select (x > 0 ; y = sin(x), y = cos(x));`
+Select funksjonen er måten du kan få betinget beregning på.
 
 Trigonometriske funksjoner regnes med radianer.  
+
+**Husk å avslutte hvert uttrykk med semikolon (;).**
+
+Uten semikolon tolkes separate uttrykk som ett samlet uttrykk.
+
+```
+radians = false;
+sin(90)
+```
+
+Uten semikolonet tolkes dette som `radians = false * sin(90)`,
+noe som tilordner 0 til radians i stedet for å beregne sin(90) i grader.  
 
 ### Om kalkulatoren
 

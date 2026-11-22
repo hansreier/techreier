@@ -2,9 +2,11 @@ package com.techreier.edrops.controllers
 
 import com.techreier.edrops.calc.CalcDouble
 import com.techreier.edrops.calc.MultiExpr
+import com.techreier.edrops.calc.utils.VarType
 import com.techreier.edrops.calc.utils.errorIndicator
 import com.techreier.edrops.calc.utils.operatorHelp
 import com.techreier.edrops.calc.utils.sanitize
+import com.techreier.edrops.calc.utils.varType
 import com.techreier.edrops.config.Menu
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Docs
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import kotlin.math.roundToInt
 
 const val CALC = "calc"
 const val CALC_DIR = "/$CALC"
@@ -93,8 +96,15 @@ class CalcController(
             return CALC
         }
         redirectAttributes.addFlashAttribute("calcForm", calcForm)
+
+        //TODO ReierAsk change when VarType.INTEGER is used e.g. for graph types
         val formattedVars = calc.vars.entries.associate { (op, value) ->
-            op to value.axis(12)
+            val formatted = when (op.varType) {
+                VarType.BOOLEAN -> if (value > 0.5) "true" else "false"
+                VarType.INTEGER -> if (value.isFinite()) value.roundToInt().toString() else value.axis(12)
+                VarType.NUMBER -> value.axis(12)
+            }
+            op to formatted
         }
         redirectAttributes.addFlashAttribute("vars", formattedVars)
         operatorHelp(model)

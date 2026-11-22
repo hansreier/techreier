@@ -14,9 +14,13 @@ All input and calculations are lost once your session expires or you leave the p
 You can use the same technique to copy from the results back into the input field.
 Remember that everything is either functions or simple variable assignments.
 The calculator is a floating-point calculator.
+
 However, you still have access to logical operations that return true (1) or false (0).
 You can continue calculating with true and false as if they were regular numbers.
-Remember that values other than 1 or 0 will not be accepted in logical operations.
+The simple assumptions are that >=0.5 is true, and <0.5 or NaN is false.
+When storing values in a Boolean variable, it is normalized to 0 and 1.
+So far this is used only for the predefined radians variable, you can set it to true or false. 
+
 You can use Norwegian `,` or English `.` as the decimal separator.
 Certain rules allow implicit multiplication in specific cases.  
 
@@ -24,9 +28,21 @@ Certain rules allow implicit multiplication in specific cases.
 If you forget this, `-` will be interpreted as subtraction.***
 
 Tip: `select (x > 0 ; y = sin(x) ; y = cos(x));`
-The `select` function is how you achieve conditional calculations.
+The select function is how you achieve conditional calculations.
 
 Trigonometric functions normally calculate in radians.
+
+**Remember to end each statement with a semicolon (;)**.  
+
+Without it, separate expressions are interpreted as one expression.
+
+```
+radians = false;
+sin(90)
+```
+
+Without the semicolon, this is interpreted as `radians = false * sin(90)`, 
+which assigns 0 to radians instead of calculating sin(90) in degrees.
 
 ### About the calculator
 
