@@ -62,7 +62,7 @@ fun parseDouble(expr: String?, pos: ParsePosition? = ParsePosition(0)): Double? 
 // Additional function for Double
 fun Calc<Double>.radians(enabled: Boolean): Calc<Double> {
     if (this is CalcDouble) {
-        this.radians = enabled
+        this[Op.RADIANS] = if (enabled) 1.0 else 0.0
     }
     return this
 }

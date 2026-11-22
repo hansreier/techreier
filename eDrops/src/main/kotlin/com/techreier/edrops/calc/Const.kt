@@ -44,6 +44,10 @@ const val BIG_INTEGER_FORMAT_ERROR = "BigIntegerFormatError"
 const val BIG_DECIMAL_FORMAT_ERROR = "BigDecimalFormatError"
 const val UNKNOWN_OPERATOR = "UnknownOperator"
 
+// Fake other variable types in presentation
+const val PRIOR_BOOLEAN = -1
+const val PRIOR_INTEGER = -2
+
 // Just an example for the expression parser
 val QUADRATIC_EQUATION = """
     // Quadratic equation
@@ -57,5 +61,5 @@ val QUADRATIC_EQUATION = """
     x1 = (-b + d) / (2 * a); 
     x2 = (-b - d) / (2 * a);
     // Calculate formula
-    y = a * x^2 + b * x + c
+    a * x^2 + b * x + c
 """.trimIndent()

@@ -20,7 +20,7 @@ class ExprFunctionTest {
     fun setUp() {
         calc = CalcDouble()
         // Trigonometric tests expect degrees
-        calc.radians = false
+        calc[Op.RADIANS] = FALSE
         level = TraceLevel.INFO
         debug("")
     }
@@ -243,9 +243,9 @@ class ExprFunctionTest {
 
     @Test
     fun constantTest() {
-        calc.radians = true
         val input = "sin(pi)"
         val expr = Expr(calc, input)
+        expr[Op.RADIANS] = TRUE
         expr.parse()
         expr.calculate()
         assertEquals(0.0, expr.result(), 1e-9)

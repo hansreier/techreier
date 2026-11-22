@@ -5,6 +5,8 @@ import com.techreier.edrops.calc.Op.Companion.constants
 import com.techreier.edrops.calc.Op.Companion.functions
 import com.techreier.edrops.calc.Op.Companion.parenthesis
 import com.techreier.edrops.calc.Op.Companion.variables
+import com.techreier.edrops.calc.utils.VarType
+import com.techreier.edrops.calc.utils.varType
 import com.techreier.edrops.exceptions.CalcException
 import com.techreier.edrops.util.Trace.err
 import kotlin.Double.Companion.NaN
@@ -23,6 +25,7 @@ import kotlin.math.log2
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlin.math.sign
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -35,7 +38,7 @@ private const val RADIANS_TO_DEGREES = 180 / PI
 
 class CalcDouble : Calc<Double>() {
     override val type: KClass<Double> = Double::class
-    var radians: Boolean = true
+ //   var radians: Boolean = true
 
     override val vars: MutableMap<OpI, Double> = mutableMapOf()
 
@@ -47,6 +50,7 @@ class CalcDouble : Calc<Double>() {
             Op.SELECT, Op.GT, Op.LT, Op.GTE, Op.LTE, Op.EQ, Op.NEQ, Op.NOT, Op.AND, Op.OR
         )
 
+        this[Op.RADIANS] = TRUE
         //Check for consistency in set of enums
         val missing = operators.filter { it !in (functions + constants +basicOperators + variables + parenthesis) }
         require(missing.isEmpty()) {
@@ -56,7 +60,11 @@ class CalcDouble : Calc<Double>() {
     }
 
     override operator fun set(op: OpI, value: Double) {
-        vars[op] = value
+        vars[op] = when (op.varType) {
+            VarType.NUMBER -> value
+            VarType.BOOLEAN -> if (value > 0.5) 1.0 else 0.0
+            VarType.INTEGER -> if (value.isFinite()) value.roundToInt().toDouble() else NaN
+        }
     }
 
     override fun set(op: OpI) {
@@ -93,6 +101,8 @@ class CalcDouble : Calc<Double>() {
         val arg = stack.iterator()
         val r = ArrayList<Double>()
 
+        val radians = this[Op.RADIANS] > 0.5
+
         when (operator) {
             Op.ADD -> {
                 y = arg.next()
@@ -121,70 +131,50 @@ class CalcDouble : Calc<Double>() {
             Op.GT -> {
                 y = arg.next()
                 x = arg.next()
-                if (isNotNan(x,y))
-                    r.add(if (x - y > tol(x, y)) 1.0 else 0.0)
-                else
-                    r.add(NaN)
+                r.add(if (x - y > tol(x, y)) 1.0 else 0.0)
             }
 
             Op.LT -> {
                 y = arg.next()
                 x = arg.next()
-                if (isNotNan(x,y))
-                    r.add(if (y - x > tol(x, y)) 1.0 else 0.0)
-                else
-                    r.add(NaN)
+                r.add(if (y - x > tol(x, y)) 1.0 else 0.0)
             }
 
             Op.GTE -> {
                 y = arg.next()
                 x = arg.next()
-                if (isNotNan(x,y))
-                    r.add(if (x - y >= -tol(x, y)) 1.0 else 0.0)
-                else r.add(NaN)
+                r.add(if (x - y >= -tol(x, y)) 1.0 else 0.0)
             }
 
             Op.LTE -> {
                 y = arg.next()
                 x = arg.next()
-                if (isNotNan(x,y))
-                    r.add(if (y - x >= -tol(x, y)) 1.0 else 0.0)
-                else r.add(NaN)
+                r.add(if (y - x >= -tol(x, y)) 1.0 else 0.0)
             }
 
             Op.EQ -> {
                 y = arg.next()
                 x = arg.next()
-                if (isNotNan(x,y))
-                    r.add(if (abs(x - y) <= tol(x, y)) 1.0 else 0.0)
-                else r.add(NaN)
+                r.add(if (abs(x - y) <= tol(x, y)) 1.0 else 0.0)
             }
 
             Op.NEQ -> {
                 y = arg.next()
                 x = arg.next()
-                if (isNotNan(x,y))
-                    r.add(if (abs(x - y) > tol(x, y)) 1.0 else 0.0)
-                else r.add(NaN)
+                r.add(if (!(abs(x - y) <= tol(x, y))) 1.0 else 0.0)
             }
 
 
             Op.AND -> {
                 y = arg.next()
                 x = arg.next()
-                if (isValidBooleans(x,y))
-                    r.add(if ((x > 0.5) && (y > 0.5))  1.0 else 0.0)
-                else
-                    r.add(NaN)
+                r.add(if ((x > 0.5) && (y > 0.5))  1.0 else 0.0)
             }
 
             Op.OR -> {
                 y = arg.next()
                 x = arg.next()
-                if (isValidBooleans(x,y))
-                    r.add(if ((x > 0.5) || (y > 0.5))  1.0 else 0.0)
-                else
-                    r.add(NaN)
+                r.add(if ((x > 0.5) || (y > 0.5))  1.0 else 0.0)
             }
 
             Op.NEGATE -> {
@@ -220,7 +210,7 @@ class CalcDouble : Calc<Double>() {
 
             Op.SIN -> {
                 x = arg.next()
-                if (radians)
+                if (this[Op.RADIANS] >0.5)
                     r.add(sin(x).cleanZero())
                 else
                     r.add(sin(x * DEGREES_TO_RADIANS).cleanZero())
@@ -327,22 +317,14 @@ class CalcDouble : Calc<Double>() {
 
             Op.NOT -> {
                 x = arg.next()
-                if (isValidBooleans(x))
-                    r.add( if (x < 0.5) 1.0 else 0.0)
-                else
-                    r.add(NaN)
+                r.add(if (x > 0.5) 0.0 else 1.0)
             }
 
             Op.SELECT -> { // Mimics an IF statement
                 val y = arg.next()
                 val x = arg.next()
                 val flag = arg.next()
-
-                if (isValidBooleans(flag)) {
-                    r.add(if (abs(flag) < EPSILON) y else x)
-                } else {
-                    r.add(NaN)
-                }
+                r.add(if (flag > 0.5) x else y)
             }
 
             Op.E -> {
@@ -407,14 +389,6 @@ class CalcDouble : Calc<Double>() {
     //to be used for rounding to zero for some selected functions
     private fun Double.cleanZero(): Double =
         if (abs(this) < EPSILON) 0.0 else this
-
-    fun isValidBooleans(vararg values: Double): Boolean {
-        return values.all { (abs(it) < EPSILON) || (abs(it - 1.0) < EPSILON) }
-    }
-
-    fun isNotNan(vararg values: Double): Boolean {
-        return values.all { !it.isNaN() }
-    }
 
     // Qualy Double equals
     private fun tol(x: Double, y: Double) = EPSILON * maxOf(1.0, abs(x), abs(y))

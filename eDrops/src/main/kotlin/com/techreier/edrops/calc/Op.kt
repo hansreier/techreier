@@ -51,7 +51,7 @@ enum class Op(
     RAD("rad", 1, 1),
     DEG("deg", 1, 1),
     NEGATE("negate", 1, 1),
-    RADIANS("radians", 0, 0, -1),
+    RADIANS("radians", 0, 1, PRIOR_BOOLEAN),
     DEGREES("degrees", 0, 0, -1),
     EX("exp", 1, 1),
     LN("ln", 1, 1),
@@ -107,7 +107,7 @@ enum class Op(
         val basicOperators = setOf(ADD, SUBTRACT, MULTIPLY, DIVIDE, POW, SEPARATOR, GT, LT, GTE, LTE, EQ, NEQ, AND, OR)
         val unaryOperators = setOf(NEGATE, NOT)
         val parenthesis = setOf(LEFTP, RIGHTP)
-        val variables = setOf(G, T,  DT, X, DX, Y, DY, Z, U, V, W, M, F, K, P, Q, S, RES)
+        val variables = setOf(G, T,  DT, X, DX, Y, DY, Z, U, V, W, M, F, K, P, Q, S, RES, RADIANS)
         val constants = setOf(PI, E, C0, TRUE, FALSE, RANDOM) // Functions without arguments is considered as a quasi-constant
         val symbols = variables + constants
         val functions = setOf(SIN, COS, TAN, ASIN, ACOS, ATAN, SQR, SQRT, DEG, EX, LN, LOG10, LOG2,

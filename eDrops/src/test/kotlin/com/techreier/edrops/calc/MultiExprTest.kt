@@ -21,7 +21,7 @@ class MultiExprTest {
     fun setUp() {
         level = TraceLevel.INFO
         trace("")
-        calc.radians = false
+        calc[Op.RADIANS] = FALSE
     }
 
     @Test
