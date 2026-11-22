@@ -16,7 +16,8 @@ import com.techreier.edrops.exceptions.CalcException
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.forms.CalcForm
 import com.techreier.edrops.util.Trace.info
-import com.techreier.edrops.util.axis
+import com.techreier.edrops.util.autoformat
+import com.techreier.edrops.util.axisformat
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Controller
@@ -104,8 +105,8 @@ class CalcController(
             .associate { (op, value) ->
             val formatted = when (op.varType) {
                 VarType.BOOLEAN -> if (value > 0.5) "true" else "false"
-                VarType.INTEGER -> if (value.isFinite()) value.roundToInt().toString() else value.axis(12)
-                VarType.NUMBER -> value.axis(12)
+                VarType.INTEGER -> if (value.isFinite()) value.roundToInt().toString() else value.axisformat(12)
+                VarType.NUMBER -> value.autoformat()
             }
             op to formatted
         }

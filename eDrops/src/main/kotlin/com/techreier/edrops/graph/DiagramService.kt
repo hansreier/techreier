@@ -4,7 +4,7 @@ package com.techreier.edrops.graph
 import com.techreier.edrops.util.Trace
 import com.techreier.edrops.config.*
 import com.techreier.edrops.util.Scope
-import com.techreier.edrops.util.axis
+import com.techreier.edrops.util.axisformat
 import org.springframework.stereotype.Service
 import kotlin.math.abs
 import kotlin.math.max
@@ -26,7 +26,7 @@ class DiagramService {
         var yValue = yAxisData.tickMin
         var maxDigits = 0
         for (i in 0..yAxisData.sectionCount) { // Calculate the label with largest number of digits
-            val label = yValue.axis(minThreshold = yAxisData.subTickStep / 10)  //Not correct E format
+            val label = yValue.axisformat(minThreshold = yAxisData.subTickStep / 10)  //Not correct E format
             Trace.debug(Scope.GRAPH,"label=$label")
             maxDigits = max(label.length, maxDigits)
             yValue += yAxisData.tickStep
@@ -96,7 +96,7 @@ class DiagramService {
             AxisTick(
                 tickLine = LineSegment(x1 = xPx, y1 = yMinPx, x2 = xPx, y2 = yMinPx + TICK_LENGTH),
                 labelPoint = Point(x = xPx, y = yMinPx + X_LABEL_OFFSET + fontScale),
-                label = xValue.axis(minThreshold = axisData.subTickStep / 10),
+                label = xValue.axisformat(minThreshold = axisData.subTickStep / 10),
                 textAlignment = TextAlignment.CENTER
             )
         }
@@ -165,7 +165,7 @@ private fun createYAxis(
         AxisTick(
             tickLine = LineSegment(x1 = xMinPx, y1 = yPx, x2 = xMinPx - TICK_LENGTH, y2 = yPx),
             labelPoint = Point(x = xMinPx - Y_LABEL_OFFSET, y = yPx + 4.0),
-            label = yValue.axis(minThreshold = axisData.subTickStep / 10),
+            label = yValue.axisformat(minThreshold = axisData.subTickStep / 10),
             textAlignment = TextAlignment.END
         )
     }

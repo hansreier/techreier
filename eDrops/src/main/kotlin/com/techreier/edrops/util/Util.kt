@@ -83,7 +83,8 @@ fun Double?.float(precision: Int = DOUBLE_FLOAT_PRECISION_DEFAULT): String {
     return this ?.let { String.format(locale, "%.${precision}g", this)} ?: ""
 }
 
-fun Double.axis(maxDecimals: Int = MAX_DECIMALS, minThreshold: Double = 1e-12): String {
+// TODO Reier Ask. Get rid of JVM and Spring dependencies
+fun Double.axisformat(maxDecimals: Int = MAX_DECIMALS, minThreshold: Double = 1e-12): String {
 
     if (abs(this) < minThreshold) return "0"
 
@@ -97,6 +98,21 @@ fun Double.axis(maxDecimals: Int = MAX_DECIMALS, minThreshold: Double = 1e-12): 
     val locale = LocaleContextHolder.getLocale()
     val symbols = DecimalFormatSymbols(locale)
     return DecimalFormat(pattern, symbols).format(this)
+}
+
+// TODO Reier Ask. Get rid of JVM and Spring dependencies
+fun Double.autoformat(): String {
+    if (this == 0.0) return "0"
+    if (isNaN() || isInfinite()) return toString()
+
+    val formatted = if (this % 1.0 == 0.0 && abs(this) < 1e7) {
+        toLong().toString()
+    } else {
+        toString()
+    }
+
+    val decimalSeparator = DecimalFormatSymbols(LocaleContextHolder.getLocale()).decimalSeparator
+    return formatted.replace('.', decimalSeparator)
 }
 
 fun String.strip(): String {
