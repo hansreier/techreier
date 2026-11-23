@@ -16,10 +16,10 @@ import com.techreier.edrops.exceptions.CalcException
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.forms.CalcForm
 import com.techreier.edrops.util.Trace.info
-import com.techreier.edrops.util.autoformat
-import com.techreier.edrops.util.axisformat
+import com.techreier.edrops.util.autoFormat
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import java.text.DecimalFormatSymbols
 import kotlin.math.roundToInt
 
 const val CALC = "calc"
@@ -68,6 +69,7 @@ class CalcController(
     ): String {
         logger.info("calculate multiexpression")
         val calc = CalcDouble()
+        ctx
         val input = calcForm.calcInput
         try {
             logger.info("Calculating multiexpression: $input")
@@ -99,14 +101,15 @@ class CalcController(
         }
         redirectAttributes.addFlashAttribute("calcForm", calcForm)
 
-        //TODO ReierAsk change when VarType.INTEGER is used e.g. for graph types. Radians is tempoararily removed
+        //TODO ReierAsk change when VarType.INTEGER is used e.g. for graph types. Radians is temporarily removed
+        val decimalSeparator = DecimalFormatSymbols(LocaleContextHolder.getLocale()).decimalSeparator
         val formattedVars = calc.vars.entries
             .filter { (op, _) -> op != Op.RADIANS }
             .associate { (op, value) ->
             val formatted = when (op.varType) {
                 VarType.BOOLEAN -> if (value > 0.5) "true" else "false"
-                VarType.INTEGER -> if (value.isFinite()) value.roundToInt().toString() else value.axisformat(12)
-                VarType.NUMBER -> value.autoformat()
+                VarType.INTEGER -> if (value.isFinite()) value.roundToInt().toString() else value.autoFormat(decimalSeparator)
+                VarType.NUMBER -> value.autoFormat(decimalSeparator)
             }
             op to formatted
         }

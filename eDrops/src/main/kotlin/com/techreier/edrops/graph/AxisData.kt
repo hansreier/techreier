@@ -7,7 +7,7 @@ import com.techreier.edrops.config.TOLERANCE
 import com.techreier.edrops.util.Scope
 import kotlin.math.*
 
-fun axisData(min: Double, max: Double, noSegments: Int, heightRatio: Double,  xAxis: Boolean): AxisData {
+fun axisData(min: Double, max: Double, noSegments: Int, heightRatio: Double,  xAxis: Boolean, decimalSeparator: Char): AxisData {
 
     if (max <= min) throw IllegalArgumentException("Max must be greater than min in axis calculation")
 
@@ -36,7 +36,7 @@ fun axisData(min: Double, max: Double, noSegments: Int, heightRatio: Double,  xA
     val sectionCount = ((tickMax - tickMin) / tickStep + TOLERANCE).toInt()
     return AxisData(
         sectionCount, tickStep, tickMin, tickMax,
-        subSectionsPerSection, subSectionCount, subTickStep, subTickMin, subTickMax
+        subSectionsPerSection, subSectionCount, subTickStep, subTickMin, subTickMax, decimalSeparator
     )
 }
 
@@ -60,4 +60,5 @@ data class AxisData(
     val subTickStep: Double,
     val subTickMin: Double,
     val subTickMax: Double,
+    val decimalSeparator: Char
 )

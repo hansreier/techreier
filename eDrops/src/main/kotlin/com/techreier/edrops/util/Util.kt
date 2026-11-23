@@ -16,6 +16,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.util.Locale
 import kotlin.math.abs
 
 private val logger = LoggerFactory.getLogger("com.techreier.edrops.util")
@@ -75,33 +76,30 @@ fun ZonedDateTime?.text(datePattern: String): String {
 
 fun Double?.fixed(precision: Int = DOUBLE_FIXED_PRECISION_DEFAULT): String {
     val locale = LocaleContextHolder.getLocale()
-    return this ?.let { String.format(locale, "%.${precision}f", this)} ?: ""
+    return this?.let { String.format(locale, "%.${precision}f", this) } ?: ""
 }
 
 fun Double?.float(precision: Int = DOUBLE_FLOAT_PRECISION_DEFAULT): String {
     val locale = LocaleContextHolder.getLocale()
-    return this ?.let { String.format(locale, "%.${precision}g", this)} ?: ""
+    return this?.let { String.format(locale, "%.${precision}g", this) } ?: ""
 }
 
-// TODO Reier Ask. Get rid of JVM and Spring dependencies
-fun Double.axisformat(maxDecimals: Int = MAX_DECIMALS, minThreshold: Double = 1e-12): String {
-
+// TODO ReierAsk. JVM dependencies are still here
+fun Double.axisFormat(
+    maxDecimals: Int = MAX_DECIMALS,
+    decimalSeparator: Char = '.',
+    minThreshold: Double = 1e-12
+): String {
     if (abs(this) < minThreshold) return "0"
 
-    val absVal = abs(this)
-    val pattern = if (absVal !in 0.001..<10000.0) {
-        "0.##E0"
-    } else {
-        "0." + "#".repeat(maxDecimals)
+    val pattern = if (abs(this) !in 0.001..<10000.0) "0.##E0" else "0." + "#".repeat(maxDecimals)
+    val symbols = DecimalFormatSymbols(Locale.US).apply {
+        this.decimalSeparator = decimalSeparator
     }
-
-    val locale = LocaleContextHolder.getLocale()
-    val symbols = DecimalFormatSymbols(locale)
     return DecimalFormat(pattern, symbols).format(this)
 }
 
-// TODO Reier Ask. Get rid of JVM and Spring dependencies
-fun Double.autoformat(): String {
+fun Double.autoFormat(decimalSeparator: Char = '.'): String {
     if (this == 0.0) return "0"
     if (isNaN() || isInfinite()) return toString()
 
@@ -110,12 +108,11 @@ fun Double.autoformat(): String {
     } else {
         toString()
     }
-
-    val decimalSeparator = DecimalFormatSymbols(LocaleContextHolder.getLocale()).decimalSeparator
-    return formatted.replace('.', decimalSeparator)
+    return if (decimalSeparator == '.') formatted
+    else formatted.replace('.', decimalSeparator)
 }
 
 fun String.strip(): String {
-    val result = this.replaceFirst('\n'.toString(),"")
+    val result = this.replaceFirst('\n'.toString(), "")
     return result
 }

@@ -4,7 +4,7 @@ package com.techreier.edrops.graph
 import com.techreier.edrops.util.Trace
 import com.techreier.edrops.config.*
 import com.techreier.edrops.util.Scope
-import com.techreier.edrops.util.axisformat
+import com.techreier.edrops.util.axisFormat
 import org.springframework.stereotype.Service
 import kotlin.math.abs
 import kotlin.math.max
@@ -20,13 +20,17 @@ class DiagramService {
         // Calculate y-axis first, x-axis parameters need to be corrected based on it
         val ySegments =
             ((diagramArea.plotHeight / YSEGMENT_PIXELS) + 1 + TOLERANCE).toInt().coerceIn(YSEGMENTS_MIN, YSEGMENTS_MAX)
-        val yAxisData = axisData(limits.yMin, limits.yMax, ySegments, metaData.heightRatio, false)
+        val yAxisData = axisData(limits.yMin, limits.yMax, ySegments, metaData.heightRatio, false,
+            metaData.decimalSeparator)
         Trace.debug(Scope.GRAPH,"y: wantedSegments=$ySegments yAxisData=${yAxisData}")
 
         var yValue = yAxisData.tickMin
         var maxDigits = 0
         for (i in 0..yAxisData.sectionCount) { // Calculate the label with largest number of digits
-            val label = yValue.axisformat(minThreshold = yAxisData.subTickStep / 10)  //Not correct E format
+            val label = yValue.axisFormat(
+                decimalSeparator = metaData.decimalSeparator,
+                minThreshold = yAxisData.subTickStep / 10
+            )
             Trace.debug(Scope.GRAPH,"label=$label")
             maxDigits = max(label.length, maxDigits)
             yValue += yAxisData.tickStep
@@ -42,7 +46,8 @@ class DiagramService {
         // Calculate x-axis
         val xSegments =
             ((diagramArea.plotWidth / XSEGMENT_PIXELS) + TOLERANCE).toInt().coerceIn(XSEGMENTS_MIN, XSEGMENTS_MAX)
-        val xAxisData = axisData(limits.xMin, limits.xMax, xSegments, metaData.heightRatio, true)
+        val xAxisData = axisData(limits.xMin, limits.xMax, xSegments, metaData.heightRatio, true,
+            metaData.decimalSeparator)
         Trace.debug(Scope.GRAPH,"x: wantedSegments=$xSegments xAxisData: ${xAxisData}")
         val limits = GraphLimits(
             xMin = xAxisData.subTickMin,
@@ -96,7 +101,9 @@ class DiagramService {
             AxisTick(
                 tickLine = LineSegment(x1 = xPx, y1 = yMinPx, x2 = xPx, y2 = yMinPx + TICK_LENGTH),
                 labelPoint = Point(x = xPx, y = yMinPx + X_LABEL_OFFSET + fontScale),
-                label = xValue.axisformat(minThreshold = axisData.subTickStep / 10),
+                label = xValue.axisFormat(
+                    decimalSeparator = axisData.decimalSeparator,
+                    minThreshold = axisData.subTickStep / 10),
                 textAlignment = TextAlignment.CENTER
             )
         }
@@ -165,8 +172,10 @@ private fun createYAxis(
         AxisTick(
             tickLine = LineSegment(x1 = xMinPx, y1 = yPx, x2 = xMinPx - TICK_LENGTH, y2 = yPx),
             labelPoint = Point(x = xMinPx - Y_LABEL_OFFSET, y = yPx + 4.0),
-            label = yValue.axisformat(minThreshold = axisData.subTickStep / 10),
-            textAlignment = TextAlignment.END
+            label = yValue.axisFormat(
+                minThreshold = axisData.subTickStep / 10,
+                decimalSeparator = axisData.decimalSeparator),
+                textAlignment = TextAlignment.END
         )
     }
 

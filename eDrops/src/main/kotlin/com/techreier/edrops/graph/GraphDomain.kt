@@ -24,7 +24,8 @@ data class GraphMetadata(
     val heightRatio: Double,
     val fontScale: Double,
     val xUnit: String,
-    val yUnit: String
+    val yUnit: String,
+    val decimalSeparator: Char,
 )
 
 enum class AxisPosition {

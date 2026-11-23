@@ -21,6 +21,7 @@ import com.techreier.edrops.util.float
 import com.techreier.edrops.util.msg
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import java.text.DecimalFormatSymbols
 import kotlin.math.abs
 
 const val GRAPH = "graph"
@@ -73,12 +75,13 @@ class GraphController(
         logger.info("draw graph")
 
         val input = graphForm.validate(bindingResult)
+        val decimalSeparator = DecimalFormatSymbols(LocaleContextHolder.getLocale()).decimalSeparator
 
         if (input != null) {
             resetTimer()
             info("Start graph")
             val graphLimits = GraphLimits(input.xMin, input.xMax, input.yMin, input.yMax)
-            val graphMetadata = GraphMetadata(input.heightRatio, input.fontScale, input.xUnit, input.yUnit)
+            val graphMetadata = GraphMetadata(input.heightRatio, input.fontScale, input.xUnit, input.yUnit, decimalSeparator)
             val expr = Expr(CalcDouble(), input.yUnit)
             try {
                 info("Graphlimits: ${graphLimits}")
