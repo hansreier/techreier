@@ -34,9 +34,9 @@ abstract class MarkdownBase : IMarkdown {
 
 
     // Must do it this way with classLoader and streams to be able to read files in Docker and locally
-// This implementation read file with file name constructed from segment and selected language code
-// If not found it will look up a file named by default language code instead.
-// What this means is that if Norwegian is selected, some text can be presented in English instead if not found.
+    // This implementation read file with file name constructed from segment and selected language code
+    // If not found it will look up a file named by default language code instead.
+    // What this means is that if Norwegian is selected, some text can be presented in English instead if not found.
     fun toHtml(menuItem: MenuItem, subDir: String = ""): InlineHtml {
         logger.debug("{}, subDir: {}", menuItem, subDir)
         var warning = false
@@ -62,7 +62,7 @@ abstract class MarkdownBase : IMarkdown {
                 } else "$fileName not found"
             }
         }
-
+        if (warning) { logger.warn("Using similar $menuItem with langCode=$DEFAULT_LANGCODE") }
         return InlineHtml(toHtml(markdown), langCode, warning)
     }
 
