@@ -13,7 +13,7 @@
     <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"></h1>
     <form th:action="@{/calc}" th:object="${calcForm}" th:method="post">
         <div class="input-form">
-            <div class="input-row small-width">
+            <div class="input-row">
                 <label for="expr" id="exprLabel" th:text="#{calcTemplate}"></label>
                 <select id="expr" th:field="*{expr}" onchange="loadexpr(this)">
                     <option th:each="expr : ${exprs}"
