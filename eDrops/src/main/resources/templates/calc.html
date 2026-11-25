@@ -7,12 +7,23 @@
     <title>Graph</title>
     <script th:src="@{/js/operatorhelp.js(v=${built})}"></script>
     <script th:src="@{/js/clearcalc.js(v=${built})}"></script>
+    <script th:src="@{/js/loadexpr.js(v=${built})}"></script>
 </head>
 <body>
 <div layout:fragment="content">
     <h1 th:text="${doc.subject != null} ? ${doc.subject} : #{${doc.segment}}"></h1>
     <form th:action="@{/calc}" th:object="${calcForm}" th:method="post">
         <div class="input-form">
+            <div class="input-row small-width">
+                <label for="expr" id="exprLabel" th:text="#{calcTemplate}"></label>
+                <select id="expr" th:field="*{expr}" onchange="loadexpr(this)">
+                    <option th:each="expr : ${exprs}"
+                            th:value="${expr.subject}"
+                            th:text="${expr.subject}"
+                            th:attr="data-expr=${expr.expr}">>
+                    </option>
+                </select>
+            </div>
             <div class="input-row full-width">
                 <label th:for="calcInput" th:text="#{calcInput}"></label>
                 <textarea spellcheck="false" autocorrect=off autocapitalize="off" class="calcInput"

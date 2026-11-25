@@ -3,15 +3,12 @@ package com.techreier.edrops.controllers
 import com.techreier.edrops.calc.CalcDouble
 import com.techreier.edrops.calc.MultiExpr
 import com.techreier.edrops.calc.Op
-import com.techreier.edrops.calc.utils.VarType
-import com.techreier.edrops.calc.utils.errorIndicator
-import com.techreier.edrops.calc.utils.operatorHelp
-import com.techreier.edrops.calc.utils.sanitize
-import com.techreier.edrops.calc.utils.varType
+import com.techreier.edrops.calc.utils.*
 import com.techreier.edrops.config.Menu
 import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
+import com.techreier.edrops.data.lab.Lab
 import com.techreier.edrops.exceptions.CalcException
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.forms.CalcForm
@@ -118,7 +115,6 @@ class CalcController(
         return "redirect:$CALC_DIR"
     }
 
-
     private fun prepare(
         model: Model,
         request: HttpServletRequest,
@@ -126,6 +122,7 @@ class CalcController(
     ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response, Menu.LAB)
         val docIndex = Docs.getDocIndex(Docs.calc, blogParams.oldLangCode, blogParams.usedLangCode, CALC)
+        model.addAttribute("exprs", Lab.expressions.filter { it.langCode.equals(blogParams.usedLangCode) })
 
         if (docIndex.index >= 0) {
             val doc = Docs.calc[docIndex.index]

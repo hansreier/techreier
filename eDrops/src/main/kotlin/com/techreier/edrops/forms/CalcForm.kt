@@ -1,9 +1,10 @@
 package com.techreier.edrops.forms
 
-import com.techreier.edrops.calc.QUADRATIC_EQUATION
+import com.techreier.edrops.data.lab.QuadraticEquation
 
 data class CalcForm(
-    var calcInput: String = QUADRATIC_EQUATION
+    var expr: String = QuadraticEquation.SEGMENT,
+    var calcInput: String = ""
 )
 
 
