@@ -49,7 +49,7 @@
     <div th:insert="~{operatorHelp :: operatorHelp}"></div>
     <!--div th:insert="~{graphView :: graphView(${graph})}"></div-->
     <details id="expr-details" open>
-        <summary th:text="#{details}"></summary>
+        <summary th:text="#{calcDetails}"></summary>
         <div id="expr-about" class="container" th:utext="${exprs[0].about}"></div>
         <br>
     </details>
