@@ -16,10 +16,10 @@
             <div class="input-row">
                 <label for="expr" id="exprLabel" th:text="#{calcTemplate}"></label>
                 <select id="expr" th:field="*{expr}" onchange="loadexpr(this)">
-                    <option th:each="expr : ${exprs}"
-                            th:value="${expr.subject}"
-                            th:text="${expr.subject}"
-                            th:attr="data-expr=${expr.expr}">>
+                    <option th:each="exp : ${exprs}"
+                            th:value="${exp.subject}"
+                            th:text="${exp.subject}"
+                            th:attr="data-expr=${exp.expr}, data-about=${exp.about}">
                     </option>
                 </select>
             </div>
@@ -48,6 +48,11 @@
     </form>
     <div th:insert="~{operatorHelp :: operatorHelp}"></div>
     <!--div th:insert="~{graphView :: graphView(${graph})}"></div-->
+    <details id="expr-details" open>
+        <summary th:text="#{details}"></summary>
+        <div id="expr-about" class="container" th:utext="${exprs[0].about}"></div>
+        <br>
+    </details>
     <details id="calc-details" open>
         <summary th:text="#{details}"></summary>
         <div class="container" th:utext="${docText}"></div>

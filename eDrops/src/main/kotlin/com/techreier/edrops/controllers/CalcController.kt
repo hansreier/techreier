@@ -122,8 +122,10 @@ class CalcController(
     ): DocIndex {
         val blogParams = fetchBlogParams(model, request, response, Menu.LAB)
         val docIndex = Docs.getDocIndex(Docs.calc, blogParams.oldLangCode, blogParams.usedLangCode, CALC)
-        model.addAttribute("exprs", Lab.expressions.filter { it.langCode.equals(blogParams.usedLangCode) })
-
+        model.addAttribute(
+            "exprs", Lab.expressions
+            .filter { it.langCode.equals(blogParams.usedLangCode) }
+            .map { it.copy(about = markdown.toHtml(it.about)) })
         if (docIndex.index >= 0) {
             val doc = Docs.calc[docIndex.index]
             val docText: String = markdown.toHtml(doc, CALC_DIR).html

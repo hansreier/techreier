@@ -13,8 +13,21 @@ object QuadraticEquation : IExpression {
     const val SUBJECT_NO = "Andregradslikning"
     const val SUBJECT_EN = "Quadratic Equation"
     const val POS = 2
-    const val ABOUT_NB = ""
-    const val ABOUT_EN = ""
+
+    val ABOUT_NB = """
+        Finner de reelle løsningene for **x** i en annengradslikning ved hjelp av abc-formelen.
+
+        - Juster koeffisientene **a**, **b** og **c** øverst.
+        - Hvis diskriminanten blir negativ, finnes det ingen reelle løsninger.
+    """.trimIndent()
+
+    val ABOUT_EN = """
+        Finds the real solutions for **x** in a quadratic equation using the quadratic formula.
+
+        - Adjust the coefficients **a**, **b**, and **c** at the top.
+        - If the discriminant is negative, there are no real solutions.
+    """.trimIndent()
+
     val EXPR = """
     // Quadratic equation
     // a*x^2 + b*x + c = 0
