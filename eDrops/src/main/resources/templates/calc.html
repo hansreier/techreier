@@ -38,6 +38,7 @@
         <button type="submit" th:text="#{action.calculate}"></button>
         <button type="button" onclick="clearCalc()" th:text="#{clear}"></button>
         <button type="button" th:text="#{action.help}" onclick="toggleOperatorHelp()"></button>
+        <div th:insert="~{operatorHelp :: operatorHelp}"></div>
         <table id="calcResult" th:if="${vars != null and !vars.isEmpty()}">
             <tbody>
             <tr th:each="var : ${vars}">
@@ -46,7 +47,6 @@
             </tbody>
         </table>
     </form>
-    <div th:insert="~{operatorHelp :: operatorHelp}"></div>
     <!--div th:insert="~{graphView :: graphView(${graph})}"></div-->
     <details id="expr-details" open>
         <summary th:text="#{calcDetails}"></summary>
