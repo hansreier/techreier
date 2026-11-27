@@ -13,19 +13,25 @@ function loadexpr(select) {
     if (details) {
         details.style.display = aboutHtml ? '' : 'none';
     }
+}
 
+function clearResult() {
     const result = document.getElementById('calcResult');
     if (result) result.innerHTML = '';
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const select = document.getElementById('expr');
-    if (select) loadexpr(select);
-});
 
 function clearCalc() {
     const select = document.getElementById('expr');
     select.selectedIndex = 0;
     loadexpr(select);
+    clearResult();
     document.getElementById('calcInput').focus();
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('expr');
+    if (select) {
+        loadexpr(select);
+        select.addEventListener('change', clearResult);
+    }
+});
