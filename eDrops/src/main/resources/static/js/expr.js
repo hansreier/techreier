@@ -31,7 +31,6 @@ function clearCalc() {
 document.addEventListener('DOMContentLoaded', () => {
     const select = document.getElementById('expr');
     if (select) {
-        loadexpr(select);
         select.addEventListener('change', clearResult);
     }
 });
