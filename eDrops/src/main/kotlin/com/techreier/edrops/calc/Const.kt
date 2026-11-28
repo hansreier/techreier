@@ -50,4 +50,4 @@ const val PRIOR_INTEGER = -2
 const val PRIOR_IGNORE_PARSE = -10
 
 //Symbols that are interpreted as ordinary letters (used for variables primarely)
-val PSEUDO_LETTERS = charArrayOf('_', '?')
+val PSEUDO_LETTERS = charArrayOf('_', '?','[',']', '@')
