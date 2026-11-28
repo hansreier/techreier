@@ -138,6 +138,7 @@ enum class Op(
         // Return operator in text at expression position. Function used only in preparsing
         // At the moment separator is the only exception to rule (Removed before calculation)
         // TODO ReierAsk Only one return argument allowed. Any usecase for more?
+        // TODO Evaluate if error object shound be returned and not null, for more precise error message to end user
         fun operator(text: String, pos: Int, set: Set<OpI>): OpI? {
             val textVar = text.substring(pos).lowercase()
             if (textVar.isNotEmpty()) {
@@ -156,7 +157,7 @@ enum class Op(
 
                 if (match != null) return match
             }
-            err(Scope.CALC,"Operator not found")
+            err(Scope.PARSE,"Operator not found")
             return null
         }
 
