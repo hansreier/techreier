@@ -196,7 +196,7 @@ class ExprVariableTest {
     fun userDefinedVariableWithNotPermittedSymbolTest() {
         level = TraceLevel.TRACE
         val calc = CalcDouble()
-        val expr = Expr(calc, "speed@kmh + 1")
+        val expr = Expr(calc, "speed|kmh + 1")
         val speed_kmh = VarOp("speed@kmh")
         calc.set(speed_kmh)
         expr[speed_kmh] = 5.0

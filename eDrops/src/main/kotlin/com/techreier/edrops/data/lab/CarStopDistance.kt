@@ -7,8 +7,8 @@ import com.techreier.edrops.util.timestamp
 object CarStopDistance : IExpression {
     val timestamp = timestamp("17.05.2025 07:00:00")
     const val SEGMENT = "carstopdistance"
-    const val SUBJECT_NO = "bil bremselengde"
-    const val SUBJECT_EN = "car stopping distance"
+    const val SUBJECT_NO = "Bil bremselengde"
+    const val SUBJECT_EN = "Car stopping distance"
     const val POS = 1
 
     val ABOUT_NB = """
@@ -26,14 +26,14 @@ object CarStopDistance : IExpression {
     """.trimIndent()
 
     val EXPR = """
-        speed_kmh = 80;
-        reaction_time = 1.0;
+        speed[kmh] = 80;
+        reaction_time[s] = 1.0;
         friction = 0.25;
-        g = 9.81;
-        v = speed_kmh / 3.6;
-        reaction_dist = v * reaction_time;
-        brake_dist = (v^2) / (2 * friction * g);
-        stop_dist = reaction_dist + brake_dist
+        g[ms2] = 9.81;
+        v[ms] = speed[kmh] / 3.6;
+        reaction_dist[m] = v[ms] * reaction_time[s];
+        brake_dist[m] = (v[ms]^2) / (2 * friction * g[ms2]);
+        stop_dist[m] = reaction_dist[m] + brake_dist[m]
 """.trimIndent()
 
     override fun no() = Expression(timestamp, SEGMENT, POS, SUBJECT_NO, ABOUT_NB, EXPR, NB)
