@@ -106,4 +106,13 @@ class OpTest {
         assertTrue(Op.EQ.prior > Op.ADD.prior)
         assertTrue(Op.NEQ.prior > Op.ADD.prior)
     }
+
+    @Test
+    fun operatorUnderScoreTest() {
+        val ops = CalcDouble().operators
+        assertNull(Op.operator("_si", 0, ops))
+        assertNull(Op.operator("sin_x", 0, ops))
+        assertNotNull(Op.operator("sin", 0, ops))
+        assertNotNull(Op.operator("<=", 0, ops))
+    }
 }

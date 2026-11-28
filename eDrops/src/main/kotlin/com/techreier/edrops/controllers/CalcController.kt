@@ -62,13 +62,14 @@ class CalcController(
         calcForm: CalcForm,
         bindingResult: BindingResult,
         action: String,
+        reset: String?,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
         logger.info("PostMapping ReierAsk")
         val input = calcForm.calcInput
-        if (action == "select") {
+        if ((action == "select") || (reset != null)) {
             redirectAttributes.addFlashAttribute("calcForm", calcForm)
             redirectAttributes.addFlashAttribute("selected", true)
             return "redirect:$CALC_DIR"

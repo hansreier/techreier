@@ -1,6 +1,7 @@
 package com.techreier.edrops.calc
 
 import com.techreier.edrops.exceptions.CalcException
+import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.util.Trace.debug
 import com.techreier.edrops.util.Trace.level
 import com.techreier.edrops.util.TraceLevel
@@ -164,6 +165,43 @@ class ExprVariableTest {
         expr.parse()
         expr.calculate()
         assertEquals(-6.0, calc.result())
+    }
+
+    @Test
+    fun userDefinedVariableTest() {
+        val calc = CalcDouble()
+        val expr = Expr(calc, "speed + 1")
+        val speed = VarOp("speed")
+        calc.set(speed)
+        expr[speed] = 5.0
+        expr.parse()
+        expr.calculate()
+        assertEquals(6.0, calc.result())
+    }
+
+    @Test
+    fun userDefinedVariableWithUnderscopeTest() {
+        level = TraceLevel.TRACE
+        val calc = CalcDouble()
+        val expr = Expr(calc, "speed_kmh + 1")
+        val speed_kmh = VarOp("speed_kmh")
+        calc.set(speed_kmh)
+        expr[speed_kmh] = 5.0
+        expr.parse()
+        expr.calculate()
+        assertEquals(6.0, calc.result())
+    }
+
+    @Test
+    fun userDefinedVariableWithNotPermittedSymbolTest() {
+        level = TraceLevel.TRACE
+        val calc = CalcDouble()
+        val expr = Expr(calc, "speed@kmh + 1")
+        val speed_kmh = VarOp("speed@kmh")
+        calc.set(speed_kmh)
+        expr[speed_kmh] = 5.0
+        val e = assertThrows <ParseException> { expr.parse() }
+        assertEquals(UNPARSEABLE, e.parseError.key)
     }
 
 }

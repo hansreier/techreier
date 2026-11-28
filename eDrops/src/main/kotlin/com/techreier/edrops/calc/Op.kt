@@ -1,5 +1,7 @@
 package com.techreier.edrops.calc
 
+import com.techreier.edrops.calc.utils.isPseudoLetter
+import com.techreier.edrops.calc.utils.isPseudoLetterOrDigit
 import com.techreier.edrops.util.Scope
 import com.techreier.edrops.util.Trace.err
 
@@ -141,8 +143,8 @@ enum class Op(
             if (textVar.isNotEmpty()) {
                 val validOps = set.filter { (it.prior != PRIOR_IGNORE_PARSE && it.noResults == 1) || it == SEPARATOR }
 
-                val match = if (textVar[0].isLetter()) {
-                    val word = textVar.takeWhile { it.isLetterOrDigit() }
+                val match = if (textVar[0].isPseudoLetter()) {
+                    val word = textVar.takeWhile { it.isPseudoLetterOrDigit() }
                     validOps.find {
                         it.abbrev == word
                     }

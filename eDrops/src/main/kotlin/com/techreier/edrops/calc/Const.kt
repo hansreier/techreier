@@ -49,18 +49,5 @@ const val PRIOR_BOOLEAN = -1
 const val PRIOR_INTEGER = -2
 const val PRIOR_IGNORE_PARSE = -10
 
-// Just an example for the expression parser
-val QUADRATIC_EQUATION = """
-    // Quadratic equation
-    // a*x^2 + b*x + c = 0
-    x = 2;
-    a = 1;
-    b = -5;
-    c = 6;
-    d = sqrt(b^2 - 4 * a * c);
-    // Solution
-    x1 = (-b + d) / (2 * a); 
-    x2 = (-b - d) / (2 * a);
-    // Calculate formula
-    a * x^2 + b * x + c
-""".trimIndent()
+//Symbols that are interpreted as ordinary letters (used for variables primarely)
+val PSEUDO_LETTERS = charArrayOf('_', '?')

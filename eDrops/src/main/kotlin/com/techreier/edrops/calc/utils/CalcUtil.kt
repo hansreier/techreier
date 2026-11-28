@@ -4,6 +4,7 @@ import com.techreier.edrops.calc.Calc
 import com.techreier.edrops.calc.CalcDouble
 import com.techreier.edrops.calc.Op
 import com.techreier.edrops.calc.OperatorToken
+import com.techreier.edrops.calc.PSEUDO_LETTERS
 import com.techreier.edrops.calc.ParseError
 import com.techreier.edrops.calc.ParsePosition
 import com.techreier.edrops.calc.Token
@@ -210,3 +211,6 @@ fun String.sanitize(): String = this
     .replace('\r', ' ')
     .replace('\t', ' ')
     .replace('\u00A0', ' ')
+
+fun Char.isPseudoLetter(): Boolean = isLetter() || this in PSEUDO_LETTERS
+fun Char.isPseudoLetterOrDigit(): Boolean = isLetterOrDigit() || this in PSEUDO_LETTERS

@@ -36,7 +36,7 @@
             <p class="error" th:text="${errorText}"></p>
         </div>
         <button type="submit" th:text="#{action.calculate}"></button>
-        <button type="button" onclick="clearCalc()" th:text="#{clear}"></button>
+        <button type="submit" name="reset" value="select" th:text="#{calcReset}"></button>
         <button type="button" th:text="#{action.help}" onclick="toggleOperatorHelp()"></button>
         <div th:insert="~{operatorHelp :: operatorHelp}"></div>
         <table id="calcResult" th:if="${vars != null and !vars.isEmpty()}">
