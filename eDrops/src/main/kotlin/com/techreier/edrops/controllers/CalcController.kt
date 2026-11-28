@@ -43,10 +43,10 @@ class CalcController(
         model: Model,
         redirectAttributes: RedirectAttributes,
     ): String {
-        val calcForm = model.getAttribute("calcForm")
-
-        calcForm ?: model.addAttribute("calcForm", CalcForm())
-        val docIndex = prepare(model, request, response)
+        val calcForm = (model.getAttribute("calcForm") as CalcForm?)?: CalcForm()
+        val selected = (model.getAttribute("selected") as Boolean?) ?: false
+        model.addAttribute("calcForm", calcForm)
+        val docIndex = prepare(model, request, response,  calcForm, selected)
         if (docIndex.error || docIndex.index < 0) {
             redirectAttributes.addFlashAttribute("warning", "blogNotFound")
             return "redirect:/$HOME_DIR"
@@ -60,14 +60,20 @@ class CalcController(
         redirectAttributes: RedirectAttributes,
         calcForm: CalcForm,
         bindingResult: BindingResult,
+        action: String,
         request: HttpServletRequest,
         response: HttpServletResponse,
         model: Model,
     ): String {
+        logger.info("PostMapping ReierAsk")
+        val input = calcForm.calcInput
+        if (action == "select") {
+            redirectAttributes.addFlashAttribute("calcForm", calcForm)
+            redirectAttributes.addFlashAttribute("selected", true)
+            return "redirect:$CALC_DIR"
+        }
         logger.info("calculate multiexpression")
         val calc = CalcDouble()
-        ctx
-        val input = calcForm.calcInput
         try {
             logger.info("Calculating multiexpression: $input")
             val expr = MultiExpr(calc, input)
@@ -87,7 +93,7 @@ class CalcController(
         }
         if (bindingResult.hasErrors() ) {
             info("calc input error: $calcForm")
-            val docIndex = prepare(model, request, response)
+            val docIndex = prepare(model, request, response, calcForm)
             if (docIndex.index < 0) {
                 redirectAttributes.addFlashAttribute("warning", "blogNotFound")
                 return "redirect:/$HOME_DIR"
@@ -119,13 +125,24 @@ class CalcController(
         model: Model,
         request: HttpServletRequest,
         response: HttpServletResponse,
+        calcForm: CalcForm,
+        selected: Boolean = false
     ): DocIndex {
+        val index = calcForm.expr.toIntOrNull() ?: 0
         val blogParams = fetchBlogParams(model, request, response, Menu.LAB)
         val docIndex = Docs.getDocIndex(Docs.calc, blogParams.oldLangCode, blogParams.usedLangCode, CALC)
-        model.addAttribute(
-            "exprs", Lab.expressions
-            .filter { it.langCode.equals(blogParams.usedLangCode) }
-            .map { it.copy(about = markdown.toHtml(it.about)) })
+
+        val expressions = Lab.expressions.filter { it.langCode == blogParams.usedLangCode }
+        val subjects = expressions.map { it.subject }
+        model.addAttribute("subjects", subjects)
+        val selectedExpr = expressions[index]
+        if (selected) calcForm.calcInput = expressions[index].expr
+
+        model.addAttribute("expr", selectedExpr)
+
+        val about = markdown.toHtml(expressions[index].about)
+        model.addAttribute("about", about)
+        model.addAttribute("calcForm", calcForm)
         if (docIndex.index >= 0) {
             val doc = Docs.calc[docIndex.index]
             val docText: String = markdown.toHtml(doc, CALC_DIR).html
