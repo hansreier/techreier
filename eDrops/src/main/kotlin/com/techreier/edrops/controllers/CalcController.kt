@@ -9,6 +9,7 @@ import com.techreier.edrops.config.logger
 import com.techreier.edrops.data.Docs
 import com.techreier.edrops.data.Docs.DocIndex
 import com.techreier.edrops.data.lab.Lab
+import com.techreier.edrops.data.lab.Scratchpad
 import com.techreier.edrops.exceptions.CalcException
 import com.techreier.edrops.exceptions.ParseException
 import com.techreier.edrops.forms.CalcForm
@@ -128,19 +129,26 @@ class CalcController(
         calcForm: CalcForm,
         selected: Boolean = false
     ): DocIndex {
-        val index = calcForm.expr.toIntOrNull() ?: 0
+        val index = calcForm.exprIndex
         val blogParams = fetchBlogParams(model, request, response, Menu.LAB)
         val docIndex = Docs.getDocIndex(Docs.calc, blogParams.oldLangCode, blogParams.usedLangCode, CALC)
 
-        val expressions = Lab.expressions.filter { it.langCode == blogParams.usedLangCode }
-        val subjects = expressions.map { it.subject }
+        var selectedExpr = Scratchpad.en()
+        val subjects = buildList {
+            for (item in Lab.expressions) {
+                if (item.langCode == blogParams.usedLangCode) {
+                    if (size == index) selectedExpr = item
+                    add(item.subject)
+                }
+            }
+        }
+
+        if (selected) calcForm.calcInput = selectedExpr.expr
+
         model.addAttribute("subjects", subjects)
-        val selectedExpr = expressions[index]
-        if (selected) calcForm.calcInput = expressions[index].expr
+        model.addAttribute("expr", selectedExpr.subject)
 
-        model.addAttribute("expr", selectedExpr)
-
-        val about = markdown.toHtml(expressions[index].about)
+        val about = markdown.toHtml(selectedExpr.about)
         model.addAttribute("about", about)
         model.addAttribute("calcForm", calcForm)
         if (docIndex.index >= 0) {

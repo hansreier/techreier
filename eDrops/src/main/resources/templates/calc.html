@@ -15,7 +15,7 @@
         <div class="input-form">
             <div class="input-row">
                 <label for="expr" id="exprLabel" th:text="#{calcTemplate}"></label>
-                <select id="expr" th:field="*{expr}" onchange="selectExpr(this)">
+                <select id="expr" th:field="*{exprIndex}" onchange="selectExpr(this)">
                     <option th:each="subj, stat : ${subjects}"
                             th:value="${stat.index}"
                             th:text="${subj}">
@@ -48,7 +48,7 @@
         </table>
     </form>
     <!--div th:insert="~{graphView :: graphView(${graph})}"></div-->
-    <details id="expr-details" th:if="${aboessut != null and !about.isEmpty()}" open>
+    <details id="expr-details" th:if="${about != null and !about.isEmpty()}" open>
         <summary th:text="#{calcDetails}"></summary>
         <div id="expr-about" class="container" th:utext="${about}"></div>
         <br>
